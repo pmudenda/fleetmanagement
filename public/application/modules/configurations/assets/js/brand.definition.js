@@ -360,7 +360,9 @@ let app = new Vue({
                             }
                         });
 
-                        app.initDatatable();
+                        setTimeout(function(){
+                            app.initDatatable();
+                        },300);
                     }, 2000);
 
 

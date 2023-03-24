@@ -190,7 +190,7 @@
 
 
                         <td>
-                            @{{ item.dateCreated | formatToFriendlyDate }}
+                            @{{ item.created_at | formatToFriendlyDate }}
                         </td>
 
                         <td class="text-start">
