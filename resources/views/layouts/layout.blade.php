@@ -133,31 +133,31 @@
 @include('layouts.components.modal_fullscreen')
 
 <audio preload="auto" id="sound-email" volume=0.1>
-    <source src="{{asset('assets/sounds/email.mp3')}}" />
+    <source src="{{asset('assets/sounds/email.mp3')}}"/>
 </audio>
 
 <audio preload="auto" id="sound-submit" volume=0.1>
-    <source src="{{asset('assets/sounds/submit.mp3')}}" />
+    <source src="{{asset('assets/sounds/submit.mp3')}}"/>
 </audio>
 
 <audio preload="auto" id="sound-cancel" volume=0.1>
-    <source src="{{asset('assets/sounds/cancel.mp3')}}" />
+    <source src="{{asset('assets/sounds/cancel.mp3')}}"/>
 </audio>
 
 <audio preload="auto" id="sound-delete" volume=0.05>
-    <source src="{{asset('assets/sounds/delete.mp3')}}" />
+    <source src="{{asset('assets/sounds/delete.mp3')}}"/>
 </audio>
 
 <audio preload="auto" id="sound-click" volume=0.05>
-    <source src="{{asset('assets/sounds/click.mp3')}}" />
+    <source src="{{asset('assets/sounds/click.mp3')}}"/>
 </audio>
 
 <audio preload="auto" id="sound-error" volume=0.1>
-    <source src="{{asset('assets/sounds/error.mp3')}}" />
+    <source src="{{asset('assets/sounds/error.mp3')}}"/>
 </audio>
 
 <audio preload="auto" id="sound-alert" volume=0.2>
-    <source src="{{asset('assets/sounds/alert.mp3')}}" />
+    <source src="{{asset('assets/sounds/alert.mp3')}}"/>
 </audio>
 
 
@@ -191,11 +191,11 @@
 <script src="{{ asset('assets/custom/datatables/datatables.bundle.js') }}"></script>
 <script src="{{ asset('assets/plugins/vue/vue.js')}}"></script>
 <script src="{{ asset('assets/plugins/vue-select/vue-select.js')}}"></script>
+<script src="{{ asset('assets/plugins/vue-select2/js/vue-select.js')}}"></script>
 <!-- page level javascript-->
 <script>
     $(document).ready(function () {
         $(document).on('keypress', '.number_input', function (event) {
-            console.log(event)
             tmsApp.tmsUtility.numberOnly(event);
         })
     });

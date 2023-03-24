@@ -238,7 +238,7 @@
                     </div>
                 </td>
                 <td>
-                    <label for="claimedEnginePower"
+                    <label for="transmission_type"
                            class="control-label reqd"
                            style="padding-right: 0px;">
                         Transmission Type:
@@ -251,19 +251,16 @@
                                 <select
                                     required
                                     class="input-with-feedback form-select bold"
-                                    data-fieldtype="Link"
-                                    data-fieldname="company"
-                                    id="engineBrand"
-                                    name="engineBrand"
-                                    v-model="engineDetails.engineBrand"
+                                    id="transmission_type"
+                                    name="transmission_type"
+                                    v-model="engineDetails.transmissionType"
                                     data-doctype="EngineDetails">
-                                    <option>Select Engine Brand</option>
+                                    <option> --Select Transmission--</option>
                                     <option v-for="transmission in transmissionTypes"
                                             :value="transmission.name"
                                             :key="transmission.code">
                                         @{{ transmission.name }}
                                     </option>
-
                                 </select>
                             </div>
                         </div>
@@ -343,7 +340,7 @@
             <tr>
                 <td class="frappe-control">
                     <div class="clearfix">
-                        <label for="tankCapacity" class="control-label reqd"
+                        <label for="tank_capacity" class="control-label reqd"
                                style="padding-right: 0px;">
                             Tank Capacity:
                         </label>
@@ -359,9 +356,9 @@
                                            class="input-with-feedback number_input form-control bold"
                                            maxlength="4"
                                            required
-                                           v-model="engineDetails.tankCapacity"
-                                           name="tankCapacity"
-                                           id="tankCapacity"
+                                           v-model="engineDetails.tank_capacity"
+                                           name="tank_capacity"
+                                           id="tank_capacity"
                                            placeholder=""
                                            autocomplete="off">
                                     <div
@@ -376,7 +373,7 @@
                 </td>
                 <td>
                     <div class="clearfix">
-                        <label for="subTankCapacity" class="control-label"
+                        <label for="sub_tank_capacity" class="control-label"
                                style="padding-right: 0px;">
                             Sub Tank Capacity:
                         </label>
@@ -392,9 +389,9 @@
                                            maxlength="4"
                                            class="input-with-feedback number_input form-control bold"
                                            required
-                                           v-model="engineDetails.subTankCapacity"
-                                           name="subTankCapacity"
-                                           id="subTankCapacity"
+                                           v-model="engineDetails.sub_tank_capacity"
+                                           name="sub_tank_capacity"
+                                           id="sub_tank_capacity"
                                            placeholder=""
                                            autocomplete="off">
                                     <div

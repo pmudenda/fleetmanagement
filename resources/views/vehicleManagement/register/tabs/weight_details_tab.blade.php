@@ -106,7 +106,7 @@
             <td class="frappe-control ">
                 <label for="vehicleWidth" class="control-label reqd"
                        style="padding-right: 0px;">
-                    Seat Capacity Front:
+                    Seat Capacity:
                 </label>
             </td>
             <td>
@@ -129,7 +129,7 @@
                 </div>
             </td>
             <td class="frappe-control">
-                <div class="clearfix">
+                <div class="clearfix" style="display: none;">
                     <label for="seatCapRear" class="control-label reqd"
                            style="padding-right: 0px;">
                         Seat Cap/Rear:
@@ -138,14 +138,13 @@
                 </div>
             </td>
             <td>
-                <div class="control-input-wrapper">
+                <div class="control-input-wrapper" style="display: none;">
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
-                                <input type="text"
+                                <input type="number"
                                        class="input-with-feedback form-control bold"
-                                       maxlength="15"
-                                       placeholder=""
+                                       value="0"
                                        v-model="bodyDetails.seatCapRear"
                                        name="seatCapRear"
                                        id="seatCapRear"
@@ -161,21 +160,21 @@
         </tr>
 
         <tr>
-            <td class="frappe-control ">
-                <label for="volumeOfBootTanker" class="control-label reqd"
+            <td class="frappe-control">
+                <label for="volumeOfBootTanker" class="control-label reqd" style="display: none;"
                        style="padding-right: 0px;">
                     Vol. Boot/Tanker:
                 </label>
             </td>
             <td>
-                <div class="control-input-wrapper">
+                <div class="control-input-wrapper" style="display: none;">
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
                                 <input type="text"
                                        v-model="bodyDetails.volumeOfBootTanker"
                                        class="input-with-feedback form-control bold"
-                                       maxlength="140"
+                                       value="300"
                                        id="volumeOfBootTanker"
                                        name="volumeOfBootTanker"
                                        placeholder=""
@@ -187,7 +186,7 @@
                 </div>
             </td>
             <td class="frappe-control">
-                <div class="clearfix">
+                <div class="clearfix" style="display: none;">
                     <label for="numberOfSeats" class="control-label reqd"
                            style="padding-right: 0px;">
                         No. Of Seats :
@@ -202,7 +201,7 @@
                             <div>
                                 <input type="text"
                                        class="input-with-feedback form-control bold"
-                                       maxlength="140"
+                                       value="0"
                                        data-fieldtype="Link"
                                        data-fieldname="company"
                                        id="numberOfSeats"
@@ -375,7 +374,7 @@
             </td>
         </tr>
 
-        <tr>
+      {{--  <tr>
             <td class="frappe-control ">
                 <label for="trailerWeight2" class="control-label reqd"
                        style="padding-right: 0px;">
@@ -462,12 +461,12 @@
             </td>
             <td class="frappe-control"></td>
             <td></td>
-        </tr>
+        </tr>--}}
 
         </tbody>
     </table>
 
-    <div>
+    <div class="mt-10">
         <button type="submit" id="tms_save_body" class="btn btn-success btn-sm">
             <i class="fas fa-paper-plane"></i>
             <span class="indicator-label">Save</span>

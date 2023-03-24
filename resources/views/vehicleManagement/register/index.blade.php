@@ -75,6 +75,7 @@
                     <input type="hidden" name="doctype" value="VehicleHeader"/>
                     <table class="table table-row-dashed align-middle gs-0 gy-3 my-0 fv-row">
                         <tbody>
+
                         <tr class="d-none">
                             <td>
                                 <label for="brand" class="fs-6 fw-semibold form-label mt-3">
@@ -89,8 +90,7 @@
                                             <v-select class=""
                                                       :options="vehicleTypes"
                                                       @change="vehicleTypeChanged"
-                                                      v-model="vehicleHeader.vehicle_type"
-                                            >
+                                                      v-model="vehicleHeader.vehicle_type">
                                             </v-select>
                                         </div>
                                     </div>
@@ -112,23 +112,18 @@
                                 <div class="row fv-row">
                                     <div class="col-md-9">
                                         <div class="w-100 fv-row">
-                                            <v-select class=""
+                                            <v-select class="vue-select2"
+                                                      name="brand"
                                                       :options="vehicleBrands"
-                                                      v-on:change="vehicleBrandChanged"
-                                                      v-model="vehicleHeader.brand_guid"
+                                                      @input="vehicleBrandChanged"
                                                       label="name"
                                             >
                                             </v-select>
                                             <input type="hidden"
                                                    name="brand"
+                                                   v-model="vehicleHeader.brand_guid"
                                                    id="brand"
                                                    required/>
-                                            {{--<option></option>
-                                            <option v-for="brand in vehicleBrands"
-                                                    :key="brand.guid"
-                                                    :value="brand.guid">
-                                                @{{ brand.name }}
-                                            </option>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -162,28 +157,23 @@
                             </td>
                             <td>
 
-                                <div class="row fv-row " @selectionChanged="checkValueChange">
+                                <div class="row fv-row ">
                                     <div class="col-md-9">
                                         <div class="w-100">
-                                            <select class="form-select form-select-solid"
-                                                    name="model"
-                                                    id="model"
-                                                    required
-                                                    v-model="vehicleHeader.model_guid"
-                                                    v-on:change="modelChanged"
-                                                    data-control="select3"
-                                                    data-hide-search="true"
-                                                    data-placeholder="Select model"
-                                                    data-select2-id="select2-data-1-c2ea"
-                                                    tabindex="-1"
-                                                    aria-hidden="true">
-                                                <option value="">Select Model</option>
-                                                <option v-for="configuredModel in selectedBrandModels"
-                                                        :key="configuredModel.model_guid"
-                                                        :value="configuredModel.model_guid">
-                                                    @{{ configuredModel.model_name }} => @{{configuredModel.model_code}}
-                                                </option>
-                                            </select>
+                                            <v-select class="vue-select2"
+                                                      required
+                                                      :get-option-label="getModelLabel"
+                                                      :options="selectedBrandModels"
+                                                      v-on:input="modelChanged"
+                                                      label="model_name"
+                                            >
+                                            </v-select>
+                                            <input
+                                                type="hidden"
+                                                name="model"
+                                                id="model"
+                                                v-model="vehicleHeader.model_guid"
+                                                required/>
                                         </div>
                                     </div>
                                 </div>
@@ -222,9 +212,8 @@
                                         <div class="w-100">
                                             <input class="form-control form-control-solid"
                                                    name="model_code"
-                                                   readonly
                                                    id="model_code"
-                                                   v-model="vehicleHeader.model_code"
+                                                   :value="vehicleHeader.model_code"
                                             />
                                         </div>
                                     </div>
@@ -280,7 +269,7 @@
                                         <div class="control-input-wrapper">
                                             <div class="control-input">
                                                 <div class="link-field ui-front" style="position: relative;">
-                                                    <input
+                                                    {{--<input
                                                         class="input-with-feedback form-control bold form-control-solid"
                                                         v-on:change="userUnitChanged"
                                                         placeholder=""
@@ -291,12 +280,21 @@
                                                         aria-autocomplete="business_units"
                                                         v-model="vehicleHeader.business_unit_code"
                                                         data-doctype="vehicleHeader"
-                                                    />
+                                                    />--}}
 
-                                                    <datalist id="business_units">
-                                                        <option v-for="orgUnits in organizationalUnits"
+                                                    <v-select class=""
+                                                              name="userUnit"
+                                                              id="userUnit"
+                                                              :get-option-label="getUserUnitLabel"
+                                                              :options="organizationalUnits"
+                                                              label="description"
+                                                              v-model="vehicleHeader.business_unit_code">
+                                                    </v-select>
+
+                                                    {{--<datalist id="business_units">
+                                                        <option v-for="orgUnits in "
                                                                 :value="orgUnits.code_unit + ' => '+ orgUnits.description"/>
-                                                    </datalist>
+                                                    </datalist>--}}
 
                                                 </div>
                                             </div>

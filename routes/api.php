@@ -358,7 +358,7 @@ Route::group(['prefix' => 'v1/en'], function (): void {
 
     Route::get('organizational-units', function () {
         try {
-            $data = OrganizationalUnits::get();
+            $data = OrganizationalUnits::whereNotNull('description')->orderBy('description')->get();
             return response()->json([
                 'state' => 'success',
                 'payload' => $data
@@ -375,7 +375,7 @@ Route::group(['prefix' => 'v1/en'], function (): void {
 
     Route::get('directorates', function () {
         try {
-            $data = DIRECTORATES::get();
+            $data = DIRECTORATES::orderBy('name')->get();
             return response()->json([
                 'state' => 'success',
                 'payload' => $data
@@ -393,7 +393,7 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     /* BUSINESS UNITS*/
     Route::get('cost-centers', function () {
         try {
-            $data = CostCenters::get();
+            $data = CostCenters::orderBy('description')->get();
             return response()->json([
                 'state' => 'success',
                 'payload' => $data

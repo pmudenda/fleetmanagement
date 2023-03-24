@@ -17,11 +17,13 @@ return new class extends Migration {
             $table->string('engine_brand', 100);
             $table->string('engine_capacity', 100);
             $table->string('engine_type', 100);
-            $table->string('fuel_allocation', 100);
+            $table->string('fuel_allocation', 100)->nullable()->default(0);
             $table->string('fuel_consumption', 100);
             $table->string('fuel_types', 100);
             $table->string('number_of_cylinders', 100);
             $table->string('tank_capacity', 100);
+            $table->string('sub_tank_capacity', 100)->nullable()->default(0);
+            $table->string('transmission_type', 100);
 
             $table->string('battery_brand', 100);
             $table->string('battery_size', 100);

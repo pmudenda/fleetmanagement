@@ -1,6 +1,9 @@
+/*Vue.component('v-select', VueSelect.VueSelect);*/
 Vue.component('v-select', VueSelect.VueSelect);
+
 let app = new Vue({
     'el': '#kt_app_main',
+    components: {},
     data() {
         return {
             dataStatus: 5,
@@ -58,8 +61,14 @@ let app = new Vue({
             engineDetails: {},
             otherDetails: {},
             costingAndValuation: {},
-            bodyDetails: {},
-            weightDetails: {},
+            bodyDetails: {
+                numberOfSeats: 0,
+                volumeOfBootTanker: 0,
+                seatCapRear: 0
+            },
+            weightDetails: {
+                trailerWeight2: 0
+            },
             assignmentDetails: {},
             validators: [],
             selectedModelCodes: [],
@@ -79,8 +88,10 @@ let app = new Vue({
         }
     },
     computed: {
+        modelLabel: function (configuredModel) {
+            //return configuredModel.model_name + '=>' + configuredModel.model_code;
+        },
         allImagesUploaded: function () {
-
             return this.images.frontView &&
                 this.images.rearView &&
                 this.images.leftView &&
@@ -384,6 +395,18 @@ let app = new Vue({
         }
         ,
 
+        getModelLabel: function(val){
+            if(typeof val === 'object'){
+                return val.model_name +'=>'+val.model_code;
+            }
+        },
+
+        getUserUnitLabel: function(val){
+            if(typeof val === 'object'){
+                return val.code_unit +'=>'+val.description;
+            }
+        },
+
         getOrganizationalUnits() {
 
             axios.get(document.querySelector('#orgUnitsEndpoint').value)
@@ -635,16 +658,15 @@ let app = new Vue({
         }
         ,
 
-        modelChanged() {
-            if (!this.vehicleHeader?.model_guid) {
-                return;
-            }
+        modelChanged(model) {
+            console.log(model);
+            this.vehicleHeader.model_guid = model?.model_guid;
 
-            let selectedModelCodes = this.configuredModels.filter(function (model) {
+            /*let selectedModelCodes = this.configuredModels.filter(function (model) {
                 return model?.model_guid === app?.vehicleHeader?.model_guid;
-            });
+            });*/
 
-            app.vehicleHeader.model_code = selectedModelCodes[0].model_code;
+            this.vehicleHeader.model_code = model?.model_code;
         }
         ,
 
@@ -1191,12 +1213,8 @@ let app = new Vue({
         }
         ,
 
-        vehicleBrandChanged() {
-            console.log('Vehicle Brand Changed')
-            if (!this.vehicleHeader.brand_guid) {
-                return;
-            }
-
+        vehicleBrandChanged(selectedValue) {
+            this.vehicleHeader.brand_guid = selectedValue?.guid;
             this.selectedBrandModels = [];
             app.selectedBrandModels = app.configuredModels.filter(function (model) {
                 return model.brand_guid === app?.vehicleHeader.brand_guid;
@@ -1204,7 +1222,7 @@ let app = new Vue({
         },
 
         vehicleTypeChanged() {
-            console.log('Vehicl Type Changed')
+            console.log('Vehicle Type Changed')
         },
         vueCreateSelect2: function () {
             // Check if jQuery included

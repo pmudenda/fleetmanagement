@@ -23,6 +23,8 @@ class EngineDetail extends Model
         'fuel_types',
         'number_of_cylinders',
         'tank_capacity',
+        'sub_tank_capacity',
+        'transmission_type',
         'battery_brand',
         'battery_size',
         'battery_power',
