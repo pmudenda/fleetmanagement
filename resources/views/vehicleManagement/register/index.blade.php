@@ -1,6 +1,5 @@
 @extends('layouts.layout')
 @push('styles')
-
     <style>
         .imagePreview {
             width: 100%;
@@ -73,18 +72,14 @@
                       class="form fv-plugins-bootstrap5 fv-plugins-framework"
                       action="{{route('api.vehicle.new')}}">
                     <input type="hidden" name="doctype" value="VehicleHeader"/>
-                    <table class="table table-row-dashed align-middle gs-0 gy-3 my-0 fv-row">
-                        <tbody>
 
-                        <tr class="d-none">
-                            <td>
-                                <label for="brand" class="fs-6 fw-semibold form-label mt-3">
+                    <div class="row d-none">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label for="brand" class="fs-6 fw-semibold form-label mt-3 col-md-3">
                                     <span class="required">Vehicle Type</span>
                                 </label>
-                            </td>
-                            <td>
-
-                                <div class="row fv-row">
+                                <div class="col-md-9 fv-row">
                                     <div class="col-md-9">
                                         <div class="w-100 fv-row">
                                             <v-select class=""
@@ -95,21 +90,18 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6"></div>
+                    </div>
 
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <label for="brand" class="fs-6 fw-semibold form-label mt-3">
+                    <div class="row  mt-5">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label for="brand" class="fs-6 fw-semibold form-label col-md-3">
                                     <span class="required">Brand/Make</span>
                                 </label>
-                            </td>
-                            <td>
-
-                                <div class="row fv-row">
+                                <div class="col-md-9 fv-row">
                                     <div class="col-md-9">
                                         <div class="w-100 fv-row">
                                             <v-select class="vue-select2"
@@ -127,16 +119,20 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                            </td>
-                            <td>
-                                <label for="registrationNumber" class="fs-6 fw-semibold form-label mt-3">
+                            <div class="form-group row"></div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label for="registrationNumber" class="fs-6 fw-semibold form-label col-md-3">
                                     <span class="required">Registration #.</span>
                                 </label>
-                            </td>
-                            <td>
-                                <div class="row fv-row fv-plugins-icon-container">
-                                    <div class="col-md-9 fv-row">
+                                <div class="col-md-9 fv-row">
+                                    <div class="col-md-9">
                                         <input type="text"
                                                v-model="vehicleHeader.registration_number"
                                                class="form-control form-control-solid"
@@ -146,6 +142,42 @@
                                                value=""/>
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+
+                                <div class="col-md-9 fv-row">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-group row">
+
+                                <div class="col-md-9 fv-row">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <table class="table table-row-dashed align-middle gs-0 gy-3 my-0 fv-row">
+                        <tbody>
+
+
+                        <tr>
+
+                            <td>
+                                <div class="row fv-row fv-plugins-icon-container">
+
                                 </div>
                             </td>
                         </tr>
