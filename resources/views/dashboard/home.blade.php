@@ -1,0 +1,564 @@
+@extends('layouts.layout')
+
+@push('styles')
+    <style type="text/css">/* Chart.js */
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: .99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        .chartjs-render-monitor {
+            animation: chartjs-render-animation 1ms
+        }
+
+        .chartjs-size-monitor, .chartjs-size-monitor-expand, .chartjs-size-monitor-shrink {
+            position: absolute;
+            direction: ltr;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            pointer-events: none;
+            visibility: hidden;
+            z-index: -1
+        }
+
+        .chartjs-size-monitor-expand > div {
+            position: absolute;
+            width: 1000000px;
+            height: 1000000px;
+            left: 0;
+            top: 0
+        }
+
+        .chartjs-size-monitor-shrink > div {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            left: 0;
+            top: 0
+        }
+    </style>
+    <style type="text/css">.jqstooltip {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            visibility: hidden;
+            background: rgb(0, 0, 0) transparent;
+            background-color: rgba(0, 0, 0, 0.6);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+            -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+            color: white;
+            font: 10px arial, san serif;
+            text-align: left;
+            white-space: nowrap;
+            padding: 5px;
+            border: 1px solid white;
+            z-index: 10000;
+        }
+
+        .jqsfield {
+            color: white;
+            font: 10px arial, san serif;
+            text-align: left;
+        }
+    </style>
+@endpush
+
+@section('content')
+
+
+    <div class="row g-5 g-xl-8 d-none">
+        <div class="col-xl-3">
+
+            <!--begin::Statistics Widget 5-->
+            <a href="#" class="card bg-danger hoverable card-xl-stretch mb-xl-8">
+                <!--begin::Body-->
+                <div class="card-body">
+                    <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm002.svg-->
+                    <span class="svg-icon svg-icon-white svg-icon-3x ms-n1"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 10H13V11C13 11.6 12.6 12 12 12C11.4 12 11 11.6 11 11V10H3C2.4 10 2 10.4 2 11V13H22V11C22 10.4 21.6 10 21 10Z" fill="currentColor"></path>
+                        <path opacity="0.3" d="M12 12C11.4 12 11 11.6 11 11V3C11 2.4 11.4 2 12 2C12.6 2 13 2.4 13 3V11C13 11.6 12.6 12 12 12Z" fill="currentColor"></path>
+                        <path opacity="0.3" d="M18.1 21H5.9C5.4 21 4.9 20.6 4.8 20.1L3 13H21L19.2 20.1C19.1 20.6 18.6 21 18.1 21ZM13 18V15C13 14.4 12.6 14 12 14C11.4 14 11 14.4 11 15V18C11 18.6 11.4 19 12 19C12.6 19 13 18.6 13 18ZM17 18V15C17 14.4 16.6 14 16 14C15.4 14 15 14.4 15 15V18C15 18.6 15.4 19 16 19C16.6 19 17 18.6 17 18ZM9 18V15C9 14.4 8.6 14 8 14C7.4 14 7 14.4 7 15V18C7 18.6 7.4 19 8 19C8.6 19 9 18.6 9 18Z" fill="currentColor"></path>
+                    </svg>
+                </span>
+                    <!--end::Svg Icon-->
+
+                    <div class="text-white fw-bold fs-2 mb-2 mt-5">
+                        Shopping Cart
+                    </div>
+
+                    <div class="fw-semibold text-white">
+                        Lands, Houses, Ranchos, Farms </div>
+                </div>
+                <!--end::Body-->
+            </a>
+            <!--end::Statistics Widget 5-->
+        </div>
+
+        <div class="col-xl-3">
+
+            <!--begin::Statistics Widget 5-->
+            <a href="#" class="card bg-primary hoverable card-xl-stretch mb-xl-8">
+                <!--begin::Body-->
+                <div class="card-body">
+                    <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm008.svg-->
+                    <span class="svg-icon svg-icon-white svg-icon-3x ms-n1"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path opacity="0.3" d="M18 21.6C16.3 21.6 15 20.3 15 18.6V2.50001C15 2.20001 14.6 1.99996 14.3 2.19996L13 3.59999L11.7 2.3C11.3 1.9 10.7 1.9 10.3 2.3L9 3.59999L7.70001 2.3C7.30001 1.9 6.69999 1.9 6.29999 2.3L5 3.59999L3.70001 2.3C3.50001 2.1 3 2.20001 3 3.50001V18.6C3 20.3 4.3 21.6 6 21.6H18Z" fill="currentColor"></path>
+                        <path d="M12 12.6H11C10.4 12.6 10 12.2 10 11.6C10 11 10.4 10.6 11 10.6H12C12.6 10.6 13 11 13 11.6C13 12.2 12.6 12.6 12 12.6ZM9 11.6C9 11 8.6 10.6 8 10.6H6C5.4 10.6 5 11 5 11.6C5 12.2 5.4 12.6 6 12.6H8C8.6 12.6 9 12.2 9 11.6ZM9 7.59998C9 6.99998 8.6 6.59998 8 6.59998H6C5.4 6.59998 5 6.99998 5 7.59998C5 8.19998 5.4 8.59998 6 8.59998H8C8.6 8.59998 9 8.19998 9 7.59998ZM13 7.59998C13 6.99998 12.6 6.59998 12 6.59998H11C10.4 6.59998 10 6.99998 10 7.59998C10 8.19998 10.4 8.59998 11 8.59998H12C12.6 8.59998 13 8.19998 13 7.59998ZM13 15.6C13 15 12.6 14.6 12 14.6H10C9.4 14.6 9 15 9 15.6C9 16.2 9.4 16.6 10 16.6H12C12.6 16.6 13 16.2 13 15.6Z" fill="currentColor"></path>
+                        <path d="M15 18.6C15 20.3 16.3 21.6 18 21.6C19.7 21.6 21 20.3 21 18.6V12.5C21 12.2 20.6 12 20.3 12.2L19 13.6L17.7 12.3C17.3 11.9 16.7 11.9 16.3 12.3L15 13.6V18.6Z" fill="currentColor"></path>
+                    </svg>
+                </span>
+                    <!--end::Svg Icon-->
+
+                    <div class="text-white fw-bold fs-2 mb-2 mt-5">
+                        Appartments
+                    </div>
+
+                    <div class="fw-semibold text-white">
+                        Flats, Shared Rooms, Duplex </div>
+                </div>
+                <!--end::Body-->
+            </a>
+            <!--end::Statistics Widget 5-->
+        </div>
+
+        <div class="col-xl-3">
+
+            <!--begin::Statistics Widget 5-->
+            <a href="#" class="card bg-success hoverable card-xl-stretch mb-5 mb-xl-8">
+                <!--begin::Body-->
+                <div class="card-body">
+                    <!--begin::Svg Icon | path: icons/duotune/graphs/gra005.svg-->
+                    <span class="svg-icon svg-icon-white svg-icon-3x ms-n1"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path opacity="0.3" d="M14 12V21H10V12C10 11.4 10.4 11 11 11H13C13.6 11 14 11.4 14 12ZM7 2H5C4.4 2 4 2.4 4 3V21H8V3C8 2.4 7.6 2 7 2Z" fill="currentColor"></path>
+                        <path d="M21 20H20V16C20 15.4 19.6 15 19 15H17C16.4 15 16 15.4 16 16V20H3C2.4 20 2 20.4 2 21C2 21.6 2.4 22 3 22H21C21.6 22 22 21.6 22 21C22 20.4 21.6 20 21 20Z" fill="currentColor"></path>
+                    </svg>
+                </span>
+                    <!--end::Svg Icon-->
+
+                    <div class="text-white fw-bold fs-2 mb-2 mt-5">
+                        Sales Stats
+                    </div>
+
+                    <div class="fw-semibold text-white">
+                        50% Increased for FY20 </div>
+                </div>
+                <!--end::Body-->
+            </a>
+            <!--end::Statistics Widget 5-->
+        </div>
+
+        <div class="col-xl-3">
+            <!--begin::Statistics Widget 5-->
+            <a href="#" class="card bg-danger hoverable card-xl-stretch mb-xl-8">
+                <!--begin::Body-->
+                <div class="card-body">
+                    <!--begin::Svg Icon | path: icons/duotune/ecommerce/ecm002.svg-->
+                    <span class="svg-icon svg-icon-white svg-icon-3x ms-n1"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 10H13V11C13 11.6 12.6 12 12 12C11.4 12 11 11.6 11 11V10H3C2.4 10 2 10.4 2 11V13H22V11C22 10.4 21.6 10 21 10Z" fill="currentColor"></path>
+                        <path opacity="0.3" d="M12 12C11.4 12 11 11.6 11 11V3C11 2.4 11.4 2 12 2C12.6 2 13 2.4 13 3V11C13 11.6 12.6 12 12 12Z" fill="currentColor"></path>
+                        <path opacity="0.3" d="M18.1 21H5.9C5.4 21 4.9 20.6 4.8 20.1L3 13H21L19.2 20.1C19.1 20.6 18.6 21 18.1 21ZM13 18V15C13 14.4 12.6 14 12 14C11.4 14 11 14.4 11 15V18C11 18.6 11.4 19 12 19C12.6 19 13 18.6 13 18ZM17 18V15C17 14.4 16.6 14 16 14C15.4 14 15 14.4 15 15V18C15 18.6 15.4 19 16 19C16.6 19 17 18.6 17 18ZM9 18V15C9 14.4 8.6 14 8 14C7.4 14 7 14.4 7 15V18C7 18.6 7.4 19 8 19C8.6 19 9 18.6 9 18Z" fill="currentColor"></path>
+                    </svg>
+                </span>
+                    <!--end::Svg Icon-->
+
+                    <div class="text-white fw-bold fs-2 mb-2 mt-5">
+                        Shopping Cart
+                    </div>
+
+                    <div class="fw-semibold text-white">
+                        Lands, Houses, Ranchos, Farms </div>
+                </div>
+                <!--end::Body-->
+            </a>
+            <!--end::Statistics Widget 5-->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fs-17 font-weight-600 mb-0">Vehicles</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-column">
+                        <div>
+                            <i class="fas fa fa-caret-right text-success"></i>
+                            <a href="#">On Requisition<span class="float-right"><strong>27</strong></span></a>
+                        </div>
+                        <div>
+                            <i class="fas fa fa-caret-right text-success"></i>
+                            <a href="#">On Maintenance <span class="float-right"><strong>13</strong></span></a>
+                        </div>
+                        <div>
+                            <i class="fas fa fa-caret-right text-success"></i>
+                            <a href="#">Available <span class="float-right"><strong>2</strong></span></a>
+                        </div>
+                        <div>
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fs-17 font-weight-600 mb-0">Todays Requisition</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-column">
+                        <div>
+                            <i class="fas fa fa-caret-right text-success"></i>
+                            <a href="#">Vehicle Requisition <span class="float-right"><strong>0</strong></span></a>
+                        </div>
+                        <div>
+                            <i class="fas fa fa-caret-right text-success"></i>
+                            <a href="#">Maintenance Requisition<span class="float-right"><strong>0</strong></span></a>
+                        </div>
+                        <div>
+                            <i class="fas fa fa-caret-right text-success"></i>
+                            <a href="#">Fuel Requisition<span class="float-right"><strong>0</strong></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fs-17 font-weight-600 mb-0">Reminder </h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-column">
+                        <div>
+                            <i class="fas fa fa-caret-right text-success"></i>
+                            <a href="#">License Soon Expire <span class="float-right"><strong>0</strong></span></a>
+                        </div>
+                        <div>
+                            <i class="fas fa fa-caret-right text-success"></i>
+                            <a href="#">License Expired <span class="float-right"><strong>0</strong></span></a>
+                        </div>
+                        <div>
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fs-17 font-weight-600 mb-0"> Others Activities</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-column">
+                        <div>
+                            <i class="fas fa fa-caret-right text-success"></i>
+                            <a href="#">Stock In <span class="float-right"><strong>115</strong></span></a>
+                        </div>
+                        <div>
+                            <i class="fas fa fa-caret-right text-success"></i>
+                            <a href="#"> Stock Out <span class="float-right"><strong>772040</strong></span></a>
+                        </div>
+                        <div>
+                            &nbsp;
+                        </div>
+                        <div>
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row d-none">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fs-17 font-weight-600 mb-0">Expense Summary </h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart mb-3">
+                        <div class="chartjs-size-monitor">
+                            <div class="chartjs-size-monitor-expand">
+                                <div class=""></div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink">
+                                <div class=""></div>
+                            </div>
+                        </div>
+                        <canvas id="doughutChart" height="484" style="display: block; width: 469px; height: 484px;"
+                                width="469" class="chartjs-render-monitor"></canvas>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="chart-legend-item">
+                            <div class="chart-legend-color kelly-green"></div>
+                            <p>Fuel Cost</p>
+                            <p class="percentage text-muted">13500.00</p>
+                        </div>
+                        <div class="chart-legend-item">
+                            <div class="chart-legend-color kelly-green2"></div>
+                            <p>Maintenance Cost</p>
+                            <p class="percentage text-muted">44260.00</p>
+                        </div>
+                        <div class="chart-legend-item">
+                            <div class="chart-legend-color whisper"></div>
+                            <p>Other Cost</p>
+                            <p class="percentage text-muted">1960.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2 class="fs-18 font-weight-bold mb-0">Maintenance Cost</h2>
+                </div>
+                <div class="card-body">
+                    <div class="chartjs-size-monitor">
+                        <div class="chartjs-size-monitor-expand">
+                            <div class=""></div>
+                        </div>
+                        <div class="chartjs-size-monitor-shrink">
+                            <div class=""></div>
+                        </div>
+                    </div>
+                    <canvas id="barChart" height="637" width="1006"
+                            style="display: block; width: 1006px; height: 637px;"
+                            class="chartjs-render-monitor"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function () {
+            //doughut chart
+            var ctx = document.getElementById("doughutChart");
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [13500.00, 44260.00, 1960.00],
+                        backgroundColor: [
+                            "#37a000",
+                            "#42b704",
+                            "#e4e4e4",
+                        ],
+                        hoverBackgroundColor: [
+                            "#4cd604",
+                            "#4cd604",
+                            "#4cd604"
+                        ]
+                    }],
+                    labels: ["Fuel", "Maintenance", "Other"]
+                },
+                options: {
+                    legend: false,
+                    responsive: true,
+                    cutoutPercentage: 80
+                }
+            });
+
+            //bar chart
+            var chartColors = {
+                gray: '#e4e4e4',
+                orange: 'rgb(255, 159, 64)',
+                yellow: 'rgb(255, 205, 86)',
+                green: '#37a000',
+                blue: 'rgb(54, 162, 235)',
+                purple: 'rgb(153, 102, 255)',
+                grey: 'rgb(231,233,237)'
+            };
+
+            var randomScalingFactor = function () {
+                return (Math.random() > 0.5 ? 1.0 : 1.0) * Math.round(Math.random() * 100);
+            };
+
+            // draws a rectangle with a rounded top
+            Chart.helpers.drawRoundedTopRectangle = function (ctx, x, y, width, height, radius) {
+                ctx.beginPath();
+                ctx.moveTo(x + radius, y);
+                // top right corner
+                ctx.lineTo(x + width - radius, y);
+                ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+                // bottom right	corner
+                ctx.lineTo(x + width, y + height);
+                // bottom left corner
+                ctx.lineTo(x, y + height);
+                // top left
+                ctx.lineTo(x, y + radius);
+                ctx.quadraticCurveTo(x, y, x + radius, y);
+                ctx.closePath();
+            };
+
+            Chart.elements.RoundedTopRectangle = Chart.elements.Rectangle.extend({
+                draw: function () {
+                    var ctx = this._chart.ctx;
+                    var vm = this._view;
+                    var left, right, top, bottom, signX, signY, borderSkipped;
+                    var borderWidth = vm.borderWidth;
+
+                    if (!vm.horizontal) {
+                        // bar
+                        left = vm.x - vm.width / 2;
+                        right = vm.x + vm.width / 2;
+                        top = vm.y;
+                        bottom = vm.base;
+                        signX = 1;
+                        signY = bottom > top ? 1 : -1;
+                        borderSkipped = vm.borderSkipped || 'bottom';
+                    } else {
+                        // horizontal bar
+                        left = vm.base;
+                        right = vm.x;
+                        top = vm.y - vm.height / 2;
+                        bottom = vm.y + vm.height / 2;
+                        signX = right > left ? 1 : -1;
+                        signY = 1;
+                        borderSkipped = vm.borderSkipped || 'left';
+                    }
+
+                    // Canvas doesn't allow us to stroke inside the width so we can
+                    // adjust the sizes to fit if we're setting a stroke on the line
+                    if (borderWidth) {
+                        // borderWidth shold be less than bar width and bar height.
+                        var barSize = Math.min(Math.abs(left - right), Math.abs(top - bottom));
+                        borderWidth = borderWidth > barSize ? barSize : borderWidth;
+                        var halfStroke = borderWidth / 2;
+                        // Adjust borderWidth when bar top position is near vm.base(zero).
+                        var borderLeft = left + (borderSkipped !== 'left' ? halfStroke * signX : 0);
+                        var borderRight = right + (borderSkipped !== 'right' ? -halfStroke * signX : 0);
+                        var borderTop = top + (borderSkipped !== 'top' ? halfStroke * signY : 0);
+                        var borderBottom = bottom + (borderSkipped !== 'bottom' ? -halfStroke * signY : 0);
+                        // not become a vertical line?
+                        if (borderLeft !== borderRight) {
+                            top = borderTop;
+                            bottom = borderBottom;
+                        }
+                        // not become a horizontal line?
+                        if (borderTop !== borderBottom) {
+                            left = borderLeft;
+                            right = borderRight;
+                        }
+                    }
+
+                    // calculate the bar width and roundess
+                    var barWidth = Math.abs(left - right);
+                    var roundness = this._chart.config.options.barRoundness || 0.5;
+                    var radius = barWidth * roundness * 0.5;
+
+                    // keep track of the original top of the bar
+                    var prevTop = top;
+
+                    // move the top down so there is room to draw the rounded top
+                    top = prevTop + radius;
+                    var barRadius = top - prevTop;
+
+                    ctx.beginPath();
+                    ctx.fillStyle = vm.backgroundColor;
+                    ctx.strokeStyle = vm.borderColor;
+                    ctx.lineWidth = borderWidth;
+
+                    // draw the rounded top rectangle
+                    Chart.helpers.drawRoundedTopRectangle(ctx, left, (top - barRadius + 1), barWidth,
+                        bottom - prevTop, barRadius);
+
+                    ctx.fill();
+                    if (borderWidth) {
+                        ctx.stroke();
+                    }
+
+                    // restore the original top value so tooltips and scales still work
+                    top = prevTop;
+                }
+            });
+
+            Chart.defaults.roundedBar = Chart.helpers.clone(Chart.defaults.bar);
+
+            Chart.controllers.roundedBar = Chart.controllers.bar.extend({
+                dataElementType: Chart.elements.RoundedTopRectangle
+            });
+
+            var ctx = document.getElementById("barChart").getContext("2d");
+            var myBar = new Chart(ctx, {
+                type: 'roundedBar',
+                data: {
+                    labels: ["Apr-22", "May-22", "Jun-22", "Jul-22", "Aug-22", "Sep-22", "Oct-22", "Nov-22", "Dec-22", "Jan-23", "Feb-23", "Mar-23",],
+                    datasets: [{
+                        label: 'Maintenance Cost',
+                        backgroundColor: chartColors.green,
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,]
+                    }]
+                },
+                options: {
+                    legend: false,
+                    responsive: true,
+                    barRoundness: 1,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                padding: 10
+                            },
+                            gridLines: {
+                                borderDash: [2],
+                                borderDashOffset: [2],
+                                drawBorder: false,
+                                drawTicks: false
+                            }
+                        }],
+                        xAxes: [{
+                            maxBarThickness: 10,
+                            gridLines: {
+                                lineWidth: [0],
+                                drawBorder: false,
+                                drawOnChartArea: false,
+                                drawTicks: false
+                            },
+                            ticks: {
+                                padding: 20
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+    </script>
+@endpush

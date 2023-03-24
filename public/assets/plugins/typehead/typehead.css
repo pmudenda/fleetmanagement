@@ -1,0 +1,39 @@
+.typeahead {
+    border: 2px solid #fff;
+    border-radius: 4px;
+    padding: 8px 12px;
+    max-width: 300px;
+    min-width: 290px;
+    background: rgba(66,52,52,.5);
+    color: #fff
+}
+
+.tt-menu {
+    width: 300px
+}
+
+ul.typeahead {
+    margin: 0;
+    padding: 10px 0
+}
+
+ul.typeahead.dropdown-menu li a {
+    padding: 10px!important;
+    border-bottom: #ccc 1px solid;
+    color: #fff;
+    background: #999!important
+}
+
+ul.typeahead.dropdown-menu li:last-child a {
+    border-bottom: 0!important
+}
+
+ul.typeahead.dropdown-menu li.active a,ul.typeahead.dropdown-menu li.active a:focus,ul.typeahead.dropdown-menu li.active a:hover {
+    background-color: #1f3f41!important
+}
+
+.typeahead li.active>a,.typeahead li.active>a:focus,.typeahead li.active>a:hover {
+    text-decoration: none;
+    background-color: #1f3f41;
+    outline: 0
+}

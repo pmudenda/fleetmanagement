@@ -1,0 +1,75 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->string('username')->unique();
+            $table->string('staff_no')->unique()->nullable();
+            $table->string('avatar')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('guid')->default(Str::uuid())->nullable();
+
+            $table->string('job_code')->nullable();
+            $table->string('user_unit_code')->nullable();
+            $table->string('profile_job_code')->nullable();
+            $table->string('profile_unit_code')->nullable();
+            $table->string('unit_column')->nullable();
+            $table->string('code_column')->nullable();
+
+
+            $table->integer('user_unit_id')->nullable();
+            $table->integer('user_directorate_id')->nullable();
+            $table->integer('user_division_id')->nullable();
+            $table->integer('user_region_id')->nullable();
+            $table->integer('location_id')->nullable();
+            $table->integer('pay_point_id')->nullable();
+            $table->integer('functional_unit_id')->nullable();
+
+            $table->string('nrc')->nullable();
+            $table->string('contract_type')->nullable();
+            $table->string('two_fac_auth_status')->nullable()->default('Inactive');
+            $table->string('con_st_code')->nullable();
+            $table->dateTime('last_login')->nullable();
+            //$table->string('con_wef_date')->nullable();
+            //$table->string('con_wet_date')->nullable();
+
+            $table->integer('positions_id')->nullable();
+            $table->integer('type_id')->default('0');
+            $table->integer('grade_id')->default('0');
+
+            $table->integer('total_logins')->default(0);
+            $table->integer('password_changed')->default('0');
+
+            $table->string('supervisor_guid',150)->nullable();
+            $table->string('supervisor_name', 200)->nullable();
+
+            $table->rememberToken();
+            $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('users');
+    }
+};

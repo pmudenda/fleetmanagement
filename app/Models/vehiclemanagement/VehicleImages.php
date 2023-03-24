@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models\vehiclemanagement;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class VehicleImages extends Model
+{
+    use HasFactory;
+
+    protected $table = '';
+
+    protected $fillable = [
+        'vehicle_header_id',
+        'file_name',
+        'file_path',
+        'view',
+        'created_by',
+        'created_name',
+        'period_start',
+        'period_end'
+    ];
+}
