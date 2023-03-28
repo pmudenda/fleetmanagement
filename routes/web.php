@@ -1,6 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Request;
+use App\Models\vehiclemanagement\ChassisDetail;
+use App\Models\vehiclemanagement\VehicleHeader;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,10 +22,24 @@ Route::get('/', function () {
     return redirect(route('login'));
 });
 
-/*Route::get('/login', function (Request $request) {
-    dd($request);
-    return view('auth.login');
-})->name('login');*/
+Route::get('verify/document-number', function (Request $request): JsonResponse {
+
+    $valid =  true;
+    if($request->get('method') == 'registration_number'){
+        $valid = VehicleHeader::where('registration_number', trim($request->get('key')))->count() == 0;
+    }else if($request->get('method') == 'chassis'){
+        $valid = ChassisDetail::where('chassis_number', trim($request->get('key')))->count() == 0;
+    }
+
+    return response()->json([
+        'state' => 'success',
+        'payload' => [
+            'validity' => $valid,
+            'message' => $valid ? 'Document number is valid' : 'Document number is invalid'
+        ],
+        'request' => $request->all()
+    ]);
+})->name('document.number.validation');
 
 
 /*Route::post('/logout', function () {
@@ -48,7 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
             $uuid = $request->uuid ?? '';
             $email = $request->email ?? '';
 
-            if(empty($uuid)){
+            if (empty($uuid)) {
                 $uuid = Auth()->user()->guid;
                 $email = Auth()->user()->email;
             }

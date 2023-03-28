@@ -6,7 +6,9 @@ let app = new Vue({
     components: {},
     data() {
         return {
-            dataStatus: 5,
+            vehicle_brand_placeholder: 'Select Vehicle Brand',
+            vehicle_model_placeholder: 'Select Model',
+            dataStatus: 6,
             vehicleHeaderId: null,
             isHeaderSaved: true,
             vehicleBrands: [],
@@ -23,6 +25,9 @@ let app = new Vue({
                 'Hybrid(Diesel)',
                 'Hybrid(Petrol)',
                 'Other'
+            ],
+            licenseTypes: [
+                'A', 'B', 'C', 'E'
             ],
             vehicleTypes: [
                 {
@@ -42,7 +47,8 @@ let app = new Vue({
                 rearView: null,
                 leftView: null,
                 rightView: null,
-            },
+            }
+            ,
             chassisDetails: {
                 stickerRegistrationNumber: null,
                 status: 'active'
@@ -57,15 +63,25 @@ let app = new Vue({
                     'code': 'MT'
                 }
             ],
-            vehicleHeader: {},
-            engineDetails: {},
-            otherDetails: {},
-            costingAndValuation: {},
+            vehicleHeader:
+                {
+                    model: {}
+                }
+            ,
+            engineDetails: {}
+            ,
+            otherDetails: {}
+            ,
+            costingAndValuation: {}
+            ,
             bodyDetails: {
                 numberOfSeats: 0,
-                volumeOfBootTanker: 0,
-                seatCapRear: 0
-            },
+                volumeOfBootTanker:
+                    0,
+                seatCapRear:
+                    0
+            }
+            ,
             weightDetails: {
                 trailerWeight2: 0
             },
@@ -84,7 +100,15 @@ let app = new Vue({
             // validators
             vehicleHeaderFormValidator: null,
             chassisDetailsFormValidator: null,
-            engineDetailsFormValidator: null
+            engineDetailsFormValidator: null,
+            document_validity: {
+                state: null,
+                message: null
+            },
+            regNumberValidity: {
+                state: null,
+                message: null
+            }
         }
     },
     computed: {
@@ -96,6 +120,9 @@ let app = new Vue({
                 this.images.rearView &&
                 this.images.leftView &&
                 this.images.rightView;
+        },
+        assetNumber: function () {
+
         }
     },
 
@@ -108,10 +135,11 @@ let app = new Vue({
         this.getDirectorates();
         this.getCostCenters();
         this.getBusinessAreas();
-    }
-    ,
+    },
 
     mounted() {
+        console.log("%c✔ ZFM Running", "color: #148f32");
+
         this.vehicleHeaderForm = document.querySelector('#tms_vehicle_header_form');
         this.chassisDetailsForm = document.querySelector('#tms_chassis_details_form');
         this.engineDetailsForm = document.querySelector('#tms_engine_details_form');
@@ -232,30 +260,73 @@ let app = new Vue({
 
             }
         )
-    }
-    ,
+    },
 
     methods: {
+
+        transmissionTypeChanged: function (transmissionType) {
+            document.querySelector('#transmission_type').value = transmissionType?.code +':'+ transmissionType?.name;
+        },
         // web UI event
+        bodyTypeChanged: function (selectedBody) {
+            app.vehicleHeader.body_type_guid = selectedBody?.guid;
+            document.querySelector('#bodyType').value = selectedBody?.guid;
+        },
+        validateRegistrationNumber: function () {
+            axios.get(document.querySelector('#documentValidationUrl').value +
+                '?method=registration_number&key=' + app.vehicleHeader.registration_number)
+                .then(function (response) {
+                    // Populate results
+                    if (response.data.state === 'failure') {
+                        //show errors
+                        toastr.error('Connection error, chassis validity not verified')
+                        return;
+                    }
+                    console.log(response.data);
+
+                    app.regNumberValidity.state = response.data.payload.validity;
+                    app.regNumberValidity.message = response.data.payload.message;
+                })
+                .catch(function (error) {
+                    // notify of error
+                    toastr.error(
+                        'Connection error. Could not retrieve data, some feature might not work.')
+                });
+        },
         checkValueChange(element) {
-            console.log('This guy changed ', element)
+        },
+
+        formatMoney: function (event) {
+
+            setTimeout(function () {
+                let formatted = accounting.formatMoney(event.target.value, 'ZMW ');//tmsApp.tmsUtility.formatMoney(event.target.value);
+                console.log('%c' + formatted, "color: #148f32");
+                app.chassisDetails.chargeOutRate = formatted;
+                //document.querySelector('#'+event.target.id).value = formatted;
+            }, 300);
+        },
+
+        checkChassisNumberValidity: function () {
+            axios.get(document.querySelector('#documentValidationUrl').value + '?method=chassis&key=' + app.chassisDetails.chassisNumber)
+                .then(function (response) {
+                    // Populate results
+                    if (response.data.state === 'failure') {
+                        //show errors
+                        toastr.error('Connection error, chassis validity not verified')
+                        return;
+                    }
+
+                    app.document_validity.state = response.data.payload.validity;
+                    app.document_validity.message = response.data.payload.message;
+                })
+                .catch(function (error) {
+                    // notify of error
+                    toastr.error(
+                        'Connection error. Could not retrieve data, some feature might not work.')
+                });
         },
 
         completeVehicleRegistration() {
-            let fileUploads = [].slice.call(document.querySelectorAll('input[type="file"]'));
-            let filesValid = true;
-            fileUploads.map(function (fileSelect) {
-                if (fileSelect.files.length === 0) {
-                    toastr.warning('Submission not accepted, You have not attached all required images')
-                    filesValid = false;
-                    return;
-                }
-            });
-
-            if (!filesValid) {
-                return;
-            }
-
             Swal.fire({
                 text: "Are you sure you would like to complete the registration of this vehicle?"
                 , icon: "warning"
@@ -395,15 +466,15 @@ let app = new Vue({
         }
         ,
 
-        getModelLabel: function(val){
-            if(typeof val === 'object'){
-                return val.model_name +'=>'+val.model_code;
+        getModelLabel: function (val) {
+            if (typeof val === 'object') {
+                return val.model_name + '=>' + val.model_code;
             }
         },
 
-        getUserUnitLabel: function(val){
-            if(typeof val === 'object'){
-                return val.code_unit +'=>'+val.description;
+        getUserUnitLabel: function (val) {
+            if (typeof val === 'object') {
+                return val.code_unit + '=>' + val.description;
             }
         },
 
@@ -659,14 +730,10 @@ let app = new Vue({
         ,
 
         modelChanged(model) {
-            console.log(model);
             this.vehicleHeader.model_guid = model?.model_guid;
-
-            /*let selectedModelCodes = this.configuredModels.filter(function (model) {
-                return model?.model_guid === app?.vehicleHeader?.model_guid;
-            });*/
-
             this.vehicleHeader.model_code = model?.model_code;
+            document.querySelector('#model').value = model?.model_guid;
+            document.querySelector('#model_code').value = model?.model_code;
         }
         ,
 
@@ -944,6 +1011,20 @@ let app = new Vue({
                 return alert('No Validator Configured');
             }
 
+            let fileUploads = [].slice.call(document.querySelectorAll('input[type="file"]'));
+            let filesValid = true;
+            fileUploads.map(function (fileSelect) {
+                if (fileSelect.files.length === 0) {
+                    toastr.warning('Submission not accepted, You have not attached all required images')
+                    filesValid = false;
+                    return;
+                }
+            });
+
+            if (!filesValid) {
+                return;
+            }
+
             this.chassisDetailsFormValidator.validate().then(function (status) {
                 console.log('validated!');
                 if (status !== 'Valid') {
@@ -957,45 +1038,58 @@ let app = new Vue({
                 el.setAttribute('data-kt-indicator', 'on');
                 el.disabled = true;
 
-                app.postRequest(
-                    new FormData($(app.chassisDetailsForm)[0]),
-                    app.chassisDetailsForm.action,
-                    function (response) {
-                        let el = document.querySelector('#tms_save_chassis');
-                        let label = el.querySelector(".indicator-label");
+                let form = $(app.chassisDetailsForm)[0];
 
-                        setTimeout(function () {
-                            el.removeAttribute('data-kt-indicator');
-                            el.disabled = false;
-                        }, 300)
+                let formData = new FormData(form);
+
+                $.ajax({
+                    'url': app.chassisDetailsForm.action,
+                    'type': 'POST',
+                    data: formData,
+                    enctype: 'multipart/form-data',
+                    processData: false,  // Important!
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        , 'content-type': 'text/json'
+                    }
+                }).done(function (response) {
+                    let el = document.querySelector('#tms_save_chassis');
+                    let label = el.querySelector(".indicator-label");
+
+                    setTimeout(function () {
+                        el.removeAttribute('data-kt-indicator');
+                        el.disabled = false;
+                    }, 300)
 
 
-                        if (response.data.state != 'success') {
-                            toastr.error(
-                                response.data.message
-                            );
-                            return;
-                        }
-
-                        toastr.success(
-                            response.data.message
+                    if (response.state != 'success') {
+                        toastr.error(
+                            response.message
                         );
+                        return;
+                    }
 
-                        app.dataStatus += 1;
-                        app.switchTabs();
+                    toastr.success(
+                        response.message
+                    );
 
-                        if (el.classList.contains("btn-light-primary")) {
-                            el.classList.remove("btn-light-primary");
-                            el.classList.add("btn-light");
-                            label.innerHTML = "Saved";
-                        } else { // follow
-                            el.classList.add("btn-light-primary");
-                            el.classList.remove("btn-light");
-                            app.isHeaderSaved = true;
-                            label.innerHTML = "Saved";
-                        }
+                    app.dataStatus += 1;
+                    app.switchTabs();
 
-                    },
+                    if (el.classList.contains("btn-light-primary")) {
+                        el.classList.remove("btn-light-primary");
+                        el.classList.add("btn-light");
+                        label.innerHTML = "Saved";
+                    } else { // follow
+                        el.classList.add("btn-light-primary");
+                        el.classList.remove("btn-light");
+                        app.isHeaderSaved = true;
+                        label.innerHTML = "Saved";
+                    }
+
+                }).fail(
                     function (error) {
                         let el = document.querySelector('#tms_save_chassis');
                         let label = el.querySelector(".indicator-label");
@@ -1008,10 +1102,10 @@ let app = new Vue({
                         );
 
                     });
+
             });
-        }
-        ,
-        submitCostValuationDetails() {
+        },
+        submitCostValuationDetails: function () {
             let el = document.querySelector('#tms_save_costing');
             el.setAttribute('data-kt-indicator', 'on');
             el.disabled = true;
@@ -1169,19 +1263,17 @@ let app = new Vue({
         }
         ,
 
-        userUnitChanged() {
+        userUnitChanged(user_unit) {
 
-            let chosenUserUnit = document.querySelector('[name="userUnit"]').value;
-            const selectedUserUnit = (chosenUserUnit.split('=>')[0].trim());
-
-            console.log('Picked User Unit ', selectedUserUnit);
-
-            let user_unit = this.organizationalUnits.filter(function (userUnit) {
+            /*let user_unit = this.organizationalUnits.filter(function (userUnit) {
                 return userUnit.code_unit.trim() == selectedUserUnit.trim();
-            });
+            });*/
 
-            let cost_center_code = user_unit[0].cc_code
-            let business_unit_code = user_unit[0].bu_code
+            app.vehicleHeader.user_unit_code = user_unit?.code_unit;
+            document.querySelector('[name="user_unit"]').value = user_unit?.code_unit;
+            let cost_center_code = user_unit?.cc_code
+            let business_unit_code = user_unit?.bu_code
+
 
             let filteredCostCenters = app.costCenters.filter(function (cost_center) {
                 return cost_center.code_cost_center?.trim() === cost_center_code?.trim();
@@ -1224,56 +1316,5 @@ let app = new Vue({
         vehicleTypeChanged() {
             console.log('Vehicle Type Changed')
         },
-        vueCreateSelect2: function () {
-            // Check if jQuery included
-            if (typeof jQuery == 'undefined') {
-                return;
-            }
-
-            // Check if select2 included
-            if (typeof $.fn.select2 === 'undefined') {
-                console.log('select2 In not included')
-                return;
-            }
-
-            let elements = [].slice.call(document.querySelectorAll('[data-control="vue-select2"], [data-vue-select2="true"]'));
-
-            elements.map(function (element) {
-                if (element.getAttribute("data-kt-initialized") === "1") {
-                    return;
-                }
-
-                let options = {
-                    dir: document.body.getAttribute('direction')
-                };
-
-                if (element.getAttribute('data-hide-search') == 'true') {
-                    options.minimumResultsForSearch = Infinity;
-                }
-
-                $(element).select2(options);
-
-                element.setAttribute("data-kt-initialized", "1");
-            });
-
-            let select2FocusFixInitialized = false;
-            if (select2FocusFixInitialized === false) {
-                select2FocusFixInitialized = true;
-
-                $(document).on('select2:open', function (e) {
-                    const elements = document.querySelectorAll('.select2-container--open .select2-search__field');
-                    if (elements.length > 0) {
-                        elements[elements.length - 1].focus();
-                    }
-                });
-            }
-
-            $(document).on("change", function (e) {
-                console.log($(e.target).val());
-                app.$emit('selectionChanged', $(e.target));
-            });
-
-        }
     }
 })
-

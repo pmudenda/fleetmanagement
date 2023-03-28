@@ -29,6 +29,8 @@ class BodyAndWeightDetail extends Model
         'trailerWeight2',
         'trailerWeight3',
         'trailerWeight4',
-        'vehicle_header_id'
+        'vehicle_header_id',
+        'created_by',
+        'created_name',
     ];
 }

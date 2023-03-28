@@ -88,7 +88,7 @@
                                        v-model="costingAndValuation.yearOfPurchase"
                                        name="yearOfPurchase"
                                        id="yearOfPurchase"
-                                       data-doctype="Work Order"
+                                       data-doctype="CostingDetails"
                                        autocomplete="off">
                             </div>
 

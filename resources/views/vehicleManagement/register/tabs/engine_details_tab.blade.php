@@ -248,20 +248,20 @@
                     <div class="control-input-wrapper">
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
-                                <select
+                                <v-select
                                     required
-                                    class="input-with-feedback form-select bold"
-                                    id="transmission_type"
-                                    name="transmission_type"
+                                    class="vue-select2"
                                     v-model="engineDetails.transmissionType"
-                                    data-doctype="EngineDetails">
-                                    <option> --Select Transmission--</option>
-                                    <option v-for="transmission in transmissionTypes"
-                                            :value="transmission.name"
-                                            :key="transmission.code">
-                                        @{{ transmission.name }}
-                                    </option>
-                                </select>
+                                    data-doctype="EngineDetails"
+                                    @input="transmissionTypeChanged"
+                                    :options="transmissionTypes"
+                                    :placeholder="'--Select Transmission--'"
+                                    label="name">
+                                </v-select>
+                                <input type="hidden"
+                                       id="transmission_type"
+                                       name="transmission_type"
+                                       required/>
                             </div>
                         </div>
                     </div>
@@ -270,36 +270,6 @@
 
 
             <tr>
-                <td class="frappe-control ">
-                    <label for="fuelAllocation"
-                           class="control-label reqd"
-                           style="padding-right: 0px;">
-                        Fuel Allocation:
-                    </label>
-                </td>
-                <td>
-                    <div class="control-input-wrapper">
-                        <div class="control-input">
-                            <div class="link-field ui-front" style="position: relative;">
-                                <div class="input-group bg-gray-300">
-                                    <input type="text"
-                                           required
-                                           class="input-with-feedback form-control bold"
-                                           maxlength="140"
-                                           v-model="engineDetails.fuelAllocation"
-                                           name="fuelAllocation"
-                                           id="fuelAllocation"
-                                           placeholder=""
-                                           autocomplete="off">
-                                    <div
-                                        class="input-group-append pl-3 pr-3 align-self-center">
-                                        Ltrs-Daily
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
                 <td class="frappe-control">
                     <div class="clearfix">
                         <label for="fuelConsumption" class="control-label reqd"
@@ -335,6 +305,37 @@
                         <p class="help-box small text-muted"></p>
                     </div>
                 </td>
+
+                <td class="frappe-control ">
+                    {{--<label for="fuelAllocation"
+                           class="control-label reqd"
+                           style="padding-right: 0px;">
+                        Fuel Allocation:
+                    </label>--}}
+                </td>
+                <td>
+                    {{-- <div class="control-input-wrapper">
+                         <div class="control-input">
+                             <div class="link-field ui-front" style="position: relative;">
+                                 <div class="input-group bg-gray-300">
+                                     <input type="text"
+                                            required
+                                            class="input-with-feedback form-control bold"
+                                            maxlength="140"
+                                            v-model="engineDetails.fuelAllocation"
+                                            name="fuelAllocation"
+                                            id="fuelAllocation"
+                                            placeholder=""
+                                            autocomplete="off">
+                                     <div
+                                         class="input-group-append pl-3 pr-3 align-self-center">
+                                         Ltrs-Daily
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>--}}
+                </td>
             </tr>
 
             <tr>
@@ -342,7 +343,7 @@
                     <div class="clearfix">
                         <label for="tank_capacity" class="control-label reqd"
                                style="padding-right: 0px;">
-                            Tank Capacity:
+                            Main Tank Capacity:
                         </label>
                         <span class="help"></span>
                     </div>
@@ -375,7 +376,7 @@
                     <div class="clearfix">
                         <label for="sub_tank_capacity" class="control-label"
                                style="padding-right: 0px;">
-                            Sub Tank Capacity:
+                            Sub Tank Capacity <small>(If Any)</small>:
                         </label>
                         <span class="help"></span>
                     </div>
@@ -388,7 +389,6 @@
                                     <input type="text"
                                            maxlength="4"
                                            class="input-with-feedback number_input form-control bold"
-                                           required
                                            v-model="engineDetails.sub_tank_capacity"
                                            name="sub_tank_capacity"
                                            id="sub_tank_capacity"
@@ -411,19 +411,19 @@
     </fieldset>
 
     <fieldset class="border p-3">
+        <legend style="width: inherit;">
+            <h4 class="pt-2">Tyres</h4>
+        </legend>
         <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
             <tbody>
             <tr>
-                <td colspan="2">
-                    <h4>Tyres</h4>
-                </td>
-            </tr>
-            <tr>
                 <td class="frappe-control ">
-                    <label for="numberOfTyres" class="control-label reqd"
-                           style="padding-right: 0px;">
-                        Total Number (F+R):
-                    </label>
+
+                        <label for="numberOfTyres" class="control-label reqd"
+                               style="padding-right: 0px;">
+                            Total Number (F+R):
+                        </label>
+
                 </td>
                 <td>
                     <div class="control-input-wrapper">
@@ -447,9 +447,11 @@
                 </td>
                 <td class="frappe-control">
                     <div class="clearfix">
-                        <label for="tyreBrand" class="control-label reqd"
-                               style="padding-right: 0px;">Brand :</label>
-                        <span class="help"></span>
+                        <div class="clearfix">
+                            <label for="tyreBrand" class="control-label reqd"
+                                   style="padding-right: 0px;">Brand :</label>
+                            <span class="help"></span>
+                        </div>
                     </div>
                 </td>
                 <td>
@@ -474,10 +476,12 @@
             </tr>
             <tr>
                 <td class="frappe-control ">
-                    <label for="frontTyreSize" class="control-label reqd"
-                           style="padding-right: 0px;">
-                        Front Tyre Size:
-                    </label>
+                    <div class="clearfix">
+                        <label for="frontTyreSize" class="control-label reqd"
+                               style="padding-right: 0px;">
+                            Front Tyre Size:
+                        </label>
+                    </div>
                 </td>
                 <td>
                     <div class="control-input-wrapper">
@@ -529,11 +533,16 @@
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td colspan="2">
-                    <h4>Battery</h4>
-                </td>
-            </tr>
+            </tbody>
+        </table>
+    </fieldset>
+
+    <fieldset class="border p-3">
+        <legend style="width: inherit;">
+            <h4 class="pt-2">Battery</h4>
+        </legend>
+        <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+            <tbody>
             <tr>
                 <td class="frappe-control ">
                     <label for="batteryBrand" class="control-label reqd"

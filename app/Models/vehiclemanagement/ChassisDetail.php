@@ -30,6 +30,7 @@ class ChassisDetail extends Model
         'white_book_serial',
         'year_of_manufacture',
         'created_by',
+        'created_name',
         'vehicle_header_id'
     ];
 }
