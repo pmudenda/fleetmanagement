@@ -1,14 +1,13 @@
 <?php
 
 use App\Enums;
+use App\Http\Controllers\API\BusinessUnitsController;
+use App\Http\Controllers\API\CostCenterController;
+use App\Http\Controllers\API\OrganizationalUnitsController;
 use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
 use App\Models\configurations\vehicle\ConfigVehicleBodyType;
 use App\Models\configurations\vehicle\ConfigVehicleModel;
-use App\Models\general\BusinessAreas;
-use App\Models\general\BusinessUnits;
-use App\Models\general\CostCenters;
 use App\Models\general\DIRECTORATES;
-use App\Models\general\OrganizationalUnits;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -339,43 +338,16 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     })->name('api.users.new');
 
     /* BUSINESS UNITS*/
-    Route::get('business-units', function () {
-        try {
-            $data = BusinessUnits::orderBy('code_bu')->get();
-            return response()->json([
-                'state' => 'success',
-                'payload' => $data
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
-        }
+    Route::get('business-units', BusinessUnitsController::class)->name('business.units');
 
-    })->name('business.units');
-
-    Route::get('organizational-units', function () {
-        try {
-            $data = OrganizationalUnits::whereNotNull('description')->orderBy('description')->get();
-            return response()->json([
-                'state' => 'success',
-                'payload' => $data
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
-        }
-
-    })->name('organizational.units');
+    Route::get('organizational-units', OrganizationalUnitsController::class)->name('organizational.units');
 
     Route::get('directorates', function () {
         try {
-            $data = DIRECTORATES::orderBy('name')->get();
+            $month = 60 * 60 * 24 * 30;
+            $data = cache()->remember('directorates', $month, function () {
+                return DIRECTORATES::orderBy('name')->get();
+            });
             return response()->json([
                 'state' => 'success',
                 'payload' => $data
@@ -391,26 +363,14 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     })->name('directorates');
 
     /* BUSINESS UNITS*/
-    Route::get('cost-centers', function () {
-        try {
-            $data = CostCenters::orderBy('description')->get();
-            return response()->json([
-                'state' => 'success',
-                'payload' => $data
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
-        }
-
-    })->name('cost.centers');
+    Route::get('cost-centers',CostCenterController::class)->name('cost.centers');
 
     Route::get('business-areas', function () {
         try {
-            $data = BusinessAreas::get();
+
+            $data = [];//BusinessAreas::get();
+
+
             return response()->json([
                 'state' => 'success',
                 'payload' => $data

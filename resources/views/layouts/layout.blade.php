@@ -188,6 +188,7 @@
 <script src="{{ asset('assets/plugins/form-masking/form-mask.js') }}"></script>
 <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
 <script src="{{ asset('assets/js/util.functions.js') }}"></script>
+<script src="{{ asset('assets/js/accounting.min.js') }}"></script>
 <script src="{{ asset('assets/custom/datatables/datatables.bundle.js') }}"></script>
 <script src="{{ asset('assets/plugins/vue/vue.js')}}"></script>
 <script src="{{ asset('assets/plugins/vue-select/vue-select.js')}}"></script>

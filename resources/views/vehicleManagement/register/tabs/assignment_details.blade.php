@@ -153,7 +153,7 @@
                                                                      name="isPoolVehicle"
                                                                      value="Y"
                                                                      checked
-                                                                     v-model="assignmentDetails.isPoolVehicle"
+                                                                     v-model="assignmentDetails.isOperationsVehicle"
                                                                      placeholder=""
                                                                      data-target="Company">
                                 Yes</label>
@@ -161,7 +161,7 @@
                                                                      class="list-row-checkbox bold"
                                                                      name="isPoolVehicle"
                                                                      value="N"
-                                                                     v-model="assignmentDetails.isPoolVehicle"
+                                                                     v-model="assignmentDetails.isOperationsVehicle"
                                                                      placeholder=""
                                                                      data-target="Company">
                                 No</label>
@@ -306,7 +306,7 @@
             </td>
         </tr>
 
-        <tr>
+  {{--      <tr>
             <td class="frappe-control ">
                 <label for="operator" class="control-label reqd"
                        style="padding-right: 0px;">
@@ -370,9 +370,9 @@
             </td>
             <td>
             </td>
-        </tr>
+        </tr>--}}
 
-        <tr>
+      {{--  <tr>
             <td class="frappe-control ">
                 <label for="assignedToTeam" class="control-label reqd"
                        style="padding-right: 0px;">
@@ -405,7 +405,7 @@
                 </div>
             </td>
 
-        </tr>
+        </tr>--}}
 
         <tr>
             <td class="frappe-control ">
@@ -422,6 +422,8 @@
                                                                      class="list-row-checkbox bold"
                                                                      name="isMileageExempt"
                                                                      value="Y"
+                                                                     disabled
+                                                                     :checked="assignmentDetails.isOperationsVehicle == 'N'"
                                                                      v-model="assignmentDetails.mileageExempt"
                                                                      placeholder=""
                                                                      data-target="Company">
@@ -430,7 +432,8 @@
                                                                      class="list-row-checkbox bold"
                                                                      name="isMileageExempt"
                                                                      value="N"
-                                                                     checked
+                                                                     :checked="assignmentDetails.isOperationsVehicle == 'Y'"
+                                                                     disabled
                                                                      v-model="assignmentDetails.mileageExempt"
                                                                      placeholder=""
                                                                      data-target="Company">
