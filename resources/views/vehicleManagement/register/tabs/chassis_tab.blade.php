@@ -1,7 +1,7 @@
 <form id="tms_chassis_details_form"
       v-on:submit.prevent="submitChassisDetails"
       class="form fv-plugins-bootstrap5 fv-plugins-framework"
-      action="{{route('api.vehicle.new')}}">
+      action="{{route('vehicle.chassis.detail')}}">
     <input type="hidden" name="doctype" value="ChassisDetails"/>
     <input type="hidden" name="headerId" v-model="vehicleHeaderId"/>
     <div class="row">
@@ -504,7 +504,6 @@
                         </button>
                         <input type="file" accept="image/*"
                                style="display: none;"
-                               required
                                class="fileElem"
                                name="front_view"/>
                     </p>
@@ -533,7 +532,6 @@
                         </button>
                         <input type="file" accept="image/*"
                                style="display: none;"
-                               required
                                class="fileElem"
                                name="rear_view"/>
                     </p>
@@ -565,7 +563,6 @@
                         </button>
                         <input type="file" accept="image/*"
                                style="display: none;"
-                               required
                                class="fileElem"
                                name="right_view"/>
                     </p>

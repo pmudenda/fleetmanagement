@@ -3,6 +3,7 @@
 namespace App\Services\FileUploads;
 
 use App\Models\Attachment;
+use App\Models\general\File;
 use Illuminate\Http\Request;
 
 class FileUploadService
@@ -65,18 +66,18 @@ class FileUploadService
      * @param $file
      * @param string $folder
      * @param string $code
-     * @param string $formType
+     * @param string $module
      * @param string $fileType
      * @return void
      */
     public static function upload(
-        $file,
+               $file,
         string $folder,
         string $code,
-        string $formType,
+        string $module,
         string $fileType,
-        $user
-    ): Attachment
+               $user
+    ): File
     {
         // Get just filename
         $filename = pathinfo(preg_replace("/[^a-zA-Z]+/", "_", $file->getClientOriginalName()), PATHINFO_FILENAME);
@@ -90,9 +91,9 @@ class FileUploadService
         $path = $file->storeAs('public/' .$folder, $fileNameToStore);
 
         //upload the receipt
-        return Attachment::create(
+        return File::create(
             [
-                'module' => $formType,
+                'module' => $module,
                 'reference_number' => $code,
                 'name' => $fileNameToStore,
                 'originalDocumentName' => $file->getClientOriginalName(),

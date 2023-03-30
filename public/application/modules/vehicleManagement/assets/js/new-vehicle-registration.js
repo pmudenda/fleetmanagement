@@ -1041,20 +1041,14 @@ let app = new Vue({
                 let form = $(app.chassisDetailsForm)[0];
 
                 let formData = new FormData(form);
-
-                $.ajax({
-                    'url': app.chassisDetailsForm.action,
-                    'type': 'POST',
-                    data: formData,
-                    enctype: 'multipart/form-data',
-                    processData: false,  // Important!
-                    contentType: false,
-                    cache: false,
+                 let url = app.chassisDetailsForm.action;
+                axios.post(url, formData, {
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         , 'content-type': 'text/json'
                     }
-                }).done(function (response) {
+                }).then(function (asyncResponse) {
+                    let response = asyncResponse.data;
                     let el = document.querySelector('#tms_save_chassis');
                     let label = el.querySelector(".indicator-label");
 
@@ -1088,9 +1082,28 @@ let app = new Vue({
                         app.isHeaderSaved = true;
                         label.innerHTML = "Saved";
                     }
+                }).catch(function (error) {
+                    console.log(error);
+                });
 
-                }).fail(
-                    function (error) {
+              /*  $.ajax({
+                    'url': url ,
+                    'type': 'POST',
+                    data: formData,
+                    enctype: 'multipart/form-data',
+                    processData: false,  // Important!
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        , 'content-type': 'text/json'
+                    }
+                })
+                    .done(function (response) {
+
+
+                })
+                    .fail(function (error) {
                         let el = document.querySelector('#tms_save_chassis');
                         let label = el.querySelector(".indicator-label");
 
@@ -1101,10 +1114,11 @@ let app = new Vue({
                             error.message
                         );
 
-                    });
+                    });*/
 
             });
         },
+
         submitCostValuationDetails: function () {
             let el = document.querySelector('#tms_save_costing');
             el.setAttribute('data-kt-indicator', 'on');

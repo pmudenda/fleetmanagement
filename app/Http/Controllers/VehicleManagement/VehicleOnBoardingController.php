@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers\VehicleManagement;
 
-use App\Enums\VehicleStatusEnum;
 use App\Exceptions\VehicleOnBoardingException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChassisDetailsPostRequest;
 use App\Models\configurations\vehicle\ConfigVehicleBodyType;
 use App\Models\configurations\vehicle\ConfigVehicleBrand;
 use App\Models\configurations\vehicle\ConfigVehicleModel;
 use App\Models\general\OrganizationalUnits;
 use App\Models\vehiclemanagement\Assignment;
 use App\Models\vehiclemanagement\BodyAndWeightDetail;
-use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\CostAndValuation;
 use App\Models\vehiclemanagement\EngineDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
-use App\Services\FileUploads\VehicleImageFileUploadService;
-use Carbon\Carbon;
+use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,17 +24,23 @@ use Illuminate\Support\Facades\Validator;
 class VehicleOnBoardingController extends Controller
 {
 
-    public function __invoke(Request $request): JsonResponse
+    private OnBoardingService $onBoardingService;
+
+    public function __construct(OnBoardingService $onBoardingService)
+    {
+        $this->onBoardingService = $onBoardingService;
+    }
+
+    public function store(Request $request): JsonResponse
     {
         try {
 
             $docType = $request->input('doctype');
 
-            Log::debug('Request Doc Type '+ $docType);
+            Log::debug('Request Doc Type ' . $docType);
 
             $model = match ($docType) {
                 'VehicleHeader' => $this->processVehicleHeaderInformation($request),
-                'ChassisDetails' => $this->processChassisDetails($request),
                 'EngineDetails' => $this->processEngineDetails($request),
                 'CostingDetails' => $this->processCostingDetails($request),
                 'BodyDetails' => $this->processingBodyDetails($request),
@@ -62,6 +66,38 @@ class VehicleOnBoardingController extends Controller
                 'message' => $message
             ]);
         }
+    }
+
+
+    /**
+     * @param ChassisDetailsPostRequest $request
+     * @return JsonResponse
+     */
+    public function storeChassisDetails(ChassisDetailsPostRequest $request): JsonResponse
+    {
+        try {
+            $docType = $request->input('doctype');
+            Log::debug('Request Doc Type ' . $docType);
+            $model = $this->onBoardingService->processChassisDetails($request);
+            return response()->json([
+                'state' => 'success',
+                'request' => $request->all(),
+                'payload' => $model,
+                'message' => 'Request Submitted Successfully'
+            ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            $message = 'Sorry, some errors were detected while processing your request, please try again later.';
+            if ($e instanceof VehicleOnBoardingException) {
+                $message = $e->getMessage();
+            }
+            return response()->json([
+                'state' => 'failure',
+                'payload' => (object)[],
+                'message' => $message
+            ]);
+        }
+
     }
 
     /**
@@ -138,105 +174,6 @@ class VehicleOnBoardingController extends Controller
         ]);
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     * @throws VehicleOnBoardingException
-     */
-    public function processChassisDetails(Request $request): array
-    {
-        // validate
-
-        $validator = $this->validateRequest($request, [
-            'chassisNumber',
-            'registrationDate',
-            'engineNumber',
-            'initialOdometerReading',
-            'nextServiceOdometerReading',
-            'requiredMinimumDrivingLicense',
-            'whiteBookSerial',
-            'yearOfManufacture',
-        ]);
-
-        Log::info('Validation State');
-
-        if ($validator->fails()) {
-            throw  new VehicleOnBoardingException($validator->errors()->all());
-        }
-
-        $user = auth()->user();
-
-        $chassisNumber = $request->input('chassisNumber');
-
-        $exitingRegistration = ChassisDetail::where('chassis_number', $chassisNumber)->first();
-
-        if (!empty($exitingRegistration)) {
-            throw new VehicleOnBoardingException('The Chassis Number you have provided has already been registered');
-        }
-
-        $isValid = $this->validateUploads($request, []);
-        if (!empty($isValid)) {
-            throw new VehicleOnBoardingException('Required documentation not attached');
-        }
-
-        $model = ChassisDetail::create([
-            'vehicle_header_id' => $request->input('headerId'),
-            'chassis_number' => $chassisNumber,
-            'date_on_road' => Carbon::parse($request->input('registrationDate')),
-            'engine_number' => $request->input('engineNumber'),
-            'initial_odometer_reading' => $request->input('initialOdometerReading'),
-            'current_odometer_reading' => $request->input('currentOdometerReading'),
-            'inspection_date' => $request->input('inspectionDate'),
-            'lst_service_odometer_reading' => $request->input('odometerReadingLastService'),
-            'nxt_service_odometer-reading' => $request->input('nextServiceOdometerReading'),
-            'odometer_reset' => false,
-            'registration_date' => Carbon::parse($request->input('registrationDate')),
-            'min_req_driving_license' => $request->input('requiredMinimumDrivingLicense'),
-            'status' => VehicleStatusEnum::active,
-            'sticker_registration_number' => $request->input('stickerRegistrationNumber') ?? "",
-            'vehicle_charge_out_rate' => $request->input('chargeOutRate'),
-            'white_book_serial' => trim(strtoupper($request->input('whiteBookSerial'))),
-            'year_of_manufacture' => $request->input('yearOfManufacture'),
-            'created_by' => $user->id,
-            'created_name' => $user->name,
-        ]);
-
-        VehicleImageFileUploadService::uploadFile($request,
-            'front_view',
-            'vehicleRegistration',
-            $request->input('headerId'),
-            'vehicleRegistration',
-            'Front View'
-        );
-        //motor_vehicle_certificate
-        //insurance_cover_note
-
-        VehicleImageFileUploadService::uploadFile($request,
-            'rear_view',
-            'vehicleRegistration',
-            $request->input('headerId'),
-            'vehicleRegistration',
-            'Back View'
-        );
-
-        VehicleImageFileUploadService::uploadFile($request,
-            'right_view',
-            'vehicleRegistration',
-            $request->input('headerId'),
-            'vehicleRegistration',
-            'Right View'
-        );
-
-        VehicleImageFileUploadService::uploadFile($request,
-            'left_view',
-            'vehicleRegistration',
-            $request->input('headerId'),
-            'vehicleRegistration',
-            'Left View'
-        );
-
-        return $model;
-    }
 
     /**
      * @param Request $request
@@ -318,7 +255,7 @@ class VehicleOnBoardingController extends Controller
             'height',
             'length',
             'width',
-            'numberOfSeats',
+            'seatCapFront',
             'tareWeight',
             'grossWeight',
         ]);
@@ -339,11 +276,11 @@ class VehicleOnBoardingController extends Controller
             'seatCapFront' => 0,
             'seatCapRear' => 0,
             'volumeOfBootTanker' => 0,
-            'numberOfSeats' => $request->input('numberOfSeats'),
-            'distanceAxle1' => $request->has('distanceAxle1') ? $request->input('distanceAxle1') : 0,
-            'distanceAxle2' => $request->has('distanceAxle2') ? $request->input('distanceAxle2') : 0,
-            'distanceAxle3' => $request->has('distanceAxle3') ? $request->input('distanceAxle3') : 0,
-            'distanceAxle4' => $request->has('distanceAxle4') ? $request->input('distanceAxle4') : 0,
+            'numberOfSeats' => $request->input('numberOfSeats') ?? $request->get('seatCapFront'),
+            'distanceAxle1' => $request->get('distanceAxle1') ??  0,
+            'distanceAxle2' => $request->get('distanceAxle2') ?? 0,
+            'distanceAxle3' => $request->get('distanceAxle3') ?? 0,
+            'distanceAxle4' => $request->get('distanceAxle4') ?? 0,
             'tareWeight' => $request->input('tareWeight'),
             'grossWeight' => $request->input('grossWeight'),
             'trailerWeight2' => 0,
@@ -422,11 +359,11 @@ class VehicleOnBoardingController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'image_file.*_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff'
+                '*_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff'
             ],
             [
-                'image_file.*.required' => 'Please upload an image',
-                'image_file.*.mimes' => 'Only =jpg,jpeg,png,bmp,tif,tiff images are allowed',
+                '*.required' => 'Please upload an image',
+                '*.mimes' => 'Only =jpg,jpeg,png,bmp,tif,tiff images are allowed',
             ]
         );
 
