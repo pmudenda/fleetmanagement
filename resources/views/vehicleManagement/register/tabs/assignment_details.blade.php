@@ -52,18 +52,18 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
-                                <input type="text"
-                                       class="input-with-feedback form-control bold"
-                                       id="directorate"
-                                       name="directorate"
-                                       list="directorates_list"
-                                       v-model="assignmentDetails.directorate"
-                                       placeholder="Directorate"/>
+                                <select type="text"
+                                        class="input-with-feedback form-control bold"
+                                        id="directorate"
+                                        name="directorate"
+                                        list="directorates_list"
+                                        v-model="assignmentDetails.directorate"
+                                        placeholder="Directorate">
+                                    <option v-for="directorate in directorates" v-bind:value="directorate.id">
+                                        @{{ directorate.name }}
+                                    </option>
+                                </select>
 
-                                <datalist id="directorates_list">
-                                    <option v-for="directorate in directorates"
-                                            :value="directorate.id+' : '+directorate.name"/>
-                                </datalist>
                             </div>
                         </div>
                     </div>
@@ -148,15 +148,17 @@
                 <div class="control-input-wrapper">
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
-                            <label class="form-check-inline"> <input type="radio"
-                                                                     class="list-row-checkbox bold"
-                                                                     name="isPoolVehicle"
-                                                                     value="Y"
-                                                                     checked
-                                                                     v-model="assignmentDetails.isOperationsVehicle"
-                                                                     placeholder=""
-                                                                     data-target="Company">
-                                Yes</label>
+                            <label class="form-check-inline">
+                                <input type="radio"
+                                       class="list-row-checkbox bold"
+                                       name="isPoolVehicle"
+                                       value="Y"
+                                       checked
+                                       v-model="assignmentDetails.isOperationsVehicle"
+                                       placeholder=""
+                                       data-target="Company">
+                                Yes
+                            </label>
                             <label class="form-check-inline"> <input type="radio"
                                                                      class="list-row-checkbox bold"
                                                                      name="isPoolVehicle"
@@ -171,7 +173,7 @@
             </td>
         </tr>
 
-        <tr>
+        <tr v-show="assignmentDetails.isOperationsVehicle==='Y' || assignmentDetails.isOperationsVehicle==='N'">
             <td class="frappe-control ">
                 <label for="operatorSupervisorStaffNumber" class="control-label reqd"
                        style="padding-right: 0px;">
@@ -201,7 +203,8 @@
                                                        data-doctype="AssignmentDetails"
                                                        autocomplete="off"/>
                                                 <div class="input-group-btn align-self-center">
-                                                    <button type="button" class="btn btn-sm btn-primary" style="border-radius: 0; height: 31px;">
+                                                    <button type="button" class="btn btn-sm btn-primary"
+                                                            style="border-radius: 0; height: 31px;">
                                                         <i class="fa fa-search"></i>
                                                     </button>
                                                 </div>
@@ -239,7 +242,7 @@
             <td></td>
         </tr>
 
-        <tr>
+        <tr v-show="assignmentDetails.isOperationsVehicle==='Y' || assignmentDetails.isOperationsVehicle==='N'">
             <td class="frappe-control ">
                 <label for="operator" class="control-label reqd"
                        style="padding-right: 0px;">
@@ -306,108 +309,108 @@
             </td>
         </tr>
 
-  {{--      <tr>
-            <td class="frappe-control ">
-                <label for="operator" class="control-label reqd"
-                       style="padding-right: 0px;">
-                    Casual Operator:
-                </label>
-            </td>
-            <td>
-                <table>
-                    <tr>
-                        <td>
-                            <div class="control-input-wrapper">
-                                <div class="control-input">
-                                    <div class="link-field ui-front"
-                                         style="position: relative;">
-                                        <div>
-                                            <input type="text"
-                                                   class="input-with-feedback form-control bold"
-                                                   required
-                                                   title="Enter Staff number in previous input and name will auto populate"
-                                                   id="casual_staff_number"
-                                                   name="casual_staff_number"
-                                                   v-model="assignmentDetails.casualStaffNumber"
-                                                   placeholder=""
-                                                   list="employee_list"
-                                                   data-emp="staff_number"
-                                                   data-doctype="AssignmentDetails"
-                                                   autocomplete="off"/>
+        {{--      <tr>
+                  <td class="frappe-control ">
+                      <label for="operator" class="control-label reqd"
+                             style="padding-right: 0px;">
+                          Casual Operator:
+                      </label>
+                  </td>
+                  <td>
+                      <table>
+                          <tr>
+                              <td>
+                                  <div class="control-input-wrapper">
+                                      <div class="control-input">
+                                          <div class="link-field ui-front"
+                                               style="position: relative;">
+                                              <div>
+                                                  <input type="text"
+                                                         class="input-with-feedback form-control bold"
+                                                         required
+                                                         title="Enter Staff number in previous input and name will auto populate"
+                                                         id="casual_staff_number"
+                                                         name="casual_staff_number"
+                                                         v-model="assignmentDetails.casualStaffNumber"
+                                                         placeholder=""
+                                                         list="employee_list"
+                                                         data-emp="staff_number"
+                                                         data-doctype="AssignmentDetails"
+                                                         autocomplete="off"/>
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td style="width:80%">
-                            <div class="control-input">
-                                <div class="link-field ui-front"
-                                     style="position: relative;">
-                                    <div>
-                                        <input type="text"
-                                               class="input-with-feedback form-control bold"
-                                               required
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </td>
+                              <td style="width:80%">
+                                  <div class="control-input">
+                                      <div class="link-field ui-front"
+                                           style="position: relative;">
+                                          <div>
+                                              <input type="text"
+                                                     class="input-with-feedback form-control bold"
+                                                     required
 
-                                               id="casual_staff_name"
-                                               title="Enter Staff number in previous input and name will auto populate"
-                                               name="casual_staff_name"
-                                               v-model="assignmentDetails.casualStaffName"
-                                               placeholder=""
-                                               data-emp="name"
-                                               data-doctype="AssignmentDetails"
-                                               autocomplete="off"/>
+                                                     id="casual_staff_name"
+                                                     title="Enter Staff number in previous input and name will auto populate"
+                                                     name="casual_staff_name"
+                                                     v-model="assignmentDetails.casualStaffName"
+                                                     placeholder=""
+                                                     data-emp="name"
+                                                     data-doctype="AssignmentDetails"
+                                                     autocomplete="off"/>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-            <td class="frappe-control">
+                                          </div>
+                                      </div>
+                                  </div>
+                              </td>
+                          </tr>
+                      </table>
+                  </td>
+                  <td class="frappe-control">
 
-            </td>
-            <td>
-            </td>
-        </tr>--}}
+                  </td>
+                  <td>
+                  </td>
+              </tr>--}}
 
-      {{--  <tr>
-            <td class="frappe-control ">
-                <label for="assignedToTeam" class="control-label reqd"
-                       style="padding-right: 0px;">
-                    Team:
-                </label>
-            </td>
-            <td>
-                <div class="control-input-wrapper">
-                    <div class="control-input">
-                        <div class="link-field ui-front" style="position: relative;">
-                            <label class="form-check-inline"> <input type="radio"
-                                                                     class="list-row-checkbox bold"
-                                                                     name="isTeamAssigned"
-                                                                     value="Y"
-                                                                     v-model="assignmentDetails.isTeamAssigned"
-                                                                     placeholder=""
-                                                                     data-target="Company">
-                                Yes</label>
-                            <label class="form-check-inline"> <input type="radio"
-                                                                     class="list-row-checkbox bold"
-                                                                     name="isTeamAssigned"
-                                                                     value="N"
-                                                                     checked
-                                                                     v-model="assignmentDetails.isTeamAssigned"
-                                                                     placeholder=""
-                                                                     data-target="Company">
-                                No</label>
-                        </div>
-                    </div>
-                </div>
-            </td>
+        {{--  <tr>
+              <td class="frappe-control ">
+                  <label for="assignedToTeam" class="control-label reqd"
+                         style="padding-right: 0px;">
+                      Team:
+                  </label>
+              </td>
+              <td>
+                  <div class="control-input-wrapper">
+                      <div class="control-input">
+                          <div class="link-field ui-front" style="position: relative;">
+                              <label class="form-check-inline"> <input type="radio"
+                                                                       class="list-row-checkbox bold"
+                                                                       name="isTeamAssigned"
+                                                                       value="Y"
+                                                                       v-model="assignmentDetails.isTeamAssigned"
+                                                                       placeholder=""
+                                                                       data-target="Company">
+                                  Yes</label>
+                              <label class="form-check-inline"> <input type="radio"
+                                                                       class="list-row-checkbox bold"
+                                                                       name="isTeamAssigned"
+                                                                       value="N"
+                                                                       checked
+                                                                       v-model="assignmentDetails.isTeamAssigned"
+                                                                       placeholder=""
+                                                                       data-target="Company">
+                                  No</label>
+                          </div>
+                      </div>
+                  </div>
+              </td>
 
-        </tr>--}}
+          </tr>--}}
 
-        <tr>
+        <tr v-show="assignmentDetails.isOperationsVehicle==='Y' || assignmentDetails.isOperationsVehicle==='N'">
             <td class="frappe-control ">
                 <label class="control-label reqd"
                        style="padding-right: 0px;">
@@ -418,26 +421,28 @@
                 <div class="control-input-wrapper">
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
-                            <label class="form-check-inline"> <input type="radio"
-                                                                     class="list-row-checkbox bold"
-                                                                     name="isMileageExempt"
-                                                                     value="Y"
-                                                                     disabled
-                                                                     :checked="assignmentDetails.isOperationsVehicle == 'N'"
-                                                                     v-model="assignmentDetails.mileageExempt"
-                                                                     placeholder=""
-                                                                     data-target="Company">
+                            <label class="form-check-inline">
+                                <input type="radio"
+                                       class="list-row-checkbox bold"
+                                       name="isMileageExempt"
+                                       value="Y"
+                                       :disabled="assignmentDetails.isOperationsVehicle == 'N'"
+                                       v-model="assignmentDetails.mileageExempt"
+                                       placeholder=""
+                                       data-target="Company">
                                 Yes</label>
-                            <label class="form-check-inline"> <input type="radio"
-                                                                     class="list-row-checkbox bold"
-                                                                     name="isMileageExempt"
-                                                                     value="N"
-                                                                     :checked="assignmentDetails.isOperationsVehicle == 'Y'"
-                                                                     disabled
-                                                                     v-model="assignmentDetails.mileageExempt"
-                                                                     placeholder=""
-                                                                     data-target="Company">
-                                No</label>
+                            <label class="form-check-inline">
+                                <input type="radio"
+                                       class="list-row-checkbox bold"
+                                       name="isMileageExempt"
+                                       :value="assignmentDetails.isOperationsVehicle"
+                                       :checked="assignmentDetails.isOperationsVehicle == 'Y'"
+                                       disabled
+                                       v-model="assignmentDetails.mileageExempt"
+                                       placeholder=""
+                                       data-target="Company">
+                                No
+                            </label>
                         </div>
                     </div>
                 </div>
