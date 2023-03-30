@@ -217,6 +217,7 @@
                                                class="form-control form-control-solid"
                                                name="registrationNumber"
                                                id="registrationNumber"
+                                               onpaste="return false;"
                                                v-on:change="validateRegistrationNumber"
                                                required
                                                value=""/>
@@ -236,6 +237,7 @@
                                                class="form-control form-control-solid"
                                                name="vehicleLocation"
                                                id="vehicleLocation"
+                                               onpaste="return false;"
                                                v-model="vehicleHeader.location_code"
                                                value=""/>
                                         <div class="fv-plugins-message-container invalid-feedback"></div>

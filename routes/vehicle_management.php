@@ -21,12 +21,13 @@ Route::group(['prefix' => 'vehicle-management'], function () {
 
 
     Route::get('/vehicles', function (Request $request) {
-
         return view('vehicleManagement.vehicleList');
     })->name('vehicle.edit');
 
-    /*VEHICLES*/
-    Route::post('vehicles', VehicleOnBoardingController::class)->name('api.vehicle.new');
+    /* VEHICLE ON BOARDING */
+    Route::post('vehicles', [VehicleOnBoardingController::class, 'store'])->name('api.vehicle.new');
+    Route::post('post-chassis-detail', [VehicleOnBoardingController::class, 'storeChassisDetails'])
+        ->name('vehicle.chassis.detail');
 
 
     Route::get('/insurancelist', function () {
