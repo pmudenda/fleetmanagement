@@ -342,9 +342,14 @@ Route::group(['prefix' => 'v1/en'], function (): void {
 
     Route::get('organizational-units', OrganizationalUnitsController::class)->name('organizational.units');
 
-    Route::get('directorates', function () {
+    Route::get('directorates', function (Request $request) {
         try {
             $month = 60 * 60 * 24 * 30;
+            // clear the cache using request
+            if ($request->has('cache') && !$request->get('cache')) {
+                cache()->forget('directorates');
+            }
+
             $data = cache()->remember('directorates', $month, function () {
                 return DIRECTORATES::orderBy('name')->get();
             });
@@ -363,7 +368,7 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     })->name('directorates');
 
     /* BUSINESS UNITS*/
-    Route::get('cost-centers',CostCenterController::class)->name('cost.centers');
+    Route::get('cost-centers', CostCenterController::class)->name('cost.centers');
 
     Route::get('business-areas', function () {
         try {
