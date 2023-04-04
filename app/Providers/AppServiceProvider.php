@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+
+use App\Services\FileUploads\FileUploadService;
+use App\Services\Logging\ActivityLogsService;
+use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(OnBoardingService::class, OnBoardingService::class);
+        $this->app->bind(FileUploadService::class, FileUploadService::class);
+        $this->app->bind(ActivityLogsService::class, ActivityLogsService::class);
     }
 
     /**

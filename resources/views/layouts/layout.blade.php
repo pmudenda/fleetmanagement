@@ -1,7 +1,7 @@
 <html lang="en" data-bs-theme="light">
 
 <head>
-    <title>Online-TMS::Home</title>
+    <title>FleetMaster::Home</title>
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -188,6 +188,7 @@
 <script src="{{ asset('assets/plugins/form-masking/form-mask.js') }}"></script>
 <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
 <script src="{{ asset('assets/js/util.functions.js') }}"></script>
+<script src="{{ asset('assets/js/accounting.min.js') }}"></script>
 <script src="{{ asset('assets/custom/datatables/datatables.bundle.js') }}"></script>
 <script src="{{ asset('assets/plugins/vue/vue.js')}}"></script>
 <script src="{{ asset('assets/plugins/vue-select/vue-select.js')}}"></script>

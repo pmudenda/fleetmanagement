@@ -264,10 +264,6 @@
         </div>
     </div>
 
-    <!-- Export Modal -->
-
-    <!-- Add Brand Modal -->
-
     <div class="modal fade" id="kt_modal_add" tabindex="-1" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-dialog-centered mw-650px">
             <div class="modal-content">
@@ -721,7 +717,7 @@
                             return;
                         }
 
-                        const realDate = moment(dateColumn[3].innerHTML, "DD MMM YYYY, LT")
+                        const realDate = window.moment(dateColumn[3].innerHTML, "DD MMM YYYY, LT")
                             .format();
 
                         dateColumn[3].setAttribute('data-order', realDate);
@@ -745,7 +741,6 @@
                         ]
                     });
 
-                    // Re-init functions on every table re-draw https://datatables.net/reference/event/draw
                     this.datatable.on('draw', function () {
                         //initToggleToolbar();
                         //handleRowDeletion();
@@ -947,7 +942,12 @@
                                         //window.location.reload();
                                     }
                                 });
-                                app.initDatatable();
+
+                                setTimeout(function(){
+                                    app.initDatatable();
+                                },300);
+
+
                             }, 2000);
                         })
                         .catch(function (error) {

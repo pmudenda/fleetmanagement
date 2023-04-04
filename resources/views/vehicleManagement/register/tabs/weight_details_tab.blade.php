@@ -129,16 +129,16 @@
                 </div>
             </td>
             <td class="frappe-control">
-                <div class="clearfix" style="display: none;">
+                {{--<div class="clearfix" style="display: none;">
                     <label for="seatCapRear" class="control-label reqd"
                            style="padding-right: 0px;">
                         Seat Cap/Rear:
                     </label>
                     <span class="help"></span>
-                </div>
+                </div>--}}
             </td>
             <td>
-                <div class="control-input-wrapper" style="display: none;">
+                {{--<div class="control-input-wrapper" style="display: none;">
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
@@ -155,19 +155,19 @@
                         </div>
                     </div>
                     <p class="help-box small text-muted"></p>
-                </div>
+                </div>--}}
             </td>
         </tr>
 
         <tr>
             <td class="frappe-control">
-                <label for="volumeOfBootTanker" class="control-label reqd" style="display: none;"
+               {{-- <label for="volumeOfBootTanker" class="control-label reqd" style="display: none;"
                        style="padding-right: 0px;">
                     Vol. Boot/Tanker:
-                </label>
+                </label>--}}
             </td>
             <td>
-                <div class="control-input-wrapper" style="display: none;">
+                {{--<div class="control-input-wrapper" style="display: none;">
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
@@ -183,19 +183,19 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>--}}
             </td>
             <td class="frappe-control">
-                <div class="clearfix" style="display: none;">
+                {{--<div class="clearfix" style="display: none;">
                     <label for="numberOfSeats" class="control-label reqd"
                            style="padding-right: 0px;">
                         No. Of Seats :
                     </label>
                     <span class="help"></span>
-                </div>
+                </div>--}}
             </td>
             <td>
-                <div class="control-input-wrapper">
+               {{-- <div class="control-input-wrapper">
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
@@ -213,7 +213,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div>--}}
             </td>
         </tr>
 
@@ -224,7 +224,7 @@
         </tr>
         <tr>
             <td class="frappe-control ">
-                <label for="distanceAxle1" class="control-label reqd"
+                <label for="distanceAxle1" class="control-label"
                        style="padding-right: 0px;">
                     Dist Axle 1:
                 </label>
@@ -248,7 +248,7 @@
             </td>
 
             <td class="frappe-control ">
-                <label for="distanceAxle2" class="control-label reqd"
+                <label for="distanceAxle2" class="control-label"
                        style="padding-right: 0px;">
                     Dist Axle 2:
                 </label>
@@ -273,7 +273,7 @@
         </tr>
         <tr>
             <td class="frappe-control ">
-                <label for="distanceAxle3" class="control-label reqd"
+                <label for="distanceAxle3" class="control-label"
                        style="padding-right: 0px;">
                     Dist Axle 3:
                 </label>
@@ -297,7 +297,7 @@
             </td>
 
             <td class="frappe-control ">
-                <label for="distanceAxle5" class="control-label reqd"
+                <label for="distanceAxle5" class="control-label"
                        style="padding-right: 0px;">
                     Dist Axle 5 Rda/Ult:
                 </label>
@@ -339,6 +339,7 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
                                 <input type="text"
+                                       required
                                        class="input-with-feedback form-control bold"
                                        maxlength="140"
                                        data-fieldtype="Link"
@@ -364,6 +365,7 @@
                 <input type="text"
                        class="input-with-feedback form-control bold"
                        maxlength="140"
+                       required
                        data-fieldtype="Link"
                        data-fieldname="company"
                        id="grossWeight"

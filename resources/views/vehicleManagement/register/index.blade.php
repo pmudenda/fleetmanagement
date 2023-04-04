@@ -33,42 +33,13 @@
                     </span>
                 </div>
                 <div class="d-flex my-4">
-                    <button type="button" v-show="!isHeaderSaved"
-                            v-on:click="saveVehicleHeaderInformation"
-                            class="btn btn-sm btn-success me-2" id="tms_save_vehicle">
-                        <span class="indicator-label">Save</span>
-                        <span class="indicator-progress">Please wait...<span
-                                class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                        </span>
-                    </button>
 
-                    {{--<div class="me-0">
-                        <button class="btn btn-sm btn-icon btn-bg-light btn-active-color-primary show menu-dropdown"
-                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                            <i class="bi bi-three-dots fs-3"></i>
-                        </button>
-
-                        <div
-                            class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px py-3"
-                            data-kt-menu="true"
-                            style="z-index: 107; position: fixed; inset: 0px 0px auto auto; margin: 0px; transform: translate(-219px, 229px);"
-                            data-popper-placement="bottom-end">
-
-                            <div class="menu-item px-3 my-1">
-                                <a href="#" class="menu-link px-3">
-                                    Settings
-                                </a>
-                            </div>
-
-                        </div>
-
-                    </div>--}}
                 </div>
             </div>
 
             <!--begin::Card body-->
             <div class="card-body pt-0">
-                <form id="tms_vehicle_header_form"
+                <form id="tms_vehicle_header_form" v-on:submit.prevent="saveVehicleHeaderInformation"
                       class="form fv-plugins-bootstrap5 fv-plugins-framework"
                       action="{{route('api.vehicle.new')}}">
                     <input type="hidden" name="doctype" value="VehicleHeader"/>
@@ -105,7 +76,7 @@
                                     <div class="col-md-9">
                                         <div class="w-100 fv-row">
                                             <v-select class="vue-select2"
-                                                      name="brand"
+                                                      :placeholder="vehicle_brand_placeholder"
                                                       :options="vehicleBrands"
                                                       @input="vehicleBrandChanged"
                                                       label="name"
@@ -121,10 +92,118 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row"></div>
+                            <div class="form-group row">
+                                <label for="model" class="fs-6 fw-semibold form-label col-md-3">
+                                    <span class="required">Model</span>
+                                </label>
+                                <div class="col-md-9 fv-row ">
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            <v-select class="vue-select2"
+                                                      required
+                                                      :placeholder="vehicle_model_placeholder"
+                                                      :get-option-label="getModelLabel"
+                                                      :options="selectedBrandModels"
+                                                      @input="modelChanged"
+                                                      label="model_name"
+                                            >
+                                            </v-select>
+                                            <input
+                                                type="hidden"
+                                                name="model"
+                                                id="model"
+                                                v-model="vehicleHeader.model_guid"
+                                                required/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="modelCode" class="fs-6 fw-semibold form-label col-md-3">
+                                    <span class="required">Model Code</span>
+                                </label>
+
+                                <div class="col-md-9 fv-row">
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            <input class="form-control form-control-solid"
+                                                   name="model_code"
+                                                   readonly
+                                                   id="model_code"
+                                                   :value="vehicleHeader.model_code"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="brand" class="fs-6 fw-semibold form-label col-md-3">
+                                    <span class="required">Body Type</span>
+                                </label>
+
+                                <div class="col-md-9 fv-row ">
+                                    <div class="col-md-9">
+                                        <div class="w-100">
+                                            <v-select class="vue-select2"
+                                                      required
+                                                      :placeholder="'Pick Body Type'"
+                                                      :options="bodyTypes"
+                                                      @input="bodyTypeChanged"
+                                                      label="body_type_name"
+                                            >
+                                            </v-select>
+                                            <input type="hidden" class="form-control form-control-solid"
+                                                   id="bodyType"
+                                                   name="bodyType"
+                                                   :value="vehicleHeader.body_type_guid"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="userUnit" class="fs-6 fw-semibold form-label col-md-3">
+                                    <span class="required">User Unit</span>
+                                </label>
+
+                                <div class="col-md-9 fv-row ">
+                                    <div class="col-md-9">
+                                        <div class="control-input-wrapper">
+                                            <div class="control-input">
+                                                <div class="link-field ui-front" style="position: relative;">
+
+                                                    <v-select class="" required
+                                                              :placeholder="'Select User Unit'"
+                                                              :get-option-label="getUserUnitLabel"
+                                                              :options="organizationalUnits"
+                                                              label="description"
+                                                              @input="userUnitChanged"
+                                                              data-doctype="vehicleHeader"
+                                                              v-model="vehicleHeader.user_unit">
+                                                    </v-select>
+                                                    <input type="hidden" class="form-control form-control-solid"
+                                                           name="user_unit"
+                                                           id="user_unit"
+                                                           :value="vehicleHeader.user_unit_code"
+                                                    />
+
+
+                                                </div>
+                                            </div>
+                                            <div class="control-value like-disabled-input bold"
+                                                 style="display: none;"></div>
+                                            <p class="help-box small text-muted"></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
 
                         </div>
-
 
                         <div class="col-md-6">
                             <div class="form-group row">
@@ -138,212 +217,50 @@
                                                class="form-control form-control-solid"
                                                name="registrationNumber"
                                                id="registrationNumber"
+                                               onpaste="return false;"
+                                               v-on:change="validateRegistrationNumber"
                                                required
                                                value=""/>
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-md-6">
                             <div class="form-group row">
-
-                                <div class="col-md-9 fv-row">
-
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-6">
-                            <div class="form-group row">
-
-                                <div class="col-md-9 fv-row">
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <table class="table table-row-dashed align-middle gs-0 gy-3 my-0 fv-row">
-                        <tbody>
-
-
-                        <tr>
-
-                            <td>
-                                <div class="row fv-row fv-plugins-icon-container">
-
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="model" class="fs-6 fw-semibold form-label mt-3">
-                                    <span class="required">Model</span>
-                                </label>
-                            </td>
-                            <td>
-
-                                <div class="row fv-row ">
-                                    <div class="col-md-9">
-                                        <div class="w-100">
-                                            <v-select class="vue-select2"
-                                                      required
-                                                      :get-option-label="getModelLabel"
-                                                      :options="selectedBrandModels"
-                                                      v-on:input="modelChanged"
-                                                      label="model_name"
-                                            >
-                                            </v-select>
-                                            <input
-                                                type="hidden"
-                                                name="model"
-                                                id="model"
-                                                v-model="vehicleHeader.model_guid"
-                                                required/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <label for="vehicleLocation" class="fs-6 fw-semibold form-label mt-3">
+                                <label for="vehicleLocation" class="fs-6 fw-semibold form-label col-md-3">
                                     <span class="required">Location</span>
                                 </label>
-                            </td>
-                            <td>
-                                <div class="row fv-row fv-plugins-icon-container">
+                                <div class="col-md-9 fv-row">
                                     <div class="col-md-9">
                                         <input type="text"
                                                required
                                                class="form-control form-control-solid"
                                                name="vehicleLocation"
                                                id="vehicleLocation"
+                                               onpaste="return false;"
                                                v-model="vehicleHeader.location_code"
                                                value=""/>
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                     </div>
                                 </div>
-                            </td>
-                        </tr>
+                            </div>
 
-                        <tr>
-                            <td>
-                                <label for="modelCode" class="fs-6 fw-semibold form-label mt-3">
-                                    <span class="required">Model Code</span>
-                                </label>
-                            </td>
-                            <td>
 
-                                <div class="row fv-row ">
-                                    <div class="col-md-9">
-                                        <div class="w-100">
-                                            <input class="form-control form-control-solid"
-                                                   name="model_code"
-                                                   id="model_code"
-                                                   :value="vehicleHeader.model_code"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                        </tr>
+                        </div>
+                    </div>
 
-                        <tr>
-                            <td>
-                                <label for="brand" class="fs-6 fw-semibold form-label mt-3">
-                                    <span class="required">Body Type</span>
-                                </label>
-                            </td>
-                            <td>
-                                <div class="row fv-row ">
-                                    <div class="col-md-9">
-                                        <div class="w-100">
-                                            <select class="form-select form-select-solid"
-                                                    id="bodyType"
-                                                    name="bodyType"
-                                                    required
-                                                    v-model="vehicleHeader.body_type_guid"
-                                                    data-control="select3" data-hide-search="true"
-                                                    data-placeholder="Select vehicle body type"
-                                                    data-select2-id="select2-data-10-c2ea" tabindex="-1"
-                                                    aria-hidden="true">
-                                                <option value="">Pick Body Type</option>
-                                                <option v-for="bodyType in bodyTypes" :value="bodyType.guid">
-                                                    @{{ bodyType.body_type_name }}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <label for="userUnit" class="fs-6 fw-semibold form-label mt-3">
-                                    <span class="required">User Unit</span>
-                                </label>
-                            </td>
-                            <td colspan="1">
-                                <div class="row fv-row ">
-                                    <div class="col-md-9">
-                                        <div class="control-input-wrapper">
-                                            <div class="control-input">
-                                                <div class="link-field ui-front" style="position: relative;">
-                                                    {{--<input
-                                                        class="input-with-feedback form-control bold form-control-solid"
-                                                        v-on:change="userUnitChanged"
-                                                        placeholder=""
-                                                        list="business_units"
-                                                        name="userUnit"
-                                                        id="userUnit"
-                                                        required
-                                                        aria-autocomplete="business_units"
-                                                        v-model="vehicleHeader.business_unit_code"
-                                                        data-doctype="vehicleHeader"
-                                                    />--}}
-
-                                                    <v-select class=""
-                                                              name="userUnit"
-                                                              id="userUnit"
-                                                              :get-option-label="getUserUnitLabel"
-                                                              :options="organizationalUnits"
-                                                              label="description"
-                                                              v-model="vehicleHeader.business_unit_code">
-                                                    </v-select>
-
-                                                    {{--<datalist id="business_units">
-                                                        <option v-for="orgUnits in "
-                                                                :value="orgUnits.code_unit + ' => '+ orgUnits.description"/>
-                                                    </datalist>--}}
-
-                                                </div>
-                                            </div>
-                                            <div class="control-value like-disabled-input bold"
-                                                 style="display: none;"></div>
-                                            <p class="help-box small text-muted"></p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                        </tbody>
-                    </table>
+                    <div class="row">
+                        <div class="col-md-3">
+                           {{-- v-show="!isHeaderSaved"--}}
+                            <button type="submit"
+                                    class="btn btn-sm btn-success me-2" id="tms_save_vehicle">
+                                <span class="indicator-label">Save</span>
+                                <span class="indicator-progress">Please wait...<span
+                                        class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                        </span>
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -523,7 +440,8 @@
         <input type="hidden" id="newBrandEndpoint" name="newBrandEndpoint" value="{{ route('brands') }}">
         <input type="hidden" id="modelEndpoint" name="modelEndpoint" value="{{ route('models') }}">
         <input type="hidden" id="bodyTypesEndpoint" name="bodyTypesEndpoint" value="{{ route('body.types') }}">
-        <input type="hidden" id="orgUnitsEndpoint" name="orgUnitsEndpoint" value="{{ route('organizational.units') }}">
+        <input type="hidden" id="orgUnitsEndpoint" name="orgUnitsEndpoint"
+               value="{{ route('organizational.units',['cache'=> true, 'include_nulls'=> false]) }}">
         <input type="hidden" id="directoratesEndpoint" name="directoratesEndpoint" value="{{ route('directorates') }}">
         <input type="hidden" id="costCenterEndpoint" name="costCenterEndpoint" value="{{ route('cost.centers') }}">
         <input type="hidden" id="businessUnitsEndpoint" name="businessUnitsEndpoint"
@@ -531,6 +449,9 @@
 
         <input type="hidden" id="registeredVehicles" name="registeredVehicles"
                value="{{ route('vehicles.list') }}">
+
+        <input type="hidden" id="documentValidationUrl" name="documentValidationUrl"
+               value="{{ route('document.number.validation') }}">
 
     </div>
 @endsection
