@@ -1,4 +1,4 @@
-(function ($) {
+/*(function ($) {
     "use strict";
     var tableBootstrap4Style = {
         initialize: function () {
@@ -7,7 +7,8 @@
             this.print();
         }, bootstrap4Styling: function () {
             $('.bootstrap4-styling').DataTable();
-        }, bootstrap4Modal: function () {
+        },
+        bootstrap4Modal: function () {
             $('.bootstrap4-modal').DataTable({
                 responsive: {
                     details: {
@@ -25,7 +26,7 @@
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    url: baseurl + "vehiclemgt/Vehicle_management/vehiclesearch",
+                    url: "vehiclemgt/Vehicle_management/vehiclesearch",
                     type: "post",
                     "data": function (data) {
                         data.vehicle = $('#vehicle').val();
@@ -66,58 +67,60 @@
             });
         }
     };
-    $(document).ready(function () {
-        "use strict";
-        tableBootstrap4Style.initialize();
-        $(".basic-single").select2();
-        $('.timepicker').daterangepicker({
-            singleDatePicker: true,
-            timePicker: true,
-            timePicker24Hour: false,
-            "locale": {"format": "hh:mm A"}
-        });
-        $('.datetimepicker').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            minYear: 1901,
-            "drops": "down",
-            locale: {format: 'YYYY-MM-DD'},
-            maxYear: parseInt(moment().format('YYYY'), 10)
-        }, function (start, end, label) {
-            var years = moment().diff(start, 'years');
-        });
-        $('.newdatetimepicker').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            autoUpdateInput: false,
-            minYear: 1901,
-            maxDate: '2100',
-            "drops": "down",
-            locale: {format: 'YYYY-MM-DD'},
-            maxYear: parseInt(moment().format('YYYY'), 10)
-        }, function (start, end, label) {
-            var years = moment().diff(start, 'years');
-        });
-        $('.newdatetimepicker').on('apply.daterangepicker', function (ev, picker) {
-            $(this).val(picker.startDate.format('YYYY-MM-DD'));
-        });
-        $('.newdatetimepicker').on('cancel.daterangepicker', function (ev, picker) {
-            $(this).val('');
-        });
-        $('.datetimepickerwd').daterangepicker({
-            singleDatePicker: true,
-            "timePicker": true,
-            showDropdowns: true,
-            "timePicker24Hour": true,
-            minYear: 1901,
-            "drops": "up",
-            locale: {format: 'YYYY-MM-DD HH:mm'},
-            maxYear: parseInt(moment().format('YYYY'), 10)
-        }, function (start, end, label) {
-            var years = moment().diff(start, 'years');
-        });
-    });
-}(jQuery));
+}(jQuery));*/
+
+$(document).ready(function () {
+    "use strict";
+    //tableBootstrap4Style.initialize();
+    /* $(".basic-single").select2();
+     $('.timepicker').daterangepicker({
+         singleDatePicker: true,
+         timePicker: true,
+         timePicker24Hour: false,
+         "locale": {"format": "hh:mm A"}
+     });
+     $('.datetimepicker').daterangepicker({
+         singleDatePicker: true,
+         showDropdowns: true,
+         minYear: 1901,
+         "drops": "down",
+         locale: {format: 'YYYY-MM-DD'},
+         maxYear: parseInt(moment().format('YYYY'), 10)
+     }, function (start, end, label) {
+         var years = moment().diff(start, 'years');
+     });
+     $('.newdatetimepicker').daterangepicker({
+         singleDatePicker: true,
+         showDropdowns: true,
+         autoUpdateInput: false,
+         minYear: 1901,
+         maxDate: '2100',
+         "drops": "down",
+         locale: {format: 'YYYY-MM-DD'},
+         maxYear: parseInt(moment().format('YYYY'), 10)
+     }, function (start, end, label) {
+         var years = moment().diff(start, 'years');
+     });
+     $('.newdatetimepicker').on('apply.daterangepicker', function (ev, picker) {
+         $(this).val(picker.startDate.format('YYYY-MM-DD'));
+     });
+     $('.newdatetimepicker').on('cancel.daterangepicker', function (ev, picker) {
+         $(this).val('');
+     });*/
+/*    $('.datetimepickerwd').daterangepicker({
+        singleDatePicker: true,
+        "timePicker": true,
+        showDropdowns: true,
+        "timePicker24Hour": true,
+        minYear: 1901,
+        "drops": "up",
+        locale: {format: 'YYYY-MM-DD HH:mm'},
+        maxYear: parseInt(moment().format('YYYY'), 10)
+    }, function (start, end, label) {
+        var years = moment().diff(start, 'years');
+    });*/
+});
+
 $("#driver").change(function () {
     var id = $('#driver option:selected').data('id');
     $("#dirverid").val(id);

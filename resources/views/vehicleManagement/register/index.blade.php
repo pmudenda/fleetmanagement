@@ -38,17 +38,17 @@
             </div>
 
             <!--begin::Card body-->
-            <div class="card-body pt-0">
+            <div class="card-body">
                 <form id="tms_vehicle_header_form" v-on:submit.prevent="saveVehicleHeaderInformation"
                       class="form fv-plugins-bootstrap5 fv-plugins-framework"
                       action="{{route('api.vehicle.new')}}">
                     <input type="hidden" name="doctype" value="VehicleHeader"/>
 
-                    <div class="row d-none">
+                    <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label for="brand" class="fs-6 fw-semibold form-label mt-3 col-md-3">
-                                    <span class="required">Vehicle Type</span>
+                                    <span class="required">Registration Type</span>
                                 </label>
                                 <div class="col-md-9 fv-row">
                                     <div class="col-md-9">
@@ -216,11 +216,11 @@
                                                v-model="vehicleHeader.registration_number"
                                                class="form-control form-control-solid"
                                                name="registrationNumber"
+                                               onpaste="return false"
                                                id="registrationNumber"
-                                               onpaste="return false;"
-                                               v-on:change="validateRegistrationNumber"
+                                               autocomplete="off"
                                                required
-                                               value=""/>
+                                               />
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                     </div>
                                 </div>

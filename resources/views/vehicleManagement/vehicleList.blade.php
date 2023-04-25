@@ -785,8 +785,7 @@
                             </td>
 
                             <td>
-                                @if('') @endif
-                                {{-- <div v-if="item.status.toLowerCase() === 'active'" class="badge badge-light-success">
+                                {{--<div v-if="item.status.toLowerCase() === 'active'" class="badge badge-light-success">
                                      Active
                                  </div>
                                  <div v-else-if="item.status.toLowerCase() === 'expiring'" class="badge badge-light-warning">
@@ -809,7 +808,8 @@
                                 <a href="#" class="btn btn-light btn-active-light-primary btn-sm"
                                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                     Actions
-                                    <span class="svg-icon svg-icon-5 m-0"><svg width="24" height="24"
+                                    <span class="svg-icon svg-icon-5 m-0">
+                                        <svg width="24" height="24"
                                                                                viewBox="0 0 24 24"
                                                                                fill="none"
                                                                                xmlns="http://www.w3.org/2000/svg">
@@ -852,5 +852,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{asset('assets/dist/js/vehicle_list.js')}}"></script>
+    <script src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_list.js')}}"></script>
 @endpush

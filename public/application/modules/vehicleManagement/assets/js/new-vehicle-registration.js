@@ -8,9 +8,9 @@ let app = new Vue({
         return {
             vehicle_brand_placeholder: 'Select Vehicle Brand',
             vehicle_model_placeholder: 'Select Model',
-            dataStatus: 6,
+            dataStatus: 0,
             vehicleHeaderId: null,
-            isHeaderSaved: true,
+            isHeaderSaved: false,
             vehicleBrands: [],
             engineBrands: [],
             businessUnits: [],
@@ -37,6 +37,10 @@ let app = new Vue({
                 {
                     "label": 'Boat',
                     'code': 'BT'
+                },
+                {
+                    "label": 'Trailer',
+                    'code': 'TR'
                 },
             ],
             configuredModels: [],
@@ -265,7 +269,7 @@ let app = new Vue({
     methods: {
 
         transmissionTypeChanged: function (transmissionType) {
-            document.querySelector('#transmission_type').value = transmissionType?.code +':'+ transmissionType?.name;
+            document.querySelector('#transmission_type').value = transmissionType?.code + ':' + transmissionType?.name;
         },
         // web UI event
         bodyTypeChanged: function (selectedBody) {
@@ -273,19 +277,21 @@ let app = new Vue({
             document.querySelector('#bodyType').value = selectedBody?.guid;
         },
         validateRegistrationNumber: function () {
+            let ref = app.vehicleHeader.registration_number ?? document.querySelector('#registrationNumber').value
             axios.get(document.querySelector('#documentValidationUrl').value +
-                '?method=registration_number&key=' + app.vehicleHeader.registration_number)
+                '?method=registration_number&key=' + ref)
                 .then(function (response) {
                     // Populate results
                     if (response.data.state === 'failure') {
                         //show errors
-                        toastr.error('Connection error, chassis validity not verified')
+                        toastr.error('Connection error, chassis number could not be verified')
                         return;
                     }
-                    console.log(response.data);
 
-                    app.regNumberValidity.state = response.data.payload.validity;
-                    app.regNumberValidity.message = response.data.payload.message;
+                    if (response.data.payload.validity) {
+                        console.log(response.data.payload.validity);
+                        //response.data.payload.message
+                    }
                 })
                 .catch(function (error) {
                     // notify of error
@@ -1041,7 +1047,7 @@ let app = new Vue({
                 let form = $(app.chassisDetailsForm)[0];
 
                 let formData = new FormData(form);
-                 let url = app.chassisDetailsForm.action;
+                let url = app.chassisDetailsForm.action;
                 axios.post(url, formData, {
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1086,35 +1092,35 @@ let app = new Vue({
                     console.log(error);
                 });
 
-              /*  $.ajax({
-                    'url': url ,
-                    'type': 'POST',
-                    data: formData,
-                    enctype: 'multipart/form-data',
-                    processData: false,  // Important!
-                    contentType: false,
-                    cache: false,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        , 'content-type': 'text/json'
-                    }
-                })
-                    .done(function (response) {
+                /*  $.ajax({
+                      'url': url ,
+                      'type': 'POST',
+                      data: formData,
+                      enctype: 'multipart/form-data',
+                      processData: false,  // Important!
+                      contentType: false,
+                      cache: false,
+                      headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                          , 'content-type': 'text/json'
+                      }
+                  })
+                      .done(function (response) {
 
 
-                })
-                    .fail(function (error) {
-                        let el = document.querySelector('#tms_save_chassis');
-                        let label = el.querySelector(".indicator-label");
+                  })
+                      .fail(function (error) {
+                          let el = document.querySelector('#tms_save_chassis');
+                          let label = el.querySelector(".indicator-label");
 
-                        el.removeAttribute('data-kt-indicator');
-                        el.disabled = false;
+                          el.removeAttribute('data-kt-indicator');
+                          el.disabled = false;
 
-                        toastr.error(
-                            error.message
-                        );
+                          toastr.error(
+                              error.message
+                          );
 
-                    });*/
+                      });*/
 
             });
         },
