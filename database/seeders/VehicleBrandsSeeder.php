@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Enums\VehicleStatusEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class VehicleBrandsSeeder extends Seeder
 {
