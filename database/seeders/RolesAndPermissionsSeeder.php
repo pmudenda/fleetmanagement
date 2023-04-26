@@ -32,6 +32,30 @@ class RolesAndPermissionsSeeder extends Seeder
 
         Role::create(
             [
+                'description' => 'System Administrator',
+                'name' => 'system-administrator',
+                'slug' => 'system_administrator',
+            ]
+        );
+
+        Role::create(
+            [
+                'description' => 'Transport Controller',
+                'name' => 'transport-controller',
+                'slug' => 'transport_controller',
+            ]
+        );
+
+        Role::create(
+            [
+                'description' => 'Driver',
+                'name' => 'driver',
+                'slug' => 'driver',
+            ]
+        );
+
+        Role::create(
+            [
                 'description' => 'Super User',
                 'name' => 'super_user',
                 'slug' => 'super_user'
@@ -40,9 +64,17 @@ class RolesAndPermissionsSeeder extends Seeder
 
         Role::create(
             [
-                'description' => 'Fuel Requistioner',
-                'name' => 'fuel-requistioner',
-                'slug' => 'fuel_requistioner'
+                'description' => 'Managers',
+                'name' => 'managers',
+                'slug' => 'managers'
+            ]
+        );
+
+        Role::create(
+            [
+                'description' => 'Fuel Requisitioning',
+                'name' => 'fuel-requisitioning',
+                'slug' => 'fuel_requisitioning'
             ]
         );
 
@@ -57,11 +89,20 @@ class RolesAndPermissionsSeeder extends Seeder
 
         Role::create(
             [
-                'description' => 'System Administrator',
-                'name' => 'system-administrator',
-                'slug' => 'system_administrator',
+                'description' => 'Insurance Manager',
+                'name' => 'insurance-manager',
+                'slug' => 'insurance_manager'
             ]
         );
+
+        Role::create(
+            [
+                'description' => 'Insurance Officer',
+                'name' => 'insurance-officer',
+                'slug' => 'insurance_officer'
+            ]
+        );
+
 
         Role::create(
             [
@@ -75,7 +116,7 @@ class RolesAndPermissionsSeeder extends Seeder
             [
                 'description' => 'Transport Officer',
                 'name' => 'transport-officer',
-                'slug'=> 'transport_officer'
+                'slug' => 'transport_officer'
             ]
         );
 
@@ -94,7 +135,5 @@ class RolesAndPermissionsSeeder extends Seeder
                 'slug' => 'mechanic'
             ]
         );
-
-
     }
 }

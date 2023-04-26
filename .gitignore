@@ -27,3 +27,4 @@ Homestead.json
 /vendor
 .DS_Store
 vendor
+vendor/*
