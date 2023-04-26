@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('status', 50);
             $table->string('name');
+            $table->string('code')->nullable();
             $table->string('guid')->default(Str::uuid());
             $table->dateTime('date_created')->default(Carbon::now());
             $table->string('body_type_name', 100);

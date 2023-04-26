@@ -13,7 +13,7 @@ class RightsServiceProvider extends ServiceProvider
     {
         //dynamic constants
         try {
-            /*$permissions = Permission::all();
+            $permissions = Permission::all();
             foreach ($permissions as $permission) {
                 config(['rights.' . $permission->slug => $permission->slug]);
             }
@@ -25,10 +25,10 @@ class RightsServiceProvider extends ServiceProvider
 
             // load application settings
             config([
-                 'settings_array' => [
-                     'logo' => 'dashboard/dist/img/avatar.png'
-                 ]
-             ]);*/
+                'settings' => [
+                    'logo' => 'dashboard/dist/img/avatar.png'
+                ]
+            ]);
         } catch (\Exception $e) {
             //ignored
         }

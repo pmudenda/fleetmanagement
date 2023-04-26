@@ -8,10 +8,12 @@
     <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo" style="background: var(--bs-zesco-secondary);">
         <!--begin::Logo image-->
         <a href="{{ route('home') }}"  class="text-bold text-center">
-            <img class="h-45px app-sidebar-logo-default" src="{{ asset('assets/dist/img/icons/zesco_logo.png') }}"
+            <img class="h-45px app-sidebar-logo-default"
+                 src="{{ asset('assets/dist/img/icons/zesco_logo.png') }}"
                  alt="">
 
-            <img class="h-20px app-sidebar-logo-minimize" src="{{ asset('assets/dist/img/icons/zesco_logo.png') }}"
+            <img class="h-20px app-sidebar-logo-minimize"
+                 src="{{ asset('assets/dist/img/icons/zesco_logo.png') }}"
                  alt="">
 
             <span style="color:#fff;text-align: center;font-weight: 500;">TRANSPORT MANAGEMENT SYSTEM</span>
@@ -155,6 +157,73 @@
                 </div>
                 <!--Vehicle Management:Menu item-->
 
+                <!--Requisition:Menu item-->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                    <span class="menu-link">
+                        <span class="menu-icon">
+                            <span class="svg-icon svg-icon-2">
+                                <i class="fonticon-truck fs-2x"></i>
+                            </span>
+                        </span>
+
+                        <span class="menu-title">
+                            Requisitions
+                        </span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <a class="menu-link" href="{{ route('new.vehicle.requisition') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">
+                                    Vehicle Requisition
+                                </span>
+                            </a>
+
+                        </div>
+
+                        <div class="menu-item">
+                            <a class="menu-link" href="{{ route('new.parts.requisition') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">
+                                    Parts Requisition
+                                </span>
+                            </a>
+                        </div>
+
+                        <div class="menu-item">
+                            <a class="menu-link" href="{{ route('new.fuel.requisition') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">
+                                    Fuel Requisition
+                                </span>
+                            </a>
+                        </div>
+
+
+                        <div class="menu-item d-none">
+                            <a class="menu-link" href="{{ route('permissions.list') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">
+                                    Vehicle Details
+                                </span>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <!--Requisition:Menu item-->
+
+
                 <!--User Management:Menu item-->
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                     <span class="menu-link">
@@ -201,13 +270,13 @@
 
                                 </div>
 
-                                <div class="menu-item d-none">
+                                {{--<div class="menu-item d-none">
                                     <a class="menu-link" href="{{ route('view.user') }}"><span
                                             class="menu-bullet"><span class="bullet bullet-dot"></span></span><span
                                             class="menu-title">View
                                             User</span></a>
 
-                                </div>
+                                </div>--}}
                             </div>
                         </div>
 

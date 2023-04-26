@@ -1,0 +1,384 @@
+@extends('layouts.tasks.layout')
+
+@push('styles')
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet"
+          href="{{ asset('dashboard/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+    <style>
+
+
+        input[name="tabs"] {
+            display: none;
+        }
+
+        label {
+            display: inline-block;
+            margin: 0 0 -1px;
+            padding: 15px 25px;
+            font-weight: 600;
+            text-align: center;
+            color: #bbb;
+            border: 1px solid transparent;
+        }
+
+        label:before {
+            font-family: fontawesome;
+            font-weight: normal;
+            margin-right: 10px;
+        }
+
+        label[for*='1']:before {
+            content: '\f1cb';
+        }
+
+        label[for*='2']:before {
+            content: '\f17d';
+        }
+
+        label[for*='3']:before {
+            content: '\f16b';
+        }
+
+        label[for*='4']:before {
+            content: '\f1a9';
+        }
+
+        label:hover {
+            color: #888;
+            cursor: pointer;
+        }
+
+        input:checked + label {
+            color: #555;
+            border: 1px solid #ddd;
+            border-top: 2px solid orange;
+            border-bottom: 1px solid #fff;
+        }
+
+        #tab4:checked ~ #content4 {
+            display: block;
+        }
+    </style>
+
+@endpush
+
+
+@section('content')
+    <x-content-header :pageTitle="'USER DETAILS'" :activeCrumb="'User Details'" :link="'user.index'"
+                      :linkText="'Users'"/>
+
+    <!-- Main content -->
+    <section class="content">
+        <x-error-view/>
+        <div class="container-fluid">
+            <div class="row">
+                <!--LEFT COLUMN-->
+                <div class="col-xs-12 col-sm-4 pl-0">
+                    <div class="card card-outline">
+                        <div class="card-body box-profile">
+                            <div class="text-center">
+                                <a href="#">
+                                    @if(!empty($user->avatar))
+                                        <img class="profile-user-img img-fluid img-circle" width="100%"
+                                             src="{{ asset('storage/user_avatar/' . $user->avatar) }}"
+                                             alt="Image not found"
+                                             @if( Auth::user()->id==$user->id)
+                                                 title="Click Here to Edit Image"
+                                             data-toggle="modal"
+                                             data-target="#modal-edit-profile"
+                                            @endif
+                                        />
+                                    @else
+                                        <img class="profile-user-img img-fluid img-circle" width="100%"
+                                             src="{{ asset('dashboard/dist/img/avatar.png') }}"
+                                             alt="Image not found"
+                                             @if( Auth::user()->id==$user->id)
+                                                 title="Click Here to Edit Image"
+                                             data-toggle="modal"
+                                             data-target="#modal-edit-profile"
+                                            @endif
+                                        />
+                                    @endif
+                                </a>
+                            </div>
+
+                            <h3 class="profile-username text-center">{{ $user->name }}</h3>
+                            <p class="text-muted text-center">{{ $user->JobTitle ?? 'Position' }}</p>
+
+                            <p class="text-muted text-center">{{ $user->man_no ?? '' }}</p>
+
+                            <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                    <b>Man Number</b> <a class="float-right">{{ $user->man_no }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>NRC</b> <a class="float-right">{{ $user->nrc }}</a>
+                                </li>
+                                {{-- @endif --}}
+                                <li class="list-group-item">
+                                    <b>Phone</b> <a class="float-right">{{ $user->Phone }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Extension</b> <a class="float-right">{{ $user->Phone ?? '' }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Email</b> <a class="float-right">{{ $user->email }}</a>
+                                </li>
+                                {{--  <li class="list-group-item">
+                                      <b>Status</b> <a class="float-right">{{ $user->status ?? '' }}</a>
+                                  </li>
+                                  <li class="list-group-item">
+                                      <b>Total Application Forms</b> <a class="float-right">{{ $user->total_forms }}</a>
+                                  </li>
+                                  <li class="list-group-item">
+                                      <b>Total Logins</b> <a class="float-right">{{ $user->total_login }}</a>
+                                  </li>--}}
+                            </ul>
+
+                        </div>
+                        <!-- /.card-body -->
+                        @can('rights.search_user')
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="">
+                                            <form class="row" method="post" action="">
+                                                @csrf
+                                                <div class="input-group input-group-sm">
+                                                    <input class="form-control form-control-sm" type="search"
+                                                           name="search" placeholder="Enter Man Number/Name"
+                                                           aria-label="Enter Search Term">
+                                                    <div class="input-group-addon">
+                                                        <button class="btn btn-primary " type="submit">
+                                                            <i class="fas fa-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <!-- PROFILE FORM -->
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <!--RIGHT COLUMN-->
+                <div class="col-xs-12 col-sm-7 pl-0">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">
+                                Assigned Groups
+                                <span class="badge badge-success">
+                                                            {{$user->roles->count()}}
+                                                        </span>
+                            </h5>
+                            <div class="card-tools">
+                                @can(config('rights.role_attach'))
+                                    <button type="button"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#addUserToGroup"
+                                            title="Add User To Groups"
+                                            class="btn btn-warning btn-sm">
+                                        <i class="fas fa-user-lock"></i>
+                                        Groups
+                                    </button>
+                                @endcan
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            @if(!empty($user->roles))
+                                <div class="table-responsive mt-10 ">
+                                    <table id="groupsTable"
+                                           class="table table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Description</th>
+                                            @can(config('rights.role_detach'))
+                                                <th>Name</th>
+                                                @if(auth()->user()->id != $user->id )
+                                                    <th>Action</th>
+                                                @endif
+                                            @endcan
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        @foreach($user->roles as $item)
+                                            <tr>
+                                                <td>
+                                                    {{$item->description}}
+                                                </td>
+                                                @can(config('rights.role_detach'))
+                                                    <td>
+                                                        {{$item->name}}
+                                                    </td>
+                                                    @if(auth()->user()->id != $user->id )
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-06">
+
+                                                                    <button
+                                                                        class="btn btn-sm btn-danger m-1"
+                                                                        data-sent_data="{{$item}}"
+                                                                        title="Revoke Role"
+                                                                        data-toggle="modal"
+                                                                        data-target="#removeFromGroup{{$item->id}}">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </button>
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    @endif
+                                                @endcan
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    @foreach($user->roles as $item)
+        <!-- Device Delete Modal -->
+        <div class="modal fade" id="removeFromGroup{{$item->id}}" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detach Roles: {{$item->name}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form name="db2" method="post" action="{{route('user.detach', $user->id )}}">
+                            @csrf
+                            <div class="card-body">
+                                <div class="row">
+                                    <span class="text-danger">Are you sure you want to detach?</span>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12  form-group mt-4">
+                                        <label for="name"> ROLE NAME: <span class="required">*</span></label>
+                                        <input type="text" class="form-control" value="{{$item->name}}" id="name"
+                                               name="name" required readonly>
+                                        <input type="text" hidden class="form-control" value="{{$item->id}}"
+                                               id="role_id" name="role_id" required
+                                        >
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                @can(config('rights.role_detach'))
+                                    <button type="submit" class="btn btn-danger">Detach</button>
+                                @endcan
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+    @endforeach
+
+    <!-- Device Delete Modal -->
+    <div class="modal fade" id="addUserToGroup" tabindex="-1" role="dialog"
+         aria-labelledby="addUserToGroupTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div
+                    class="modal-header ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle">
+                    <h5 class="modal-title" id="addUserToGroupTitle">
+                        Add User To Group
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form name="db2" method="post" action="{{route('user.attach', $user->id )}}">
+                        @csrf
+                        <div class="card-body">
+                            <div class="row">
+                                <span class="text-danger">Add User To:</span>
+                            </div>
+                            <table id="example11" class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                @foreach($roles->whereNotIn( 'id', $user->roles->pluck('id')->toArray()) as $item)
+                                    <tr>
+                                        <td>
+                                            <input style="display: block" type="checkbox" id="role_ids"
+                                                   name="role_ids[]"
+                                                   value="{{$item->id}}">
+                                        </td>
+                                        <td>
+                                            {{$item->description}}
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                            @can(config('rights.role_attach'))
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+                            @endcan
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+
+@endsection
+
+@push('scripts')
+    <!-- DataTables  & Plugins -->
+    @include('layouts.partials.datatables')
+    <!-- page script -->
+    <script>
+        $(document).ready(function () {
+
+            $("#groupsTable").DataTable({
+                "responsive": true,
+                "searchable": false,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": []
+            }).buttons().container().appendTo('#groupsTable_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+
+@endpush

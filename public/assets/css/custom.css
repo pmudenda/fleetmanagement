@@ -1,0 +1,22 @@
+:root{
+    --bs-zesco-primary: #f59d33;
+    --bs-zesco-secondary: #1c9955;
+}
+.bg-zesco-orange{
+    background-color: var(--bs-zesco-primary) !important;
+}
+
+.field-required:after{
+    content: "*";
+    color: #f1416c;
+}
+
+.app-required-marker {
+    margin-left: .5em;
+    font-size: .85em;
+    color: #f00
+}
+
+.app-required-marker:before {
+    content: "All Fields Marked * Are Required"
+}

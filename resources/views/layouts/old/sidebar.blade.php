@@ -273,8 +273,7 @@
                         </li>
 
                         <li class="">
-                            <a style="cursor:pointer;"
-                               onclick="pageopen('https://vmsdemo.bdtask-demo.com/refueling/Refueling/refuelrequisition')">Refuel
+                            <a style="cursor:pointer;">Refuel
                                 Requisition Details</a>
                         </li>
 

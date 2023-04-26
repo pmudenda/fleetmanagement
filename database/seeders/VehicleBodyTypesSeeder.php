@@ -63,6 +63,15 @@ class VehicleBodyTypesSeeder extends Seeder
             'date_created' => Carbon::now()
         ]);
 
+
+        DB::table('CONFIG_VEHICLE_BODY_TYPES')->insert([
+            'guid'=> Str::uuid(),
+            'name'=>'COUPE',
+            'status'=>VehicleStatusEnum::active,
+            'body_type_name' =>'PICK UP',
+            'date_created' => Carbon::now()
+        ]);
+
         DB::table('CONFIG_VEHICLE_BODY_TYPES')->insert([
             'guid'=> Str::uuid(),
             'name'=>'STATION WAGON',

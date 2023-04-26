@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class LicenseTypes extends Model
 {
     use HasFactory;
+
+    protected $table = 'CONFIG_LICENSE_TYPES';
 }

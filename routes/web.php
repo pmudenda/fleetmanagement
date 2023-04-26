@@ -1,9 +1,14 @@
 <?php
 
+use App\Http\Controllers\Security\PermissionsController;
+use App\Http\Controllers\Security\RolesController;
+use App\Http\Controllers\UserManagement\UsersController;
+use App\Models\RequisitionTypes;
 use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,10 +29,10 @@ Route::get('/', function () {
 
 Route::get('verify/document-number', function (Request $request): JsonResponse {
 
-    $valid =  true;
-    if($request->get('method') == 'registration_number'){
+    $valid = true;
+    if ($request->get('method') == 'registration_number') {
         $valid = VehicleHeader::where('registration_number', trim($request->get('key')))->count() == 0;
-    }else if($request->get('method') == 'chassis'){
+    } else if ($request->get('method') == 'chassis') {
         $valid = ChassisDetail::where('chassis_number', trim($request->get('key')))->count() == 0;
     }
 
@@ -55,8 +60,6 @@ Route::group(['middleware' => 'auth'], function () {
         return view('dashboard.home');
     })->name('home');
 
-    Route::group(['prefix' => 'employeeManagement'], function () {
-    });
 
     Route::group(['prefix' => 'user-management'], function () {
 
@@ -73,23 +76,34 @@ Route::group(['middleware' => 'auth'], function () {
             return view('UserManagement.user_profile')
                 ->with(['key' => $uuid, 'email' => $email]);
         })->name('profile');
+        // Route::get('/current/details', [UsersController::class, 'getCurrentUserDetails'])->name('user.current.details');
 
-        Route::get('users/new', function () {
-            return view('UserManagement.addUser');
-        })->name('users.new');
+        Route::get('users/new', [UsersController::class, 'create'])->name('users.new');
 
-        Route::get('users/list', function () {
-            return view('UserManagement.list');
-        })->name('users.list');
-
+        Route::get('users/list', [UsersController::class, 'index'])->name('users.list');
 
         Route::get('user', function () {
             return view('UserManagement.viewUser');
         })->name('view.user');
 
+        Route::resource('/user', UsersController::class);
 
-        /** ROLES */
+        Route::post('/get-employee-data', [UsersController::class, 'findAdUsers'])->name('user.search');
+        /*
+         Route::post('user/attach/{id}', [UsersController::class, 'attach'])->name('user.attach');
+         Route::post('user/detach/{id}', [UsersController::class, 'detach'])->name('user.detach');
 
+         Route::get('/list', )->name('home.users');
+         Route::get('/users/all', [UsersController::class, 'get'])->name('all.users');
+         Route::get('/users/all', [UsersController::class, 'get'])->name('all.users');
+
+         // User Search
+         Route::post('user_search', [UserSearchController::class, 'userSearch'])->name('search.user');*/
+    });
+
+
+    /** ROLES */
+    Route::group(['prefix' => 'security'], function () {
         Route::get('roles/list', function () {
             return view('UserManagement.list_roles');
         })->name('roles.list');
@@ -103,7 +117,13 @@ Route::group(['middleware' => 'auth'], function () {
             return view('UserManagement.permission');
         })->name('permissions.list');
 
+        //Roles
+        Route::post('/roles/attach/{id}', [RolesController::class, 'attach'])->name('roles.attach');
+        Route::post('/roles/detach/{id}', [RolesController::class, 'detach'])->name('roles.detach');
 
+        Route::resource('roles', RolesController::class);
+        //Permission
+        Route::resource('permissions', PermissionsController::class);
     });
 
 
@@ -111,11 +131,11 @@ Route::group(['middleware' => 'auth'], function () {
 
         /** INSURANCE */
         Route::get('insurance/types', function () {
-            return view('UserManagement.profile');
+            return view('insurance.types');
         })->name('insurance.types');
 
         Route::get('insurance/companies', function () {
-            return view('UserManagement.list');
+            return view('insurance.companyList');
         })->name('insurance.companies');
 
 
@@ -144,6 +164,20 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     });
+
+    Route::get('/requisition/motor-vehicle', function () {
+
+    })->name('new.vehicle.requisition');
+
+    Route::get('/requisition/fuel', function () {
+        $user = Auth::user();
+        $requisitionTypes = RequisitionTypes::where('status', '01')->where('module', 'FR')->get();
+        return view('modules.requisitions.fuel')->with(compact('user', 'requisitionTypes'));
+    })->name('new.fuel.requisition');
+
+    Route::get('/requisition/parts', function () {
+
+    })->name('new.parts.requisition');
 });
 
 

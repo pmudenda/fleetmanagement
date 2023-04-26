@@ -9,5 +9,5 @@ class CostCenters extends Model
 {
     use HasFactory;
 
-    protected $table = 'COST_CENTERS';
+    protected $table = 'REF_COST_CENTERS';
 }

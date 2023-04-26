@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class PermissionsSeeder extends Seeder
+class RolesAndPermissionsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -20,6 +19,7 @@ class PermissionsSeeder extends Seeder
         Permission::create(['description' => 'View User Detail', 'name' => 'view-user-detail', 'slug' => 'view_user_detail']);
         Permission::create(['description' => 'View Users', 'name' => 'view-user', 'slug' => 'view_user']);
         Permission::create(['description' => 'Allow User to On-Board Vehicle', 'name' => 'on-board-vehicle', 'slug' => 'on_board_vehicle']);
+        Permission::create(['description' => 'Allow User to View Vehicle Details', 'name' => 'view-vehicle-details', 'slug' => 'view_vehicle_details']);
 
 
         Role::create(

@@ -8,7 +8,7 @@ use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
 use App\Models\configurations\vehicle\ConfigVehicleBodyType;
 use App\Models\configurations\vehicle\ConfigVehicleModel;
 use App\Models\general\DIRECTORATES;
-use App\Models\User;
+use App\Models\Security\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

@@ -197,7 +197,9 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\FortifyServiceProvider::class,
-        Spatie\Permission\PermissionServiceProvider::class
+        App\Providers\PermissionsServiceProvider::class,
+        App\Providers\RightsServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     /*

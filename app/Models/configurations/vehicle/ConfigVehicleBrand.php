@@ -15,7 +15,9 @@ class ConfigVehicleBrand extends Model
     protected $fillable = [
         'guid',
         'name',
+        'code',
         'status',
-        'date_created'
+        'date_created',
+        'created_by'
     ];
 }

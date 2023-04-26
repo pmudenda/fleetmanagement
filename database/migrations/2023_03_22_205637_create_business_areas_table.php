@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('CONFIG_BUSINESS_AREAS', function (Blueprint $table) {
             $table->id();
-            $table->string('area_code')->default(Str::uuid());
+            $table->string('code')->default(Str::uuid());
             $table->string('name');
             $table->timestamps();
         });

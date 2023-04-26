@@ -16,8 +16,10 @@ class ConfigVehicleBodyType extends Model
     protected $fillable = [
         'guid',
         'name',
+        'code',
         'status',
         'body_type_name',
-        'date_created'
+        'date_created',
+        'created_by'
     ];
 }

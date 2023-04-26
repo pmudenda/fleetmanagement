@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('SEC_USERS', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
@@ -45,8 +45,6 @@ return new class extends Migration
             $table->string('two_fac_auth_status')->nullable()->default('Inactive');
             $table->string('con_st_code')->nullable();
             $table->dateTime('last_login')->nullable();
-            //$table->string('con_wef_date')->nullable();
-            //$table->string('con_wet_date')->nullable();
 
             $table->integer('positions_id')->nullable();
             $table->integer('type_id')->default('0');
@@ -70,6 +68,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('SEC_USERS');
     }
 };

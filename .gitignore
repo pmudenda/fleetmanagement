@@ -1,4 +1,4 @@
-/vendor/
+/vendor/*
 node_modules/
 npm-debug.log
 yarn-error.log
@@ -25,3 +25,5 @@ Homestead.json
 ./.idea
 .idea/*
 /vendor
+.DS_Store
+vendor
