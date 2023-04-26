@@ -1,8 +1,5 @@
 @extends('layouts.layout')
 @section('content')
-
-
-
 <div class="row g-5 g-xl-8">
     <div class="col-xl-4">
 
@@ -79,7 +76,6 @@
                 <div class="fw-semibold text-white">
                     50% Increased for FY20 </div>
             </div>
-            <!--end::Body-->
         </a>
         <!--end::Statistics Widget 5-->
     </div>
