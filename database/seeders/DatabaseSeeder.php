@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DirectoratesSeeder::class,
             VehicleBodyTypesSeeder::class,
-            VehicleBrandsSeeder::class
-
+            VehicleBrandsSeeder::class,
+            RolesAndPermissionsSeeder::class,
         ]);
     }
 }

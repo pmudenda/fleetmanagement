@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class DIRECTORATES extends Model
 {
     use HasFactory;
-    protected $table = 'DIRECTORATES';
+    protected $table = 'REF_DIRECTORATES';
 }

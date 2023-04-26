@@ -20,6 +20,8 @@ class ConfigVehicleModel extends Model
         'model_name',
         'model_code',
         'status',
-        'date_created'
+        'code',
+        'date_created',
+        'created_by'
     ];
 }

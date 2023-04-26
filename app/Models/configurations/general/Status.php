@@ -17,6 +17,7 @@ class Status extends Model
         'name',
         'description',
         'active',
+        'code',
         'color_code',
         'module',
         'created_by',

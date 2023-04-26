@@ -70,6 +70,20 @@ class VehicleBrandsSeeder extends Seeder
 
         DB::table('CONFIG_VEHICLE_BRANDS')->insert([
             'guid'=> Str::uuid(),
+            'name'=>'HAVAL',
+            'status'=>VehicleStatusEnum::active,
+            'date_created' => Carbon::now()
+        ]);
+
+        DB::table('CONFIG_VEHICLE_BRANDS')->insert([
+            'guid'=> Str::uuid(),
+            'name'=>'HYUNDAI',
+            'status'=>VehicleStatusEnum::active,
+            'date_created' => Carbon::now()
+        ]);
+
+        DB::table('CONFIG_VEHICLE_BRANDS')->insert([
+            'guid'=> Str::uuid(),
             'name'=>'LAND ROVER',
             'status'=>VehicleStatusEnum::active,
             'date_created' => Carbon::now()

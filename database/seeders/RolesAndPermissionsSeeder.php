@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class PermissionsSeeder extends Seeder
+class RolesAndPermissionsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -20,6 +19,7 @@ class PermissionsSeeder extends Seeder
         Permission::create(['description' => 'View User Detail', 'name' => 'view-user-detail', 'slug' => 'view_user_detail']);
         Permission::create(['description' => 'View Users', 'name' => 'view-user', 'slug' => 'view_user']);
         Permission::create(['description' => 'Allow User to On-Board Vehicle', 'name' => 'on-board-vehicle', 'slug' => 'on_board_vehicle']);
+        Permission::create(['description' => 'Allow User to View Vehicle Details', 'name' => 'view-vehicle-details', 'slug' => 'view_vehicle_details']);
 
 
         Role::create(
@@ -27,6 +27,30 @@ class PermissionsSeeder extends Seeder
                 'description' => 'Default',
                 'name' => 'default',
                 'slug' => 'default'
+            ]
+        );
+
+        Role::create(
+            [
+                'description' => 'System Administrator',
+                'name' => 'system-administrator',
+                'slug' => 'system_administrator',
+            ]
+        );
+
+        Role::create(
+            [
+                'description' => 'Transport Controller',
+                'name' => 'transport-controller',
+                'slug' => 'transport_controller',
+            ]
+        );
+
+        Role::create(
+            [
+                'description' => 'Driver',
+                'name' => 'driver',
+                'slug' => 'driver',
             ]
         );
 
@@ -40,9 +64,17 @@ class PermissionsSeeder extends Seeder
 
         Role::create(
             [
-                'description' => 'Fuel Requistioner',
-                'name' => 'fuel-requistioner',
-                'slug' => 'fuel_requistioner'
+                'description' => 'Managers',
+                'name' => 'managers',
+                'slug' => 'managers'
+            ]
+        );
+
+        Role::create(
+            [
+                'description' => 'Fuel Requisitioning',
+                'name' => 'fuel-requisitioning',
+                'slug' => 'fuel_requisitioning'
             ]
         );
 
@@ -57,11 +89,20 @@ class PermissionsSeeder extends Seeder
 
         Role::create(
             [
-                'description' => 'System Administrator',
-                'name' => 'system-administrator',
-                'slug' => 'system_administrator',
+                'description' => 'Insurance Manager',
+                'name' => 'insurance-manager',
+                'slug' => 'insurance_manager'
             ]
         );
+
+        Role::create(
+            [
+                'description' => 'Insurance Officer',
+                'name' => 'insurance-officer',
+                'slug' => 'insurance_officer'
+            ]
+        );
+
 
         Role::create(
             [
@@ -75,7 +116,7 @@ class PermissionsSeeder extends Seeder
             [
                 'description' => 'Transport Officer',
                 'name' => 'transport-officer',
-                'slug'=> 'transport_officer'
+                'slug' => 'transport_officer'
             ]
         );
 
@@ -94,7 +135,5 @@ class PermissionsSeeder extends Seeder
                 'slug' => 'mechanic'
             ]
         );
-
-
     }
 }

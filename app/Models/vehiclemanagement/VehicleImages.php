@@ -9,7 +9,7 @@ class VehicleImages extends Model
 {
     use HasFactory;
 
-    protected $table = '';
+    protected $table = 'VM_VEHICLE_IMAGES';
 
     protected $fillable = [
         'vehicle_header_id',
