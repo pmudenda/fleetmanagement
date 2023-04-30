@@ -10,7 +10,6 @@ use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -173,6 +172,7 @@ Route::group(['middleware' => 'auth'], function () {
     })->name('new.vehicle.requisition');
 
     Route::get('/requisition/fuel', [FuelRequisitionController::class, 'create'])->name('new.fuel.requisition');
+
     Route::post('/requisition/fuel/save', [FuelRequisitionController::class, 'store'])->name('save.fuel.requisition');
 
     Route::get('/requisition/parts', function () {
@@ -180,6 +180,16 @@ Route::group(['middleware' => 'auth'], function () {
     })->name('new.parts.requisition');
 });
 
+Route::get('searchProjects', function (Request $request) {
+    $period = date('M-Y');
+    //$period = 'Oct-2022';
+    $searchCriteria = strtoupper(trim($request->input('search')));
+    $activeProjects = $this->tripService->getActiveProjects($period, $searchCriteria);
+    return response()->json(array(
+        'items' => $activeProjects,
+        'total_count' => $activeProjects->count()
+    ));
+})->name('search.project');
 
 //, 'middleware' => 'auth'
 Route::group(['prefix' => 'vehicle-management', 'middleware' => 'auth'], function () {
@@ -200,8 +210,8 @@ Route::group(['prefix' => 'vehicle-management', 'middleware' => 'auth'], functio
         return view('vehicleManagement.vehicleList');
     })->name('vehicle.edit');
 
-    /* VEHICLE ON BOARDING */
     Route::post('vehicles', [VehicleOnBoardingController::class, 'store'])->name('api.vehicle.new');
+
     Route::get('vehicle/details', [VehicleController::class, 'getDetails'])->name('api.vehicle');
 
     Route::post('post-chassis-detail', [VehicleOnBoardingController::class, 'storeChassisDetails'])

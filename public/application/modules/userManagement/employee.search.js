@@ -1,4 +1,4 @@
-(function ($, supportData) {
+(function (tmsApp, $, supportData) {
 
     function populateEmployeeDetails(response) {
         let data = response;//.data.employee;
@@ -29,19 +29,20 @@
         formData.append('searchCriteria', employee_search_criteria);
         const postUrl = $('form[name="tms_user_definition"]').attr('data-action');
 
-        tmsApp.tmsUtility.asyncPostFormData(
+        tmsApp.asyncPostFormData(
             postUrl,
             formData,
             function (response_data) {
                 if (response_data.success === 'true' || response_data.success === true) {
                     populateEmployeeDetails(response_data['payload']);
                 } else {
-                    alert('No User Found, Check your input and try again')
+                    tmsApp.play_alert('sound-error');
+                    tmsApp.systemError('', 'No User Found, Check your input and try again');
                 }
             },
             function (xhr, settings, errorThrown) {
                 console.log(xhr);
-                alert('We could not complete processing your request, please try again later')
+                tmsApp.systemError('', 'We could not complete processing your request, please try again later')
             }
         );
     });
@@ -56,7 +57,7 @@
         let form = $(this);
         // $("#loader_inv").removeClass('d-none');
 
-        tmsApp.tmsUtility.asyncPostFormData(
+        tmsApp.asyncPostFormData(
             form.attr('action'),
             new FormData(form[0]),
             function (response_data) {
@@ -128,8 +129,7 @@
                                     </td>
                                 </tr>`;
                     }
-                }
-                else {
+                } else {
 
                     rows += `<tr>
                                 <td>
@@ -267,6 +267,6 @@
         _modal.modal('hide');
     });
 
-})(jQuery, window.supportData || {assignmenttype: 'single', inputfield: '', field: ''});
+})(tmsApp || {}, jQuery, window.supportData || {assignmenttype: 'single', inputfield: '', field: ''});
 
 

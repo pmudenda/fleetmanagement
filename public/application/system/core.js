@@ -1,28 +1,30 @@
 'use strict';
 /**
- * @namespace tmsUtility
- * @type {{makeId: (function(*): string), populateDropDownList: tmsUtility.populateDropDownList, getProperty: ((function(*, *): (*))|*), getRawNumber: (function(*): number|number), isEmpty: ((function(*): (boolean))|*), numberOnly: ((function(*): boolean)|*), makeReference: (function(*): string), getFloat: ((function(*): (number|number))|*), getIndexInArray: ((function(*, *, *): (*|undefined))|*), numberFormat: (function(*): string), setProperty: ((function(*, *, *): (undefined))|*), getPropertyInArray: ((function(*, *, *): (*))|*), inArray: ((function(*, *): (boolean))|*), formatMoney: ((function(*, *): (*))|*), DECIMAL_PLACES: number}}
+ *
  */
-let tmsUtility = {
-    DECIMAL_PLACES: 2,
+(function (appInstance, $) {
+    appInstance.DECIMAL_PLACES = 2;
+
     /**
      * formats input to money like format
-     * @namespace tmsUtility.numberFormat
+     * @namespace tmsApp.numberFormat
      * @param num
      * @returns {string}
      */
-    numberFormat: function (num) {
-        let x = tmsUtility.getFloat(num);
+    appInstance.numberFormat = function (num) {
+        let x = appInstance.getFloat(num);
         let numString = x.toFixed(this.DECIMAL_PLACES);
         let numberParts = numString.split('.');
         numberParts[0] = numberParts[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
         return numberParts.join('.');
-    },
-    getRawNumber: function (numString) {
+    };
+
+    appInstance.getRawNumber = function (numString) {
         let num = numString + "";
-        return tmsUtility.getFloat(num.replace(/,/g, ""));
-    },
-    getProperty: function (obj, key) {
+        return appInstance.getFloat(num.replace(/,/g, ""));
+    };
+
+    appInstance.getProperty = function (obj, key) {
         if (!!obj && !!obj[key]) {
             return obj[key];
         }
@@ -36,8 +38,9 @@ let tmsUtility = {
             }
         }
         return tmp;
-    },
-    setProperty: function (obj, key, value) {
+    };
+
+    appInstance.setProperty = function (obj, key, value) {
         if (!obj)
             return undefined;
         let keys = key.split(".");
@@ -54,8 +57,9 @@ let tmsUtility = {
         }
         currentObj[lastKey] = value;
         return obj;
-    },
-    getPropertyInArray: function (array, key, needle) {
+    };
+
+    appInstance.getPropertyInArray = function (array, key, needle) {
         if (Array.isArray(array)) {
             for (let i in array) {
                 if (array.hasOwnProperty(i) && this.getProperty(array[i], key) === needle) {
@@ -64,9 +68,11 @@ let tmsUtility = {
             }
         }
         return undefined;
-    },
-    getFloat: function (val) {
+    };
+
+    appInstance.getFloat = function (val) {
         if (!val) return 0.00;
+        if(val === "0.00") return val;
         let num = val + "";
         val = num.replace(/,/g, "");
         if (isNaN(parseFloat(val))) {
@@ -74,15 +80,17 @@ let tmsUtility = {
         } else {
             return parseFloat(val);
         }
-    },
-    inArray: function (array, key) {
+    };
+
+    appInstance.inArray = function (array, key) {
         for (let i in array) {
             if (key === array[i])
                 return true;
         }
         return false;
-    },
-    makeId: function makeid(length) {
+    };
+
+    appInstance.appInstancemakeId = function makeid(length) {
         let result = '';
         let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let charactersLength = characters.length;
@@ -90,8 +98,9 @@ let tmsUtility = {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
         return result;
-    },
-    isEmpty: function (obj) {
+    };
+
+    appInstance.isEmpty = function (obj) {
         if (!obj)
             return true;
         for (let key in obj) {
@@ -100,8 +109,9 @@ let tmsUtility = {
             }
         }
         return true;
-    },
-    populateDropDownList: function (selectEl, data, idKey, textKeys, textKeySeparator, defaultMessage) {
+    };
+
+    appInstance.populateDropDownList = function (selectEl, data, idKey, textKeys, textKeySeparator, defaultMessage) {
         let defaultValue = (!!defaultMessage) ? defaultMessage : "";
 
         let records = [];
@@ -109,10 +119,10 @@ let tmsUtility = {
         for (let i in data) {
             let textArray = [];
             for (let j in textKeys) {
-                textArray.push(tmsUtility.getProperty(data[i], textKeys[j]));
+                textArray.push(this.getProperty(data[i], textKeys[j]));
             }
             records.push({
-                id: tmsUtility.getProperty(data[i], idKey),
+                id: this.getProperty(data[i], idKey),
                 text: textArray.join(textKeySeparator)
             });
         }
@@ -133,8 +143,14 @@ let tmsUtility = {
             width: "resolve",
             data: records
         }).append(newOption).trigger('change');
-    },
-    makeReference: function (length) {
+    };
+
+    /**
+     * generates a unique reference number from the client
+     * @param length
+     * @returns {string}
+     */
+    appInstance.makeReference = function (length) {
         let result = '';
         let characters = '0123456789';
         let charactersLength = characters.length;
@@ -142,7 +158,8 @@ let tmsUtility = {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
         return result;
-    },
+    };
+
     /**
      * Return Index Of Object in Array
      * @param array
@@ -150,7 +167,7 @@ let tmsUtility = {
      * @param needle
      * @returns {undefined|*}
      */
-    getIndexInArray: function (array, key, needle) {
+    appInstance.getIndexInArray = function (array, key, needle) {
         if (Array.isArray(array)) {
             for (let i in array) {
                 if (array.hasOwnProperty(i) && this.getProperty(array[i], key) === needle) {
@@ -159,21 +176,31 @@ let tmsUtility = {
             }
         }
         return -1;
-    },
-    formatMoney: function (data, decimal_places) {
-        if (!data) return this.getFloat("0.00");
-        if (!decimal_places) decimal_places = this.DECIMAL_PLACES;
+    };
+    /**
+     * form value and return currency formatted value
+     * @param data
+     * @param decimal_places
+     * @returns {number|number|string}
+     */
+    appInstance.formatMoney = function (data, decimal_places) {
+        if (!data) {
+            data = appInstance.getFloat("0.00");
+            console.log('Formatted ',data);
+            return data;
+        }
+        if (!decimal_places) decimal_places = appInstance.DECIMAL_PLACES;
         data = data.toString();
         data = parseFloat(data).toFixed(decimal_places);
         return new Intl.NumberFormat().format(parseFloat(data));
-    },
+    };
     /**
-     * checks if event originated from a number key on keyboard
-     * @namespace tmsUtility.numberOnly
+     * initialises input to accept event originated from a number key on keyboard
+     * @namespace tmsApp.numberOnly
      * @param event
      * @returns {boolean}
      */
-    numberOnly: function (event) {
+    appInstance.appInstancenumberOnly = function (event) {
         let key;
         /*if (event.keyCode === 8 || event.keyCode === 46) {
             return true;
@@ -191,7 +218,7 @@ let tmsUtility = {
             event.returnValue = false;
             if (event.preventDefault) event.preventDefault();
         }
-    },
+    };
     /**
      * submit asynchronous call of type post
      * @param url
@@ -199,7 +226,7 @@ let tmsUtility = {
      * @param successCallBack
      * @param errorCallBack
      */
-    asyncPostFormData: function (url, requestPayload, successCallBack, errorCallBack) {
+    appInstance.asyncPostFormData = function (url, requestPayload, successCallBack, errorCallBack) {
         $.ajax({
             type: 'POST',
             url: url,
@@ -216,7 +243,7 @@ let tmsUtility = {
                 }
             }
         });
-    },
+    };
     /**
      * submit asynchronous call of type get
      * @param url
@@ -224,13 +251,15 @@ let tmsUtility = {
      * @param successCallBack
      * @param errorCallBack
      */
-    asyncGetFormData: function (url, requestPayload, successCallBack, errorCallBack) {
-        $.get({
+    appInstance.asyncGetFormData = function (url, requestPayload, successCallBack, errorCallBack) {
+        $.ajax({
+            type: 'GET',
             url: url,
             dataType: 'json',
             data: requestPayload,
             processData: false,
             contentType: false,
+            headers: {},
             success: function (response_data) {
                 successCallBack(response_data);
             },
@@ -240,14 +269,80 @@ let tmsUtility = {
                 }
             }
         });
-    },
-    printErrorMsg: function (msg) {
+    };
+    /**
+     *
+     * @param msg
+     */
+    appInstance.printErrorMsg = function (msg) {
         let $msgBox = $('.print-error-msg');
         $msgBox.find('ul').html('');
         $msgBox.css('display', 'block');
         $.each(msg, function (key, value) {
             $msgBox.find('ul').append('<li>' + value + '</li>');
         })
-    }
-};
-tmsApp.tmsUtility = tmsUtility;
+    };
+    /**
+     *
+     * @param formSelector
+     * @param validationRules
+     * @param validationMessages
+     */
+    appInstance.appFormValidator = function (formSelector, validationRules, validationMessages) {
+        $(formSelector).validate({
+            // validation rules for registration form
+            errorClass: "error-class",
+            validClass: "valid-class",
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                if (element.parent('.input-group').length) {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            onError: function () {
+                $('.input-group.error-class').find('.help-block.form-error').each(function () {
+                    $(this).closest('.form-group').addClass('error-class').append($(this));
+                });
+            },
+            rules: validationRules,
+            messages: validationMessages,
+            ignore: ":hidden"
+        });
+    };
+
+    /**
+     * initialises jquery datatables
+     * @param selector
+     * @param hasExportOptions
+     */
+    appInstance.initDatatable = function (selector, hasExportOptions) {
+        if (hasExportOptions) {
+            $(selector).DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            }).buttons().container().appendTo(selector + '_wrapper .col-md-6:eq(0)');
+
+        } else {
+            $(selector).DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": []
+            }).buttons().container().appendTo(selector + '_wrapper .col-md-6:eq(0)');
+        }
+    };
+
+    /**
+     * adds audio to events
+     * @param soundSelector
+     */
+    appInstance.play_alert = function playSound(soundSelector) {
+        document.querySelector('#' + soundSelector).play()
+    };
+
+})(window.tmsApp = window.tmsApp || {}, jQuery);
+

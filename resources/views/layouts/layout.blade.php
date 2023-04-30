@@ -193,7 +193,7 @@
 <script>
     $(document).ready(function () {
         $(document).on('keypress', '.number_input', function (event) {
-            tmsApp.tmsUtility.numberOnly(event);
+            tmsApp.numberOnly(event);
         })
 
         $.ajaxSetup({

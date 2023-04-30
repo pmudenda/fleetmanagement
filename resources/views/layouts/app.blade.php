@@ -36,6 +36,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/sweetalert2/sweetalert2.min.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/vue-select/vue-select.css') }}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/custom/datatables/datatables.bundle.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{asset("assets/plugins/jquery.filer/css/jquery.filer.css")}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/custom.css')}}">
 
     {{--
@@ -122,29 +123,7 @@
 <script>
     $.widget.bridge('uibutton', $.ui.button)
 </script>
-
-<script src="{{asset('themes/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>
-<script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
-<script src="{{asset('assets/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
-
-<script src="{{asset('assets/plugins/form-masking/jquery.inputmask.js') }}"></script>
-<script src="{{asset('assets/js/global/async.loader.js').'?v='.Carbon::now()->format('his')}}"></script>
-<script src="{{asset('assets/js/global/system_alerts.js').'?v='.Carbon::now()->format('his')}}"></script>
-
-<script src="{{ asset('assets/plugins/form-masking/autoNumeric.js') }}"></script>
-{{--<script src="{{ asset('assets/plugins/form-masking/form-mask.js') }}"></script>--}}
-<script src="{{asset('themes/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
-<script src="{{asset('themes/plugins/moment/moment.min.js')}}"></script>
-<script src="{{asset('themes/plugins/daterangepicker/daterangepicker.js')}}"></script>
-<script src="{{asset('themes/plugins/summernote/summernote-bs4.min.js')}}"></script>
-<script src="{{asset('themes/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
-<script src="{{asset('themes/dist/js/adminlte2167.js')}}?v=3.2.0"></script>
 <script>
-    // window.addEventListener("load", function () {
-    //     document.querySelector('.page-loader-wrapper').classList.add('d-none');
-    // });
-
     window._version_number = "{{\Illuminate\Support\Str::uuid()}}";
     window.app = true;
     window.dev_server = 0;
@@ -155,44 +134,42 @@
 
     tmsApp.messages = tmsApp?.boot['messages'];
     tmsApp.csrf_token = document.querySelector('meta[name="csrf-token"]').content;
-    tmsApp.play_alert = function playSound(soundSelector) {
-        document.querySelector('#' + soundSelector).play()
-    }
-    tmsApp.initDatatable = function (selector, hasExportOptions) {
-        if (hasExportOptions) {
-            $(selector).DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print"]
-            }).buttons().container().appendTo(selector + '_wrapper .col-md-6:eq(0)');
-
-        } else {
-            $(selector).DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": []
-            }).buttons().container().appendTo(selector + '_wrapper .col-md-6:eq(0)');
-        }
-    }
 </script>
-<script src="{{ asset('application/system/core.js') }}"></script>
-<script src="{{ asset('assets/js/accounting.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/vue/vue.js')}}"></script>
-<script src="{{ asset('assets/plugins/vue-select/vue-select.js')}}"></script>
-<script src="{{ asset('assets/plugins/vue-select2/js/vue-select.js')}}"></script>
+<script src="{{asset('themes/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>
+<script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
+<script src="{{asset('assets/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
+<script src="{{asset('assets/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+<script src="{{asset('assets/plugins/jquery.filer/js/jquery.filer.min.js')}}"></script>
+<script src="{{asset('assets/plugins/form-masking/jquery.inputmask.js') }}"></script>
+<script src="{{asset('assets/plugins/form-masking/autoNumeric.js') }}"></script>
+{{--<script src="{{ asset('assets/plugins/form-masking/form-mask.js') }}"></script>--}}
+<script src="{{asset('themes/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
+<script src="{{asset('themes/plugins/moment/moment.min.js')}}"></script>
+<script src="{{asset('themes/plugins/daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('themes/plugins/summernote/summernote-bs4.min.js')}}"></script>
+<script src="{{asset('themes/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
+<script src="{{asset('assets/js/accounting.min.js') }}"></script>
+<script src="{{asset('assets/plugins/vue/vue.js')}}"></script>
+<script src="{{asset('assets/plugins/vue-select/vue-select.js')}}"></script>
+<script src="{{asset('assets/plugins/vue-select2/js/vue-select.js')}}"></script>
+<script src="{{asset('themes/dist/js/adminlte2167.js')}}?v=3.2.0"></script>
+<script src="{{asset('application/system/core.js')}}"></script>
+<script src="{{asset('assets/js/global/async.loader.js').'?v='.Carbon::now()->format('his')}}"></script>
+<script src="{{asset('assets/js/global/system_alerts.js').'?v='.Carbon::now()->format('his')}}"></script>
+<script src="{{asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>
+
+
 <script>
     $(document).ready(function () {
         $(document).on('keypress', '.number_input', function (event) {
-            tmsApp.tmsUtility.numberOnly(event);
+            tmsApp.numberOnly(event);
         });
-
-        $.ajaxSetup({
-            global: true, headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+        // $.ajaxSetup({
+        //     global: true, headers: {
+        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //     }
+        // });
     });
 </script>
 @stack('scripts')

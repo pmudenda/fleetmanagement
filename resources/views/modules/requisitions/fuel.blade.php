@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @push('styles')
+    <link href="{{asset("assets/plugins/select2/css/select2.min.css")}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset("assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")}}" rel="stylesheet"
+          type="text/css"/>
 @endpush
 @section('content')
 
@@ -29,351 +32,344 @@
                       method="post">
                     @csrf
                     <div class="card-body user-data">
-                        <div class="container-fluid">
-                            <div class="table-responsive mt-3">
-                                <table class="table">
-                                    <thead>
-                                    <tr class="">
-                                        <th>Make</th>
-                                        <th>Model</th>
-                                        <th>Registration</th>
-                                        <th>User Unit Assigned</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td id="make"></td>
-                                        <td id="model"></td>
-                                        <td id="registration"></td>
-                                        <td id="assigned"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
                         <label class="app-required-marker"></label>
                         <div class="container-fluid mt-2">
                             <div class="row">
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label
-                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                    for="staff_no">Registration #:
-                                                </label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <div class="input-group">
-                                                        <input type="text"
-                                                               data-action="{{route('api.vehicle')}}"
-                                                               class="form-control form-control-sm"
-                                                               id="vehicle_registration"
-                                                               placeholder="Vehicle Registration e.g AAB 6757"
-                                                               name="vehicle_registration" required>
-                                                        <div class="input-group-addon">
-                                                            <button type="button" id="vehicleSearchBtn"
-                                                                    name="vehicleSearchBtn"
-                                                                    class="btn btn-success btn-sm border-radius-0">
-                                                                <i class="fas fa-search"></i>
-                                                            </button>
+                                <div class="col-9">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                            for="staff_no">Registration #:
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <div class="input-group">
+                                                                <input type="text"
+                                                                       data-action="{{route('api.vehicle')}}"
+                                                                       class="form-control form-control-sm"
+                                                                       autocapitalize="characters"
+                                                                       id="vehicle_registration"
+                                                                       placeholder="Vehicle Registration e.g AAB 6757"
+                                                                       name="vehicle_registration" required>
+                                                                <div class="input-group-addon">
+                                                                    <button type="button" id="vehicleSearchBtn"
+                                                                            name="vehicleSearchBtn"
+                                                                            class="btn btn-success btn-sm border-radius-0">
+                                                                        <i class="fas fa-search"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                            <input type="hidden" class="form-control form-control-sm"
+                                                                   id="vehicle_description"
+                                                                   name="vehicle_description"
+                                                                   required readonly>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                    <input type="hidden" class="form-control form-control-sm"
-                                                           id="vehicle_description"
-                                                           name="vehicle_description"
-                                                           required readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <div
-                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
-                                                    <div class="control-input">
-                                                        <div class="link-field ui-front" style="position: relative;">
-                                                            <label class="form-check-inline">
-                                                                <input type="radio"
-                                                                       class="list-row-checkbox bold mr-3"
-                                                                       name="CostAssignedTo"
-                                                                       value="CostCenterBasedRequisition"
-                                                                       checked>
-                                                                Cost Center
-                                                            </label>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <div
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            <div class="control-input">
+                                                                <div class="link-field ui-front"
+                                                                     style="position: relative;">
+                                                                    <label class="form-check-inline">
+                                                                        <input type="radio"
+                                                                               class="list-row-checkbox bold mr-3"
+                                                                               name="CostAssignedTo"
+                                                                               value="CostCenterBasedRequisition"
+                                                                               checked>
+                                                                        Cost Center
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   id="cost_centre_code"
+                                                                   value="{{$costCenter->code_cost_center}}"
+                                                                   name="cost_centre_code"
+                                                                   required readonly>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           id="cost_centre_code"
-                                                           value="{{$costCenter->code_cost_center}}"
-                                                           name="cost_centre_code"
-                                                           required readonly>
-                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-10">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           id="cost_center_name"
-                                                           value="{{$costCenter->description}}"
-                                                           name="cost_center_name"
-                                                           required readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <div
-                                                    class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
-                                                    <div class="control-input">
-                                                        <div class="link-field ui-front"
-                                                             style="position: relative;">
-                                                            <label class="form-check-inline">
-                                                                <input type="radio"
-                                                                       class="list-row-checkbox bold mr-3"
-                                                                       autocomplete="off"
-                                                                       name="CostAssignedTo"
-                                                                       value="ProjectBasedRequisition">
-                                                                Project
-                                                            </label>
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-10">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   id="cost_center_name"
+                                                                   value="{{$costCenter->description}}"
+                                                                   name="cost_center_name"
+                                                                   required readonly>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           id="project_code"
-                                                           name="project_code"
-                                                           required readonly>
-                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                       for="staff_name">
-                                                    Requisition Type:
-                                                </label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <select name="requisition_type" id="requisition_type"
-                                                            class="form-control form-select-sm"
-                                                            required>
-                                                        <option value=""> --Select--</option>
-                                                        @foreach ($requisitionTypes as $requisitionType)
-                                                            <option
-                                                                value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                       for="staff_name">
-                                                    Odometer Reading :
-                                                </label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           id="odometer_reading"
-                                                           name="odometer_reading"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row d-none" id="outOfTown">
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                       for="mobile_no">Departure Date:</label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="date" class="form-control form-control-sm"
-                                                           id="departure_date"
-                                                           max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
-                                                           name="departure_date"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                       for="request_date">Return Date:</label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           id="return_date"
-                                                           readonly
-                                                           max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
-                                                           name="return_date">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                       for="mobile_no">Allocation Per Week:</label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <div class="input-group input-group-sm">
-                                                        <input type="text" class="form-control form-control-sm"
-                                                               id="fuel_allocation"
-                                                               name="fuel_allocation"
-                                                               readonly
-                                                        />
-                                                        <div class="input-group-text">
-                                                            Ltr
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <div
+                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            <div class="control-input">
+                                                                <div class="link-field ui-front"
+                                                                     style="position: relative;">
+                                                                    <label class="form-check-inline">
+                                                                        <input type="radio"
+                                                                               class="list-row-checkbox bold mr-3"
+                                                                               autocomplete="off"
+                                                                               name="CostAssignedTo"
+                                                                               value="ProjectBasedRequisition">
+                                                                        Project
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            {{--<input type="text" class="form-control form-control-sm"
+                                                                   id="project_code"
+                                                                   name="project_code"
+                                                                   required readonly>--}}
+                                                            <select disabled type="text" name="project_code"
+                                                                    class="form-select mt-1 project-code-ajax"
+                                                                    id="project_code">
+                                                            </select>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                       for="request_date">Request Date:</label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           id="request_date"
-                                                           readonly
-                                                           value="{{\Carbon\Carbon::now()->format('d/m/y')}}"
-                                                           name="request_date">
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
+                                                            Requisition Type:
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <select name="requisition_type" id="requisition_type"
+                                                                    class="form-control form-select-sm"
+                                                                    required>
+                                                                <option value=""> --Select--</option>
+                                                                @foreach ($requisitionTypes as $requisitionType)
+                                                                    <option
+                                                                        value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                               for="staff_name">
+                                                            Odometer Reading :
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   id="odometer_reading"
+                                                                   name="odometer_reading"
+                                                            />
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                                       for="next_fuel_date">
-                                                    Next Refueling Date :
-                                                </label>
-                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
-                                                    <input type="text" class="form-control form-control-sm"
-                                                           id="next_fuel_date"
-                                                           value="{{\Carbon\Carbon::now()->add('days', $daysToNextRefuel)->format('d/m/y')}}"
-                                                           name="next_fuel_date"
-                                                           readonly required>
+                                    <div class="row d-none" id="outOfTown">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Departure Date:</label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <input type="date" class="form-control form-control-sm"
+                                                                   id="departure_date"
+                                                                   max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
+                                                                   name="departure_date"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="request_date">Return Date:</label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   id="return_date"
+                                                                   readonly
+                                                                   max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
+                                                                   name="return_date">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                       for="mobile_no">Purpose:</label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Allocation Per Week:</label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <div class="input-group input-group-sm">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                       id="fuel_allocation"
+                                                                       name="fuel_allocation"
+                                                                       readonly
+                                                                />
+                                                                <div class="input-group-text">
+                                                                    Ltr
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="request_date">Request Date:</label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   id="request_date"
+                                                                   readonly
+                                                                   value="{{\Carbon\Carbon::now()->format('d/m/y')}}"
+                                                                   name="request_date">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
+                                                            for="next_fuel_date">
+                                                            Next Refueling Date :
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   id="next_fuel_date"
+                                                                   value="{{\Carbon\Carbon::now()->add('days', $daysToNextRefuel)->format('d/m/y')}}"
+                                                                   name="next_fuel_date"
+                                                                   readonly required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Purpose:</label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <textarea type="text"
                                                                   id="justification"
                                                                   name="justification"
                                                                   style="height: 129px;"
                                                                   class="form-control form-control-sm"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="col-xs-12 col-sm-6 col-md-5">
-                                    <div class="container-fluid pl-0">
-                                        <div class="row">
-                                            <div class="form-group row">
-                                                {{--<label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                       for="user_type_id">Group :</label>
-                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                    <select name="user_role_id" id="user_role_id"
-                                                            class="form-control form-select-sm"
-                                                            required>
-                                                        <option value=""> --Choose Group--</option>
-
-                                                    </select>
-                                                </div>--}}
-                                            </div>
-                                        </div>
+                                <div class="col-3">
+                                    <div id="vehicleDetailsContainer" style="display: none;"
+                                         class="col-xs-12 col-sm-12 col-md-12">
+                                        <h1>Vehicle Details</h1>
+                                        <table class="table">
+                                            <tbody id="vehicleDetails" class="vehicleDetails">
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="container-fluid">
-                            <div class="table-responsive mt-3">
-                                <table class="table table-bordered">
+                            <div id="materialDetailsContainer" class="table-responsive mt-3" style="display: ;">
+                                <table id="materialDetailsTable" class="table table-bordered">
                                     <thead>
                                     <tr class="bg-dark">
                                         <th>Material Description</th>
@@ -381,30 +377,47 @@
                                         <th>Qty</th>
                                         <th>Unit Of Measure</th>
                                         <th>Price</th>
-                                        <th>Amount</th>
+                                        <th>Amount(ZMW)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td>Material Description</td>
+                                        <td>
+                                            <span data-material-input="material_description"
+                                                  id="material_description"></span>
+                                            <input type="hidden" name="material_description">
+                                        </td>
                                         <td>
                                             <input type="text" name="projectCode" readonly value="000000"
-                                                   class="form-contol form-control-sm border-0"/>
+                                                   class="form-control form-control-sm border-0"/>
                                         </td>
-                                        <td><span>0</span></td>
-                                        <td>Unit Of Measure</td>
-                                        <td>Price</td>
-                                        <td>Amount(ZMW)</td>
+                                        <td>
+                                            <input type="text" name="material_quantity"
+                                                   id="material_quantity"
+                                                   class="form-control form-control-sm"/>
+                                        </td>
+                                        <td>
+                                            <span data-material-input="unit_of_measure" id="unit_of_measure">Ltr</span>
+                                            <input type="hidden" name="unit_of_measure">
+                                        </td>
+                                        <td>
+                                            <span data-material-input="material_price" id="material_price">12</span>
+                                            <input type="hidden" name="material_price" value="12">
+                                        </td>
+                                        <td>
+                                            <span data-material-input="material_amount" id="material_amount"></span>
+                                            <input type="hidden" name="material_amount">
+                                        </td>
                                     </tr>
                                     </tbody>
                                     <tfoot>
                                     <tr>
                                         <td></td>
                                         <td class="text-right"><strong>Total Quantity</strong></td>
-                                        <td><span class="text-bold" id="totalQty">0.00</span></td>
+                                        <td><span class="text-bold" id="totalQty"></span></td>
                                         <td></td>
                                         <td class="text-right"><strong>Total Amount</strong></td>
-                                        <td><span class="text-bold" id="totalAmount">0.00</span></td>
+                                        <td><span class="text-bold" id="totalAmount"></span></td>
                                     </tr>
                                     </tfoot>
                                 </table>
@@ -414,62 +427,185 @@
                 </form>
 
                 <input type="hidden" value="{{ route('user.search') }}" id="newUserSearchUrl">
+                <input type="hidden" value="{{route('search.project')}}" id="projects_url">
             </div>
         </div>
     </section>
 @endsection
 @push('scripts')
-
+    <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script>
-        function populateVehicleDetails(vehicle) {
+      /*  $(document).ready(function () {
+            Inputmask({
+                "mask": "AAA 9999"
+            }).mask("#vehicle_registration");
+        })*/
+        (function (tmsApp, $) {
+            function removeSubmissionAndDetailsOptions() {
+                document.querySelector('#actionButtonsContainer').style.display = 'none';
+                document.querySelector('#vehicleDetailsContainer').style.display = 'none';
+                document.querySelector('#materialDetailsContainer').style.display = 'none';
+                $('tbody#vehicleDetails').html('');
+                document.querySelector('[name="fuel_allocation"]').value = '';
 
-            if (vehicle) {
-                let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
-                $("#vehicle_description").val(vLabel);
-                document.querySelector('#actionButtonsContainer').style.display = null;
+                $("#material_description").text(tmsApp.formatMoney('0', 2));
+                $('input[name="material_description"]').val(tmsApp.formatMoney('0', 2));
             }
-        }
 
-        function findVehicle(numberPlate) {
+            function populateVehicleDetails(vehicle) {
 
-            let formData = new FormData();
-            formData.append('vehicle_registration', numberPlate);
+                if (vehicle) {
+                    let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
+                    $("#vehicle_description").val(vLabel);
+                    let row = `<tr>
+                                    <th>Make</th><td id="make">${vehicle.brand_name}</td>
+                               </tr>
+                               <tr>
+                                    <th>Model</th><td id="model">${vehicle.model_name} ${vehicle.model_code}</td>
+                               </tr>
+                               <tr>
+                                     <th>Registration</th><td id="registration">${vehicle['registration_number']}</td>
+                                </tr>`;
 
-            tmsApp.tmsUtility.asyncGetFormData(
-                $('#vehicle_registration').attr('data-action'),
-                formData,
-                function (response_data) {
-                    if (response_data.success === 'true' || response_data.success === true) {
-                        populateVehicleDetails(response_data.payload);
-                    } else {
-                        alert('No Vehicle Found, Check your input and try again')
+                    $('tbody#vehicleDetails').html(row);
+
+                    if (vehicle.fuel_allocation) {
+                        let perWeekAllocation = vehicle.fuel_allocation * 7;
+                        document.querySelector('[name="fuel_allocation"]').value = perWeekAllocation ?? 0;
                     }
-                },
-                function (xhr) {
-                    console.log(xhr);
-                    alert('We could not complete processing your request, please try again later')
-                }
-            )
-        }
 
-        $(document).ready(function () {
+                    document.querySelector('#actionButtonsContainer').style.display = null;
+                    document.querySelector('#vehicleDetailsContainer').style.display = null;
+                    document.querySelector('#materialDetailsContainer').style.display = null;
+
+                    //vehicle.fuel_types
+                    $("#material_description").text(vehicle['fuel_types']);
+                    $('input[name="material_description"]').val(vehicle['fuel_types']);
+
+                    $("#material_amount").text(tmsApp.formatMoney('', 2));
+                    $('input[name="material_amount"]').val(tmsApp.formatMoney('', 2)).trigger('change');
+
+                    $("#material_price").text(tmsApp.formatMoney('', 2));
+                    $('input[name="material_price"]').val(tmsApp.formatMoney('', 2)).trigger('change');
+                }
+            }
+
+            function findVehicle() {
+                const numberPlate = document.querySelector('#vehicle_registration').value
+                let formData = new FormData();
+                formData.append('vehicle_registration', numberPlate);
+
+                tmsApp.asyncGetFormData(
+                    $('#vehicle_registration').attr('data-action') + '?vehicle_registration=' + numberPlate,
+                    formData,
+                    function (response_data) {
+                        if (response_data.success === 'true' || response_data.success === true) {
+                            populateVehicleDetails(response_data.payload);
+                        } else {
+                            removeSubmissionAndDetailsOptions();
+                            tmsApp.showToast('No Vehicle Found, Check your input and try again', 'error');
+                        }
+                    },
+                    function (xhr) {
+                        console.log(xhr);
+                        tmsApp.showToast('We could not complete processing your request, please try again later')
+                    }
+                )
+            }
+
+            function eventHandler(element, e) {
+                let $table = $('#materialDetailsTable');
+                console.log(element.name);
+
+                switch (element.name) {
+                    case 'material_price':
+                        break;
+                    case 'material_quantity':
+
+                        let summaryTotalQty = 0;
+                        $table.find("input[name=material_quantity]").each(function (i, it) {
+                            summaryTotalQty += tmsApp.getFloat(it.value);
+                        });
+
+                        $('#totalQty').text(tmsApp.numberFormat(summaryTotalQty));
+
+                        let sales = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=material_price]").val());
+                        $(element).closest("tr").find("input[name=material_amount]").val(tmsApp.numberFormat(sales)).change();
+                        $(element).closest("tr").find("#material_amount").text(tmsApp.numberFormat(sales));
+                        break;
+                    case 'material_amount':
+                        // calculate new footer total
+                        let summaryTotal = 0;
+                        $table.find("input[name=material_amount]").each(function (i, it) {
+                            summaryTotal += tmsApp.getFloat(it.value);
+                        });
+                        $('#totalAmount').text(tmsApp.numberFormat(summaryTotal, 2));
+                    default:
+                        break;
+                }
+            }
+
             $('#vehicle_registration').on('change', function () {
                 if (this.value && this.value.length < 6) {
                     return;
                 }
 
-                findVehicle(this.value);
+                findVehicle();
             });
 
-            $('#vehicleSearchBtn').on('change', function () {
+            $('#vehicleSearchBtn').on('click', function () {
                 if (document.querySelector('#vehicle_registration').value && document.querySelector('#vehicle_registration') < 6) {
                     return;
                 }
-                //findVehicle(document.querySelector('#vehicle_registration').value);
+                findVehicle();
             });
+
+            tmsApp.appFormValidator('form[name="fuelRequisitionForm"]',
+                {
+                    'requisition_type': {
+                        required: true,
+                    },
+                    fuel_allocation: {
+                        required: true
+                    },
+                    justification: {
+                        required: true,
+                        minlength: 10,
+                        maxlength: 255
+                    },
+                    projectCode: {
+                        required: true
+                    }
+                },
+                {
+                    'requisition_type': {
+                        required: "You have not declared the type of requisition"
+                    },
+
+                    'fuel_allocation': {
+                        required: "The vehicle does not have a valida fuel allocation"
+                    },
+
+                    'dateOpened': {
+                        required: "You must specify date task was opened"
+                    },
+
+                    'justification': {
+                        required: "Reason for requisition is mandatory",
+                        minlength: "The reason needs to be at least {0} characters!",
+                        maxlength: "The reason must not be more than 255 characters"
+                    },
+
+                    projectCode: {
+                        required: 'Missing Project Code'
+                    }
+                });
 
             $('#submitRequisitionBtn').on('click', function () {
                 let $form = document.forms['fuelRequisitionForm'];
+                if (!$form.valid()) {
+                    return;
+                }
                 let formData = new FormData($form);
                 tmsApp.confirm(
                     'Fuel Requisition',
@@ -477,7 +613,7 @@
                     'Yes',
                     'No',
                     function () {
-                        tmsApp.tmsUtility.asyncPostFormData(
+                        window.top.tmsApp.asyncPostFormData(
                             $form.action,
                             formData,
                             function (asyncResponse) {
@@ -493,7 +629,7 @@
                                     }, 300);
                                 } else {
                                     if (asyncResponse.hasOwnProperty('errors')) {
-                                        tmsApp.tmsUtility.printErrorMsg(asyncResponse.errors);
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
                                         return
                                     }
 
@@ -528,7 +664,7 @@
 
             $('#resetRequisitionBtn').on('click', function () {
                 document.forms['fuelRequisitionForm'].reset();
-                document.querySelector('#actionButtonsContainer').style.display = 'none';
+                removeSubmissionAndDetailsOptions();
             });
 
             $('select[name="requisition_type"]').on('change', function () {
@@ -540,18 +676,38 @@
             });
 
             $('input[name="CostAssignedTo"]').on('change', function () {
-                console.log(this.value)
+                const $projectCodeCtrl = document.querySelector('#project_code');
+                const $costCentreCodeCtrl = document.querySelector('#cost_centre_code');
+                const $costCentreNameCtrl = document.querySelector('#cost_center_name');
                 if (this.value === 'CostCenterBasedRequisition') {
-                    $('#project_code').prop('readonly', true)
+                    $($projectCodeCtrl).prop('disabled', true);
+                    $($projectCodeCtrl).prop('required', false);
+                    $($costCentreCodeCtrl).prop('required', true);
+                    $costCentreCodeCtrl.style.display = null;
+                    $($costCentreNameCtrl).prop('required', true);
+                    $costCentreNameCtrl.style.display = null;
                 } else if (this.value === 'ProjectBasedRequisition') {
-                    $('#project_code').prop('readonly', false);
-                    $('#cost_centre_code').prop('required', false);
-                    $('#cost_center_name').prop('required', false);
+                    $($projectCodeCtrl).prop('disabled', false);
+                    $($projectCodeCtrl).prop('required', true);
+                    $($costCentreCodeCtrl).prop('required', false);
+                    $costCentreCodeCtrl.style.display = 'none';
+                    $($costCentreNameCtrl).prop('required', false);
+                    $costCentreNameCtrl.style.display = 'none';
                 }
             });
-        })
+
+
+            $('#materialDetailsTable').on('change', 'select,input', function (e) {
+                eventHandler(this, e);
+            }).on('keyup', 'select,input,textarea', function (e) {
+                eventHandler(this, e);
+            }).on('blur', 'input', function (e) {
+                if (this.name === 'quantity') {
+                    $(this).val(tmsApp.numberFormat(this.value));
+                }
+
+            });
+        })(window.tmsApp || {}, jQuery)
     </script>
-    {{--  <script src="{{asset('application/modules/userManagement/users/add_user.js')}}"></script>
-      <script src="{{asset('application/modules/userManagement/users/table.js')}}"></script>
-      <script src="{{asset('application/modules/userManagement/users/users-search.js')}}"></script>--}}
+    <script src="{{asset('application/system/project_code.js').'?v='.\Carbon\Carbon::now()->format('his')}}"></script>
 @endpush

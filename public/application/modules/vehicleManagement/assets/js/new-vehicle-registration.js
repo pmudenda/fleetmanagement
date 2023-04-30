@@ -306,7 +306,8 @@ let app = new Vue({
         formatMoney: function (event) {
 
             setTimeout(function () {
-                let formatted = accounting.formatMoney(event.target.value, 'ZMW ');//tmsApp.tmsUtility.formatMoney(event.target.value);
+                let formatted = accounting.formatMoney(event.target.value, 'ZMW ');
+                //tmsApp.formatMoney(event.target.value);
                 console.log('%c' + formatted, "color: #148f32");
                 app['chassisDetails'].chargeOutRate = formatted;
                 //document.querySelector('#'+event.target.id).value = formatted;
@@ -324,7 +325,7 @@ let app = new Vue({
                     }
 
                     app['document_validity'].state = response.data['payload'].validity;
-                    app['document_validity'].message = response.data.payload.message;
+                    app['document_validity'].message = response.data['payload'].message;
                 })
                 .catch(function (error) {
                     // notify of error
