@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\UserManagement;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Security\PHCMSEmployee;
+use App\Models\general\BusinessUnits;
+use App\Models\general\CostCenters;
 use App\Models\Security\Role;
 use App\Models\Security\User;
 use Illuminate\Contracts\Foundation\Application;
@@ -15,7 +16,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class UsersController extends Controller
 {
@@ -23,7 +26,7 @@ class UsersController extends Controller
     public function index(): Factory|View|Application
     {
         $users = User::select('*')->get();
-        return view('modules.security.users.index')->with(compact('users'));
+        return view('UserManagement.index')->with(compact('users'));
     }
 
     public function getCurrentUserDetails(): JsonResponse
@@ -50,81 +53,115 @@ class UsersController extends Controller
 
     public function create(): View
     {
-        if (auth()->user()->hasRole(config('roles.super_user'))) {
-            $roles = Role::get();
-        } elseif (auth()->user()->hasRole(config('roles.system_administrator'))) {
-            $roles = Role::whereNotIn('slug', [config('roles.super_user')])->get();
-        } elseif (auth()->user()->hasRole(config('roles.service_desk_manager'))) {
-            $roles = Role::whereNotIn('slug', [
-                config('roles.super_user')
-            ])->get();
-        } elseif (auth()->user()->hasRole(config('roles.service_desk_supervisor'))) {
-            $roles = Role::whereNotIn('slug', [
-                config('roles.super_user'),
-            ])->get();
-        } else {
-            $roles = Role::whereNotIn('slug', [
-                config('roles.super_user'),
-            ])->get();
-        }
-        return view('UserManagement.addUser')->with(compact('roles'));
+        $roles = Role::get();
+        $businessUnits = BusinessUnits::where('status', '=', '01')->get();
+        $costCenters = CostCenters::where('status', '=', '01')->get();
+
+        return view('UserManagement.addUser')
+            ->with(compact('roles', 'businessUnits', 'costCenters'));
     }
 
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): JsonResponse
     {
-
         try {
-            $employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_no)->first();
-        } catch (\Exception $exception) {
-            $employee_phcms = User::where('staff_no', $request->staff_no)->first();
-        }
+            //$employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_no)->first();
 
-        if (!empty($employee_phcms)) {
+            //will be profile assigned
 
             $employee = User::firstOrCreate(
                 [
-                    'staff_no' => $employee_phcms->con_per_no,
-                    'name' => $employee_phcms->name,
-                    'nrc' => $employee_phcms->nrc,
-                    'sex' => $employee_phcms->sex,
-                    'email' => $employee_phcms->staff_email,
+                    'staff_no' => $request->staff_number,
                 ],
                 [
-                    'staff_no' => $employee_phcms->con_per_no,
-                    'contract_type' => $employee_phcms->contract_type,
-                    'con_st_code' => $employee_phcms->con_st_code,
-                    'con_wef_date' => $employee_phcms->con_wef_date,
-                    'con_wet_date' => $employee_phcms->con_wet_date,
-                    'name' => $employee_phcms->name,
-                    'nrc' => $employee_phcms->nrc,
-                    'sex' => $employee_phcms->sex,
-                    'mobile_no' => $employee_phcms->mobile_no,
-                    'group_type' => $employee_phcms->group_type,
-                    'job_title' => $employee_phcms->job_title,
-                    'grade' => $employee_phcms->grade,
-                    'functional_section' => $employee_phcms->functional_section,
-                    'directorate' => $employee_phcms->directorate,
-                    'location' => $employee_phcms->location ?? $employee_phcms->functional_section,
-                    'pay_point' => $employee_phcms->pay_point,
-                    'bu_code' => $employee_phcms->bu_code,
-                    'cc_code' => $employee_phcms->cc_code,
-                    'email' => $employee_phcms->staff_email,
-                    'job_code' => $employee_phcms->job_code ?? "--",
-                    'station' => $employee_phcms->station ?? "--",
-                    'affiliated_union' => $employee_phcms->affiliated_union ?? "--",
+                    //'sex' => $request->gender,
+                    //'con_st_code' => $request->user_status,
+                    //'extension' => '',
                     'password' => Hash::make($request->password),
-                    'status_id' => $request->status_id,
-                ]
+                    //'nrc' => $request->nrc,
+                    //'contract_type',
+                    //'two_fac_auth_status',
+                    //'location',
+                    //'profile_job_code',
+                    //'profile_unit_code',
+                    //'type_id',
+                    //'pay_point',
+                    //'job_code',
+                    //'user_unit_code',
+                    //'area_code'
+                    'name' => $request->name,
+                    'staff_no' => $request->staff_number,
+                    'email' => $request->staff_email,
+                    'username' => $request->login_name,
+                    'phone' => $request->mobile_no,
+                    'mobile_no' => $request->mobile_no,
+                    'functional_section' => $request->user_unit,
+                    'grade' => $request->grade,
+                    'bu_code' => $request->business_unit_code,
+                    'cc_code' => $request->cost_center_code,
+                    'directorate' => $request->directorate,
+                    'user_unit' => $request->user_unit,
+                    'supervisor_code' => $request->staff_supervisorId,
+                    'supervisor_name' => $request->staff_supervisor,
+                    'job_title' => $request->job_title,
+                    //'user_unit_id',
+                    //'positions_id',
+                    //'user_region_id',
+                    //'user_division_id',
+                    //'user_directorate_id',
+                    //'station',
+                    //'last_login',
+                    //'total_logins',
+                    'guid' => Str::uuid()
+                ],
+            /*[
+                'staff_no' => $employee_phcms->con_per_no,
+                'contract_type' => $employee_phcms->contract_type,
+                'con_st_code' => $employee_phcms->con_st_code,
+                'con_wef_date' => $employee_phcms->con_wef_date,
+                'con_wet_date' => $employee_phcms->con_wet_date,
+                'name' => $employee_phcms->name,
+                'nrc' => $employee_phcms->nrc,
+                'sex' => $employee_phcms->sex,
+                'mobile_no' => $employee_phcms->mobile_no,
+                'group_type' => $employee_phcms->group_type,
+                'job_title' => $employee_phcms->job_title,
+                'grade' => $employee_phcms->grade,
+                'functional_section' => $employee_phcms->functional_section,
+                'directorate' => $employee_phcms->directorate,
+                'location' => $employee_phcms->location ?? $employee_phcms->functional_section,
+                'pay_point' => $employee_phcms->pay_point,
+                'bu_code' => $employee_phcms->bu_code,
+                'cc_code' => $employee_phcms->cc_code,
+                'email' => $employee_phcms->staff_email,
+                'job_code' => $employee_phcms->job_code ?? "--",
+                'station' => $employee_phcms->station ?? "--",
+                'affiliated_union' => $employee_phcms->affiliated_union ?? "--",
+                'status_id' => $request->status_id,
+            ]*/
             );
-            $employee->serviceDesks()->syncWithoutDetaching($request->location_id);
-            $employee->roles()->syncWithoutDetaching($request->user_role_id);
+
+            if($request->has('user_profile')){
+                $employee->roles()->syncWithoutDetaching((int)$request->user_profile);
+            }
+
+
             $employee->save();
 
-            return redirect()->back()->with('message', 'Employee has successfully been created..');
-        } else {
-            $message = "User Failed to be created because the Staff number (" . $request->staff_no . ") could not be verified with PHCMS.";
-            return redirect()->back()->with('error', $message);
+            return response()->json([
+                'success' => true,
+                'message' => 'Employee has successfully been created..'
+            ]);
+
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            //$employee_phcms = User::where('staff_no', $request->staff_no)->first();
+            $message = "User Failed to be created because the Staff number (" . $request->staff_number . ")
+                could not be verified with PHCMS.";
+            return response()->json([
+                'success' => false,
+                'message' => $message
+            ]);
         }
 
     }
@@ -173,24 +210,39 @@ class UsersController extends Controller
 
     public function destroy(User $user)
     {
-//        $user->delete();
-//
-//         return redirect()->route('user.index')->with('message','User Deleted successfully');
     }
 
 
-    public function search($search): JsonResponse
+    public function search(Request $request)
     {
 
-        $dataset = PHCMSEmployee::select('*')
-            ->where('con_per_no', $search)
-            ->first();
+        try {
+            $searchParam = $request->searchCriteria;
+            $apiURL = 'http://dev.zesco.co.zm/ezesco_forms/public/api/users';
+            //$apiURL = 'http://127.0.0.1:3001/ezesco_forms/public/api/users';
+            $headers = [
+                'Content-Type' => 'application/json',
+            ];
+            /*
+             $dataset = PHCMSEmployee::select('*')
+                ->where('con_per_no', $search)
+                ->first();
+            */
+            $response = Http::withHeaders($headers)->get($apiURL, [
+                'staff_number' => $searchParam,
+            ]);
 
-        $results = [
-            "user" => $dataset
-        ];
-
-        return response()->json($results);
+            return response()->json([
+                'success' => true,
+                'payload' => $response->json()
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'success' => false,
+                'payload' => []
+            ]);
+        }
     }
 
 

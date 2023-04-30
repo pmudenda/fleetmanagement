@@ -1205,7 +1205,7 @@
 
   var currentSteps = [];
   /*
-   * Global function for chaining sweetAlert popups
+   * Global function for chaining systemMessage popups
    */
 
   var queue = function queue(steps) {
@@ -1949,7 +1949,7 @@
   };
 
   /*
-   * Instance method to close sweetAlert
+   * Instance method to close systemMessage
    */
 
   function removePopupAndResetState(instance, container, isToast$$1, onAfterClose) {

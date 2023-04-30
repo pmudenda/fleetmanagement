@@ -1,3 +1,4 @@
+/*
 "use strict";
 
 // Class definition
@@ -75,3 +76,4 @@ let KTModalUserSearch = function () {
 KTUtil.onDOMContentLoaded(function () {
     KTModalUserSearch.init();
 });
+*/

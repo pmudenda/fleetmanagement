@@ -14,23 +14,28 @@ return new class extends Migration
     {
         Schema::create('SEC_USERS', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('username')->unique();
-            $table->string('staff_no')->unique()->nullable();
-            $table->string('avatar')->nullable();
-            $table->string('phone')->nullable();
             $table->string('guid')->default(Str::uuid())->nullable();
 
+            $table->string('name');
+            $table->string('contract_type')->nullable();
+            $table->string('con_st_code')->nullable();
+            $table->string('nrc')->nullable();
+
+            $table->string('avatar')->nullable();
+            $table->string('phone')->nullable();
+
+            $table->string('username')->unique();
+            $table->string('staff_no')->unique()->nullable();
             $table->string('job_code')->nullable();
             $table->string('user_unit_code')->nullable();
             $table->string('profile_job_code')->nullable();
             $table->string('profile_unit_code')->nullable();
-            $table->string('unit_column')->nullable();
-            $table->string('code_column')->nullable();
+            $table->string('unit_column')->nullable(); // dropped
+            $table->string('code_column')->nullable(); // dropped
 
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
 
             $table->integer('user_unit_id')->nullable();
             $table->integer('user_directorate_id')->nullable();
@@ -40,20 +45,17 @@ return new class extends Migration
             $table->integer('pay_point_id')->nullable();
             $table->integer('functional_unit_id')->nullable();
 
-            $table->string('nrc')->nullable();
-            $table->string('contract_type')->nullable();
             $table->string('two_fac_auth_status')->nullable()->default('Inactive');
-            $table->string('con_st_code')->nullable();
             $table->dateTime('last_login')->nullable();
-
             $table->integer('positions_id')->nullable();
             $table->integer('type_id')->default('0');
-            $table->integer('grade_id')->default('0');
+            $table->integer('grade_id')->default('0'); //dropped
 
             $table->integer('total_logins')->default(0);
             $table->integer('password_changed')->default('0');
 
             $table->string('supervisor_guid',150)->nullable();
+            // dropped, replaced by supervisor_code
             $table->string('supervisor_name', 200)->nullable();
 
             $table->rememberToken();

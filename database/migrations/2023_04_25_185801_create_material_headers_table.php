@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('material_headers', function (Blueprint $table) {
+        Schema::create('GEN_MATERIAL_HEADERS', function (Blueprint $table) {
             $table->id();
             $table->string('proc_ref');
             $table->string('req_no');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('material_headers');
+        Schema::dropIfExists('GEN_MATERIAL_HEADERS');
     }
 };

@@ -22,13 +22,6 @@ class RightsServiceProvider extends ServiceProvider
             foreach ($roles as $role) {
                 config(['roles.' . $role->slug => $role->slug]);
             }
-
-            // load application settings
-            config([
-                'settings' => [
-                    'logo' => 'dashboard/dist/img/avatar.png'
-                ]
-            ]);
         } catch (\Exception $e) {
             //ignored
         }

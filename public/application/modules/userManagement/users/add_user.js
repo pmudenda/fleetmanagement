@@ -1,4 +1,70 @@
-let app = new Vue({
+(function (tmsApp, $) {
+    $("#resetUserFormBtn").on('click', function () {
+        document.forms['tms_user_definition'].reset();
+        document.querySelector('#actionButtonsContainer').style.display = 'none';
+    });
+
+    $("#submitUserBtn").on('click', function () {
+
+        // validate data here
+
+        let $form = document.forms['tms_user_definition'];
+        window.tmsApp.confirm(
+            'Create User',
+            'Are you sure you want to add user ?',
+            'Yes',
+            'No, Cancel',
+            function () {
+                tmsApp.asyncPostFormData(
+                    $form.action,
+                    new FormData($form),
+                    function (asyncResponse) {
+                        console.log(asyncResponse);
+                        if ('success' in asyncResponse && asyncResponse['success']) {
+                            setTimeout(function () {
+                                tmsApp.showSystemMessage(
+                                    'User Creation',
+                                    asyncResponse['message'],
+                                    function () {
+                                    }, 'success');
+                            }, 300)
+                        } else {
+
+                            if (asyncResponse.hasOwnProperty('errors')) {
+                                tmsApp.printErrorMsg(asyncResponse.errors);
+                                return
+                            }
+
+                            tmsApp.systemError(
+                                'User Creation',
+                                asyncResponse['message'],
+                                function () {
+                                });
+
+                        }
+                    },
+                    function (xhr, settings, errorThrown) {
+                        console.log(errorThrown);
+                        setTimeout(function () {
+                            tmsApp.systemError(
+                                'User Creation',
+                                'We could not complete processing your request, please try again later',
+                                function () {
+                                })
+                        }, 300)
+
+                    }
+                )
+            },
+            function () {
+            },
+        )
+    })
+
+
+})(window.tmsApp || {}, jQuery)
+
+/*let app = new Vue({
     computed: {
         username: function () {
             return this.userSelected?.email?.split('@')[0]
@@ -32,7 +98,7 @@ let app = new Vue({
             searchObject: null
         }
     },
-    'el': '#kt_app_main',
+    'el': '#tms_app_main',
     filters: {
         nameInitialAvatar(value) {
             if (!value) return;
@@ -126,9 +192,9 @@ let app = new Vue({
                     trigger: new FormValidation.plugins.Trigger({}),
                 }
 
-                /* bootstrap: new FormValidation.plugins.Bootstrap5({
+                /!* bootstrap: new FormValidation.plugins.Bootstrap5({
                         rowSelector: '.fv-row', eleInvalidClass: '', eleValidClass: ''
-                    })*/
+                    })*!/
             });
 
             // Validate form before submit
@@ -273,4 +339,4 @@ let app = new Vue({
             app.searchedUsers = []
         });
     }
-});
+});*/

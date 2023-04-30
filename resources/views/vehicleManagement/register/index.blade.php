@@ -171,7 +171,7 @@
                                 </label>
 
                                 <div class="col-md-9 fv-row ">
-                                    <div class="col-md-9">
+                                    <div class="col-sm-12 col-md-12">
                                         <div class="control-input-wrapper">
                                             <div class="control-input">
                                                 <div class="link-field ui-front" style="position: relative;">
@@ -219,6 +219,7 @@
                                                onpaste="return false"
                                                id="registrationNumber"
                                                autocomplete="off"
+                                               v-on:change="validateRegistrationNumber"
                                                required
                                                />
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
@@ -454,10 +455,12 @@
                value="{{ route('document.number.validation') }}">
 
     </div>
+    <x-employee-search-modal/>
 @endsection
 
 @push('scripts')
     <script src="{{asset('assets/frappe/js/awesomeplete.js')}}"></script>
     <script src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js')}}"></script>
+    <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
 @endpush

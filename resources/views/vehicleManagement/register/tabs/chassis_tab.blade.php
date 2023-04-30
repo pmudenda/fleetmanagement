@@ -148,10 +148,10 @@
                                                type="text"
                                                readonly="readonly">--}}
 
-                                        <input type="text"
+                                        <input
                                                date-format="YYYY"
                                                class="input-with-feedback form-control bold number_input"
-                                               maxlength="4"
+                                               type="number" min="2000" max="2099" step="1"
                                                required
                                                id="yearOfManufacture"
                                                name="yearOfManufacture"
@@ -172,11 +172,13 @@
                         </div>
                     </td>
                     <td>
+                        {{--min="{{ date('Y-m-d', strtotime($form->trip->date_to)) }}"--}}
                         <div class="control-input-wrapper">
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="">
                                         <input type="date"
+                                               max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
                                                required
                                                class="input-with-feedback form-control bold"
                                                data-fieldname="registrationDate"
@@ -245,10 +247,10 @@
                                                v-on:change="formatMoney($event)"
                                                data-doctype="ChassisDetails"
                                                autocomplete="off"/>
-                                        <span
+                                        <div
                                             class="input-group-append align-self-center pl-3 pr-2">
-                                                                  /Km or /Hr
-                                </span>
+                                            /Km
+                                        </div>
                                     </div>
 
                                 </div>
@@ -411,6 +413,7 @@
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <input type="date"
+                                           max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
                                            v-model="chassisDetails.inspectionDate"
                                            name="inspectionDate"
                                            id="inspectionDate"

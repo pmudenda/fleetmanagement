@@ -1,37 +1,81 @@
-<!DOCTYPE html>
+@php use Carbon\Carbon; @endphp
+    <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Fleet Master</title>
-
-    {{--    <link rel="stylesheet"--}}
-    {{--          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">--}}
+    <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:locale" content="en_US">
+    <link rel="canonical" href="">
+    <link rel="shortcut icon" href="{{ asset('assets/dist/img/icons/logo.png') }}" type="image/x-icon">
 
     <link rel="stylesheet" href="{{asset('themes/plugins/fontawesome-free/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('themes/ionicons/2.0.1/css/ionicons.min.css')}}">
+
     <link rel="stylesheet"
+          type="text/css"
           href="{{asset('themes/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
     <link rel="stylesheet" href="{{asset('themes/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     {{--<link rel="stylesheet" href="{{asset('themes/plugins/jqvmap/jqvmap.min.css')}}">--}}
     <link rel="stylesheet" type="text/css" href="{{ asset('libs/bootstrap-5.2.3/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('themes/dist/css/adminlte.min2167.css')}}?v=3.2.0">
-    <link rel="stylesheet" href="{{asset('themes/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
-    <link rel="stylesheet" href="{{asset('themes/plugins/daterangepicker/daterangepicker.css')}}">
-    <link rel="stylesheet" href="{{asset('themes/plugins/summernote/summernote-bs4.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('themes/dist/css/adminlte.min2167.css')}}?v=3.2.0">
+    <link rel="stylesheet" type="text/css"
+          href="{{asset('themes/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('themes/plugins/daterangepicker/daterangepicker.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('themes/plugins/summernote/summernote-bs4.min.css')}}">
 
-{{--
-    <link rel="stylesheet" href="{{ asset('assets/css/fullpage_loader.css') }}" rel="stylesheet" type="text/css">
---}}
+    <!--Add Ons-->
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/frappe/css/desk.bundle.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.bundle.css') }}">
+    {{--<link type="text/css" rel="stylesheet" href="{{asset('assets/frappe/css/report.bundle.css')}}">
+        <link type="text/css" rel="stylesheet" href="{{asset('assets/frappe/css/erpnext.bundle.css')}}">
+    <link href="{{ asset('assets/css/fullpage_loader.css') }}" rel="stylesheet" type="text/css">--}}
+
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/toastr/toastr.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/sweetalert2/sweetalert2.min.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/vue-select/vue-select.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/custom/datatables/datatables.bundle.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{asset("assets/plugins/jquery.filer/css/jquery.filer.css")}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/custom.css')}}">
+
+    {{--
+        <link rel="stylesheet" href="{{ asset('assets/css/fullpage_loader.css') }}" rel="stylesheet" type="text/css">
+    --}}
+    <style>
+        .nav-link {
+            padding: 0.65rem 1rem;
+        }
+    </style>
     @stack('styles')
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-    <x-page-preloader/>
+    {{--    <x-page-preloader/>--}}
+
+    <script>
+        let defaultThemeMode = "light";
+        let themeMode;
+
+        if (document.documentElement) {
+            if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+                themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
+            } else {
+                if (localStorage.getItem("data-bs-theme") !== null) {
+                    themeMode = localStorage.getItem("data-bs-theme");
+                } else {
+                    themeMode = defaultThemeMode;
+                }
+            }
+
+            if (themeMode === "system") {
+                themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            }
+
+            document.documentElement.setAttribute("data-bs-theme", themeMode);
+        }
+    </script>
 
     @include('layouts.menus.top_bar')
 
@@ -42,6 +86,8 @@
     </div>
     <!--Footer-->
     <aside class="control-sidebar control-sidebar-dark"></aside>
+
+    <x-async-loader></x-async-loader>
 </div>
 <audio preload="auto" id="sound-email" volume=0.1>
     <source src="{{asset('assets/sounds/email.mp3')}}"/>
@@ -77,41 +123,55 @@
 <script>
     $.widget.bridge('uibutton', $.ui.button)
 </script>
+<script>
+    window._version_number = "{{\Illuminate\Support\Str::uuid()}}";
+    window.app = true;
+    window.dev_server = 0;
+    let tmsApp;
 
+    if (!tmsApp) tmsApp = {};
+    tmsApp.boot = {'messages': {}};
+
+    tmsApp.messages = tmsApp?.boot['messages'];
+    tmsApp.csrf_token = document.querySelector('meta[name="csrf-token"]').content;
+</script>
 <script src="{{asset('themes/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-{{--<script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>--}}
-{{--<script src="{{ asset('assets/plugins/form-masking/jquery.inputmask.js') }}"></script>
-<script src="{{ asset('assets/plugins/form-masking/autoNumeric.js') }}"></script>
-<script src="{{ asset('assets/plugins/form-masking/form-mask.js') }}"></script>--}}
+<script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>
+<script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
+<script src="{{asset('assets/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
+<script src="{{asset('assets/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+<script src="{{asset('assets/plugins/jquery.filer/js/jquery.filer.min.js')}}"></script>
+<script src="{{asset('assets/plugins/form-masking/jquery.inputmask.js') }}"></script>
+<script src="{{asset('assets/plugins/form-masking/autoNumeric.js') }}"></script>
+{{--<script src="{{ asset('assets/plugins/form-masking/form-mask.js') }}"></script>--}}
 <script src="{{asset('themes/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
 <script src="{{asset('themes/plugins/moment/moment.min.js')}}"></script>
 <script src="{{asset('themes/plugins/daterangepicker/daterangepicker.js')}}"></script>
 <script src="{{asset('themes/plugins/summernote/summernote-bs4.min.js')}}"></script>
 <script src="{{asset('themes/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
+<script src="{{asset('assets/js/accounting.min.js') }}"></script>
+<script src="{{asset('assets/plugins/vue/vue.js')}}"></script>
+<script src="{{asset('assets/plugins/vue-select/vue-select.js')}}"></script>
+<script src="{{asset('assets/plugins/vue-select2/js/vue-select.js')}}"></script>
 <script src="{{asset('themes/dist/js/adminlte2167.js')}}?v=3.2.0"></script>
+<script src="{{asset('application/system/core.js')}}"></script>
+<script src="{{asset('assets/js/global/async.loader.js').'?v='.Carbon::now()->format('his')}}"></script>
+<script src="{{asset('assets/js/global/system_alerts.js').'?v='.Carbon::now()->format('his')}}"></script>
+<script src="{{asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>
+
+
 <script>
-    // window.addEventListener("load", function () {
-    //     document.querySelector('.page-loader-wrapper').classList.add('d-none');
-    // });
-
-    window._version_number = "{{\Illuminate\Support\Str::uuid()}}";
-    window.app = true;
-    window.dev_server = 0;
-    let tmsApp;
-    if (!tmsApp) tmsApp = {};
-
-    tmsApp.boot = JSON.parse('{}');
-    tmsApp.messages = window.tmsApp?.boot['messages'];
-    tmsApp.csrf_token = document.querySelector('meta[name="csrf-token"]').content;
-    tmsApp.play_alert = function playSound(soundSelector) {
-        document.querySelector('#' + soundSelector).play()
-    }
+    $(document).ready(function () {
+        $(document).on('keypress', '.number_input', function (event) {
+            tmsApp.numberOnly(event);
+        });
+        // $.ajaxSetup({
+        //     global: true, headers: {
+        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //     }
+        // });
+    });
 </script>
-<script src="{{ asset('assets/plugins/vue/vue.js')}}"></script>
-<script src="{{ asset('assets/plugins/vue-select/vue-select.js')}}"></script>
-<script src="{{ asset('assets/plugins/vue-select2/js/vue-select.js')}}"></script>
-<script src="{{ asset('assets/js/util.functions.js') }}"></script>
-<script src="{{ asset('assets/js/accounting.min.js') }}"></script>
 @stack('scripts')
 </body>
 </html>

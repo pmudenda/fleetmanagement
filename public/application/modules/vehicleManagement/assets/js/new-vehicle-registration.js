@@ -1,6 +1,9 @@
 /*Vue.component('v-select', VueSelect.VueSelect);*/
 Vue.component('v-select', VueSelect.VueSelect);
-
+window.removeSpaces = function (value) {
+    if (!value) return;
+    return value.replace(/\s/g, '');
+}
 let app = new Vue({
     'el': '#kt_app_main',
     components: {},
@@ -18,14 +21,7 @@ let app = new Vue({
             costCenters: [],
             organizationalUnits: [],
             businessAreas: [],
-            fuelTypes: [
-                'Diesel',
-                'Electric',
-                'Petrol',
-                'Hybrid(Diesel)',
-                'Hybrid(Petrol)',
-                'Other'
-            ],
+            fuelTypes: [],
             licenseTypes: [
                 'A', 'B', 'C', 'E'
             ],
@@ -139,6 +135,7 @@ let app = new Vue({
         this.getDirectorates();
         this.getCostCenters();
         this.getBusinessAreas();
+        this.getFuelTypes();
     },
 
     mounted() {
@@ -152,15 +149,6 @@ let app = new Vue({
         this.assignmentDetailsForm = document.querySelector('#tms_assignment_tab_form');
 
         let input = document.getElementById("userUnit");
-
-        /*new window.Awesomplete(
-            input,
-            {
-                minChars: 0,
-                maxItems: 99,
-                autoFirst: true,
-                list: document.querySelector("#business_units")
-            });*/
 
         //this.initDropzone();
         if (this.vehicleHeader && this.vehicleHeader.id) {
@@ -226,7 +214,7 @@ let app = new Vue({
 
         });
 
-        $(document).on('blur', '[data-emp="staff_number"]', function (e) {
+        /*$(document).on('blur', '[data-emp="staff_number"]', function (e) {
                 let input = e.target;
 
                 axios.post(document.querySelector('#userSearchEndpoint').value, {
@@ -248,14 +236,14 @@ let app = new Vue({
 
                     });
             }
-        )
+        )*/
 
         $(document).on('change', '[data-emp="staff_number"]', function (e) {
                 let input = e.target;
                 let value = input.value;
 
-                let names = app.searchedEmployeesList.filter(function (user) {
-                    return user.staff_number == value;
+                let names = app['searchedEmployeesList'].filter(function (user) {
+                    return user['staff_number'] === value;
                 });
 
                 if (names.length === 0) return;
@@ -268,16 +256,23 @@ let app = new Vue({
 
     methods: {
 
+        getFuelTypes: function () {
+            this.fuelTypes = [
+                'Diesel',
+                'Petrol'
+            ];
+        },
+
         transmissionTypeChanged: function (transmissionType) {
             document.querySelector('#transmission_type').value = transmissionType?.code + ':' + transmissionType?.name;
         },
         // web UI event
         bodyTypeChanged: function (selectedBody) {
-            app.vehicleHeader.body_type_guid = selectedBody?.guid;
+            app['vehicleHeader'].body_type_guid = selectedBody?.guid;
             document.querySelector('#bodyType').value = selectedBody?.guid;
         },
         validateRegistrationNumber: function () {
-            let ref = app.vehicleHeader.registration_number ?? document.querySelector('#registrationNumber').value
+            let ref = app['vehicleHeader']['registration_number'] ?? document.querySelector('#registrationNumber').value
             axios.get(document.querySelector('#documentValidationUrl').value +
                 '?method=registration_number&key=' + ref)
                 .then(function (response) {
@@ -288,9 +283,15 @@ let app = new Vue({
                         return;
                     }
 
-                    if (response.data.payload.validity) {
-                        console.log(response.data.payload.validity);
+                    if (response.data['payload'].validity) {
+                        console.log(response.data['payload'].validity);
                         //response.data.payload.message
+                        let assetNumberInput = document.querySelector("#assetNumber");
+                        if (assetNumberInput) {
+                            assetNumberInput.value = window.removeSpaces(document.querySelector('#registrationNumber').value);
+                        }
+                    } else {
+                        toastr.warning('Invalid registration number, vehicle already registered')
                     }
                 })
                 .catch(function (error) {
@@ -305,9 +306,10 @@ let app = new Vue({
         formatMoney: function (event) {
 
             setTimeout(function () {
-                let formatted = accounting.formatMoney(event.target.value, 'ZMW ');//tmsApp.tmsUtility.formatMoney(event.target.value);
+                let formatted = accounting.formatMoney(event.target.value, 'ZMW ');
+                //tmsApp.formatMoney(event.target.value);
                 console.log('%c' + formatted, "color: #148f32");
-                app.chassisDetails.chargeOutRate = formatted;
+                app['chassisDetails'].chargeOutRate = formatted;
                 //document.querySelector('#'+event.target.id).value = formatted;
             }, 300);
         },
@@ -322,8 +324,8 @@ let app = new Vue({
                         return;
                     }
 
-                    app.document_validity.state = response.data.payload.validity;
-                    app.document_validity.message = response.data.payload.message;
+                    app['document_validity'].state = response.data['payload'].validity;
+                    app['document_validity'].message = response.data['payload'].message;
                 })
                 .catch(function (error) {
                     // notify of error
@@ -382,7 +384,7 @@ let app = new Vue({
                         return;
                     }
 
-                    app.businessAreas = response.data.payload;
+                    app.businessAreas = response.data['payload'];
                 })
                 .catch(function (error) {
                     // notify of error
@@ -402,7 +404,7 @@ let app = new Vue({
                         return;
                     }
 
-                    app.businessUnits = response.data.payload;
+                    app.businessUnits = response.data['payload'];
                 })
                 .catch(function (error) {
                     // notify of error
@@ -422,7 +424,7 @@ let app = new Vue({
                         return;
                     }
 
-                    app.configuredModels = response.data.payload;
+                    app.configuredModels = response.data['payload'];
                 })
                 .catch(function (error) {
                     // notify of error
@@ -442,7 +444,7 @@ let app = new Vue({
                         return;
                     }
 
-                    app.costCenters = response.data.payload;
+                    app.costCenters = response.data['payload'];
                 })
                 .catch(function (error) {
                     // notify of error
@@ -462,7 +464,7 @@ let app = new Vue({
                         return;
                     }
 
-                    app.directorates = response.data.payload;
+                    app.directorates = response.data['payload'];
                 })
                 .catch(function (error) {
                     // notify of error
@@ -480,7 +482,7 @@ let app = new Vue({
 
         getUserUnitLabel: function (val) {
             if (typeof val === 'object') {
-                return val.code_unit + '=>' + val.description;
+                return val['code_unit'] + '=>' + val.description;
             }
         },
 
@@ -495,7 +497,7 @@ let app = new Vue({
                         return;
                     }
 
-                    app.organizationalUnits = response.data.payload;
+                    app.organizationalUnits = response.data['payload'];
                 })
                 .catch(function (error) {
                     // notify of error
@@ -515,8 +517,8 @@ let app = new Vue({
                         return;
                     }
 
-                    app.vehicleBrands = response.data.payload;
-                    app.engineBrands = response.data.payload;
+                    app.vehicleBrands = response.data['payload'];
+                    app.engineBrands = response.data['payload'];
                 })
                 .catch(function (error) {
                     // notify of error

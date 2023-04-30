@@ -26,6 +26,8 @@ class VehicleHeader extends Model
         'location_code',
         'location_name',
         'created_by',
-        'created_name'
+        'created_name',
+        'status',
+        'on_boarding_status'
     ];
 }

@@ -1,14 +1,15 @@
 <?php
 
+use App\Http\Controllers\Requisitions\FuelRequisitionController;
 use App\Http\Controllers\Security\PermissionsController;
 use App\Http\Controllers\Security\RolesController;
 use App\Http\Controllers\UserManagement\UsersController;
-use App\Models\RequisitionTypes;
+use App\Http\Controllers\VehicleManagement\VehicleController;
+use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
 use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -86,9 +87,10 @@ Route::group(['middleware' => 'auth'], function () {
             return view('UserManagement.viewUser');
         })->name('view.user');
 
+        // user.store
         Route::resource('/user', UsersController::class);
 
-        Route::post('/get-employee-data', [UsersController::class, 'findAdUsers'])->name('user.search');
+        Route::post('/get-employee-data', [UsersController::class, 'search'])->name('user.search');
         /*
          Route::post('user/attach/{id}', [UsersController::class, 'attach'])->name('user.attach');
          Route::post('user/detach/{id}', [UsersController::class, 'detach'])->name('user.detach');
@@ -169,15 +171,61 @@ Route::group(['middleware' => 'auth'], function () {
 
     })->name('new.vehicle.requisition');
 
-    Route::get('/requisition/fuel', function () {
-        $user = Auth::user();
-        $requisitionTypes = RequisitionTypes::where('status', '01')->where('module', 'FR')->get();
-        return view('modules.requisitions.fuel')->with(compact('user', 'requisitionTypes'));
-    })->name('new.fuel.requisition');
+    Route::get('/requisition/fuel', [FuelRequisitionController::class, 'create'])->name('new.fuel.requisition');
+
+    Route::post('/requisition/fuel/save', [FuelRequisitionController::class, 'store'])->name('save.fuel.requisition');
 
     Route::get('/requisition/parts', function () {
 
     })->name('new.parts.requisition');
+});
+
+Route::get('searchProjects', function (Request $request) {
+    $period = date('M-Y');
+    //$period = 'Oct-2022';
+    $searchCriteria = strtoupper(trim($request->input('search')));
+    $activeProjects = $this->tripService->getActiveProjects($period, $searchCriteria);
+    return response()->json(array(
+        'items' => $activeProjects,
+        'total_count' => $activeProjects->count()
+    ));
+})->name('search.project');
+
+//, 'middleware' => 'auth'
+Route::group(['prefix' => 'vehicle-management', 'middleware' => 'auth'], function () {
+
+    Route::get('/register', function () {
+        return view('vehicleManagement.register.index');
+    })->name('new.vehicle');
+
+
+    Route::get('/vehicle/list', function () {
+        $vehicleList = VehicleHeader::get();
+        return view('vehicleManagement.vehicleList')
+            ->with(compact('vehicleList'));
+    })->name('vehicles.list');
+
+
+    Route::get('/vehicles', function (Request $request) {
+        return view('vehicleManagement.vehicleList');
+    })->name('vehicle.edit');
+
+    Route::post('vehicles', [VehicleOnBoardingController::class, 'store'])->name('api.vehicle.new');
+
+    Route::get('vehicle/details', [VehicleController::class, 'getDetails'])->name('api.vehicle');
+
+    Route::post('post-chassis-detail', [VehicleOnBoardingController::class, 'storeChassisDetails'])
+        ->name('vehicle.chassis.detail');
+
+    Route::get('/insurancelist', function () {
+        return view('VehicleManagement.insurancelist');
+    })->name('insurancelist');
+
+    Route::get('/legaldocumentlist', function () {
+        return view('VehicleManagement.insurancelist');
+    })->name('legaldocumentlist');
+
+
 });
 
 
