@@ -5,7 +5,7 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="index3.html" class="nav-link">Home</a>
+            <a href="{{route('home')}}" class="nav-link">Home</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Contact</a>
@@ -14,7 +14,7 @@
 
     <ul class="navbar-nav ml-auto">
 
-        <li class="nav-item">
+        <li class="nav-item" style="display: none;">
             <a class="nav-link" data-widget="navbar-search" href="#" role="button">
                 <i class="fas fa-search"></i>
             </a>
@@ -36,7 +36,7 @@
             </div>
         </li>
 
-        <li class="nav-item dropdown">
+       {{-- <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="far fa-comments"></i>
                 <span class="badge badge-danger navbar-badge">3</span>
@@ -128,7 +128,8 @@
                role="button">
                 <i class="fas fa-th-large"></i>
             </a>
-        </li>
+        </li>--}}
+
         <li class="nav-item dropdown ">
             <div class="user-panel mt-1 pb-1 d-flex">
                 <div class="image">

@@ -138,7 +138,7 @@ class VehicleOnBoardingController extends Controller
         if (!empty($exitingRegistration)) {
             throw new VehicleOnBoardingException(
                 'Vehicle with Registration Number ' . $registrationNumber . ' was already registered',
-                'REG');
+                0);
         }
 
         $brand = ConfigVehicleBrand::where('guid', $request->input('brand'))->first();
@@ -299,23 +299,54 @@ class VehicleOnBoardingController extends Controller
      */
     public function processAssignmentDetails(Request $request): mixed
     {
+
+        $validator = $this->validateRequest($request, [
+            'businessArea',
+            'directorate',
+            'costCenter',
+            'isPoolVehicle',
+            'isMileageExempt',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'state' => 'error',
+                    'errors' => $validator->errors()->all()
+                ]);
+        }
+
+        if($request->input('isPoolVehicle') == 'Y'){
+            $validator = $this->validateRequest($request, [
+                'responsibleHOD',
+                'responsibleHODId',
+            ]);
+        }else{
+            $validator = $this->validateRequest($request, [
+                'vehicleHolder',
+                'vehicleHolderId',
+            ]);
+        }
+
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'state' => 'error',
+                    'errors' => $validator->errors()->all()
+                ]);
+        }
+
         // marks completion of on-boarding
         $user = auth()->user();
-
 
         $data = [
             'vehicle_header_id' => $request->input('headerId'),
             'businessArea' => $request->input('businessArea'),
             'directorate' => $request->input('directorate'),
             'costCenter' => $request->input('costCenter'),
-            'superVisorStaffNumber' => $request->input('operatorSupervisorStaffNumber'),
-            'superVisorName' => $request->input('superVisorName'),
-            'operatorStaffNumber' => $request->input('operatorStaffNumber'),
-            'operatorName' => $request->input('operatorName'),
-            'casualStaffNumber' => $request->input('casual_staff_number'),
-            'casualStaffName' => $request->input('casual_staff_name'),
+            'superVisorStaffNumber' => $request->input('responsibleHODId') ?? $request->input('vehicleHolderId'),
+            'superVisorName' => $request->input('responsibleHOD') ?? $request->input('vehicleHolder'),
             'isPoolVehicle' => $request->input('isPoolVehicle'),
-            'isTeamAssigned' => $request->input('isTeamAssigned'),
             'mileageExempt' => $request->input('isMileageExempt'),
             'created_by' => $user->id,
             'created_name' => $user->name

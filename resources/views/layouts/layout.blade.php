@@ -9,17 +9,13 @@
     <link rel="canonical" href="">
     <link rel="shortcut icon" href="{{ asset('assets/dist/img/icons/logo.png') }}" type="image/x-icon">
 
-    <!--begin::Fonts(mandatory for all pages)-->
-    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700">-->
-    <!--end::Fonts-->
-
     <link href="{{ asset('assets/plugins/fullcalendar/main.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css">
 
     <link type="text/css" rel="stylesheet" href="{{asset('assets/frappe/css/desk.bundle.css')}}">
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/frappe/css/report.bundle.css')}}">
-    <link type="text/css" rel="stylesheet" href="{{asset('assets/frappe/css/erpnext.bundle.css')}}">
+ {{--   <link type="text/css" rel="stylesheet" href="{{asset('assets/frappe/css/report.bundle.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{asset('assets/frappe/css/erpnext.bundle.css')}}">--}}
 
 
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css">
@@ -187,7 +183,7 @@
 <script src="{{ asset('assets/plugins/form-masking/autoNumeric.js') }}"></script>
 <script src="{{ asset('assets/plugins/form-masking/form-mask.js') }}"></script>
 <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
-<script src="{{ asset('assets/js/util.functions.js') }}"></script>
+<script src="{{ asset('application/system/core.js') }}"></script>
 <script src="{{ asset('assets/js/accounting.min.js') }}"></script>
 <script src="{{ asset('assets/custom/datatables/datatables.bundle.js') }}"></script>
 <script src="{{ asset('assets/plugins/vue/vue.js')}}"></script>
@@ -199,6 +195,12 @@
         $(document).on('keypress', '.number_input', function (event) {
             tmsApp.tmsUtility.numberOnly(event);
         })
+
+        $.ajaxSetup({
+            global: true, headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
     });
 </script>
 @stack('scripts')

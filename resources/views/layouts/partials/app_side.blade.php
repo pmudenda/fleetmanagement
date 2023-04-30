@@ -141,7 +141,6 @@
 
                         </div>
 
-
                         <div class="menu-item d-none">
                             <a class="menu-link" href="{{ route('permissions.list') }}">
                                 <span class="menu-bullet">

@@ -196,6 +196,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        App\Providers\SystemSettingsServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\PermissionsServiceProvider::class,
         App\Providers\RightsServiceProvider::class,

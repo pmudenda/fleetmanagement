@@ -30,6 +30,7 @@ class CreatePermissionTables extends Migration
             $table->string('name',255);       // For MySQL 8.0 use string('name', 125);
             $table->string('description')->nullable();
             $table->string('slug')->nullable();
+            $table->string('status')->default('01');
             $table->string('guard_name',255); // For MySQL 8.0 use string('guard_name', 125);
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
@@ -48,6 +49,7 @@ class CreatePermissionTables extends Migration
             $table->string('description', 255)->nullable();
             $table->string('code', 255)->nullable();
             $table->string('slug', 255)->nullable();
+            $table->string('status')->default('01');
             $table->timestamp('deleted_at')->nullable();
             if ($teams || config('permission.testing')) {
                 $table->unique([$columnNames['team_foreign_key'], 'name', 'guard_name']);

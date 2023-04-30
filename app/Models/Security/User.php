@@ -56,7 +56,19 @@ class User extends Authenticatable
         'station',
         'last_login',
         'total_logins',
-        'area_code'
+        'area_code',
+        // new
+        'job_title',
+        'supervisor_code',
+        'supervisor_name',
+        'user_unit',
+        'directorate',
+        'cc_code',
+        'bu_code',
+        'grade',
+        'functional_section',
+        'username',
+        'guid'
     ];
 
     /**

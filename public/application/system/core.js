@@ -187,10 +187,59 @@ let tmsUtility = {
             key = String.fromCharCode(key);
         }
         let regex = /[0-9]|\./;
-        if( !regex.test(key) ) {
+        if (!regex.test(key)) {
             event.returnValue = false;
-            if(event.preventDefault) event.preventDefault();
+            if (event.preventDefault) event.preventDefault();
         }
+    },
+    /**
+     * submit asynchronous call of type post
+     * @param url
+     * @param requestPayload
+     * @param successCallBack
+     * @param errorCallBack
+     */
+    asyncPostFormData: function (url, requestPayload, successCallBack, errorCallBack) {
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            data: requestPayload,
+            processData: false,
+            contentType: false,
+            success: function (response_data) {
+                successCallBack(response_data);
+            },
+            error: function (xhr, settings, errorThrown) {
+                if (typeof errorCallBack === 'function') {
+                    errorCallBack(xhr, settings, errorThrown);
+                }
+            }
+        });
+    },
+    /**
+     * submit asynchronous call of type get
+     * @param url
+     * @param requestPayload
+     * @param successCallBack
+     * @param errorCallBack
+     */
+    asyncGetFormData: function (url, requestPayload, successCallBack, errorCallBack) {
+        $.get({
+            url: url,
+            dataType: 'json',
+            data: requestPayload,
+            processData: false,
+            contentType: false,
+            success: function (response_data) {
+                successCallBack(response_data);
+            },
+            error: function (xhr, settings, errorThrown) {
+                if (typeof errorCallBack === 'function') {
+                    errorCallBack(xhr, settings, errorThrown);
+                }
+            }
+        });
     }
 };
 tmsApp.tmsUtility = tmsUtility;

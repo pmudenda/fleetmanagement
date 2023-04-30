@@ -915,8 +915,7 @@
 }
 
 .fa-navicon:before,
-.fa-reorder:before,
-.fa-bars:before {
+.fa-reorder:before{
     content: "\f0c9";
 }
 
@@ -8823,7 +8822,7 @@ pre code {
     font-weight: 400;
     line-height: 1.5;
     color: var(--text-color);
-    background-color: var(--control-bg);
+    /*background-color: var(--control-bg);*/
     background-clip: padding-box;
     border: 1px solid #C0C6CC;
     border-radius: var(--border-radius);
@@ -8881,7 +8880,7 @@ input[type=month].form-control {
 
 select.form-control:focus::-ms-value {
     color: var(--text-color);
-    background-color: var(--control-bg);
+    /*background-color: var(--control-bg);*/
 }
 
 .form-control-file,
@@ -13498,7 +13497,7 @@ a.close.disabled {
     font-style: normal;
     font-weight: 400;
     line-height: 1.5;
-    text-align: left;
+    /*text-align: left;*/
     text-align: start;
     text-decoration: none;
     text-shadow: none;
@@ -18543,7 +18542,6 @@ div#driver-popover-item .driver-popover-footer button.driver-close-btn {
 }
 
 .text-hide {
-    font: 0/0 a;
     color: transparent;
     text-shadow: none;
     background-color: transparent;
@@ -22468,7 +22466,6 @@ div#driver-popover-item .driver-popover-footer .page-actions button.driver-prev-
 .new-timeline .timeline-item .timeline-message-box .frappe-control .link-btn,
 .frappe-control .new-timeline .timeline-item .timeline-message-box .link-btn {
     padding: 0;
-    padding-bottom: 0;
     margin-left: var(--margin-sm);
     --icon-stroke: var(--text-muted);
 }
@@ -27265,7 +27262,7 @@ th.fc-day-header {
 
 .tree-node-toolbar {
     display: inline-flex;
-    padding: 0px var(--padding-xs);
+    padding: 0 var(--padding-xs);
     margin-left: var(--margin-md);
     margin-bottom: -4px;
     margin-top: -8px;
@@ -29338,7 +29335,6 @@ textarea.form-control {
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-sm);
     background: var(--popover-bg);
-    width: -moz-max-content;
     width: max-content;
 }
 

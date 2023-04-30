@@ -173,67 +173,78 @@
             </td>
         </tr>
 
-        <tr v-show="assignmentDetails.isOperationsVehicle==='Y' || assignmentDetails.isOperationsVehicle==='N'">
+        <tr v-show="assignmentDetails.isOperationsVehicle==='Y'">
             <td class="frappe-control ">
                 <label for="operatorSupervisorStaffNumber" class="control-label reqd"
                        style="padding-right: 0px;">
-                    Supervisor:
+                    Responsible Head:
                 </label>
             </td>
             <td>
                 <table>
                     <tr>
-                        <td>
+                        <td style="width: 70%;">
                             <div class="control-input-wrapper">
                                 <div class="control-input">
                                     <div class="link-field ui-front"
                                          style="position: relative;">
-                                        <div>
-                                            <div class="input-group">
-                                                <input type="text"
-                                                       class="input-with-feedback form-control bold"
-                                                       required
-                                                       title="Enter Staff number in previous input and name will auto populate"
-                                                       id="operatorSupervisorStaffNumber"
-                                                       name="operatorSupervisorStaffNumber"
-                                                       v-model="assignmentDetails.superVisorStaffNumber"
-                                                       placeholder=""
-                                                       list="employee_list"
-                                                       data-emp="staff_number"
-                                                       data-doctype="AssignmentDetails"
-                                                       autocomplete="off"/>
-                                                <div class="input-group-btn align-self-center">
-                                                    <button type="button" class="btn btn-sm btn-primary"
-                                                            style="border-radius: 0; height: 31px;">
-                                                        <i class="fa fa-search"></i>
-                                                    </button>
-                                                </div>
+                                        <div class="input-group">
+                                            <input type="text"
+                                                   id="responsibleHOD"
+                                                   data-bs-toggle="modal"
+                                                   autocomplete="off"
+                                                   data-bs-target="#searchEmployeeModal"
+                                                   data-assignmenttype="single"
+                                                   data-inputfield="responsibleHOD"
+                                                   name="responsibleHOD"
+                                                   class="form-control"
+                                                   data-emp="staff_number"
+                                                   data-doctype="AssignmentDetails"
+                                            />
+
+                                            <input type="hidden"
+                                                   data-assignmenttype="single"
+                                                   data-inputfield="responsibleHODId"
+                                                   id="responsibleHODId"
+                                                   name="responsibleHODId"/>
+
+                                            <div class="input-group-append input-group-sm">
+                                                <button type="button"
+                                                        data-assignmenttype="single"
+                                                        data-inputfield="responsibleHOD"
+                                                        data-field="userSelection"
+                                                        class="input-group-text">
+                                                    <i class="fa fa-user"></i>
+                                                </button>
+                                                <button type="button"
+                                                        data-action="clearUsers"
+                                                        class="input-group-text">
+                                                    <i class="fa fa-eraser"></i>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </td>
-                        <td style="width:70%">
-                            <div class="control-input">
+                        <td style="width:30%">
+                       {{--     <div class="control-input">
                                 <div class="link-field ui-front"
                                      style="position: relative;">
                                     <div>
                                         <input type="text"
                                                class="input-with-feedback form-control bold"
                                                required
-                                               id="superVisorName"
-
-                                               title="Enter Staff number in previous input and name will auto populate"
-                                               name="superVisorName"
-                                               v-model="assignmentDetails.superVisorName"
+                                               id="responsibleHODName"
+                                               readonly
+                                               name="responsibleHODName"
                                                placeholder=""
                                                data-emp="name"
                                                data-doctype="AssignmentDetails"
                                                autocomplete="off"/>
                                     </div>
                                 </div>
-                            </div>
+                            </div>--}}
                         </td>
                     </tr>
                 </table>
@@ -242,22 +253,57 @@
             <td></td>
         </tr>
 
-        <tr v-show="assignmentDetails.isOperationsVehicle==='Y' || assignmentDetails.isOperationsVehicle==='N'">
+        <tr v-show="assignmentDetails.isOperationsVehicle==='N'">
             <td class="frappe-control ">
                 <label for="operator" class="control-label reqd"
                        style="padding-right: 0px;">
-                    Operator:
+                    Assigned To:
                 </label>
             </td>
             <td>
                 <table>
                     <tr>
-                        <td>
+                        <td style="width: 70%;">
                             <div class="control-input-wrapper">
                                 <div class="control-input">
                                     <div class="link-field ui-front"
                                          style="position: relative;">
-                                        <div>
+                                        <div class="input-group">
+                                            <input type="text"
+                                                   id="vehicleHolder"
+                                                   data-bs-toggle="modal"
+                                                   data-bs-target="#searchEmployeeModal"
+                                                   data-assignmenttype="single"
+                                                   data-inputfield="vehicleHolder"
+                                                   name="vehicleHolder"
+                                                   class="form-control"
+                                                   data-emp="staff_number"
+                                                   data-doctype="AssignmentDetails"
+                                                   autocomplete="off"
+                                            />
+
+                                            <input type="hidden"
+                                                   data-assignmenttype="single"
+                                                   data-inputfield="vehicleHolderId"
+                                                   id="vehicleHolderId"
+                                                   name="vehicleHolderId"/>
+
+                                            <div class="input-group-append input-group-sm">
+                                                <button type="button"
+                                                        data-assignmenttype="single"
+                                                        data-inputfield="vehicleHolder"
+                                                        data-field="userSelection"
+                                                        class="input-group-text">
+                                                    <i class="fa fa-user"></i>
+                                                </button>
+                                                <button type="button"
+                                                        data-action="clearUsers"
+                                                        class="input-group-text">
+                                                    <i class="fa fa-eraser"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {{--<div>
                                             <input type="text"
                                                    class="input-with-feedback form-control bold"
                                                    required
@@ -271,13 +317,13 @@
                                                    data-doctype="AssignmentDetails"
                                                    autocomplete="off"/>
 
-                                        </div>
+                                        </div>--}}
                                     </div>
                                 </div>
                             </div>
                         </td>
-                        <td style="width:80%">
-                            <div class="control-input">
+                        <td style="width:30%">
+                            {{--<div class="control-input">
                                 <div class="link-field ui-front"
                                      style="position: relative;">
                                     <div>
@@ -297,17 +343,75 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div>--}}
                         </td>
                     </tr>
                 </table>
             </td>
-            <td class="frappe-control">
-
-            </td>
+            <td class="frappe-control"></td>
             <td>
             </td>
         </tr>
+
+        <tr v-if="assignmentDetails.isOperationsVehicle==='Y'">
+            <td class="frappe-control ">
+                <label class="control-label reqd"
+                       style="padding-right: 0px;">
+                    Mileage Exempt:
+                </label>
+            </td>
+            <td>
+                <div class="control-input-wrapper">
+                    <div class="control-input">
+                        <div class="link-field ui-front" style="position: relative;">
+                            <label class="form-check-inline">
+                                <input type="radio"
+                                       checked
+                                       class="list-row-checkbox bold"
+                                       name="isMileageExempt"
+                                       readonly
+                                       placeholder=""
+                                       data-target="Company">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </td>
+
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr v-if="assignmentDetails.isOperationsVehicle==='N'">
+            <td class="frappe-control ">
+                <label class="control-label reqd"
+                       style="padding-right: 0px;">
+                    Mileage Exempt:
+                </label>
+            </td>
+            <td>
+                <div class="control-input-wrapper">
+                    <div class="control-input">
+                        <div class="link-field ui-front" style="position: relative;">
+                            <label class="form-check-inline">
+                                <input type="radio"
+                                       class="list-row-checkbox bold"
+                                       name="isMileageExempt"
+                                       value="Y"
+                                       checked
+                                       placeholder=""
+                                       data-target="Company">
+                                Yes</label>
+                        </div>
+                    </div>
+                </div>
+            </td>
+
+            <td></td>
+            <td></td>
+        </tr>
+
 
         {{--      <tr>
                   <td class="frappe-control ">
@@ -409,49 +513,6 @@
               </td>
 
           </tr>--}}
-
-        <tr v-show="assignmentDetails.isOperationsVehicle==='Y' || assignmentDetails.isOperationsVehicle==='N'">
-            <td class="frappe-control ">
-                <label class="control-label reqd"
-                       style="padding-right: 0px;">
-                    Mileage Exempt:
-                </label>
-            </td>
-            <td>
-                <div class="control-input-wrapper">
-                    <div class="control-input">
-                        <div class="link-field ui-front" style="position: relative;">
-                            <label class="form-check-inline">
-                                <input type="radio"
-                                       class="list-row-checkbox bold"
-                                       name="isMileageExempt"
-                                       value="Y"
-                                       :disabled="assignmentDetails.isOperationsVehicle == 'N'"
-                                       v-model="assignmentDetails.mileageExempt"
-                                       placeholder=""
-                                       data-target="Company">
-                                Yes</label>
-                            <label class="form-check-inline">
-                                <input type="radio"
-                                       class="list-row-checkbox bold"
-                                       name="isMileageExempt"
-                                       :value="assignmentDetails.isOperationsVehicle"
-                                       :checked="assignmentDetails.isOperationsVehicle == 'Y'"
-                                       disabled
-                                       v-model="assignmentDetails.mileageExempt"
-                                       placeholder=""
-                                       data-target="Company">
-                                No
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </td>
-
-            <td></td>
-            <td></td>
-        </tr>
-
         </tbody>
     </table>
 
