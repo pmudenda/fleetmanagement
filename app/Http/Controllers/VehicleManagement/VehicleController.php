@@ -31,10 +31,28 @@ class VehicleController extends Controller
                 ->leftJoin('VM_ENGINE_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
                 ->select('VM_VEHICLE_HEADER.*', 'VM_ASSIGNMENTS.*', 'VM_ENGINE_DETAILS.fuel_allocation', 'VM_ENGINE_DETAILS.fuel_types')
                 ->first();
+
+            if (!$vehicle) {
+                return response()->json([
+                    'success' => 'false',
+                    'statusDescription' => 'Not Found',
+                    'message' => 'Vehicle not found'
+                ]);
+            }
+
+            $article = DB::table('GEN_ARTICLES')
+                ->leftJoin('CONFIG_UNIT_OF_MEASURES', 'GEN_ARTICLES.unit_of_measure_code', '=', 'CONFIG_UNIT_OF_MEASURES.code')
+                ->where('GEN_ARTICLES.code', '=', $vehicle->fuel_types)
+                ->select('GEN_ARTICLES.*', 'CONFIG_UNIT_OF_MEASURES.name as unitName', 'CONFIG_UNIT_OF_MEASURES.short_name')
+                ->first();
+
             return response()->json([
-                'payload' => $vehicle,
+                'payload' => [
+                    'vehicle' => $vehicle,
+                    'article' => $article
+                ],
                 'success' => !empty($vehicle),
-                'message' => 'Details retrieved successfully'
+                'message' => 'Vehicle Details retrieved successfully'
             ]);
         } catch (Exception $e) {
             Log::error($e);

@@ -96,6 +96,7 @@
                                                                      style="position: relative;">
                                                                     <label class="form-check-inline">
                                                                         <input type="radio"
+                                                                               id="costOnCostCentre"
                                                                                class="list-row-checkbox bold mr-3"
                                                                                name="CostAssignedTo"
                                                                                value="CostCenterBasedRequisition"
@@ -147,6 +148,7 @@
                                                                      style="position: relative;">
                                                                     <label class="form-check-inline">
                                                                         <input type="radio"
+                                                                               id="projectInput"
                                                                                class="list-row-checkbox bold mr-3"
                                                                                autocomplete="off"
                                                                                name="CostAssignedTo"
@@ -202,13 +204,15 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                               for="staff_name">
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Odometer Reading :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="odometer_reading"
+                                                                   required
                                                                    name="odometer_reading"
                                                             />
                                                         </div>
@@ -392,16 +396,17 @@
                                                    class="form-control form-control-sm border-0"/>
                                         </td>
                                         <td>
-                                            <input type="text" name="material_quantity"
+                                            <input type="number" name="material_quantity"
+                                                   max=""
                                                    id="material_quantity"
                                                    class="form-control form-control-sm"/>
                                         </td>
                                         <td>
-                                            <span data-material-input="unit_of_measure" id="unit_of_measure">Ltr</span>
+                                            <span data-material-input="unit_of_measure" id="unit_of_measure"></span>
                                             <input type="hidden" name="unit_of_measure">
                                         </td>
                                         <td>
-                                            <span data-material-input="material_price" id="material_price">12</span>
+                                            <span data-material-input="material_price" id="material_price"></span>
                                             <input type="hidden" name="material_price" value="12">
                                         </td>
                                         <td>
@@ -435,11 +440,16 @@
 @push('scripts')
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script>
-      /*  $(document).ready(function () {
-            Inputmask({
-                "mask": "AAA 9999"
-            }).mask("#vehicle_registration");
-        })*/
+        $(document).ready(function () {
+            // Inputmask({
+            //     "mask": "AAA 9999"
+            // }).mask("#vehicle_registration");
+
+            $('#vehicle_registration').keyup(function () {
+                this.value = this.value.toLocaleUpperCase();
+            });
+        });
+
         (function (tmsApp, $) {
             function removeSubmissionAndDetailsOptions() {
                 document.querySelector('#actionButtonsContainer').style.display = 'none';
@@ -452,7 +462,9 @@
                 $('input[name="material_description"]').val(tmsApp.formatMoney('0', 2));
             }
 
-            function populateVehicleDetails(vehicle) {
+            function populateVehicleDetails(payload) {
+                let vehicle = payload['vehicle'];
+                let article = payload['article'];
 
                 if (vehicle) {
                     let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
@@ -472,21 +484,33 @@
                     if (vehicle.fuel_allocation) {
                         let perWeekAllocation = vehicle.fuel_allocation * 7;
                         document.querySelector('[name="fuel_allocation"]').value = perWeekAllocation ?? 0;
+                        document.querySelector('[name="material_quantity"]').value = perWeekAllocation ?? 0;
+                        document.querySelector('[name="material_quantity"]').setAttribute('max', perWeekAllocation);
+
                     }
 
                     document.querySelector('#actionButtonsContainer').style.display = null;
                     document.querySelector('#vehicleDetailsContainer').style.display = null;
                     document.querySelector('#materialDetailsContainer').style.display = null;
 
-                    //vehicle.fuel_types
-                    $("#material_description").text(vehicle['fuel_types']);
-                    $('input[name="material_description"]').val(vehicle['fuel_types']);
+                    if (article) {
 
-                    $("#material_amount").text(tmsApp.formatMoney('', 2));
-                    $('input[name="material_amount"]').val(tmsApp.formatMoney('', 2)).trigger('change');
+                        /* Material Description and name */
+                        $("#material_description").text(article['name']);
+                        $('input[name="material_description"]').val(article['name']);
 
-                    $("#material_price").text(tmsApp.formatMoney('', 2));
-                    $('input[name="material_price"]').val(tmsApp.formatMoney('', 2)).trigger('change');
+                        /* Unit Of Measure */
+                        $("#unit_of_measure").text(article['short_name']);
+                        $('input[name="unit_of_measure"]').val(article['short_name']);
+
+
+                        //$("#material_amount").text(tmsApp.formatMoney('', 2));
+                        //$('input[name="material_amount"]').val(tmsApp.formatMoney('', 2)).trigger('change');
+
+                        /* Material Price*/
+                        $("#material_price").text(tmsApp.formatMoney(article['price'], 2));
+                        $('input[name="material_price"]').val(tmsApp.formatMoney(article['price'], 2)).change();
+                    }
                 }
             }
 
@@ -519,6 +543,10 @@
 
                 switch (element.name) {
                     case 'material_price':
+                        // line total = new material price multiplied by quantity value
+                        let sales = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=material_quantity]").val());
+                        $(element).closest("tr").find("input[name=material_amount]").val(tmsApp.numberFormat(sales)).change();
+                        $(element).closest("tr").find("#material_amount").text(tmsApp.numberFormat(sales));
                         break;
                     case 'material_quantity':
 
@@ -528,10 +556,10 @@
                         });
 
                         $('#totalQty').text(tmsApp.numberFormat(summaryTotalQty));
-
-                        let sales = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=material_price]").val());
-                        $(element).closest("tr").find("input[name=material_amount]").val(tmsApp.numberFormat(sales)).change();
-                        $(element).closest("tr").find("#material_amount").text(tmsApp.numberFormat(sales));
+                        // line total = new quantity value multiplied by material price
+                        let lineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=material_price]").val());
+                        $(element).closest("tr").find("input[name=material_amount]").val(tmsApp.numberFormat(lineAmountTotal)).change();
+                        $(element).closest("tr").find("#material_amount").text(tmsApp.numberFormat(lineAmountTotal));
                         break;
                     case 'material_amount':
                         // calculate new footer total
@@ -568,6 +596,12 @@
                     fuel_allocation: {
                         required: true
                     },
+                    project_code: {
+                        required: '#projectInput:checked'
+                    },
+                    'cost_centre_code': {
+                        required: '#costOnCostCentre:checked'
+                    },
                     justification: {
                         required: true,
                         minlength: 10,
@@ -575,35 +609,44 @@
                     },
                     projectCode: {
                         required: true
+                    },
+                    material_quantity: {
+                        required: true
                     }
                 },
                 {
                     'requisition_type': {
                         required: "You have not declared the type of requisition"
                     },
-
                     'fuel_allocation': {
                         required: "The vehicle does not have a valida fuel allocation"
                     },
-
                     'dateOpened': {
                         required: "You must specify date task was opened"
                     },
-
                     'justification': {
                         required: "Reason for requisition is mandatory",
                         minlength: "The reason needs to be at least {0} characters!",
                         maxlength: "The reason must not be more than 255 characters"
                     },
-
                     projectCode: {
                         required: 'Missing Project Code'
+                    },
+                    material_quantity: {
+                        required: 'You have not declared the quantity being requested for'
+                    },
+                    project_code: {
+                        required: 'Project Code is missing'
+                    },
+                    odometer_reading: {
+                        required: 'You must declare the odometer reading'
                     }
-                });
+                }
+            );
 
             $('#submitRequisitionBtn').on('click', function () {
                 let $form = document.forms['fuelRequisitionForm'];
-                if (!$form.valid()) {
+                if (!$($form).valid()) {
                     return;
                 }
                 let formData = new FormData($form);
@@ -632,7 +675,6 @@
                                         tmsApp.printErrorMsg(asyncResponse.errors);
                                         return
                                     }
-
                                     setTimeout(function () {
                                         tmsApp.systemError(
                                             'Fuel Requisition',
@@ -643,13 +685,24 @@
                                 }
                             },
                             function (xhr, settings, errorThrown) {
-                                console.log(xhr, errorThrown);
+                                console.log(errorThrown)
                                 setTimeout(function () {
+                                    if ('responseJSON' in xhr) {
+                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                        }
+                                        if (xhr.responseJSON.hasOwnProperty('message')) {
+                                            tmsApp.systemError(
+                                                'Fuel Requisition',
+                                                xhr.responseJSON.hasOwnProperty('message')
+                                            );
+                                        }
+                                        return;
+                                    }
+
                                     tmsApp.systemError(
                                         'Fuel Requisition',
-                                        'We could not complete processing your request, please try again later',
-                                        function () {
-                                        });
+                                        'We could not complete processing your request, please try again later');
                                 }, 300)
                             }
                         )
