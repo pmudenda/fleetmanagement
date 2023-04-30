@@ -8,4 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class MaterialDetail extends Model
 {
     use HasFactory;
+
+    protected $table = 'GEN_MATERIAL_DETAILS';
+    protected $fillable = [
+        'created_by',
+        'date_created',
+        'req_no',
+        'material_code',
+        'quantity',
+        'unit_of_measure',
+        'specifications',
+        'project_code',
+        'supplier_code',
+        'reg_no',
+        'amount',
+        'price',
+        'ref_no',
+
+
+    ];
 }

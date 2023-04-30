@@ -248,9 +248,8 @@
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="request_date">Return Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="text" class="form-control form-control-sm"
+                                                            <input type="date" class="form-control form-control-sm"
                                                                    id="return_date"
-                                                                   readonly
                                                                    max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
                                                                    name="return_date">
                                                         </div>
@@ -296,7 +295,7 @@
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="request_date"
                                                                    readonly
-                                                                   value="{{\Carbon\Carbon::now()->format('d/m/y')}}"
+                                                                   value="{{\Carbon\Carbon::now()->format('d/m/Y')}}"
                                                                    name="request_date">
                                                         </div>
                                                     </div>
@@ -318,7 +317,7 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="next_fuel_date"
-                                                                   value="{{\Carbon\Carbon::now()->add('days', $daysToNextRefuel)->format('d/m/y')}}"
+                                                                   value="{{\Carbon\Carbon::now()->add('days', $daysToNextRefuel)->format('d/m/Y')}}"
                                                                    name="next_fuel_date"
                                                                    readonly required>
                                                         </div>
@@ -390,6 +389,7 @@
                                             <span data-material-input="material_description"
                                                   id="material_description"></span>
                                             <input type="hidden" name="material_description">
+                                            <input type="hidden" name="material_article_code">
                                         </td>
                                         <td>
                                             <input type="text" name="projectCode" readonly value="000000"
@@ -498,6 +498,7 @@
                         /* Material Description and name */
                         $("#material_description").text(article['name']);
                         $('input[name="material_description"]').val(article['name']);
+                        $('input[name="material_article_code"]').val(article['code']);
 
                         /* Unit Of Measure */
                         $("#unit_of_measure").text(article['short_name']);
@@ -509,7 +510,7 @@
 
                         /* Material Price*/
                         $("#material_price").text(tmsApp.formatMoney(article['price'], 2));
-                        $('input[name="material_price"]').val(tmsApp.formatMoney(article['price'], 2)).change();
+                        $('input[name="material_price"]').val(article['price']).change();
                     }
                 }
             }
@@ -544,9 +545,9 @@
                 switch (element.name) {
                     case 'material_price':
                         // line total = new material price multiplied by quantity value
-                        let sales = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=material_quantity]").val());
-                        $(element).closest("tr").find("input[name=material_amount]").val(tmsApp.numberFormat(sales)).change();
-                        $(element).closest("tr").find("#material_amount").text(tmsApp.numberFormat(sales));
+                        let totalAmount = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=material_quantity]").val());
+                        $(element).closest("tr").find("input[name=material_amount]").val(totalAmount).change();
+                        $(element).closest("tr").find("#material_amount").text(tmsApp.numberFormat(totalAmount));
                         break;
                     case 'material_quantity':
 
@@ -558,7 +559,7 @@
                         $('#totalQty').text(tmsApp.numberFormat(summaryTotalQty));
                         // line total = new quantity value multiplied by material price
                         let lineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=material_price]").val());
-                        $(element).closest("tr").find("input[name=material_amount]").val(tmsApp.numberFormat(lineAmountTotal)).change();
+                        $(element).closest("tr").find("input[name=material_amount]").val(lineAmountTotal).change();
                         $(element).closest("tr").find("#material_amount").text(tmsApp.numberFormat(lineAmountTotal));
                         break;
                     case 'material_amount':
@@ -649,6 +650,7 @@
                 if (!$($form).valid()) {
                     return;
                 }
+                $('print-error-msg').css('display', 'none');
                 let formData = new FormData($form);
                 tmsApp.confirm(
                     'Fuel Requisition',
@@ -707,12 +709,8 @@
                             }
                         )
                     },
-                    function () {
-
-                    }
-                )
-
-
+                    function () {}
+                );
             })
 
             $('#resetRequisitionBtn').on('click', function () {
