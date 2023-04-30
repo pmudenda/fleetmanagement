@@ -240,6 +240,14 @@ let tmsUtility = {
                 }
             }
         });
+    },
+    printErrorMsg: function (msg) {
+        let $msgBox = $('.print-error-msg');
+        $msgBox.find('ul').html('');
+        $msgBox.css('display', 'block');
+        $.each(msg, function (key, value) {
+            $msgBox.find('ul').append('<li>' + value + '</li>');
+        })
     }
 };
 tmsApp.tmsUtility = tmsUtility;

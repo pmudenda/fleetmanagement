@@ -1,6 +1,6 @@
 $("#resetUserFormBtn").on('click', function () {
     document.forms['tms_user_definition'].reset();
-    document.querySelector('#actionButtonsContainer').style.display = null;
+    document.querySelector('#actionButtonsContainer').style.display = 'none';
 });
 
 $("#submitUserBtn").on('click', function () {
@@ -28,13 +28,17 @@ $("#submitUserBtn").on('click', function () {
                                 }, 'success');
                         }, 300)
                     } else {
-                        setTimeout(function () {
-                            tmsApp.systemError(
-                                'User Creation',
-                                asyncResponse['message'],
-                                function () {
-                                });
-                        }, 300)
+
+                        if (asyncResponse.hasOwnProperty('errors')) {
+                            tmsApp.tmsUtility.printErrorMsg(asyncResponse.errors);
+                            return
+                        }
+
+                        tmsApp.systemError(
+                            'User Creation',
+                            asyncResponse['message'],
+                            function () {
+                            });
 
                     }
                 },

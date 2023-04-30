@@ -10,7 +10,7 @@
                 <div class="card-title">
                     <h4>New Fuel Requisition</h4>
                 </div>
-                <div class="card-toolbar justify-content-end">
+                <div id="actionButtonsContainer" class="card-toolbar justify-content-end" style="display: none;">
                     <button type="button" id="submitRequisitionBtn" class="btn btn-success btn-sm mr-3">
                         <i class="fas fa-save"></i> Submit
                     </button>
@@ -426,8 +426,8 @@
             if (vehicle) {
                 let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
                 $("#vehicle_description").val(vLabel);
+                document.querySelector('#actionButtonsContainer').style.display = null;
             }
-
         }
 
         function findVehicle(numberPlate) {
@@ -492,6 +492,11 @@
                                         );
                                     }, 300);
                                 } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.tmsUtility.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+
                                     setTimeout(function () {
                                         tmsApp.systemError(
                                             'Fuel Requisition',
@@ -523,6 +528,7 @@
 
             $('#resetRequisitionBtn').on('click', function () {
                 document.forms['fuelRequisitionForm'].reset();
+                document.querySelector('#actionButtonsContainer').style.display = 'none';
             });
 
             $('select[name="requisition_type"]').on('change', function () {
