@@ -19,12 +19,14 @@ class MaterialDetail extends Model
         'unit_of_measure',
         'specifications',
         'project_code',
+        'project_name',
         'supplier_code',
+        'cost_centre',
+        'cost_centre_name',
         'reg_no',
         'amount',
         'price',
         'ref_no',
-
-
+        'max_allowed'
     ];
 }

@@ -72,7 +72,7 @@
                     return;
                 }
 
-                if (response_data['payload'] === 0) {
+                if (response_data['payload'].length === 0) {
                     $(".errorMsg").html(`<div class='alert alert-danger'>
                             No Users Found
                         </div>`);
@@ -267,6 +267,6 @@
         _modal.modal('hide');
     });
 
-})(tmsApp || {}, jQuery, window.supportData || {assignmenttype: 'single', inputfield: '', field: ''});
+})(window.tmsApp || {}, jQuery, window.supportData || {assignmenttype: 'single', inputfield: '', field: ''});
 
 

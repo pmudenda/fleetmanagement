@@ -4,10 +4,25 @@ namespace App\Services\VehicleManagement\OnBoarding;
 
 use App\Enums\VehicleStatusEnum;
 use App\Exceptions\VehicleOnBoardingException;
+use App\Helpers\StatusHelper;
+use App\Http\Requests\BodyDetailsPost;
 use App\Http\Requests\ChassisDetailsPostRequest;
+use App\Http\Requests\CostingDetailsPost;
+use App\Http\Requests\EngineDetailsPost;
+use App\Http\Requests\VehicleHeaderRequest;
+use App\Models\configurations\vehicle\ConfigVehicleBodyType;
+use App\Models\configurations\vehicle\ConfigVehicleBrand;
+use App\Models\configurations\vehicle\ConfigVehicleModel;
+use App\Models\general\OrganizationalUnits;
+use App\Models\vehiclemanagement\BodyAndWeightDetail;
 use App\Models\vehiclemanagement\ChassisDetail;
+use App\Models\vehiclemanagement\CostAndValuation;
+use App\Models\vehiclemanagement\EngineDetail;
+use App\Models\vehiclemanagement\VehicleHeader;
 use App\Services\FileUploads\FileUploadService;
 use Carbon\Carbon;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OnBoardingService
@@ -17,6 +32,20 @@ class OnBoardingService
     public function __construct(FileUploadService $fileUploadService)
     {
         $this->fileUploadService = $fileUploadService;
+    }
+
+
+    public function getVehicleDetails($ref): object|null
+    {
+        return DB::table('VM_VEHICLE_HEADER')->
+        where('.VM_VEHICLE_HEADER.id', '=', $ref)
+            ->leftJoin('VM_ENGINE_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
+            ->leftJoin('VM_ASSIGNMENTS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ASSIGNMENTS.vehicle_header_id')
+            ->leftJoin('VM_CHASSIS_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_CHASSIS_DETAILS.vehicle_header_id')
+            ->leftJoin('VM_COST_AND_VALUATIONS', 'VM_VEHICLE_HEADER.id', '=', 'VM_COST_AND_VALUATIONS.vehicle_header_id')
+            ->leftJoin('VM_BODY_AND_WEIGHT_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_BODY_AND_WEIGHT_DETAILS.vehicle_header_id')
+            ->select('VM_VEHICLE_HEADER.*', 'VM_ASSIGNMENTS.*', 'VM_ENGINE_DETAILS.*', 'VM_CHASSIS_DETAILS.*', 'VM_COST_AND_VALUATIONS.*', 'VM_BODY_AND_WEIGHT_DETAILS.*')
+            ->first();
     }
 
     /**
@@ -118,6 +147,153 @@ class OnBoardingService
         DB::commit();
 
         return $model;
+    }
+
+
+    /**
+     * @param VehicleHeaderRequest $request
+     * @return mixed
+     * @throws VehicleOnBoardingException
+     * @throws Exception
+     */
+    public function processVehicleHeaderInformation(VehicleHeaderRequest $request): mixed
+    {
+        $user = auth()->user();
+
+        $user_unit_code = $request->input('user_unit');
+
+        //if ($request->has('user_unit'))
+        $organizationUnit = OrganizationalUnits::where('code_unit', $user_unit_code)->first();
+        $registrationNumber = strtoupper(trim($request->input('registrationNumber')));
+        $exitingRegistration = VehicleHeader::where('registration_number', $registrationNumber)->first();
+
+        if (!empty($exitingRegistration)) {
+            throw new VehicleOnBoardingException(
+                'Vehicle with Registration Number ' . $registrationNumber . ' was already registered',
+                0);
+        }
+
+        $brand = ConfigVehicleBrand::where('guid', $request->input('brand'))->first();
+        $vehicleModel = ConfigVehicleModel::where('model_guid',
+            $request->input('model'))->first();
+
+        if (empty($vehicleModel)) {
+            throw new Exception('Vehicle Model Not Found');
+        }
+
+        $bodyType = ConfigVehicleBodyType::where('guid',
+            $request->input('bodyType'))->first();
+
+        if (empty($bodyType)) {
+            throw new Exception('Vehicle Body Type Not Found');
+        }
+
+        return VehicleHeader::create([
+            'brand_guid' => $brand->guid,
+            'brand_name' => $brand->name,
+            'model_guid' => $vehicleModel->model_guid,
+            'model_name' => $vehicleModel->model_name,
+            'model_code' => $vehicleModel->model_code,
+            'body_type_guid' => $bodyType->guid,
+            'body_type_name' => $bodyType->body_type_name,
+            'registration_number' => $registrationNumber,
+            'business_unit_code' => trim($organizationUnit->code_unit),
+            'business_unit_name' => trim($organizationUnit->description),
+            'location_code' => '',
+            'location_name' => strtoupper(trim($request->input('vehicleLocation'))),
+            'created_by' => $user->id,
+            'created_name' => $user->name,
+            'on_boarding_status' => StatusHelper::PendingVerification(),
+            'statue' => StatusHelper::new(),
+            'registration_type' => $request->registration_type
+        ]);
+    }
+
+    /**
+     * @param EngineDetailsPost $request
+     * @return mixed
+     */
+    public function processEngineDetails(EngineDetailsPost $request): mixed
+    {
+        $user = auth()->user();
+
+        return EngineDetail::create([
+            'vehicle_header_id' => $request->input('headerId'),
+            'actual_engine_power' => $request->input('actualEnginePower'),
+            'claimed_engine_power' => $request->input('claimedEnginePower'),
+            'engine_brand' => $request->input('engineBrand'),
+            'engine_capacity' => $request->input('engineCapacity'),
+            'engine_type' => $request->input('engineType'),
+            'fuel_allocation' => $request->input('fuelAllocation'),
+            'fuel_consumption' => $request->input('fuelConsumption'),
+            'fuel_types' => $request->input('fuelTypes'),
+            'number_of_cylinders' => $request->input('numberOfCylinders'),
+            'tank_capacity' => $request->input('tank_capacity'),
+            'sub_tank_capacity' => $request->input('sub_tank_capacity'),
+            'transmission_type' => $request->input('transmission_type'),
+            'battery_brand' => $request->input('batteryBrand'),
+            'battery_size' => $request->input('batterySize'),
+            'battery_power' => $request->input('batteryPower'),
+            'front_tyre_size' => $request->input('frontTyreSize'),
+            'number_of_tyres' => $request->input('numberOfTyres'),
+            'rear_tyre_size' => $request->input('rearTyreSize'),
+            'tyre_brand' => $request->input('tyreBrand'),
+        ]);
+    }
+
+    /**
+     * @param CostingDetailsPost $request
+     * @return mixed
+     */
+    public function processCostingDetails(CostingDetailsPost $request): mixed
+    {
+        $user = auth()->user();
+
+        return CostAndValuation::create([
+            'vehicle_header_id' => $request->input('headerId'),
+            'assetNumber' => $request->input('assetNumber'),
+            'bookValue' => $request->input('bookValue'),
+            'costOfLicense' => $request->input('costOfLicense'),
+            'costPrice' => $request->input('costPrice'),
+            'premium' => $request->input('premium'),
+            'supplierName' => $request->input('supplierName'),
+            'yearOfPurchase' => $request->input('yearOfPurchase'),
+            'created_by' => $user->id,
+            'created_name' => $user->name,
+        ]);
+    }
+
+    /**
+     * @param BodyDetailsPost $request
+     * @return mixed
+     */
+    public function processingBodyDetails(BodyDetailsPost $request): mixed
+    {
+        $user = auth()->user();
+
+        $data = [
+            'vehicle_header_id' => $request->input('headerId'),
+            'height' => $request->input('height'),
+            'length' => $request->input('length'),
+            'width' => $request->input('width'),
+            'seatCapFront' => 0,
+            'seatCapRear' => 0,
+            'volumeOfBootTanker' => 0,
+            'numberOfSeats' => $request->input('numberOfSeats') ?? $request->get('seatCapFront'),
+            'distanceAxle1' => $request->get('distanceAxle1') ?? 0,
+            'distanceAxle2' => $request->get('distanceAxle2') ?? 0,
+            'distanceAxle3' => $request->get('distanceAxle3') ?? 0,
+            'distanceAxle4' => $request->get('distanceAxle4') ?? 0,
+            'tareWeight' => $request->input('tareWeight'),
+            'grossWeight' => $request->input('grossWeight'),
+            'trailerWeight2' => 0,
+            'trailerWeight3' => 0,
+            'trailerWeight4' => 0,
+            'created_by' => $user->id,
+            'created_name' => $user->name,
+        ];
+
+        return BodyAndWeightDetail::create($data);
     }
 
 

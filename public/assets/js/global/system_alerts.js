@@ -23,7 +23,7 @@
             if (dataVal) {
                 // Swal.fire(`Entered email: ${dataVal}`)
                 if (typeof confirmCallBack === 'function') {
-                    confirmCallBack.call(null, dataVal)
+                    confirmCallBack(null, dataVal)
                 }
             }
         };
@@ -58,8 +58,8 @@
             })
 
             if (accept) {
-                //confirmCallback.call(null, n, i)
-                //cancelCallback.call()
+                //confirmCallback(null, n, i)
+                //cancelCallback()
             }
         };
 
@@ -98,13 +98,11 @@
                 confirmButtonText: confirmButtonText === "" || confirmButtonText == null ? 'Yes, Proceed' : confirmButtonText,
                 cancelButtonText: cancelButtonText === "" || cancelButtonText == null ? 'No, cancel' : cancelButtonText,
             }).then((result) => {
-                console.log('ConfirmationResult', result);
                 if (result.value) {
                     setTimeout(function () {
                         if (typeof confirmCallback !== 'function') {
                             return;
                         }
-
                         confirmCallback.call();
                     }, 300);
                 } else {
@@ -124,16 +122,16 @@
          */
         appInstance.systemError = function (title, content, closeCallback) {
             Swal.fire({
-                title: title == null || title === "" ? 'Message' : title,
-                text: content == null || content === "" ? 'Content!' : content,
+                title: (title == null || title === "") ? 'Message' : title,
+                text: (content == null || content === "") ? 'Content!' : content,
                 icon: 'error',
                 showDenyButton: false,
                 showCancelButton: false,
                 confirmButtonText: 'Ok',
             }).then((result) => {
-                if (result.isConfirmed) {
+                if (result.value) {
                     if (typeof closeCallback == 'function') {
-                        closeCallback.call()
+                        closeCallback()
                     }
                 }
             });
@@ -143,17 +141,29 @@
          *
          * @param title
          * @param content
-         * @param cancelCallback
+         * @param confirmCallback
          */
-        appInstance.showSystemMessage = function (title, content, cancelCallback, type = 'error') {
+        appInstance.showSystemMessage = function (title, content, confirmCallback, type = 'error') {
             if (!content) {
                 return;
             }
-            Swal.fire(
-                title,
-                content,
-                type
-            )
+            Swal.fire({
+                title: title,
+                text: content,
+                icon: type,
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                if (result.value) {
+                    setTimeout(function () {
+                        if (typeof confirmCallback === 'function') {
+                            confirmCallback();
+                        }
+                    }, 300);
+                }
+            });
         };
 
         /**

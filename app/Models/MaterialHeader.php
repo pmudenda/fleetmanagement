@@ -13,22 +13,25 @@ class MaterialHeader extends Model
 
     protected $fillable = [
         'proc_ref',
+        'st_pur',
         'req_no',
         'reg_no',
+        'cost_centre',
         'valid_date_from',
         'valid_date_to',
-        'st_pur',
         'odometer',
         'town_from',
         'town_to',
         'date_created',
         'created_by',
-        'cost_centre',
+        'requested_by',
+        'comments',
+        'status',
+        'requisition_type',
+        'cost_assigned_to',
         'item_type',
         'workshop_no',
         'document_no',
-        'form_order',
-        'requested_by',
-        'comments'
+        'form_order'
     ];
 }

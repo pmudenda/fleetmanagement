@@ -2,18 +2,39 @@
 
 namespace App\Http\Controllers\Configurations;
 
+use App\Enums;
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\VehicleBodyType;
 use App\Models\configurations\vehicle\ConfigVehicleBodyType;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class VehicleBodyTypesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): JsonResponse
     {
-        //
+        try {
+            $statusList = [Enums\VehicleStatusEnum::Active, Enums\VehicleStatusEnum::active];
+            $data = ConfigVehicleBodyType::whereIn('status', $statusList)->get();
+            return response()->json([
+                'state' => 'success',
+                'payload' => $data
+            ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'state' => 'failure',
+                'payload' => []
+            ]);
+        }
     }
 
     /**
@@ -27,9 +48,32 @@ class VehicleBodyTypesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(VehicleBodyType $request): JsonResponse
     {
-        //
+        try {
+            // // $request->input('status'),
+            $name = trim(strtoupper($request->input('body_type_name')));
+            $model = ConfigVehicleBodyType::create([
+                'status' => StatusHelper::active(),
+                'guid' => Str::uuid(),
+                'dateCreated' => Carbon::now(),
+                'name' => $name,
+                'body_type_name' => $name
+            ]);
+
+            return response()->json([
+                'state' => 'success',
+                'message' => '',
+                'payload' => $model
+            ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'state' => 'failure',
+                'message' => 'Error Occurred while Processing request',
+                'payload' => []
+            ]);
+        }
     }
 
     /**
@@ -59,8 +103,25 @@ class VehicleBodyTypesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ConfigVehicleBodyType $configfVehicleBodyType)
+    //public function destroy(ConfigVehicleBodyType $configfVehicleBodyType)
+    public function destroy(Request $request): JsonResponse
     {
-        //
+        try {
+
+            $data = ConfigVehicleBodyType::where('guid', $request->input('guid'));
+            $data->status = 'inactive'; //TODO Use Status enum
+            $data->save();
+
+            return response()->json([
+                'state' => 'success',
+                'payload' => $data
+            ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'state' => 'failure',
+                'payload' => []
+            ]);
+        }
     }
 }

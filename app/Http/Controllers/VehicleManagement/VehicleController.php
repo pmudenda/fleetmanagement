@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\VehicleManagement;
 
 use App\Http\Controllers\Controller;
+use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -11,6 +12,41 @@ use Illuminate\Support\Facades\Log;
 
 class VehicleController extends Controller
 {
+    private OnBoardingService $onBoardingService;
+
+    public function __construct(OnBoardingService $onBoardingService)
+    {
+        $this->onBoardingService = $onBoardingService;
+    }
+
+    public function getAllDetails($ref): JsonResponse
+    {
+        try {
+            if (empty($ref)) {
+                return response()->json([
+                    'success' => 'false',
+                    'statusDescription' => 'Bad Request',
+                    'message' => 'Missing required parameter'
+                ]);
+            }
+
+            $vehicle = $this->onBoardingService->getVehicleDetails($ref);
+
+            return response()->json([
+                'payload' => [
+                    'vehicle' => $vehicle,
+                ],
+                'success' => !empty($vehicle),
+                'message' => 'Vehicle Details retrieved successfully'
+            ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'success' => 'false',
+                'message' => 'We could not complete processing your request, Please contact System Administrator'
+            ]);
+        }
+    }
 
     public function getDetails(Request $request): JsonResponse
     {
@@ -22,11 +58,11 @@ class VehicleController extends Controller
                     'message' => 'Missing required parameter'
                 ]);
             }
-            /*$vehicle = VehicleHeader::where('registration_number', $request->vehicle_registration)
-                ->first();*/
+
             // determine material type in form of fuel
             $vehicle = DB::table('VM_VEHICLE_HEADER')->
             where('registration_number', $request->vehicle_registration)
+                //->where('on_boarding_status', $request->vehicle_registration)
                 ->leftJoin('VM_ASSIGNMENTS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ASSIGNMENTS.vehicle_header_id')
                 ->leftJoin('VM_ENGINE_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
                 ->select('VM_VEHICLE_HEADER.*', 'VM_ASSIGNMENTS.*', 'VM_ENGINE_DETAILS.fuel_allocation', 'VM_ENGINE_DETAILS.fuel_types')

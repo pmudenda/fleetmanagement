@@ -1,29 +1,7 @@
 <div>
     <!-- Main content -->
     <section class="content">
-
-        @if (session()->has('message'))
-        <div class="alert alert-success alert-dismissible">
-            <p class="lead"> {{ session()->get('message') }}</p>
-        </div>
-        @endif
-        @if (session()->has('error'))
-        <div class="alert alert-danger alert-dismissible">
-            <p class="lead"> {{ session()->get('error') }}</p>
-        </div>
-        @endif
-
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-
-
+        <x-error-view/>
         <div class="container-fluid">
             <div class="row">
                 <!--LEFT COLUMN-->
@@ -35,23 +13,24 @@
                             <div class="text-center">
                                 <a href="#">
                                     @if(!empty($user->avatar))
-                                    <img class="profile-user-img img-fluid img-circle" width="100%"
-                                    src="{{ asset('storage/user_avatar/' . $user->avatar) }}" alt="Image not found"
-                                    @if( Auth::user()->id==$user->id)
-                                title="Click Here to Edit Image"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modal-edit-profile"
-                                @endif
-                                    />
+                                        <img class="profile-user-img img-fluid img-circle" width="100%"
+                                             src="{{ asset('storage/user_avatar/' . $user->avatar) }}"
+                                             alt="Image not found"
+                                             @if( Auth::user()->id==$user->id)
+                                                 title="Click Here to Edit Image"
+                                             data-bs-toggle="modal"
+                                             data-bs-target="#modal-edit-profile"
+                                            @endif
+                                        />
                                     @else
-                                    <img class="profile-user-img img-fluid img-circle" width="100%"
-                                    src="{{ asset('assets/img/avatar.png') }}" alt="Image not found"
-                                    @if( Auth::user()->id==$user->id)
-                                title="Click Here to Edit Image"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modal-edit-profile"
-                                @endif
-                                    />
+                                        <img class="profile-user-img img-fluid img-circle" width="100%"
+                                             src="{{ asset('assets/img/avatar.png') }}" alt="Image not found"
+                                             @if( Auth::user()->id==$user->id)
+                                                 title="Click Here to Edit Image"
+                                             data-bs-toggle="modal"
+                                             data-bs-target="#modal-edit-profile"
+                                            @endif
+                                        />
                                     @endif
                                 </a>
                             </div>
@@ -82,52 +61,52 @@
                                 <li class="list-group-item">
                                     <b>Email</b> <a class="float-right">{{ $user->email }}</a>
                                 </li>
-                              {{--  <li class="list-group-item">
-                                    <b>Status</b> <a class="float-right">{{ $user->status ?? '' }}</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Total Application Forms</b> <a class="float-right">{{ $user->total_forms }}</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Total Logins</b> <a class="float-right">{{ $user->total_login }}</a>
-                                </li>--}}
+                                {{--  <li class="list-group-item">
+                                      <b>Status</b> <a class="float-right">{{ $user->status ?? '' }}</a>
+                                  </li>
+                                  <li class="list-group-item">
+                                      <b>Total Application Forms</b> <a class="float-right">{{ $user->total_forms }}</a>
+                                  </li>
+                                  <li class="list-group-item">
+                                      <b>Total Logins</b> <a class="float-right">{{ $user->total_login }}</a>
+                                  </li>--}}
                             </ul>
 
                         </div>
                         <!-- /.card-body -->
                         @if (Auth::user()->type_id == config('constants.user_types.developer') ||
                         Auth::user()->type_id == config('constants.user_types.mgt'))
-                        <div class="card-footer d-none">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <!-- SEARCH FORM -->
-                                    <div class="modal-header">
-                                        <label>FIND USER</label>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form class="form-inline ml-3" method="post" action="">
-                                            @csrf
-                                            <div class="input-group input-group-sm">
-                                                <input class="form-control form-control-navbar" type="search"
-                                                    name="search" placeholder="Enter Man Number/Name"
-                                                    aria-label="Enter Search Term">
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-navbar" type="submit">
-                                                        <i class="fas fa-search"> Search User</i>
-                                                    </button>
+                            <div class="card-footer d-none">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <!-- SEARCH FORM -->
+                                        <div class="modal-header">
+                                            <label>FIND USER</label>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form-inline ml-3" method="post" action="">
+                                                @csrf
+                                                <div class="input-group input-group-sm">
+                                                    <input class="form-control form-control-navbar" type="search"
+                                                           name="search" placeholder="Enter Man Number/Name"
+                                                           aria-label="Enter Search Term">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-navbar" type="submit">
+                                                            <i class="fas fa-search"> Search User</i>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </form>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <!-- PROFILE FORM -->
                                     </div>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <!-- PROFILE FORM -->
-                                </div>
-                            </div>
-                        </div>
                         @endif
                     </div>
                     <!-- /.card -->
@@ -149,11 +128,11 @@
                                 @if (Auth::user()->id == $user->id ||
                                 Auth::user()->type_id == config('constants.user_types.developer') ||
                                 Auth::user()->type_id == config('constants.user_types.mgt'))
-                                <li class="nav-item d-none">
-                                    <a class="nav-link" href="#settings" data-toggle="tab">
-                                        Settings
-                                    </a>
-                                </li>
+                                    <li class="nav-item d-none">
+                                        <a class="nav-link" href="#settings" data-toggle="tab">
+                                            Settings
+                                        </a>
+                                    </li>
                                 @endif
                                 <li class="nav-item d-none">
                                     <a class="nav-link " href="#units" data-toggle="tab">
@@ -162,8 +141,8 @@
                                 </li>
                                 <li class="nav-item d-none">
                                     <a class="nav-link " href="#workflow" data-toggle="tab">
-                                    My Work-flow
-                                </a>
+                                        My Work-flow
+                                    </a>
                                 @if (Auth::user()->type_id == config('constants.user_types.developer') ||
                                 Auth::user()->type_id == config('constants.user_types.mgt'))
                                     <li class="nav-item">
@@ -200,12 +179,12 @@
                                             <div class="col-6">
                                                 <p class="text-muted"><b>User
                                                         Unit:</b>
-                                                    {{-- @if (Auth::user()->type_id ==
-                                                    config('constants.user_types.developer') ||
-                                                    Auth::user()->type_id == config('constants.user_types.mgt'))
-                                                    <a href="{{ route('logout') }}" class="text-dark" onclick="event.preventDefault();
-                                                               document.getElementById('search-form12').submit();">
-                                                        {{ $user->user_unit->user_unit_description ?? '' }} </a> --}}
+                                                {{-- @if (Auth::user()->type_id ==
+                                                config('constants.user_types.developer') ||
+                                                Auth::user()->type_id == config('constants.user_types.mgt'))
+                                                <a href="{{ route('logout') }}" class="text-dark" onclick="event.preventDefault();
+                                                           document.getElementById('search-form12').submit();">
+                                                    {{ $user->user_unit->user_unit_description ?? '' }} </a> --}}
                                                 <form id="search-form12" action="" method="post" class="d-none">
                                                     @csrf
                                                 </form>
@@ -287,8 +266,9 @@
                                                     @csrf
                                                     <div class="form-group">
                                                         <input hidden value="{{ $user->id }}"
-                                                            class="form-control select2" id="owner_id" name="owner_id"
-                                                            required style="width: 100%;">
+                                                               class="form-control select2" id="owner_id"
+                                                               name="owner_id"
+                                                               required style="width: 100%;">
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-group">
@@ -296,34 +276,34 @@
                                                             <table class="table m-0">
                                                                 {{-- @endif --}}
                                                                 <thead>
-                                                                    <tr>
-                                                                        <th></th>
-                                                                        <th>Code</th>
-                                                                        <th>Name</th>
-                                                                        <th>Description</th>
-                                                                        <th></th>
-                                                                    </tr>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>Code</th>
+                                                                    <th>Name</th>
+                                                                    <th>Description</th>
+                                                                    <th></th>
+                                                                </tr>
                                                                 </thead>
                                                                 <tbody id="profiles">
 
-                                                                    {{-- @foreach ($user->user_profile as $item)
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="icheck-warning d-inline">
-                                                                                <input type="checkbox"
-                                                                                    value='{"profiles": "{{ $item->profile }}" ,"form":{{ $item->form->id }}}'
-                                                                                    id="remove_profiles[]"
-                                                                                    name="remove_profiles[]">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td> {{ $item->profiles->code }} </td>
-                                                                        <td> {{ $item->profiles->name }} </td>
-                                                                        <td> {{ $item->form->name }} </td>
-                                                                        <td><a
-                                                                                href="{{ route('main.user.profile.sync', ['user' => $user ?? 0, 'profile' => $item->profiles ?? 0]) }}">Sync</a>
-                                                                        </td>
-                                                                    <tr>
-                                                                        @endforeach --}}
+                                                                {{-- @foreach ($user->user_profile as $item)
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="icheck-warning d-inline">
+                                                                            <input type="checkbox"
+                                                                                value='{"profiles": "{{ $item->profile }}" ,"form":{{ $item->form->id }}}'
+                                                                                id="remove_profiles[]"
+                                                                                name="remove_profiles[]">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td> {{ $item->profiles->code }} </td>
+                                                                    <td> {{ $item->profiles->name }} </td>
+                                                                    <td> {{ $item->form->name }} </td>
+                                                                    <td><a
+                                                                            href="{{ route('main.user.profile.sync', ['user' => $user ?? 0, 'profile' => $item->profiles ?? 0]) }}">Sync</a>
+                                                                    </td>
+                                                                <tr>
+                                                                    @endforeach --}}
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -342,8 +322,9 @@
                                                     @csrf
                                                     <div class="form-group">
                                                         <input hidden value="{{ $user->id }} : {{ $user->name }}"
-                                                            class="form-control select2" id="owner_id" name="owner_id"
-                                                            required style="width: 100%;">
+                                                               class="form-control select2" id="owner_id"
+                                                               name="owner_id"
+                                                               required style="width: 100%;">
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-group">
@@ -351,33 +332,33 @@
                                                             <table class="table m-0">
                                                                 {{-- @endif --}}
                                                                 <thead>
-                                                                    <tr>
-                                                                        <th></th>
-                                                                        <th>Code</th>
-                                                                        <th>Name</th>
-                                                                        <th>Status</th>
-                                                                        <th>Owner</th>
-                                                                        <th>Delegating</th>
-                                                                    </tr>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>Code</th>
+                                                                    <th>Name</th>
+                                                                    <th>Status</th>
+                                                                    <th>Owner</th>
+                                                                    <th>Delegating</th>
+                                                                </tr>
                                                                 </thead>
                                                                 <tbody id="profiles">
-                                                                    {{-- @foreach ($delegated_profiles as $item_p)
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="icheck-warning d-inline">
-                                                                                <input type="checkbox"
-                                                                                    value='{{ $item_p->id }}'
-                                                                                    id="delegated_profiles[]"
-                                                                                    name="delegated_profiles[]">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td> {{ $item_p->form->code ?? '' }} </td>
-                                                                        <td> {{ $item_p->profile->name ?? '' }} </td>
-                                                                        <td> {{ $item_p->status->name ?? '' }} </td>
-                                                                        <td> {{ $item_p->me->name ?? '' }} </td>
-                                                                        <td> {{ $item_p->delegation->name ?? '' }}</td>
-                                                                    <tr>
-                                                                        @endforeach --}}
+                                                                {{-- @foreach ($delegated_profiles as $item_p)
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="icheck-warning d-inline">
+                                                                            <input type="checkbox"
+                                                                                value='{{ $item_p->id }}'
+                                                                                id="delegated_profiles[]"
+                                                                                name="delegated_profiles[]">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td> {{ $item_p->form->code ?? '' }} </td>
+                                                                    <td> {{ $item_p->profile->name ?? '' }} </td>
+                                                                    <td> {{ $item_p->status->name ?? '' }} </td>
+                                                                    <td> {{ $item_p->me->name ?? '' }} </td>
+                                                                    <td> {{ $item_p->delegation->name ?? '' }}</td>
+                                                                <tr>
+                                                                    @endforeach --}}
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -396,8 +377,8 @@
                                                 <label>Delegate Profiles</label>
                                                 <div>
                                                     <a class="btn btn-sm bg-gradient-gray float-left "
-                                                        style="margin: 1px" title="Edit" data-toggle="modal"
-                                                        data-target="#modal-profile-delegate">
+                                                       style="margin: 1px" title="Edit" data-toggle="modal"
+                                                       data-target="#modal-profile-delegate">
                                                         Delegate
                                                     </a>
                                                 </div>
@@ -417,21 +398,21 @@
                                             <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="name" required
-                                                    placeholder="Name" value="{{ $user->name }}">
+                                                       placeholder="Name" value="{{ $user->name }}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                             <div class="col-sm-10">
                                                 <input type="email" class="form-control" name="email" required
-                                                    placeholder="Email" value="{{ $user->email }}">
+                                                       placeholder="Email" value="{{ $user->email }}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputName2" class="col-sm-2 col-form-label">Phone</label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" name="phone" required
-                                                    placeholder="Phone" value="{{ $user->phone }}">
+                                                       placeholder="Phone" value="{{ $user->phone }}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -461,7 +442,7 @@
                                             </label>
                                             <div class="col-sm-10">
                                                 <select id="user_unit_new" class="form-control user_unit_new"
-                                                    name="user_unit_new">
+                                                        name="user_unit_new">
                                                     <option value="{{ $user->user_unit->id ?? '' }} ">
                                                         {{ $user->user_unit->user_unit_description ?? '' }}
                                                         :
@@ -489,7 +470,7 @@
                                             <label for="inputName2" class="col-sm-2 col-form-label">Man No</label>
                                             <div class="col-sm-10">
                                                 <input disabled type="text" class="form-control" name="staff_no"
-                                                    required placeholder="Staff No" value="{{ $user->staff_no }}">
+                                                       required placeholder="Staff No" value="{{ $user->staff_no }}">
                                             </div>
                                         </div>
 
@@ -498,7 +479,7 @@
                                                 Division</label>
                                             <div class="col-sm-10">
                                                 <select disabled class="form-control" id="division_select"
-                                                    name="user_division_id">
+                                                        name="user_division_id">
                                                     <option value="{{ $user->division->id ?? '' }}  ">
                                                         {{ $user->division->name ?? '' }} </option>
                                                 </select>
@@ -526,16 +507,17 @@
                                     <!-- Post -->
                                     <div class="post">
                                         {{-- <div class="user-block"> --}}
-                                            {{-- <span class="username"> <a href="#">My Units</a> </span> --}}
-                                            {{-- </div> --}}
+                                        {{-- <span class="username"> <a href="#">My Units</a> </span> --}}
+                                        {{-- </div> --}}
                                         <div class="row">
                                             <div class="col-6">
                                                 <form role="form-units" method="post" action="">
                                                     @csrf
                                                     <div class="form-group">
                                                         <input hidden value="{{ $user->id }}"
-                                                            class="form-control select2" id="owner_id" name="owner_id"
-                                                            required style="width: 100%;">
+                                                               class="form-control select2" id="owner_id"
+                                                               name="owner_id"
+                                                               required style="width: 100%;">
                                                     </div>
 
                                                     <div class="col-6">
@@ -544,32 +526,32 @@
                                                             <table class="table m-0">
                                                                 {{-- @endif --}}
                                                                 <thead>
-                                                                    <tr>
-                                                                        <th></th>
-                                                                        <th>Name</th>
-                                                                        <th>Code</th>
-                                                                        <th>BU</th>
-                                                                        <th>CC</th>
-                                                                    </tr>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>Name</th>
+                                                                    <th>Code</th>
+                                                                    <th>BU</th>
+                                                                    <th>CC</th>
+                                                                </tr>
                                                                 </thead>
                                                                 <tbody id="units">
 
-                                                                    {{-- @foreach ($responsible_units as $item)
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="icheck-warning d-inline">
-                                                                                <input type="checkbox"
-                                                                                    value='{"code": "{{ $item->user_unit_code }}" ,"id":{{ $item->id }}}'
-                                                                                    id="transfer_units[]"
-                                                                                    name="transfer_units[]">
-                                                                            </div>
-                                                                        </td>
-                                                                        <td> {{ $item->user_unit_description }} </td>
-                                                                        <td> {{ $item->user_unit_code }} </td>
-                                                                        <td> {{ $item->user_unit_bc_code }} </td>
-                                                                        <td> {{ $item->user_unit_cc_code }} </td>
-                                                                    <tr>
-                                                                        @endforeach --}}
+                                                                {{-- @foreach ($responsible_units as $item)
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="icheck-warning d-inline">
+                                                                            <input type="checkbox"
+                                                                                value='{"code": "{{ $item->user_unit_code }}" ,"id":{{ $item->id }}}'
+                                                                                id="transfer_units[]"
+                                                                                name="transfer_units[]">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td> {{ $item->user_unit_description }} </td>
+                                                                    <td> {{ $item->user_unit_code }} </td>
+                                                                    <td> {{ $item->user_unit_bc_code }} </td>
+                                                                    <td> {{ $item->user_unit_cc_code }} </td>
+                                                                <tr>
+                                                                    @endforeach --}}
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -581,8 +563,9 @@
                                                     @csrf
                                                     <div class="form-group">
                                                         <input hidden value="{{ $user->id }}"
-                                                            class="form-control select2" id="owner_id" name="owner_id"
-                                                            required style="width: 100%;">
+                                                               class="form-control select2" id="owner_id"
+                                                               name="owner_id"
+                                                               required style="width: 100%;">
                                                     </div>
                                                     {{-- @if (Auth::user()->type_id ==
                                                     config('constants.user_types.developer')) --}}
@@ -591,50 +574,50 @@
                                                             <label class="text-orange">ASSIGN UNITS</label>
                                                             <div class="col-12">
                                                                 <input class="form-control" id="myInput" type="text"
-                                                                    placeholder="Search..">
+                                                                       placeholder="Search..">
                                                             </div>
                                                         </div>
                                                         <table class="table table-striped">
                                                             <thead>
-                                                                <tr>
-                                                                    <th>#</th>
-                                                                    <th>Code</th>
-                                                                    <th>Name</th>
-                                                                    <th>BU</th>
-                                                                    <th>CC</th>
-                                                                </tr>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Code</th>
+                                                                <th>Name</th>
+                                                                <th>BU</th>
+                                                                <th>CC</th>
+                                                            </tr>
                                                             </thead>
                                                             <tbody id="myTable">
-                                                                {{-- @foreach ($user_unit_new as $item)
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="form-group clearfix">
-                                                                            <div class="icheck-warning d-inline">
-                                                                                <input type="checkbox"
-                                                                                    value="{{ $item->id }}" id="units[]"
-                                                                                    name="units[]">
+                                                            {{-- @foreach ($user_unit_new as $item)
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="form-group clearfix">
+                                                                        <div class="icheck-warning d-inline">
+                                                                            <input type="checkbox"
+                                                                                value="{{ $item->id }}" id="units[]"
+                                                                                name="units[]">
 
-                                                                            </div>
                                                                         </div>
-                                                                    </td>
-                                                                    <td><span for="accounts"> <span class="text-gray">{{
-                                                                                $item->user_unit_code }}</span>
-                                                                        </span>
-                                                                    </td>
-                                                                    <td><span for="accounts"> <span class="text-gray">{{
-                                                                                $item->user_unit_description }}</span>
-                                                                        </span>
-                                                                    </td>
-                                                                    <td><span for="accounts"> <span class="text-gray">{{
-                                                                                $item->user_unit_bc_code }}</span>
-                                                                        </span>
-                                                                    </td>
-                                                                    <td><span for="accounts"> <span class="text-gray">{{
-                                                                                $item->user_unit_cc_code }}</span>
-                                                                        </span>
-                                                                    </td>
-                                                                </tr>
-                                                                @endforeach --}}
+                                                                    </div>
+                                                                </td>
+                                                                <td><span for="accounts"> <span class="text-gray">{{
+                                                                            $item->user_unit_code }}</span>
+                                                                    </span>
+                                                                </td>
+                                                                <td><span for="accounts"> <span class="text-gray">{{
+                                                                            $item->user_unit_description }}</span>
+                                                                    </span>
+                                                                </td>
+                                                                <td><span for="accounts"> <span class="text-gray">{{
+                                                                            $item->user_unit_bc_code }}</span>
+                                                                    </span>
+                                                                </td>
+                                                                <td><span for="accounts"> <span class="text-gray">{{
+                                                                            $item->user_unit_cc_code }}</span>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            @endforeach --}}
                                                             </tbody>
                                                         </table>
 
@@ -660,15 +643,15 @@
                                         <div class="row">
                                             <div class="col-2">
                                                 <button class="btn btn-sm btn-outline-success  mb-3"
-                                                    onclick="getMyWorkflow('{{ $user->user_unit_code }}')" required
-                                                    style="width: 100%;">Search
+                                                        onclick="getMyWorkflow('{{ $user->user_unit_code }}')" required
+                                                        style="width: 100%;">Search
                                                 </button>
 
                                             </div>
                                             <div class="col-6">
                                                 <div id="loader_c_2" style="display: none;">
                                                     <img src=" {{ asset('assets/gif/Eclipse_loading.gif') }} "
-                                                        width="100px" height="100px">
+                                                         width="100px" height="100px">
                                                 </div>
 
                                             </div>
@@ -789,13 +772,13 @@
 
                                                 <div class="form-group row">
                                                     <label for="password"
-                                                        class="col-md-4 col-form-label text-md-right">{{ __('Password')
+                                                           class="col-md-4 col-form-label text-md-right">{{ __('Password')
                                                         }}</label>
                                                     <div class="col-md-6">
                                                         <input id="password" type="otp"
-                                                            class="form-control @error('otp') is-invalid @enderror"
-                                                            wire:model="otp" value="{{ old('otp') }}" required
-                                                            autocomplete="otp" autofocus>
+                                                               class="form-control @error('otp') is-invalid @enderror"
+                                                               wire:model="otp" value="{{ old('otp') }}" required
+                                                               autocomplete="otp" autofocus>
                                                         @error('otp')
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $message }}</strong>
@@ -829,7 +812,6 @@
     <!-- /.content -->
 
 
-
     <!-- VIEW MODAL-->
     <div class="modal fade" id="modal-edit-profile">
         <div class="modal-dialog ">
@@ -848,14 +830,15 @@
                             <div class="col-12 text-center">
                                 <label>
                                     <input style="display: none" class="form-control" type="file" id="avatar"
-                                        name="avatar" value="">
-                                        @if(!empty($user->avatar))
+                                           name="avatar" value="">
+                                    @if(!empty($user->avatar))
                                         <img class="img-fluid " width="100%"
-                                        src="{{ asset('storage/user_avatar/' . $user->avatar) }}" alt="Image not found" />
-                                        @else
+                                             src="{{ asset('storage/user_avatar/' . $user->avatar) }}"
+                                             alt="Image not found"/>
+                                    @else
                                         <img class="img-fluid " width="100%"
-                                        src="{{ asset('assets/img/avatar.png') }}" alt="Image not found">
-                                        @endif
+                                             src="{{ asset('assets/img/avatar.png') }}" alt="Image not found">
+                                    @endif
 
                                     <small id="fileHelp" class="form-text text-muted"><b>Click Image to change it</b>.
                                         Size of image should not be more than 2MB.</small>
