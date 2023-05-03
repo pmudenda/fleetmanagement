@@ -34,6 +34,10 @@ class VehicleOnBoardingController extends Controller
 
     public function start(Request $request): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
     {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
         if (!$request->has('step')) {
             return redirect(route('new.vehicle', ['step' => 1]));
         }

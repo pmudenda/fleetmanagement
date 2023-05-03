@@ -281,13 +281,13 @@
                                             </option>
                                         </select>
 
-                                       {{-- <input type="hidden"
-                                               class="input-with-feedback form-control bold"
-                                               required
-                                               data-fieldtype="Link"
-                                               :value="chassisDetails.requiredMinimumDrivingLicense"
-                                               placeholder=""
-                                               autocomplete="licenseTypes"/>--}}
+                                        {{-- <input type="hidden"
+                                                class="input-with-feedback form-control bold"
+                                                required
+                                                data-fieldtype="Link"
+                                                :value="chassisDetails.requiredMinimumDrivingLicense"
+                                                placeholder=""
+                                                autocomplete="licenseTypes"/>--}}
                                     </div>
                                 </div>
                             </div>
@@ -492,7 +492,77 @@
         </div>
     </div>
 
+    <div class="row mt-10" v-if="documents">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Document Type</th>
+                <th>File Name</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tr>
+                <td>Motor Vehicle Certificate</td>
+                <td>@{{ documents.certificate?.originalDocumentName }}</td>
+                <td>
+                    <button type="button" :data-document-url="'/storage'+documents.certificate?.path"
+                            class="btn btn-success">View File
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>Insurance Cover Note</td>
+                <td>@{{ documents.insurance?.originalDocumentName }}</td>
+                <td>
+                    <button type="button" :data-document-url="'/storage'+documents.insurance?.path"
+                            class="btn btn-success">View File
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
     <div class="row mt-10">
+        <div class="col-md-3" v-if="images && images.frontView">
+            <div class="card text-center py-5 my-2">
+                <h2 class="fs-2x fw-bold mb-10">Front View</h2>
+
+                <div class="form-group">
+                    <div class="imagePreview" :style='{backgroundImage: "url(/storage" + images.frontView.path + ")",}'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" v-if="images && images.rearView">
+            <div class="card-px text-center py-5 my-2">
+                <h2 class="fs-2x fw-bold mb-10">Rear View</h2>
+                <div class="form-group">
+                    <div class="imagePreview" :style='{backgroundImage: "url(/storage" + images.rearView.path + ")",}'>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3" v-if="images && images.rightView">
+            <div class="card text-center py-5 my-2">
+                <h2 class="fs-2x fw-bold mb-10">Right View</h2>
+                <div class="form-group">
+                    <div class="imagePreview" :style='{backgroundImage: "url(/storage" + images.rightView.path + ")",}'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" v-if="images && images.leftView">
+            <div class="card text-center py-5 my-2">
+                <h2 class="fs-2x fw-bold mb-10">Left View</h2>
+                <div class="form-group">
+                    <div class="imagePreview" :style='{backgroundImage: "url(/storage" + images.leftView.path + ")",}'>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-10 mb-10">
         <div class="col-md-3">
             <div class="card text-center py-5 my-2">
                 <h2 class="fs-2x fw-bold mb-10">Front View</h2>

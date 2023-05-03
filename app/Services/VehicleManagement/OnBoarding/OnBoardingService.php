@@ -72,10 +72,12 @@ class OnBoardingService
 
         $chassisNumber = $request->input('chassisNumber');
 
-        $exitingRegistration = ChassisDetail::where('chassis_number', $chassisNumber)->first();
+        if($request->chassisDetailsId == 0){
+            $exitingRegistration = ChassisDetail::where('chassis_number', $chassisNumber)->first();
 
-        if (!empty($exitingRegistration)) {
-            throw new VehicleOnBoardingException('The Chassis Number you have provided has already been registered');
+            if (!empty($exitingRegistration)) {
+                throw new VehicleOnBoardingException('The Chassis Number you have provided has already been registered');
+            }
         }
 
         DB::beginTransaction();
