@@ -174,7 +174,7 @@
                         </td>
 
                         <td>
-                            <div v-if="item.status.toLowerCase() === 'active'" class="badge badge-light-success">
+                            <div v-if="item.status.toLowerCase() === '01'" class="badge badge-light-success">
                                 Active
                             </div>
                             <div v-else-if="item.status.toLowerCase() === 'expiring'" class="badge badge-light-warning">
@@ -190,7 +190,7 @@
 
 
                         <td>
-                            @{{ item.created_at | formatToFriendlyDate }}
+                            @{{ item.date_created | formatToFriendlyDate }}
                         </td>
 
                         <td class="text-start">
@@ -317,7 +317,7 @@
         </div>
     </div>
 
-    <input type="hidden" id="bodyTypesEndpoint" name="bodyTypesEndpoint" value="{{ route('body.types') }}">
+    <input type="hidden" id="bodyTypesEndpoint" name="bodyTypesEndpoint" value="{{ route('body-types.index') }}">
 @endsection
 
 @push('scripts')

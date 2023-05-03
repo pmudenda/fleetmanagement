@@ -88,6 +88,7 @@
     <aside class="control-sidebar control-sidebar-dark"></aside>
 
     <x-async-loader></x-async-loader>
+    <x-approval-modal />
 </div>
 <audio preload="auto" id="sound-email" volume=0.1>
     <source src="{{asset('assets/sounds/email.mp3')}}"/>
@@ -143,7 +144,6 @@
 <script src="{{asset('assets/plugins/jquery.filer/js/jquery.filer.min.js')}}"></script>
 <script src="{{asset('assets/plugins/form-masking/jquery.inputmask.js') }}"></script>
 <script src="{{asset('assets/plugins/form-masking/autoNumeric.js') }}"></script>
-{{--<script src="{{ asset('assets/plugins/form-masking/form-mask.js') }}"></script>--}}
 <script src="{{asset('themes/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
 <script src="{{asset('themes/plugins/moment/moment.min.js')}}"></script>
 <script src="{{asset('themes/plugins/daterangepicker/daterangepicker.js')}}"></script>
@@ -154,7 +154,8 @@
 <script src="{{asset('assets/plugins/vue-select/vue-select.js')}}"></script>
 <script src="{{asset('assets/plugins/vue-select2/js/vue-select.js')}}"></script>
 <script src="{{asset('themes/dist/js/adminlte2167.js')}}?v=3.2.0"></script>
-<script src="{{asset('application/system/core.js')}}"></script>
+<script src="{{asset('assets/js/system/core.js')}}"></script>
+<script src="{{asset('assets/js/system/workflow_approvals.js')}}"></script>
 <script src="{{asset('assets/js/global/async.loader.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{asset('assets/js/global/system_alerts.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>

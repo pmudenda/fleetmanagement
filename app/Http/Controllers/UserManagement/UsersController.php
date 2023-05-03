@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\UserManagement;
 
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\general\BusinessUnits;
 use App\Models\general\CostCenters;
@@ -75,7 +76,7 @@ class UsersController extends Controller
                 ],
                 [
                     //'sex' => $request->gender,
-                    //'con_st_code' => $request->user_status,
+                    'con_st_code' => StatusHelper::active(), // $request->user_status,
                     //'extension' => '',
                     'password' => Hash::make($request->password),
                     //'nrc' => $request->nrc,
@@ -155,7 +156,6 @@ class UsersController extends Controller
 
         } catch (\Exception $exception) {
             Log::error($exception);
-            //$employee_phcms = User::where('staff_no', $request->staff_no)->first();
             $message = "User Failed to be created because the Staff number (" . $request->staff_number . ")
                 could not be verified with PHCMS.";
             return response()->json([
@@ -169,7 +169,7 @@ class UsersController extends Controller
     public function show(User $user): Factory|View|Application
     {
         $roles = Role::all();
-        return view('modules.security.users.show')->with(compact('user', 'roles'));
+        return view('UserManagement.show')->with(compact('user', 'roles'));
     }
 
 

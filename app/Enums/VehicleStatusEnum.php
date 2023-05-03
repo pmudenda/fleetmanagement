@@ -5,6 +5,6 @@ namespace App\Enums;
 enum VehicleStatusEnum: string
 {
     case Active = 'Active';
-    case active = 'active';
+    case active = '01';
     case Inactive = 'Inactive';
 }

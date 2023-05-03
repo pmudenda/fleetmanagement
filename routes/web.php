@@ -6,6 +6,8 @@ use App\Http\Controllers\Security\RolesController;
 use App\Http\Controllers\UserManagement\UsersController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
+use App\Http\Controllers\Workflow\WorkflowController;
+use App\Models\Article;
 use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
 use Illuminate\Http\JsonResponse;
@@ -91,16 +93,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('/user', UsersController::class);
 
         Route::post('/get-employee-data', [UsersController::class, 'search'])->name('user.search');
-        /*
-         Route::post('user/attach/{id}', [UsersController::class, 'attach'])->name('user.attach');
-         Route::post('user/detach/{id}', [UsersController::class, 'detach'])->name('user.detach');
 
-         Route::get('/list', )->name('home.users');
-         Route::get('/users/all', [UsersController::class, 'get'])->name('all.users');
-         Route::get('/users/all', [UsersController::class, 'get'])->name('all.users');
+        Route::post('user/attach/{id}', [UsersController::class, 'attach'])->name('user.attach');
+        Route::post('user/detach/{id}', [UsersController::class, 'detach'])->name('user.detach');
 
-         // User Search
-         Route::post('user_search', [UserSearchController::class, 'userSearch'])->name('search.user');*/
+        /*Route::get('/list', )->name('home.users');
+        Route::get('/users/all', [UsersController::class, 'get'])->name('all.users');
+        Route::get('/users/all', [UsersController::class, 'get'])->name('all.users');*/
+
+        // User Search
+        /*Route::post('user_search', [UserSearchController::class, 'userSearch'])->name('search.user');*/
     });
 
 
@@ -133,23 +135,23 @@ Route::group(['middleware' => 'auth'], function () {
 
         /** INSURANCE */
         Route::get('insurance/types', function () {
-            return view('insurance.types');
+            $documentType = 'InsuranceTypes';
+            return view('insurance.types') . with(compact('documentType'));
         })->name('insurance.types');
 
         Route::get('insurance/companies', function () {
-            return view('insurance.companyList');
+            $documentType = 'InsuranceTypes';
+            return view('insurance.types') . with(compact('documentType'));
+            //return view('insurance.companyList');
         })->name('insurance.companies');
 
 
         /** ACCIDENTS */
         Route::get('accidents/types', function () {
-
         })->name('accident.types');
 
         Route::get('accidents/nature', function () {
-
         })->name('accident.nature');
-
 
         Route::get('vehicle/make', function () {
             return view('configurations.vehicle.brands');
@@ -163,21 +165,18 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('vehicle/body-types', function () {
             return view('configurations.vehicle.types');
         })->name('vehicle.body.types');
-
-
     });
 
-    Route::get('/requisition/motor-vehicle', function () {
-
-    })->name('new.vehicle.requisition');
-
     Route::get('/requisition/fuel', [FuelRequisitionController::class, 'create'])->name('new.fuel.requisition');
-
+    Route::get('/requisition/fuel/approve', [FuelRequisitionController::class, 'show'])->name('show.fuel.requisition');
     Route::post('/requisition/fuel/save', [FuelRequisitionController::class, 'store'])->name('save.fuel.requisition');
+    Route::get('/requisition/fuel/list', [FuelRequisitionController::class, 'index'])->name('list.fuel.requisition');
 
+    Route::get('/requisition/motor-vehicle', function () {
+    })->name('new.vehicle.requisition');
     Route::get('/requisition/parts', function () {
-
     })->name('new.parts.requisition');
+
 });
 
 Route::get('searchProjects', function (Request $request) {
@@ -194,10 +193,33 @@ Route::get('searchProjects', function (Request $request) {
 //, 'middleware' => 'auth'
 Route::group(['prefix' => 'vehicle-management', 'middleware' => 'auth'], function () {
 
-    Route::get('/register', function () {
-        return view('vehicleManagement.register.index');
-    })->name('new.vehicle');
+    Route::get('/register', [VehicleOnBoardingController::class, 'start'])->name('new.vehicle');
 
+    Route::post('post-vehicle-assignment', [VehicleOnBoardingController::class, 'store'])->name('vehicle.assignment.detail');
+
+    Route::post('post-vehicle-details', [VehicleOnBoardingController::class, 'storeVehicleHeader'])
+        ->name('new.vehicle.header');
+
+    Route::post('post-chassis-details', [VehicleOnBoardingController::class, 'storeChassisDetails'])
+        ->name('vehicle.chassis.detail');
+
+    Route::post('post-engine-details', [VehicleOnBoardingController::class, 'storeEngineDetails'])
+        ->name('vehicle.engine.detail');
+
+    Route::post('post-costing-details', [VehicleOnBoardingController::class, 'storeCostingDetails'])
+        ->name('vehicle.cost.detail');
+
+    Route::post('post-body-details', [VehicleOnBoardingController::class, 'storeBodyDetails'])
+        ->name('vehicle.body.detail');
+
+    Route::get('vehicle/details/{ref}', [VehicleController::class, 'getAllDetails'])->name('vehicle.details');
+
+    Route::get('vehicle/details', [VehicleController::class, 'getDetails'])->name('api.vehicle');
+    Route::get('articles/fuels', function () {
+        return response()->json([
+            'payload' => Article::where('group_code', '01')->get(['code', 'name'])
+        ]);
+    })->name('fuel.types');
 
     Route::get('/vehicle/list', function () {
         $vehicleList = VehicleHeader::get();
@@ -205,17 +227,9 @@ Route::group(['prefix' => 'vehicle-management', 'middleware' => 'auth'], functio
             ->with(compact('vehicleList'));
     })->name('vehicles.list');
 
-
     Route::get('/vehicles', function (Request $request) {
         return view('vehicleManagement.vehicleList');
     })->name('vehicle.edit');
-
-    Route::post('vehicles', [VehicleOnBoardingController::class, 'store'])->name('api.vehicle.new');
-
-    Route::get('vehicle/details', [VehicleController::class, 'getDetails'])->name('api.vehicle');
-
-    Route::post('post-chassis-detail', [VehicleOnBoardingController::class, 'storeChassisDetails'])
-        ->name('vehicle.chassis.detail');
 
     Route::get('/insurancelist', function () {
         return view('VehicleManagement.insurancelist');
@@ -227,5 +241,7 @@ Route::group(['prefix' => 'vehicle-management', 'middleware' => 'auth'], functio
 
 
 });
+
+Route::post('/workflow/approve', [WorkflowController::class, 'approve'])->name('workflow.approve');
 
 

@@ -28,6 +28,7 @@ class VehicleHeader extends Model
         'created_by',
         'created_name',
         'status',
-        'on_boarding_status'
+        'on_boarding_status',
+        'registration_type'
     ];
 }

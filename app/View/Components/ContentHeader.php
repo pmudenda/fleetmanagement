@@ -11,9 +11,20 @@ class ContentHeader extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public string $pageTitle;
+    public string $activeCrumb;
+    public string $link;
+    public string $linkText;
+
+    public function __construct($activeCrumb ='Dashboard v1', $link ='home', $linkText = "Home", $pageTitle = "Dashboard")
     {
-        //
+        if (empty($pageTitle)) {
+            $pageTitle = "";
+        }
+        $this->pageTitle = $pageTitle;
+        $this->activeCrumb = $activeCrumb;
+        $this->link = $link;
+        $this->linkText = $linkText;
     }
 
     /**

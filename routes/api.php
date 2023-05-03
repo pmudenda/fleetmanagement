@@ -5,8 +5,9 @@ use App\Http\Controllers\API\BusinessUnitsController;
 use App\Http\Controllers\API\CostCenterController;
 use App\Http\Controllers\API\OrganizationalUnitsController;
 use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
-use App\Models\configurations\vehicle\ConfigVehicleBodyType;
+use App\Http\Controllers\Configurations\VehicleBodyTypesController;
 use App\Models\configurations\vehicle\ConfigVehicleModel;
+use App\Models\general\BusinessAreas;
 use App\Models\general\DIRECTORATES;
 use App\Models\Security\User;
 use Carbon\Carbon;
@@ -112,160 +113,17 @@ Route::group(['prefix' => 'v1/en'], function (): void {
 
 
     /** BODY TYPES **/
-
-    Route::post('/vehicle/body-types', function (Request $request) {
-        try {
-            $data = $request->all();
-
-            //TODO validate data
-
-            $model = ConfigVehicleBodyType::create([
-                'status' => $request->input('status'),
-                'guid' => Str::uuid(),
-                'dateCreated' => Carbon::now(),
-                'body_type_name' => trim(strtoupper($request->input('body_type_name')))
-            ]);
-
-            return response()->json([
-                'state' => 'success',
-                'message' => '',
-                'payload' => $model
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'message' => 'Error Occurred while Processing request',
-                'payload' => []
-            ]);
-        }
-    })->name('body.types');
-    Route::get('/vehicle/body-types', function (Request $request) {
-        try {
-            $statusList = [Enums\VehicleStatusEnum::Active, Enums\VehicleStatusEnum::active];
-            $data = ConfigVehicleBodyType::whereIn('status', $statusList)->get();
-            return response()->json([
-                'state' => 'success',
-                'payload' => $data
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
-        }
-    })->name('body.types');
-    Route::delete('/vehicle/body-types', function (Request $request) {
-        try {
-
-            $data = ConfigVehicleBodyType::where('guid', $request->input('guid'));
-            $data->status = 'inactive'; //TODO Use Status enum
-            $data->save();
-
-            return response()->json([
-                'state' => 'success',
-                'payload' => $data
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
-        }
-    })->name('body.types');
+    Route::resource('/vehicle/body-types', VehicleBodyTypesController::class);
+    /* [
+         //'as' => 'bodyTypes',
+         'names' => [
+             'index' => 'bodyTypes.get',
+             'store' => 'bodyTypes.save',
+             'destroy' => 'bodyTypes.remove'
+         ]
+     ]*/
 
     /** USERS **/
-    Route::post('users', function (Request $request) {
-        try {
-            $data = collect([
-
-                [
-                    'guid' => Str::uuid(),
-                    'name' => 'Lovemore Daka',
-                    'position' => 'Software Developer',
-                    'email' => 'lovemoredaka@zesco.co.zm',
-                    'staff_number' => '76737',
-                    'last_login' => Carbon::now(),
-                    'created_at' => Carbon::now(),
-                    'two_fac_auth_status' => 'Enabled'
-                ],
-
-                [
-                    'guid' => Str::uuid(),
-                    'name' => 'Shadrick Siwakwi',
-                    'position' => 'Software Developer',
-                    'email' => 'ssiwakwi@zesco.co.zm',
-                    'staff_number' => '76735',
-                    'last_login' => Carbon::now(),
-                    'created_at' => Carbon::now(),
-                    'two_fac_auth_status' => 'Enabled'
-                ],
-
-                [
-                    'guid' => Str::uuid(),
-                    'name' => 'Atupele Mboya',
-                    'position' => 'Technologist Database',
-                    'email' => 'atupelemoboya@zesco.co.zm',
-                    'staff_number' => '76736',
-                    'last_login' => Carbon::now(),
-                    'created_at' => Carbon::now(),
-                    'two_fac_auth_status' => 'Enabled'
-                ],
-
-                [
-                    'guid' => Str::uuid(),
-                    'name' => 'Shubart Nyimbili',
-                    'position' => 'Software Developer',
-                    'email' => 'nshubart@zesco.co.zm',
-                    'staff_number' => '7YYYY',
-                    'last_login' => Carbon::now(),
-                    'created_at' => Carbon::now(),
-                    'two_fac_auth_status' => 'Enabled'
-                ],
-
-                [
-                    'guid' => Str::uuid(),
-                    'name' => 'Gilbert Sibajene',
-                    'position' => 'Senior Software Developer',
-                    'email' => 'gsibajene@zesco.co.zm',
-                    'staff_number' => '7XXXX',
-                    'last_login' => Carbon::now(),
-                    'created_at' => Carbon::now(),
-                    'two_fac_auth_status' => 'Enabled'
-                ],
-
-                [
-                    'guid' => Str::uuid(),
-                    'name' => 'James Tembo',
-                    'position' => 'Technologist',
-                    'email' => 'tembojames@zesco.co.zm',
-                    'staff_number' => '7CCCCC',
-                    'last_login' => Carbon::now(),
-                    'created_at' => Carbon::now(),
-                    'two_fac_auth_status' => 'Enabled'
-                ],
-
-            ]);
-
-
-            $result = $data->where('staff_number', $request->all()['param']);
-
-            return response()->json([
-                'state' => 'success',
-                'criteria' => $request->all()['param'],
-                'payload' => $result->all()
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
-        }
-    })->name('api.users.search');
-
     Route::get('users', function (Request $request) {
         try {
             $data = User::get();
@@ -298,44 +156,6 @@ Route::group(['prefix' => 'v1/en'], function (): void {
         }
     })->name('api.user.profile');
 
-    Route::put('users', function (Request $request) {
-        try {
-            $data = collect([
-
-                (object)[
-                    'name' => 'Lovemore Daka',
-                    'position' => 'Software Developer',
-                    'email' => 'lovemoredaka@zesco.co.zm',
-                    'staff_number' => '76737'
-                ],
-
-                (object)[
-                    'name' => 'Shadrick Siwakwi',
-                    'position' => 'Software Developer',
-                    'email' => 'ssiwakwi@zesco.co.zm',
-                    'staff_number' => '76735'
-                ],
-
-                (object)[
-                    'name' => 'Atupele Mboya',
-                    'position' => 'Technologist Database',
-                    'email' => 'atupelemoboya@zesco.co.zm',
-                    'staff_number' => '76736'
-                ],
-
-            ]);
-            return response()->json([
-                'state' => 'success',
-                'payload' => $data
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
-        }
-    })->name('api.users.new');
 
     /* BUSINESS UNITS*/
     Route::get('business-units', BusinessUnitsController::class)->name('business.units');
@@ -373,8 +193,7 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     Route::get('business-areas', function () {
         try {
 
-            $data = [];//BusinessAreas::get();
-
+            $data = BusinessAreas::get();
 
             return response()->json([
                 'state' => 'success',

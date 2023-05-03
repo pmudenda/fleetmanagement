@@ -19,7 +19,7 @@ class StatusSeeder extends Seeder
             'code' => '01',
             'active'=>1,
             'module' => 'ALL',
-            'date_created' => Carbon::now()
+
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -28,7 +28,7 @@ class StatusSeeder extends Seeder
             'code' => '02',
             'active'=>1,
             'module' => 'ALL',
-            'date_created' => Carbon::now()
+
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -37,7 +37,7 @@ class StatusSeeder extends Seeder
             'code' => '03',
             'active'=>1,
             'module' => 'ALL',
-            'date_created' => Carbon::now()
+
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -46,7 +46,7 @@ class StatusSeeder extends Seeder
             'code' => '004',
             'active'=>1,
             'module' => 'ALL',
-            'date_created' => Carbon::now()
+
         ]);
 
 
@@ -56,7 +56,7 @@ class StatusSeeder extends Seeder
             'code' => '005',
             'active'=>1,
             'module' => 'ALL',
-            'date_created' => Carbon::now()
+
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -65,7 +65,7 @@ class StatusSeeder extends Seeder
             'code' => '006',
             'active'=>1,
             'module' => 'ALL',
-            'date_created' => Carbon::now()
+
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -74,7 +74,7 @@ class StatusSeeder extends Seeder
             'code'=> '007',
             'active'=>1,
             'module' => 'ALL',
-            'date_created' => Carbon::now()
+
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -83,7 +83,7 @@ class StatusSeeder extends Seeder
             'code'=> '008',
             'active'=>1,
             'module' => 'ALL',
-            'date_created' => Carbon::now()
+
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -92,7 +92,7 @@ class StatusSeeder extends Seeder
             'active'=>1,
             'code'=> '009',
             'module' => 'ALL',
-            'date_created' => Carbon::now()
+
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -101,7 +101,6 @@ class StatusSeeder extends Seeder
             'code'=> '010',
             'active'=>1,
             'module' => 'ALL',
-            'date_created' => Carbon::now()
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -110,7 +109,6 @@ class StatusSeeder extends Seeder
             'code'=> '011',
             'active'=>1,
             'module' => 'ALL',
-            'date_created' => Carbon::now()
         ]);
 
 
@@ -120,7 +118,6 @@ class StatusSeeder extends Seeder
             'code' => '021',
             'active'=>1,
             'module' => 'MAT',
-            'date_created' => Carbon::now()
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -129,7 +126,6 @@ class StatusSeeder extends Seeder
             'code' => '022',
             'active'=>1,
             'module' => 'MAT',
-            'date_created' => Carbon::now()
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -138,7 +134,6 @@ class StatusSeeder extends Seeder
             'code' => '023',
             'active'=>1,
             'module' => 'MAT',
-            'date_created' => Carbon::now()
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -147,7 +142,6 @@ class StatusSeeder extends Seeder
             'code' => '023',
             'active'=>1,
             'module' => 'MAT',
-            'date_created' => Carbon::now()
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -156,7 +150,6 @@ class StatusSeeder extends Seeder
             'code' => '024',
             'active'=>1,
             'module' => 'MAT',
-            'date_created' => Carbon::now()
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -165,7 +158,6 @@ class StatusSeeder extends Seeder
             'code' => '025',
             'active'=>1,
             'module' => 'MAT',
-            'date_created' => Carbon::now()
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -174,7 +166,7 @@ class StatusSeeder extends Seeder
             'code' => '026',
             'active'=>1,
             'module' => 'MAT',
-            'date_created' => Carbon::now()
+
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -183,7 +175,6 @@ class StatusSeeder extends Seeder
             'code' => '027',
             'active'=>1,
             'module' => 'MAT',
-            'date_created' => Carbon::now()
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -192,7 +183,6 @@ class StatusSeeder extends Seeder
             'code' => '027',
             'active'=>1,
             'module' => 'MAT',
-            'date_created' => Carbon::now()
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -201,7 +191,6 @@ class StatusSeeder extends Seeder
             'code' => '027',
             'active'=>1,
             'module' => 'MAT',
-            'date_created' => Carbon::now()
         ]);
     }
 }

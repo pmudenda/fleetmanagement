@@ -68,7 +68,8 @@ class User extends Authenticatable
         'grade',
         'functional_section',
         'username',
-        'guid'
+        'guid',
+        'mobile_no'
     ];
 
     /**

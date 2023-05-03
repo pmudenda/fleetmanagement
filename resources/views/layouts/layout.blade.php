@@ -17,7 +17,6 @@
  {{--   <link type="text/css" rel="stylesheet" href="{{asset('assets/frappe/css/report.bundle.css')}}">
     <link type="text/css" rel="stylesheet" href="{{asset('assets/frappe/css/erpnext.bundle.css')}}">--}}
 
-
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/plugins/toastr/toastr.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/css/fullpage_loader.css') }}" rel="stylesheet" type="text/css">
@@ -183,7 +182,8 @@
 <script src="{{ asset('assets/plugins/form-masking/autoNumeric.js') }}"></script>
 <script src="{{ asset('assets/plugins/form-masking/form-mask.js') }}"></script>
 <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
-<script src="{{ asset('application/system/core.js') }}"></script>
+
+<script src="{{ asset('assets/js/system/core.js') }}"></script>
 <script src="{{ asset('assets/js/accounting.min.js') }}"></script>
 <script src="{{ asset('assets/custom/datatables/datatables.bundle.js') }}"></script>
 <script src="{{ asset('assets/plugins/vue/vue.js')}}"></script>

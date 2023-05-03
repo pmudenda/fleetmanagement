@@ -1,4 +1,4 @@
-@extends('layouts.tasks.layout')
+@extends('layouts.app')
 
 @push('styles')
     <!-- DataTables -->
@@ -92,7 +92,7 @@
                                         />
                                     @else
                                         <img class="profile-user-img img-fluid img-circle" width="100%"
-                                             src="{{ asset('dashboard/dist/img/avatar.png') }}"
+                                             src="{{ asset('assets/media/avatars/avatar.png') }}"
                                              alt="Image not found"
                                              @if( Auth::user()->id==$user->id)
                                                  title="Click Here to Edit Image"
@@ -105,36 +105,42 @@
                             </div>
 
                             <h3 class="profile-username text-center">{{ $user->name }}</h3>
-                            <p class="text-muted text-center">{{ $user->JobTitle ?? 'Position' }}</p>
+                            <p class="text-muted text-center">{{ $user->job_title ?? 'Position' }}</p>
 
                             <p class="text-muted text-center">{{ $user->man_no ?? '' }}</p>
 
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
-                                    <b>Man Number</b> <a class="float-right">{{ $user->man_no }}</a>
+                                    <b>Man Number</b> <a class="float-right">{{ $user->staff_no }}</a>
                                 </li>
                                 <li class="list-group-item">
                                     <b>NRC</b> <a class="float-right">{{ $user->nrc }}</a>
                                 </li>
                                 {{-- @endif --}}
                                 <li class="list-group-item">
-                                    <b>Phone</b> <a class="float-right">{{ $user->Phone }}</a>
+                                    <b>Phone</b> <a class="float-right">{{ $user->mobile_no }}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Extension</b> <a class="float-right">{{ $user->Phone ?? '' }}</a>
+                                    <b>Extension</b> <a class="float-right">{{ $user->phone ?? '' }}</a>
                                 </li>
                                 <li class="list-group-item">
                                     <b>Email</b> <a class="float-right">{{ $user->email }}</a>
                                 </li>
-                                {{--  <li class="list-group-item">
-                                      <b>Status</b> <a class="float-right">{{ $user->status ?? '' }}</a>
-                                  </li>
-                                  <li class="list-group-item">
-                                      <b>Total Application Forms</b> <a class="float-right">{{ $user->total_forms }}</a>
-                                  </li>
-                                  <li class="list-group-item">
-                                      <b>Total Logins</b> <a class="float-right">{{ $user->total_login }}</a>
-                                  </li>--}}
+                                <li class="list-group-item">
+                                    <b>Status</b> <a class="float-right">
+                                        @if($user->con_st_code == '01')
+                                            <span class="badge badge-success p-2">
+                                                Active
+                                            </span>
+                                        @else
+                                            {{$user->con_st_code ?? '--'}}
+                                        @endif
+                                    </a>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <b>Total Logins</b> <a class="float-right">{{ $user->total_logins }}</a>
+                                </li>
                             </ul>
 
                         </div>
@@ -176,7 +182,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title">
-                                Assigned Groups
+                                Assigned Profile
                                 <span class="badge badge-success">
                                                             {{$user->roles->count()}}
                                                         </span>
@@ -189,7 +195,7 @@
                                             title="Add User To Groups"
                                             class="btn btn-warning btn-sm">
                                         <i class="fas fa-user-lock"></i>
-                                        Groups
+                                        Profiles
                                     </button>
                                 @endcan
                             </div>
@@ -309,7 +315,7 @@
                 <div
                     class="modal-header ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle">
                     <h5 class="modal-title" id="addUserToGroupTitle">
-                        Add User To Group
+                        Add Profile To User
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -318,7 +324,7 @@
                         @csrf
                         <div class="card-body">
                             <div class="row">
-                                <span class="text-danger">Add User To:</span>
+                                <span class="text-danger">Select Profile:</span>
                             </div>
                             <table id="example11" class="table table-bordered">
                                 <thead>
@@ -347,10 +353,10 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
 
                             @can(config('rights.role_attach'))
-                                <button type="submit" class="btn btn-success">
+                                <button type="submit" class="btn btn-sm btn-success">
                                     <i class="fas fa-save"></i> Save
                                 </button>
                             @endcan
@@ -366,19 +372,11 @@
 
 @push('scripts')
     <!-- DataTables  & Plugins -->
-    @include('layouts.partials.datatables')
+    @include('layouts.partials.dataTableScripts')
     <!-- page script -->
     <script>
-        $(document).ready(function () {
-
-            $("#groupsTable").DataTable({
-                "responsive": true,
-                "searchable": false,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": []
-            }).buttons().container().appendTo('#groupsTable_wrapper .col-md-6:eq(0)');
-        });
+        (function (appInstance) {
+            appInstance.initDatatable("#groupsTable", false);
+        })(window.tmsApp || {});
     </script>
-
 @endpush
