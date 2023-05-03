@@ -5,6 +5,8 @@
     action="{{route('vehicle.chassis.detail')}}">
     <input type="hidden" name="doctype" value="ChassisDetails"/>
     <input type="hidden" name="headerId" value="{{$reference}}"/>
+    <input type="hidden" name="chassisDetailsId" value="{{$vehicle->chassisDetailsId ?? 0}}"/>
+
     <div class="row">
         <div class="col-8">
             <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">

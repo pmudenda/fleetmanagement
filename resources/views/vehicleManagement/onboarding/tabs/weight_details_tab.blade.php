@@ -5,7 +5,7 @@
       class="form fv-plugins-bootstrap5 fv-plugins-framework"
       action="{{route('vehicle.body.detail')}}">
     <input type="hidden" name="doctype" value="BodyDetails"/>
-    <input type="hidden" name="headerId" value="{{$reference}}"/>
+    <input type="hidden" name="weightDetailsId" value="{{$vehicle->weightDetailsId ?? 0}}"/>
     <x-error-view />
     <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
         <tbody>
@@ -69,7 +69,7 @@
             <td class="frappe-control ">
                 <label for="width" class="control-label reqd"
                        style="padding-right: 0px;">
-                    Width:
+                    Width (m):
                 </label>
             </td>
             <td colspan="1">
@@ -332,7 +332,7 @@
             <td class="frappe-control ">
                 <label for="tareWeight" class="control-label reqd"
                        style="padding-right: 0px;">
-                    Tare Weight:
+                    Tare Weight (kg):
                 </label>
             </td>
             <td colspan="1">
@@ -360,7 +360,7 @@
             <td class="frappe-control">
                 <label for="grossWeight" class="control-label reqd"
                        style="padding-right: 0px;">
-                    Gross Weight:
+                    Gross Weight (kg):
                 </label>
             </td>
             <td>

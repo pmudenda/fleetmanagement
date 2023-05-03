@@ -5,6 +5,8 @@
       action="{{route('vehicle.cost.detail')}}">
     <input type="hidden" name="doctype" value="CostingDetails"/>
     <input type="hidden" name="headerId" value="{{$reference}}"/>
+    <input type="hidden" name="costAndValuationId" value="{{$vehicle->costAndValuationId ?? 0}}"/>
+
     <x-error-view />
     <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
         <tbody>

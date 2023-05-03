@@ -5,6 +5,7 @@ namespace App\Services\VehicleManagement\OnBoarding;
 use App\Enums\VehicleStatusEnum;
 use App\Exceptions\VehicleOnBoardingException;
 use App\Helpers\StatusHelper;
+use App\Http\Requests\AssignmentPostRequest;
 use App\Http\Requests\BodyDetailsPost;
 use App\Http\Requests\ChassisDetailsPostRequest;
 use App\Http\Requests\CostingDetailsPost;
@@ -13,7 +14,10 @@ use App\Http\Requests\VehicleHeaderRequest;
 use App\Models\configurations\vehicle\ConfigVehicleBodyType;
 use App\Models\configurations\vehicle\ConfigVehicleBrand;
 use App\Models\configurations\vehicle\ConfigVehicleModel;
+use App\Models\general\BusinessAreas;
+use App\Models\general\File;
 use App\Models\general\OrganizationalUnits;
+use App\Models\vehiclemanagement\Assignment;
 use App\Models\vehiclemanagement\BodyAndWeightDetail;
 use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\CostAndValuation;
@@ -22,7 +26,6 @@ use App\Models\vehiclemanagement\VehicleHeader;
 use App\Services\FileUploads\FileUploadService;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OnBoardingService
@@ -44,7 +47,16 @@ class OnBoardingService
             ->leftJoin('VM_CHASSIS_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_CHASSIS_DETAILS.vehicle_header_id')
             ->leftJoin('VM_COST_AND_VALUATIONS', 'VM_VEHICLE_HEADER.id', '=', 'VM_COST_AND_VALUATIONS.vehicle_header_id')
             ->leftJoin('VM_BODY_AND_WEIGHT_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_BODY_AND_WEIGHT_DETAILS.vehicle_header_id')
-            ->select('VM_VEHICLE_HEADER.*', 'VM_ASSIGNMENTS.*', 'VM_ENGINE_DETAILS.*', 'VM_CHASSIS_DETAILS.*', 'VM_COST_AND_VALUATIONS.*', 'VM_BODY_AND_WEIGHT_DETAILS.*')
+            ->select('VM_VEHICLE_HEADER.id as headerId',
+                'VM_VEHICLE_HEADER.*',
+                'VM_ASSIGNMENTS.id as assignmentId', 'VM_ASSIGNMENTS.*',
+                'VM_ENGINE_DETAILS.id as engineDetailsId', 'VM_ENGINE_DETAILS.*',
+                'VM_CHASSIS_DETAILS.id as chassisDetailsId',
+                'VM_CHASSIS_DETAILS.*',
+                'VM_COST_AND_VALUATIONS.id as costAndValuationId',
+                'VM_COST_AND_VALUATIONS.*',
+                'VM_BODY_AND_WEIGHT_DETAILS.id as weightDetailsId',
+                'VM_BODY_AND_WEIGHT_DETAILS.*')
             ->first();
     }
 
@@ -294,6 +306,67 @@ class OnBoardingService
         ];
 
         return BodyAndWeightDetail::create($data);
+    }
+
+    /**
+     * @param AssignmentPostRequest $request
+     * @return mixed
+     * @throws VehicleOnBoardingException
+     */
+    public function processAssignmentDetails(AssignmentPostRequest $request): mixed
+    {
+        // marks completion of on-boarding
+        $user = auth()->user();
+
+
+        $costCenterParts = explode(":", $request->get('costCenter'));
+        $businessUnitParts = explode(":", $request->get('businessUnit'));
+        $code_center_code = $costCenterParts[0];
+        $code_center_name = $costCenterParts[1];
+
+        $bu_code = $businessUnitParts[0];
+        $bu_name = $businessUnitParts[1];
+
+        $businessArea = BusinessAreas::where('code', '=', trim($request->input('businessArea')))->first();
+
+        if (!$businessArea) {
+            throw new VehicleOnBoardingException("Invalid Business Area", 0);
+        }
+
+        $data = [
+            'vehicle_header_id' => $request->input('headerId'),
+            'business_area_code' => $businessArea->code,
+            'directorate' => $request->input('directorate'),
+            'cost_center' => $code_center_code,
+            'responsible_head_id' => $request->input('responsibleHODId') ?? $request->input('vehicleHolderId'),
+            'responsible_head_name' => $request->input('responsibleHOD') ?? $request->input('vehicleHolder'),
+            'isPoolVehicle' => $request->input('isPoolVehicle'),
+            'isTeamAssigned' => $request->get('isPoolVehicle') == 'Y',
+            'mileageExempt' => $request->input('isMileageExempt'),
+            'created_by' => $user->id,
+            'created_name' => $user->name,
+            'cost_center_name' => $code_center_name,
+            'business_unit' => $bu_code,
+            'business_area_name' => $businessArea->name
+        ];
+
+        $vehicleHeader = VehicleHeader::find($request->input('headerId'));
+
+        if (!$vehicleHeader) {
+            throw  new VehicleOnBoardingException("OnboardingRecord Not Found", 0);
+        }
+
+        $vehicleHeader->on_boarding_status = StatusHelper::onboardingComplete();
+        $vehicleHeader->save();
+
+        return Assignment::create($data);
+    }
+
+    public function getVehicleDocuments(mixed $reference)
+    {
+        return File::where('reference_number', "=", $reference)
+            ->where('status', '=', '01')
+            ->get();
     }
 
 

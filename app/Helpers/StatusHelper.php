@@ -29,5 +29,10 @@ class StatusHelper
         return  "021";
     }
 
+    public static function onboardingComplete(): string
+    {
+        return "030";
+    }
+
 
 }

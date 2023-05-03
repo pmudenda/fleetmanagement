@@ -13,20 +13,35 @@ class Assignment extends Model
 
     protected $table = 'VM_ASSIGNMENTS';
     protected $fillable = [
-        'businessArea',
-        'casualStaffNumber',
-        'casualStaffName',
-        'costCenter',
+
+        'cost_center',
+        'cost_center_name',
         'directorate',
+        'directorate_name',
+
         'isPoolVehicle',
-        'isTeamAssigned',
         'mileageExempt',
-        'operatorName',
-        'operatorStaffNumber',
-        'superVisorName',
-        'superVisorStaffNumber',
+
+        'isTeamAssigned',
+        //'operatorName',
+        //'operatorStaffNumber',
+        //'superVisorName',
+        //'superVisorStaffNumber',
+        //'casualStaffNumber',
+        //'casualStaffName',
+        //'businessArea',
+        //'costCenter',
+
         'vehicle_header_id',
         'created_by',
-        'created_name'
+        'created_name',
+        'business_unit',
+
+        'business_unit_name',
+        'responsible_head_id',
+        'responsible_head_name',
+
+        'business_area_code',
+        'business_area_name'
     ];
 }

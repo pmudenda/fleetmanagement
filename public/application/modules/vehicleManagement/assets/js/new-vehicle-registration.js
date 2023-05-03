@@ -33,7 +33,6 @@ window.getRegistrationDetails = function (requestReference) {
             Vue.set(app['chassisDetails'], 'odometerReadingLastService', data['lst_service_odometer_reading']);
             Vue.set(app['chassisDetails'], 'nextServiceOdometerReading', data['nxt_service_odometer-reading']);
             Vue.set(app['chassisDetails'], 'inspectionDate', data['inspection_date']);
-            //Vue.set(app['chassisDetails'], 'inspectionDate', data['inspection_date']);
 
 
             Vue.set(app['engineDetails'], 'numberOfCylinders', data['number_of_cylinders']);
@@ -49,7 +48,6 @@ window.getRegistrationDetails = function (requestReference) {
             Vue.set(app['engineDetails'], 'sub_tank_capacity', data['sub_tank_capacity']);
             Vue.set(app['engineDetails'], 'sub_tank_capacity', data['sub_tank_capacity']);
 
-
             Vue.set(app['otherDetails'], 'numberOfTyres', data['number_of_tyres']);
             Vue.set(app['otherDetails'], 'tyreBrand', data['tyre_brand']);
             Vue.set(app['otherDetails'], 'frontTyreSize', data['front_tyre_size']);
@@ -57,7 +55,6 @@ window.getRegistrationDetails = function (requestReference) {
             Vue.set(app['otherDetails'], 'batteryBrand', data['battery_brand']);
             Vue.set(app['otherDetails'], 'batterySize', data['battery_size']);
             Vue.set(app['otherDetails'], 'batteryPower', data['battery_power']);
-
 
             Vue.set(app['costingAndValuation'], 'supplierName', data['supplierName']);
             Vue.set(app['costingAndValuation'], 'costPrice', data['costPrice']);
@@ -67,11 +64,12 @@ window.getRegistrationDetails = function (requestReference) {
 
             let assetNumberInput = document.querySelector("#assetNumber");
             if (!data['assetNumber'] && assetNumberInput) {
-                assetNumberInput.value = window.removeSpaces(data['registration_number']);
+                const assetNumber = window.removeSpaces(data['registration_number']);
+                assetNumberInput.value = assetNumber
+                Vue.set(app['costingAndValuation'], 'assetNumber', assetNumber);
             }
             Vue.set(app['costingAndValuation'], 'costOfLicense', data['costOfLicense']);
             Vue.set(app['costingAndValuation'], 'premium', data['premium']);
-
 
             Vue.set(app['bodyDetails'], 'height', data['height']);
             Vue.set(app['bodyDetails'], 'length', data['length']);
@@ -87,7 +85,10 @@ window.getRegistrationDetails = function (requestReference) {
             Vue.set(app['weightDetails'], 'grossWeight', data['grossWeight']);
 
 
-            Vue.set(app['assignmentDetails'], 'businessArea', data['premium']);
+            Vue.set(app['assignmentDetails'], 'businessArea', data['business_area_code']);
+            Vue.set(app['assignmentDetails'], 'directorate', data['directorate']);
+            //Vue.set(app['assignmentDetails'], 'businessUnit', data['directorate']);
+            Vue.set(app['assignmentDetails'], 'isOperationsVehicle', data['isPoolVehicle']);
 
 
         },
@@ -847,14 +848,14 @@ let app = new Vue({
 });
 
 function userUnitChanged() {
-    setTimeout(function(){
+    setTimeout(function () {
 
         const user_unit = $('#user_unit').val();
         console.log('User Unit Changed', user_unit);
 
         let user_units = app.$data.organizationalUnits.filter(function (userUnit) {
-           return userUnit['code_unit'].trim() === user_unit.trim();
-       });
+            return userUnit['code_unit'].trim() === user_unit.trim();
+        });
 
         console.log(user_units);
 
@@ -869,7 +870,9 @@ function userUnitChanged() {
 
         if (filteredCostCenters.length !== 0) {
             let costCentreOfInterest = filteredCostCenters[0];
-            $('[name="costCenter"]').val(costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description']);
+            const costCenterDescription = costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description'];
+            $('[name="costCenter"]').val(costCenterDescription);
+            Vue.set(app['assignmentDetails'], 'costCenter', costCenterDescription);
         }
 
 
@@ -886,7 +889,7 @@ function userUnitChanged() {
 
         const val = businessUnitOfInterest['code_bu'] + ':' + businessUnitOfInterest['description'];
         $('[name="businessUnit"]').val(val);
-
+        Vue.set(app['assignmentDetails'], 'businessUnit', val);
     }, 1000);
 }
 
@@ -1125,63 +1128,64 @@ function userUnitChanged() {
                 setTimeout(function () {
                     tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
                 }, 300)
-            });
+            }
+        );
     }
 
     function submitAssignmentDetails() {
-        let el = document.querySelector('#tms_save_assignment');
-        let label = el.querySelector(".indicator-label");
-        el.setAttribute('data-kt-indicator', 'on');
-        el.disabled = true;
+        $('.print-error-msg').css('display', 'none');
 
-        app.postRequest(
-            new FormData($(app.assignmentDetailsForm)[0]),
-            app.assignmentDetailsForm.action,
-            function (response) {
-                let el = document.querySelector('#tms_save_assignment');
-                let label = el.querySelector(".indicator-label");
+        let $form = document.forms['tms_assignment_form'];
+        const isValid = $($form).valid();
 
-                setTimeout(function () {
-                    el.removeAttribute('data-kt-indicator');
-                    el.disabled = false;
-                }, 300)
+        if (!isValid) {
+            toastr.warning(
+                "Sorry, the data did not pass validation check, check the data and try again."
+            );
+            return;
+        }
 
+        tmsApp.asyncPostFormData(
+            $form.action,
+            new FormData($form),
+            function (asyncResponse) {
+                if ('state' in asyncResponse && asyncResponse.state != 'success') {
+                    if (asyncResponse.hasOwnProperty('errors')) {
+                        tmsApp.printErrorMsg(asyncResponse.errors);
+                        return
+                    }
 
-                if (response.data.state != 'success') {
+                    setTimeout(function () {
+                        tmsApp.systemError(
+                            'Vehicle On-Boarding - Chassis Details',
+                            asyncResponse['message'],
+                            function () {
+                            }, 'error');
+                    }, 300);
                     toastr.error(
-                        response.data.message
+                        asyncResponse.message
                     );
                     return;
                 }
 
-                toastr.success(
-                    response.data.message
-                );
-
-                app.dataStatus += 1;
-                if (el.classList.contains("btn-light-primary")) {
-                    el.classList.remove("btn-light-primary");
-                    el.classList.add("btn-light");
-                    label.innerHTML = "Saved";
-                } else { // follow
-                    el.classList.add("btn-light-primary");
-                    el.classList.remove("btn-light");
-                    app.isHeaderSaved = true;
-                    label.innerHTML = "Saved";
-                }
-
-            }, function (error) {
-                let el = document.querySelector('#tms_save_costing');
-                let label = el.querySelector(".indicator-label");
-
-                el.removeAttribute('data-kt-indicator');
-                el.disabled = false;
-
-                toastr.error(
-                    error.message
-                );
-
-            });
+                tmsApp.showSystemMessage(
+                    'Vehicle On-Boarding - Body Details',
+                    asyncResponse.message,
+                    function () {
+                        setTimeout(
+                            function () {
+                                window.location.href = asyncResponse['redirectUrl']
+                            }, 500
+                        );
+                    }, 'success');
+            },
+            function (xhr, settings, errorThrown) {
+                console.log(errorThrown)
+                setTimeout(function () {
+                    tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
+                }, 300)
+            }
+        );
     }
 
     tmsApp.appFormValidator('form[name="tmsChassisDetailsForm"]',
@@ -1492,40 +1496,71 @@ function userUnitChanged() {
 
     tmsApp.appFormValidator('form[name="tms_assignment_form"]',
         {
-            'businessArea': {
+            businessArea: {
                 required: true
             },
-            'directorate': {
+            isPoolVehicle: {
                 required: true
             },
-            'businessUnit': {
+            directorate: {
                 required: true
             },
-            'costCenter': {
+            businessUnit: {
                 required: true
             },
-            'isMileageExempt': {
+            costCenter: {
                 required: true
+            },
+            isMileageExempt: {
+                required: true
+            },
+            responsibleHOD: {
+                required: $("#isPoolVehicle:checked")
+            },
+
+            responsibleHODId: {
+                required: $("#isPoolVehicle:checked")
+            },
+            vehicleHolder: {
+                required: $("#isNotPoolVehicle:checked")
+            },
+
+            vehicleHolderId: {
+                required: $("#isNotPoolVehicle:checked")
             },
         },
         {
-            'height': {
-                required: "required"
+            businessArea: {
+                required: "You must declare the business area"
             },
-            'length': {
-                required: "required"
+            isPoolVehicle: {
+                required: "You must declare if the vehicle is operational or personal to holder"
             },
-            'width': {
-                required: "required"
+            directorate: {
+                required: 'Directorate is required'
             },
-            'seatCapFront': {
-                required: "required"
+            businessUnit: {
+                required: "Business Unit is required"
             },
-            'tareWeight': {
-                required: "required"
+            costCenter: {
+                required: "Cost Center is required"
             },
-            'grossWeight': {
-                required: "Vehicle Weight is required"
+            isMileageExempt: {
+                required: "Required"
+            },
+            responsibleHOD: {
+                required: "Personnel responsible for vehicles must be declared"
+            },
+
+            responsibleHODId: {
+                required: "Personnel responsible for vehicles must be declared"
+            },
+            vehicleHolder: {
+                required: "Declare the officer assigned the vehicle"
+            },
+
+            vehicleHolderId: {
+                required: "Declare the officer assigned the vehicle"
             },
         }
     );

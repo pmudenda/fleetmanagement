@@ -5,7 +5,9 @@
     class="form fv-plugins-bootstrap5 fv-plugins-framework"
     action="{{route('vehicle.assignment.detail')}}">
     <input type="hidden" name="doctype" value="AssignmentDetails"/>
-    <input type="hidden" name="headerId" v-model="vehicleHeaderId"/>
+    <input type="hidden" name="headerId" value="{{$reference}}"/>
+    <input type="hidden" name="assignmentId" value="{{$vehicle->assignmentId ?? 0}}"/>
+    <x-error-view/>
     <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
         <tbody>
 
@@ -21,14 +23,19 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
-                                <input type="text"
-                                       class="input-with-feedback form-control bold"
-                                       maxlength="140"
-                                       id="businessArea"
-                                       name="businessArea"
-                                       v-model="assignmentDetails.businessArea"
-                                       placeholder=""
-                                       data-doctype="AssignmentDetails"/>
+                                <select
+                                    class="form-select form-select-sm"
+                                    maxlength="140"
+                                    id="businessArea"
+                                    name="businessArea"
+                                    v-model="assignmentDetails.businessArea"
+                                    data-doctype="AssignmentDetails">
+                                    <option value=""></option>
+                                    <option v-for="businessArea in businessAreas" :key="businessArea.code"
+                                            :value="businessArea.code">
+                                        @{{ businessArea.name }}
+                                    </option>
+                                </select>
                             </div>
 
                         </div>
@@ -151,9 +158,9 @@
                             <label class="form-check-inline">
                                 <input type="radio"
                                        class="list-row-checkbox bold"
+                                       id="isPoolVehicle"
                                        name="isPoolVehicle"
                                        value="Y"
-                                       checked
                                        v-model="assignmentDetails.isOperationsVehicle"
                                        placeholder=""
                                        data-target="Company">
@@ -162,6 +169,7 @@
                             <label class="form-check-inline"> <input type="radio"
                                                                      class="list-row-checkbox bold"
                                                                      name="isPoolVehicle"
+                                                                     id="isNotPoolVehicle"
                                                                      value="N"
                                                                      v-model="assignmentDetails.isOperationsVehicle"
                                                                      placeholder=""
@@ -181,73 +189,43 @@
                 </label>
             </td>
             <td>
-                <table>
-                    <tr>
-                        <td style="width: 70%;">
-                            <div class="control-input-wrapper">
-                                <div class="control-input">
-                                    <div class="link-field ui-front"
-                                         style="position: relative;">
-                                        <div class="input-group">
-                                            <input type="text"
-                                                   id="responsibleHOD"
-                                                   data-bs-toggle="modal"
-                                                   autocomplete="off"
-                                                   data-bs-target="#searchEmployeeModal"
-                                                   data-assignmenttype="single"
-                                                   data-inputfield="responsibleHOD"
-                                                   name="responsibleHOD"
-                                                   class="form-control"
-                                                   data-emp="staff_number"
-                                                   data-doctype="AssignmentDetails"
-                                            />
+                <div class="input-group">
+                    <input type="text"
+                           id="responsibleHOD"
+                           data-bs-toggle="modal"
+                           autocomplete="off"
+                           data-bs-target="#searchEmployeeModal"
+                           data-assignmenttype="single"
+                           data-inputfield="responsibleHOD"
+                           name="responsibleHOD"
+                           class="form-control"
+                           value="{{$vehicle->responsible_head_name}}"
+                           data-emp="staff_number"
+                           data-doctype="AssignmentDetails"
+                    />
 
-                                            <input type="hidden"
-                                                   data-assignmenttype="single"
-                                                   data-inputfield="responsibleHODId"
-                                                   id="responsibleHODId"
-                                                   name="responsibleHODId"/>
+                    <input type="hidden"
+                           data-assignmenttype="single"
+                           data-inputfield="responsibleHODId"
+                           id="responsibleHODId"
+                           value="{{$vehicle->responsible_head_id}}"
+                           name="responsibleHODId"/>
 
-                                            <div class="input-group-append input-group-sm">
-                                                <button type="button"
-                                                        data-assignmenttype="single"
-                                                        data-inputfield="responsibleHOD"
-                                                        data-field="userSelection"
-                                                        class="input-group-text">
-                                                    <i class="fa fa-user"></i>
-                                                </button>
-                                                <button type="button"
-                                                        data-action="clearUsers"
-                                                        class="input-group-text">
-                                                    <i class="fa fa-eraser"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td style="width:30%">
-                            {{--     <div class="control-input">
-                                     <div class="link-field ui-front"
-                                          style="position: relative;">
-                                         <div>
-                                             <input type="text"
-                                                    class="input-with-feedback form-control bold"
-                                                    required
-                                                    id="responsibleHODName"
-                                                    readonly
-                                                    name="responsibleHODName"
-                                                    placeholder=""
-                                                    data-emp="name"
-                                                    data-doctype="AssignmentDetails"
-                                                    autocomplete="off"/>
-                                         </div>
-                                     </div>
-                                 </div>--}}
-                        </td>
-                    </tr>
-                </table>
+                    <div class="input-group-append input-group-sm">
+                        <button type="button"
+                                data-assignmenttype="single"
+                                data-inputfield="responsibleHOD"
+                                data-field="userSelection"
+                                class="input-group-text">
+                            <i class="fa fa-user"></i>
+                        </button>
+                        <button type="button"
+                                data-action="clearUsers"
+                                class="input-group-text">
+                            <i class="fa fa-eraser"></i>
+                        </button>
+                    </div>
+                </div>
             </td>
             <td class="frappe-control"></td>
             <td></td>
@@ -261,92 +239,65 @@
                 </label>
             </td>
             <td>
-                <table>
-                    <tr>
-                        <td style="width: 70%;">
-                            <div class="control-input-wrapper">
-                                <div class="control-input">
-                                    <div class="link-field ui-front"
-                                         style="position: relative;">
-                                        <div class="input-group">
-                                            <input type="text"
-                                                   id="vehicleHolder"
-                                                   data-bs-toggle="modal"
-                                                   data-bs-target="#searchEmployeeModal"
-                                                   data-assignmenttype="single"
-                                                   data-inputfield="vehicleHolder"
-                                                   name="vehicleHolder"
-                                                   class="form-control"
-                                                   data-emp="staff_number"
-                                                   data-doctype="AssignmentDetails"
-                                                   autocomplete="off"
-                                            />
+                <div class="control-input-wrapper">
+                    <div class="control-input">
+                        <div class="link-field ui-front"
+                             style="position: relative;">
+                            <div class="input-group">
+                                <input type="text"
+                                       id="vehicleHolder"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#searchEmployeeModal"
+                                       data-assignmenttype="single"
+                                       data-inputfield="vehicleHolder"
+                                       name="vehicleHolder"
+                                       value="{{$vehicle->responsible_head_name}}"
+                                       class="form-control"
+                                       data-emp="staff_number"
+                                       data-doctype="AssignmentDetails"
+                                       autocomplete="off"
+                                />
 
-                                            <input type="hidden"
-                                                   data-assignmenttype="single"
-                                                   data-inputfield="vehicleHolderId"
-                                                   id="vehicleHolderId"
-                                                   name="vehicleHolderId"/>
+                                <input type="hidden"
+                                       data-assignmenttype="single"
+                                       data-inputfield="vehicleHolderId"
+                                       value="{{$vehicle->responsible_head_id}}"
+                                       id="vehicleHolderId"
+                                       name="vehicleHolderId"/>
 
-                                            <div class="input-group-append input-group-sm">
-                                                <button type="button"
-                                                        data-assignmenttype="single"
-                                                        data-inputfield="vehicleHolder"
-                                                        data-field="userSelection"
-                                                        class="input-group-text">
-                                                    <i class="fa fa-user"></i>
-                                                </button>
-                                                <button type="button"
-                                                        data-action="clearUsers"
-                                                        class="input-group-text">
-                                                    <i class="fa fa-eraser"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        {{--<div>
-                                            <input type="text"
-                                                   class="input-with-feedback form-control bold"
-                                                   required
-                                                   title="Enter Staff number in previous input and name will auto populate"
-                                                   id="operatorStaffNumber"
-                                                   name="operatorStaffNumber"
-                                                   v-model="assignmentDetails.operatorStaffNumber"
-                                                   placeholder=""
-                                                   list="employee_list"
-                                                   data-emp="staff_number"
-                                                   data-doctype="AssignmentDetails"
-                                                   autocomplete="off"/>
-
-                                        </div>--}}
-                                    </div>
+                                <div class="input-group-append input-group-sm">
+                                    <button type="button"
+                                            data-assignmenttype="single"
+                                            data-inputfield="vehicleHolder"
+                                            data-field="userSelection"
+                                            class="input-group-text">
+                                        <i class="fa fa-user"></i>
+                                    </button>
+                                    <button type="button"
+                                            data-action="clearUsers"
+                                            class="input-group-text">
+                                        <i class="fa fa-eraser"></i>
+                                    </button>
                                 </div>
                             </div>
-                        </td>
-                        <td style="width:30%">
-                            {{--<div class="control-input">
-                                <div class="link-field ui-front"
-                                     style="position: relative;">
-                                    <div>
-                                        <input type="text"
-                                               class="input-with-feedback form-control bold"
-                                               maxlength="200"
-                                               id="operatorName"
+                            {{--<div>
+                                <input type="text"
+                                       class="input-with-feedback form-control bold"
+                                       required
+                                       title="Enter Staff number in previous input and name will auto populate"
+                                       id="operatorStaffNumber"
+                                       name="operatorStaffNumber"
+                                       v-model="assignmentDetails.operatorStaffNumber"
+                                       placeholder=""
+                                       list="employee_list"
+                                       data-emp="staff_number"
+                                       data-doctype="AssignmentDetails"
+                                       autocomplete="off"/>
 
-                                               required
-                                               title="Enter Staff number in previous input and name will auto populate"
-                                               name="operatorName"
-                                               v-model="assignmentDetails.operatorName"
-                                               placeholder=""
-                                               data-emp="name"
-                                               data-doctype="AssignmentDetails"
-                                               autocomplete="off"/>
-
-                                    </div>
-                                </div>
                             </div>--}}
-                        </td>
-                    </tr>
-                </table>
+                        </div>
+                    </div>
+                </div>
             </td>
             <td class="frappe-control"></td>
             <td>
@@ -370,6 +321,7 @@
                                        class="list-row-checkbox bold"
                                        name="isMileageExempt"
                                        readonly
+                                       value=""
                                        placeholder=""
                                        data-target="Company">
                                 No

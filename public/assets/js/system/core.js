@@ -235,7 +235,9 @@
             processData: false,
             contentType: false,
             success: function (response_data) {
-                successCallBack(response_data);
+                if (typeof successCallBack === 'function') {
+                    successCallBack(response_data);
+                }
             },
             error: function (xhr, settings, errorThrown) {
                 if (typeof errorCallBack === 'function') {
