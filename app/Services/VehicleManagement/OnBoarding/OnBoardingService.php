@@ -174,7 +174,6 @@ class OnBoardingService
 
         $user_unit_code = $request->input('user_unit');
 
-        //if ($request->has('user_unit'))
         $organizationUnit = OrganizationalUnits::where('code_unit', $user_unit_code)->first();
         $registrationNumber = strtoupper(trim($request->input('registrationNumber')));
         $exitingRegistration = VehicleHeader::where('registration_number', $registrationNumber)->first();
@@ -225,7 +224,7 @@ class OnBoardingService
      * @param EngineDetailsPost $request
      * @return mixed
      */
-    public function processEngineDetails(EngineDetailsPost $request): mixed
+    public function processEngineDetails(EngineDetailsPost $request): EngineDetail
     {
         $user = auth()->user();
 
@@ -236,7 +235,7 @@ class OnBoardingService
             'engine_brand' => $request->input('engineBrand'),
             'engine_capacity' => $request->input('engineCapacity'),
             'engine_type' => $request->input('engineType'),
-            'fuel_allocation' => $request->input('fuelAllocation'),
+            'fuel_allocation' => $request->input('fuelAllocation') ?? 10,
             'fuel_consumption' => $request->input('fuelConsumption'),
             'fuel_types' => $request->input('fuelTypes'),
             'number_of_cylinders' => $request->input('numberOfCylinders'),
@@ -250,6 +249,8 @@ class OnBoardingService
             'number_of_tyres' => $request->input('numberOfTyres'),
             'rear_tyre_size' => $request->input('rearTyreSize'),
             'tyre_brand' => $request->input('tyreBrand'),
+            'created_by' => $user->id,
+            'created_name' => $user->name
         ]);
     }
 

@@ -468,7 +468,6 @@
         </tbody>
     </table>
 
-
     <datalist id="employee_list">
         <option v-for="employee in searchedEmployeesList"
                 :value="employee.staff_number"> @{{ employee.staff_number}}:@{{
