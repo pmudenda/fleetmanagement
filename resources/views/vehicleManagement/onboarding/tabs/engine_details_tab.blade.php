@@ -5,6 +5,8 @@
       action="{{route('vehicle.engine.detail')}}">
     <input type="hidden" name="doctype" value="EngineDetails"/>
     <input type="hidden" name="headerId" value="{{$reference}}"/>
+    <input type="hidden" name="engineDetailsId" value="{{$vehicle->engineDetailsId ?? 0}}"/>
+
     <x-error-view />
     <fieldset class="border p-3">
         <legend style="width: inherit;">

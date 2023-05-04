@@ -87,7 +87,7 @@
                 $userElem.innerHTML = null;
                 let table = `<div class='col-12'>
                             </div>
-                            <table border='1' class='table table-striped border-transparent '>
+                            <table border='1' class='table border-transparent '>
                                 <thead>
                                     <tr>
                                     <td>#</td>
@@ -105,8 +105,8 @@
                         rows += `<tr>
                                 <td>
                                     <div class='form-group clearfix'>
-                                        <div class='icheck-warning d-inline'>`;
-                        rows += `<input type='radio'
+                                        <div class='text-center'>`;
+                        rows += `<input type='radio' class="form-check"
                                                             value='${obj[i].con_per_no}'
                                                             data-userid='${obj[i].con_per_no}'
                                                             data-name='${obj[i].name}'
@@ -134,8 +134,8 @@
                     rows += `<tr>
                                 <td>
                                     <div class='form-group clearfix'>
-                                        <div class='icheck-warning d-inline'>`;
-                    rows += `<input type='radio'
+                                        <div class='text-center'>`;
+                    rows += `<input type='radio' class="form-check"
                                                             value='${obj['con_per_no']}'
                                                             data-userid='${obj['con_per_no']}'
                                                             data-name='${obj['name']}'

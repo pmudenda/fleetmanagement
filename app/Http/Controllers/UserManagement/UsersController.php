@@ -213,7 +213,7 @@ class UsersController extends Controller
     }
 
 
-    public function search(Request $request)
+    public function search(Request $request): JsonResponse
     {
 
         try {

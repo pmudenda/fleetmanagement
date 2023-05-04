@@ -32,6 +32,8 @@ class EngineDetail extends Model
         'number_of_tyres',
         'rear_tyre_size',
         'tyre_brand',
-        'vehicle_header_id'
+        'vehicle_header_id',
+        'created_by',
+        'created_name'
     ];
 }

@@ -4,12 +4,12 @@ namespace App\Http\Controllers\VehicleManagement;
 
 use App\Exceptions\VehicleOnBoardingException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AssignmentPostRequest;
 use App\Http\Requests\BodyDetailsPost;
 use App\Http\Requests\ChassisDetailsPostRequest;
 use App\Http\Requests\CostingDetailsPost;
 use App\Http\Requests\EngineDetailsPost;
 use App\Http\Requests\VehicleHeaderRequest;
-use App\Models\vehiclemanagement\Assignment;
 use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -19,6 +19,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 class VehicleOnBoardingController extends Controller
@@ -33,6 +34,10 @@ class VehicleOnBoardingController extends Controller
 
     public function start(Request $request): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
     {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
         if (!$request->has('step')) {
             return redirect(route('new.vehicle', ['step' => 1]));
         }
@@ -40,6 +45,7 @@ class VehicleOnBoardingController extends Controller
         $step = $request->get('step');
         $reference = $request->get('reference') ?? 0;
         $vehicle = $this->onBoardingService->getVehicleDetails($reference);
+        $vehicleDocuments = $this->onBoardingService->getVehicleDocuments($reference);
 
         $viewName = match ($step) {
             '1' => "vehicleManagement.onboarding.step1",
@@ -52,29 +58,14 @@ class VehicleOnBoardingController extends Controller
         };
 
 
-        return view($viewName)->with(compact('reference', 'vehicle'));
+        return view($viewName)
+            ->with(compact('reference', 'vehicle', 'vehicleDocuments'));
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(AssignmentPostRequest $request): JsonResponse
     {
         try {
-
-            $validator = $this->validateRequest($request, [
-                'businessArea',
-                'directorate',
-                'costCenter',
-                'isPoolVehicle',
-                'isMileageExempt',
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(
-                    [
-                        'state' => 'error',
-                        'errors' => $validator->errors()->all()
-                    ]);
-            }
-            $model = $this->processAssignmentDetails($request);
+            $model = $this->onBoardingService->processAssignmentDetails($request);
 
             return response()->json([
                 'state' => 'success',
@@ -138,7 +129,7 @@ class VehicleOnBoardingController extends Controller
                 'state' => 'success',
                 'request' => $request->all(),
                 'payload' => $model,
-                'redirectUrl' => route('new.vehicle', ['step' => 3, 'reference' => $model->vehicle_header_id]),
+                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 3, 'reference' => $model->vehicle_header_id]),
                 'message' => 'Request Submitted Successfully'
             ]);
         } catch (Exception $e) {
@@ -164,7 +155,7 @@ class VehicleOnBoardingController extends Controller
                 'state' => 'success',
                 'request' => $request->all(),
                 'payload' => $model,
-                'redirectUrl' => route('new.vehicle', ['step' => 4, 'reference' => $model->vehicle_header_id]),
+                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 4, 'reference' => $model->vehicle_header_id]),
                 'message' => 'Request Submitted Successfully'
             ]);
         } catch (Exception $e) {
@@ -189,7 +180,7 @@ class VehicleOnBoardingController extends Controller
                 'state' => 'success',
                 'request' => $request->all(),
                 'payload' => $model,
-                'redirectUrl' => route('new.vehicle', ['step' => 5, 'reference' => $model->vehicle_header_id]),
+                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 5, 'reference' => $model->vehicle_header_id]),
                 'message' => 'Request Submitted Successfully'
             ]);
         } catch (Exception $e) {
@@ -214,7 +205,7 @@ class VehicleOnBoardingController extends Controller
                 'state' => 'success',
                 'request' => $request->all(),
                 'payload' => $model,
-                'redirectUrl' => route('new.vehicle', ['step' => 6, 'reference' => $model->vehicle_header_id]),
+                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 6, 'reference' => $model->vehicle_header_id]),
                 'message' => 'Request Submitted Successfully'
             ]);
         } catch (Exception $e) {
@@ -231,74 +222,6 @@ class VehicleOnBoardingController extends Controller
         }
     }
 
-    /**
-     * @param Request $request
-     * @return mixed
-     */
-    public function processAssignmentDetails(Request $request): mixed
-    {
-
-        if ($request->input('isPoolVehicle') == 'Y') {
-            $validator = $this->validateRequest($request, [
-                'responsibleHOD',
-                'responsibleHODId',
-            ]);
-        } else {
-            $validator = $this->validateRequest($request, [
-                'vehicleHolder',
-                'vehicleHolderId',
-            ]);
-        }
-
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'state' => 'error',
-                    'errors' => $validator->errors()->all()
-                ]);
-        }
-
-        // marks completion of on-boarding
-        $user = auth()->user();
-
-        $data = [
-            'vehicle_header_id' => $request->input('headerId'),
-            'businessArea' => $request->input('businessArea'),
-            'directorate' => $request->input('directorate'),
-            'costCenter' => $request->input('costCenter'),
-            'superVisorStaffNumber' => $request->input('responsibleHODId') ?? $request->input('vehicleHolderId'),
-            'superVisorName' => $request->input('responsibleHOD') ?? $request->input('vehicleHolder'),
-            'isPoolVehicle' => $request->input('isPoolVehicle'),
-            'mileageExempt' => $request->input('isMileageExempt'),
-            'created_by' => $user->id,
-            'created_name' => $user->name
-        ];
-
-        return Assignment::create($data);
-    }
-
-
-    /**
-     * @param Request $request
-     * @param $validationFields
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    public function validateRequest(Request $request, $validationFields): \Illuminate\Contracts\Validation\Validator
-    {
-        $rules = [];
-        $messages = [];
-        foreach ($validationFields as $validationField) {
-            $rules = [$validationField => ['required']];
-            $messages = [$validationField => 'You have not provided valid data for ' . $validationField];
-        }
-
-        // request, rules, messages
-        return Validator::make(
-            $request->all(),
-            $rules, $messages
-        );
-
-    }
 
     public function validateUploads(Request $request, $validationFields): bool
     {

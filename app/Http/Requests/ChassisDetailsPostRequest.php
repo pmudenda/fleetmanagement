@@ -4,8 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class ChassisDetailsPostRequest extends FormRequest
 {
@@ -27,18 +25,20 @@ class ChassisDetailsPostRequest extends FormRequest
         return [
             'doctype' => '',
             'headerId' => '',
-            'chassisNumber' =>  'required|unique:App\Models\vehiclemanagement\ChassisDetail,chassis_number',
-            'engineNumber' => 'required|unique:App\Models\vehiclemanagement\ChassisDetail,engine_number',
-            'whiteBookSerial' =>  'required',
-            'yearOfManufacture' =>  'required|numeric',
-            'chargeOutRate' =>  'required|decimal:2',
-            'requiredMinimumDrivingLicense' =>  'required',
-            'initialOdometerReading' =>  'required|numeric',
-            'currentOdometerReading' =>  'required|numeric',
-            'odometerReadingLastService' =>  'required|numeric',
-            'nextServiceOdometerReading' =>  'required|numeric',
-            'inspectionDate' =>  'required|date_format:Y-m-d',
-            'registrationDate' =>  'required|date_format:Y-m-d',
+            'chassisNumber' => 'required',
+            'chassisNumber' => 'exclude_unless:chassisDetailsId,0|unique:App\Models\vehiclemanagement\ChassisDetail,chassis_number',
+            'engineNumber' => 'required',
+            'engineNumber' => 'exclude_unless:chassisDetailsId,0|unique:App\Models\vehiclemanagement\ChassisDetail,engine_number',
+            'whiteBookSerial' => 'required',
+            'yearOfManufacture' => 'required|numeric',
+            'chargeOutRate' => 'required|decimal:2',
+            'requiredMinimumDrivingLicense' => 'required',
+            'initialOdometerReading' => 'required|numeric',
+            'currentOdometerReading' => 'required|numeric',
+            'odometerReadingLastService' => 'required|numeric',
+            'nextServiceOdometerReading' => 'required|numeric',
+            'inspectionDate' => 'required|date_format:Y-m-d',
+            'registrationDate' => 'required|date_format:Y-m-d',
 
             'motor_vehicle_certificate' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf',
             'insurance_cover_note' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf',

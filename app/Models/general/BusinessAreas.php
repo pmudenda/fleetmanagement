@@ -9,4 +9,8 @@ class BusinessAreas extends Model
 {
     use HasFactory;
     protected $table = 'CONFIG_BUSINESS_AREAS';
+    protected $fillable = [
+        'code',
+        'name',
+    ];
 }

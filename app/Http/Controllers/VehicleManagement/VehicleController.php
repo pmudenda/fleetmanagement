@@ -31,10 +31,12 @@ class VehicleController extends Controller
             }
 
             $vehicle = $this->onBoardingService->getVehicleDetails($ref);
+            $vehicleDocuments = $this->onBoardingService->getVehicleDocuments($ref);
 
             return response()->json([
                 'payload' => [
                     'vehicle' => $vehicle,
+                    'documents' => $vehicleDocuments
                 ],
                 'success' => !empty($vehicle),
                 'message' => 'Vehicle Details retrieved successfully'

@@ -11,10 +11,10 @@
                     </span>
         </div>
         <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-            <button type="button" id="submitBtn" disabled class="btn btn-success btn-sm mr-3">
+            <button type="button" id="submitBtn" class="btn btn-success btn-sm mr-3">
                 <i class="fas fa-paper-plane"></i> Submit
             </button>
-            <button type="button" id="resetFormBtn" disabled class="btn btn-danger btn-sm mr-3">
+            <button type="button" id="resetFormBtn" class="btn btn-danger btn-sm mr-3">
                 <i class="fas fa-undo"></i> Cancel
             </button>
         </div>
