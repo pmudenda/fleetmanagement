@@ -20,7 +20,7 @@ class ChassisDetail extends Model
         'current_odometer_reading',
         'inspection_date',
         'lst_service_odometer_reading',
-        'nxt_service_odometer-reading',
+        'nxt_service_odometer_reading',
         'odometer_reset',
         'registration_date',
         'min_req_driving_license',

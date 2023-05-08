@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->integer('current_odometer_reading');
             $table->date('inspection_date');
             $table->integer('lst_service_odometer_reading');
-            $table->integer('nxt_service_odometer-reading');
+            $table->integer('nxt_service_odometer_reading');
             $table->boolean('odometer_reset');
             $table->date('registration_date');
             $table->string('min_req_driving_license', 2);
