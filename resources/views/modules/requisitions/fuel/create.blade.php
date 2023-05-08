@@ -440,15 +440,6 @@
 @push('scripts')
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script>
-        $(document).ready(function () {
-            // Inputmask({
-            //     "mask": "AAA 9999"
-            // }).mask("#vehicle_registration");
-
-            $('#vehicle_registration').keyup(function () {
-                this.value = this.value.toLocaleUpperCase();
-            });
-        });
 
         (function (tmsApp, $) {
             function removeSubmissionAndDetailsOptions() {
@@ -469,6 +460,22 @@
                 let article = payload['article'];
 
                 if (vehicle) {
+
+                    if (typeof vehicle.fuel_allocation === 'undefined' || vehicle.fuel_allocation == null || vehicle.fuel_allocation === "0") {
+
+                        tmsApp.showSystemMessage("Vehicle Details Incomplete", 'Vehicle has no Fuel Allocation, Request System Administrator to assign allocation', () => {
+                        }, "error")
+
+                        return;
+                    }
+
+                    if(vehicle['on_boarding_status'] != '030'){
+                        tmsApp.showSystemMessage("Vehicle Details Incomplete", 'Vehicle did not complete onboarding process, You can not proceed with requisition', () => {
+                        }, "error")
+
+                        return;
+                    }
+
                     let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
                     $("#vehicle_description").val(vLabel);
                     let row = `<tr>
@@ -576,6 +583,10 @@
                 }
             }
 
+            $('#vehicle_registration').keyup(function () {
+                this.value = this.value.toLocaleUpperCase();
+            });
+
             $('#vehicle_registration').on('change', function () {
                 if (this.value && this.value.length < 6) {
                     return;
@@ -583,6 +594,10 @@
 
                 findVehicle();
             });
+
+            /*Inputmask({
+                "mask": "AAA 9999"
+            }).mask("#vehicle_registration");*/
 
             $('#vehicleSearchBtn').on('click', function () {
                 if (document.querySelector('#vehicle_registration').value && document.querySelector('#vehicle_registration') < 6) {
@@ -714,7 +729,8 @@
                             }
                         )
                     },
-                    function () {}
+                    function () {
+                    }
                 );
             })
 

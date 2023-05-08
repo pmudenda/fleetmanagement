@@ -52,23 +52,8 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
 
-<div class="page-loader-wrapper">
-    <div class="loader">
-        <div class="preloader">
-            <div class="spinner-layer pl-green">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div>
-                <div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
-            </div>
-        </div>
-        <p>Please wait...</p>
-    </div>
-</div>
 <div class="wrapper">
-    {{--    <x-page-preloader/>--}}
+    <x-page-preloader/>
 
     <script>
         let defaultThemeMode = "light";
@@ -104,7 +89,7 @@
     <aside class="control-sidebar control-sidebar-dark"></aside>
 
     <x-async-loader></x-async-loader>
-    <x-approval-modal />
+    <x-approval-modal/>
 </div>
 <audio preload="auto" id="sound-email" volume=0.1>
     <source src="{{asset('assets/sounds/email.mp3')}}"/>
@@ -171,8 +156,9 @@
 <script src="{{asset('assets/plugins/vue-select2/js/vue-select.js')}}"></script>
 <script src="{{asset('themes/dist/js/adminlte2167.js')}}?v=3.2.0"></script>
 <script src="{{asset('assets/js/system/core.js')}}"></script>
-<script src="{{asset('assets/js/system/workflow_approvals.js')}}"></script>
+<script src="{{asset('assets/js/system/workflow_approvals.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{asset('assets/js/global/async.loader.js').'?v='.Carbon::now()->format('his')}}"></script>
+<script src="{{asset('assets/js/global/page.loader.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{asset('assets/js/global/system_alerts.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>
 

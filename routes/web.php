@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Configurations\GeneralTablesController;
 use App\Http\Controllers\Requisitions\FuelRequisitionController;
 use App\Http\Controllers\Security\PermissionsController;
 use App\Http\Controllers\Security\RolesController;
@@ -49,10 +50,6 @@ Route::get('verify/document-number', function (Request $request): JsonResponse {
     ]);
 })->name('document.number.validation');
 
-
-/*Route::post('/logout', function () {
-})->name('logout');*/
-
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
@@ -62,7 +59,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', function () {
         return view('dashboard.home');
     })->name('home');
-
 
     Route::group(['prefix' => 'user-management'], function () {
 
@@ -105,7 +101,6 @@ Route::group(['middleware' => 'auth'], function () {
         /*Route::post('user_search', [UserSearchController::class, 'userSearch'])->name('search.user');*/
     });
 
-
     /** ROLES */
     Route::group(['prefix' => 'security'], function () {
         Route::get('roles/list', function () {
@@ -130,28 +125,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('permissions', PermissionsController::class);
     });
 
-
     Route::group(['prefix' => 'system-configuration'], function () {
 
-        /** INSURANCE */
-        Route::get('insurance/types', function () {
-            $documentType = 'InsuranceTypes';
-            return view('insurance.types') . with(compact('documentType'));
-        })->name('insurance.types');
-
-        Route::get('insurance/companies', function () {
-            $documentType = 'InsuranceTypes';
-            return view('insurance.types') . with(compact('documentType'));
-            //return view('insurance.companyList');
-        })->name('insurance.companies');
-
-
-        /** ACCIDENTS */
-        Route::get('accidents/types', function () {
-        })->name('accident.types');
-
-        Route::get('accidents/nature', function () {
-        })->name('accident.nature');
+        /** GENERAL TABLES */
+        Route::group(['prefix' => 'general'], function () {
+            Route::get('/open-view', [GeneralTablesController::class, "openFormTypeView"])->name('configuration.general.table');
+            Route::get('/types', [GeneralTablesController::class, "show"]);
+            Route::post('/general_tables', [GeneralTablesController::class, "save"])->name('save.data');
+            Route::put('/edit/{id}', [GeneralTablesController::class, "edit"])->name('edit.data');
+            Route::delete('/delete/{id}', [GeneralTablesController::class, "delete"])->name('delete.data');
+        });
 
         Route::get('vehicle/make', function () {
             return view('configurations.vehicle.brands');
@@ -167,81 +150,66 @@ Route::group(['middleware' => 'auth'], function () {
         })->name('vehicle.body.types');
     });
 
-    Route::get('/requisition/fuel', [FuelRequisitionController::class, 'create'])->name('new.fuel.requisition');
-    Route::get('/requisition/fuel/approve', [FuelRequisitionController::class, 'show'])->name('show.fuel.requisition');
-    Route::post('/requisition/fuel/save', [FuelRequisitionController::class, 'store'])->name('save.fuel.requisition');
-    Route::get('/requisition/fuel/list', [FuelRequisitionController::class, 'index'])->name('list.fuel.requisition');
+    Route::group(['prefix' => 'requisitions'], function () {
+        Route::get('/fuel', [FuelRequisitionController::class, 'create'])->name('new.fuel.requisition');
+        Route::get('/fuel/approve', [FuelRequisitionController::class, 'show'])->name('show.fuel.requisition');
+        Route::post('/fuel/save', [FuelRequisitionController::class, 'store'])->name('save.fuel.requisition');
+        Route::get('/fuel/list', [FuelRequisitionController::class, 'index'])->name('list.fuel.requisition');
+    });
 
-    Route::get('/requisition/motor-vehicle', function () {
-    })->name('new.vehicle.requisition');
-    Route::get('/requisition/parts', function () {
-    })->name('new.parts.requisition');
+    Route::get('searchProjects', function (Request $request) {
+        $period = date('M-Y');
+        //$period = 'Oct-2022';
+        $searchCriteria = strtoupper(trim($request->input('search')));
+        $activeProjects = $this->tripService->getActiveProjects($period, $searchCriteria);
+        return response()->json(array(
+            'items' => $activeProjects,
+            'total_count' => $activeProjects->count()
+        ));
+    })->name('search.project');
 
+    Route::group(['prefix' => 'vehicle-management', 'middleware' => 'auth'], function () {
+
+        Route::group(['prefix' => 'onboarding'], function () {
+            Route::get('/register', [VehicleOnBoardingController::class, 'start'])->name('new.vehicle');
+
+            Route::post('post-vehicle-assignment', [VehicleOnBoardingController::class, 'store'])->name('vehicle.assignment.detail');
+
+            Route::post('post-vehicle-details', [VehicleOnBoardingController::class, 'storeVehicleHeader'])
+                ->name('new.vehicle.header');
+
+            Route::post('post-chassis-details', [VehicleOnBoardingController::class, 'storeChassisDetails'])
+                ->name('vehicle.chassis.detail');
+
+            Route::post('post-engine-details', [VehicleOnBoardingController::class, 'storeEngineDetails'])
+                ->name('vehicle.engine.detail');
+
+            Route::post('post-costing-details', [VehicleOnBoardingController::class, 'storeCostingDetails'])
+                ->name('vehicle.cost.detail');
+
+            Route::post('post-body-details', [VehicleOnBoardingController::class, 'storeBodyDetails'])
+                ->name('vehicle.body.detail');
+        });
+
+        Route::get('vehicle/details/{ref}', [VehicleController::class, 'getAllDetails'])->name('vehicle.details');
+
+        Route::get('vehicle/details', [VehicleController::class, 'getDetails'])->name('api.vehicle');
+
+        Route::get('articles/fuels', function () {
+            return response()->json([
+                'payload' => Article::where('group_code', '01')->get(['code', 'name'])
+            ]);
+        })->name('fuel.types');
+
+        Route::get('/vehicle/list', [VehicleController::class, 'list'])->name('vehicles.list');
+
+        Route::get('/vehicles', function (Request $request) {
+            return view('vehicleManagement.vehicleList');
+        })->name('vehicle.edit');
+
+    });
+
+    Route::post('/workflow/approve', [WorkflowController::class, 'approve'])->name('workflow.approve');
 });
-
-Route::get('searchProjects', function (Request $request) {
-    $period = date('M-Y');
-    //$period = 'Oct-2022';
-    $searchCriteria = strtoupper(trim($request->input('search')));
-    $activeProjects = $this->tripService->getActiveProjects($period, $searchCriteria);
-    return response()->json(array(
-        'items' => $activeProjects,
-        'total_count' => $activeProjects->count()
-    ));
-})->name('search.project');
-
-//, 'middleware' => 'auth'
-Route::group(['prefix' => 'vehicle-management', 'middleware' => 'auth'], function () {
-
-    Route::get('/register', [VehicleOnBoardingController::class, 'start'])->name('new.vehicle');
-
-    Route::post('post-vehicle-assignment', [VehicleOnBoardingController::class, 'store'])->name('vehicle.assignment.detail');
-
-    Route::post('post-vehicle-details', [VehicleOnBoardingController::class, 'storeVehicleHeader'])
-        ->name('new.vehicle.header');
-
-    Route::post('post-chassis-details', [VehicleOnBoardingController::class, 'storeChassisDetails'])
-        ->name('vehicle.chassis.detail');
-
-    Route::post('post-engine-details', [VehicleOnBoardingController::class, 'storeEngineDetails'])
-        ->name('vehicle.engine.detail');
-
-    Route::post('post-costing-details', [VehicleOnBoardingController::class, 'storeCostingDetails'])
-        ->name('vehicle.cost.detail');
-
-    Route::post('post-body-details', [VehicleOnBoardingController::class, 'storeBodyDetails'])
-        ->name('vehicle.body.detail');
-
-    Route::get('vehicle/details/{ref}', [VehicleController::class, 'getAllDetails'])->name('vehicle.details');
-
-    Route::get('vehicle/details', [VehicleController::class, 'getDetails'])->name('api.vehicle');
-    Route::get('articles/fuels', function () {
-        return response()->json([
-            'payload' => Article::where('group_code', '01')->get(['code', 'name'])
-        ]);
-    })->name('fuel.types');
-
-    Route::get('/vehicle/list', function () {
-        $vehicleList = VehicleHeader::get();
-        return view('vehicleManagement.vehicleList')
-            ->with(compact('vehicleList'));
-    })->name('vehicles.list');
-
-    Route::get('/vehicles', function (Request $request) {
-        return view('vehicleManagement.vehicleList');
-    })->name('vehicle.edit');
-
-    Route::get('/insurancelist', function () {
-        return view('VehicleManagement.insurancelist');
-    })->name('insurancelist');
-
-    Route::get('/legaldocumentlist', function () {
-        return view('VehicleManagement.insurancelist');
-    })->name('legaldocumentlist');
-
-
-});
-
-Route::post('/workflow/approve', [WorkflowController::class, 'approve'])->name('workflow.approve');
 
 

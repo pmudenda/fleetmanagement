@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\VehicleManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\vehiclemanagement\VehicleHeader;
 use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
 use Exception;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -99,5 +103,12 @@ class VehicleController extends Controller
                 'message' => 'We could not complete processing your request, Please contact System Administrator'
             ]);
         }
+    }
+
+    public function list(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        $vehicleList = VehicleHeader::get();
+        return view('vehicleManagement.vehicleList')
+            ->with(compact('vehicleList'));
     }
 }
