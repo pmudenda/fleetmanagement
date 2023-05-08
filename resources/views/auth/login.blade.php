@@ -41,8 +41,9 @@
                             <div class="text-center">
                                 <div class="mb-5">
                                     <h1 class="display-4 mt-0 font-weight-semi-bold">
-                                        TRANSPORT MANAGEMENT SYSTEM
+                                        FLEET MASTER
                                     </h1>
+                                    <small>A TRANSPORT MANAGEMENT SYSTEM</small>
                                 </div>
                             </div>
                             <div class="form-group">

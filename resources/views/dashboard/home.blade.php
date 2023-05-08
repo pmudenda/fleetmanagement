@@ -45,6 +45,10 @@
             top: 0
         }
     </style>
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endpush
 
 @section('content')
@@ -387,7 +391,7 @@
                     </div>
                     <div class="card-body p-2">
                         <div class="table-responsive mt-10 ">
-                            <table id="listTable" class="table table-bordered">
+                            <table id="listTable" class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th>Reference #</th>
@@ -446,6 +450,7 @@
 @endsection
 
 @push('scripts')
+    @include('layouts.partials.dataTableScripts')
     <script>
         (function (appInstance) {
             appInstance.initDatatable("#listTable", false, true);

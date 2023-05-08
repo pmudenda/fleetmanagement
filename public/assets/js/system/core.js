@@ -226,9 +226,9 @@
      * @param successCallBack
      * @param errorCallBack
      */
-    appInstance.asyncPostFormData = function (url, requestPayload, successCallBack, errorCallBack) {
+    appInstance.asyncPostFormData = function (url, requestPayload, successCallBack, errorCallBack, method = 'POST') {
         $.ajax({
-            type: 'POST',
+            type: method,
             url: url,
             dataType: 'json',
             data: requestPayload,
@@ -320,28 +320,35 @@
      * @param hasExportOptions
      * @param searchable
      */
-    appInstance.initDatatable = function (selector, hasExportOptions, searchable) {
+    appInstance.initDatatable = function (selector, hasExportOptions, searchable, columnsOrderable = []) {
         if (typeof searchable === 'undefined') {
             searchable = false
         }
-        if (hasExportOptions) {
-            $(selector).DataTable({
-                "responsive": true,
-                "searchable": searchable,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print"]
-            }).buttons().container().appendTo(selector + '_wrapper .col-md-6:eq(0)');
 
-        } else {
-            $(selector).DataTable({
-                "responsive": true,
-                "searchable": searchable,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": []
-            }).buttons().container().appendTo(selector + '_wrapper .col-md-6:eq(0)');
-        }
+        //[
+        //                     {
+        //                         orderable: false,
+        //                         targets: 0
+        //                     },
+        //                     {
+        //                         orderable: false,
+        //                         targets: 4
+        //                     }
+        //                 ]
+
+        $(selector).DataTable({
+            /*"info": false,*/
+            'order': [],
+            "pageLength": 10,
+            "responsive": true,
+            "searchable": searchable,
+            "lengthChange": false,
+            "autoWidth": false,
+            'columnDefs': columnsOrderable,
+            "buttons": hasExportOptions ? ["copy", "csv", "excel", "pdf", "print"] : []
+        }).buttons().container().appendTo(selector + '_wrapper .col-md-6:eq(0)');
+
+
     };
 
     /**

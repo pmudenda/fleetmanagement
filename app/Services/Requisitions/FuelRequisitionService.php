@@ -25,10 +25,12 @@ class FuelRequisitionService
             ->orderBy('date_created', 'desc')
             ->first();
 
+        // if there is an open requisition
         if (!empty($previousRequisition) && $previousRequisition->status == StatusHelper::new()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Request failed validation, Vehicle has an open requisition'
+                'message' => 'Request failed validation, Vehicle has an open requisition Number '
+                    . $previousRequisition->req_no
             ]);
         }
 
@@ -46,7 +48,10 @@ class FuelRequisitionService
         if (!empty($previousRequisition) && Carbon::parse($previousRequisition->valid_date_to)->lessThan($valid_from)) {
             return response()->json([
                 'success' => false,
-                'message' => "Request failed validation, Previous requisition still in effect"
+                'message' => "Request failed validation, Previous requisition number " .
+                    $previousRequisition->req_no . " is still Active. Next Request Date Is "
+                    . $previousRequisition->valid_date_to
+
             ]);
         }
 

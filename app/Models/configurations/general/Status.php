@@ -11,7 +11,7 @@ class Status extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'CONFIG_STATUS';
+    protected $table = 'CONFIG_STATUSES';
     protected $primaryKey = 'id';
     protected $fillable = [
         'name',
