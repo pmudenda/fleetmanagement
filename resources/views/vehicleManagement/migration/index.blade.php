@@ -1,20 +1,32 @@
 @extends('layouts.app')
+@push('styles')
+    <link href="{{ asset('application/modules/vehicleManagement/assets/css/vehicle_migration.css') }}" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}" rel="stylesheet"
+        type="text/css" />
+@endpush
 @section('content')
-    <section class="signup-step-container">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-8">
+    <x-content-header :pageTitle="'Data Migration'" />
+    <section class="content">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <h4>Dtaa Migration</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <div class="wizard">
                         <div class="wizard-inner">
                             <!-- <div class="connecting-line"></div> -->
                             <ul class="nav nav-tabs steps" role="tablist">
                                 <li role="presentation" data-index="0" class="active st1">
                                     <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab"
-                                       aria-expanded="true"><span class="round-tab">1 </span> <i>Step 1</i></a>
+                                        aria-expanded="true"><span class="round-tab">1 </span> <i>Step 1</i></a>
                                 </li>
                                 <li role="presentation" data-index="1" class="disabled st2">
                                     <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab"
-                                       aria-expanded="false"><span class="round-tab">2</span> <i>Step 2</i></a>
+                                        aria-expanded="false"><span class="round-tab">2</span> <i>Step 2</i></a>
                                 </li>
                                 <li role="presentation" data-index="2" class="disabled st3">
                                     <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab"><span
@@ -24,25 +36,25 @@
                             </ul>
                         </div>
 
-                        <form role="form" method="post" class="login-box">
+                        <form role="form" method="post" class="">
                             @csrf
-                            <div class="tab-content" id="main_form">
+                            <div class="tab-content px-5" id="main_form">
                                 <div class="tab-pane active step" role="tabpanel" id="step1">
                                     <h3 class="text-center">Vehicle Details</h3>
-                                    <div class="row">
+                                    <div class="row px-3">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="vehicleNumber">Registration No*:</label>
                                                 <input name="regNo" type="text" class="form-control required"
-                                                       id="vehicleNumber" placeholder="BAC 1111" required>
+                                                    id="vehicleNumber" placeholder="BAC 1111" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group ">
                                                 <label for="vehicleType">Make*:</label>
                                                 <select name="make"
-                                                        onchange="loadModelByMaker(this, '/ajax/maker_to_model_upper', '#model');"
-                                                        class="form-control make  required" id="make" required></select>
+                                                    onchange="loadModelByMaker(this, '/ajax/maker_to_model_upper', '#model');"
+                                                    class="form-control make  required" id="make" required></select>
 
                                             </div>
                                         </div>
@@ -50,7 +62,7 @@
                                             <div class="form-group">
                                                 <label for="vehicleType">Model*:</label>
                                                 <select name="model" class="form-control required" id="modelNo" required
-                                                        disabled>
+                                                    disabled>
                                                     <option>Select Model</option>
                                                 </select>
                                             </div>
@@ -60,7 +72,7 @@
                                             <div class="form-group ">
                                                 <label for="ownerName">Model Code:</label>
                                                 <input name="model_code" type="text" class="form-control required"
-                                                       id="ownerName" placeholder="Enter owner name" required>
+                                                    id="ownerName" placeholder="Enter owner name" required>
                                             </div>
                                         </div>
 
@@ -68,7 +80,7 @@
                                             <div class="form-group">
                                                 <label for="ownerAddress">Engine No*:</label>
                                                 <input name="engineNo" type="text" class="form-control required"
-                                                       id="ownerAddress" placeholder="2AX-XXXXXXXXX" required>
+                                                    id="ownerAddress" placeholder="2AX-XXXXXXXXX" required>
                                             </div>
                                         </div>
 
@@ -76,7 +88,7 @@
                                             <div class="form-group ">
                                                 <label for="ownerAddress">Chassis No*:</label>
                                                 <input name="chassisNo" type="text" class="form-control required"
-                                                       id="ownerAddress" placeholder="SVXX-XXXXXXX" required>
+                                                    id="ownerAddress" placeholder="SVXX-XXXXXXX" required>
                                             </div>
                                         </div>
 
@@ -107,21 +119,22 @@
                                             <p class="test">Branded: </p>
                                             <div class="options-inner branded-options-inner">
                                                 <input type="radio" id="poolVariance-yes" name="options"
-                                                       value="poolVariance-yes">
+                                                    value="poolVariance-yes">
                                                 <label for="poolVariance-yes">Yes</label>
                                             </div>
                                             <div class="options-inner branded-options-inner">
                                                 <input type="radio" id="poolVariance-no" name="options"
-                                                       value="poolVariance-no">
+                                                    value="poolVariance-no">
                                                 <label for="poolVariance-no">No</label>
                                             </div>
 
                                         </div>
+
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="ownerAddress">Current Odometer:</label>
                                                 <input name="odometer" type="text" class="form-control"
-                                                       id="ownerAddress" placeholder="Current Odometer" required>
+                                                    id="ownerAddress" placeholder="Current Odometer" required>
                                             </div>
                                         </div>
                                     </div>
@@ -139,7 +152,7 @@
                                             <div class="form-group ">
                                                 <label for="vehicleType">Directorate*:</label>
                                                 <select name="directorate" class="form-control make" id="directorate"
-                                                        required>
+                                                    required>
 
                                                 </select>
                                             </div>
@@ -149,7 +162,7 @@
                                             <div class="form-group ">
                                                 <label for="vehicleType">Business Unit*:</label>
                                                 <select name="businessUnit" class="form-control make" id="businessUnit"
-                                                        required>
+                                                    required>
 
                                                 </select>
                                             </div>
@@ -159,7 +172,7 @@
                                             <div class="form-group ">
                                                 <label for="vehicleType">Cost Center*:</label>
                                                 <select name="costCenter" class="form-control make" id="costCenter"
-                                                        required>
+                                                    required>
 
                                                 </select>
                                             </div>
@@ -169,12 +182,12 @@
                                             <p class="test">Pool Vehicle: </p>
                                             <div class="options-inner">
                                                 <input type="radio" id="poolVehicle-yes" name="options"
-                                                       value="poolVehicle-yes">
+                                                    value="poolVehicle-yes">
                                                 <label for="poolVehicle-yes">Yes</label>
                                             </div>
                                             <div class="options-inner">
                                                 <input type="radio" id="poolVehicle-no" name="options"
-                                                       value="poolVehicle-no">
+                                                    value="poolVehicle-no">
                                                 <label for="poolVehicle-no">No</label>
                                             </div>
 
@@ -185,7 +198,7 @@
                                             <div class="form-group">
                                                 <label for="ownerAddress">Responsible User:</label>
                                                 <input name="responsible_userNumber" type="text" class="form-control"
-                                                       id="ownerAddress" placeholder="Staff Number" required>
+                                                    id="ownerAddress" placeholder="Staff Number" required>
                                             </div>
                                         </div>
 
@@ -193,7 +206,7 @@
                                             <div class="form-group ">
                                                 <label> `</label>
                                                 <input name="responsible_userName" type="text" class="form-control"
-                                                       id="ownerAddress" placeholder="Staff Name" required>
+                                                    id="ownerAddress" placeholder="Staff Name" required>
                                             </div>
                                         </div>
 
@@ -201,7 +214,7 @@
                                             <div class="form-group">
                                                 <label for="ownerAddress">Supervisor:</label>
                                                 <input name="supervisor_" type="text" class="form-control"
-                                                       id="ownerAddress" placeholder="Number" required>
+                                                    id="ownerAddress" placeholder="Number" required>
                                             </div>
                                         </div>
 
@@ -209,7 +222,7 @@
                                             <div class="form-group ">
                                                 <label> `</label>
                                                 <input name="supervisor_" type="text" class="form-control"
-                                                       id="ownerAddress" placeholder="Name" required>
+                                                    id="ownerAddress" placeholder="Name" required>
                                             </div>
                                         </div>
 
@@ -218,7 +231,7 @@
                                             <div class="form-group">
                                                 <label for="ownerAddress">Operator:</label>
                                                 <input name="operator_address" type="text" class="form-control"
-                                                       id="ownerAddress" placeholder="Number" required>
+                                                    id="ownerAddress" placeholder="Number" required>
                                             </div>
                                         </div>
 
@@ -226,7 +239,7 @@
                                             <div class="form-group ">
                                                 <label> `</label>
                                                 <input name="operator_address" type="text" class="form-control"
-                                                       id="ownerAddress" placeholder="Name" required>
+                                                    id="ownerAddress" placeholder="Name" required>
                                             </div>
                                         </div>
 
@@ -234,7 +247,7 @@
                                             <div class="form-group">
                                                 <label for="ownerAddress">Assigned To:</label>
                                                 <input name="operator_address" type="text" class="form-control"
-                                                       id="ownerAddress" placeholder="Number" required>
+                                                    id="ownerAddress" placeholder="Number" required>
                                             </div>
                                         </div>
 
@@ -242,7 +255,7 @@
                                             <div class="form-group ">
                                                 <label> `</label>
                                                 <input name="operator_address" type="text" class="form-control"
-                                                       id="ownerAddress" placeholder="Name" required>
+                                                    id="ownerAddress" placeholder="Name" required>
                                             </div>
                                         </div>
 
@@ -255,12 +268,12 @@
                                             <p class="test">Mobile: </p>
                                             <div class="options-inner">
                                                 <input type="radio" id="poolVariance-yes" name="options"
-                                                       value="poolVariance-yes">
+                                                    value="poolVariance-yes">
                                                 <label for="poolVariance-yes">Yes</label>
                                             </div>
                                             <div class="options-inner">
                                                 <input type="radio" id="poolVariance-no" name="options"
-                                                       value="poolVariance-no">
+                                                    value="poolVariance-no">
                                                 <label for="poolVariance-no">No</label>
                                             </div>
 
@@ -342,19 +355,13 @@
 
                             </div>
                             <div class="clearfix"></div>
-                    </div>
-
                     </form>
                 </div>
             </div>
         </div>
-        </div>
     </section>
 @endsection
-@stack('scripts')
-<script src="{{asset('assets/js/migration/index2.js')}}">
-</script>
-<script src="{{asset('assets/js/migration/index.js')}}">
-</script>
+@push('scripts')
+    <script src="{{ asset('assets/js/migration/index2.js') }}"></script>
+    <script src="{{ asset('assets/js/migration/index.js') }}"></script>
 @endpush
-
