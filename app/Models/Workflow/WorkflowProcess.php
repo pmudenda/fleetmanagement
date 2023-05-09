@@ -9,15 +9,15 @@ class WorkflowProcess extends Model
 {
     use HasFactory;
 
-    protected $table = 'workflowprocess';
+    protected $table = 'WFL_WORKFLOW_PROCESSES';
 
     protected $fillable = [
-        'ProcessCode',
+        'Process_Code',
         'Name',
         'Description',
-        'CreatedBy',
-        'CreatedDate',
-        'ModifiedBy',
-        'ModifiedDate'
+        'Created_By',
+        //'Created_Date',
+        'Modified_By',
+        //'Modified_Date'
     ];
 }

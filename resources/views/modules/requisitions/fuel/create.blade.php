@@ -459,7 +459,7 @@
                 let vehicle = payload['vehicle'];
                 let article = payload['article'];
 
-                if (vehicle) {
+                if (vehicle && vehicle.brand_name) {
 
                     if (typeof vehicle.fuel_allocation === 'undefined' || vehicle.fuel_allocation == null || vehicle.fuel_allocation === "0") {
 

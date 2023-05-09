@@ -9,18 +9,19 @@ class WorkflowTask extends Model
 {
     use HasFactory;
 
-    protected $table = "workflowtask";
+    protected $table = "WFL_WORKFLOW_TASK";
     protected $fillable = [
-        'Message',
-        'Status',
-        'DateReceived',
-        'DateRead',
-        'Subject',
-        'AssignedUser',
-        'Sender',
+        'message',
+        'status',
+        'date_acted',
+        'subject',
+        'assigned_user',
+        'sender',
         'url',
         'reference',
         'priority',
         'description',
+        'created_by',
+        'modified_by',
     ];
 }

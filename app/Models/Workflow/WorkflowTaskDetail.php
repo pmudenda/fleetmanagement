@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class WorkflowTaskDetail extends Model
 {
     use HasFactory;
-    protected $table = "workflowtaskdetail";
+    protected $table = "WFL_WORKFLOW_TASK_DETAILS";
 
     protected $fillable = [
-        'Reference',
-        'ProcessCode',
-        'UserId',
-        'CurrentStepId',
-        'ActioningOfficer',
-        'Status',
-        'DateStarted',
-        'DateEnded'
+        'reference',
+        'process_code',
+        'user_id',
+        'current_stepId',
+        'actioning_officer',
+        'status',
+        'date_started',
+        'date_ended'
     ];
 }

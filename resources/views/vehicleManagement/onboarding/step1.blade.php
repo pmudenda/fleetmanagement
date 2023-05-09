@@ -43,8 +43,8 @@
 
 @push('scripts')
     {{--<script src="{{asset('assets/plugins/form-masking/form-mask.js')}}"></script>--}}
-    <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
-    <script src="{{asset('application/modules/vehicleManagement/onboarding/step_one.js')}}"></script>
+    <script src="{{asset('application/modules/userManagement/employee.search.js').'?v='.\Carbon\Carbon::now()->format('his')}}"></script>
+    <script src="{{asset('application/modules/vehicleManagement/onboarding/step_one.js').'?v='.\Carbon\Carbon::now()->format('his')}}"></script>
    {{-- <script src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js')}}"></script>--}}
 
 @endpush

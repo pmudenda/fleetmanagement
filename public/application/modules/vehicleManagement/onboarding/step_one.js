@@ -99,6 +99,10 @@ let app = new Vue({
         console.log("%c✔ Vehicle OnBoarding Running", "color: #148f32");
 
         this.vehicleHeaderForm = document.querySelector('#tms_vehicle_header_form');
+
+        $('#registrationNumber').keyup(function () {
+            this.value = this.value.toLocaleUpperCase();
+        });
         //this.chassisDetailsForm = document.querySelector('#tms_chassis_details_form');
         //this.engineDetailsForm = document.querySelector('#tms_engine_details_form');
         //this.costingDetailsForm = document.querySelector('#tms_costing_valuation_form');

@@ -8,21 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class WorkflowStep extends Model
 {
     use HasFactory;
-    protected $table = 'workflowstep';
+    protected $table = 'WFL_WORKFLOW_STEP';
     protected $fillable = [
-        'ProcessId',
-        'StepId',
+        'Process_Id',
+        'Step_Id',
         'Name',
-        'IsInitialStep',
-        'IsFinalStep',
-        'PreviousStep',
-        'NextStep',
-        'NextProcess',
-        'ActionPage',
-        'CreatedBy',
-        'CreatedDate',
-        'ModifiedBy',
-        'ModifiedDate',
-        'PrivilegeId'
+        'IsInitial_Step',
+        'Is_Final_Step',
+        'Previous_Step',
+        'Next_Step',
+        'Next_Process',
+        'Action_Page',
+        'Created_By',
+        'Modified_By',
+        'Privilege'
     ];
 }

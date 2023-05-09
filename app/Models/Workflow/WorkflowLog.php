@@ -9,16 +9,16 @@ class WorkflowLog extends Model
 {
     use HasFactory;
 
-    protected $table = 'WFL_WORK_FLOW_LOGS';
+    protected $table = 'WFL_WORKFLOW_LOGS';
     protected $fillable = [
         'Reference',
-        'StepId',
-        'ActioningOfficer',
+        'Step_Id',
+        'Actioning_Officer',
         'Action',
         'Status',
-        'ActionDate',
-        'NextStep',
-        'PreviousStep',
+        'Action_Date',
+        'Next_Step',
+        'Previous_Step',
         'Remarks'
     ];
 }
