@@ -408,10 +408,10 @@ let app = new Vue({
         },
 
         vehicleBrandChanged(selectedValue) {
-            this.vehicleHeader.brand_guid = selectedValue?.id;
+            this.vehicleHeader.brand_guid = selectedValue?.id?.trim();
             this.selectedBrandModels = [];
             app.selectedBrandModels = app.configuredModels.filter(function (model) {
-                return model.brand_guid === app?.vehicleHeader.brand_guid;
+                return model.brand_guid?.trim() === app?.vehicleHeader.brand_guid?.trim();
             });
         },
 
