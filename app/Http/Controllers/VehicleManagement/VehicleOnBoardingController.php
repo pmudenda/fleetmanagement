@@ -52,9 +52,10 @@ class VehicleOnBoardingController extends Controller
 
         $step = $request->get('step') ?? 0;
         $reference = $request->get('reference') ?? 0;
-        $vehicle = $this->onBoardingService->getVehicleDetails($reference);
-        $vehicleDocuments = $this->onBoardingService->getVehicleDocuments($reference);
-
+        if($reference != 0) {
+            $vehicle = $this->onBoardingService->getVehicleDetails($reference);
+            $vehicleDocuments = $this->onBoardingService->getVehicleDocuments($reference);
+        }
         $viewName = match ($step) {
             '1' => "vehicleManagement.onboarding.step1",
             '2' => "vehicleManagement.onboarding.step2",
