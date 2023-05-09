@@ -6,6 +6,7 @@ use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\general\BusinessUnits;
 use App\Models\general\CostCenters;
+use App\Models\reference\PHCMSEmployee;
 use App\Models\Security\Role;
 use App\Models\Security\User;
 use Illuminate\Contracts\Foundation\Application;
@@ -66,7 +67,7 @@ class UsersController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
-            //$employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_no)->first();
+            $employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_no)->first();
 
             //will be profile assigned
 

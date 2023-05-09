@@ -71,6 +71,12 @@
                                 <p>Vehicle List</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('vehicle.data.cleanup') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Data Clean Up</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
@@ -202,14 +208,14 @@
                                         <p> Roles List</p>
                                     </a>
                                 </li>
-                              {{--  <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('roles.view') }}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">View Role</span>
-                                    </a>
-                                </li>--}}
+                                {{--  <li class="nav-item">
+                                      <a class="nav-link" href="{{ route('roles.view') }}">
+                                          <span class="menu-bullet">
+                                              <span class="bullet bullet-dot"></span>
+                                          </span>
+                                          <span class="menu-title">View Role</span>
+                                      </a>
+                                  </li>--}}
                             </ul>
                         </li>
 
@@ -313,7 +319,8 @@
                             </a>
                             <ul class="nav nav-treeview pl-3">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('configuration.general.table',['ref'=>'accidentTypes']) }}">
+                                    <a class="nav-link"
+                                       href="{{ route('configuration.general.table',['ref'=>'accidentTypes']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
@@ -324,7 +331,8 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('configuration.general.table',['ref'=>'accidentNature']) }}">
+                                    <a class="nav-link"
+                                       href="{{ route('configuration.general.table',['ref'=>'accidentNature']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span>
@@ -336,7 +344,8 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('configuration.general.table',['ref'=>'insuranceType']) }}">
+                                    <a class="nav-link"
+                                       href="{{ route('configuration.general.table',['ref'=>'insuranceType']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
@@ -346,12 +355,13 @@
                                     </a>
                                 </li>
 
-                               {{-- <li class="nav-item myNavItems">
-                                    <a onclick="testChange('insuranceSubtypes')" class="nav-link" href="/types/insurancesubtypes">Insurance Subtypes</a>
-                                </li>--}}
+                                {{-- <li class="nav-item myNavItems">
+                                     <a onclick="testChange('insuranceSubtypes')" class="nav-link" href="/types/insurancesubtypes">Insurance Subtypes</a>
+                                 </li>--}}
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('configuration.general.table',['ref'=>'insuranceCompany']) }}">
+                                    <a class="nav-link"
+                                       href="{{ route('configuration.general.table',['ref'=>'insuranceCompany']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span>
@@ -363,7 +373,8 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('configuration.general.table',['ref'=>'vehicleStatus']) }}">
+                                    <a class="nav-link"
+                                       href="{{ route('configuration.general.table',['ref'=>'vehicleStatus']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
@@ -374,7 +385,8 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('configuration.general.table',['ref'=>'statusGeneral']) }}">
+                                    <a class="nav-link"
+                                       href="{{ route('configuration.general.table',['ref'=>'statusGeneral']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
@@ -385,7 +397,8 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('configuration.general.table',['ref'=>'fuelType']) }}">
+                                    <a class="nav-link"
+                                       href="{{ route('configuration.general.table',['ref'=>'fuelType']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span>
@@ -396,7 +409,8 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('configuration.general.table',['ref'=>'businessAreas']) }}">
+                                    <a class="nav-link"
+                                       href="{{ route('configuration.general.table',['ref'=>'businessAreas']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span>
@@ -407,7 +421,8 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('configuration.general.table',['ref'=>'movementType']) }}">
+                                    <a class="nav-link"
+                                       href="{{ route('configuration.general.table',['ref'=>'movementType']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span>

@@ -34,15 +34,23 @@ class VehicleOnBoardingController extends Controller
 
     public function start(Request $request): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
     {
-        if (!$request->hasValidSignature()) {
-            abort(401);
+        if ($request->has('reference')) {
+            if (!$request->hasValidSignature()) {
+                abort(401);
+            }
+        }
+
+        if ($request->has('step') && $request->get('step') != "1") {
+            if (!$request->hasValidSignature()) {
+                abort(401);
+            }
         }
 
         if (!$request->has('step')) {
             return redirect(route('new.vehicle', ['step' => 1]));
         }
 
-        $step = $request->get('step');
+        $step = $request->get('step') ?? 0;
         $reference = $request->get('reference') ?? 0;
         $vehicle = $this->onBoardingService->getVehicleDetails($reference);
         $vehicleDocuments = $this->onBoardingService->getVehicleDocuments($reference);

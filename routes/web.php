@@ -207,6 +207,10 @@ Route::group(['middleware' => 'auth'], function () {
             return view('vehicleManagement.vehicleList');
         })->name('vehicle.edit');
 
+        Route::get('/cleanup', function (Request $request) {
+            return view('vehicleManagement.migration.index');
+        })->name('vehicle.data.cleanup');
+
     });
 
     Route::post('/workflow/approve', [WorkflowController::class, 'approve'])->name('workflow.approve');

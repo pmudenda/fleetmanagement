@@ -1,15 +1,15 @@
 
 CREATE TABLE REF_ORGANIZATIONAL_UNITS (
-	user_act char(40),
-	date_act text(250),
-	code_unit char(15),
-	description text(2000),
+	user_act nvarchar2(40),
+	date_act nvarchar2(250),
+	code_unit nvarchar2(15),
+	description nvarchar2(2000),
 	code_unit_superior char(10),
-	bu_code char(10),
-	cc_code char(10),
-	level char(10),
-	post_level char(2),
-	status char(2));
+	bu_code nvarchar2(10),
+	cc_code nvarchar2(10),
+	level_ nvarchar2(10),
+	post_level nvarchar2(2),
+	status nvarchar2(2));
 INSERT INTO REF_ORGANIZATIONAL_UNITS VALUES (
 	'MCHIKONDE',
 	'11-Jun-2008 11:01:18',

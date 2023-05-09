@@ -1,10 +1,10 @@
 
 CREATE TABLE REF_BUSINESS_UNITS (
-	code_bu char(10),
-	description char(250),
-	code_bu_superior char(10),
-	indicator_last_level char(2),
-	status char(2));
+	code_bu nvarchar2(10),
+	description nvarchar2(250),
+	code_bu_superior nvarchar2(10),
+	indicator_last_level nvarchar2(2),
+	status nvarchar2(2));
 INSERT INTO REF_BUSINESS_UNITS VALUES (
 	'12500',
 	'ELECTRO TECHNICAL SERVICES',

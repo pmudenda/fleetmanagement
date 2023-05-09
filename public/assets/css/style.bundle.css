@@ -5059,10 +5059,10 @@ textarea.form-control-lg {
     position: absolute;
 }
 
-.navbar-expand .navbar-nav .nav-link {
+/*.navbar-expand .navbar-nav .nav-link {
     padding-right: var(--bs-navbar-nav-link-padding-x);
     padding-left: var(--bs-navbar-nav-link-padding-x);
-}
+}*/
 
 .navbar-expand .navbar-nav-scroll {
     overflow: visible;
@@ -55380,7 +55380,7 @@ label.rating-label:hover ~ .rating-label > i, label.rating-label:hover ~ .rating
 i.bi, i[class^=fonticon-], i[class*=" fonticon-"], i[class^=fa-], i[class*=" fa-"], i[class^=la-], i[class*=" la-"] {
     line-height: 1;
     font-size: 1rem;
-    color: var(--bs-text-muted);
+    /*color: var(--bs-text-muted);*/
 }
 
 a {

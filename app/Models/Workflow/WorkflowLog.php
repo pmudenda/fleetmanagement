@@ -8,20 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class WorkflowLog extends Model
 {
     use HasFactory;
-    protected $table= 'workflowlog';
+
+    protected $table = 'workflowlog';
     protected $fillable = [
-
-
-	'Reference',
-	'StepId',
-	'ActioningOfficer',
-	'Action',
-	'Status',
-	'ActionDate',
-	'NextStep',
-	'PreviousStep',
-	 'Remarks'
-
-
+        'Reference',
+        'StepId',
+        'ActioningOfficer',
+        'Action',
+        'Status',
+        'ActionDate',
+        'NextStep',
+        'PreviousStep',
+        'Remarks'
     ];
 }

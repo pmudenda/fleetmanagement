@@ -21036,7 +21036,7 @@ body::-webkit-scrollbar {
 }
 
 .navbar {
-    height: 60px;
+    /*height: 60px;*/
     background: var(--navbar-bg);
     box-shadow: var(--shadow-sm);
     padding: 0;
@@ -21047,7 +21047,7 @@ body::-webkit-scrollbar {
 }
 
 .navbar .navbar-nav .nav-link {
-    padding: 0;
+   /* padding: 0;*/
 }
 
 .navbar .container {
