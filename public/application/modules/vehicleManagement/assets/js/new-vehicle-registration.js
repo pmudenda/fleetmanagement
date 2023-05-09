@@ -847,7 +847,7 @@ let app = new Vue({
             $('#model').removeClass('d-none');
             this.selectedBrandModels = [];
             app.selectedBrandModels = app.configuredModels.filter(function (model) {
-                return model.brand_guid?.toString() === app?.vehicleHeader.brand_guid?.toString();
+                return model.brand_guid?.toString().trim() === app?.vehicleHeader.brand_guid?.toString().trim();
             });
         },
 
