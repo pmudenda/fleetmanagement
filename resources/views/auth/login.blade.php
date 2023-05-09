@@ -47,15 +47,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="input-label font-weight-bold" for="username">Username</label>
+                                <label class="input-label font-weight-bold" for="username">Staff Number</label>
                                 <input type="text" name="email"
-                                       value="{{ old('username') }}"
+                                       value="{{ old('email') }}"
                                        autocomplete="off" id="username"
-                                       placeholder="Username"
+                                       placeholder="Staff Number"
                                        required=""
                                        autofocus=""
-                                       class="form-control @error('username') is-invalid @enderror"/>
-                                @error('username')
+                                       class="form-control @error('email') is-invalid @enderror"/>
+                                @error('email')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
