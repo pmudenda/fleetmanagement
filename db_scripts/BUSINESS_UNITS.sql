@@ -1,10 +1,10 @@
-USE fleetMaster;
-/*CREATE TABLE REF_BUSINESS_UNITS (
+
+CREATE TABLE REF_BUSINESS_UNITS (
 	code_bu char(10),
 	description char(250),
 	code_bu_superior char(10),
 	indicator_last_level char(2),
-	status char(2));*/
+	status char(2));
 INSERT INTO REF_BUSINESS_UNITS VALUES (
 	'12500',
 	'ELECTRO TECHNICAL SERVICES',

@@ -1,4 +1,3 @@
-USE fleetMaster;
 CREATE TABLE REF_COST_CENTERS (
 	code_cost_center char(10),
 	description char(250),

@@ -1,4 +1,3 @@
-use fleetMaster;
 
 CREATE TABLE REF_ORGANIZATIONAL_UNITS (
 	user_act char(40),
