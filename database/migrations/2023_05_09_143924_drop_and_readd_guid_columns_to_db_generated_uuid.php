@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('CONFIG_VEHICLE_BRANDS', function (Blueprint $table) {
-            $table->drop('guid');
+            $table->dropColumn('guid');
         });
 
         Schema::table('CONFIG_VEHICLE_MODELS', function (Blueprint $table) {
-            $table->drop('brand_guid');
+            $table->dropColumn('brand_guid');
         });
 
         Schema::table('CONFIG_VEHICLE_BODY_TYPES', function (Blueprint $table) {
-            $table->drop('guid');
+            $table->dropColumn('guid');
         });
 
         Schema::table('CONFIG_VEHICLE_BRANDS', function (Blueprint $table) {
