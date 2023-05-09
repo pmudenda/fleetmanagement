@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             VehicleBodyTypesSeeder::class,
             VehicleBrandsSeeder::class,
             RolesAndPermissionsSeeder::class,
-            OrganogramSeeder::class
+            //OrganogramSeeder::class
         ]);
     }
 }
