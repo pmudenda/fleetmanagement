@@ -16,9 +16,8 @@ class VehicleBodyTypesSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('CONFIG_VEHICLE_BODY_TYPES')
-            ->insert(DB::raw("insert into CONFIG_VEHICLE_BODY_TYPES('guid','name','status', 'body_type_name',  'date_created' ) values (sys_guid(),'VAN', '01','VAN', current_timestamp()) "));
-
+        /*DB::table('CONFIG_VEHICLE_BODY_TYPES')
+            ->insert(DB::raw('insert into CONFIG_VEHICLE_BODY_TYPES("guid","name","status", "body_type_name",  "date_created" ) values (?, ?, ?, ?, ?)', [sys_guid(),"VAN", "01","VAN", current_timestamp()]));*/
             /*=>,
             =>,
             =>VehicleStatusEnum::active,
