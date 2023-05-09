@@ -4,7 +4,7 @@ namespace App\Http\Controllers\VehicleManagement;
 
 use App\Http\Controllers\Controller;
 use App\Models\vehiclemanagement\VehicleHeader;
-use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
+use App\Services\VehicleManagement\VehicleDetailsService;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -16,11 +16,11 @@ use Illuminate\Support\Facades\Log;
 
 class VehicleController extends Controller
 {
-    private OnBoardingService $onBoardingService;
+    private VehicleDetailsService $vehicleDetailsService;
 
-    public function __construct(OnBoardingService $onBoardingService)
+    public function __construct(VehicleDetailsService $vehicleDetailsService)
     {
-        $this->onBoardingService = $onBoardingService;
+        $this->vehicleDetailsService = $vehicleDetailsService;
     }
 
     public function getAllDetails($ref): JsonResponse
@@ -34,8 +34,8 @@ class VehicleController extends Controller
                 ]);
             }
 
-            $vehicle = $this->onBoardingService->getVehicleDetails($ref);
-            $vehicleDocuments = $this->onBoardingService->getVehicleDocuments($ref);
+            $vehicle = $this->vehicleDetailsService->getVehicleDetails($ref);
+            $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($ref);
 
             return response()->json([
                 'payload' => [
@@ -66,13 +66,7 @@ class VehicleController extends Controller
             }
 
             // determine material type in form of fuel
-            $vehicle = DB::table('VM_VEHICLE_HEADER')->
-            where('registration_number', $request->vehicle_registration)
-                //->where('on_boarding_status', $request->vehicle_registration)
-                ->leftJoin('VM_ASSIGNMENTS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ASSIGNMENTS.vehicle_header_id')
-                ->leftJoin('VM_ENGINE_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
-                ->select('VM_VEHICLE_HEADER.*', 'VM_ASSIGNMENTS.*', 'VM_ENGINE_DETAILS.fuel_allocation', 'VM_ENGINE_DETAILS.fuel_types')
-                ->first();
+            $vehicle = $this->vehicleDetailsService->getBasicVehicleDetails($request->vehicle_registration);
 
             if (!$vehicle) {
                 return response()->json([

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Requisitions;
 
+use App\Exceptions\VehicleOnBoardingException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Models\general\CostCenters;
@@ -50,9 +51,14 @@ class FuelRequisitionController extends Controller
             return $requisitionService->processRequest($request);
         } catch (\Exception $e) {
             Log::error($e);
+            $message = 'We could not complete processing your request due to an error';
+
+            if ($e instanceof VehicleOnBoardingException) {
+                $message = $e->getMessage();
+            }
             return response()->json([
                 'success' => false,
-                'message' => 'We could not complete processing your request due to an error'
+                'message' => $message
             ]);
         }
     }

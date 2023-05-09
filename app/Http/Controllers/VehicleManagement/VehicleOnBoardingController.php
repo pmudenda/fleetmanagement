@@ -11,6 +11,7 @@ use App\Http\Requests\CostingDetailsPost;
 use App\Http\Requests\EngineDetailsPost;
 use App\Http\Requests\VehicleHeaderRequest;
 use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
+use App\Services\VehicleManagement\VehicleDetailsService;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -26,10 +27,12 @@ class VehicleOnBoardingController extends Controller
 {
 
     private OnBoardingService $onBoardingService;
+    private VehicleDetailsService $vehicleDetailsService;
 
-    public function __construct(OnBoardingService $onBoardingService)
+    public function __construct(OnBoardingService $onBoardingService, VehicleDetailsService $vehicleDetailsService)
     {
         $this->onBoardingService = $onBoardingService;
+        $this->$vehicleDetailsService = $vehicleDetailsService;
     }
 
     public function start(Request $request): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
@@ -55,8 +58,8 @@ class VehicleOnBoardingController extends Controller
         $vehicle = null;
         $vehicleDocuments = [];
         if($reference != 0) {
-            $vehicle = $this->onBoardingService->getVehicleDetails($reference);
-            $vehicleDocuments = $this->onBoardingService->getVehicleDocuments($reference);
+            $vehicle = $this->vehicleDetailsService->getVehicleDetails($reference);
+            $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
         }
         $viewName = match ($step) {
             '1' => "vehicleManagement.onboarding.step1",

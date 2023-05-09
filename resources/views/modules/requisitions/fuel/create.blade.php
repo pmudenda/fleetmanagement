@@ -14,7 +14,8 @@
                     <h4>New Fuel Requisition</h4>
                 </div>
                 <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                    <button type="button" id="submitRequisitionBtn" class="btn btn-success btn-sm mr-3" disabled>
+                    <button type="button" id="submitRequisitionBtn" class="btn btn-success btn-sm mr-3 when_valid"
+                            disabled>
                         <i class="fas fa-save"></i> Submit
                     </button>
                     <button type="button" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3">
@@ -52,7 +53,7 @@
                                                                        class="form-control form-control-sm"
                                                                        autocapitalize="characters"
                                                                        id="vehicle_registration"
-                                                                       placeholder="Vehicle Registration e.g AAB 6757"
+                                                                       placeholder="Vehicle Reg e.g AAB 6757"
                                                                        name="vehicle_registration" required>
                                                                 <div class="input-group-addon">
                                                                     <button type="button" id="vehicleSearchBtn"
@@ -97,7 +98,8 @@
                                                                     <label class="form-check-inline">
                                                                         <input type="radio"
                                                                                id="costOnCostCentre"
-                                                                               class="list-row-checkbox bold mr-3"
+                                                                               disabled
+                                                                               class="list-row-checkbox bold mr-3 when_valid"
                                                                                name="CostAssignedTo"
                                                                                value="CostCenterBasedRequisition"
                                                                                checked>
@@ -149,7 +151,8 @@
                                                                     <label class="form-check-inline">
                                                                         <input type="radio"
                                                                                id="projectInput"
-                                                                               class="list-row-checkbox bold mr-3"
+                                                                               disabled
+                                                                               class="list-row-checkbox bold mr-3 when_valid"
                                                                                autocomplete="off"
                                                                                name="CostAssignedTo"
                                                                                value="ProjectBasedRequisition">
@@ -159,10 +162,6 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            {{--<input type="text" class="form-control form-control-sm"
-                                                                   id="project_code"
-                                                                   name="project_code"
-                                                                   required readonly>--}}
                                                             <select disabled type="text" name="project_code"
                                                                     class="form-select mt-1 project-code-ajax"
                                                                     id="project_code">
@@ -186,7 +185,8 @@
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <select name="requisition_type" id="requisition_type"
-                                                                    class="form-control form-select-sm"
+                                                                    disabled
+                                                                    class="form-control form-select-sm when_valid"
                                                                     required>
                                                                 <option value=""> --Select--</option>
                                                                 @foreach ($requisitionTypes as $requisitionType)
@@ -210,8 +210,10 @@
                                                             Odometer Reading :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="text" class="form-control form-control-sm"
+                                                            <input type="text"
+                                                                   class="form-control form-control-sm when_valid"
                                                                    id="odometer_reading"
+                                                                   disabled
                                                                    required
                                                                    name="odometer_reading"
                                                             />
@@ -339,8 +341,9 @@
                                                         <textarea type="text"
                                                                   id="justification"
                                                                   name="justification"
+                                                                  disabled
                                                                   style="height: 129px;"
-                                                                  class="form-control form-control-sm"></textarea>
+                                                                  class="form-control form-control-sm when_valid"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -371,7 +374,7 @@
                         </div>
 
                         <div class="container-fluid">
-                            <div id="materialDetailsContainer" class="table-responsive mt-3" style="display: none;">
+                            <div id="materialDetailsContainer" class="table-responsive mt-3">
                                 <table id="materialDetailsTable" class="table table-bordered">
                                     <thead>
                                     <tr class="bg-dark">
@@ -398,8 +401,9 @@
                                         <td>
                                             <input type="number" name="material_quantity"
                                                    max=""
+                                                   disabled
                                                    id="material_quantity"
-                                                   class="form-control form-control-sm"/>
+                                                   class="form-control form-control-sm when_valid"/>
                                         </td>
                                         <td>
                                             <span data-material-input="unit_of_measure" id="unit_of_measure"></span>
@@ -443,16 +447,32 @@
 
         (function (tmsApp, $) {
             function removeSubmissionAndDetailsOptions() {
-                //document.querySelector('#actionButtonsContainer').style.display = 'none';
-                document.querySelector('#submitRequisitionBtn').setAttribute('disabled', 'disabled');
+                let elements = document.querySelectorAll('.when_valid');
+                elements.forEach(function(element){
+                    element.setAttribute('disabled', 'disabled');
+                })
 
                 document.querySelector('#vehicleDetailsContainer').style.display = 'none';
-                document.querySelector('#materialDetailsContainer').style.display = 'none';
+                //document.querySelector('#materialDetailsContainer').style.display = 'none';
+
                 $('tbody#vehicleDetails').html('');
                 document.querySelector('[name="fuel_allocation"]').value = '';
 
                 $("#material_description").text(tmsApp.formatMoney('0', 2));
                 $('input[name="material_description"]').val(tmsApp.formatMoney('0', 2));
+            }
+
+            function enableSubmissionAndDetailsOptions() {
+
+                let elements = document.querySelectorAll('.when_valid');
+
+                elements.forEach(function(element){
+                    element.removeAttribute('disabled');
+                })
+
+                document.querySelector('#vehicleDetailsContainer').style.display = null;
+                //document.querySelector('#materialDetailsContainer').style.display = null;
+
             }
 
             function populateVehicleDetails(payload) {
@@ -469,7 +489,7 @@
                         return;
                     }
 
-                    if(vehicle['on_boarding_status'] != '030'){
+                    if (vehicle['on_boarding_status'] != '030') {
                         tmsApp.showSystemMessage("Vehicle Details Incomplete", 'Vehicle did not complete onboarding process, You can not proceed with requisition', () => {
                         }, "error")
 
@@ -498,10 +518,7 @@
 
                     }
 
-                    //document.querySelector('#actionButtonsContainer').style.display = null;
-                    document.querySelector('#submitRequisitionBtn').removeAttribute('disabled');
-                    document.querySelector('#vehicleDetailsContainer').style.display = null;
-                    document.querySelector('#materialDetailsContainer').style.display = null;
+                    enableSubmissionAndDetailsOptions();
 
                     if (article) {
 
@@ -591,7 +608,7 @@
                 if (this.value && this.value.length < 6) {
                     return;
                 }
-
+                removeSubmissionAndDetailsOptions();
                 findVehicle();
             });
 
@@ -603,6 +620,7 @@
                 if (document.querySelector('#vehicle_registration').value && document.querySelector('#vehicle_registration') < 6) {
                     return;
                 }
+                removeSubmissionAndDetailsOptions();
                 findVehicle();
             });
 
