@@ -6,8 +6,8 @@
         <div class="row g-12 g-xl-12" id="kt_app_main">
 
             <!--BEGIN:::VEHICLE HEADER -->
-            {{--@include('vehicleManagement.onboarding.tabs.header')--}}
-            @include('vehicleManagement.onboarding.tabs.save_header')
+            @include('vehicleManagement.onboarding.tabs.header')
+            {{--@include('vehicleManagement.onboarding.tabs.save_header')--}}
             <!--END:::VEHICLE HEADER -->
 
             <input type="hidden" id="businessAreaEndpoint" name="businessAreaEndpoint"
@@ -44,7 +44,7 @@
 @push('scripts')
     {{--<script src="{{asset('assets/plugins/form-masking/form-mask.js')}}"></script>--}}
     <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
-    {{--<script src="{{asset('application/modules/vehicleManagement/onboarding/step_one.js')}}"></script>--}}
-    <script src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js')}}"></script>
+    <script src="{{asset('application/modules/vehicleManagement/onboarding/step_one.js')}}"></script>
+   {{-- <script src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js')}}"></script>--}}
 
 @endpush

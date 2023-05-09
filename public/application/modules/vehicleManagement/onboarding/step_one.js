@@ -4,7 +4,7 @@ window.removeSpaces = function (value) {
     return value.replace(/\s/g, '');
 }
 let app = new Vue({
-    'el': '#tms_app_main',
+    'el': '#kt_app_main',
     components: {},
     data() {
         return {
@@ -408,10 +408,10 @@ let app = new Vue({
         },
 
         vehicleBrandChanged(selectedValue) {
-            this.vehicleHeader.brand_guid = selectedValue?.id?.trim();
+            this.vehicleHeader.brand_guid = selectedValue?.id?.toString().trim();
             this.selectedBrandModels = [];
             app.selectedBrandModels = app.configuredModels.filter(function (model) {
-                return model.brand_guid?.trim() === app?.vehicleHeader.brand_guid?.trim();
+                return model.brand_guid?.toString()?.trim() === app?.vehicleHeader.brand_guid?.toString().trim();
             });
         },
 
