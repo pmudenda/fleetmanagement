@@ -218,6 +218,14 @@ let app = new Vue({
         this.getSuppliers();
     },
 
+    filters:{
+        trimSpaces: function (val){
+            if(!val) return "";
+            if(typeof val === 'number') return val;
+            return val?.trim();
+        }
+    },
+
     mounted() {
         console.log("%c✔ ZESCO Fleet Master Running", "color: #148f32");
 
@@ -428,6 +436,7 @@ let app = new Vue({
                         'Connection error. Could not retrieve data, some feature might not work.')
                 });
         },
+
         getBusinessUnits: function () {
             fetch(document.querySelector('#businessUnitsEndpoint').value)
                 .then(response => response.json())
@@ -445,24 +454,6 @@ let app = new Vue({
                     // notify of error
                     toastr.error(
                         'Connection error. Could not retrieve data, some feature might not work.')
-                });
-        },
-
-        getConfiguredModels: function () {
-            fetch(document.querySelector('#modelEndpoint').value)
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-                    app.configuredModels = response['payload'];
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
                 });
         },
 
@@ -588,6 +579,24 @@ let app = new Vue({
                 toastr.error(
                     'Connection error. Could not retrieve data, some feature might not work.')
             });
+        },
+
+        getConfiguredModels: function () {
+            fetch(document.querySelector('#modelEndpoint').value)
+                .then(response => response.json())
+                .then(response => {
+                    // Populate results
+                    if (response.state === 'failure') {
+                        //show errors
+                        toastr.error('Connection error, no data found')
+                        return;
+                    }
+                    app.configuredModels = response['payload'];
+                })
+                .catch(function (error) {
+                    // notify of error
+                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+                });
         },
 
         loadLicenceClasses: function () {
@@ -834,13 +843,11 @@ let app = new Vue({
         ,
 
         vehicleBrandChanged(selectedValue) {
-            //console.error('Vehicle Brand Changed')
-            //this.vehicleHeader.brand_guid = selectedValue?.guid;
             $('#model_holder').addClass('d-none');
             $('#model').removeClass('d-none');
             this.selectedBrandModels = [];
             app.selectedBrandModels = app.configuredModels.filter(function (model) {
-                return model.brand_guid === app?.vehicleHeader.brand_guid;
+                return model.brand_guid?.toString() === app?.vehicleHeader.brand_guid?.toString();
             });
         },
 

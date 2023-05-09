@@ -73,7 +73,7 @@
                                         <option>--Select Brand--</option>
                                         <option v-for="brand in vehicleBrands"
                                                 :key="brand.id"
-                                                :value="brand.id"
+                                                :value="brand.id | trimSpaces"
                                         >@{{brand.name}}
                                         </option>
                                     </select>
@@ -98,13 +98,13 @@
                                             name="model"
                                             id="model"
                                             v-model="vehicleHeader.model_guid">
-                                        <option v-for="model in selectedBrandModels" :value="model.id">
+                                        <option v-for="model in selectedBrandModels" :value="model.id | trimSpaces">
                                             @{{model.model_name}}
                                         </option>
                                     </select>
                                     <input class="form-control"
                                            id="model_holder"
-                                           value="{{$vehicle->model_name}}"
+                                           value="{{$vehicle->model_name ?? ''}}"
                                            type="text"
                                            required/>
                                 </div>
@@ -204,7 +204,7 @@
                                 <input type="text"
                                        class="form-control form-control-solid"
                                        name="registrationNumber"
-                                       value="{{$vehicle->registration_number}}"
+                                       value="{{$vehicle->registration_number ?? ''}}"
                                        onpaste="return false"
                                        readonly
                                        id="registrationNumber"
@@ -227,7 +227,7 @@
                                        class="form-control form-control-solid"
                                        name="vehicleLocation"
                                        id="vehicleLocation"
-                                       value="{{$vehicle->location_name}}"
+                                       value="{{$vehicle->location_name ?? ''}}"
                                        onpaste="return false;"/>
                             </div>
                         </div>
