@@ -24,15 +24,15 @@ return new class extends Migration
         });
 
         Schema::table('CONFIG_VEHICLE_BRANDS', function (Blueprint $table) {
-            $table->uuid('guid')->add();
+            $table->uuid('guid')->nullable()->add();
         });
 
         Schema::table('CONFIG_VEHICLE_MODELS', function (Blueprint $table) {
-            $table->uuid('brand_guid')->add();
+            $table->uuid('brand_guid')->nullable()->add();
         });
 
         Schema::table('CONFIG_VEHICLE_BODY_TYPES', function (Blueprint $table) {
-            $table->uuid('guid')->add();
+            $table->uuid('guid')->nullable()->add();
         });
     }
 
@@ -42,7 +42,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('db_generated_uuid', function (Blueprint $table) {
-            //
         });
     }
 };
