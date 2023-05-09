@@ -32,9 +32,9 @@ Route::middleware('auth=>sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('v1/en')->as('brands:')->middleware(['api'])->group(static function (): void {
+/*Route::prefix('v1/en')->as('brands:')->middleware(['api'])->group(static function (): void {
 
-});
+});*/
 
 Route::group(['prefix' => 'v1/en'], function (): void {
     /** Brands API **/
@@ -75,7 +75,7 @@ Route::group(['prefix' => 'v1/en'], function (): void {
                 'payload' => []
             ]);
         }
-    })->name('models');
+    })->name('models.save');
     Route::get('/models', function (Request $request) {
         try {
             $data = ConfigVehicleModel::select(DB::raw('*'))
@@ -92,7 +92,7 @@ Route::group(['prefix' => 'v1/en'], function (): void {
                 'payload' => []
             ]);
         }
-    })->name('models');
+    })->name('models.get');
     Route::delete('/models', function (Request $request) {
         try {
             $statusList = [Enums\VehicleStatusEnum::Active];
@@ -109,19 +109,13 @@ Route::group(['prefix' => 'v1/en'], function (): void {
                 'payload' => []
             ]);
         }
-    })->name('models');
+    })->name('models.delete');
 
 
     /** BODY TYPES **/
-    Route::resource('/vehicle/body-types', VehicleBodyTypesController::class);
-    /* [
-         //'as' => 'bodyTypes',
-         'names' => [
-             'index' => 'bodyTypes.get',
-             'store' => 'bodyTypes.save',
-             'destroy' => 'bodyTypes.remove'
-         ]
-     ]*/
+    Route::post('/vehicle/body-types', [VehicleBodyTypesController::class, 'store'])->name('brand.save');
+    Route::get('/vehicle/body-types', [VehicleBodyTypesController::class, 'index'])->name('brand.get');
+    Route::delete('/vehicle/body-types', [VehicleBodyTypesController::class, 'destroy'])->name('brand.delete');
 
     /** USERS **/
     Route::get('users', function (Request $request) {

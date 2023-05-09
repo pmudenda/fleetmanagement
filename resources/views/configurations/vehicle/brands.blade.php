@@ -239,7 +239,8 @@
                                 Discard
                             </button>
 
-                            <button type="submit"
+                            <button type="button"
+                                    id="submitAddFormRecord"
                                     class="btn btn-sm btn-success">
                                 <i class="fas fa-save"></i>
                                 Submit

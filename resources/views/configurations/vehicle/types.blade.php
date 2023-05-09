@@ -144,7 +144,7 @@
         <div class="modal fade" id="kt_modal_add" tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-dialog-centered mw-650px">
                 <div class="modal-content">
-                    <form class="form" action="#" name="kt_modal_add_form" id="kt_modal_add_form">
+                    <form class="form" action="{{route('models.save')}}" name="kt_modal_add_form" id="kt_modal_add_form">
                         <div class="modal-header">
                             <h2 class="fw-bold">Add a Vehicle Body Type</h2>
 
@@ -226,7 +226,7 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/plugins/vue/vue.js')}}"></script>
+    @include('layouts.partials.dataTableScripts')
     <script>
         (function (tmsApp, $) {
 
@@ -295,10 +295,12 @@
                         setTimeout(function () {
                             tmsApp.showErrorMessages(xhr, 'Vehicle Brand');
                         }, 300)
-                    });
+                    },
+                    'POST'
+                );
             }
 
-            $('#tms_submit_btn').on('submit', function () {
+            $(document).on('click', '#tms_submit_btn', function () {
                 //e.preventDefault();
                 //e.stopPropagation();
                 submitData();
@@ -309,82 +311,78 @@
     <script>
 
         let app = new Vue({
-                'el': '#app_main',
-                data: {
-                    search: null
-                    , bodyTypes: []
-                    , table: null
-                    , datatable: null
-                    , modalEl: null
-                    , modal: null
-                    , validator: null
-                    , form: null
-                    , isEnabled: true
-                    , body_type_name: null
+            'el': '#app_main',
+            data: {
+                search: null
+                , bodyTypes: []
+                , table: null
+                , datatable: null
+                , modalEl: null
+                , modal: null
+                , validator: null
+                , form: null
+                , isEnabled: true
+                , body_type_name: null
 
-                },
-                methods: {
+            },
+            methods: {
 
-                    getBodyTypes() {
-                        $.get(document.querySelector('#bodyTypesEndpoint').value)
-                            .done(function (response) {
-                                // Populate results
-                                if (response.state === 'failure') {
-                                    //show errors
-                                    toastr.error('Connection error, no data found')
-                                    return;
-                                }
-
-                                app.bodyTypes = response.payload;
-
-                                app.$nextTick(function () {
-                                    app.initDatatable();
-                                });
-                            })
-                            .catch(function (error) {
-                                // notify of error
-                                toastr.error(
-                                    'Connection error. Could not retrieve data, some feature might not work.')
-                            });
-                    },
-
-
-                    postDeleteItem(parent, item) {
-                        $.delete(document.querySelector('#bodyTypesEndpoint').value, {
-                            data: {
-                                guid: item
+                getBodyTypes() {
+                    $.get(document.querySelector('#bodyTypesEndpoint').value)
+                        .done(function (response) {
+                            // Populate results
+                            if (response.state === 'failure') {
+                                //show errors
+                                toastr.error('Connection error, no data found')
+                                return;
                             }
+
+                            app.bodyTypes = response.payload;
+
+                            app.$nextTick(function () {
+                                app.initDatatable();
+                            });
                         })
-                            .done(function (response) {
-                                if (response.data.state === 'failure') {
-                                    toastr.error(
-                                        'Connection error. Could not delete record');
-                                    return;
-                                }
+                        .catch(function (error) {
+                            // notify of error
+                            toastr.error(
+                                'Connection error. Could not retrieve data, some feature might not work.')
+                        });
+                },
 
-                                Swal.fire({
-                                    text: "You have deleted " + item.itemName +
-                                        "!."
-                                    , icon: "success"
-                                    , buttonsStyling: false
-                                    , confirmButtonText: "Ok, got it!"
-                                    , customClass: {
-                                        confirmButton: "btn fw-bold btn-primary"
-                                        ,
-                                    }
-                                }).then(function () {
-                                    // Remove current row
-                                    app.datatable.row($(parent)).remove().draw();
-                                });
-                            })
-                            .fail(function (error) {
+                postDeleteItem(parent, item) {
+                    $.delete(document.querySelector('#bodyTypesEndpoint').value, {
+                        data: {
+                            guid: item
+                        }
+                    })
+                        .done(function (response) {
+                            if (response.data.state === 'failure') {
                                 toastr.error(
-                                    'Connection error. Could not retrieve data, some feature might not work.'
-                                )
-                            })
-                    },
+                                    'Connection error. Could not delete record');
+                                return;
+                            }
 
-
+                            Swal.fire({
+                                text: "You have deleted " + item.itemName +
+                                    "!."
+                                , icon: "success"
+                                , buttonsStyling: false
+                                , confirmButtonText: "Ok, got it!"
+                                , customClass: {
+                                    confirmButton: "btn fw-bold btn-primary"
+                                    ,
+                                }
+                            }).then(function () {
+                                // Remove current row
+                                app.datatable.row($(parent)).remove().draw();
+                            });
+                        })
+                        .fail(function (error) {
+                            toastr.error(
+                                'Connection error. Could not retrieve data, some feature might not work.'
+                            )
+                        })
                 },
 
                 initDatatable: function () {
@@ -454,7 +452,7 @@
                 },
 
                 initDeleteButton: function () {
-                    KTUtil.on(this.table, '[data-kt-action="remove"]', 'click', function (e) {
+                    $(document).on('click', '[data-kt-action="remove"]', function (e) {
                         e.preventDefault();
 
                         // Select parent row
@@ -465,8 +463,7 @@
                         const guid = parent.querySelector(
                             '[type="checkbox"]').value;
                         Swal.fire({
-                            text: "Are you sure you want to delete " + itemName +
-                                "?"
+                            text: "Are you sure you want to delete " + itemName + "?"
                             , icon: "warning"
                             , showCancelButton: true
                             , buttonsStyling: false
@@ -621,39 +618,33 @@
                 }
             }
             ,
-            filters
-        :
-        {
-            formatToFriendlyDate(value)
-            {
-                if (!value) return value;
-                return new Date(value).toDateString();
+            filters: {
+                formatToFriendlyDate(value) {
+                    if (!value) return value;
+                    return new Date(value).toDateString();
+                }
+            },
+            created() {
+                this.getBodyTypes();
             }
-        }
-        ,
-        created()
-        {
-            this.getBodyTypes();
-        }
-        ,
-        mounted()
-        {
+            ,
+            mounted() {
 
-            this.modalEl = document.getElementById('kt_modal_add');
+                this.modalEl = document.getElementById('kt_modal_add');
 
-            this.modal = new bootstrap.Modal(this.modalEl);
+                this.modal = new bootstrap.Modal(this.modalEl);
 
-            this.table = document.querySelector('#kt_brands_table');
+                this.table = document.querySelector('#kt_brands_table');
 
-            this.form = document.querySelector('#kt_modal_add_form');
+                this.form = document.querySelector('#kt_modal_add_form');
 
-            this.add();
+                this.add();
 
-            //this.handleFilter();
-            //this.handleSearch();
-            //this.initValidator();
-            this.initDeleteButton();
-        }
+                //this.handleFilter();
+                //this.handleSearch();
+                //this.initValidator();
+                this.initDeleteButton();
+            }
         })
 
     </script>

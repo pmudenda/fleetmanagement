@@ -50,27 +50,22 @@ class ConfigVehicleBrandsController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
-
-            $data = $request->all();
-
-            // TODO validation
-
             $model = ConfigVehicleBrand::create([
-                'name' => trim(strtoupper($request->input('name'))),
-                'status' => $request->input('status'),
+                'name' => trim(strtoupper($request->input('brand_name'))),
+                'status' => Enums\VehicleStatusEnum::active,
                 'guid' => Str::uuid(),
                 'dateCreated' => Carbon::now()
             ]);
 
             return response()->json([
-                'state' => 'success',
+                'success' => true,
                 'message' => '',
                 'payload' => $model
             ]);
         } catch (Exception $e) {
             Log::error($e);
             return response()->json([
-                'state' => 'failure',
+                'success' => false,
                 'message' => 'Error Occurred while Processing request',
                 'payload' => []
             ]);

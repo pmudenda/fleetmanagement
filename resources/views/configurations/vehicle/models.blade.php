@@ -165,7 +165,8 @@
         <div class="modal fade" id="kt_modal_add" tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-dialog-centered mw-650px">
                 <div class="modal-content">
-                    <form class="form" action="#" id="kt_modal_add_form">
+                    <form class="form" action="{{route('models.save')}}" id="kt_modal_add_form"
+                          name="add_vehicle_model_form">
                         <div class="modal-header">
                             <h2 class="fw-bold">Add a Vehicle Model</h2>
 
@@ -203,8 +204,8 @@
                                                 data-kt-table-filter="brand" data-hide-search="true"
                                                 data-select2-id="select2-data-17-tvzx" tabindex="-1" aria-hidden="true">
                                             <option data-select2-id="select2-data-19-scpe"></option>
-                                            <option v-for="brand in brands" v:bind:key="brand.guid"
-                                                    v-bind:value="brand.guid">
+                                            <option v-for="brand in brands" v-bind:key="brand.id"
+                                                    v-bind:value="brand.id">
                                                 @{{ brand.name }}
                                             </option>
                                         </select>
@@ -267,7 +268,7 @@
                             <button type="reset" id="kt_modal_add_cancel" class="btn btn-light me-3">
                                 Discard
                             </button>
-                            <button type="button" v-on:click="submitBrand" id="kt_modal_add_submit"
+                            <button type="button" id="kt_modal_add_submit"
                                     class="btn btn-primary">
                             <span class="indicator-label">
                                 Submit
@@ -284,12 +285,115 @@
         </div>
 
         <input type="hidden" id="newBrandEndpoint" name="newBrandEndpoint" value="{{ route('brands') }}">
-        <input type="hidden" id="modelEndpoint" name="modelEndpoint" value="{{ route('models') }}">
+        <input type="hidden" id="modelEndpoint" name="modelEndpoint" value="{{ route('models.get') }}">
     </section>
 @endsection
 @push('scripts')
     @include('layouts.partials.dataTableScripts')
     <script>
+        (function (tmsApp, $) {
+
+            tmsApp.appFormValidator('form[name="add_vehicle_model_form"]',
+                {
+                    'body_type_name': {
+                        required: true
+                    }
+                },
+                {
+                    'body_type_name': {
+                        required: 'brand name is required',
+                        maxlength: 'brand name must contain 3 to 50 characters'
+                    }
+                }
+            );
+
+            function submitData() {
+                let $form = document.forms['add_vehicle_model_form'];
+
+                //let radio = this.modalEl.querySelector('input[type="checkbox"]:checked');
+                const submitButton = document.querySelector('#kt_modal_add_submit');
+                //console.log('validated!');
+                // Show loading indication
+                submitButton.setAttribute('data-kt-indicator', 'on');
+
+                // Disable button to avoid multiple click
+                submitButton.disabled = true;
+                //app.postRequest();
+
+                // toastr.warning(
+                //     'Sorry, looks like there are some errors detected, please try again.'
+                // );
+
+
+                if (!$($form).valid()) {
+                    toastr.warning(
+                        "Sorry, the data did not pass validation check, check the data and try again."
+                    );
+                    return;
+                }
+                //  new FormData($form),
+                tmsApp.asyncPostJson(
+                    $form.action,
+                    {
+                        brand_name: $('[name="brand"] :selected').text().trim(),
+                        brand_guid: $('[name="brand"] :selected').val(),
+                        model_name: $('[name="model_name"]').val(),
+                        model_code: $('[name="model_code"]').val(),
+                        status: '01'
+                    },
+                    function (asyncResponse) {
+                        submitButton.removeAttribute(
+                            'data-kt-indicator');
+
+                        submitButton.disabled = false;
+                        if ('state' in asyncResponse && asyncResponse.state != 'success') {
+                            if (asyncResponse.hasOwnProperty('errors')) {
+                                tmsApp.printErrorMsg(asyncResponse.errors);
+                                return
+                            }
+
+                            setTimeout(function () {
+                                tmsApp.systemError(
+                                    'Vehicle Model Record Creation',
+                                    asyncResponse['message'],
+                                    function () {
+                                    }, 'error');
+                            }, 300);
+                            toastr.error(
+                                asyncResponse.message
+                            );
+                            return;
+                        }
+
+                        tmsApp.showSystemMessage(
+                            "Request has been successfully submitted!",
+                            asyncResponse.message,
+                            function () {
+                                setTimeout(
+                                    function () {
+                                        //app.$data.modal.hide();
+                                        //window.location.href = asyncResponse['redirectUrl'];
+                                        //addRecordToTable();
+                                        window.location.reload();
+                                    }, 500
+                                );
+                            }, 'success');
+                    },
+                    function (xhr, settings, errorThrown) {
+                        console.log(errorThrown)
+                        setTimeout(function () {
+                            tmsApp.showErrorMessages(xhr, 'Vehicle Brand');
+                        }, 300)
+                    },
+                    'POST'
+                );
+            }
+
+            $(document).on('click', '#kt_modal_add_submit', function () {
+                submitData();
+            });
+
+        }(window.tmsApp || {}, jQuery));
         let app = new Vue({
             'el': '#app_main',
             data: {
@@ -762,49 +866,20 @@
                      });
                  },*/
 
-                // Add customer button handler
-                submitBrand: function () {
-                    let radio = this.modalEl.querySelector('input[type="checkbox"]:checked');
-                    const submitButton = app.modalEl.querySelector('#kt_modal_add_submit');
-                    console.log('validated!');
-                    // Show loading indication
-                    submitButton.setAttribute('data-kt-indicator', 'on');
-
-                    // Disable button to avoid multiple click
-                    submitButton.disabled = true;
-                    app.postRequest();
-
-                    // toastr.warning(
-                    //     'Sorry, looks like there are some errors detected, please try again.'
-                    // );
-
-                },
-
-                postRequest() {
+                /*postRequest() {
                     const submitButton = app.modalEl.querySelector('#kt_modal_add_submit');
                     $.post(document.querySelector('#modelEndpoint').value,
+
                         {
-                        brand_name: $('[name="brand"] :selected').text().trim(),
-                        brand_guid: $('[name="brand"] :selected').val(),
-                        model_name: app.model_name,
-                        model_code: app.model_code,
-                        status: app.isEnabled ? 'active' : 'inactive'
-                      },
-                        {
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                            'content-type': 'text/json'
-                        }
-                    })
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                                'content-type': 'text/json'
+                            }
+                        })
                         .done(function (response) {
                             let data = response.data.payload;
                             setTimeout(function () {
                                 // Remove loading indication
-                                submitButton.removeAttribute(
-                                    'data-kt-indicator');
-
-                                submitButton.disabled = false;
-
                                 if (response.data.state === 'failure') {
                                     Swal.fire({
                                         text: response.data.message,
@@ -827,7 +902,7 @@
                                 let message = response.data.message;
                                 Swal.fire({
                                     text: message ||
-                                        "Request has been successfully submitted!",
+
                                     icon: "success",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok, got it!",
@@ -854,7 +929,7 @@
 
                         });
 
-                }
+                }*/
             },
             filters: {
                 formatToFriendlyDate(value) {

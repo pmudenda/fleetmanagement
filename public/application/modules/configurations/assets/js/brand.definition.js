@@ -32,7 +32,7 @@
         }, 2000);
     }
 
-    function submitVehicleBrand(currentTarget) {
+    function submitVehicleBrand() {
         let $form = document.forms['addRecordForm'];
 
         if (!$($form).valid()) {
@@ -46,7 +46,7 @@
             $form.action,
             new FormData($form),
             function (asyncResponse) {
-                if ('state' in asyncResponse && asyncResponse.state != 'success') {
+                if ('success' in asyncResponse && !asyncResponse.success) {
                     if (asyncResponse.hasOwnProperty('errors')) {
                         tmsApp.printErrorMsg(asyncResponse.errors);
                         return
@@ -74,6 +74,7 @@
                                 //app.$data.modal.hide();
                                 //window.location.href = asyncResponse['redirectUrl'];
                                 //addRecordToTable();
+                                window.location.reload();
                             }, 500
                         );
                     }, 'success');
@@ -86,10 +87,8 @@
             });
     }
 
-    $('form[name="addRecordForm"]').on('submit', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        submitVehicleBrand(e.currentTarget);
+    $(document).on('click','#submitAddFormRecord', function (e) {
+        submitVehicleBrand();
     });
 
 }(window.tmsApp || {}, jQuery));
@@ -312,7 +311,7 @@ let app = new Vue({
         this.loadStatuses();
 
         this.modalEl.addEventListener('hidden.bs.modal', function (event) {
-            document.querySelector('#addRecordForm').reset();
+            document.querySelector('[name="addRecordForm"]').reset();
         })
     }
 })

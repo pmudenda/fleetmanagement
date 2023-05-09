@@ -72,8 +72,8 @@
                                             v-model="vehicleHeader.brand_guid">
                                         <option>--Select Brand--</option>
                                         <option v-for="brand in vehicleBrands"
-                                                :key="brand.guid"
-                                                :value="brand.guid"
+                                                :key="brand.id"
+                                                :value="brand.id"
                                         >@{{brand.name}}
                                         </option>
                                     </select>
@@ -98,7 +98,7 @@
                                             name="model"
                                             id="model"
                                             v-model="vehicleHeader.model_guid">
-                                        <option v-for="model in selectedBrandModels" :value="model.guid">
+                                        <option v-for="model in selectedBrandModels" :value="model.id">
                                             @{{model.model_name}}
                                         </option>
                                     </select>
@@ -147,7 +147,7 @@
                                             :value="vehicleHeader.body_type_guid"
                                             id="bodyType"
                                             name="bodyType">
-                                        <option v-for="bodyType in bodyTypes" :value="bodyType.guid">
+                                        <option v-for="bodyType in bodyTypes" :value="bodyType.id">
                                             @{{bodyType.name}}
                                         </option>
                                     </select>
