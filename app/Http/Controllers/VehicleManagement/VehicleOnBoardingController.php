@@ -52,6 +52,8 @@ class VehicleOnBoardingController extends Controller
 
         $step = $request->get('step') ?? 0;
         $reference = $request->get('reference') ?? 0;
+        $vehicle = null;
+        $vehicleDocuments = [];
         if($reference != 0) {
             $vehicle = $this->onBoardingService->getVehicleDetails($reference);
             $vehicleDocuments = $this->onBoardingService->getVehicleDocuments($reference);
