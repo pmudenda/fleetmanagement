@@ -21,7 +21,7 @@ class ConfigVehicleBrandsController extends Controller
     public function index(Request $request): JsonResponse
     {
         try {
-            $statusList = [Enums\VehicleStatusEnum::active];
+            $statusList = [Enums\VehicleStatusEnum::active, Enums\VehicleStatusEnum::Active];
             $data = ConfigVehicleBrand::whereIn('status', $statusList)->get();
             return response()->json([
                 'state' => 'success',

@@ -439,11 +439,11 @@
         <input type="hidden" id="userSearchEndpoint" name="userSearchEndpoint" value="">
 
         {{--{{ route('api.users.search') }}--}}
-        <input type="hidden" id="brands-api" name="newBrandEndpoint" value="{{ route('brands') }}">
+        <input type="hidden" id="brands-api" name="newBrandEndpoint" value="{{ route('brands.get') }}">
 
-        <input type="hidden" id="modelEndpoint" name="modelEndpoint" value="{{ route('models') }}">
+        <input type="hidden" id="modelEndpoint" name="modelEndpoint" value="{{ route('models.get') }}">
 
-        <input type="hidden" id="bodyTypesEndpoint" name="bodyTypesEndpoint" value="{{ route('body-types.index') }}">
+        <input type="hidden" id="bodyTypesEndpoint" name="bodyTypesEndpoint" value="{{ route('body_type.get') }}">
 
         <input type="hidden" id="orgUnitsEndpoint" name="orgUnitsEndpoint"
                value="{{ route('organizational.units',['cache'=> true, 'include_nulls'=> false]) }}">

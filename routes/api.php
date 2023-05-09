@@ -40,9 +40,9 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     /** Brands API **/
 
     Route::prefix('brands')->middleware(['api'])->group(static function (): void {
-        Route::get('/', [ConfigVehicleBrandsController::class, 'index'])->name('brands');
-        Route::post('/store', [ConfigVehicleBrandsController::class, 'store'])->name('save.brands');
-        Route::delete('/', [ConfigVehicleBrandsController::class, 'destroy'])->name('brands');
+        Route::get('/', [ConfigVehicleBrandsController::class, 'index'])->name('brands.get');
+        Route::post('/store', [ConfigVehicleBrandsController::class, 'store'])->name('brands.save');
+        Route::delete('/', [ConfigVehicleBrandsController::class, 'destroy'])->name('brands.delete');
     });
 
     /** MODELS **/
@@ -113,9 +113,9 @@ Route::group(['prefix' => 'v1/en'], function (): void {
 
 
     /** BODY TYPES **/
-    Route::post('/vehicle/body-types', [VehicleBodyTypesController::class, 'store'])->name('brand.save');
-    Route::get('/vehicle/body-types', [VehicleBodyTypesController::class, 'index'])->name('brand.get');
-    Route::delete('/vehicle/body-types', [VehicleBodyTypesController::class, 'destroy'])->name('brand.delete');
+    Route::post('/vehicle/body-types', [VehicleBodyTypesController::class, 'store'])->name('body_type.save');
+    Route::get('/vehicle/body-types', [VehicleBodyTypesController::class, 'index'])->name('body_type.get');
+    Route::delete('/vehicle/body-types', [VehicleBodyTypesController::class, 'destroy'])->name('body_type.delete');
 
     /** USERS **/
     Route::get('users', function (Request $request) {

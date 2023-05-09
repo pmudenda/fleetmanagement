@@ -221,7 +221,7 @@
             </div>
         </div>
 
-        <input type="hidden" id="bodyTypesEndpoint" name="bodyTypesEndpoint" value="{{ route('body-types.index') }}">
+        <input type="hidden" id="bodyTypesEndpoint" name="bodyTypesEndpoint" value="{{ route('body_type.get') }}">
     </section>
 @endsection
 

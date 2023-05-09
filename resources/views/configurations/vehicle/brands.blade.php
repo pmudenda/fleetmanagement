@@ -144,7 +144,7 @@
         <div class="modal fade" id="kt_modal_add_brand" tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-dialog-centered mw-650px">
                 <div class="modal-content">
-                    <form class="form" action="{{ route('save.brands') }}" method="post" name="addRecordForm">
+                    <form class="form" action="{{ route('brands.save') }}" method="post" name="addRecordForm">
                         <div class="modal-header">
                             <h2 class="fw-bold">Add a Vehicle Make (Brand)</h2>
 
