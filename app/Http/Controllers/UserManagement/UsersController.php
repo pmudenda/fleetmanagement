@@ -68,7 +68,7 @@ class UsersController extends Controller
     {
         try {
 
-            $employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_no)->first();
+            $employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_number)->first();
 
             //will be profile assigned
             DB::beginTransaction();
@@ -77,10 +77,51 @@ class UsersController extends Controller
                     'staff_no' => $request->staff_number,
                 ],
                 [
-                    //'sex' => $request->gender,
-                    'con_st_code' => StatusHelper::active(), // $request->user_status,
-                    //'extension' => '',
+                    'con_st_code' => StatusHelper::active(),
                     'password' => Hash::make($request->password),
+                    'email' => $request->staff_email,
+                    'username' => $request->login_name,
+                    'phone' => $request->mobile_no,
+
+                    'functional_section' => $request->user_unit,
+                    //'name' => $request->name,
+                    //'staff_no' => $request->staff_number,
+                    //'mobile_no' => $request->mobile_no,
+                    //'grade' => $request->grade,
+                    //'job_title' => $request->job_title,
+                    'bu_code' => $request->business_unit_code,
+                    'cc_code' => $request->cost_center_code,
+                    'directorate' => $request->directorate,
+                    'user_unit' => $request->user_unit,
+                    'supervisor_code' => $request->staff_supervisorId,
+                    'supervisor_name' => $request->staff_supervisor,
+
+                    'staff_no' => $employee_phcms->con_per_no,
+                    'contract_type' => $employee_phcms->contract_type,
+                    'con_wef_date' => $employee_phcms->con_wef_date,
+                    'con_wet_date' => $employee_phcms->con_wet_date,
+                    'name' => $employee_phcms->name,
+                    'nrc' => $employee_phcms->nrc,
+                    'sex' => $employee_phcms->sex,
+                    'mobile_no' => $employee_phcms->mobile_no,
+                    'group_type' => $employee_phcms->group_type,
+                    'job_title' => $employee_phcms->job_title,
+                    'grade' => $employee_phcms->grade,
+
+
+                    //'functional_section' => $employee_phcms->functional_section,
+                    //'directorate' => $employee_phcms->directorate,
+                    //'bu_code' => $employee_phcms->bu_code,
+                    //'cc_code' => $employee_phcms->cc_code,
+                    //'email' => $employee_phcms->staff_email,
+                    'location' => $employee_phcms->location ?? $employee_phcms->functional_section,
+                    'pay_point' => $employee_phcms->pay_point,
+                    'job_code' => $employee_phcms->job_code ?? "--",
+                    'station' => $employee_phcms->station ?? "--",
+                    'affiliated_union' => $employee_phcms->affiliated_union ?? "--",
+
+                    //'extension' => '',
+                    //'sex' => $request->gender,
                     //'nrc' => $request->nrc,
                     //'contract_type',
                     //'two_fac_auth_status',
@@ -92,21 +133,6 @@ class UsersController extends Controller
                     //'job_code',
                     //'user_unit_code',
                     //'area_code'
-                    'name' => $request->name,
-                    'staff_no' => $request->staff_number,
-                    'email' => $request->staff_email,
-                    'username' => $request->login_name,
-                    'phone' => $request->mobile_no,
-                    'mobile_no' => $request->mobile_no,
-                    'functional_section' => $request->user_unit,
-                    'grade' => $request->grade,
-                    'bu_code' => $request->business_unit_code,
-                    'cc_code' => $request->cost_center_code,
-                    'directorate' => $request->directorate,
-                    'user_unit' => $request->user_unit,
-                    'supervisor_code' => $request->staff_supervisorId,
-                    'supervisor_name' => $request->staff_supervisor,
-                    'job_title' => $request->job_title,
                     //'user_unit_id',
                     //'positions_id',
                     //'user_region_id',
@@ -118,34 +144,13 @@ class UsersController extends Controller
                     'guid' => Str::uuid()
                 ],
             /*[
-                'staff_no' => $employee_phcms->con_per_no,
-                'contract_type' => $employee_phcms->contract_type,
-                'con_st_code' => $employee_phcms->con_st_code,
-                'con_wef_date' => $employee_phcms->con_wef_date,
-                'con_wet_date' => $employee_phcms->con_wet_date,
-                'name' => $employee_phcms->name,
-                'nrc' => $employee_phcms->nrc,
-                'sex' => $employee_phcms->sex,
-                'mobile_no' => $employee_phcms->mobile_no,
-                'group_type' => $employee_phcms->group_type,
-                'job_title' => $employee_phcms->job_title,
-                'grade' => $employee_phcms->grade,
-                'functional_section' => $employee_phcms->functional_section,
-                'directorate' => $employee_phcms->directorate,
-                'location' => $employee_phcms->location ?? $employee_phcms->functional_section,
-                'pay_point' => $employee_phcms->pay_point,
-                'bu_code' => $employee_phcms->bu_code,
-                'cc_code' => $employee_phcms->cc_code,
-                'email' => $employee_phcms->staff_email,
-                'job_code' => $employee_phcms->job_code ?? "--",
-                'station' => $employee_phcms->station ?? "--",
-                'affiliated_union' => $employee_phcms->affiliated_union ?? "--",
+
                 'status_id' => $request->status_id,
             ]*/
             );
 
             if($request->has('user_profile') || !empty($request->get('user_profile'))){
-                $employee->roles()->syncWithoutDetaching((int)$request->user_profile);
+                $employee->roles()->syncWithoutDetaching((int)$request->get('user_profile'));
             }
 
             DB::commit();
