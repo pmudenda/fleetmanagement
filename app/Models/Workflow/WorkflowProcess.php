@@ -12,14 +12,12 @@ class WorkflowProcess extends Model
     protected $table = 'workflowprocess';
 
     protected $fillable = [
-
-	'ProcessCode',
-	'Name' ,
-	'Description',
-	'CreatedBy',
-	'CreatedDate',
-	'ModifiedBy',
-	'ModifiedDate'
-
-        ];
+        'ProcessCode',
+        'Name',
+        'Description',
+        'CreatedBy',
+        'CreatedDate',
+        'ModifiedBy',
+        'ModifiedDate'
+    ];
 }

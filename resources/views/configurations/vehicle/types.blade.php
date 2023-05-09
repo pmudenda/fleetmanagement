@@ -144,7 +144,7 @@
         <div class="modal fade" id="kt_modal_add" tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-dialog-centered mw-650px">
                 <div class="modal-content">
-                    <form class="form" action="{{route('models.save')}}" name="kt_modal_add_form" id="kt_modal_add_form">
+                    <form class="form" action="{{route('body_type.save')}}" name="kt_modal_add_form" id="kt_modal_add_form">
                         <div class="modal-header">
                             <h2 class="fw-bold">Add a Vehicle Body Type</h2>
 
@@ -254,6 +254,8 @@
                     return;
                 }
 
+              let modelEl =  document.getElementById('kt_modal_add')
+
                 tmsApp.asyncPostFormData(
                     $form.action,
                     new FormData($form),
@@ -283,6 +285,7 @@
                             function () {
                                 setTimeout(
                                     function () {
+                                        window.location.reload();
                                         //app.$data.modal.hide();
                                         //window.location.href = asyncResponse['redirectUrl'];
                                         //addRecordToTable();

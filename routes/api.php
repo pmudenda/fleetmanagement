@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums;
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\API\BusinessUnitsController;
 use App\Http\Controllers\API\CostCenterController;
 use App\Http\Controllers\API\OrganizationalUnitsController;
@@ -52,12 +53,11 @@ Route::group(['prefix' => 'v1/en'], function (): void {
             $data = $request->all();
 
             $model = ConfigVehicleModel::create([
-                'status' => $request->input('status'),
+                'status' => StatusHelper::active(),
                 'model_guid' => Str::uuid(),
                 'dateCreated' => Carbon::now(),
                 'brand_guid' => $request->input('brand_guid'),
                 'brand_name' => trim(strtoupper($request->input('brand_name'))),
-
                 'model_name' => trim(strtoupper($request->input('model_name'))),
                 'model_code' => $request->input('model_code')
             ]);

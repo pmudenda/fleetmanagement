@@ -251,7 +251,7 @@
             </div>
         </div>
 
-        <input type="hidden" id="newBrandEndpoint" name="newBrandEndpoint" value="{{ route('brands') }}">
+        <input type="hidden" id="newBrandEndpoint" name="newBrandEndpoint" value="{{ route('brands.get') }}">
     </section>
 @endsection
 
