@@ -1,5 +1,4 @@
 <?php
-
 return [
     'oracle' => [
         'driver'         => 'oracle',

@@ -67,10 +67,11 @@ class UsersController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
+
             $employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_no)->first();
 
             //will be profile assigned
-
+            DB::beginTransaction();
             $employee = User::firstOrCreate(
                 [
                     'staff_no' => $request->staff_number,
@@ -143,12 +144,11 @@ class UsersController extends Controller
             ]*/
             );
 
-            if($request->has('user_profile')){
+            if($request->has('user_profile') || !empty($request->get('user_profile'))){
                 $employee->roles()->syncWithoutDetaching((int)$request->user_profile);
             }
 
-
-            $employee->save();
+            DB::commit();
 
             return response()->json([
                 'success' => true,

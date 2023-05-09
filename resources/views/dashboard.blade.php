@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.app')
 @push('styles')
     <link href="{{ asset('assets/css/apexcharts.css') }}" rel="stylesheet" type="text/css">
 @endpush

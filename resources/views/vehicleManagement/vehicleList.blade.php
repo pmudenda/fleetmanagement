@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.app')
 @section('content')
     {{--    <div id="add0" class="modal fade bd-example-modal-lg" role="dialog">
             <div class="modal-dialog modal-lg">

@@ -16,24 +16,26 @@ class VehicleBodyTypesSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('CONFIG_VEHICLE_BODY_TYPES')->insert([
-            'guid'=> Str::uuid(),
-            'name'=>'VAN',
-            'status'=>VehicleStatusEnum::active,
-            'body_type_name' =>'VAN',
-            'date_created' => Carbon::now()
-        ]);
+        DB::table('CONFIG_VEHICLE_BODY_TYPES')
+            ->insert(DB::raw("insert into CONFIG_VEHICLE_BODY_TYPES('guid','name','status', 'body_type_name',  'date_created' ) values (sys_guid(),'VAN', '01','VAN', current_timestamp()) "));
 
-        DB::table('CONFIG_VEHICLE_BODY_TYPES')->insert([
-            'guid'=> Str::uuid(),
+            /*=>,
+            =>,
+            =>VehicleStatusEnum::active,
+             =>,
+            => Carbon::now()
+        ]));*/
+
+       DB::table('CONFIG_VEHICLE_BODY_TYPES')->insert([
+            'guid'=> 'sys_guid',
             'name'=>'SEDAN',
             'status'=>VehicleStatusEnum::active,
             'body_type_name' =>'SEDAN',
             'date_created' => Carbon::now()
         ]);
 
-        DB::table('CONFIG_VEHICLE_BODY_TYPES')->insert([
-            'guid'=> Str::uuid(),
+        /* DB::table('CONFIG_VEHICLE_BODY_TYPES')->insert([
+            'guid'=> sys_guid(),
             'name'=>'TRUCK',
             'status'=>VehicleStatusEnum::active,
             'body_type_name' =>'BUS',
@@ -41,14 +43,14 @@ class VehicleBodyTypesSeeder extends Seeder
         ]);
 
         DB::table('CONFIG_VEHICLE_BODY_TYPES')->insert([
-            'guid'=> Str::uuid(),
+            'guid'=> sys_guid(),
             'name'=>'BUS',
             'status'=>VehicleStatusEnum::active,
             'body_type_name' =>'BUS',
             'date_created' => Carbon::now()
         ]);
         DB::table('CONFIG_VEHICLE_BODY_TYPES')->insert([
-            'guid'=> Str::uuid(),
+            'guid'=> sys_guid(),
             'name'=>'SUV',
             'status'=>VehicleStatusEnum::active,
             'body_type_name' =>'SUV',
@@ -56,7 +58,7 @@ class VehicleBodyTypesSeeder extends Seeder
         ]);
 
         DB::table('CONFIG_VEHICLE_BODY_TYPES')->insert([
-            'guid'=> Str::uuid(),
+            'guid'=> sys_guid(),
             'name'=>'PICK UP',
             'status'=>VehicleStatusEnum::active,
             'body_type_name' =>'PICK UP',
@@ -65,7 +67,7 @@ class VehicleBodyTypesSeeder extends Seeder
 
 
         DB::table('CONFIG_VEHICLE_BODY_TYPES')->insert([
-            'guid'=> Str::uuid(),
+            'guid'=> sys_guid(),
             'name'=>'COUPE',
             'status'=>VehicleStatusEnum::active,
             'body_type_name' =>'PICK UP',
@@ -73,11 +75,11 @@ class VehicleBodyTypesSeeder extends Seeder
         ]);
 
         DB::table('CONFIG_VEHICLE_BODY_TYPES')->insert([
-            'guid'=> Str::uuid(),
+            'guid'=> sys_guid(),
             'name'=>'STATION WAGON',
             'status'=>VehicleStatusEnum::active,
             'body_type_name' =>'STATION WAGON',
             'date_created' => Carbon::now()
-        ]);
+        ]);*/
     }
 }
