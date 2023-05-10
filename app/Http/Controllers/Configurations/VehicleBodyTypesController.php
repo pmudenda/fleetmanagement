@@ -54,8 +54,7 @@ class VehicleBodyTypesController extends Controller
 
             $name = trim(strtoupper($request->input('body_type_name')));
 
-            $vehicleBodyType = ConfigVehicleBodyType::where('model_code', '=', trim(strtoupper($request->input('body_type_name'))))
-                ->first();
+            $vehicleBodyType = ConfigVehicleBodyType::where('body_type_name', '=', $name)->first();
 
             if (!empty($vehicleBodyType)) {
                 return response()->json([
@@ -67,7 +66,7 @@ class VehicleBodyTypesController extends Controller
 
             $model = ConfigVehicleBodyType::updateOrCreate(
                 [
-                    'model_code' => $name
+                    'body_type_name' => $name
                 ],
                 [
                     'status' => StatusHelper::active(),

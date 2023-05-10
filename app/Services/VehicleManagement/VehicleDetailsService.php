@@ -9,6 +9,9 @@ class VehicleDetailsService
 {
     public function getVehicleDetails($ref): object|null
     {
+        if ($ref == 0) {
+            return null;
+        }
         return DB::table('VM_VEHICLE_HEADER')->
         where('.VM_VEHICLE_HEADER.id', '=', $ref)
             ->leftJoin('VM_ENGINE_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')

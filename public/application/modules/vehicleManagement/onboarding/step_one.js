@@ -220,7 +220,6 @@ let app = new Vue({
 
         // web UI event
         bodyTypeChanged: function (selectedBody) {
-
             app['vehicleHeader'].body_type_guid = selectedBody?.id;
             document.querySelector('#bodyType').value = selectedBody?.id;
         },
