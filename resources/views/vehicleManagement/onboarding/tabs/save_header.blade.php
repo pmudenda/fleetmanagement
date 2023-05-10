@@ -1,4 +1,4 @@
-{{dd($vehicle->first())}}
+{{dd($vehicle)}}
 <div class="card mb-xl-10">
     <div class="card-header border-0 min-h-2px">
         <div class="card-title">

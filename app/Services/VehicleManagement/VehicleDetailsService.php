@@ -13,7 +13,7 @@ class VehicleDetailsService
             return null;
         }
 
-        return DB::table('VM_VEHICLE_HEADER')->
+        $results = DB::table('VM_VEHICLE_HEADER')->
         where('VM_VEHICLE_HEADER.id', '=', $ref)
             ->leftJoin('VM_ENGINE_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
             ->leftJoin('VM_ASSIGNMENTS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ASSIGNMENTS.vehicle_header_id')
@@ -31,6 +31,8 @@ class VehicleDetailsService
                 'VM_BODY_AND_WEIGHT_DETAILS.id as weightDetailsId',
                 'VM_BODY_AND_WEIGHT_DETAILS.*')
             ->get();
+
+        return $results->first();
 
     }
 
