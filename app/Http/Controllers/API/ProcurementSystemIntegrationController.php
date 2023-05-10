@@ -19,7 +19,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
             ]);
         }
 
-        $purchaseOrder = PurchaseOrders::where('document_no', '=', $document_number)->first();
+        $purchaseOrder = PurchaseOrders::where('document_no', '=', $document_number)->get();
 
         return response()->json([
             'state' => 'success',

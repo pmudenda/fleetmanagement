@@ -95,9 +95,9 @@
                                         name="supplierName">
                                     <option value>--Supplier--</option>
                                     <option v-for="supplier in supplierList"
-                                            :key="supplier.code"
-                                            :value="supplier.code">
-                                        @{{ supplier.name }}
+                                            :key="supplier.code_supplier"
+                                            :value="supplier.code_supplier">
+                                        @{{ supplier.name_of_supplier }}
                                     </option>
                                 </select>
                             </div>

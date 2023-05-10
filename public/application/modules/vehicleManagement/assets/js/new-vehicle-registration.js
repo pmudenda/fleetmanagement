@@ -214,6 +214,7 @@ let app = new Vue({
             }
         }
     },
+
     created() {
         this.getVehicleBrands();
         this.getConfiguredModels();
@@ -344,10 +345,28 @@ let app = new Vue({
 
     methods: {
         getSuppliers: function () {
-            this.supplierList = [
+            /*this. = [
                 {code: "GIC", name: "GhostInCode"}
-            ]
+            ]*/
+            fetch(document.querySelector('#suppliersList').value)
+                .then(response => response.json())
+                .then(function (response) {
+                    // Populate results
+                    if (response.state === 'failure') {
+                        //show errors
+                        toastr.error('Connection error, Failed to retrieve supplier information')
+                        return;
+                    }
+
+                    app.supplierList = response['payload'];
+                })
+                .catch(function (error) {
+                    // notify of error
+                    toastr.error(
+                        'Connection error. Could not retrieve data, some feature might not work.')
+                });
         },
+
         bodyTypeChanged: function (selectedBody) {
             app['vehicleHeader'].body_type_guid = selectedBody?.guid;
             document.querySelector('#bodyType').value = selectedBody?.guid;
@@ -1222,8 +1241,10 @@ function userUnitChanged() {
             $('#purchase_order_number').attr('data-action') + '?document_number=' + purchaseOrder,
             formData,
             function (response_data) {
-                if (response_data.success === 'true' || response_data.success === true) {
+                if (response_data.state ==='success') {
                     //populateVehicleDetails(response_data.payload);
+                    //app. = ;
+                    Vue.set('supplierList', response['payload'])
                 } else {
                     //removeSubmissionAndDetailsOptions();
                     //'No Purchase Orders Found, Check your input and try again'
