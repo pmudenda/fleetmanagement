@@ -944,7 +944,7 @@ function userUnitChanged() {
 
         let fileUploads = [].slice.call(document.querySelectorAll('input[type="file"]'));
         let filesValid = true;
-        fileUploads.map(function (fileSelect) {
+        /*fileUploads.map(function (fileSelect) {
             if (!fileSelect.files || fileSelect.files.length === 0) {
                 toastr.error('Submission not accepted, You have not attached all required documents')
                 filesValid = false;
@@ -954,7 +954,7 @@ function userUnitChanged() {
 
         if (!filesValid) {
             return;
-        }
+        }*/
 
         $form = document.forms['tmsChassisDetailsForm'];
 
