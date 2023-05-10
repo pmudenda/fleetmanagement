@@ -42,10 +42,10 @@ class ChassisDetailsPostRequest extends FormRequest
 
             'motor_vehicle_certificate' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf',
             'insurance_cover_note' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf',
-            'front_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff',
+            /*'front_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff',
             'rear_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff',
             'right_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff',
-            'left_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff',
+            'left_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff',*/
         ];
     }
 }
