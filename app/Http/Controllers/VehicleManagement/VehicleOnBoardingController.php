@@ -108,7 +108,7 @@ class VehicleOnBoardingController extends Controller
             $step = $request->get('step') ?? 0;
             $reference = $request->get('reference');
 
-            Log::debug(' Reference after onboarding ', $reference);
+            Log::debug(' Reference after onboarding '. $reference);
             if (!empty($reference) && $reference != 0) {
                 $vehicle = $this->vehicleDetailsService->getVehicleDetails($reference);
                 $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
