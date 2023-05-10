@@ -19,8 +19,13 @@ use Illuminate\Support\Facades\Log;
 
 class FuelRequisitionController extends Controller
 {
-FuelRequisitionService $requisitionService;
-__
+    private FuelRequisitionService $requisitionService;
+
+    public function __construct(FuelRequisitionService $requisitionService)
+    {
+        $this->requisitionService = $requisitionService;
+    }
+
     public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $requisitions = MaterialHeader::get();
