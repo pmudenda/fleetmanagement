@@ -88,45 +88,48 @@ class VehicleOnBoardingController extends Controller
 
     public function start(Request $request): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
     {
-        if ($request->has('reference')) {
-            if (!$request->hasValidSignature()) {
-                abort(401);
-            }
-        }
-
-        if ($request->has('step') && $request->get('step') != "1") {
-            if (!$request->hasValidSignature()) {
-                abort(401);
-            }
-        }
-
-        if (!$request->has('step')) {
-            return redirect(route('new.vehicle', ['step' => 1]));
-        }
-
-        $step = $request->get('step') ?? 0;
-        $reference = $request->get('reference');
         $vehicle = null;
         $vehicleDocuments = [];
 
-        Log::debug(' Reference after onboarding ', $reference);
-        if (!empty($reference) && $reference != 0) {
-            $vehicle = $this->vehicleDetailsService->getVehicleDetails($reference);
-            $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
+        try {
+            if ($request->has('reference')) {
+                if (!$request->hasValidSignature()) {
+                    abort(401);
+                }
+            }
+            if ($request->has('step') && $request->get('step') != "1") {
+                if (!$request->hasValidSignature()) {
+                    abort(401);
+                }
+            }
+            if (!$request->has('step')) {
+                return redirect(route('new.vehicle', ['step' => 1]));
+            }
+            $step = $request->get('step') ?? 0;
+            $reference = $request->get('reference');
+
+            Log::debug(' Reference after onboarding ', $reference);
+            if (!empty($reference) && $reference != 0) {
+                $vehicle = $this->vehicleDetailsService->getVehicleDetails($reference);
+                $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
+            }
+            $viewName = match ($step) {
+                '1' => "vehicleManagement.onboarding.step1",
+                '2' => "vehicleManagement.onboarding.step2",
+                '3' => "vehicleManagement.onboarding.step3",
+                '4' => "vehicleManagement.onboarding.step4",
+                '5' => "vehicleManagement.onboarding.step5",
+                '6' => "vehicleManagement.onboarding.step6",
+                default => "vehicleManagement.onboarding.index",
+            };
+            return view($viewName)
+                ->with(compact('reference', 'vehicle', 'vehicleDocuments'));
+        } catch (Exception $e) {
+            Log::error($e);
+
+            return view("vehicleManagement.onboarding.index")
+                ->with(compact('reference', 'vehicle', 'vehicleDocuments'));
         }
-        $viewName = match ($step) {
-            '1' => "vehicleManagement.onboarding.step1",
-            '2' => "vehicleManagement.onboarding.step2",
-            '3' => "vehicleManagement.onboarding.step3",
-            '4' => "vehicleManagement.onboarding.step4",
-            '5' => "vehicleManagement.onboarding.step5",
-            '6' => "vehicleManagement.onboarding.step6",
-            default => "vehicleManagement.onboarding.index",
-        };
-
-
-        return view($viewName)
-            ->with(compact('reference', 'vehicle', 'vehicleDocuments'));
     }
 
     public function store(AssignmentPostRequest $request): JsonResponse
