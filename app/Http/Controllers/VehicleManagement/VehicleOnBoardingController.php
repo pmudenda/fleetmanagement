@@ -63,7 +63,8 @@ class VehicleOnBoardingController extends Controller
         $reference = $request->get('reference') ?? 0;
         $vehicle = null;
         $vehicleDocuments = [];
-        if ($reference != 0) {
+
+        if (empty($reference) && $reference != 0) {
             $vehicle = $this->vehicleDetailsService->getVehicleDetails($reference);
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
         }
@@ -107,7 +108,8 @@ class VehicleOnBoardingController extends Controller
         $reference = $request->get('reference') ?? 0;
         $vehicle = null;
         $vehicleDocuments = [];
-        if ($reference != 0) {
+
+        if (empty($reference) && $reference != 0) {
             $vehicle = $this->vehicleDetailsService->getVehicleDetails($reference);
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
         }
