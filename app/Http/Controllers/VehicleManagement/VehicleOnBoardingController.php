@@ -35,6 +35,12 @@ class VehicleOnBoardingController extends Controller
         $this->vehicleDetailsService = $vehicleDetailsService;
     }
 
+    public function show(): View
+    {
+        $viewName = 'vehicleManagement.details.index';
+        return view($viewName);
+    }
+
     public function start(Request $request): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
     {
         if ($request->has('reference')) {
@@ -57,7 +63,7 @@ class VehicleOnBoardingController extends Controller
         $reference = $request->get('reference') ?? 0;
         $vehicle = null;
         $vehicleDocuments = [];
-        if($reference != 0) {
+        if ($reference != 0) {
             $vehicle = $this->vehicleDetailsService->getVehicleDetails($reference);
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
         }

@@ -19,7 +19,23 @@ class StatusSeeder extends Seeder
             'code' => '01',
             'active'=>1,
             'module' => 'ALL',
+        ]);
 
+        DB::table('CONFIG_STATUSES')->insert([
+            'description'=> '',
+            'name'=>'INACTIVE',
+            'code' => '01',
+            'active'=>1,
+            'module' => 'OGS',
+
+        ]);
+
+        DB::table('CONFIG_STATUSES')->insert([
+            'description'=> '',
+            'name'=>'ACTIVE',
+            'code' => '00',
+            'active'=>1,
+            'module' => 'OGS',
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([

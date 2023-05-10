@@ -33,7 +33,7 @@ class VehicleBodyTypesSeeder extends Seeder
         DB::table('CONFIG_VEHICLE_BODY_TYPES')->insert([
             'name'=>'TRUCK',
             'status'=>VehicleStatusEnum::active,
-            'body_type_name' =>'BUS',
+            'body_type_name' =>'TRUCK',
             'date_created' => Carbon::now()
         ]);
 
@@ -62,7 +62,7 @@ class VehicleBodyTypesSeeder extends Seeder
 
             'name'=>'COUPE',
             'status'=>VehicleStatusEnum::active,
-            'body_type_name' =>'PICK UP',
+            'body_type_name' =>'COUPE',
             'date_created' => Carbon::now()
         ]);
 

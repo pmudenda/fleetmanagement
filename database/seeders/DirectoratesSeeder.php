@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Predis\Command\Traits\DB;
+use Illuminate\Support\Facades\DB;
 
 class DirectoratesSeeder extends Seeder
 {
@@ -13,39 +12,63 @@ class DirectoratesSeeder extends Seeder
      */
     public function run(): void
     {
-        \Illuminate\Support\Facades\DB::table('REF_DIRECTORATES')->insert([
+        DB::table('REF_DIRECTORATES')->insert([
             'name' => 'POWER GENERATION',
-            'active' => 1,
+            'code' => 'GE',
+            'active' => '00',
         ]);
 
-        \Illuminate\Support\Facades\DB::table('REF_DIRECTORATES')->insert([
+        DB::table('REF_DIRECTORATES')->insert([
             'name' => 'TRANSMISSION OPERATIONS & TRADE',
-            'active' => 1,
+            'code' => 'TR',
+            'active' => '00',
         ]);
 
-        \Illuminate\Support\Facades\DB::table('REF_DIRECTORATES')->insert([
+        DB::table('REF_DIRECTORATES')->insert([
             'name' => 'HUMAN CAPITAL & DEVELOPMENT',
-            'active' => 1,
+            'code' => 'HC',
+            'active' => '00',
         ]);
 
-        \Illuminate\Support\Facades\DB::table('REF_DIRECTORATES')->insert([
+        DB::table('REF_DIRECTORATES')->insert([
             'name' => 'INVESTMENTS & FINANCE',
-            'active' => 1,
+            'code' => 'FN',
+            'active' => '00',
         ]);
 
-        \Illuminate\Support\Facades\DB::table('REF_DIRECTORATES')->insert([
+        DB::table('REF_DIRECTORATES')->insert([
             'name' => 'LEGAL SERVICES & COMPANY SECRETARY',
-            'active' => 1,
+            'code' => 'LG',
+            'active' => '00',
         ]);
 
-        \Illuminate\Support\Facades\DB::table('REF_DIRECTORATES')->insert([
+        DB::table('REF_DIRECTORATES')->insert([
             'name' => 'CORPORATE SUPPORT SERVICES',
-            'active' => 1,
+            'code' => 'CS',
+            'active' => '00',
         ]);
 
-        \Illuminate\Support\Facades\DB::table('REF_DIRECTORATES')->insert([
+        DB::table('REF_DIRECTORATES')->insert([
             'name' => 'PLANNING & PROJECTS',
-            'active' => 1,
+            'code' => 'PP',
+            'active' => '00',
+        ]);
+
+        DB::table('REF_DIRECTORATES')->insert([
+            'name' => 'DISTRIBUTION AND CUSTOMER SERVICE',
+            'code' => 'DS',
+            'active' => '00',
+        ]);
+        DB::table('REF_DIRECTORATES')->insert([
+            'name' => 'MANAGING DIRECTOR',
+            'code' => 'MD',
+            'active' => '00',
+        ]);
+
+        DB::table('REF_DIRECTORATES')->insert([
+            'name' => 'CORPORATE WIDE',
+            'code' => 'CO',
+            'active' => '01',
         ]);
     }
 }

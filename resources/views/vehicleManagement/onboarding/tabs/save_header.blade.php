@@ -98,7 +98,8 @@
                                             name="model"
                                             id="model"
                                             v-model="vehicleHeader.model_guid">
-                                        <option v-for="model in selectedBrandModels" :value="model.id | trimSpaces">
+                                        <option v-for="model in selectedBrandModels"
+                                                :value="model.id | trimSpaces">
                                             @{{model.model_name}}
                                         </option>
                                     </select>
@@ -202,7 +203,7 @@
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
                                 <input type="text"
-                                       class="form-control form-control-solid"
+                                       class="form-control"
                                        name="registrationNumber"
                                        value="{{$vehicle->registration_number ?? ''}}"
                                        onpaste="return false"
@@ -224,7 +225,7 @@
                             <div class="col-md-9">
                                 <input type="text"
                                        required
-                                       class="form-control form-control-solid"
+                                       class="form-control"
                                        name="vehicleLocation"
                                        id="vehicleLocation"
                                        value="{{$vehicle->location_name ?? ''}}"

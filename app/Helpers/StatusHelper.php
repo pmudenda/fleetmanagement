@@ -39,5 +39,10 @@ class StatusHelper
         return "024";
     }
 
+    public static function organizationStructureActive(): string
+    {
+        return "00";
+    }
+
 
 }

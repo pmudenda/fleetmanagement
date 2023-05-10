@@ -8,7 +8,6 @@ use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Models\general\CostCenters;
 use App\Models\MaterialHeader;
 use App\Models\RequisitionTypes;
-use App\Services\Requisitions\FuelRequisitionService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -20,6 +19,8 @@ use Illuminate\Support\Facades\Log;
 
 class FuelRequisitionController extends Controller
 {
+FuelRequisitionService $requisitionService;
+__
     public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $requisitions = MaterialHeader::get();
@@ -47,8 +48,8 @@ class FuelRequisitionController extends Controller
                     'message' => 'Quantity requested can not be more than allocation'
                 ]);
             }
-            $requisitionService = new FuelRequisitionService();
-            return $requisitionService->processRequest($request);
+
+            return $this->requisitionService->processRequest($request);
         } catch (\Exception $e) {
             Log::error($e);
             $message = 'We could not complete processing your request due to an error';

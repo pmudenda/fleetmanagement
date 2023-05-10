@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\general\OrganizationalUnits;
 use Exception;
@@ -18,11 +19,14 @@ class OrganizationalUnitsController extends Controller
 
             $query = OrganizationalUnits::query();
 
+            $query->where('status', StatusHelper::organizationStructureActive());
+
             if (!$request->get('include_nulls')) {
                 $query->whereNotNull('description');
             }
 
             //$data = null;
+            cache()->forget('org_units');
             if ($request->get('org_units')) {
                 $data = cache()->remember('org_units', $month, function ($query) {
                     return $query->orderBy('description')->get();

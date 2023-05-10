@@ -247,9 +247,18 @@ let app = new Vue({
             window.getRegistrationDetails(window.reference);
         }
 
-        //this.initValidators();
+        $(document).on('keyup', '#registrationNumber', function () {
+            this.value = this.value.toLocaleUpperCase();
+        });
 
-        /*Inputmask({
+        $(document).on('keyup', '#vehicleLocation', function () {
+            if(!this.value){
+                this.focus();
+            }
+            this.value = this.value.toLocaleUpperCase();
+        });
+
+        Inputmask({
             "mask": "AAA 9999"
         }).mask("#registrationNumber");
 
@@ -257,7 +266,7 @@ let app = new Vue({
             "mask": "999/99/A99"
         }).mask(".tyre-size");
 
-        Inputmask("decimal", {
+        /*Inputmask("decimal", {
             "rightAlignNumerics": false
         }).mask("#chargeOutRate");*/
 

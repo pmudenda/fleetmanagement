@@ -745,23 +745,24 @@
 
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            @can('')
-                                            @if($vehicle->on_boarding_status != StatusHelper::onboardingComplete())
-                                                <li>
-                                                    <a class="dropdown-item" data-kt-action="edit"
-                                                       href="{{URL::signedRoute('view.vehicle', ['step' => 2, 'reference' => $vehicle->id, 'edit'=> true])}}">
-                                                        Edit
-                                                    </a>
-                                                </li>
-                                            @endif
-                                            @if($vehicle->on_boarding_status != StatusHelper::onboardingComplete())
-                                                <li>
-                                                    <a class="dropdown-item"
-                                                       href="{{URL::signedRoute('new.vehicle',['step' => 1, 'reference' => $vehicle->id])}}">
-                                                        Complete Onboarding
-                                                    </a>
-                                                </li>
-                                            @endif
+                                            @can(config('edit_vehicle'))
+                                                @if($vehicle->on_boarding_status != StatusHelper::onboardingComplete())
+                                                    <li>
+                                                        <a class="dropdown-item" data-kt-action="edit"
+                                                           href="{{URL::signedRoute('view.vehicle', ['step' => 2, 'reference' => $vehicle->id, 'edit'=> true])}}">
+                                                            Edit
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                @if($vehicle->on_boarding_status != StatusHelper::onboardingComplete())
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                           href="{{URL::signedRoute('new.vehicle',['step' => 1, 'reference' => $vehicle->id])}}">
+                                                            Complete Onboarding
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                            @endcan
                                         </ul>
                                     </div>
                                 </td>

@@ -143,7 +143,7 @@
 <script src="{{asset('assets/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery.filer/js/jquery.filer.min.js')}}"></script>
-<script src="{{asset('assets/plugins/form-masking/jquery.inputmask.js') }}"></script>
+<script src="{{asset('libs/jquery/inputMask/3.3.4/jquery.inputmask.bundle.min.js') }}"></script>
 <script src="{{asset('assets/plugins/form-masking/autoNumeric.js') }}"></script>
 <script src="{{asset('themes/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
 <script src="{{asset('themes/plugins/moment/moment.min.js')}}"></script>
@@ -161,8 +161,8 @@
 <script src="{{asset('assets/js/global/page.loader.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{asset('assets/js/global/system_alerts.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>
-{{--<script src="{{ asset('assets/global/plugins.bundle.js') }}"></script>
-<script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>--}}
+<script src="{{ asset('assets/global/plugins.bundle.js') }}"></script>
+{{--<script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>--}}
 
 
 <script>

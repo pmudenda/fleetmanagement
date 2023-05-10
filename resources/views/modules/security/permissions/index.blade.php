@@ -1,50 +1,44 @@
-@extends('layouts.tasks.layout')
+@extends('layouts.app')
 
 
 @push('styles')
     <!-- DataTables -->
-    <link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-    <link rel="stylesheet"
-          href="{{ asset('dashboard/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endpush
 
 
 @section('content')
 
-    <!-- Content Header (Page header) -->
     <x-content-header :pageTitle="'System Access Rights'" :activeCrumb="'System Rights'" :link="'home'"
                       :linkText="'Home'"/>
+
     <!-- Main content -->
     <section class="content">
         <x-error-view/>
         <div class="container-fluid">
-            <!-- Info boxes -->
-            <div class="row">
-                <!-- /.col -->
-            </div>
 
             <div class="row">
                 <!-- Left col -->
                 <div class="col-md-12">
                     <!-- TABLE: LATEST ORDERS -->
                     <div class="card">
-                        @can(config('rights.permission_create'))
-                            <div class="card-header">
+                        <div class="card-header">
+                            @can(config('rights.permission_create'))
+
                                 <a href="{{route('permissions.create')}}"
                                    title="Create New System Permission"
                                    class="btn btn-sm btn-success pull-right">
                                     <i class="fas fa-user-plus"></i>
                                     Add Access Right
                                 </a>
-                            </div>
-                        @endcan
-                        <!-- /.card-header -->
-                        <div class="card-body p-2">
-
-                            <div class="table-responsive mt-10 ">
-
-                                <table id="rightsTable" class="table table-hover ">
+                            @endcan
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="rightsTable"
+                                       class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
                                     <thead>
                                     <tr>
                                         <th>Description</th>
@@ -55,7 +49,6 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-
                                     @foreach($permissions as $item)
                                         <tr>
                                             <td>
@@ -70,21 +63,23 @@
                                             </td>
                                             <td>
                                                 <div class="dropdown">
-                                                    <button class="btn dropdown-toggle" type="button"
-                                                            id="dropdownMenuButton1"
-                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button
+                                                        class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
+                                                        type="button"
+                                                        id="dropdownMenuButton1"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
                                                         Actions
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                         @can(config('rights.permission_edit'))
                                                             <li>
-                                                                <button
-                                                                    class="dropdown-item btn btn-sm btn-outline-primary m-1 "
+                                                                <a href="#"
+                                                                    class="dropdown-item"
                                                                     data-sent_data="{{$permissions}}"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#editModal{{$item->id}}">
-                                                                    <i class="fas fa-pencil-alt"> Edit</i>
-                                                                </button>
+                                                                    <i class="fas fa-edit"> Edit</i>
+                                                                </a>
                                                             </li>
                                                             <li>
                                                                 <hr class="dropdown-divider">
@@ -92,13 +87,13 @@
                                                         @endcan
                                                         @can(config('rights.permission_destroy'))
                                                             <li>
-                                                                <button
-                                                                    class="dropdown-item btn btn-sm btn-outline-danger m-1"
+                                                                <a href="#"
+                                                                    class="dropdown-item"
                                                                     data-sent_data="{{$permissions}}"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#deleteModal{{$item->id}}">
                                                                     <i class="fas fa-trash"> Remove</i>
-                                                                </button>
+                                                                </a>
                                                             </li>
                                                         @endcan
                                                     </ul>
@@ -110,19 +105,17 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- /.table-responsive -->
+
                         </div>
                     </div>
-                    <!-- /.card -->
+
                 </div>
-                .
-                <!-- /.col -->
+
             </div>
-            <!-- /.row -->
-        </div><!--/. container-fluid -->
+
+        </div>
 
     </section>
-    <!-- /.content -->
 
     @foreach($permissions as $item)
         <!-- Device Update Modal -->
@@ -157,9 +150,10 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
                                 @can(config('rights.permission_edit'))
-                                    <button type="submit" title="Update System Permission" class="btn btn-primary">
+                                    <button type="submit" title="Update System Permission" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-paper-plane"></i>
                                         Update
                                     </button>
                                 @endcan
@@ -199,9 +193,9 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
                                 @can(config('rights.permission_destroy'))
-                                    <button type="submit" class="btn btn-danger">Yes</button>
+                                    <button type="submit" class="btn btn-sm btn-danger">Yes</button>
                                 @endcan
                             </div>
                         </form>
@@ -217,13 +211,20 @@
 @push('scripts')
 
     <!-- DataTables  & Plugins -->
-    @include('layouts.partials.datatables')
+    @include('layouts.partials.dataTableScripts')
     <!-- page script -->
     <script>
         $(function () {
             $("#rightsTable").DataTable({
                 "responsive": true, "lengthChange": true, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print"]
+                "buttons": ["copy", "csv", "excel", "pdf", "print"],
+                'columnDefs': [
+                    {
+                        "orderable": false,
+                        "searchable": false,
+                        "targets": [0]
+                    }
+                ]
             }).buttons().container().appendTo('#rightsTable_wrapper .col-md-6:eq(0)');
         });
     </script>

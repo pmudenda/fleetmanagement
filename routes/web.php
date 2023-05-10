@@ -27,34 +27,34 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    //return view('welcome');
     return redirect(route('login'));
 });
-
-Route::get('verify/document-number', function (Request $request): JsonResponse {
-
-    $valid = true;
-    if ($request->get('method') == 'registration_number') {
-        $valid = VehicleHeader::where('registration_number', trim($request->get('key')))->count() == 0;
-    } else if ($request->get('method') == 'chassis') {
-        $valid = ChassisDetail::where('chassis_number', trim($request->get('key')))->count() == 0;
-    }
-
-    return response()->json([
-        'state' => 'success',
-        'payload' => [
-            'validity' => $valid,
-            'message' => $valid ? 'Document number is valid' : 'Document number is invalid'
-        ],
-        'request' => $request->all()
-    ]);
-})->name('document.number.validation');
 
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
 
 Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('verify/document-number', function (Request $request): JsonResponse {
+
+        $valid = true;
+        if ($request->get('method') == 'registration_number') {
+            $valid = VehicleHeader::where('registration_number', trim($request->get('key')))->count() == 0;
+        } else if ($request->get('method') == 'chassis') {
+            $valid = ChassisDetail::where('chassis_number', trim($request->get('key')))->count() == 0;
+        }
+
+        return response()->json([
+            'state' => 'success',
+            'payload' => [
+                'validity' => $valid,
+                'message' => $valid ? 'Document number is valid' : 'Document number is invalid'
+            ],
+            'request' => $request->all()
+        ]);
+    })->name('document.number.validation');
+
 
     Route::get('/home', function () {
         return view('dashboard.home');
@@ -63,7 +63,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'user-management'], function () {
 
         Route::get('user/profile', function (Request $request) {
-
             $uuid = $request->uuid ?? '';
             $email = $request->email ?? '';
 
@@ -71,7 +70,6 @@ Route::group(['middleware' => 'auth'], function () {
                 $uuid = Auth()->user()->guid;
                 $email = Auth()->user()->email;
             }
-
             return view('UserManagement.user_profile')
                 ->with(['key' => $uuid, 'email' => $email]);
         })->name('profile');
@@ -95,27 +93,16 @@ Route::group(['middleware' => 'auth'], function () {
 
     });
 
-    /** ROLES */
+
     Route::group(['prefix' => 'security'], function () {
-        Route::get('roles/list', function () {
-            return view('UserManagement.list_roles');
-        })->name('roles.list');
 
-        Route::get('roles/show', function () {
-            return view('UserManagement.viewUser');
-        })->name('roles.view');
-
-
-        Route::get('permissions/list', function () {
-            return view('UserManagement.permission');
-        })->name('permissions.list');
-
-        //Roles
+        /************ roles************/
         Route::post('/roles/attach/{id}', [RolesController::class, 'attach'])->name('roles.attach');
         Route::post('/roles/detach/{id}', [RolesController::class, 'detach'])->name('roles.detach');
 
         Route::resource('roles', RolesController::class);
-        //Permission
+
+        /************ permission ************/
         Route::resource('permissions', PermissionsController::class);
     });
 
@@ -153,9 +140,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('searchProjects', function (Request $request) {
         $period = date('M-Y');
-        //$period = 'Oct-2022';
         $searchCriteria = strtoupper(trim($request->input('search')));
-        $activeProjects = $this->tripService->getActiveProjects($period, $searchCriteria);
+        $activeProjects = $this->projectCodeService->getActiveProjects($period, $searchCriteria);
         return response()->json(array(
             'items' => $activeProjects,
             'total_count' => $activeProjects->count()
@@ -169,6 +155,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/register', [VehicleOnBoardingController::class, 'start'])->name('new.vehicle');
 
             Route::get('/vehicle-details', [VehicleOnBoardingController::class, 'start'])->name('view.vehicle');
+
+            Route::get('/view/vehicle/details', [VehicleOnBoardingController::class, 'show'])->name('view.vehicle.detail');
 
             Route::post('post-vehicle-assignment', [VehicleOnBoardingController::class, 'store'])->name('vehicle.assignment.detail');
 

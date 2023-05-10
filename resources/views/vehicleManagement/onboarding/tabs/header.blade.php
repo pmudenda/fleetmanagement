@@ -138,7 +138,7 @@
                                               label="body_type_name"
                                     >
                                     </v-select>
-                                    <input type="hidden" class="form-control form-control-solid"
+                                    <input type="hidden"
                                            id="bodyType"
                                            name="bodyType"
                                            :value="vehicleHeader.body_type_guid"
@@ -198,7 +198,7 @@
                             <div class="col-md-9">
                                 <input type="text"
                                        v-model="vehicleHeader.registration_number"
-                                       class="form-control form-control-solid"
+                                       class="form-control"
                                        name="registrationNumber"
                                        onpaste="return false"
                                        id="registrationNumber"
@@ -219,8 +219,9 @@
                             <div class="col-md-9">
                                 <input type="text"
                                        required
-                                       class="form-control form-control-solid"
+                                       class="form-control"
                                        name="vehicleLocation"
+                                       autocomplete="off"
                                        id="vehicleLocation"
                                        onpaste="return false;"
                                        v-model="vehicleHeader.location_code"

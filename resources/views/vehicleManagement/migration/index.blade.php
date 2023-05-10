@@ -22,15 +22,23 @@
                             <ul class="nav nav-tabs steps" role="tablist">
                                 <li role="presentation" data-index="0" class="active st1">
                                     <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab"
-                                       aria-expanded="true"><span class="round-tab">1 </span> <i>Step 1</i></a>
+                                       aria-expanded="true">
+                                        <span class="round-tab">1 </span>
+                                        <i>Vehicle Details</i>
+                                    </a>
                                 </li>
                                 <li role="presentation" data-index="1" class="disabled st2">
                                     <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab"
-                                       aria-expanded="false"><span class="round-tab">2</span> <i>Step 2</i></a>
+                                       aria-expanded="false">
+                                        <span class="round-tab">2</span>
+                                        <i>Vehicle Details Cntd.</i>
+                                    </a>
                                 </li>
                                 <li role="presentation" data-index="2" class="disabled st3">
-                                    <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab"><span
-                                            class="round-tab">3</span> <i>Step 3</i></a>
+                                    <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab">
+                                        <span class="round-tab">3</span>
+                                        <i>Assignment Details</i>
+                                    </a>
                                 </li>
 
                             </ul>
@@ -40,7 +48,7 @@
                             @csrf
                             <div class="tab-content px-5" id="main_form">
                                 <div class="tab-pane active step" role="tabpanel" id="step1">
-                                    <h3 class="text-center">Vehicle Details</h3>
+                                    {{--<h3 class="text-center">Vehicle Details</h3>--}}
                                     <div class="row px-3">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -140,13 +148,73 @@
                                     </div>
                                     <ul class="list-inline pull-right">
                                         <li>
-                                            <button type="button" class="default-btn next-step">Continue to next step
+                                            <button type="button" class="btn btn-success next-step">
+                                                Continue to next step
                                             </button>
                                         </li>
                                     </ul>
                                 </div>
+
                                 <div class="tab-pane step" role="tabpanel" id="step2">
-                                    <h4 class="text-center">Assignment Details</h4>
+                                    <h4 class="text-center">Vehicle Images</h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Front</label>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="customFile">
+                                                    <label class="custom-file-label" for="customFile">Select
+                                                        file</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Rear</label>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="customFile">
+                                                    <label class="custom-file-label" for="customFile">Select
+                                                        file</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Right</label>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="customFile">
+                                                    <label class="custom-file-label" for="customFile">Select
+                                                        file</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Left</label>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="customFile">
+                                                    <label class="custom-file-label" for="customFile">Select
+                                                        file</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <ul class="list-inline pull-right">
+                                        <li>
+                                            <button type="button" class="default-btn prev-step">Back</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="default-btn next-step skip-btn">Skip</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="default-btn next-step">Finish</button>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="tab-pane step" role="tabpanel" id="step3">
+                                    {{--<h4 class="text-center"></h4>--}}
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group ">
@@ -286,72 +354,14 @@
                                         <li>
                                             <button type="button" class="default-btn prev-step">Back</button>
                                         </li>
-                                        <li>
+                                        {{--<li>
                                             <button type="button" class="default-btn next-step skip-btn">Skip</button>
-                                        </li>
+                                        </li>--}}
                                         <li>
-                                            <button type="button" class="default-btn next-step">Continue</button>
+                                            <button type="button" class="btn btn-success next-step">Continue</button>
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="tab-pane step" role="tabpanel" id="step3">
-                                    <h4 class="text-center">Vehicle Images</h4>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Front</label>
-                                                <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="customFile">
-                                                    <label class="custom-file-label" for="customFile">Select
-                                                        file</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Rear</label>
-                                                <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="customFile">
-                                                    <label class="custom-file-label" for="customFile">Select
-                                                        file</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Right</label>
-                                                <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="customFile">
-                                                    <label class="custom-file-label" for="customFile">Select
-                                                        file</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Left</label>
-                                                <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="customFile">
-                                                    <label class="custom-file-label" for="customFile">Select
-                                                        file</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <ul class="list-inline pull-right">
-                                        <li>
-                                            <button type="button" class="default-btn prev-step">Back</button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="default-btn next-step skip-btn">Skip</button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="default-btn next-step">Finish</button>
-                                        </li>
-                                    </ul>
-                                </div>
-
 
                             </div>
                             <div class="clearfix"></div>

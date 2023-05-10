@@ -17,9 +17,6 @@
     <div class="sidebar">
 
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            {{--<div class="image">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-            </div>--}}
             <div class="info">
                 <a href="#" class="d-block">{{Auth::user()->name}}</a>
             </div>
@@ -57,8 +54,8 @@
                             </a>
                         </li>
 
-                        <li class="nav-item d-none">
-                            <a href="{{ route('permissions.list') }}" class="nav-link">
+                        <li class="nav-item">
+                            <a href="{{ route('view.vehicle.detail') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Vehicle Details</p>
                             </a>
@@ -108,23 +105,10 @@
                             </a>
                         </li>
 
-                        <li class="nav-item d-none">
-                            <a href="{{ route('permissions.list') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Vehicle Details</p>
-                            </a>
-                        </li>
-
                         <li class="nav-item">
                             <a href="{{ route('vehicles.list') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Vehicle List</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('vehicle.data.cleanup') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Data Clean Up</p>
+                                <p>Workshops List</p>
                             </a>
                         </li>
                     </ul>
@@ -141,14 +125,14 @@
                     </a>
                     <ul class="nav nav-treeview pl-3">
 
-                        <li class="nav-item d-none">
+                        <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Vehicle Requisition</p>
                             </a>
                         </li>
 
-                        <li class="nav-item d-none">
+                        <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Maintenance Requisition</p>
@@ -159,7 +143,7 @@
                             <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>
-                                    Fuel Requisition
+                                    Fuel Requisitions
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -241,7 +225,7 @@
                             </a>
                             <ul class="nav nav-treeview pl-4">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('roles.list') }}">
+                                    <a class="nav-link" href="{{ route('roles.index') }}">
                                         <i class="fas fa-list nav-icon"></i>
                                         <p> Roles List</p>
                                     </a>
@@ -267,7 +251,7 @@
                             </a>
                             <ul class="nav nav-treeview pl-4">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('roles.list') }}">
+                                    <a class="nav-link" href="{{ route('permissions.index') }}">
                                         <i class="fa fa-list nav-icon"></i>
                                         <p class="menu-title">
                                             Permission List

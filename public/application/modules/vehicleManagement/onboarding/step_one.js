@@ -3,6 +3,7 @@ window.removeSpaces = function (value) {
     if (!value) return;
     return value.replace(/\s/g, '');
 }
+
 let app = new Vue({
     'el': '#kt_app_main',
     components: {},
@@ -100,9 +101,17 @@ let app = new Vue({
 
         this.vehicleHeaderForm = document.querySelector('#tms_vehicle_header_form');
 
-        $('#registrationNumber').keyup(function () {
+        $(document).on('keyup', '#registrationNumber', function () {
+            //this.value = this.value.toLocaleUpperCase();
+        });
+
+        $(document).on('keyup', '#vehicleLocation', function () {
+            if(!this.value){
+                this.focus();
+            }
             this.value = this.value.toLocaleUpperCase();
         });
+
         //this.chassisDetailsForm = document.querySelector('#tms_chassis_details_form');
         //this.engineDetailsForm = document.querySelector('#tms_engine_details_form');
         //this.costingDetailsForm = document.querySelector('#tms_costing_valuation_form');
@@ -118,11 +127,11 @@ let app = new Vue({
 
         //this.initValidators();
 
-        /*Inputmask({
+        Inputmask({
             "mask": "AAA 9999"
         }).mask("#registrationNumber");
 
-        Inputmask({
+        /*Inputmask({
             "mask": "999/99/A99"
         }).mask(".tyre-size");
 
@@ -211,8 +220,9 @@ let app = new Vue({
 
         // web UI event
         bodyTypeChanged: function (selectedBody) {
-            app['vehicleHeader'].body_type_guid = selectedBody?.guid;
-            document.querySelector('#bodyType').value = selectedBody?.guid;
+
+            app['vehicleHeader'].body_type_guid = selectedBody?.id;
+            document.querySelector('#bodyType').value = selectedBody?.id;
         },
 
         formatMoney: function (event) {
