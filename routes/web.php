@@ -93,12 +93,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('user/attach/{id}', [UsersController::class, 'attach'])->name('user.attach');
         Route::post('user/detach/{id}', [UsersController::class, 'detach'])->name('user.detach');
 
-        /*Route::get('/list', )->name('home.users');
-        Route::get('/users/all', [UsersController::class, 'get'])->name('all.users');
-        Route::get('/users/all', [UsersController::class, 'get'])->name('all.users');*/
-
-        // User Search
-        /*Route::post('user_search', [UserSearchController::class, 'userSearch'])->name('search.user');*/
     });
 
     /** ROLES */
@@ -171,7 +165,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'vehicle-management', 'middleware' => 'auth'], function () {
 
         Route::group(['prefix' => 'onboarding'], function () {
+
             Route::get('/register', [VehicleOnBoardingController::class, 'start'])->name('new.vehicle');
+
+            Route::get('/vehicle-details', [VehicleOnBoardingController::class, 'start'])->name('view.vehicle');
 
             Route::post('post-vehicle-assignment', [VehicleOnBoardingController::class, 'store'])->name('vehicle.assignment.detail');
 

@@ -32,7 +32,7 @@ class VehicleOnBoardingController extends Controller
     public function __construct(OnBoardingService $onBoardingService, VehicleDetailsService $vehicleDetailsService)
     {
         $this->onBoardingService = $onBoardingService;
-        $this->$vehicleDetailsService = $vehicleDetailsService;
+        $this->vehicleDetailsService = $vehicleDetailsService;
     }
 
     public function start(Request $request): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse

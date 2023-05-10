@@ -315,7 +315,6 @@ class OnBoardingService
         // marks completion of on-boarding
         $user = auth()->user();
 
-
         $costCenterParts = explode(":", $request->get('costCenter'));
         $businessUnitParts = explode(":", $request->get('businessUnit'));
         $code_center_code = $costCenterParts[0];
@@ -354,6 +353,7 @@ class OnBoardingService
         }
 
         $vehicleHeader->on_boarding_status = StatusHelper::onboardingComplete();
+        $vehicleHeader->status = StatusHelper::active();
         $vehicleHeader->save();
 
         return Assignment::updateOrCreate(
