@@ -42,7 +42,7 @@ class VehicleController extends Controller
 
             Log::info('reference is ' . $ref);
             if ($ref != 0) {
-                $vehicle = $this->vehicleDetailsService->getVehicleDetails($ref);
+                $vehicle = $this->vehicleDetailsService->getVehicleDetails($ref)->first();
                 $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($ref);
             }
 
