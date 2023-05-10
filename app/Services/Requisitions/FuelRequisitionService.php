@@ -3,14 +3,17 @@
 namespace App\Services\Requisitions;
 
 use App\Enums\VehicleStatusEnum;
+use App\Enums\WorkflowProcessCodes;
 use App\Exceptions\FuelRequisitionException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Models\Security\User;
+use App\Models\Workflow\WorkflowActions;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\ReferenceNumberGeneratorService;
+use App\Services\Workflow\WorkflowService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
@@ -22,10 +25,13 @@ class FuelRequisitionService
 {
 
     private VehicleDetailsService $vehicleDetailsService;
+    private WorkflowService $workflowService;
 
-    public function __construct(VehicleDetailsService $vehicleDetailsService)
+    public function __construct(VehicleDetailsService $vehicleDetailsService,
+                                WorkflowService       $workflowService)
     {
         $this->vehicleDetailsService = $vehicleDetailsService;
+        $this->workflowService = $workflowService;
     }
 
 
@@ -81,8 +87,7 @@ class FuelRequisitionService
 
         $this->validateOdometerStateValidation($previousRequisition, $requisitionPostRequest);
 
-        //vehicle_registration
-        // find last request and validate odometer readings
+        /********************** Save Data **************************/
         DB::beginTransaction();
 
         $user = Auth()->user();
@@ -90,16 +95,17 @@ class FuelRequisitionService
             "ZFMFUE",
             1,
         );
-
-        /*$workflowService = new WorkflowService();
-        $processDetails = $workflowService->startWorkflowProcess(
+        
+        $processDetails = $this->workflowService->startWorkflowProcess(
             $documentRef,
-            '202301',
+            WorkflowProcessCodes::FuelRequisition->value,
             WorkflowActions::submit(),
-            'New Request', auth()->user()
+            $requisitionPostRequest->justification,
+            $user
         );
 
-        $message = $processDetails->Reference;*/
+        $message = !empty($processDetails->Reference) ?
+            ' With Approval Reference ' . $processDetails->Reference : '';
 
         $areaCode = $user->area_code ?? 'GR';
         $procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
@@ -149,7 +155,7 @@ class FuelRequisitionService
 
         return response()->json([
             'success' => true,
-            'message' => 'Requisition  Submitted Successfully..'
+            'message' => 'Requisition  Submitted Successfully..'. $message
         ]);
     }
 

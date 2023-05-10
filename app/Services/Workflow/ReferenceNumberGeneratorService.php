@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\Schema;
 
 class ReferenceNumberGeneratorService
 {
-    public static function generateReferenceNumber($head, $value, $module = 'GEN_MATERIAL_HEADERS'): string
+    public static function generateReferenceNumber($prefix, $value, $module = 'GEN_MATERIAL_HEADERS'): string
     {
         // use the total number of kilometer allowance in the system
         $count = DB::select("SELECT count(id) as total FROM " . $module);
         //random number
         $random = $count[0]->total;
         $random = sprintf("%07d", ($random + $value));
-        $random = $head . $random;
+        $random = $prefix . $random;
 
         $count_existing_forms = DB::select("SELECT count(id) as total FROM " . trim($module) . " WHERE req_no = '{$random}'");
         try {
@@ -27,7 +27,7 @@ class ReferenceNumberGeneratorService
         if ($total < 1) {
             return $random;
         } else {
-            $random = self::generateReferenceNumber($head, $value, $module);
+            $random = self::generateReferenceNumber($prefix, $value, $module);
         }
 
         return $random;
@@ -40,8 +40,6 @@ class ReferenceNumberGeneratorService
                 ->create($NumberTable, function ($table) {
                     $table->increments('id');
                     $table->string('businessUnit');
-                    $table->string('directorate');
-                    $table->string('referenceNumber');
                     $table->timestamps();
                 });
         }

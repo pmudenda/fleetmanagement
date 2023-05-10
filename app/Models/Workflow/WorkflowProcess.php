@@ -12,12 +12,10 @@ class WorkflowProcess extends Model
     protected $table = 'WFL_WORKFLOW_PROCESSES';
 
     protected $fillable = [
-        'Process_Code',
-        'Name',
-        'Description',
-        'Created_By',
-        //'Created_Date',
-        'Modified_By',
-        //'Modified_Date'
+        'process_code',
+        'name',
+        'description',
+        'created_by',
+        'modified_by',
     ];
 }

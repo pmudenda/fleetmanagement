@@ -14,7 +14,7 @@ class WorkflowTaskDetail extends Model
         'reference',
         'process_code',
         'user_id',
-        'current_stepId',
+        'current_step_id',
         'actioning_officer',
         'status',
         'date_started',
