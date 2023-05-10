@@ -9,7 +9,7 @@ class VehicleDetailsService
 {
     public function getVehicleDetails($ref): object|null
     {
-        if ($ref == 0) {
+        if (empty($ref)) {
             return null;
         }
         return DB::table('VM_VEHICLE_HEADER')->

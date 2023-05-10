@@ -110,8 +110,8 @@ class VehicleOnBoardingController extends Controller
 
             Log::debug(' Reference after onboarding '. $reference);
             if (!empty($reference) && $reference != 0) {
-                $vehicle = $this->vehicleDetailsService->getVehicleDetails($reference);
-                $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
+                $vehicle = $this->vehicleDetailsService->getVehicleDetails((int)$reference);
+                $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments((int)$reference);
             }
             $viewName = match ($step) {
                 '1' => "vehicleManagement.onboarding.step1",
