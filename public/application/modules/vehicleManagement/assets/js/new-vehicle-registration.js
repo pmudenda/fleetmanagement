@@ -1,19 +1,31 @@
 Vue.component('v-select', VueSelect.VueSelect);
 window.getRegistrationDetails = function (requestReference) {
-    if (requestReference === "0" || typeof requestReference === 'undefined') {
+    console.log(requestReference);
+
+    if (!requestReference || typeof requestReference === 'undefined') {
+        console.log('Returning')
         return;
     }
     $.ajax({
         type: "GET",
         url: document.querySelector('[name="vehicle_details"]').value,
+        data: {reference: requestReference},
         dataType: 'json',
         success: function (asyncResponse) {
+            console.log('Returning Response', asyncResponse);
+            if(!asyncResponse.success){
+                toastr.error(asyncResponse['message'])
+            }
 
             if (!asyncResponse.hasOwnProperty('payload')) {
                 return;
             }
 
             let data = asyncResponse['payload']['vehicle'];
+            console.log(data);
+            if(!data || data.length == 0){
+                return;
+            }
             Vue.set(app['vehicleHeader'], 'vehicle_type', data['registration_type']);
             Vue.set(app['vehicleHeader'], 'brand_guid', data['brand_guid']);
             Vue.set(app['vehicleHeader'], 'model_guid', data['model_guid']);
@@ -218,10 +230,10 @@ let app = new Vue({
         this.getSuppliers();
     },
 
-    filters:{
-        trimSpaces: function (val){
-            if(!val) return "";
-            if(typeof val === 'number') return val;
+    filters: {
+        trimSpaces: function (val) {
+            if (!val) return "";
+            if (typeof val === 'number') return val;
             return val?.trim();
         }
     },
@@ -252,7 +264,7 @@ let app = new Vue({
         });
 
         $(document).on('keyup', '#vehicleLocation', function () {
-            if(!this.value){
+            if (!this.value) {
                 this.focus();
             }
             this.value = this.value.toLocaleUpperCase();
@@ -1201,7 +1213,7 @@ function userUnitChanged() {
         );
     }
 
-    function getSupplierDetails(){
+    function getSupplierDetails() {
         const purchaseOrder = document.querySelector('#purchase_order_number').value
         let formData = new FormData();
         formData.append('purchase_order_number', purchaseOrder);

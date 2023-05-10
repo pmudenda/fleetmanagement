@@ -147,7 +147,7 @@ Route::group(['middleware' => 'auth'], function () {
         ));
     })->name('search.project');
 
-    Route::group(['prefix' => 'vehicle-management', 'middleware' => 'auth'], function () {
+    Route::group(['prefix' => 'vehicle-management'], function () {
 
         Route::group(['prefix' => 'onboarding'], function () {
 

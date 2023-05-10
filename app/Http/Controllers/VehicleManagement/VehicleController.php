@@ -23,10 +23,11 @@ class VehicleController extends Controller
         $this->vehicleDetailsService = $vehicleDetailsService;
     }
 
-    public function getAllDetails($ref): JsonResponse
+    public function getAllDetails(Request $request, $ref): JsonResponse
     {
+
         try {
-            if (empty($ref)) {
+            if (empty($ref) && !$request->has('reference')) {
                 return response()->json([
                     'success' => 'false',
                     'statusDescription' => 'Bad Request',
@@ -34,11 +35,15 @@ class VehicleController extends Controller
                 ]);
             }
 
+            $ref = $request->get('reference');
+
             $vehicle = null;
             $vehicleDocuments = null;
+
+            Log::info('reference is ' . $ref);
             if ($ref != 0) {
-                $this->vehicleDetailsService->getVehicleDetails($ref);
-                $this->vehicleDetailsService->getVehicleDocuments($ref);
+                $vehicle = $this->vehicleDetailsService->getVehicleDetails($ref);
+                $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($ref);
             }
 
             return response()->json([
