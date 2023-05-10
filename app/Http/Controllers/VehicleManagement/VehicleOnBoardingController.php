@@ -127,7 +127,7 @@ class VehicleOnBoardingController extends Controller
         } catch (Exception $e) {
             Log::error($e);
 
-            return view("vehicleManagement.onboarding.index")
+            return view("vehicleManagement.onboarding.step1")
                 ->with(compact('reference', 'vehicle', 'vehicleDocuments'));
         }
     }
