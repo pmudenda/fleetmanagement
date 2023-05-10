@@ -41,6 +41,50 @@ class VehicleOnBoardingController extends Controller
         return view($viewName);
     }
 
+    public function showDetails(Request $request): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
+    {
+        if ($request->has('reference')) {
+            if (!$request->hasValidSignature()) {
+                abort(401);
+            }
+        }
+
+        if ($request->has('step') && $request->get('step') != "1") {
+            if (!$request->hasValidSignature()) {
+                abort(401);
+            }
+        }
+
+        if (!$request->has('step')) {
+            return redirect(route('new.vehicle', ['step' => 1]));
+        }
+
+        $step = $request->get('step') ?? 0;
+        $reference = $request->get('reference') ?? 0;
+        $vehicle = null;
+        $vehicleDocuments = [];
+        if ($reference != 0) {
+            $vehicle = $this->vehicleDetailsService->getVehicleDetails($reference);
+            $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
+        }
+        $viewName = 'vehicleManagement.details.view';
+
+        /*match ($step) {
+            '1' => "",
+            '2' => "vehicleManagement.onboarding.step2",
+            '3' => "vehicleManagement.onboarding.step3",
+            '4' => "vehicleManagement.onboarding.step4",
+            '5' => "vehicleManagement.onboarding.step5",
+            '6' => "vehicleManagement.onboarding.step6",
+            default => "vehicleManagement.onboarding.index",
+        };*/
+
+
+        return view($viewName)
+            ->with(compact('reference', 'vehicle', 'vehicleDocuments'));
+    }
+
+
     public function start(Request $request): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
     {
         if ($request->has('reference')) {

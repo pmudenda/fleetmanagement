@@ -11,6 +11,7 @@ use App\Http\Requests\ChassisDetailsPostRequest;
 use App\Http\Requests\CostingDetailsPost;
 use App\Http\Requests\EngineDetailsPost;
 use App\Http\Requests\VehicleHeaderRequest;
+use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\configurations\vehicle\ConfigVehicleBodyType;
 use App\Models\configurations\vehicle\ConfigVehicleBrand;
 use App\Models\configurations\vehicle\ConfigVehicleModel;
@@ -323,7 +324,8 @@ class OnBoardingService
         $bu_code = $businessUnitParts[0];
         $bu_name = $businessUnitParts[1];
 
-        $businessArea = BusinessAreas::where('code', '=', trim($request->input('businessArea')))->first();
+        $businessArea = GeneralTableConfigurations::where('code', '=', trim($request->input('businessArea')))
+            ->where('type','=','businessAreas')->first();
 
         if (!$businessArea) {
             throw new VehicleOnBoardingException("Invalid Business Area", 0);

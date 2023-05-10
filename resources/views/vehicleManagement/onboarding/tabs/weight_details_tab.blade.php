@@ -29,7 +29,7 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
                                 <input type="text"
-                                       class="input-with-feedback number_input form-control bold"
+                                       class="input-with-feedback number_input form-control bold view_mode"
                                        maxlength="4"
                                        data-fieldtype="Link"
                                        data-fieldname="company"
@@ -52,7 +52,7 @@
             </td>
             <td>
                 <input type="text"
-                       class="input-with-feedback number_input form-control bold"
+                       class="input-with-feedback number_input form-control bold view_mode"
                        maxlength="140"
                        required
                        data-fieldtype="Link"
@@ -78,7 +78,7 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
                                 <input type="text"
-                                       class="input-with-feedback number_input form-control bold"
+                                       class="input-with-feedback number_input form-control bold view_mode"
                                        maxlength="140"
                                        required
                                        data-fieldtype="Link"
@@ -117,7 +117,7 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
                                 <input type="text"
-                                       class="input-with-feedback form-control bold"
+                                       class="input-with-feedback form-control bold view_mode"
                                        maxlength="15"
                                        id="seatCapFront"
                                        name="seatCapFront"
@@ -236,7 +236,7 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <input type="text"
-                                   class="input-with-feedback form-control bold"
+                                   class="input-with-feedback form-control bold view_mode"
                                    maxlength="140"
                                    id="distanceAxle1"
                                    name="distanceAxle1"
@@ -260,7 +260,7 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <input type="text"
-                                   class="input-with-feedback form-control bold"
+                                   class="input-with-feedback form-control bold view_mode"
                                    maxlength="140"
                                    id="distanceAxle2"
                                    name="distanceAxle2"
@@ -285,7 +285,7 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <input type="text"
-                                   class="input-with-feedback form-control bold"
+                                   class="input-with-feedback form-control bold view_mode"
                                    maxlength="140"
                                    id="distanceAxle3"
                                    name="distanceAxle3"
@@ -309,7 +309,7 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <input type="text"
-                                   class="input-with-feedback form-control bold"
+                                   class="input-with-feedback form-control bold view_mode"
                                    maxlength="140"
                                    id="distanceAxle4"
                                    name="distanceAxle4"
@@ -342,7 +342,7 @@
                             <div>
                                 <input type="text"
                                        required
-                                       class="input-with-feedback form-control bold"
+                                       class="input-with-feedback form-control bold view_mode"
                                        maxlength="140"
                                        data-fieldtype="Link"
                                        data-fieldname="company"
@@ -365,7 +365,7 @@
             </td>
             <td>
                 <input type="text"
-                       class="input-with-feedback form-control bold"
+                       class="input-with-feedback form-control bold view_mode"
                        maxlength="140"
                        required
                        data-fieldtype="Link"
@@ -470,7 +470,7 @@
         </tbody>
     </table>
 
-    <div class="mt-10">
+    <div class="mt-10 create_mode">
         <button type="submit" id="tms_save_body" class="btn btn-success btn-sm">
             <i class="fas fa-paper-plane"></i>
             <span class="indicator-label">Save</span>

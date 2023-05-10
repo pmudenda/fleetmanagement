@@ -31,7 +31,7 @@
                                            id="numberOfCylinders"
                                            name="numberOfCylinders"
                                            v-model="engineDetails.numberOfCylinders"
-                                           class="input-with-feedback form-control bold number_input"
+                                           class="input-with-feedback form-control bold number_input view_mode"
                                            data-fieldtype="Link"
                                            data-fieldname="company"
                                            data-doctype="EngineDetails"
@@ -55,7 +55,7 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
                                     <input type="text"
-                                           class="input-with-feedback form-control bold number_input"
+                                           class="input-with-feedback form-control bold number_input view_mode"
                                            maxlength="140"
                                            required
                                            data-fieldtype="Link"
@@ -92,7 +92,7 @@
                                 <div class="input-group bg-gray-300">
                                     <input type="text"
                                            required
-                                           class="input-with-feedback form-control bold number_input"
+                                           class="input-with-feedback form-control bold number_input view_mode"
                                            maxlength="140"
                                            data-fieldname="company"
                                            id="claimedEnginePower"
@@ -126,7 +126,7 @@
                                 <div class="input-group bg-gray-300">
                                     <input type="text"
                                            required
-                                           class="input-with-feedback form-control bold number_input"
+                                           class="input-with-feedback form-control bold number_input view_mode"
                                            maxlength="140"
                                            v-model="engineDetails.actualEnginePower"
                                            name="actualEnginePower"
@@ -160,7 +160,7 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <select
                                     required
-                                    class="input-with-feedback form-select bold"
+                                    class="input-with-feedback form-select bold view_mode"
                                     data-fieldtype="Link"
                                     data-fieldname="company"
                                     id="engineBrand"
@@ -195,7 +195,7 @@
                                 <div>
                                     <select
                                         required
-                                        class="input-with-feedback form-select bold"
+                                        class="input-with-feedback form-select bold view_mode"
                                         id="fuelTypes"
                                         name="fuelTypes"
                                         v-model="engineDetails.fuelTypes"
@@ -229,7 +229,7 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <input
                                     required
-                                    class="input-with-feedback form-control bold"
+                                    class="input-with-feedback form-control bold view_mode"
                                     data-fieldtype="Link"
                                     data-fieldname="company"
                                     id="engineType"
@@ -255,7 +255,7 @@
                                     required
                                     id="transmission_type"
                                     name="transmission_type"
-                                    class="form-select form-select-sm"
+                                    class="form-select form-select-sm view_mode"
                                     v-model="engineDetails.transmissionType"
                                     data-doctype="EngineDetails"
                                     @change="transmissionTypeChanged">
@@ -290,7 +290,7 @@
                                 <div class="input-group bg-gray-300">
                                     <input type="text"
                                            required
-                                           class="input-with-feedback form-control bold"
+                                           class="input-with-feedback form-control bold view_mode"
                                            maxlength="140"
                                            v-model="engineDetails.fuelConsumption"
                                            name="fuelConsumption"
@@ -358,7 +358,7 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
                                     <input type="text"
-                                           class="input-with-feedback number_input form-control bold"
+                                           class="input-with-feedback number_input form-control bold view_mode"
                                            maxlength="4"
                                            required
                                            v-model="engineDetails.tank_capacity"
@@ -392,7 +392,7 @@
                                 <div class="input-group bg-gray-300">
                                     <input type="text"
                                            maxlength="4"
-                                           class="input-with-feedback number_input form-control bold"
+                                           class="input-with-feedback number_input form-control bold view_mode"
                                            v-model="engineDetails.sub_tank_capacity"
                                            name="sub_tank_capacity"
                                            id="sub_tank_capacity"
@@ -436,7 +436,7 @@
                                            id="numberOfTyres"
                                            name="numberOfTyres"
                                            v-model="otherDetails.numberOfTyres"
-                                           class="input-with-feedback form-control bold number_input"
+                                           class="input-with-feedback form-control bold number_input view_mode"
                                            maxlength="140"
                                            placeholder=""
                                            data-doctype="EngineDetails"
@@ -462,7 +462,7 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="awesomplete">
                                     <input type="text"
-                                           class="input-with-feedback form-control bold"
+                                           class="input-with-feedback form-control bold view_mode"
                                            maxlength="140"
                                            id="tyreBrand"
                                            name="tyreBrand"
@@ -491,7 +491,7 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
                                     <input type="text"
-                                           class="input-with-feedback form-control bold tyre-size"
+                                           class="input-with-feedback form-control bold tyre-size view_mode"
                                            maxlength="15"
                                            required
                                            id="frontTyreSize"
@@ -519,7 +519,7 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
                                     <input type="text"
-                                           class="input-with-feedback form-control bold tyre-size"
+                                           class="input-with-feedback form-control bold tyre-size view_mode"
                                            maxlength="15"
                                            placeholder="e.g. 225/70/R17"
                                            v-model="otherDetails.rearTyreSize"
@@ -561,7 +561,7 @@
                                            id="batteryBrand"
                                            name="batteryBrand"
                                            v-model="otherDetails.batteryBrand"
-                                           class="input-with-feedback form-control bold"
+                                           class="input-with-feedback form-control bold view_mode"
                                            maxlength="140"
                                            data-fieldtype="Link"
                                            data-fieldname="company"
@@ -587,7 +587,7 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
                                     <input type="text"
-                                           class="input-with-feedback form-control bold"
+                                           class="input-with-feedback form-control bold view_mode"
                                            maxlength="140"
                                            data-fieldtype="Link"
                                            data-fieldname="company"
@@ -617,7 +617,7 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
                                     <input type="text"
-                                           class="input-with-feedback form-control bold number_input"
+                                           class="input-with-feedback form-control bold number_input view_mode"
                                            maxlength="140" data-fieldtype="Link"
                                            data-fieldname="company"
                                            id="batteryPower"
@@ -642,7 +642,7 @@
         </table>
     </fieldset>
 
-    <div class="mt-5">
+    <div class="mt-5 create_mode">
         <button type="submit" id="tms_save_engine" class="btn btn-success btn-sm">
             <i class="fas fa-paper-plane"></i> Save
         </button>

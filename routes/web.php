@@ -87,7 +87,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('/user', UsersController::class);
 
         Route::post('/get-employee-data', [UsersController::class, 'search'])->name('user.search');
-
         Route::post('user/attach/{id}', [UsersController::class, 'attach'])->name('user.attach');
         Route::post('user/detach/{id}', [UsersController::class, 'detach'])->name('user.detach');
 
@@ -155,6 +154,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/register', [VehicleOnBoardingController::class, 'start'])->name('new.vehicle');
 
             Route::get('/vehicle-details', [VehicleOnBoardingController::class, 'start'])->name('view.vehicle');
+
+            Route::get('/show-vehicle-details', [VehicleOnBoardingController::class, 'showDetails'])->name('vehicle.show');
 
             Route::get('/view/vehicle/details', [VehicleOnBoardingController::class, 'show'])->name('view.vehicle.detail');
 

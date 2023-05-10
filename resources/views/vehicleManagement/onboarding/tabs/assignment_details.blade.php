@@ -24,7 +24,7 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
                                 <select
-                                    class="form-select form-select-sm"
+                                    class="form-select form-select-sm view_mode"
                                     maxlength="140"
                                     id="businessArea"
                                     name="businessArea"
@@ -61,7 +61,7 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
                                 <select
-                                    class="form-select form-select-sm"
+                                    class="form-select form-select-sm view_mode"
                                     id="directorate"
                                     name="directorate"
                                     v-model="assignmentDetails.directorate">
@@ -97,7 +97,7 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
                                 <input type="text"
-                                       class="input-with-feedback form-control bold"
+                                       class="input-with-feedback form-control bold view_mode"
                                        id="businessUnit"
                                        required
                                        readonly
@@ -128,7 +128,7 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
                                 <input type="text"
-                                       class="input-with-feedback form-control bold"
+                                       class="input-with-feedback form-control bold view_mode"
                                        placeholder="Cost Center"
                                        readonly
                                        v-model="assignmentDetails.costCenter"
@@ -157,7 +157,7 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <label class="form-check-inline">
                                 <input type="radio"
-                                       class="list-row-checkbox bold"
+                                       class="list-row-checkbox bold view_mode"
                                        id="isPoolVehicle"
                                        name="isPoolVehicle"
                                        value="Y"
@@ -167,7 +167,7 @@
                                 Yes
                             </label>
                             <label class="form-check-inline"> <input type="radio"
-                                                                     class="list-row-checkbox bold"
+                                                                     class="list-row-checkbox bold view_mode"
                                                                      name="isPoolVehicle"
                                                                      id="isNotPoolVehicle"
                                                                      value="N"
@@ -198,7 +198,7 @@
                            data-assignmenttype="single"
                            data-inputfield="responsibleHOD"
                            name="responsibleHOD"
-                           class="form-control"
+                           class="form-control view_mode"
                            value="{{$vehicle->responsible_head_name}}"
                            data-emp="staff_number"
                            data-doctype="AssignmentDetails"
@@ -216,12 +216,12 @@
                                 data-assignmenttype="single"
                                 data-inputfield="responsibleHOD"
                                 data-field="userSelection"
-                                class="input-group-text">
+                                class="input-group-text view_mode">
                             <i class="fa fa-user"></i>
                         </button>
                         <button type="button"
                                 data-action="clearUsers"
-                                class="input-group-text">
+                                class="input-group-text view_mode">
                             <i class="fa fa-eraser"></i>
                         </button>
                     </div>
@@ -252,7 +252,7 @@
                                        data-inputfield="vehicleHolder"
                                        name="vehicleHolder"
                                        value="{{$vehicle->responsible_head_name}}"
-                                       class="form-control"
+                                       class="form-control view_mode"
                                        data-emp="staff_number"
                                        data-doctype="AssignmentDetails"
                                        autocomplete="off"
@@ -270,12 +270,12 @@
                                             data-assignmenttype="single"
                                             data-inputfield="vehicleHolder"
                                             data-field="userSelection"
-                                            class="input-group-text">
+                                            class="input-group-text view_mode">
                                         <i class="fa fa-user"></i>
                                     </button>
                                     <button type="button"
                                             data-action="clearUsers"
-                                            class="input-group-text">
+                                            class="input-group-text view_mode">
                                         <i class="fa fa-eraser"></i>
                                     </button>
                                 </div>
@@ -318,10 +318,10 @@
                             <label class="form-check-inline">
                                 <input type="radio"
                                        checked
-                                       class="list-row-checkbox bold"
+                                       class="list-row-checkbox bold view_mode"
                                        name="isMileageExempt"
                                        readonly
-                                       value=""
+                                       value="N"
                                        placeholder=""
                                        data-target="Company">
                                 No
@@ -348,7 +348,7 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <label class="form-check-inline">
                                 <input type="radio"
-                                       class="list-row-checkbox bold"
+                                       class="list-row-checkbox bold view_mode"
                                        name="isMileageExempt"
                                        value="Y"
                                        checked
@@ -475,7 +475,7 @@
         </option>
     </datalist>
 
-    <div>
+    <div class="create_mode">
         <button type="submit" id="tms_save_assignment" class="btn btn-success btn-sm">
             <i class="fas fa-paper-plane"></i> Save
         </button>

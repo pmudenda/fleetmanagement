@@ -28,7 +28,7 @@
                                                id="chassisNumber"
                                                name="chassisNumber"
                                                v-model="chassisDetails.chassisNumber"
-                                               class="input-with-feedback form-control bold"
+                                               class="input-with-feedback form-control bold view_mode"
                                                maxlength="140"
                                                @change="checkChassisNumberValidity"
                                                data-fieldtype="Link"
@@ -57,7 +57,7 @@
                                     <div class="">
                                         <input type="text"
                                                required
-                                               class="input-with-feedback form-control bold"
+                                               class="input-with-feedback form-control view_mode"
                                                maxlength="140" data-fieldtype="Link"
                                                data-fieldname="company" id="engineNumber"
                                                name="engineNumber"
@@ -86,7 +86,7 @@
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="">
                                         <input type="text"
-                                               class="input-with-feedback form-control bold"
+                                               class="input-with-feedback form-control view_mode"
                                                maxlength="50"
                                                required
                                                data-fieldname="company"
@@ -115,7 +115,7 @@
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="">
                                         <input type="text"
-                                               class="input-with-feedback form-control bold"
+                                               class="input-with-feedback form-control view_mode"
                                                maxlength="140"
                                                v-model="chassisDetails.stickerRegistrationNumber"
                                                name="stickerRegistrationNumber"
@@ -147,7 +147,7 @@
                                     <div class="">
                                         <input
                                             date-format="YYYY"
-                                            class="input-with-feedback form-control bold number_input"
+                                            class="input-with-feedback form-control bold number_input view_mode"
                                             type="number" min="1990" max="{{date('Y')}}" step="1"
                                             required
                                             id="yearOfManufacture"
@@ -177,7 +177,7 @@
                                         <input type="date"
                                                max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
                                                required
-                                               class="input-with-feedback form-control bold"
+                                               class="input-with-feedback form-control view_mode"
                                                data-fieldname="registrationDate"
                                                name="registrationDate"
                                                id="registrationDate"
@@ -208,7 +208,7 @@
                                 <input type="date" name="dateOnRoad" id="dateOnRoad"
                                        disabled
                                        autocomplete="off"
-                                       class="input-with-feedback form-control bold"
+                                       class="input-with-feedback form-control view_mode"
                                        data-fieldtype="Datetime"
                                        data-fieldname="first_date_on_road"
                                        placeholder=""
@@ -237,7 +237,7 @@
                                         <input type="text"
                                                name="chargeOutRate"
                                                id="chargeOutRate"
-                                               class="input-with-feedback form-control bold"
+                                               class="input-with-feedback form-control view_mode"
                                                required
                                                v-model="chassisDetails.chargeOutRate"
                                                placeholder=""
@@ -267,7 +267,7 @@
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="">
-                                        <select class="form-select form-select-sm"
+                                        <select class="form-select form-select-sm view_mode"
                                                 required
                                                 name="requiredMinimumDrivingLicense"
                                                 id="requiredMinimumDrivingLicense"
@@ -310,7 +310,7 @@
                                            v-model="chassisDetails.initialOdometerReading"
                                            name="initialOdometerReading"
                                            id="initialOdometerReading"
-                                           class="input-with-feedback number_input form-control bold"
+                                           class="input-with-feedback number_input form-control view_mode"
                                            placeholder=""
                                            required
                                            data-doctype="ChassisDetails"
@@ -333,7 +333,7 @@
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="">
                                         <input type="text"
-                                               class="input-with-feedback number_input form-control bold"
+                                               class="input-with-feedback number_input form-control view_mode"
                                                required
                                                name="currentOdometerReading"
                                                id="currentOdometerReading"
@@ -363,7 +363,7 @@
                                            name="odometerReadingLastService"
                                            id="odometerReadingLastService"
                                            v-model="chassisDetails.odometerReadingLastService"
-                                           class="input-with-feedback number_input form-control bold"
+                                           class="input-with-feedback number_input form-control bold view_mode"
                                            required
                                            placeholder=""
                                            data-doctype="ChassisDetails"
@@ -418,7 +418,7 @@
                                            name="inspectionDate"
                                            id="inspectionDate"
                                            required
-                                           class="input-with-feedback form-control bold"
+                                           class="input-with-feedback form-control bold view_mode"
                                            placeholder=""
                                            data-doctype="ChassisDetails"
                                            autocomplete="off">
@@ -439,7 +439,6 @@
                         <div class="control-input-wrapper" style="display: none;">
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
-
                                     <input type="checkbox"
                                            class="input-with-feedback form-check-input bold"
                                            disabled
@@ -458,7 +457,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-4">
+        <div class="col-4 create_mode">
             <div class="row">
                 <div class="form-group row">
                     <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
@@ -493,9 +492,9 @@
     </div>
 
     <div class="row mt-10" v-if="documents && documents.insurance && documents.certificate">
-        <table class="table table-bordered">
+        <table class="table align-middle table-row-dashed dataTable no-footer">
             <thead>
-            <tr>
+            <tr class="bg-dark" >
                 <th>Document Type</th>
                 <th>File Name</th>
                 <th></th>
@@ -505,8 +504,9 @@
                 <td>Motor Vehicle Certificate</td>
                 <td>@{{ documents.certificate?.originalDocumentName }}</td>
                 <td>
-                    <button type="button" :data-document-url="'/storage'+documents.certificate?.path"
-                            class="btn btn-success">View File
+                    <button data-zfm-view-file="certificate"
+                            type="button" :data-document-url="'/storage'+documents.certificate?.path"
+                            class="btn btn-sm btn-success">View File
                     </button>
                 </td>
             </tr>
@@ -514,13 +514,15 @@
                 <td>Insurance Cover Note</td>
                 <td>@{{ documents.insurance?.originalDocumentName }}</td>
                 <td>
-                    <button type="button" :data-document-url="'/storage'+documents.insurance?.path"
-                            class="btn btn-success">View File
+                    <button data-zfm-view-file="insurance"
+                            type="button" :data-document-url="'/storage'+documents.insurance?.path"
+                            class="btn btn-sm btn-success">View File
                     </button>
                 </td>
             </tr>
         </table>
     </div>
+
     <div class="row mt-10">
         <div class="col-md-3" v-if="images && images.frontView">
             <div class="card text-center py-5 my-2">
@@ -562,7 +564,7 @@
         </div>
     </div>
 
-    <div class="row mt-10 mb-10">
+    <div class="row mt-10 mb-10 create_mode">
         <div class="col-md-3">
             <div class="card text-center py-5 my-2">
                 <h2 class="fs-2x fw-bold mb-10">Front View</h2>
@@ -684,7 +686,7 @@
     </div>
 
     <div class="mt-5">
-        <div class="form-group">
+        <div class="form-group create_mode">
             <button type="submit" id="tms_save_chassis" class="btn btn-success btn-sm">
                 <i class="fas fa-paper-plane"></i> Save
             </button>

@@ -36,7 +36,7 @@
                             role="tablist">
 
                             <li class="nav-item" role="presentation" data-tab="tms_chassis_details_tab">
-                                <a class="nav-link text-active-primary pb-5" data-bs-toggle="tab"
+                                <a class="nav-link text-active-primary pb-5 active" data-bs-toggle="tab"
                                    href="#tms_chassis_details_tab"
                                    aria-selected="false"
                                    role="tab"
@@ -76,7 +76,7 @@
                             </li>
 
                             <li class="nav-item" role="presentation" data-tab="tms_assignment_tab">
-                                <a class="nav-link text-active-primary pb-5 active"
+                                <a class="nav-link text-active-primary pb-5"
                                    data-bs-toggle="tab"
                                    href="#tms_assignment_tab" aria-selected="false" role="tab"
                                    tabindex="-1">
@@ -92,7 +92,7 @@
                         <div class="tab-content" id="myTabContent">
 
                             <!--Begin:::Chassis Details Tab pane-->
-                            <div class="tab-pane fade" id="tms_chassis_details_tab" role="tabpanel">
+                            <div class="tab-pane fade active show" id="tms_chassis_details_tab" role="tabpanel">
                                 @include('vehicleManagement.onboarding.tabs.chassis_tab')
                             </div>
                             <!--End:::Chassis Details Tab pane-->
@@ -116,7 +116,7 @@
                             <!--End::: Body WeightTab pane-->
 
                             <!--Begin:::Assignment Tab pane-->
-                            <div class="tab-pane fade active show" id="tms_assignment_tab" role="tabpanel">
+                            <div class="tab-pane fade" id="tms_assignment_tab" role="tabpanel">
                                 @include('vehicleManagement.onboarding.tabs.assignment_details')
                             </div>
                             <!--End::: Assignment Tab pane-->
@@ -169,4 +169,20 @@
         src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js').'?v='.Carbon::now()->format('his')}}"></script>
     <script
         src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
+    <script>
+        $(document).ready(function () {
+            let elements = document.querySelectorAll('.view_mode');
+            let elementsOnCreate = document.querySelectorAll('.create_mode');
+
+            elements.forEach(function (element) {
+                //element.removeAttribute('disabled');
+                element.setAttribute('disabled', 'disabled');
+            });
+
+            elementsOnCreate.forEach(function (element) {
+                element.style.display = 'none';
+                //('disabled', 'disabled');
+            })
+        });
+    </script>
 @endpush

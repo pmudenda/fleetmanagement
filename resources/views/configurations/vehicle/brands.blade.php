@@ -75,19 +75,13 @@
                             </td>
 
                             <td>
-                                <div v-if="item.status.toLowerCase() === 'active'" class="badge badge-light-success">
+                                <div v-if="item.status.toLowerCase() === '01'" class="badge badge-light-success">
                                     Active
                                 </div>
-                                <div v-else-if="item.status.toLowerCase() === 'expiring'"
-                                     class="badge badge-light-warning">
-                                    Expiring
-                                </div>
-                                <div v-else-if="item.status.toLowerCase() === 'suspended'"
+
+                                <div v-else
                                      class="badge badge-light-danger">
-                                    Suspended
-                                </div>
-                                <div v-else class="badge badge-danger">
-                                    @{{ item.status.toLowerCase() }}
+                                    Inactive
                                 </div>
                             </td>
 
@@ -235,7 +229,8 @@
                         </div>
 
                         <div class="modal-footer justify-content-end">
-                            <button type="reset" id="kt_modal_add_cancel" class="btn btn-sm btn-light me-3">
+                            <button type="reset" id="kt_modal_add_cancel"
+                                    class="btn btn-sm btn-danger me-3">
                                 Discard
                             </button>
 

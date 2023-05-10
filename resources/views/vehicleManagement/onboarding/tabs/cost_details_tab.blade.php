@@ -22,7 +22,7 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
-                                <select class="form-select form-control-sm"
+                                <select class="form-select form-control-sm view_mode"
                                         data-doctype="CostingDetails"
                                         v-model="costingAndValuation.supplierName"
                                         id="supplierName"
@@ -57,7 +57,7 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
                                 <input type="text"
-                                       class="input-with-feedback form-control bold"
+                                       class="input-with-feedback form-control bold view_mode"
                                        maxlength="15"
                                        data-a-sign="ZMW "
                                        id="costPrice"
@@ -86,7 +86,7 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
                                 <input type="number" min="1990" max="{{date('Y')}}" step="1"
-                                       class="input-with-feedback form-control bold number_input"
+                                       class="input-with-feedback form-control bold number_input view_mode"
                                        maxlength="4"
                                        v-model="costingAndValuation.yearOfPurchase"
                                        name="yearOfPurchase"
@@ -115,7 +115,7 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
                                 <input type="text"
-                                       class="input-with-feedback form-control bold"
+                                       class="input-with-feedback form-control bold view_mode"
                                        id="bookValue"
                                        data-a-sign="ZMW "
                                        name="bookValue"
@@ -145,7 +145,7 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
                                 <input type="text"
-                                       class="input-with-feedback form-control bold"
+                                       class="input-with-feedback form-control bold view_mode"
                                        maxlength="140"
                                        data-fieldtype="Link"
                                        data-fieldname="company"
@@ -173,7 +173,7 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <input type="text"
-                                   class="input-with-feedback form-control bold number_input"
+                                   class="input-with-feedback form-control bold number_input view_mode"
                                    id="costOfLicense"
                                    data-a-sign="ZMW"
                                    name="costOfLicense"
@@ -196,7 +196,7 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <input type="text"
-                                   class="input-with-feedback form-control bold"
+                                   class="input-with-feedback form-control bold view_mode"
                                    maxlength="140"
                                    id="premium"
                                    name="premium"
@@ -210,7 +210,7 @@
         </tr>
         </tbody>
     </table>
-    <div>
+    <div class="create_mode">
         <button type="submit" id="tms_save_costing" class="btn btn-success btn-sm">
             <i class="fas fa-paper-plane"></i>
             <span class="indicator-label">Save</span>

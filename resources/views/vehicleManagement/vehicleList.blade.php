@@ -663,6 +663,10 @@
                             </th>
 
                             <th>
+                                Onboarding Status
+                            </th>
+
+                            <th>
                                 Date Registered
                             </th>
 
@@ -706,20 +710,31 @@
                                 </td>
 
                                 <td>
-                                    {{--<div v-if="item.status.toLowerCase() === 'active'" class="badge badge-light-success">
-                                         Active
-                                     </div>
-                                     <div v-else-if="item.status.toLowerCase() === 'expiring'" class="badge badge-light-warning">
-                                         Expiring
-                                     </div>
-                                     <div v-else-if="item.status.toLowerCase() === 'suspended'" class="badge badge-light-danger">
-                                         Suspended
-                                     </div>
-                                     <div v-else class="badge badge-danger">
-                                         @{{ item.status.toLowerCase() }}
-                                     </div>--}}
+                                    @if($vehicle->status == '01')
+                                        <div class="badge badge-light-success">
+                                            Active
+                                        </div>
+                                    @elseif($vehicle->status == '02')
+                                        <div class="badge badge-light-danger">
+                                            Inactive
+                                        </div>
+                                    @else
+                                        <div class="badge badge-light-warning">
+                                            Onboarding
+                                        </div>
+                                    @endif
                                 </td>
-
+                                <td>
+                                    @if($vehicle->on_boarding_status == '030')
+                                        <div class="badge badge-light-success">
+                                            Complete
+                                        </div>
+                                    @else
+                                        <div class="badge badge-light-danger">
+                                            Pending
+                                        </div>
+                                    @endif
+                                </td>
 
                                 <td>
                                     {{$vehicle->created_at }}
@@ -746,18 +761,28 @@
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                             @can(config('edit_vehicle'))
-                                                @if($vehicle->on_boarding_status != StatusHelper::onboardingComplete())
+                                                @if($vehicle->on_boarding_status == StatusHelper::onboardingComplete())
                                                     <li>
                                                         <a class="dropdown-item" data-kt-action="edit"
-                                                           href="{{URL::signedRoute('view.vehicle', ['step' => 2, 'reference' => $vehicle->id, 'edit'=> true])}}">
+                                                           href="{{URL::signedRoute('view.vehicle', ['step' => 6, 'reference' => $vehicle->id, 'edit'=> true])}}">
                                                             Edit
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a class="dropdown-item" data-kt-action="edit"
+                                                           href="{{URL::signedRoute('vehicle.show', [
+                                                            'step' => 2,
+                                                            'reference' => $vehicle->id,
+                                                            'edit'=> true])}}">
+                                                            View
                                                         </a>
                                                     </li>
                                                 @endif
                                                 @if($vehicle->on_boarding_status != StatusHelper::onboardingComplete())
                                                     <li>
                                                         <a class="dropdown-item"
-                                                           href="{{URL::signedRoute('new.vehicle',['step' => 1, 'reference' => $vehicle->id])}}">
+                                                           href="{{URL::signedRoute('new.vehicle',['step' => 2, 'reference' => $vehicle->id])}}">
                                                             Complete Onboarding
                                                         </a>
                                                     </li>

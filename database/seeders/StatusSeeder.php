@@ -27,7 +27,6 @@ class StatusSeeder extends Seeder
             'code' => '01',
             'active'=>1,
             'module' => 'OGS',
-
         ]);
 
         DB::table('CONFIG_STATUSES')->insert([
@@ -207,6 +206,24 @@ class StatusSeeder extends Seeder
             'code' => '027',
             'active'=>1,
             'module' => 'MAT',
+        ]);
+
+        DB::table('CONFIG_STATUSES')->insert([
+            'description'=> '',
+            'name'=>'COMPLETED',
+            'code' => '030',
+            'active'=>1,
+            'module' => 'OB',
+
+        ]);
+
+        DB::table('CONFIG_STATUSES')->insert([
+            'description'=> '',
+            'name'=>'PENDING',
+            'code' => '031',
+            'active'=>1,
+            'module' => 'OB',
+
         ]);
     }
 }

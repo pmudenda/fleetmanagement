@@ -468,7 +468,7 @@
 
                 elements.forEach(function(element){
                     element.removeAttribute('disabled');
-                })
+                });
 
                 document.querySelector('#vehicleDetailsContainer').style.display = null;
                 //document.querySelector('#materialDetailsContainer').style.display = null;

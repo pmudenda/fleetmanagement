@@ -10,7 +10,7 @@
                         <span>Saved</span>
                     </span>
         </div>
-        <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
+        <div id="actionButtonsContainer" class="card-toolbar justify-content-end create_mode">
             <button type="button" id="submitBtn" class="btn btn-success btn-sm mr-3">
                 <i class="fas fa-paper-plane"></i> Submit
             </button>
@@ -36,7 +36,7 @@
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
                                 <div class="w-100 fv-row">
-                                    <select class="form-select form-control-sm"
+                                    <select class="form-select form-control-sm view_mode"
                                             name="registration_type"
                                             v-on:change="vehicleTypeChanged"
                                             v-model="vehicleHeader.vehicle_type">
@@ -64,7 +64,7 @@
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
                                 <div class="w-100 fv-row">
-                                    <select class="form-select form-select-sm"
+                                    <select class="form-select form-select-sm view_mode"
                                             :placeholder="vehicle_brand_placeholder"
                                             v-on:change="vehicleBrandChanged"
                                             name="brand"
@@ -90,7 +90,7 @@
                         <div class="col-md-9 fv-row ">
                             <div class="col-md-9">
                                 <div class="w-100">
-                                    <select class="form-select form-select-sm d-none"
+                                    <select class="form-select form-select-sm d-none view_mode"
                                             required
                                             :placeholder="vehicle_model_placeholder"
                                             :get-option-label="getModelLabel"
@@ -103,7 +103,7 @@
                                             @{{model.model_name}}
                                         </option>
                                     </select>
-                                    <input class="form-control"
+                                    <input class="form-control view_mode"
                                            id="model_holder"
                                            value="{{$vehicle->model_name ?? ''}}"
                                            type="text"
@@ -121,7 +121,7 @@
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
                                 <div class="w-100">
-                                    <input class="form-control form-control-solid"
+                                    <input class="form-control form-control-solid view_mode"
                                            name="model_code"
                                            readonly
                                            id="model_code"
@@ -140,7 +140,7 @@
                         <div class="col-md-9 fv-row ">
                             <div class="col-md-9">
                                 <div class="w-100">
-                                    <select class="form-select form-select-sm"
+                                    <select class="form-select form-select-sm view_mode"
                                             required
                                             :placeholder="'Pick Body Type'"
                                             @input="bodyTypeChanged"
@@ -169,7 +169,8 @@
                                 <div class="control-input-wrapper">
                                     <div class="control-input">
                                         <div class="link-field ui-front" style="position: relative;">
-                                            <select class="form-select form-select-2" required
+                                            <select class="form-select form-select-2 view_mode"
+                                                    required
                                                     name="user_unit"
                                                     id="user_unit"
                                                     onchange="userUnitChanged(this)"
@@ -203,7 +204,7 @@
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
                                 <input type="text"
-                                       class="form-control"
+                                       class="form-control view_mode"
                                        name="registrationNumber"
                                        value="{{$vehicle->registration_number ?? ''}}"
                                        onpaste="return false"
@@ -225,7 +226,7 @@
                             <div class="col-md-9">
                                 <input type="text"
                                        required
-                                       class="form-control"
+                                       class="form-control view_mode"
                                        name="vehicleLocation"
                                        id="vehicleLocation"
                                        value="{{$vehicle->location_name ?? ''}}"

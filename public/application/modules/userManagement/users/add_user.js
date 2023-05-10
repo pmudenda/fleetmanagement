@@ -31,6 +31,7 @@
                                     'User Creation',
                                     asyncResponse['message'],
                                     function () {
+                                        window.location.reload();
                                     }, 'success');
                             }, 300)
                         } else {
