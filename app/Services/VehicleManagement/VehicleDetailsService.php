@@ -12,7 +12,8 @@ class VehicleDetailsService
         if (empty($ref)) {
             return null;
         }
-        /*return DB::table('VM_VEHICLE_HEADER')->
+
+        return DB::table('VM_VEHICLE_HEADER')->
         where('VM_VEHICLE_HEADER.id', '=', $ref)
             ->leftJoin('VM_ENGINE_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
             ->leftJoin('VM_ASSIGNMENTS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ASSIGNMENTS.vehicle_header_id')
@@ -29,30 +30,8 @@ class VehicleDetailsService
                 'VM_COST_AND_VALUATIONS.*',
                 'VM_BODY_AND_WEIGHT_DETAILS.id as weightDetailsId',
                 'VM_BODY_AND_WEIGHT_DETAILS.*')
-            ->first();*/
+            ->get();
 
-       return DB::raw('select "VM_VEHICLE_HEADER"."ID" as "HEADERID",
-                      "VM_VEHICLE_HEADER".*,
-                      "VM_ASSIGNMENTS"."ID" as "ASSIGNMENTID",
-                      "VM_ASSIGNMENTS".*,
-                      "VM_ENGINE_DETAILS"."ID" as "ENGINEDETAILSID",
-                      "VM_ENGINE_DETAILS".*,
-                      "VM_CHASSIS_DETAILS"."ID" as "CHASSISDETAILSID",
-                      "VM_CHASSIS_DETAILS".*,
-                      "VM_COST_AND_VALUATIONS"."ID" as "COSTANDVALUATIONID",
-                      "VM_COST_AND_VALUATIONS".*,
-                      "VM_BODY_AND_WEIGHT_DETAILS"."ID" as "WEIGHTDETAILSID",
-                      "VM_BODY_AND_WEIGHT_DETAILS".*
-               from "VM_VEHICLE_HEADER" left join "VM_ENGINE_DETAILS"
-                   on "VM_VEHICLE_HEADER"."ID" = "VM_ENGINE_DETAILS"."VEHICLE_HEADER_ID"
-                   left join "VM_ASSIGNMENTS" on "VM_VEHICLE_HEADER"."ID" = "VM_ASSIGNMENTS"."VEHICLE_HEADER_ID"
-                   left join "VM_CHASSIS_DETAILS"
-                       on "VM_VEHICLE_HEADER"."ID" = "VM_CHASSIS_DETAILS"."VEHICLE_HEADER_ID"
-                   left join "VM_COST_AND_VALUATIONS"
-                       on "VM_VEHICLE_HEADER"."ID" = "VM_COST_AND_VALUATIONS"."VEHICLE_HEADER_ID"
-                   left join "VM_BODY_AND_WEIGHT_DETAILS"
-                       on "VM_VEHICLE_HEADER"."ID" = "VM_BODY_AND_WEIGHT_DETAILS"."VEHICLE_HEADER_ID"
-where "VM_VEHICLE_HEADER"."ID" = '. $ref)->get();
     }
 
     public function getVehicleDocuments(mixed $reference)
