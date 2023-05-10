@@ -52,7 +52,7 @@ class VehicleDetailsService
                        on "VM_VEHICLE_HEADER"."ID" = "VM_COST_AND_VALUATIONS"."VEHICLE_HEADER_ID"
                    left join "VM_BODY_AND_WEIGHT_DETAILS"
                        on "VM_VEHICLE_HEADER"."ID" = "VM_BODY_AND_WEIGHT_DETAILS"."VEHICLE_HEADER_ID"
-where "VM_VEHICLE_HEADER"."ID" = '. $ref);
+where "VM_VEHICLE_HEADER"."ID" = '. $ref)->get();
     }
 
     public function getVehicleDocuments(mixed $reference)
