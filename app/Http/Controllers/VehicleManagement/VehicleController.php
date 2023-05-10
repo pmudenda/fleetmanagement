@@ -36,7 +36,7 @@ class VehicleController extends Controller
 
             $vehicle = null;
             $vehicleDocuments = null;
-            if ($ref != 0 !empty($ref) ) {
+            if ($ref != 0) {
                 $this->vehicleDetailsService->getVehicleDetails($ref);
                 $this->vehicleDetailsService->getVehicleDocuments($ref);
             }
@@ -47,7 +47,8 @@ class VehicleController extends Controller
                     'documents' => $vehicleDocuments
                 ],
                 'success' => !empty($vehicle),
-                'message' => 'Vehicle Details retrieved successfully'
+                'message' => !empty($vehicle) ? 'Vehicle Details retrieved successfully'
+                    : 'Could not read vehicle details'
             ]);
         } catch (Exception $e) {
             Log::error($e);
