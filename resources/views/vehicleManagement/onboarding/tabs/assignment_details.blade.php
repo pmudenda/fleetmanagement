@@ -5,7 +5,7 @@
     class="form fv-plugins-bootstrap5 fv-plugins-framework"
     action="{{route('vehicle.assignment.detail')}}">
     <input type="hidden" name="doctype" value="AssignmentDetails"/>
-    <input type="hidden" name="headerId" value="{{$reference}}"/>
+    <input type="hidden" name="headerId" value="{{$reference ?? 0}}"/>
     <input type="hidden" name="assignmentId" value="{{$vehicle->assignmentId ?? 0}}"/>
     <x-error-view/>
     <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
@@ -199,7 +199,7 @@
                            data-inputfield="responsibleHOD"
                            name="responsibleHOD"
                            class="form-control view_mode"
-                           value="{{$vehicle->responsible_head_name}}"
+                           value="{{$vehicle->responsible_head_name ?? ''}}"
                            data-emp="staff_number"
                            data-doctype="AssignmentDetails"
                     />
@@ -208,7 +208,7 @@
                            data-assignmenttype="single"
                            data-inputfield="responsibleHODId"
                            id="responsibleHODId"
-                           value="{{$vehicle->responsible_head_id}}"
+                           value="{{$vehicle->responsible_head_id ?? ''}}"
                            name="responsibleHODId"/>
 
                     <div class="input-group-append input-group-sm">
@@ -251,7 +251,7 @@
                                        data-assignmenttype="single"
                                        data-inputfield="vehicleHolder"
                                        name="vehicleHolder"
-                                       value="{{$vehicle->responsible_head_name}}"
+                                       value="{{$vehicle->responsible_head_name ?? ''}}"
                                        class="form-control view_mode"
                                        data-emp="staff_number"
                                        data-doctype="AssignmentDetails"
@@ -261,7 +261,7 @@
                                 <input type="hidden"
                                        data-assignmenttype="single"
                                        data-inputfield="vehicleHolderId"
-                                       value="{{$vehicle->responsible_head_id}}"
+                                       value="{{$vehicle->responsible_head_id ?? ''}}"
                                        id="vehicleHolderId"
                                        name="vehicleHolderId"/>
 
