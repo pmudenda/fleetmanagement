@@ -9,6 +9,11 @@
         // validate data here
 
         let $form = document.forms['tms_user_definition'];
+        if (!$($form).valid()) {
+            toastr.warning('Data failed validation checks');
+            return;
+        }
+
         window.tmsApp.confirm(
             'Create User',
             'Are you sure you want to add user ?',
@@ -59,7 +64,71 @@
             function () {
             },
         )
-    })
+    });
+
+    tmsApp.appFormValidator('form[name="tms_user_definition"]',
+        {
+            name: {
+                required: true,
+            },
+            staff_number: {
+                required: true
+            },
+            login_name: {
+                required: true
+            },
+            grade: {
+                required: true
+            },
+            job_title: {
+                required: true
+            },
+            staff_email: {
+                required: true
+            },
+            mobile_no: {
+                required: true
+            },
+            directorate: {
+                required: true
+            },
+            user_unit: {
+                required: true
+            },
+            bu_code: {
+                required: true
+            },
+            cc_code: {
+                required: true
+            },
+            password: {
+                required: true
+            },
+            staff_supervisor: {
+                required: true
+            },
+            user_profile: {
+                required: true
+            }
+        },
+        {
+            bu_code: {
+                required: "User unit required"
+            },
+            cc_code: {
+                required: "Cost center is required"
+            },
+            password: {
+                required: "User default password is required"
+            },
+            staff_supervisor: {
+                required: "Employee supervisor is required"
+            },
+            user_profile: {
+                required: "User profile must be assigned"
+            }
+        }
+    );
 
 
 })(window.tmsApp || {}, jQuery)

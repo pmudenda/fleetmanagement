@@ -166,15 +166,15 @@ class OnBoardingService
                 0);
         }
 
-        $brand = ConfigVehicleBrand::where('guid', $request->input('brand'))->first();
-        $vehicleModel = ConfigVehicleModel::where('model_guid',
+        $brand = ConfigVehicleBrand::where('id', $request->input('brand'))->first();
+        $vehicleModel = ConfigVehicleModel::where('id',
             $request->input('model'))->first();
 
         if (empty($vehicleModel)) {
             throw new Exception('Vehicle Model Not Found');
         }
 
-        $bodyType = ConfigVehicleBodyType::where('guid',
+        $bodyType = ConfigVehicleBodyType::where('id',
             $request->input('bodyType'))->first();
 
         if (empty($bodyType)) {
@@ -186,12 +186,12 @@ class OnBoardingService
                 'registration_number' => $registrationNumber,
             ],
             [
-                'brand_guid' => $brand->guid,
+                'brand_guid' => $brand->id,
                 'brand_name' => $brand->name,
                 'model_guid' => $vehicleModel->model_guid,
                 'model_name' => $vehicleModel->model_name,
                 'model_code' => $vehicleModel->model_code,
-                'body_type_guid' => $bodyType->guid,
+                'body_type_guid' => $bodyType->id,
                 'body_type_name' => $bodyType->body_type_name,
                 'business_unit_code' => trim($organizationUnit->code_unit),
                 'business_unit_name' => trim($organizationUnit->description),

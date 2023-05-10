@@ -43,7 +43,7 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/global/plugins.bundle.js') }}"></script>
+    {{--<script src="{{ asset('assets/global/plugins.bundle.js') }}"></script>--}}
     {{--<script src="{{asset('assets/plugins/form-masking/form-mask.js')}}"></script>--}}
 {{--
     <script src="{{asset('application/modules/userManagement/employee.search.js').'?v='.\Carbon\Carbon::now()->format('his')}}"></script>

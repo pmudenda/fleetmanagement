@@ -258,13 +258,13 @@ let app = new Vue({
             this.value = this.value.toLocaleUpperCase();
         });
 
-        Inputmask({
+        /*Inputmask({
             "mask": "AAA 9999"
         }).mask("#registrationNumber");
 
         Inputmask({
             "mask": "999/99/A99"
-        }).mask(".tyre-size");
+        }).mask(".tyre-size");*/
 
         /*Inputmask("decimal", {
             "rightAlignNumerics": false
@@ -635,9 +635,9 @@ let app = new Vue({
         },
 
         modelChanged(model) {
-            this.vehicleHeader.model_guid = model?.model_guid;
+            this.vehicleHeader.model_guid = model?.id;
             this.vehicleHeader.model_code = model?.model_code;
-            document.querySelector('#model').value = model?.model_guid;
+            document.querySelector('#model').value = model?.id;
             document.querySelector('#model_code').value = model?.model_code;
         },
 

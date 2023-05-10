@@ -118,7 +118,7 @@ class VehicleOnBoardingController extends Controller
                 'state' => 'success',
                 'request' => $request->all(),
                 'payload' => $model,
-                'redirectUrl' => route('new.vehicle', ['step' => 2, 'reference' => $model->id]),
+                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 2, 'reference' => $model->id]),
                 'message' => 'Request Submitted Successfully'
             ]);
 
