@@ -1,22 +1,18 @@
 <?php
 
-use App\Enums;
-use App\Helpers\StatusHelper;
 use App\Http\Controllers\API\BusinessUnitsController;
 use App\Http\Controllers\API\CostCenterController;
 use App\Http\Controllers\API\OrganizationalUnitsController;
 use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
 use App\Http\Controllers\Configurations\VehicleBodyTypesController;
-use App\Models\configurations\vehicle\ConfigVehicleModel;
-use App\Models\general\BusinessAreas;
-use App\Models\general\DIRECTORATES;
+use App\Http\Controllers\OrganizationStructure\BusinessAreasController;
+use App\Http\Controllers\OrganizationStructure\DirectoratesController;
+use App\Http\Controllers\VehicleManagement\VehicleModelsController;
+use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\Security\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,69 +43,9 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     });
 
     /** MODELS **/
-
-    Route::post('/models', function (Request $request) {
-        try {
-            $data = $request->all();
-
-            $model = ConfigVehicleModel::create([
-                'status' => StatusHelper::active(),
-                'model_guid' => Str::uuid(),
-                'dateCreated' => Carbon::now(),
-                'brand_guid' => $request->input('brand_guid'),
-                'brand_name' => trim(strtoupper($request->input('brand_name'))),
-                'model_name' => trim(strtoupper($request->input('model_name'))),
-                'model_code' => $request->input('model_code')
-            ]);
-
-            return response()->json([
-                'state' => 'success',
-                'message' => '',
-                'payload' => $model
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'message' => 'Error Occurred while Processing request',
-                'payload' => []
-            ]);
-        }
-    })->name('models.save');
-    Route::get('/models', function (Request $request) {
-        try {
-            $data = ConfigVehicleModel::select(DB::raw('*'))
-                //->groupBy('brand_guid')
-                ->get();
-            return response()->json([
-                'state' => 'success',
-                'payload' => $data
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
-        }
-    })->name('models.get');
-    Route::delete('/models', function (Request $request) {
-        try {
-            $statusList = [Enums\VehicleStatusEnum::Active];
-            $data = ConfigVehicleModel::whereIn('status', $statusList)
-                ->get();
-            return response()->json([
-                'state' => 'success',
-                'payload' => $data
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
-        }
-    })->name('models.delete');
+    Route::post('/models', [VehicleModelsController::class, 'store'])->name('models.save');
+    Route::get('/models', [VehicleModelsController::class, 'get'])->name('models.get');
+    Route::delete('/models', [VehicleModelsController::class, 'destroy'])->name('models.delete');
 
 
     /** BODY TYPES **/
@@ -156,51 +92,11 @@ Route::group(['prefix' => 'v1/en'], function (): void {
 
     Route::get('organizational-units', OrganizationalUnitsController::class)->name('organizational.units');
 
-    Route::get('directorates', function (Request $request) {
-        try {
-            $month = 60 * 60 * 24 * 30;
-            // clear the cache using request
-            if ($request->has('cache') && !$request->get('cache')) {
-                cache()->forget('directorates');
-            }
-
-            $data = cache()->remember('directorates', $month, function () {
-                return DIRECTORATES::orderBy('name')->get();
-            });
-            return response()->json([
-                'state' => 'success',
-                'payload' => $data
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
-        }
-
-    })->name('directorates');
+    Route::get('directorates', [DirectoratesController::class, 'get'])->name('directorates');
 
     /* BUSINESS UNITS*/
     Route::get('cost-centers', CostCenterController::class)->name('cost.centers');
 
-    Route::get('business-areas', function () {
-        try {
-
-            $data = BusinessAreas::get();
-
-            return response()->json([
-                'state' => 'success',
-                'payload' => $data
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
-        }
-
-    })->name('business.areas');
+    Route::get('business-areas',[BusinessAreasController::class, 'get'])->name('business.areas');
 
 });

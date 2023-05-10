@@ -1,23 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\OrganizationStructure;
 
 use App\Http\Controllers\Controller;
-use App\Models\general\BusinessUnits;
+use App\Models\configurations\GeneralTableConfigurations;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
-class BusinessUnitsController extends Controller
+class BusinessAreasController extends Controller
 {
-    public function __invoke(): JsonResponse
+    public function get(): JsonResponse
     {
         try {
 
-            $month = 60 * 60 * 24 * 30;
-            $data = cache()->remember('business_units', $month, function () {
-                return BusinessUnits::where('status','=','01')->orderBy('code_bu')->get();
-            });
+            $data = GeneralTableConfigurations::where('type', '=', 'businessAreas')->get();
+            //BusinessAreas::get();
 
             return response()->json([
                 'state' => 'success',

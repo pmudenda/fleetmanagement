@@ -5,11 +5,11 @@
       class="form fv-plugins-bootstrap5 fv-plugins-framework"
       action="{{route('vehicle.body.detail')}}">
     <input type="hidden" name="doctype" value="BodyDetails"/>
+    <input type="hidden" name="headerId" value="{{$reference}}"/>
     <input type="hidden" name="weightDetailsId" value="{{$vehicle->weightDetailsId ?? 0}}"/>
     <x-error-view />
     <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
         <tbody>
-
         <tr>
             <td colspan="2">
                 <h4>Dimensions</h4>

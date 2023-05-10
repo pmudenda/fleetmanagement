@@ -11,26 +11,34 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <h4>Dtaa Migration</h4>
+                    <h4>Data Migration</h4>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 mt-10">
                     <div class="wizard">
                         <div class="wizard-inner">
                             <!-- <div class="connecting-line"></div> -->
                             <ul class="nav nav-tabs steps" role="tablist">
                                 <li role="presentation" data-index="0" class="active st1">
                                     <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab"
-                                       aria-expanded="true"><span class="round-tab">1 </span> <i>Vehicle Details</i></a>
+                                       aria-expanded="true">
+                                        <span class="round-tab">1</span>
+                                        <i>Vehicle Details</i>
+                                    </a>
                                 </li>
                                 <li role="presentation" data-index="1" class="disabled st2">
                                     <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab"
-                                       aria-expanded="false"><span class="round-tab">2</span> <i>Step 2</i></a>
+                                       aria-expanded="false">
+                                        <span class="round-tab">2</span>
+                                        <i>Step 2</i>
+                                    </a>
                                 </li>
                                 <li role="presentation" data-index="2" class="disabled st3">
-                                    <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab"><span
-                                            class="round-tab">3</span> <i>Step 3</i></a>
+                                    <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab">
+                                        <span class="round-tab">3</span>
+                                        <i>Step 3</i>
+                                    </a>
                                 </li>
 
                             </ul>
@@ -140,7 +148,8 @@
                                     </div>
                                     <ul class="list-inline pull-right">
                                         <li>
-                                            <button type="button" class="default-btn next-step">Continue to next step
+                                            <button type="button" class="btn btn-success btn-sm next-step">
+                                                Continue to next step
                                             </button>
                                         </li>
                                     </ul>
@@ -284,13 +293,13 @@
 
                                     <ul class="list-inline pull-right">
                                         <li>
-                                            <button type="button" class="default-btn prev-step">Back</button>
+                                            <button type="button" class="btn btn-success btn-sm prev-step">Back</button>
                                         </li>
+                                        {{--<li>
+                                            <button type="button" class="btn btn-success next-step skip-btn">Skip</button>
+                                        </li>--}}
                                         <li>
-                                            <button type="button" class="default-btn next-step skip-btn">Skip</button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="default-btn next-step">Continue</button>
+                                            <button type="button" class="btn btn-success btn-sm next-step">Continue</button>
                                         </li>
                                     </ul>
                                 </div>

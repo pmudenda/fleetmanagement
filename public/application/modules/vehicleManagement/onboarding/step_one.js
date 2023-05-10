@@ -467,7 +467,7 @@ let app = new Vue({
                             }, 'error');
                     }, 300);
                     toastr.error(
-                        asyncResponse.data.message
+                        asyncResponse.message
                     );
                     return;
                 }

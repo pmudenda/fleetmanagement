@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BodyAndWeightDetail extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    //use SoftDeletes;
 
     protected $table = 'VM_BODY_AND_WEIGHT_DETAILS';
     protected $fillable = [
@@ -31,6 +31,6 @@ class BodyAndWeightDetail extends Model
         'trailerWeight4',
         'vehicle_header_id',
         'created_by',
-        'created_name',
+        'created_name'
     ];
 }

@@ -9,5 +9,8 @@ class BusinessUnits extends Model
 {
     use HasFactory;
 
-  protected $table ='REF_BUSINESS_UNITS';
+    protected $table = 'REF_BUSINESS_UNITS';
+
+    protected $fillable = [
+    ];
 }

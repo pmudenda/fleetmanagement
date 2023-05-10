@@ -492,7 +492,7 @@
         </div>
     </div>
 
-    <div class="row mt-10" v-if="documents">
+    <div class="row mt-10" v-if="documents && documents.insurance && documents.certificate">
         <table class="table table-bordered">
             <thead>
             <tr>
