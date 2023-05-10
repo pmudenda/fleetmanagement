@@ -38,7 +38,7 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     /** Brands API **/
 
     Route::prefix('brands')->middleware(['api'])->group(static function (): void {
-        Route::get('/', [ConfigVehicleBrandsController::class, 'index'])->name('brands.get');
+        Route::get('/brands', [ConfigVehicleBrandsController::class, 'index'])->name('brands.get');
         Route::post('/store', [ConfigVehicleBrandsController::class, 'store'])->name('brands.save');
         Route::delete('/', [ConfigVehicleBrandsController::class, 'destroy'])->name('brands.delete');
     });

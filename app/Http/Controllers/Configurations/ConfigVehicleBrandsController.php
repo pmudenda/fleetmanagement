@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Configurations;
 
+use App\Enums;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\VehicleMake;
 use App\Models\configurations\vehicle\ConfigVehicleBrand;
 use Exception;
-use App\Enums;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -47,15 +48,31 @@ class ConfigVehicleBrandsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(VehicleMake $request): JsonResponse
     {
         try {
-            $model = ConfigVehicleBrand::create([
-                'name' => trim(strtoupper($request->input('brand_name'))),
-                'status' => Enums\VehicleStatusEnum::active,
-                'guid' => Str::uuid(),
-                'dateCreated' => Carbon::now()
-            ]);
+
+            $make = ConfigVehicleBrand::where('name', '=', trim(strtoupper($request->input('brand_name'))))
+                ->first();
+
+            if (!empty($make)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Vehicle make is already registered',
+                    'payload' => []
+                ]);
+            }
+
+            $model = ConfigVehicleBrand::updateOrCreate(
+                [
+                    'name' => trim(strtoupper($request->input('brand_name'))),
+                ],
+                [
+                    'name' => trim(strtoupper($request->input('brand_name'))),
+                    'status' => Enums\VehicleStatusEnum::active,
+                    'guid' => Str::uuid(),
+                    'dateCreated' => Carbon::now()
+                ]);
 
             return response()->json([
                 'success' => true,

@@ -51,21 +51,38 @@ class VehicleBodyTypesController extends Controller
     public function store(VehicleBodyType $request): JsonResponse
     {
         try {
-            // // $request->input('status'),
+
             $name = trim(strtoupper($request->input('body_type_name')));
-            $model = ConfigVehicleBodyType::create([
-                'status' => StatusHelper::active(),
-                'guid' => Str::uuid(),
-                'dateCreated' => Carbon::now(),
-                'name' => $name,
-                'body_type_name' => $name
-            ]);
+
+            $vehicleBodyType = ConfigVehicleBodyType::where('model_code', '=', trim(strtoupper($request->input('body_type_name'))))
+                ->first();
+
+            if (!empty($vehicleBodyType)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Body Type is already registered',
+                    'payload' => []
+                ]);
+            }
+
+            $model = ConfigVehicleBodyType::updateOrCreate(
+                [
+                    'model_code' => $name
+                ],
+                [
+                    'status' => StatusHelper::active(),
+                    'guid' => Str::uuid(),
+                    'dateCreated' => Carbon::now(),
+                    'name' => $name,
+                    'body_type_name' => $name
+                ]);
 
             return response()->json([
                 'state' => 'success',
                 'message' => '',
                 'payload' => $model
             ]);
+
         } catch (Exception $e) {
             Log::error($e);
             return response()->json([

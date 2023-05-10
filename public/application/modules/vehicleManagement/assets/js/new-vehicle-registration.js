@@ -635,14 +635,14 @@ let app = new Vue({
                     "label": 'Motor Vehicle',
                     'code': 'MV'
                 },
-                {
+                /*{
                     "label": 'Boat',
                     'code': 'BT'
                 },
                 {
                     "label": 'Trailer',
                     'code': 'TR'
-                },
+                },*/
             ]
         },
 

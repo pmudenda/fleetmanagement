@@ -5,6 +5,7 @@ namespace App\Http\Controllers\VehicleManagement;
 use App\Enums\VehicleStatusEnum;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Models\configurations\vehicle\ConfigVehicleBrand;
 use App\Models\configurations\vehicle\ConfigVehicleModel;
 use Carbon\Carbon;
 use Exception;
@@ -40,14 +41,31 @@ class VehicleModelsController extends Controller
         try {
             $data = $request->all();
 
-            $model = ConfigVehicleModel::create([
+            $vehicleModel = ConfigVehicleBrand::where('model_code', '=', trim(strtoupper($request->input('model_code'))))
+                ->where('model_name', '=', trim(strtoupper($request->input('model_code'))))
+                ->first();
+
+            if (!empty($vehicleModel)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Model already registered',
+                    'payload' => []
+                ]);
+            }
+
+            $model = ConfigVehicleModel::updateOrCreate(
+                [
+                'model_name' => trim(strtoupper($request->input('model_name'))),
+                'model_code' => $request->input('model_code')
+                ],
+                [
                 'status' => StatusHelper::active(),
                 'model_guid' => Str::uuid(),
                 'dateCreated' => Carbon::now(),
                 'brand_guid' => $request->input('brand_guid'),
                 'brand_name' => trim(strtoupper($request->input('brand_name'))),
-                'model_name' => trim(strtoupper($request->input('model_name'))),
-                'model_code' => $request->input('model_code')
+                //'model_name' => trim(strtoupper($request->input('model_name'))),
+                //'model_code' => $request->input('model_code')
             ]);
 
             return response()->json([
