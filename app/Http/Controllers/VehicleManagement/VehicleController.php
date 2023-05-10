@@ -34,8 +34,12 @@ class VehicleController extends Controller
                 ]);
             }
 
-            $vehicle = $this->vehicleDetailsService->getVehicleDetails($ref);
-            $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($ref);
+            $vehicle = null;
+            $vehicleDocuments = null;
+            if ($ref != 0 !empty($ref) ) {
+                $this->vehicleDetailsService->getVehicleDetails($ref);
+                $this->vehicleDetailsService->getVehicleDocuments($ref);
+            }
 
             return response()->json([
                 'payload' => [
