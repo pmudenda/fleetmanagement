@@ -9,7 +9,7 @@ use App\Http\Controllers\Configurations\VehicleBodyTypesController;
 use App\Http\Controllers\OrganizationStructure\BusinessAreasController;
 use App\Http\Controllers\OrganizationStructure\DirectoratesController;
 use App\Http\Controllers\VehicleManagement\VehicleModelsController;
-use App\Models\configurations\GeneralTableConfigurations;
+use App\Models\reference\PurchaseOrders;
 use App\Models\Security\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -98,8 +98,24 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     /* BUSINESS UNITS*/
     Route::get('cost-centers', CostCenterController::class)->name('cost.centers');
 
-    Route::get('business-areas',[BusinessAreasController::class, 'get'])->name('business.areas');
+    Route::get('business-areas', [BusinessAreasController::class, 'get'])->name('business.areas');
 
-    Route::get('purchase/orders',[ProcurementSystemIntegrationController::class, 'verify'])->name('verify.purchase.order');
+    Route::get('purchase/orders', [ProcurementSystemIntegrationController::class, 'verify'])->name('verify.purchase.order');
+
+    Route::get('suppliers', function () {
+        try {
+            $purchase = PurchaseOrders::get();
+            return response()->json([
+                'state' => 'success',
+                'payload' => $purchase
+            ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'state' => 'failure',
+                'payload' => []
+            ]);
+        }
+    })->name('suppliers.list');
 
 });

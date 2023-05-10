@@ -153,7 +153,7 @@
 
             <input type="hidden" name="vehicle_details" value="{{route('vehicle.details', [$reference])}}">
             <input type="hidden" id="fuelTypesUrl" value="{{route('fuel.types')}}">
-
+            <input type="hidden" id="suppliersList" value="{{route('suppliers.list')}}">
         </div>
     </section>
     <x-employee-search-modal/>
