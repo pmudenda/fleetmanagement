@@ -119,12 +119,6 @@
     <source src="{{asset('assets/sounds/alert.mp3')}}"/>
 </audio>
 
-<script src="{{asset('themes/plugins/jquery/jquery.min.js')}}"></script>
-<script src="{{asset('themes/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
-
-<script>
-    $.widget.bridge('uibutton', $.ui.button)
-</script>
 <script>
     window._version_number = "{{\Illuminate\Support\Str::uuid()}}";
     window.app = true;
@@ -137,7 +131,13 @@
     tmsApp.messages = tmsApp?.boot['messages'];
     tmsApp.csrf_token = document.querySelector('meta[name="csrf-token"]').content;
 </script>
-<script src="{{asset('themes/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('themes/plugins/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('themes/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+{{--<script src="{{asset('themes/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>--}}
 <script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>
 <script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
 <script src="{{asset('assets/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
@@ -161,20 +161,12 @@
 <script src="{{asset('assets/js/global/page.loader.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{asset('assets/js/global/system_alerts.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>
-<script src="{{ asset('assets/global/plugins.bundle.js') }}"></script>
-{{--<script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>--}}
-
 
 <script>
     $(document).ready(function () {
         $(document).on('keypress', '.number_input', function (event) {
             tmsApp.numberOnly(event);
         });
-        // $.ajaxSetup({
-        //     global: true, headers: {
-        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //     }
-        // });
     });
 </script>
 @stack('scripts')

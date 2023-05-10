@@ -20,7 +20,7 @@
                     new FormData($form),
                     function (asyncResponse) {
                         console.log(asyncResponse);
-                        if ('success' in asyncResponse && asyncResponse['success']) {
+                        if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                             setTimeout(function () {
                                 tmsApp.showSystemMessage(
                                     'User Creation',
