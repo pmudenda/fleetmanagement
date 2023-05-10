@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PurchaseOrders extends Model
 {
     use HasFactory;
-    protected $table = 'PURCHASE_ORDERS_ONBOARDING_V';
+    protected $table = 'P_ORDERS_ONBOARDING_VIEW';
 
     protected $fillable = [
         'document_no',

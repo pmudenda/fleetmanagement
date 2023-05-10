@@ -3,7 +3,7 @@ window.getRegistrationDetails = function (requestReference) {
     console.log(requestReference);
 
     if (!requestReference || typeof requestReference === 'undefined') {
-        console.log('Returning')
+        //console.log('Returning')
         return;
     }
     $.ajax({
@@ -12,7 +12,7 @@ window.getRegistrationDetails = function (requestReference) {
         data: {reference: requestReference},
         dataType: 'json',
         success: function (asyncResponse) {
-            console.log('Returning Response', asyncResponse);
+            //console.log('Returning Response', asyncResponse);
             if(!asyncResponse.success){
                 toastr.error(asyncResponse['message'])
             }
@@ -22,7 +22,7 @@ window.getRegistrationDetails = function (requestReference) {
             }
 
             let data = asyncResponse['payload']['vehicle'];
-            console.log(data);
+            //console.log(data);
             if(!data || data.length == 0){
                 return;
             }

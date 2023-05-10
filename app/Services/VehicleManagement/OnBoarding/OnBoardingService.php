@@ -84,7 +84,7 @@ class OnBoardingService
                 'created_by' => $user->id,
                 'created_name' => $user->name,
             ]);
-
+        
         $this->fileUploadService->uploadFile($request,
             'front_view',
             'vehicleRegistration',

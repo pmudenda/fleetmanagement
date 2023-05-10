@@ -47,12 +47,7 @@
         );
     });
 
-    let $modelElem = document.querySelector('#searchEmployeeModal');
-    let $modal = new bootstrap.Modal($modelElem, {
-        backdrop: 'static',
-        keyboard: false
-    });
-
+    let $modal = $('#searchEmployeeModal');
     $(document).on('submit', '#userSearch', function (event) {
         document.querySelector(".errorMsg").innerHTML = null;
         const {assignmenttype, inputfield, field} = supportData;
@@ -165,6 +160,32 @@
 
                 }
 
+                /*for (let i = 0; i < obj.length; i++) {
+                    rows += `<tr>
+                                <td>
+                                    <div class='form-group clearfix'>
+                                        <div class='icheck-warning d-inline'>`;
+                    rows += `<input type='radio'
+                                                            value='${obj.con_per_no}'
+                                                            data-userid='${obj.con_per_no}'
+                                                            data-name='${obj.name}'
+                                                            data-email='${obj.email}'
+                                                            id='users'
+                                                            name='users[]'>`;
+                    rows += `</div></div>
+                                    </td>
+                                    <td>
+                                       ${obj.name}
+                                    </td>
+                                    <td>
+                                        ${obj.email}
+                                    </td>
+                                    <td>
+                                        ${obj.job_title}
+                                    </td>
+                                </tr>`;
+                }*/
+
                 let tableClose = `</tbody></table>`;
 
                 $userElem.innerHTML = table + rows + tableClose;
@@ -191,11 +212,10 @@
 
     $(document).on('click', '[data-field="userSelection"]', function () {
         window.supportData = this.dataset;
-        //$('#searchEmployeeModal').modal('show');
-        $modal.show();
+        $('#searchEmployeeModal').modal('show');
     });
 
-    $modelElem.addEventListener('hidden.bs.modal', function (event) {
+    $modal.on('hidden.bs.modal', function (event) {
         // clear out the modal contents
         document.querySelector("#users").innerHTML = null;
         document.querySelector("#actionBtnContainer").innerHTML = null;
@@ -204,21 +224,24 @@
         document.querySelector(".errorMsg").innerHTML = null;
     });
 
-    $modelElem.addEventListener('show.bs.modal', function (event) {
+    $modal.on('show.bs.modal', function (event) {
         if (event?.relatedTarget?.dataset) {
             window.supportData = event.relatedTarget.dataset;
-            document.querySelector('#searchCriteria').focus();
         }
     });
 
+    $modal.on('shown.bs.modal', function (event) {
+        $('#searchCriteria').focus();
+    });
+
     $(document).on('click', '[data-confirm-selection="true"]', function (event) {
-        //let _modal = $("#searchEmployeeModal");
+        let _modal = $("#searchEmployeeModal");
 
         const {assignmenttype, inputfield, field} = window.supportData;
 
         let selectedUser = $("input[name='users[]']:checked");
         if (!selectedUser || selectedUser.length === 0) {
-            $modelElem.find(".errorMsg").html('<div class="alert alert-danger">You have not selected any user</div>');
+            _modal.find(".errorMsg").html('<div class="alert alert-danger">You have not selected any user</div>');
             return;
         }
         let name = '';
@@ -241,8 +264,7 @@
 
         $('input[name="' + inputfield + '"]').val(name).trigger('change');
         $('input[name="' + inputfield + 'Id"]').val(recordId).trigger('change');
-
-        $modal.hide();
+        _modal.modal('hide');
     });
 
 })(window.tmsApp || {}, jQuery, window.supportData || {assignmenttype: 'single', inputfield: '', field: ''});

@@ -137,7 +137,7 @@
 <script>
     $.widget.bridge('uibutton', $.ui.button)
 </script>
-{{--<script src="{{asset('themes/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>--}}
+<script src="{{asset('themes/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>
 <script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
 <script src="{{asset('assets/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
@@ -163,11 +163,11 @@
 <script src="{{asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>
 
 <script>
-    $(document).ready(function () {
+    (function (tmsApp, $) {
         $(document).on('keypress', '.number_input', function (event) {
-            tmsApp.numberOnly(event);
+            //tmsApp.numberOnly(event);
         });
-    });
+    }(tmsApp || {}, jQuery));
 </script>
 @stack('scripts')
 </body>

@@ -200,7 +200,7 @@
      * @param event
      * @returns {boolean}
      */
-    appInstance.appInstancenumberOnly = function (event) {
+    appInstance.numberOnly = function (event) {
         let key;
         /*if (event.keyCode === 8 || event.keyCode === 46) {
             return true;
