@@ -351,6 +351,7 @@ let app = new Vue({
             fetch(document.querySelector('#suppliersList').value)
                 .then(response => response.json())
                 .then(function (response) {
+                    console.log(response);
                     // Populate results
                     if (response.state === 'failure') {
                         //show errors

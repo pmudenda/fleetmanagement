@@ -104,10 +104,10 @@ Route::group(['prefix' => 'v1/en'], function (): void {
 
     Route::get('suppliers', function () {
         try {
-            $purchase = PurchaseOrders::get();
+            $suppliers = PurchaseOrders::get();
             return response()->json([
                 'state' => 'success',
-                'payload' => $purchase
+                'payload' => $suppliers
             ]);
         } catch (Exception $e) {
             Log::error($e);
