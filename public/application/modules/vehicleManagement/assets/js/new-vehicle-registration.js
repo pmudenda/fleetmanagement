@@ -345,10 +345,10 @@ let app = new Vue({
 
     methods: {
         getSuppliers: function () {
-            /*this. = [
-                {code: "GIC", name: "GhostInCode"}
-            ]*/
-            fetch(document.querySelector('#suppliersList').value)
+            this.supplierList = [
+                {code_supplier: "SNNR101647", name_of_supplier: "BEARING MAN ZAMBIA LTD"}
+            ]
+            /*fetch(document.querySelector('#suppliersList').value)
                 .then(response => response.json())
                 .then(function (response) {
                     console.log(response);
@@ -365,7 +365,7 @@ let app = new Vue({
                     // notify of error
                     toastr.error(
                         'Connection error. Could not retrieve data, some feature might not work.')
-                });
+                });*/
         },
 
         bodyTypeChanged: function (selectedBody) {
