@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\BusinessUnitsController;
 use App\Http\Controllers\API\CostCenterController;
 use App\Http\Controllers\API\OrganizationalUnitsController;
+use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
 use App\Http\Controllers\Configurations\VehicleBodyTypesController;
 use App\Http\Controllers\OrganizationStructure\BusinessAreasController;
@@ -98,5 +99,7 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     Route::get('cost-centers', CostCenterController::class)->name('cost.centers');
 
     Route::get('business-areas',[BusinessAreasController::class, 'get'])->name('business.areas');
+
+    Route::get('purchase/orders',[ProcurementSystemIntegrationController::class, 'verify'])->name('verify.purchase.order');
 
 });

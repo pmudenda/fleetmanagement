@@ -196,7 +196,7 @@ class OnBoardingService
                 'body_type_name' => $bodyType->body_type_name,
                 'business_unit_code' => trim($organizationUnit->code_unit),
                 'business_unit_name' => trim($organizationUnit->description),
-                'location_code' => '',
+                'location_code' => 'N/A',
                 'location_name' => strtoupper(trim($request->input('vehicleLocation'))),
                 'created_by' => $user->id,
                 'created_name' => $user->name,

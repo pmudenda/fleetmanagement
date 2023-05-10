@@ -54,7 +54,7 @@
                                 Created Date
                             </th>
 
-                            <th>
+                            <th class="d-none">
                                 Actions
                             </th>
                         </tr>
@@ -88,7 +88,7 @@
                                 @{{ item.date_created | formatToFriendlyDate }}
                             </td>
 
-                            <td class="text-start">
+                            <td class="text-start d-none">
                                 <div class="dropdown">
                                     <button class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
                                             type="button"

@@ -8,6 +8,72 @@
     <input type="hidden" name="costAndValuationId" value="{{$vehicle->costAndValuationId ?? 0}}"/>
 
     <x-error-view />
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-5">
+                <div class="container-fluid pl-0">
+                    <div class="row">
+                        <div class="form-group row pl-0">
+                            <label class="col-xs-12 col-sm-6 col-md-5 col-lg-5 app-field-label"
+                                   for="staff_no">Purchase Order Number :
+                            </label>
+                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                <div class="input-group">
+                                    <input type="text"
+                                           data-action="{{route('verify.purchase.order')}}"
+                                           class="form-control form-control-sm"
+                                           id="purchase_order_number"
+                                           placeholder=""
+                                           name="purchase_order_number">
+                                    <div class="input-group-addon">
+                                        <button type="button" id="poSearchBtn"
+                                                name="userSearchBtn"
+                                                class="btn btn-primary btn-sm border-radius-0">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{--<div class="row">
+                        <div class="form-group row">
+                            <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                   for="staff_name">
+                                Name:
+                            </label>
+                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                <input type="text" class="form-control form-control-sm"
+                                       id="nane"
+                                       name="name"
+                                       required readonly>
+                            </div>
+                        </div>
+                    </div>--}}
+                </div>
+            </div>
+
+            {{--<div class="col-xs-12 col-sm-6 col-md-5">
+                <div class="container-fluid pl-0">
+                    <div class="row">
+                        <div class="form-group row">
+                            <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                   for="staff_email"> Last Name:
+                            </label>
+                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                <input type="text" class="form-control form-control-sm"
+                                       id="last_name"
+                                       name="last_name"
+                                       required readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>--}}
+
+        </div>
+    </div>
     <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
         <tbody>
         <tr>
@@ -211,12 +277,16 @@
         </tbody>
     </table>
     <div class="create_mode">
-        <button type="submit" id="tms_save_costing" class="btn btn-success btn-sm">
+        <button type="submit" id="tms_save_costing"
+                class="btn btn-success btn-sm">
             <i class="fas fa-paper-plane"></i>
-            <span class="indicator-label">Save</span>
-            <span class="indicator-progress">Please wait...<span
-                    class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                            </span>
+            <span class="indicator-label">
+                Save
+            </span>
+            <span class="indicator-progress">
+                Please wait...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
         </button>
     </div>
 </form>

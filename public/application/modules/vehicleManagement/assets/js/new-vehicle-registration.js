@@ -1201,6 +1201,30 @@ function userUnitChanged() {
         );
     }
 
+    function getSupplierDetails(){
+        const purchaseOrder = document.querySelector('#purchase_order_number').value
+        let formData = new FormData();
+        formData.append('purchase_order_number', purchaseOrder);
+
+        tmsApp.asyncGetFormData(
+            $('#purchase_order_number').attr('data-action') + '?document_number=' + purchaseOrder,
+            formData,
+            function (response_data) {
+                if (response_data.success === 'true' || response_data.success === true) {
+                    //populateVehicleDetails(response_data.payload);
+                } else {
+                    //removeSubmissionAndDetailsOptions();
+                    //'No Purchase Orders Found, Check your input and try again'
+                    tmsApp.showToast(response_data['message'], 'error');
+                }
+            },
+            function (xhr) {
+                console.log(xhr);
+                tmsApp.showToast('We could not complete processing your request, please try again later')
+            }
+        )
+    }
+
     tmsApp.appFormValidator('form[name="tmsChassisDetailsForm"]',
         {
             'chassisNumber': {
@@ -1582,6 +1606,13 @@ function userUnitChanged() {
         e.preventDefault();
         e.stopPropagation();
         submitAssignmentDetails();
+    });
+
+    $('#purchase_order_number').on('change', function () {
+        if (this.value && this.value.length < 6) {
+            return;
+        }
+        getSupplierDetails();
     });
 })(window.tmsApp || {}, jQuery);
 

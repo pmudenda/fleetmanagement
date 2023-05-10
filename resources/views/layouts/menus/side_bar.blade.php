@@ -288,7 +288,7 @@
                             <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>
-                                    Vehicle
+                                    Vehicle Configurations
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>

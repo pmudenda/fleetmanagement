@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\VehicleManagement;
 
+use App\Enums\VehicleStatusEnum;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\configurations\vehicle\ConfigVehicleModel;
