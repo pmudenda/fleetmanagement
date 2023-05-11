@@ -71,8 +71,8 @@ class OnBoardingService
                 'initial_odometer_reading' => $request->input('initialOdometerReading'),
                 'current_odometer_reading' => $request->input('currentOdometerReading'),
                 'inspection_date' => Carbon::now()->format('Y-m-d'), //$request->input('inspectionDate'),
-                'lst_service_odometer_reading' => $request->input('odometerReadingLastService') ?? 0,
-                'nxt_service_odometer_reading' => $request->input('nextServiceOdometerReading') ?? 0,
+                'lst_service_odometer_reading' =>  0, //$request->input('odometerReadingLastService')
+                'nxt_service_odometer_reading' =>  0, //$request->input('nextServiceOdometerReading')
                 'odometer_reset' => false,
                 'registration_date' => Carbon::parse($request->input('registrationDate')),
                 'min_req_driving_license' => $request->input('requiredMinimumDrivingLicense'),

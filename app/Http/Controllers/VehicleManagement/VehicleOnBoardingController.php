@@ -142,12 +142,12 @@ class VehicleOnBoardingController extends Controller
                 'request' => $request->all(),
                 'payload' => $model,
                 'redirectUrl' => route('vehicles.list', ['onboarding-complete' => 'yes']),
-                'message' => 'Request Submitted Successfully'
+                'message' => 'Vehicle Onboarded Successfully. You will now be redirected to vehicle Register'
             ]);
 
         } catch (Exception $e) {
             Log::error($e);
-            $message = 'Sorry, some errors were detected while processing your request, please try again later.';
+            $message = 'Sorry, some errors were detected while processing your vehicle onboarding request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -169,7 +169,7 @@ class VehicleOnBoardingController extends Controller
                 'request' => $request->all(),
                 'payload' => $model,
                 'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 2, 'reference' => $model->id]),
-                'message' => 'Request Submitted Successfully'
+                'message' => 'Your request has bee processed  Successfully, Click ok to proceed with onboarding process'
             ]);
 
         } catch (Exception $e) {
@@ -200,7 +200,7 @@ class VehicleOnBoardingController extends Controller
                 'request' => $request->all(),
                 'payload' => $model,
                 'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 3, 'reference' => $model->vehicle_header_id]),
-                'message' => 'Request Submitted Successfully'
+                'message' => 'Vehicle General Data Processed Successfully'
             ]);
         } catch (Exception $e) {
             Log::error($e);
@@ -226,7 +226,7 @@ class VehicleOnBoardingController extends Controller
                 'request' => $request->all(),
                 'payload' => $model,
                 'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 4, 'reference' => $model->vehicle_header_id]),
-                'message' => 'Request Submitted Successfully'
+                'message' => 'Vehicle Technical Data Processed Successfully'
             ]);
         } catch (Exception $e) {
             Log::error($e);
@@ -251,7 +251,7 @@ class VehicleOnBoardingController extends Controller
                 'request' => $request->all(),
                 'payload' => $model,
                 'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 5, 'reference' => $model->vehicle_header_id]),
-                'message' => 'Request Submitted Successfully'
+                'message' => 'Request Processed Successfully'
             ]);
         } catch (Exception $e) {
             Log::error($e);

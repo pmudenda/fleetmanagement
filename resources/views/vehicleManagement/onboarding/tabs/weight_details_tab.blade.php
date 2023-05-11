@@ -332,7 +332,7 @@
             <td class="frappe-control ">
                 <label for="tareWeight" class="control-label reqd"
                        style="padding-right: 0px;">
-                    Total Weight (kg):
+                    Net Weight (kg):
                 </label>
             </td>
             <td colspan="1">
