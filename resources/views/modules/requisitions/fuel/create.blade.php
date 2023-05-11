@@ -640,7 +640,7 @@
                     },
                     justification: {
                         required: true,
-                        minlength: 10,
+                        minlength: 15,
                         maxlength: 255
                     },
                     projectCode: {

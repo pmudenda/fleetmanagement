@@ -21,7 +21,7 @@ class RequisitionTypeSeeder extends Seeder
         ]);
 
         DB::table('CONFIG_REQUISITION_TYPES')->insert([
-            'name' => 'Out 0f Tow',
+            'name' => 'Out 0f Town',
             'code' => '011',
             'status' => '01',
             'module' => 'FR',
