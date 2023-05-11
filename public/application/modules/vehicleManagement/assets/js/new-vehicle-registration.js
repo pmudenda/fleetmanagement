@@ -944,7 +944,7 @@ function userUnitChanged() {
 
         let fileUploads = [].slice.call(document.querySelectorAll('input[type="file"]'));
         let filesValid = true;
-        /*fileUploads.map(function (fileSelect) {
+        fileUploads.map(function (fileSelect) {
             if (!fileSelect.files || fileSelect.files.length === 0) {
                 toastr.error('Submission not accepted, You have not attached all required documents')
                 filesValid = false;
@@ -954,7 +954,7 @@ function userUnitChanged() {
 
         if (!filesValid) {
             return;
-        }*/
+        }
 
         $form = document.forms['tmsChassisDetailsForm'];
 
@@ -977,7 +977,7 @@ function userUnitChanged() {
 
                     setTimeout(function () {
                         tmsApp.systemError(
-                            'Vehicle On-Boarding - Chassis Details',
+                            'Vehicle On-Boarding - General Data',
                             asyncResponse['message'],
                             function () {
                             }, 'error');
@@ -989,7 +989,7 @@ function userUnitChanged() {
                 }
 
                 tmsApp.showSystemMessage(
-                    'Vehicle On-Boarding - Chassis Details',
+                    'Vehicle On-Boarding - General Data',
                     asyncResponse.message,
                     function () {
                         setTimeout(
@@ -1091,7 +1091,7 @@ function userUnitChanged() {
 
                     setTimeout(function () {
                         tmsApp.systemError(
-                            'Vehicle On-Boarding - Chassis Details',
+                            'Vehicle On-Boarding - Technical Data',
                             asyncResponse['message'],
                             function () {
                             }, 'error');
@@ -1103,7 +1103,7 @@ function userUnitChanged() {
                 }
 
                 tmsApp.showSystemMessage(
-                    'Vehicle On-Boarding - Chassis Details',
+                    'Vehicle On-Boarding - Technical Data',
                     asyncResponse.message,
                     function () {
                         setTimeout(
@@ -1146,7 +1146,7 @@ function userUnitChanged() {
 
                     setTimeout(function () {
                         tmsApp.systemError(
-                            'Vehicle On-Boarding - Chassis Details',
+                            'Vehicle On-Boarding - Body Details',
                             asyncResponse['message'],
                             function () {
                             }, 'error');
@@ -1202,7 +1202,7 @@ function userUnitChanged() {
 
                     setTimeout(function () {
                         tmsApp.systemError(
-                            'Vehicle On-Boarding - Chassis Details',
+                            'Vehicle On-Boarding - Assignment',
                             asyncResponse['message'],
                             function () {
                             }, 'error');
@@ -1214,7 +1214,7 @@ function userUnitChanged() {
                 }
 
                 tmsApp.showSystemMessage(
-                    'Vehicle On-Boarding - Body Details',
+                    'Vehicle On-Boarding - Assignment',
                     asyncResponse.message,
                     function () {
                         setTimeout(

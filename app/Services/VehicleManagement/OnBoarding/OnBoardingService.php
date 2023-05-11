@@ -77,7 +77,7 @@ class OnBoardingService
                 'registration_date' => Carbon::parse($request->input('registrationDate')),
                 'min_req_driving_license' => $request->input('requiredMinimumDrivingLicense'),
                 'status' => VehicleStatusEnum::active,
-                'sticker_registration_number' => $request->input('stickerRegistrationNumber') ?? "",
+                'sticker_registration_number' => $request->input('stickerRegistrationNumber') ?? "N/A",
                 'vehicle_charge_out_rate' => $request->input('chargeOutRate'),
                 'white_book_serial' => trim(strtoupper($request->input('whiteBookSerial'))),
                 'year_of_manufacture' => $request->input('yearOfManufacture'),
