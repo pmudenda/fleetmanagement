@@ -495,17 +495,19 @@
                         </div>
                     </div>
 
-                    <div class="card-footer">
-                        <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                            <button type="button" id="approveRequisitionBtn" class="btn btn-success btn-sm mr-3">
-                                <i class="fas fa-paper-plane"></i> Assent
-                            </button>
-                            <button style="display: none;" type="button" id="cancelRequisitionBtn"
-                                    class="btn btn-danger btn-sm mr-3">
-                                <i class="fas fa-thumbs-down"></i> Reject
-                            </button>
+                    @if(auth()->user() != $requestDetails->created_by)
+                        <div class="card-footer">
+                            <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
+                                <button type="button" id="approveRequisitionBtn" class="btn btn-success btn-sm mr-3">
+                                    <i class="fas fa-paper-plane"></i> Assent
+                                </button>
+                                <button style="display: none;" type="button" id="cancelRequisitionBtn"
+                                        class="btn btn-danger btn-sm mr-3">
+                                    <i class="fas fa-thumbs-down"></i> Reject
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </form>
 
                 <input type="hidden" value="{{ route('workflow.approve') }}" id="approvalUrl">
