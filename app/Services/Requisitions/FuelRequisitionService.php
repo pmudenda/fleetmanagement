@@ -10,6 +10,8 @@ use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Models\Security\User;
+use App\Models\vehiclemanagement\VehicleHeader;
+use App\Models\vehiclemanagement\Assignment;
 use App\Models\Workflow\WorkflowActions;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\ReferenceNumberGeneratorService;
@@ -45,13 +47,13 @@ class FuelRequisitionService
 
         $vehicle = $this->vehicleDetailsService->getBasicVehicleDetails($registrationNumber);
 
-        $this->validateVehicleStatus($vehicle);
+        $this->validateVehicleStatus($registrationNumber);
 
-        $this->validateVehicleResponsibleUserStatus($vehicle);
+        //$this->validateVehicleResponsibleUserStatus($registrationNumber);
 
-        $maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption) + $requisitionPostRequest->odometer_reading;
+        //$maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption) + $requisitionPostRequest->odometer_reading;
 
-        Log::info($maximumDistance . ' distance is');
+        //Log::info($maximumDistance . ' distance is');
 
         // pick last requisition
         $previousRequisition = MaterialHeader::where('reg_no', $registrationNumber)
@@ -96,7 +98,7 @@ class FuelRequisitionService
             1,
         );
         
-        $processDetails = $this->workflowService->startWorkflowProcess(
+       /* $processDetails = $this->workflowService->startWorkflowProcess(
             $documentRef,
             WorkflowProcessCodes::FuelRequisition->value,
             WorkflowActions::submit(),
@@ -105,7 +107,7 @@ class FuelRequisitionService
         );
 
         $message = !empty($processDetails->Reference) ?
-            ' With Approval Reference ' . $processDetails->Reference : '';
+            ' With Approval Reference ' . $processDetails->Reference : '';*/
 
         $areaCode = $user->area_code ?? 'GR';
         $procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
@@ -155,18 +157,20 @@ class FuelRequisitionService
 
         return response()->json([
             'success' => true,
-            'message' => 'Requisition  Submitted Successfully..'. $message
+            'message' => 'Requisition  Submitted Successfully..'
         ]);
     }
 
     /**
-     * @param Model|Builder|null $vehicle
+     * @param $vehicle
      * @return void
      * @throws FuelRequisitionException
      */
-    public function validateVehicleStatus(Model|Builder|null $vehicle): void
+    public function validateVehicleStatus($reference): void
     {
-        $allowedStatus = [VehicleStatusEnum::active];
+        $allowedStatus = [VehicleStatusEnum::active->value];
+
+        $vehicle = VehicleHeader::where('registration_number','=', $reference)->first();
 
         if (!in_array($vehicle->status, $allowedStatus)) {
             throw new FuelRequisitionException(
@@ -175,14 +179,19 @@ class FuelRequisitionService
     }
 
     /**
-     * @param Model|Builder|null $vehicle
+     * @param $vehicle
      * @return void
      * @throws FuelRequisitionException
      */
-    public function validateVehicleResponsibleUserStatus(Model|Builder|null $vehicle): void
+    public function validateVehicleResponsibleUserStatus($vehicleReference): void
     {
-        $responsibleHead = User::where('staff_no', '=', $vehicle->vehicleHolder)->first();
+        $vehicle = VehicleHeader::where('registration_number','=', $vehicleReference)->first();
 
+       $assignment = Assignment::where('vehicle_header_id', '=',$vehicle->id )->first();
+
+        $responsibleHead = User::where('staff_no', '=', $assignment->vehicleHolder)->first();
+
+    
         if ($responsibleHead->con_st_code != StatusHelper::active()) {
             throw new FuelRequisitionException(
                 "User Responsible for the vehicle is not active. Your requisition can not be processed",
