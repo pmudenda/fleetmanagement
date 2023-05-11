@@ -45,12 +45,14 @@ class VehicleDetailsService
 
     public function getBasicVehicleDetails(mixed $vehicle_registration): object|null
     {
-        return DB::table('VM_VEHICLE_HEADER')->
+        $results = DB::table('VM_VEHICLE_HEADER')->
         where('registration_number', $vehicle_registration)
             //->where('on_boarding_status', $request->vehicle_registration)
             ->leftJoin('VM_ASSIGNMENTS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ASSIGNMENTS.vehicle_header_id')
             ->leftJoin('VM_ENGINE_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
             ->select('VM_VEHICLE_HEADER.*', 'VM_ASSIGNMENTS.*', 'VM_ENGINE_DETAILS.fuel_allocation', 'VM_ENGINE_DETAILS.fuel_types')
-            ->first();
+            ->get();
+
+            return $results->first();
     }
 }
