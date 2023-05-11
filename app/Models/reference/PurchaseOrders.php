@@ -13,6 +13,8 @@ class PurchaseOrders extends Model
     protected $fillable = [
         'document_no',
         'code_supplier',
-        'name_of_supplier'
+        'name_of_supplier',
+        'po_status_description',
+        'status_code'
     ];
 }

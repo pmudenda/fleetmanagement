@@ -101,7 +101,7 @@
                         </div>
                     </td>
                     <td class="frappe-control">
-                        <div class="clearfix">
+                        <div class="clearfix" style="display: none;">
                             <label for="stickerRegistrationNumber" class="control-label"
                                    style="padding-right: 0px;">
                                 Sticker #:
@@ -110,7 +110,7 @@
                         </div>
                     </td>
                     <td>
-                        <div class="control-input-wrapper">
+                        <div class="control-input-wrapper" style="display: none;">
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="">
@@ -299,7 +299,7 @@
                     <td class="frappe-control ">
                         <label for="initialOdometerReading" class="control-label reqd"
                                style="padding-right: 0px;">
-                            Initial Km:
+                            Initial Odometer Reading:
                         </label>
                     </td>
                     <td>
@@ -321,14 +321,14 @@
                         </div>
                     </td>
                     <td class="frappe-control" colspan="1">
-                        <div class="clearfix">
+                        <div class="clearfix" style="display: none;">
                             <label for="currentOdometerReading" class="control-label reqd"
                                    style="padding-right: 0px;">Km Done:</label>
                             <span class="help"></span>
                         </div>
                     </td>
                     <td>
-                        <div class="control-input-wrapper">
+                        <div class="control-input-wrapper" style="display: none;">
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="">
@@ -337,7 +337,8 @@
                                                required
                                                name="currentOdometerReading"
                                                id="currentOdometerReading"
-                                               v-model="chassisDetails.currentOdometerReading"
+                                               value="0"
+                                               {{--v-model="chassisDetails.currentOdometerReading"--}}
                                                placeholder=""
                                                data-doctype="ChassisDetails"
                                                autocomplete="off"/>
@@ -348,7 +349,7 @@
                     </td>
                 </tr>
 
-                <tr>
+                <tr style="display: none;">
                     <td class="frappe-control ">
                         <label for="odometerReadingLastService" class="control-label reqd"
                                style="padding-right: 0px;">
@@ -362,7 +363,8 @@
                                     <input type="text"
                                            name="odometerReadingLastService"
                                            id="odometerReadingLastService"
-                                           v-model="chassisDetails.odometerReadingLastService"
+                                           value="0"
+                                           {{--v-model="chassisDetails.odometerReadingLastService"--}}
                                            class="input-with-feedback number_input form-control bold view_mode"
                                            required
                                            placeholder=""
@@ -391,7 +393,8 @@
                                            required
                                            name="nextServiceOdometerReading"
                                            id="nextServiceOdometerReading"
-                                           v-model="chassisDetails.nextServiceOdometerReading"
+                                           value="0"
+                                           {{--v-model="chassisDetails.nextServiceOdometerReading"--}}
                                            placeholder="" data-doctype="ChassisDetails"
                                            autocomplete="off"/>
 
@@ -401,7 +404,7 @@
                     </td>
                 </tr>
 
-                <tr>
+                <tr style="display: none;">
                     <td class="frappe-control ">
                         <label for="inspectionDate" class="control-label reqd"
                                style="padding-right: 0px;">
@@ -417,6 +420,7 @@
                                            v-model="chassisDetails.inspectionDate"
                                            name="inspectionDate"
                                            id="inspectionDate"
+                                           value="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
                                            required
                                            class="input-with-feedback form-control bold view_mode"
                                            placeholder=""

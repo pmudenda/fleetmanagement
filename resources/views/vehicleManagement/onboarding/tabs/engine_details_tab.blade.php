@@ -200,7 +200,7 @@
                                         name="fuelTypes"
                                         v-model="engineDetails.fuelTypes"
                                         data-doctype="EngineDetails">
-                                        <option value="">Select Fuel Type</option>
+                                        {{--<option value="">Select Fuel Type</option>--}}
                                         <option v-for="fuelType in fuelTypes"
                                                 :value="fuelType.code" :key="fuelType.code">
                                             @{{ fuelType.name }}
@@ -259,7 +259,7 @@
                                     v-model="engineDetails.transmissionType"
                                     data-doctype="EngineDetails"
                                     @change="transmissionTypeChanged">
-                                    <option value="">--Select Transmission--</option>
+                                    {{--<option value="">--Select Transmission--</option>--}}
                                     <option v-for="transType in transmissionTypes"
                                     :value="transType.code">
                                         @{{ transType.name }}

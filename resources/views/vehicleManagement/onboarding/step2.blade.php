@@ -44,7 +44,7 @@
                                     <span class="svg-icon svg-icon-2 me-2">
                                         @include('layouts.partials.chassis_icon')
                                     </span>
-                                    Chassis Details
+                                    General Data
                                 </a>
                             </li>
 
@@ -57,7 +57,7 @@
                                     <span class="svg-icon svg-icon-2 me-2">
                                       @include('layouts.partials.engine_icon')
                                     </span>
-                                    Engine & Other Details
+                                    Technical Data
                                 </a>
                             </li>
 

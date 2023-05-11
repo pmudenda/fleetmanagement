@@ -40,7 +40,7 @@
                                    role="tab"
                                    tabindex="-1">
                                     @include('layouts.partials.chassis_icon')
-                                    Chassis Details
+                                    General Data
                                 </a>
                             </li>
 
@@ -50,7 +50,7 @@
                                    href="#tms_engine_details_tab" aria-selected="false" role="tab"
                                    tabindex="-1">
                                     @include('layouts.partials.engine_icon')
-                                    Engine & Other Details
+                                    Technical Data
                                 </a>
                             </li>
 
