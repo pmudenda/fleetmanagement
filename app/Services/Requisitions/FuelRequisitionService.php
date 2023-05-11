@@ -10,22 +10,20 @@ use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Models\Security\User;
-use App\Models\vehiclemanagement\VehicleHeader;
 use App\Models\vehiclemanagement\Assignment;
+use App\Models\vehiclemanagement\VehicleHeader;
 use App\Models\Workflow\WorkflowActions;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\ReferenceNumberGeneratorService;
 use App\Services\Workflow\WorkflowService;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class FuelRequisitionService
 {
 
+    const FUEL_REQUISITION_NUMBER_PREFIX = "ZFMFUE";
     private VehicleDetailsService $vehicleDetailsService;
     private WorkflowService $workflowService;
 
@@ -45,7 +43,7 @@ class FuelRequisitionService
 
         $registrationNumber = $requisitionPostRequest->vehicle_registration;
 
-        $vehicle = $this->vehicleDetailsService->getBasicVehicleDetails($registrationNumber);
+        //$vehicle = $this->vehicleDetailsService->getBasicVehicleDetails($registrationNumber);
 
         $this->validateVehicleStatus($registrationNumber);
 
@@ -94,20 +92,20 @@ class FuelRequisitionService
 
         $user = Auth()->user();
         $documentRef = ReferenceNumberGeneratorService::generateReferenceNumber(
-            "ZFMFUE",
+            self::FUEL_REQUISITION_NUMBER_PREFIX,
             1,
         );
-        
-       /* $processDetails = $this->workflowService->startWorkflowProcess(
-            $documentRef,
-            WorkflowProcessCodes::FuelRequisition->value,
-            WorkflowActions::submit(),
-            $requisitionPostRequest->justification,
-            $user
-        );
 
-        $message = !empty($processDetails->Reference) ?
-            ' With Approval Reference ' . $processDetails->Reference : '';*/
+        $processDetails = $this->workflowService->startWorkflowProcess(
+             $documentRef,
+             WorkflowProcessCodes::FuelRequisition->value,
+             WorkflowActions::submit(),
+             $requisitionPostRequest->justification,
+             $user
+         );
+
+         $message = !empty($processDetails->Reference) ?
+             ' With Approval Reference ' . $processDetails->Reference : '';
 
         $areaCode = $user->area_code ?? 'GR';
         $procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
@@ -162,7 +160,7 @@ class FuelRequisitionService
     }
 
     /**
-     * @param $vehicle
+     * @param $reference
      * @return void
      * @throws FuelRequisitionException
      */
@@ -170,7 +168,7 @@ class FuelRequisitionService
     {
         $allowedStatus = [VehicleStatusEnum::active->value];
 
-        $vehicle = VehicleHeader::where('registration_number','=', $reference)->first();
+        $vehicle = VehicleHeader::where('registration_number', '=', $reference)->first();
 
         if (!in_array($vehicle->status, $allowedStatus)) {
             throw new FuelRequisitionException(
@@ -179,19 +177,18 @@ class FuelRequisitionService
     }
 
     /**
-     * @param $vehicle
+     * @param $vehicleReference
      * @return void
      * @throws FuelRequisitionException
      */
     public function validateVehicleResponsibleUserStatus($vehicleReference): void
     {
-        $vehicle = VehicleHeader::where('registration_number','=', $vehicleReference)->first();
+        $vehicle = VehicleHeader::where('registration_number', '=', $vehicleReference)->first();
 
-       $assignment = Assignment::where('vehicle_header_id', '=',$vehicle->id )->first();
+        $assignment = Assignment::where('vehicle_header_id', '=', $vehicle->id)->first();
 
         $responsibleHead = User::where('staff_no', '=', $assignment->vehicleHolder)->first();
 
-    
         if ($responsibleHead->con_st_code != StatusHelper::active()) {
             throw new FuelRequisitionException(
                 "User Responsible for the vehicle is not active. Your requisition can not be processed",
@@ -207,7 +204,8 @@ class FuelRequisitionService
      */
     public function validateOdometerStateValidation($previousRequisition, FuelRequisitionPostRequest $requisitionPostRequest): void
     {
-// verify that odometer reading is not the same as previous requisition
+        // verify that odometer reading is not the same as previous requisition
+
         if (!empty($previousRequisition) && ($requisitionPostRequest->odometer_reading <= $previousRequisition->odometer)) {
             throw new FuelRequisitionException("Request failed odometer validation", 0);
         }

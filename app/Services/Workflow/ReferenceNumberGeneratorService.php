@@ -31,37 +31,5 @@ class ReferenceNumberGeneratorService
         }
 
         return $random;
-
-        /*$documentType = 'NCOF';
-        $NumberTable = 'NC_NonConformanceReference';
-
-        if (!Schema::hasTable($NumberTable)) {
-            Schema::connection(env('DB_CONNECTION'))
-                ->create($NumberTable, function ($table) {
-                    $table->increments('id');
-                    $table->string('businessUnit');
-                    $table->timestamps();
-                });
-        }
-
-        $result = DB::table(trim($NumberTable))
-            //->where('businessUnit', '=', trim($businessUnitCode))
-            ->where('directorate', '=', trim($directorateCode))
-            ->select(DB::raw(" count(id) as documentCount "))
-            ->first();
-
-        $increment = 1;
-        $documentNumberPrefix = $directorateCode . "." . $businessUnitCode . "." . $documentType . ".";
-
-        $documentNumberSuffix = sprintf("%05d", ($result->documentCount + $increment));
-        $referenceNumber = $documentNumberPrefix . $documentNumberSuffix;
-
-        DB::table(trim($NumberTable))->insert([
-            'businessUnit' => $businessUnitCode,
-            'referenceNumber' => $referenceNumber,
-            'directorate' => $directorateCode
-        ]);
-
-        return $referenceNumber;*/
     }
 }

@@ -27,6 +27,8 @@ class WorkflowService
      */
     public function startWorkflowProcess(string $taskReference, int $processCode, int $action, string $comment, $currentUser): WorkflowTaskDetail
     {
+        return $taskReference;
+
         $process = WorkflowProcess::where('ProcessCode', $processCode)->first();
 
         if ($process == null) return new WorkflowTaskDetail();
