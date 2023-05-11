@@ -35,9 +35,9 @@ class ChassisDetailsPostRequest extends FormRequest
             'requiredMinimumDrivingLicense' => 'required',
             'initialOdometerReading' => 'required|numeric',
             'currentOdometerReading' => 'required|numeric',
-            'odometerReadingLastService' => 'required|numeric',
+            //'odometerReadingLastService' => 'required|numeric',
             'nextServiceOdometerReading' => 'required|numeric',
-            'inspectionDate' => 'required|date_format:Y-m-d',
+            //'inspectionDate' => 'required|date_format:Y-m-d',
             'registrationDate' => 'required|date_format:Y-m-d',
 
             'motor_vehicle_certificate' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf',

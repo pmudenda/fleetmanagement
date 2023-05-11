@@ -70,9 +70,9 @@ class OnBoardingService
                 'engine_number' => $request->input('engineNumber'),
                 'initial_odometer_reading' => $request->input('initialOdometerReading'),
                 'current_odometer_reading' => $request->input('currentOdometerReading'),
-                'inspection_date' => $request->input('inspectionDate'),
-                'lst_service_odometer_reading' => $request->input('odometerReadingLastService'),
-                'nxt_service_odometer_reading' => $request->input('nextServiceOdometerReading'),
+                'inspection_date' => Carbon::now()->format('Y-m-d'), //$request->input('inspectionDate'),
+                'lst_service_odometer_reading' => $request->input('odometerReadingLastService') ?? 0,
+                'nxt_service_odometer_reading' => $request->input('nextServiceOdometerReading') ?? 0,
                 'odometer_reset' => false,
                 'registration_date' => Carbon::parse($request->input('registrationDate')),
                 'min_req_driving_license' => $request->input('requiredMinimumDrivingLicense'),
@@ -84,7 +84,7 @@ class OnBoardingService
                 'created_by' => $user->id,
                 'created_name' => $user->name,
             ]);
-        
+
         $this->fileUploadService->uploadFile($request,
             'front_view',
             'vehicleRegistration',
