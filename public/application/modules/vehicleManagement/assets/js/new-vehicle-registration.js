@@ -271,13 +271,13 @@ let app = new Vue({
             this.value = this.value.toLocaleUpperCase();
         });
 
-        /*Inputmask({
+        Inputmask({
             "mask": "AAA 9999"
         }).mask("#registrationNumber");
 
         Inputmask({
             "mask": "999/99/A99"
-        }).mask(".tyre-size");*/
+        }).mask(".tyre-size");
 
         /*Inputmask("decimal", {
             "rightAlignNumerics": false
