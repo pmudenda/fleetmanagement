@@ -699,7 +699,8 @@
                             $form.action,
                             formData,
                             function (asyncResponse) {
-                                if ('success' in asyncResponse && asyncResponse['success']) {
+
+                                if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                                     setTimeout(function () {
                                         tmsApp.showSystemMessage(
                                             'Fuel Requisition',
@@ -735,7 +736,7 @@
                                         if (xhr.responseJSON.hasOwnProperty('message')) {
                                             tmsApp.systemError(
                                                 'Fuel Requisition',
-                                                xhr.responseJSON.hasOwnProperty('message')
+                                                xhr.responseJSON['message']
                                             );
                                         }
                                         return;

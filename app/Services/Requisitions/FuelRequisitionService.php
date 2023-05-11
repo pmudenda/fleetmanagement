@@ -99,7 +99,7 @@ class FuelRequisitionService
             1,
         );
 
-        $processDetails = $this->workflowService->startWorkflowProcess(
+        /*$processDetails = $this->workflowService->startWorkflowProcess(
             $documentRef,
             WorkflowProcessCodes::FuelRequisition->value,
             WorkflowActions::submit(),
@@ -108,7 +108,7 @@ class FuelRequisitionService
         );
 
         $message = !empty($processDetails->Reference) ?
-            ' With Approval Reference ' . $processDetails->Reference : '';
+            ' With Approval Reference ' . $processDetails->Reference : '';*/
 
         $areaCode = $user->area_code ?? 'GR';
         $procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
