@@ -143,7 +143,7 @@
 <script src="{{asset('assets/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery.filer/js/jquery.filer.min.js')}}"></script>
-<script src="{{asset('libs/libs/jquery.inputMask/3.3.4/jquery.inputmask.bundle.min.js') }}"></script>
+<script src="{{asset('libs/jqueryInputmask/3.3.4/jquery.inputmask.bundle.min.js') }}"></script>
 <script src="{{asset('assets/plugins/form-masking/autoNumeric.js') }}"></script>
 <script src="{{asset('themes/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
 <script src="{{asset('themes/plugins/moment/moment.min.js')}}"></script>

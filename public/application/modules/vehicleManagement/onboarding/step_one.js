@@ -4,6 +4,12 @@ window.removeSpaces = function (value) {
     return value.replace(/\s/g, '');
 }
 
+$(document).ready(function(){
+    Inputmask({
+        "mask": "AAA 9999"
+    }).mask("#registrationNumber");
+});
+
 let app = new Vue({
     'el': '#kt_app_main',
     components: {},
@@ -126,10 +132,6 @@ let app = new Vue({
         }
 
         //this.initValidators();
-
-        Inputmask({
-            "mask": "AAA 9999"
-        }).mask("#registrationNumber");
 
         /*Inputmask({
             "mask": "999/99/A99"
