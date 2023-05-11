@@ -79,15 +79,15 @@ class FuelRequisitionController extends Controller
         $req_no = $request->get('ref');
 
         $user = Auth::user();
-        $requestDetails = DB::table('GEN_MATERIAL_HEADERS')->
-        where('GEN_MATERIAL_HEADERS.req_no', $req_no)
-            ->join('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
-            ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
-            ->select('GEN_MATERIAL_HEADERS.*', 'GEN_MATERIAL_DETAILS.*', 'CONFIG_STATUSES.name as status_name', 'CONFIG_STATUSES.color_code')
-            ->first();
+
+        $requestDetails = $this->requisitionService->getRequisitionDetail($req_no) ;
+
         $costCenter = CostCenters::where('code_cost_center', $user->cc_code)->first();
+
         $requisitionTypes = RequisitionTypes::where('status', '01')->where('module', 'FR')->get();
+
         $daysToNextRefuel = config('settings.fuel_requisition_validity');
+
         $approvalHistory = [];
 
         return view('modules.requisitions.fuel.show')

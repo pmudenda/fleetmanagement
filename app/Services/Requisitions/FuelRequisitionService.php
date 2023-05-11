@@ -17,8 +17,11 @@ use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\ReferenceNumberGeneratorService;
 use App\Services\Workflow\WorkflowService;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 
 class FuelRequisitionService
 {
@@ -97,15 +100,15 @@ class FuelRequisitionService
         );
 
         $processDetails = $this->workflowService->startWorkflowProcess(
-             $documentRef,
-             WorkflowProcessCodes::FuelRequisition->value,
-             WorkflowActions::submit(),
-             $requisitionPostRequest->justification,
-             $user
-         );
+            $documentRef,
+            WorkflowProcessCodes::FuelRequisition->value,
+            WorkflowActions::submit(),
+            $requisitionPostRequest->justification,
+            $user
+        );
 
-         $message = !empty($processDetails->Reference) ?
-             ' With Approval Reference ' . $processDetails->Reference : '';
+        $message = !empty($processDetails->Reference) ?
+            ' With Approval Reference ' . $processDetails->Reference : '';
 
         $areaCode = $user->area_code ?? 'GR';
         $procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
@@ -155,7 +158,8 @@ class FuelRequisitionService
 
         return response()->json([
             'success' => true,
-            'message' => 'Requisition  Submitted Successfully..'
+            'message' => 'Requisition  Submitted Successfully..',
+            'redirectUrl' => URL::signedRoute('show.fuel.requisition', ['ref' => $documentRef])
         ]);
     }
 
@@ -219,11 +223,29 @@ class FuelRequisitionService
      */
     public function checkIfPreviousRequisitionPeriodElapsed($previousRequisition, bool|Carbon $valid_from): void
     {
-// check if previous requisition period elapsed
+        // check if previous requisition period elapsed
+
         if (!empty($previousRequisition) && Carbon::parse($previousRequisition->valid_date_to)->lessThan($valid_from)) {
             throw new FuelRequisitionException("Request failed validation, Previous requisition number " .
                 $previousRequisition->req_no . " is still Active. Next Request Date Is "
                 . $previousRequisition->valid_date_to, 0);
         }
+    }
+
+    /**
+     * @param $req_no
+     * @return Model|Builder|object|null
+     */
+    public function getRequisitionDetail($req_no)
+    {
+        $results = DB::table('GEN_MATERIAL_HEADERS')->
+        where('GEN_MATERIAL_HEADERS.req_no', $req_no)
+            ->join('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
+            ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
+            ->select('GEN_MATERIAL_HEADERS.*', 'GEN_MATERIAL_DETAILS.*', 'CONFIG_STATUSES.name as status_name', 'CONFIG_STATUSES.color_code')
+            ->first();
+
+        return $results->first();
+
     }
 }

@@ -111,7 +111,7 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="cost_centre_code"
-                                                                   value="{{$costCenter->code_cost_center}}"
+                                                                   value="{{$costCenter->code_cost_center ?? ''}}"
                                                                    name="cost_centre_code"
                                                                    required readonly>
                                                         </div>
@@ -127,7 +127,7 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-10">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="cost_center_name"
-                                                                   value="{{$costCenter->description}}"
+                                                                   value="{{$costCenter->description ?? ''}}"
                                                                    name="cost_center_name"
                                                                    required readonly>
                                                         </div>
@@ -444,11 +444,16 @@
 @push('scripts')
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script>
+        $(document).ready(function () {
+            Inputmask({
+                "mask": "AAA 9999"
+            }).mask("#vehicle_registration");
+        });
 
         (function (tmsApp, $) {
             function removeSubmissionAndDetailsOptions() {
                 let elements = document.querySelectorAll('.when_valid');
-                elements.forEach(function(element){
+                elements.forEach(function (element) {
                     element.setAttribute('disabled', 'disabled');
                 })
 
@@ -466,13 +471,12 @@
 
                 let elements = document.querySelectorAll('.when_valid');
 
-                elements.forEach(function(element){
+                elements.forEach(function (element) {
                     element.removeAttribute('disabled');
                 });
 
                 document.querySelector('#vehicleDetailsContainer').style.display = null;
                 //document.querySelector('#materialDetailsContainer').style.display = null;
-
             }
 
             function populateVehicleDetails(payload) {
@@ -612,9 +616,6 @@
                 findVehicle();
             });
 
-            /*Inputmask({
-                "mask": "AAA 9999"
-            }).mask("#vehicle_registration");*/
 
             $('#vehicleSearchBtn').on('click', function () {
                 if (document.querySelector('#vehicle_registration').value && document.querySelector('#vehicle_registration') < 6) {
@@ -704,8 +705,8 @@
                                             'Fuel Requisition',
                                             asyncResponse['message'],
                                             function () {
-                                                //window.location.href = asyncResponse["redirectUrl"]
-                                                window.location.reload();
+                                                window.location.href = asyncResponse["redirectUrl"]
+                                                //window.location.reload();
                                             },
                                             'success'
                                         );
