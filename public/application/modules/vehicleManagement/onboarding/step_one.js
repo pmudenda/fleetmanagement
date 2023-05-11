@@ -102,7 +102,7 @@ let app = new Vue({
         this.vehicleHeaderForm = document.querySelector('#tms_vehicle_header_form');
 
         $(document).on('keyup', '#registrationNumber', function () {
-            this.value = this.value.toLocaleUpperCase();
+            //this.value = this.value.toLocaleUpperCase();
         });
 
         $(document).on('keyup', '#vehicleLocation', function () {
@@ -127,9 +127,9 @@ let app = new Vue({
 
         //this.initValidators();
 
-        /*Inputmask({
+        Inputmask({
             "mask": "AAA 9999"
-        }).mask("#registrationNumber");*/
+        }).mask("#registrationNumber");
 
         /*Inputmask({
             "mask": "999/99/A99"
