@@ -16,6 +16,7 @@ use App\Models\configurations\vehicle\ConfigVehicleBodyType;
 use App\Models\configurations\vehicle\ConfigVehicleBrand;
 use App\Models\configurations\vehicle\ConfigVehicleModel;
 use App\Models\general\OrganizationalUnits;
+use App\Models\reference\BusinessAreas;
 use App\Models\vehiclemanagement\Assignment;
 use App\Models\vehiclemanagement\BodyAndWeightDetail;
 use App\Models\vehiclemanagement\ChassisDetail;
@@ -336,11 +337,12 @@ class OnBoardingService
         $bu_code = $businessUnitParts[0];
         $bu_name = $businessUnitParts[1];
 
-        $businessArea = GeneralTableConfigurations::where('code', '=', trim($request->input('businessArea')))
-            ->where('type', '=', 'businessAreas')->first();
+        $businessArea = BusinessAreas::where('area', '=', trim($request->input('businessArea')))
+            //->where('type', '=', 'businessAreas')
+            ->first();
 
         if (!$businessArea) {
-            throw new VehicleOnBoardingException("Invalid Business Area", 0);
+            throw new VehicleOnBoardingException("Invalid Business Area Selected ", 0);
         }
 
         $data = [

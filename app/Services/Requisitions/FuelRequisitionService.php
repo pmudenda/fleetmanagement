@@ -106,8 +106,9 @@ class FuelRequisitionService
             self::FUEL_REQUISITION_NUMBER_PREFIX,
             1);
 
-        $procurementRef = $this->procurementService->generateDocument();
-        $areaCode = $user->area_code ?? 'GR';
+        $areaCode = $user->area_code ?? 'LR';
+        $procurementRef = $this->procurementService->generateDocument('', $areaCode);
+
         //$procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
         /*$processDetails = $this->workflowService->startWorkflowProcess(
             $documentRef,
@@ -115,10 +116,10 @@ class FuelRequisitionService
             WorkflowActions::submit(),
             $requisitionPostRequest->justification,
             $user
-        );
+        );*/
 
-        $message = !empty($processDetails->Reference) ?
-            ' With Approval Reference ' . $processDetails->Reference : '';*/
+        $message = !empty($documentRef) ?
+            ' With Approval Reference ' . $documentRef : '';
 
         MaterialHeader::create(
             [
@@ -165,7 +166,7 @@ class FuelRequisitionService
 
         return response()->json([
             'success' => true,
-            'message' => 'Requisition  Submitted Successfully..',
+            'message' => 'Requisition  Submitted Successfully. Requisition Number ' . $documentRef,
             'redirectUrl' => URL::signedRoute('show.fuel.requisition', ['ref' => $documentRef])
         ]);
     }

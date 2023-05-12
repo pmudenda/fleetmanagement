@@ -25,10 +25,10 @@ class VehicleController extends Controller
         $this->vehicleDetailsService = $vehicleDetailsService;
     }
 
-    public function getAllDetails(Request $request, $ref): JsonResponse
+    public function getAllDetails(Request $request): JsonResponse
     {
         try {
-            if (empty($ref) && !$request->has('reference')) {
+            if (empty($request->has('reference'))) {
                 return response()->json([
                     'success' => 'false',
                     'statusDescription' => 'Bad Request',

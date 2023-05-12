@@ -31,9 +31,9 @@
                                     v-model="assignmentDetails.businessArea"
                                     data-doctype="AssignmentDetails">
                                     <option value=""></option>
-                                    <option v-for="businessArea in businessAreas" :key="businessArea.code"
-                                            :value="businessArea.code">
-                                        @{{ businessArea.name }}
+                                    <option v-for="businessArea in businessAreas" :key="businessArea.area"
+                                            :value="businessArea.area">
+                                        @{{ businessArea.description }}
                                     </option>
                                 </select>
                             </div>
