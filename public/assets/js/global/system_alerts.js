@@ -180,8 +180,10 @@
          * toast system message
          * @param content
          * @param type
+         * @param title
          */
-        appInstance.showToast = function (content, type) {
+        appInstance.showToast = function (content, type, title) {
+            title = title > "" ? title : 'System Message'
             switch (type) {
                 case 'success':
                     toastr.success(content);

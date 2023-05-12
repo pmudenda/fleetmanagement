@@ -51,10 +51,10 @@
                                 <input type="text" name="email"
                                        value="{{ old('email') }}"
                                        autocomplete="off" id="username"
-                                       placeholder="Staff Number"
+                                       placeholder=""
                                        required=""
                                        autofocus=""
-                                       class="form-control @error('email') is-invalid @enderror"/>
+                                       class="form-control form-control-sm @error('email') is-invalid @enderror"/>
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -66,7 +66,7 @@
                                 <div class="position-relative">
                                     <input type="password"
                                            placeholder="Password"
-                                           class="form-control password @error('password') is-invalid @enderror"
+                                           class="form-control form-control-sm password @error('password') is-invalid @enderror"
                                            name="password"
                                            id="password"
                                            required=""/>

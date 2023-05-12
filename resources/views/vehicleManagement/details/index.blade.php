@@ -40,7 +40,7 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group">
                                                                 <input type="text"
-                                                                       data-action="{{route('api.vehicle')}}"
+                                                                       data-action="{{route('vehicle.details')}}"
                                                                        class="form-control form-control-sm"
                                                                        autocapitalize="characters"
                                                                        id="vehicle_registration"

@@ -2,8 +2,8 @@
 
 namespace App\Services\Requisitions;
 
+use App\Constants\ErrorMessages;
 use App\Enums\VehicleStatusEnum;
-use App\Enums\WorkflowProcessCodes;
 use App\Exceptions\FuelRequisitionException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\FuelRequisitionPostRequest;
@@ -12,7 +12,6 @@ use App\Models\MaterialHeader;
 use App\Models\Security\User;
 use App\Models\vehiclemanagement\Assignment;
 use App\Models\vehiclemanagement\VehicleHeader;
-use App\Models\Workflow\WorkflowActions;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\ReferenceNumberGeneratorService;
 use App\Services\Workflow\WorkflowService;
@@ -43,14 +42,19 @@ class FuelRequisitionService
      */
     public function processRequest(FuelRequisitionPostRequest $requisitionPostRequest): JsonResponse
     {
-
         $registrationNumber = $requisitionPostRequest->vehicle_registration;
-
-        //$vehicle = $this->vehicleDetailsService->getBasicVehicleDetails($registrationNumber);
 
         $this->validateVehicleStatus($registrationNumber);
 
         //$this->validateVehicleResponsibleUserStatus($registrationNumber);
+
+        /*if ($request->get('fuel_allocation') < $request->get('material_quantity')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Quantity requested can not be more than allocation'
+            ]);
+        }*/
+
 
         //$maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption) + $requisitionPostRequest->odometer_reading;
 
@@ -175,8 +179,7 @@ class FuelRequisitionService
         $vehicle = VehicleHeader::where('registration_number', '=', $reference)->first();
 
         if (!in_array($vehicle->status, $allowedStatus)) {
-            throw new FuelRequisitionException(
-                "Requisition not accepts while vehicle is not in active state", 0);
+            throw new FuelRequisitionException(ErrorMessages::vehicleNotActive, 0);
         }
     }
 
@@ -194,9 +197,7 @@ class FuelRequisitionService
         $responsibleHead = User::where('staff_no', '=', $assignment->vehicleHolder)->first();
 
         if ($responsibleHead->con_st_code != StatusHelper::active()) {
-            throw new FuelRequisitionException(
-                "User Responsible for the vehicle is not active. Your requisition can not be processed",
-                0);
+            throw new FuelRequisitionException(ErrorMessages::responsibleUserNotActive, 0);
         }
     }
 
@@ -226,9 +227,8 @@ class FuelRequisitionService
         // check if previous requisition period elapsed
 
         if (!empty($previousRequisition) && Carbon::parse($previousRequisition->valid_date_to)->lessThan($valid_from)) {
-            throw new FuelRequisitionException("Request failed validation, Previous requisition number " .
-                $previousRequisition->req_no . " is still Active. Next Request Date Is "
-                . $previousRequisition->valid_date_to, 0);
+            throw new FuelRequisitionException(str_replace('@date_valid_to', $previousRequisition->valid_date_to,
+                str_replace('@req_no',$previousRequisition->req_no,ErrorMessages::requisitionStillActive)), 0);
         }
     }
 

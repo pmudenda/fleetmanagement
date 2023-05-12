@@ -4,6 +4,9 @@ $(document).ready(function () {
         theme: 'bootstrap4',
         ajax: {
             delay: 250,
+            beforeSend: function(){
+                window.showLoaderModal(false);
+            },
             url: document.querySelector('#projects_url').value,
             dataType: 'json',
             data: function (params) {

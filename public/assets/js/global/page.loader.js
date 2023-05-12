@@ -9,4 +9,3 @@ $(document).ready(function() {
     $('.theme-loader').fadeOut(2000);
     //loader end
 });
-

@@ -342,7 +342,7 @@
                             <div>
                                 <input type="text"
                                        required
-                                       class="input-with-feedback form-control bold view_mode"
+                                       class="input-with-feedback form-control bold view_mode weight_control"
                                        maxlength="140"
                                        data-fieldtype="Link"
                                        data-fieldname="company"
@@ -365,7 +365,7 @@
             </td>
             <td>
                 <input type="text"
-                       class="input-with-feedback form-control bold view_mode"
+                       class="input-with-feedback form-control bold view_mode weight_control"
                        maxlength="140"
                        required
                        data-fieldtype="Link"

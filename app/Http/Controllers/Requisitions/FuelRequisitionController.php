@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Requisitions;
 
+use App\Constants\SystemMessages;
 use App\Exceptions\VehicleOnBoardingException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FuelRequisitionPostRequest;
+use App\Http\Requests\OdometerValidationRequest;
 use App\Models\general\CostCenters;
 use App\Models\MaterialHeader;
 use App\Models\RequisitionTypes;
+use App\Models\vehiclemanagement\ChassisDetail;
+use App\Models\vehiclemanagement\VehicleHeader;
 use App\Services\Requisitions\FuelRequisitionService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -15,7 +19,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class FuelRequisitionController extends Controller
@@ -34,6 +37,32 @@ class FuelRequisitionController extends Controller
             ->with(compact('requisitions'));
     }
 
+    public function validateOdometer(OdometerValidationRequest $request): JsonResponse
+    {
+        $vehicle = VehicleHeader::where('registration_number', trim($request->get('vehicle_registration')))->first();
+
+        if (empty($vehicle)) {
+            return response()->json([
+                'success' => false,
+                'message' => "Vehicle not found",
+                'requestPayload' => all()
+            ]);
+        }
+
+        $chassisDetail = ChassisDetail::where('vehicle_header_id', '=', $vehicle->id)->first();
+
+        //trim($request->get('odometer_reading'))
+
+        $valid = $chassisDetail->initial_odometer_reading < $request->get('odometer_reading');
+
+        return response()->json([
+            'success' => false,
+            'valid' => $valid,
+            'message' => SystemMessages::valid,
+            'requestPayload' => $request->all()
+        ]);
+    }
+
     public function create(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $user = Auth::user();
@@ -48,13 +77,6 @@ class FuelRequisitionController extends Controller
     public function store(FuelRequisitionPostRequest $request): JsonResponse
     {
         try {
-            if ($request->get('fuel_allocation') < $request->get('material_quantity')) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Quantity requested can not be more than allocation'
-                ]);
-            }
-
             return $this->requisitionService->processRequest($request);
         } catch (\Exception $e) {
             Log::error($e);
@@ -80,7 +102,7 @@ class FuelRequisitionController extends Controller
 
         $user = Auth::user();
 
-        $requestDetails = $this->requisitionService->getRequisitionDetail($req_no) ;
+        $requestDetails = $this->requisitionService->getRequisitionDetail($req_no);
 
         $costCenter = CostCenters::where('code_cost_center', $user->cc_code)->first();
 

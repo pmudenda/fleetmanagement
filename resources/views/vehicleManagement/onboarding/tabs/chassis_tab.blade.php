@@ -461,36 +461,47 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-4 create_mode">
+        <div class="col-12 mt-10">
             <div class="row">
-                <div class="form-group row">
-                    <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
-                           style="padding-right: 0px;">
-                        Motor Vehicle Certificate:
-                    </label>
-                    <div class="col-md-7 fv-row">
-                        <div class="col-md-9">
-                            <input type="file" accept="image/*,.pdf"
-                                   required
-                                   name="motor_vehicle_certificate"/>
-                        </div>
-                    </div>
-                </div>
+                <table>
+                    <tr>
+                        <td>
+                            <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
+                                   style="padding-right: 0px;">
+                                Motor Vehicle Certificate:
+                            </label>
+                        </td>
+                        <td>
+                            <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
+                                   style="padding-right: 0px;">
+                                Insurance Cover Note:
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="col-md-7 fv-row">
+                                <div class="col-md-9">
+                                    <input type="file" accept="image/*,.pdf"
+                                           required
+                                           name="motor_vehicle_certificate"/>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="col-md-7 fv-row">
+                                <div class="col-md-9">
+                                    <input type="file" accept="image/*,.pdf"
+                                           required
+                                           name="insurance_cover_note"/>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
 
-                <div class="form-group row">
-                    <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
-                           style="padding-right: 0px;">
-                        Insurance Cover Note:
-                    </label>
-                    <div class="col-md-7 fv-row">
-                        <div class="col-md-9">
-                            <input type="file" accept="image/*,.pdf"
-                                   required
-                                   name="insurance_cover_note"/>
-                        </div>
-                    </div>
-                </div>
-
+                <div class="form-group row"></div>
+                <div class="form-group row"></div>
             </div>
         </div>
     </div>

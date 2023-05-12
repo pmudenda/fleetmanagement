@@ -32,3 +32,22 @@
 .error-class{
     color: red;
 }
+
+.card-header.view_mode > div div.edit_mode {
+    display: none
+}
+
+.card-header.edit_mode > div div.view_mode {
+    display: none
+}
+
+.imagePreview {
+    width: 100%;
+    min-height: 280px;
+    background-position: center center;
+    background-color: #fff;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    box-shadow: 0px -3px 6px 2px rgba(0, 0, 0, 0.2);
+}

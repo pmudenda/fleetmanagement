@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class ProcurementSystemIntegrationController extends \App\Http\Controllers\Controller
 {
-    public function verify(Request $request): JsonResponse
+    public function verifyPurchaseOrder(Request $request): JsonResponse
     {
         $document_number = $request->get('document_number');
         if (empty($document_number)) {
@@ -24,7 +24,24 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
         return response()->json([
             'state' => 'success',
             'payload' => $purchaseOrder,
-            'message' => ''
+            'message' => 'Data Retrieved'
         ]);
+    }
+
+    public function getSuppliers(): JsonResponse
+    {
+        try {
+            $suppliers = PurchaseOrders::get();
+            return response()->json([
+                'state' => 'success',
+                'payload' => $suppliers
+            ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'state' => 'failure',
+                'payload' => []
+            ]);
+        }
     }
 }

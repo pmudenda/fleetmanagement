@@ -118,14 +118,6 @@ let app = new Vue({
             this.value = this.value.toLocaleUpperCase();
         });
 
-        //this.chassisDetailsForm = document.querySelector('#tms_chassis_details_form');
-        //this.engineDetailsForm = document.querySelector('#tms_engine_details_form');
-        //this.costingDetailsForm = document.querySelector('#tms_costing_valuation_form');
-        //this.bodyDetailsForm = document.querySelector('#tms_body_weight_form');
-        //this.assignmentDetailsForm = document.querySelector('#tms_assignment_tab_form');
-
-        //let input = document.getElementById("userUnit");
-
         //this.initDropzone();
         if (this.vehicleHeader && this.vehicleHeader.id) {
             this.isHeaderSaved = true;
@@ -546,7 +538,6 @@ let app = new Vue({
     });
 
     let saveVehicleHeaderInformation = function (e) {
-        // Prevent default button action
         e.preventDefault();
         this.postVehicleHeaderData();
     }

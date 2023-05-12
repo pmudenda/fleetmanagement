@@ -1,6 +1,5 @@
-
 <div class="card mb-xl-10">
-    <div class="card-header border-0 min-h-2px">
+    <div class="card-header min-h-2px">
         <div class="card-title">
             <h2> New Vehicle Registration</h2>
             <span v-if="!isHeaderSaved" class="ml-2 indicator-pill whitespace-nowrap orange">
@@ -8,16 +7,36 @@
                     </span>
 
             <span v-else class="ml-2 indicator-pill whitespace-nowrap green">
-                        <span>Saved</span>
-                    </span>
+                <span>
+                    @{{ vehicleHeader.on_boarding_status  | formatStatus}}
+                </span>
+            </span>
         </div>
         <div id="actionButtonsContainer" class="card-toolbar justify-content-end create_mode">
-            <button type="button" id="submitBtn" class="btn btn-success btn-sm mr-3">
-                <i class="fas fa-paper-plane"></i> Submit
+            <div class="view_mode">
+            <button type="button" id="editRecordBtn" class="btn btn-primary btn-sm mr-3">
+                <i class="fas fa-edit"></i> Edit
             </button>
-            <button type="button" id="resetFormBtn" class="btn btn-danger btn-sm mr-3">
-                <i class="fas fa-undo"></i> Cancel
-            </button>
+            </div>
+            <div class="edit_mode">
+                <button type="button" id="submitBtn" class="btn btn-success btn-sm mr-3">
+                    <i class="fas fa-paper-plane"></i> Submit
+                </button>
+            </div>
+
+            <div class="edit_mode">
+                <button type="button" id="resetFormBtn" class="btn btn-danger btn-sm mr-3 " title="Clear Form Data">
+                    <i class="fas fa-undo"></i> Clear Data
+                </button>
+            </div>
+
+            <div class="edit_mode" >
+                <a href="#/" id="cancelEditLink" class="btn btn-danger btn-sm" title="Cancel Edit">
+                    <i class="fa fa-fw fa-times"></i>
+                    Cancel Edit
+                </a>
+            </div>
+
         </div>
     </div>
 

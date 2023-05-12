@@ -76,12 +76,8 @@
                     </div>
                 </div>
             </td>
-            <td class="frappe-control">
-
-            </td>
-            <td>
-
-            </td>
+            <td class="frappe-control"></td>
+            <td></td>
         </tr>
 
         <tr>
@@ -104,7 +100,6 @@
                                        name="businessUnit"
                                        v-model="assignmentDetails.businessUnit"
                                        placeholder="Business Unit"/>
-
                             </div>
                         </div>
                     </div>
@@ -136,7 +131,6 @@
                                        id="costCenter"
                                        data-doctype="AssignmentDetails"/>
                             </div>
-
                         </div>
                     </div>
                     <p class="help-box small text-muted"></p>
@@ -304,7 +298,7 @@
             </td>
         </tr>
 
-        <tr v-if="assignmentDetails.isOperationsVehicle==='Y'">
+        <tr style="display: none;">
             <td class="frappe-control ">
                 <label class="control-label reqd"
                        style="padding-right: 0px;">
@@ -329,20 +323,6 @@
                         </div>
                     </div>
                 </div>
-            </td>
-
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr v-if="assignmentDetails.isOperationsVehicle==='N'">
-            <td class="frappe-control ">
-                <label class="control-label reqd"
-                       style="padding-right: 0px;">
-                    Mileage Exempt:
-                </label>
-            </td>
-            <td>
                 <div class="control-input-wrapper">
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
@@ -359,10 +339,10 @@
                     </div>
                 </div>
             </td>
-
             <td></td>
             <td></td>
         </tr>
+
 
 
         {{--      <tr>
