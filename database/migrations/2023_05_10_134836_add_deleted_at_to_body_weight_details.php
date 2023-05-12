@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('VM_BODY_AND_WEIGHT_DETAILS', function (Blueprint $table) {
-            $table->timestamp('deleted_at')->add();
+            $table->timestamp('deleted_at')->nullable()->add();
         });
     }
 
