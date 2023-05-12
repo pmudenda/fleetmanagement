@@ -30,6 +30,12 @@ class FuelRequisitionController extends Controller
         $this->requisitionService = $requisitionService;
     }
 
+
+    public function __call(string $name, array $arguments)
+    {
+        // TODO: Implement __call() method.
+    }
+
     public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $requisitions = MaterialHeader::get();
