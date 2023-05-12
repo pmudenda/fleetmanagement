@@ -29,10 +29,6 @@ Route::middleware('auth=>sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-/*Route::prefix('v1/en')->as('brands:')->middleware(['api'])->group(static function (): void {
-
-});*/
-
 Route::group(['prefix' => 'v1/en'], function (): void {
     /** Brands API **/
 

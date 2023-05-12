@@ -4,6 +4,7 @@ namespace App\Http\Controllers\OrganizationStructure;
 
 use App\Http\Controllers\Controller;
 use App\Models\configurations\GeneralTableConfigurations;
+use App\Models\reference\BusinessAreas;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -14,8 +15,7 @@ class BusinessAreasController extends Controller
     {
         try {
 
-            $data = GeneralTableConfigurations::where('type', '=', 'businessAreas')->get();
-            //BusinessAreas::get();
+            $data = BusinessAreas::where('type', '=', 'businessAreas')->get();
 
             return response()->json([
                 'state' => 'success',
