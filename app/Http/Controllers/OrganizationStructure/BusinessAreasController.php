@@ -15,7 +15,7 @@ class BusinessAreasController extends Controller
     {
         try {
 
-            $data = BusinessAreas::where('type', '=', 'businessAreas')->get();
+            $data = BusinessAreas::get();
 
             return response()->json([
                 'state' => 'success',
