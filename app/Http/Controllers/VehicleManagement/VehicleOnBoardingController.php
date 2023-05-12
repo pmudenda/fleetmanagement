@@ -10,6 +10,8 @@ use App\Http\Requests\ChassisDetailsPostRequest;
 use App\Http\Requests\CostingDetailsPost;
 use App\Http\Requests\EngineDetailsPost;
 use App\Http\Requests\VehicleHeaderRequest;
+use App\Models\vehiclemanagement\ChassisDetail;
+use App\Models\vehiclemanagement\VehicleHeader;
 use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use Exception;
@@ -108,7 +110,7 @@ class VehicleOnBoardingController extends Controller
             $step = $request->get('step') ?? 0;
             $reference = $request->get('reference');
 
-            Log::debug(' Reference after onboarding '. $reference);
+            Log::debug(' Reference after onboarding ' . $reference);
             if (!empty($reference) && $reference != 0) {
                 $vehicle = $this->vehicleDetailsService->getVehicleDetails((int)$reference);
                 $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments((int)$reference);
@@ -292,34 +294,29 @@ class VehicleOnBoardingController extends Controller
         }
     }
 
-
-    public function validateUploads(Request $request, $validationFields): bool
+    public function validateVehicleIdentifiers(Request $request): JsonResponse
     {
-        /* $rules = [];
-         $messages = [];
-         foreach ($validationFields as $validationField) {
-             $rules = [$validationField => ['required']];
-             $messages = [$validationField => 'You have not provided valid data for ' . $validationField];
-         }*/
+        $valid = true;
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                '*_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff'
+        switch ($request->get('method')) {
+            case 'registration_number':
+                $valid = VehicleHeader::where('registration_number', trim($request->get('key')))->count() == 0;
+                break;
+            case 'registration_number':
+                $valid = ChassisDetail::where('chassis_number', trim($request->get('key')))->count() == 0;
+                break;
+            case 'motorVehicleCertificate':
+                $valid = ChassisDetail::where('white_book_serial', trim($request->get('key')))->count() == 0;
+                break;
+        }
+
+        return response()->json([
+            'state' => 'success',
+            'payload' => [
+                'validity' => $valid,
+                'message' => $valid ? 'Document number is valid' : 'Document number is invalid'
             ],
-            [
-                '*.required' => 'Please upload an image',
-                '*.mimes' => 'Only =jpg,jpeg,png,bmp,tif,tiff images are allowed',
-            ]
-        );
-
-        /*if ($validator->fails()) {
-            $messages = $validator->messages();
-            return Redirect::to('/')->with('message', 'Your erorr message');
-        }*/
-
-        return $validator->passes();
-
+            'request' => $request->all()
+        ]);
     }
-
 }

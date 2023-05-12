@@ -1,63 +1,68 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+/*@import url('https://fonts.googleapis.com/css?family=Roboto');*/
 
-body{
-	font-family: 'Roboto', sans-serif;
+body {
+    font-family: 'Roboto', sans-serif;
 }
+
 * {
-	margin: 0;
-	padding: 0;
-}
-i {
-	margin-right: 10px;
+    margin: 0;
+    padding: 0;
 }
 
-.d-none{
+i {
+    margin-right: 10px;
+}
+
+.d-none {
     display: none;
 }
+
 /*------------------------*/
 input:focus,
 button:focus,
-.form-control:focus{
-	outline: none;
-	box-shadow: none;
+.form-control:focus {
+    outline: none;
+    box-shadow: none;
 }
-.form-control:disabled, .form-control[readonly]{
-	background-color: #fff;
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: #fff;
 }
+
 /*----------step-wizard------------*/
-.d-flex{
-	display: flex;
+.d-flex {
+    display: flex;
 }
-.justify-content-center{
-	justify-content: center;
+
+.justify-content-center {
+    justify-content: center;
 }
-.align-items-center{
-	align-items: center;
+
+.align-items-center {
+    align-items: center;
 }
 
 /*---------signup-step-------------*/
-.bg-color{
-	background-color: #333;
-}
-.signup-step-container{
-	padding: 150px 0px;
-	padding-bottom: 60px;
+.bg-color {
+    background-color: #333;
 }
 
+.signup-step-container {
+    padding: 150px 0px;
+    padding-bottom: 60px;
+}
 
+.wizard .nav-tabs {
+    position: relative;
+    margin-bottom: 0;
+    border-bottom-color: transparent;
+}
 
-
-    .wizard .nav-tabs {
-        position: relative;
-        margin-bottom: 0;
-        border-bottom-color: transparent;
-    }
-
-    .wizard > div.wizard-inner {
-            position: relative;
+.wizard > div.wizard-inner {
+    position: relative;
     margin-bottom: 50px;
     text-align: center;
-    }
+}
 
 .connecting-line {
     height: 2px;
@@ -94,11 +99,13 @@ span.round-tab {
     font-weight: 500;
     border: 1px solid #ddd;
 }
-span.round-tab i{
-    color:#555555;
+
+span.round-tab i {
+    color: #555555;
 }
+
 .wizard li.done span.round-tab {
-        background: #0db02b;
+    background: #0db02b;
     color: #fff;
     border-color: #0db02b;
 }
@@ -108,11 +115,13 @@ span.round-tab i{
     color: #fff;
     border-color: #6C9BCF;
 }
-.wizard li.active span.round-tab i{
+
+.wizard li.active span.round-tab i {
     color: #5bc0de;
 }
-.wizard .nav-tabs > li.active > a i{
-	color: #0db02b;
+
+.wizard .nav-tabs > li.active > a i {
+    color: #0db02b;
 }
 
 .wizard .nav-tabs > li {
@@ -132,7 +141,6 @@ span.round-tab i{
 }
 
 
-
 .wizard .nav-tabs > li a {
     width: 30px;
     height: 30px;
@@ -143,8 +151,9 @@ span.round-tab i{
     position: relative;
     top: 0;
 }
-.wizard .nav-tabs > li a i{
-	position: absolute;
+
+.wizard .nav-tabs > li a i {
+    position: absolute;
     top: -15px;
     font-style: normal;
     font-weight: 400;
@@ -156,43 +165,48 @@ span.round-tab i{
     color: #000;
 }
 
-    .wizard .nav-tabs > li a:hover {
-        background: transparent;
-    }
+.wizard .nav-tabs > li a:hover {
+    background: transparent;
+}
 
 .wizard .tab-pane {
     position: relative;
     padding-top: 20px;
 }
 
-
 .wizard h3 {
     margin-top: 0;
 }
+
 .prev-step,
-.next-step{
+.next-step {
     font-size: 13px;
     padding: 8px 24px;
     border: none;
     border-radius: 4px;
     margin-top: 30px;
 }
-.next-step{
-	background-color: #0db02b;
+
+.next-step {
+    background-color: #0db02b;
 }
-.skip-btn{
-	background-color: #fd7e14;
+
+.skip-btn {
+    background-color: #fd7e14;
 }
-.step-head{
+
+.step-head {
     font-size: 20px;
     text-align: center;
     font-weight: 500;
     margin-bottom: 20px;
 }
-.term-check{
-	font-size: 14px;
-	font-weight: 400;
+
+.term-check {
+    font-size: 14px;
+    font-weight: 400;
 }
+
 .custom-file {
     position: relative;
     display: inline-block;
@@ -200,6 +214,7 @@ span.round-tab i{
     height: 40px;
     margin-bottom: 0;
 }
+
 .custom-file-input {
     position: relative;
     z-index: 2;
@@ -208,6 +223,7 @@ span.round-tab i{
     margin: 0;
     opacity: 0;
 }
+
 .custom-file-label {
     position: absolute;
     top: 0;
@@ -223,6 +239,7 @@ span.round-tab i{
     border: 1px solid #ced4da;
     border-radius: .25rem;
 }
+
 .custom-file-label::after {
     position: absolute;
     top: 0;
@@ -239,17 +256,21 @@ span.round-tab i{
     border-left: inherit;
     border-radius: 0 .25rem .25rem 0;
 }
-.footer-link{
-	margin-top: 30px;
+
+.footer-link {
+    margin-top: 30px;
 }
-.all-info-container{
+
+.all-info-container {
 
 }
-.list-content{
-	margin-bottom: 10px;
+
+.list-content {
+    margin-bottom: 10px;
 }
-.list-content a{
-	padding: 10px 15px;
+
+.list-content a {
+    padding: 10px 15px;
     width: 100%;
     display: inline-block;
     background-color: #f5f5f5;
@@ -258,53 +279,65 @@ span.round-tab i{
     font-weight: 400;
     border-radius: 4px;
 }
-.list-content a[aria-expanded="true"] i{
-	transform: rotate(180deg);
+
+.list-content a[aria-expanded="true"] i {
+    transform: rotate(180deg);
 }
-.list-content a i{
-	text-align: right;
+
+.list-content a i {
+    text-align: right;
     position: absolute;
     top: 15px;
     right: 10px;
     transition: 0.5s;
 }
+
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
     background-color: #fdfdfd;
 }
-.list-box{
-	padding: 10px;
+
+.list-box {
+    padding: 10px;
 }
-.signup-logo-header .logo_area{
-	width: 200px;
+
+.signup-logo-header .logo_area {
+    width: 200px;
 }
-.signup-logo-header .nav > li{
-	padding: 0;
+
+.signup-logo-header .nav > li {
+    padding: 0;
 }
-.signup-logo-header .header-flex{
-	display: flex;
-	justify-content: center;
-	align-items: center;
+
+.signup-logo-header .header-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.list-inline li{
+
+.list-inline li {
     display: inline-block;
 }
-.pull-right{
+
+.pull-right {
     float: right;
 }
+
 /*-----------custom-checkbox-----------*/
 /*----------Custom-Checkbox---------*/
-input[type="checkbox"]{
+input[type="checkbox"] {
     position: relative;
     display: inline-block;
     margin-right: 5px;
 }
+
 input[type="checkbox"]::before,
 input[type="checkbox"]::after {
     position: absolute;
     content: "";
     display: inline-block;
 }
-input[type="checkbox"]::before{
+
+input[type="checkbox"]::before {
     height: 16px;
     width: 16px;
     border: 1px solid #999;
@@ -313,95 +346,97 @@ input[type="checkbox"]::before{
     background-color: #fff;
     border-radius: 2px;
 }
-input[type="checkbox"]::after{
+
+input[type="checkbox"]::after {
     height: 5px;
     width: 9px;
     left: 4px;
     top: 4px;
 }
-input[type="checkbox"]:checked::after{
+
+input[type="checkbox"]:checked::after {
     content: "";
     border-left: 1px solid #fff;
     border-bottom: 1px solid #fff;
     transform: rotate(-45deg);
 }
-input[type="checkbox"]:checked::before{
+
+input[type="checkbox"]:checked::before {
     background-color: #18ba60;
     border-color: #18ba60;
 }
 
 
+@media (max-width: 767px) {
+    .sign-content h3 {
+        font-size: 40px;
+    }
 
+    .wizard .nav-tabs > li a i {
+        display: none;
+    }
 
+    .signup-logo-header .navbar-toggle {
+        margin: 0;
+        margin-top: 8px;
+    }
 
+    .signup-logo-header .logo_area {
+        margin-top: 0;
+    }
 
-@media (max-width: 767px){
-	.sign-content h3{
-		font-size: 40px;
-	}
-	.wizard .nav-tabs > li a i{
-		display: none;
-	}
-	.signup-logo-header .navbar-toggle{
-		margin: 0;
-		margin-top: 8px;
-	}
-	.signup-logo-header .logo_area{
-		margin-top: 0;
-	}
-	.signup-logo-header .header-flex{
-		display: block;
-	}
+    .signup-logo-header .header-flex {
+        display: block;
+    }
 }
 
 
-
-.options{
+.options {
     display: flex;
 
 }
 
-.options-inner{
+.options-inner {
     padding-left: 5%;
 }
 
-.test{
+.test {
     width: 15%;
 }
 
-.condition{
+.condition {
     display: flex;
 }
 
-.textarea{
+.textarea {
     margin-left: 5%;
 }
 
-.mobile{
+.mobile {
     padding-top: 2%;
 }
 
 
-.nav{
+/*.nav {
     margin-left: 20%;
 }
 
-.branded-options{
+.branded-options {
     padding-top: 5%;
-}
+}*/
 
-.testField{
+.testField {
     display: flex;
 }
 
-.branded-options-inner{
+.branded-options-inner {
     padding-left: 10% !important;
 }
 
-.workWhenChecked{
+.workWhenChecked {
     display: none;
 }
 
-.show{
+.show {
     display: block;
 }

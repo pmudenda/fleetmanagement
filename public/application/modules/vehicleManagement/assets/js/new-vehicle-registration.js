@@ -1,4 +1,126 @@
 Vue.component('v-select', VueSelect.VueSelect);
+
+function displayVehicleDetails(asyncResponse) {
+    if (!asyncResponse.success) {
+        toastr.error(asyncResponse['message'])
+    }
+
+    if (!asyncResponse.hasOwnProperty('payload')) {
+        return;
+    }
+
+    let data = asyncResponse['payload']['vehicle'];
+    //console.log(data);
+    if (!data || data.length == 0) {
+        return;
+    }
+    Vue.set(app['vehicleHeader'], 'vehicle_type', data['registration_type']);
+    Vue.set(app['vehicleHeader'], 'brand_guid', data['brand_guid']);
+    Vue.set(app['vehicleHeader'], 'model_guid', data['model_guid']);
+    Vue.set(app['vehicleHeader'], 'model_code', data['model_code']);
+
+    //Vue.set(app['vehicleHeader'], 'registrationNumber', );
+    const $registrationNumberCtrl = document.querySelector('[name="registrationNumber"]');
+    if ($registrationNumberCtrl) {
+        $registrationNumberCtrl.value = data['registration_number'];
+    }
+    Vue.set(app['vehicleHeader'], 'on_boarding_status', data['on_boarding_status']);
+
+    Vue.set(app['vehicleHeader'], 'body_type_guid', data['body_type_guid']);
+    Vue.set(app['vehicleHeader'], 'user_unit', data['business_unit_code']);
+    Vue.set(app['vehicleHeader'], 'user_unit_code', data['business_unit_code']);
+    $("#user_unit").change();
+    Vue.set(app['chassisDetails'], 'chassisNumber', data['chassis_number']);
+    Vue.set(app['chassisDetails'], 'engineNumber', data['engine_number']);
+    Vue.set(app['chassisDetails'], 'whiteBookSerial', data['white_book_serial']);
+    Vue.set(app['chassisDetails'], 'stickerRegistrationNumber', data['sticker_registration_number']);
+    Vue.set(app['chassisDetails'], 'yearOfManufacture', data['year_of_manufacture']);
+    Vue.set(app['chassisDetails'], 'registrationDate', data['registration_date']);
+    Vue.set(app['chassisDetails'], 'chargeOutRate', data['vehicle_charge_out_rate']);
+    Vue.set(app['chassisDetails'], 'requiredMinimumDrivingLicense', data['min_req_driving_license']);
+    Vue.set(app['chassisDetails'], 'initialOdometerReading', data['initial_odometer_reading']);
+    Vue.set(app['chassisDetails'], 'currentOdometerReading', data['current_odometer_reading']);
+    Vue.set(app['chassisDetails'], 'odometerReadingLastService', data['lst_service_odometer_reading']);
+    Vue.set(app['chassisDetails'], 'nextServiceOdometerReading', data['nxt_service_odometer-reading']);
+    Vue.set(app['chassisDetails'], 'inspectionDate', data['inspection_date']);
+
+
+    Vue.set(app['engineDetails'], 'numberOfCylinders', data['number_of_cylinders']);
+    Vue.set(app['engineDetails'], 'engineCapacity', data['engine_capacity']);
+    Vue.set(app['engineDetails'], 'claimedEnginePower', data['claimed_engine_power']);
+    Vue.set(app['engineDetails'], 'actualEnginePower', data['actual_engine_power']);
+    Vue.set(app['engineDetails'], 'engineBrand', data['engine_brand']);
+    Vue.set(app['engineDetails'], 'fuelTypes', data['fuel_types']);
+    Vue.set(app['engineDetails'], 'engineType', data['engine_type']);
+    Vue.set(app['engineDetails'], 'transmissionType', data['transmission_type']);
+    Vue.set(app['engineDetails'], 'fuelConsumption', data['fuel_consumption']);
+    Vue.set(app['engineDetails'], 'tank_capacity', data['tank_capacity']);
+    Vue.set(app['engineDetails'], 'sub_tank_capacity', data['sub_tank_capacity']);
+    Vue.set(app['engineDetails'], 'sub_tank_capacity', data['sub_tank_capacity']);
+
+    Vue.set(app['otherDetails'], 'numberOfTyres', data['number_of_tyres']);
+    Vue.set(app['otherDetails'], 'tyreBrand', data['tyre_brand']);
+    const $frontTyreSizeCtrl = document.querySelector('[name="frontTyreSize"]');
+    if ($frontTyreSizeCtrl) {
+        $frontTyreSizeCtrl.value = data['front_tyre_size'];
+    }
+    //Vue.set(app['otherDetails'], 'frontTyreSize', );
+    const $rearTyreSizeCtrl = document.querySelector('[name="rearTyreSize"]');
+    if ($rearTyreSizeCtrl) {
+        $rearTyreSizeCtrl.value = data['rear_tyre_size'];
+    }
+    //Vue.set(app['otherDetails'], 'rearTyreSize', data['']);
+
+    Vue.set(app['otherDetails'], 'batteryBrand', data['battery_brand']);
+    Vue.set(app['otherDetails'], 'batterySize', data['battery_size']);
+    Vue.set(app['otherDetails'], 'batteryPower', data['battery_power']);
+
+    Vue.set(app['costingAndValuation'], 'supplierName', data['supplierName']);
+    Vue.set(app['costingAndValuation'], 'costPrice', data['costPrice']);
+    Vue.set(app['costingAndValuation'], 'yearOfPurchase', data['yearOfPurchase']);
+    Vue.set(app['costingAndValuation'], 'bookValue', data['bookValue']);
+    Vue.set(app['costingAndValuation'], 'assetNumber', data['assetNumber']);
+
+    let assetNumberInput = document.querySelector("#assetNumber");
+    if (!data['assetNumber'] && assetNumberInput) {
+        const assetNumber = window.removeSpaces(data['registration_number']);
+        assetNumberInput.value = assetNumber
+        Vue.set(app['costingAndValuation'], 'assetNumber', assetNumber);
+    }
+    Vue.set(app['costingAndValuation'], 'costOfLicense', data['costOfLicense']);
+    Vue.set(app['costingAndValuation'], 'premium', data['premium']);
+
+    Vue.set(app['bodyDetails'], 'height', data['height']);
+    Vue.set(app['bodyDetails'], 'length', data['length']);
+    Vue.set(app['bodyDetails'], 'width', data['width']);
+    Vue.set(app['bodyDetails'], 'seatCapFront', data['seatCapFront']);
+
+    Vue.set(app['bodyDetails'], 'distanceAxle1', data['distanceAxle1']);
+    Vue.set(app['bodyDetails'], 'distanceAxle2', data['distanceAxle2']);
+    Vue.set(app['bodyDetails'], 'distanceAxle3', data['distanceAxle3']);
+    Vue.set(app['bodyDetails'], 'distanceAxle4', data['distanceAxle4']);
+
+    Vue.set(app['weightDetails'], 'tareWeight', data['tareWeight']);
+    Vue.set(app['weightDetails'], 'grossWeight', data['grossWeight']);
+
+
+    Vue.set(app['assignmentDetails'], 'businessArea', data['business_area_code']);
+    Vue.set(app['assignmentDetails'], 'directorate', data['directorate']);
+    //Vue.set(app['assignmentDetails'], 'businessUnit', data['directorate']);
+    Vue.set(app['assignmentDetails'], 'isOperationsVehicle', data['isPoolVehicle']);
+
+    if (asyncResponse['payload'].hasOwnProperty('documents')) {
+        let documents = asyncResponse['payload']['documents'];
+
+        Vue.set(app['documents'], 'insurance', window.filterData('Insurance Cover', 'file_type', documents));
+        Vue.set(app['documents'], 'certificate', window.filterData('Motor Vehicle Certificate', 'file_type', documents));
+        Vue.set(app['images'], 'leftView', window.filterData("Left View", 'file_type', documents));
+        Vue.set(app['images'], 'rightView', window.filterData("Right View", 'file_type', documents));
+        Vue.set(app['images'], 'rearView', window.filterData("Back View", 'file_type', documents));
+        Vue.set(app['images'], 'frontView', window.filterData("Front View", 'file_type', documents));
+    }
+}
+
 window.getRegistrationDetails = function (requestReference) {
     console.log(requestReference);
 
@@ -13,110 +135,13 @@ window.getRegistrationDetails = function (requestReference) {
         dataType: 'json',
         success: function (asyncResponse) {
             //console.log('Returning Response', asyncResponse);
-            if(!asyncResponse.success){
-                toastr.error(asyncResponse['message'])
-            }
-
-            if (!asyncResponse.hasOwnProperty('payload')) {
-                return;
-            }
-
-            let data = asyncResponse['payload']['vehicle'];
-            //console.log(data);
-            if(!data || data.length == 0){
-                return;
-            }
-            Vue.set(app['vehicleHeader'], 'vehicle_type', data['registration_type']);
-            Vue.set(app['vehicleHeader'], 'brand_guid', data['brand_guid']);
-            Vue.set(app['vehicleHeader'], 'model_guid', data['model_guid']);
-            Vue.set(app['vehicleHeader'], 'model_code', data['model_code']);
-
-            Vue.set(app['vehicleHeader'], 'body_type_guid', data['body_type_guid']);
-            Vue.set(app['vehicleHeader'], 'user_unit', data['business_unit_code']);
-            Vue.set(app['vehicleHeader'], 'user_unit_code', data['business_unit_code']);
-            $("#user_unit").change();
-            Vue.set(app['chassisDetails'], 'chassisNumber', data['chassis_number']);
-            Vue.set(app['chassisDetails'], 'engineNumber', data['engine_number']);
-            Vue.set(app['chassisDetails'], 'whiteBookSerial', data['white_book_serial']);
-            Vue.set(app['chassisDetails'], 'stickerRegistrationNumber', data['sticker_registration_number']);
-            Vue.set(app['chassisDetails'], 'yearOfManufacture', data['year_of_manufacture']);
-            Vue.set(app['chassisDetails'], 'registrationDate', data['registration_date']);
-            Vue.set(app['chassisDetails'], 'chargeOutRate', data['vehicle_charge_out_rate']);
-            Vue.set(app['chassisDetails'], 'requiredMinimumDrivingLicense', data['min_req_driving_license']);
-            Vue.set(app['chassisDetails'], 'initialOdometerReading', data['initial_odometer_reading']);
-            Vue.set(app['chassisDetails'], 'currentOdometerReading', data['current_odometer_reading']);
-            Vue.set(app['chassisDetails'], 'odometerReadingLastService', data['lst_service_odometer_reading']);
-            Vue.set(app['chassisDetails'], 'nextServiceOdometerReading', data['nxt_service_odometer-reading']);
-            Vue.set(app['chassisDetails'], 'inspectionDate', data['inspection_date']);
-
-
-            Vue.set(app['engineDetails'], 'numberOfCylinders', data['number_of_cylinders']);
-            Vue.set(app['engineDetails'], 'engineCapacity', data['engine_capacity']);
-            Vue.set(app['engineDetails'], 'claimedEnginePower', data['claimed_engine_power']);
-            Vue.set(app['engineDetails'], 'actualEnginePower', data['actual_engine_power']);
-            Vue.set(app['engineDetails'], 'engineBrand', data['engine_brand']);
-            Vue.set(app['engineDetails'], 'fuelTypes', data['fuel_types']);
-            Vue.set(app['engineDetails'], 'engineType', data['engine_type']);
-            Vue.set(app['engineDetails'], 'transmissionType', data['transmission_type']);
-            Vue.set(app['engineDetails'], 'fuelConsumption', data['fuel_consumption']);
-            Vue.set(app['engineDetails'], 'tank_capacity', data['tank_capacity']);
-            Vue.set(app['engineDetails'], 'sub_tank_capacity', data['sub_tank_capacity']);
-            Vue.set(app['engineDetails'], 'sub_tank_capacity', data['sub_tank_capacity']);
-
-            Vue.set(app['otherDetails'], 'numberOfTyres', data['number_of_tyres']);
-            Vue.set(app['otherDetails'], 'tyreBrand', data['tyre_brand']);
-            Vue.set(app['otherDetails'], 'frontTyreSize', data['front_tyre_size']);
-            Vue.set(app['otherDetails'], 'rearTyreSize', data['rear_tyre_size']);
-            Vue.set(app['otherDetails'], 'batteryBrand', data['battery_brand']);
-            Vue.set(app['otherDetails'], 'batterySize', data['battery_size']);
-            Vue.set(app['otherDetails'], 'batteryPower', data['battery_power']);
-
-            Vue.set(app['costingAndValuation'], 'supplierName', data['supplierName']);
-            Vue.set(app['costingAndValuation'], 'costPrice', data['costPrice']);
-            Vue.set(app['costingAndValuation'], 'yearOfPurchase', data['yearOfPurchase']);
-            Vue.set(app['costingAndValuation'], 'bookValue', data['bookValue']);
-            Vue.set(app['costingAndValuation'], 'assetNumber', data['assetNumber']);
-
-            let assetNumberInput = document.querySelector("#assetNumber");
-            if (!data['assetNumber'] && assetNumberInput) {
-                const assetNumber = window.removeSpaces(data['registration_number']);
-                assetNumberInput.value = assetNumber
-                Vue.set(app['costingAndValuation'], 'assetNumber', assetNumber);
-            }
-            Vue.set(app['costingAndValuation'], 'costOfLicense', data['costOfLicense']);
-            Vue.set(app['costingAndValuation'], 'premium', data['premium']);
-
-            Vue.set(app['bodyDetails'], 'height', data['height']);
-            Vue.set(app['bodyDetails'], 'length', data['length']);
-            Vue.set(app['bodyDetails'], 'width', data['width']);
-            Vue.set(app['bodyDetails'], 'seatCapFront', data['seatCapFront']);
-
-            Vue.set(app['bodyDetails'], 'distanceAxle1', data['distanceAxle1']);
-            Vue.set(app['bodyDetails'], 'distanceAxle2', data['distanceAxle2']);
-            Vue.set(app['bodyDetails'], 'distanceAxle3', data['distanceAxle3']);
-            Vue.set(app['bodyDetails'], 'distanceAxle4', data['distanceAxle4']);
-
-            Vue.set(app['weightDetails'], 'tareWeight', data['tareWeight']);
-            Vue.set(app['weightDetails'], 'grossWeight', data['grossWeight']);
-
-
-            Vue.set(app['assignmentDetails'], 'businessArea', data['business_area_code']);
-            Vue.set(app['assignmentDetails'], 'directorate', data['directorate']);
-            //Vue.set(app['assignmentDetails'], 'businessUnit', data['directorate']);
-            Vue.set(app['assignmentDetails'], 'isOperationsVehicle', data['isPoolVehicle']);
-
-            if (asyncResponse['payload'].hasOwnProperty('documents')) {
-                let documents = asyncResponse['payload']['documents'];
-
-                Vue.set(app['documents'], 'insurance', window.filterData('Insurance Cover', 'file_type', documents));
-                Vue.set(app['documents'], 'certificate', window.filterData('Motor Vehicle Certificate', 'file_type', documents));
-                Vue.set(app['images'], 'leftView', window.filterData("Left View", 'file_type', documents));
-                Vue.set(app['images'], 'rightView', window.filterData("Right View", 'file_type', documents));
-                Vue.set(app['images'], 'rearView', window.filterData("Back View", 'file_type', documents));
-                Vue.set(app['images'], 'frontView', window.filterData("Front View", 'file_type', documents));
-            }
+            displayVehicleDetails(asyncResponse);
         },
         error: function (xhr, settings, errorThrown) {
+            toastr.error(
+                'Vehicle details could not be retrieved due to connection error',
+                'Vehicle Details'
+            )
         }
     })
 }
@@ -236,6 +261,12 @@ let app = new Vue({
             if (!val) return "";
             if (typeof val === 'number') return val;
             return val?.trim();
+        },
+        formatStatus: function (value) {
+            if (!value) return 'Saved';
+            if ('021') {
+                return 'Pending';
+            }
         }
     },
 
@@ -304,15 +335,15 @@ let app = new Vue({
         $(document).on('click', '.clearImage', function (event) {
             let btn = this;
             Swal.fire({
-                text: "Are you sure you would like to remove the image?"
-                , icon: "warning"
-                , showCancelButton: true
-                , buttonsStyling: false
-                , confirmButtonText: "Yes, remove it!"
-                , cancelButtonText: "No, return"
-                , customClass: {
-                    confirmButton: "btn btn-primary"
-                    , cancelButton: "btn btn-active-light"
+                text: "Are you sure you would like to remove the image?",
+                icon: "warning",
+                showCancelButton: true,
+                buttonsStyling: false,
+                confirmButtonText: "Yes, remove it!",
+                cancelButtonText: "No, return",
+                customClass: {
+                    confirmButton: "btn btn-primary",
+                    cancelButton: "btn btn-active-light"
                 }
             }).then(function (result) {
                 if (result.value) {
@@ -345,27 +376,22 @@ let app = new Vue({
 
     methods: {
         getSuppliers: function () {
-            this.supplierList = [
-                {code_supplier: "SNNR101647", name_of_supplier: "BEARING MAN ZAMBIA LTD"}
-            ]
-            /*fetch(document.querySelector('#suppliersList').value)
+            fetch(document.querySelector('#suppliersList').value)
                 .then(response => response.json())
                 .then(function (response) {
                     console.log(response);
                     // Populate results
                     if (response.state === 'failure') {
                         //show errors
-                        toastr.error('Connection error, Failed to retrieve supplier information')
+                        toastr.error('Failed to retrieve Supplier Records', 'Connection Error');
                         return;
                     }
-
                     app.supplierList = response['payload'];
                 })
                 .catch(function (error) {
-                    // notify of error
                     toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
-                });*/
+                        'Could not Retrieve Data, some feature might not work.', 'Connection error');
+                });
         },
 
         bodyTypeChanged: function (selectedBody) {
@@ -374,13 +400,14 @@ let app = new Vue({
         },
 
         checkChassisNumberValidity: function () {
-            fetch(document.querySelector('#documentValidationUrl').value + '?method=chassis&key=' + app.chassisDetails.chassisNumber)
+            fetch(document.querySelector('#documentValidationUrl').value
+                + '?method=chassis&key=' + app['chassisDetails']['chassisNumber'])
                 .then(response => response.json())
                 .then(response => {
                     // Populate results
-                    if (response.data.state === 'failure') {
+                    if (response.state === 'failure') {
                         //show errors
-                        toastr.error('Connection error, chassis validity not verified')
+                        toastr.error('Chassis validity not verified', 'Connection error');
                         return;
                     }
 
@@ -390,28 +417,11 @@ let app = new Vue({
                 .catch(function (error) {
                     // notify of error
                     toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
+                        'Could not retrieve data, some feature might not work.', 'Connection error')
                 });
         },
+
         checkValueChange(element) {
-        },
-        completeVehicleRegistration() {
-            Swal.fire({
-                text: "Are you sure you would like to complete the registration of this vehicle?"
-                , icon: "warning"
-                , showCancelButton: true
-                , buttonsStyling: false
-                , confirmButtonText: "Yes!"
-                , cancelButtonText: "No, return"
-                , customClass: {
-                    confirmButton: "btn btn-primary"
-                    , cancelButton: "btn btn-active-light"
-                }
-            }).then(function (result) {
-                if (result.value) {
-                    app.postVehicleImages();
-                }
-            });
         },
 
         formatMoney: function (event) {
@@ -671,6 +681,10 @@ let app = new Vue({
             this.vehicleHeader.model_code = model?.model_code;
             document.querySelector('#model').value = model?.id;
             document.querySelector('#model_code').value = model?.model_code;
+            let $holder = document.querySelector('#model_holder');
+            if ($holder) {
+                $holder.value = model?.model_name;
+            }
         },
 
         postRequest(data, url, successCallBack, errorCallBack) {
@@ -848,11 +862,11 @@ let app = new Vue({
 
         transmissionTypeChanged: function (transmissionType) {
             document.querySelector('#transmission_type').value = transmissionType?.code + ':' + transmissionType?.name;
-        }
-        ,
+        },
 
         validateRegistrationNumber: function () {
             let ref = app['vehicleHeader']['registration_number'] ?? document.querySelector('#registrationNumber').value
+
             fetch(document.querySelector('#documentValidationUrl').value +
                 '?method=registration_number&key=' + ref)
                 .then(response => response.json())
@@ -880,8 +894,7 @@ let app = new Vue({
                     toastr.error(
                         'Connection error. Could not retrieve data, some feature might not work.')
                 });
-        }
-        ,
+        },
 
         vehicleBrandChanged(selectedValue) {
             $('#model_holder').addClass('d-none');
@@ -900,7 +913,6 @@ let app = new Vue({
 
 function userUnitChanged() {
     setTimeout(function () {
-
         const user_unit = $('#user_unit').val();
 
         let user_units = app.$data.organizationalUnits.filter(function (userUnit) {
@@ -936,6 +948,16 @@ function userUnitChanged() {
         $('[name="businessUnit"]').val(val);
         Vue.set(app['assignmentDetails'], 'businessUnit', val);
     }, 1000);
+    return;
+}
+
+function checkOnboardingHeaderStatus() {
+    const headerId = document.querySelector('[name="headerId"]').value;
+
+    if (headerId && parseInt(headerId) > 0) {
+        // hide submit and cancel button
+        $('.card-header').addClass('view_mode');
+    }
 }
 
 (function (tmsApp, $) {
@@ -965,6 +987,7 @@ function userUnitChanged() {
             return;
         }
 
+        tmsApp.play_alert('sound-submit');
         tmsApp.asyncPostFormData(
             $form.action,
             new FormData($form),
@@ -1022,7 +1045,8 @@ function userUnitChanged() {
         let formData = new FormData(form);
         formData.set('bookValue', tmsApp.getFloat(formData.get('bookValue')).toString());
         formData.set('costPrice', tmsApp.getFloat(formData.get('costPrice')).toString());
-
+        formData.set('costOfLicense', tmsApp.getFloat(formData.get('costOfLicense')).toString());
+        tmsApp.play_alert('sound-submit');
         tmsApp.asyncPostFormData(
             form.action,
             formData,
@@ -1134,9 +1158,13 @@ function userUnitChanged() {
             return;
         }
 
+        let formData = new FormData($form);
+        formData.set('grossWeight', tmsApp.getFloat(formData.get('grossWeight')).toString());
+        formData.set('tareWeight', tmsApp.getFloat(formData.get('tareWeight')).toString());
+
         tmsApp.asyncPostFormData(
             $form.action,
-            new FormData($form),
+            formData,
             function (asyncResponse) {
                 if ('state' in asyncResponse && asyncResponse.state != 'success') {
                     if (asyncResponse.hasOwnProperty('errors')) {
@@ -1185,55 +1213,67 @@ function userUnitChanged() {
 
         if (!isValid) {
             toastr.warning(
-                "Sorry, the data did not pass validation check, check the data and try again."
+                "Sorry, the data did not pass validation check, check the data and try again.",
+                'Validation'
             );
             return;
         }
 
-        tmsApp.asyncPostFormData(
-            $form.action,
-            new FormData($form),
-            function (asyncResponse) {
-                if ('state' in asyncResponse && asyncResponse.state != 'success') {
-                    if (asyncResponse.hasOwnProperty('errors')) {
-                        tmsApp.printErrorMsg(asyncResponse.errors);
-                        return
-                    }
+        tmsApp.confirm(
+            'Completion Of Onboarding',
+            "Are you sure you would like to complete the onboarding of this vehicle?",
+            'Yes',
+            'No',
+            function () {
+                tmsApp.asyncPostFormData(
+                    $form.action,
+                    new FormData($form),
+                    function (asyncResponse) {
+                        if ('state' in asyncResponse && asyncResponse.state != 'success') {
+                            if (asyncResponse.hasOwnProperty('errors')) {
+                                tmsApp.printErrorMsg(asyncResponse.errors);
+                                return
+                            }
 
-                    setTimeout(function () {
-                        tmsApp.systemError(
+                            setTimeout(function () {
+                                tmsApp.systemError(
+                                    'Vehicle On-Boarding - Assignment',
+                                    asyncResponse['message'],
+                                    function () {
+                                    }, 'error');
+                            }, 300);
+                            toastr.error(
+                                asyncResponse.message
+                            );
+                            return;
+                        }
+
+                        tmsApp.showSystemMessage(
                             'Vehicle On-Boarding - Assignment',
-                            asyncResponse['message'],
+                            asyncResponse.message,
                             function () {
-                            }, 'error');
-                    }, 300);
-                    toastr.error(
-                        asyncResponse.message
-                    );
-                    return;
-                }
-
-                tmsApp.showSystemMessage(
-                    'Vehicle On-Boarding - Assignment',
-                    asyncResponse.message,
-                    function () {
-                        setTimeout(
-                            function () {
-                                window.location.href = asyncResponse['redirectUrl']
-                            }, 500
-                        );
-                    }, 'success');
+                                setTimeout(
+                                    function () {
+                                        window.location.href = asyncResponse['redirectUrl']
+                                    }, 500
+                                );
+                            }, 'success');
+                    },
+                    function (xhr, settings, errorThrown) {
+                        console.log(errorThrown)
+                        setTimeout(function () {
+                            tmsApp.showErrorMessages(xhr, 'On-Boarding Completion');
+                        }, 300)
+                    }
+                );
             },
-            function (xhr, settings, errorThrown) {
-                console.log(errorThrown)
-                setTimeout(function () {
-                    tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
-                }, 300)
+            function () {
+
             }
         );
     }
 
-    function getSupplierDetails() {
+    function getPurchaseOrderDetails() {
         const purchaseOrder = document.querySelector('#purchase_order_number').value
         let formData = new FormData();
         formData.append('purchase_order_number', purchaseOrder);
@@ -1242,7 +1282,7 @@ function userUnitChanged() {
             $('#purchase_order_number').attr('data-action') + '?document_number=' + purchaseOrder,
             formData,
             function (response_data) {
-                if (response_data.state ==='success') {
+                if (response_data.state === 'success') {
                     //populateVehicleDetails(response_data.payload);
                     //app. = ;
                     Vue.set('supplierList', response['payload'])
@@ -1257,6 +1297,50 @@ function userUnitChanged() {
                 tmsApp.showToast('We could not complete processing your request, please try again later')
             }
         )
+    }
+
+    function vehicleWeightValidations(element) {
+        const grossWeightCtl = document.querySelector('[name="grossWeight"]');
+        const tareWeightCtl = document.querySelector('[name="tareWeight"]');
+        switch (element.name) {
+            case "tareWeight":
+                let grossWeight = grossWeightCtl.value;
+                if (grossWeight && typeof parseInt(tmsApp.getFloat(grossWeight)) === 'number') {
+                    // if net-weight is a greater than gross weight
+                    if (element.value > grossWeight) {
+                        tmsApp.showToast('Vehicle net weight can not be more than the gross weight', 'error', 'Validation Error');
+                        document.querySelector('#tms_save_body').setAttribute('disabled', 'disabled');
+                    } else {
+                        document.querySelector('#tms_save_body').removeAttribute('disabled');
+                    }
+                }
+                break;
+
+            case "grossWeight":
+                let tareWeight = tareWeightCtl.value;
+                if (tareWeight && typeof parseInt(tmsApp.getFloat(tareWeight)) === 'number') {
+                    // if net-weight is a greater than gross weight
+                    if (element.value < tareWeight) {
+                        tmsApp.showToast('Vehicle gross weight can not be less than the net weight', 'error', 'Validation Error');
+                        document.querySelector('#tms_save_body').setAttribute('disabled', 'disabled');
+                    } else {
+                        document.querySelector('#tms_save_body').removeAttribute('disabled');
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    function nativeVehicleBrandChanged() {
+        const brandId = $('select[name="brand"]').val()?.toString().trim();
+        Vue.set(app['selectedBrandModels'], []);
+        let filteredResults = app.$data.configuredModels.filter(function (model) {
+            return model.brand_guid?.toString().trim() === brandId;
+        });
+        console.log(filteredResults);
+        Vue.set(app['selectedBrandModels'], filteredResults);
     }
 
     tmsApp.appFormValidator('form[name="tmsChassisDetailsForm"]',
@@ -1291,12 +1375,13 @@ function userUnitChanged() {
             'odometerReadingLastService': {
                 required: true
             },
-            'nextServiceOdometerReading': {
-                required: true
-            },
+            /* 'nextServiceOdometerReading': {
+                 required: true
+             },*/
             'inspectionDate': {
                 required: true
             },
+
             'motor_vehicle_certificate': {
                 required: true
             },
@@ -1642,11 +1727,87 @@ function userUnitChanged() {
         submitAssignmentDetails();
     });
 
-    $('#purchase_order_number').on('change', function () {
-        if (this.value && this.value.length < 6) {
+    $('#purchase_order_number').on('keyup', function () {
+        if (this.value && this.value.length < 12) {
             return;
         }
-        getSupplierDetails();
+
+        getPurchaseOrderDetails();
     });
+
+    // vehicleWeightValidations
+    $(document).on('change', 'select[name="brand"]', function () {
+        nativeVehicleBrandChanged();
+    });
+
+    $(document).on('change', '.weight_control', function () {
+        console.log(this.name);
+        vehicleWeightValidations(this)
+    });
+
+    $(document).on('change', '[name="whiteBookSerial"]', function () {
+        let ref = document.querySelector('#whiteBookSerial').value
+        fetch(document.querySelector('#documentValidationUrl').value +
+            '?method=motorVehicleCertificate&key=' + ref)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                return response.json();
+            })
+            .then(response => {
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, chassis number could not be verified')
+                    return;
+                }
+
+                if (response['payload'].validity) {
+                    console.log(response['payload'].validity);
+                    //response.data.payload.message
+                    let assetNumberInput = document.querySelector("#assetNumber");
+                    if (assetNumberInput) {
+                        assetNumberInput.value = window.removeSpaces(document.querySelector('#registrationNumber').value);
+                    }
+                } else {
+                    toastr.error('Duplicate registration number, vehicle already registered')
+                }
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Connection error. Could not retrieve data, some feature might not work.')
+            });
+    });
+
+    checkOnboardingHeaderStatus();
+
+    $(document).on('click', '.card-toolbar .btn', function () {
+        console.log(this.id);
+        switch (this.id) {
+            case "editRecordBtn":
+                $('.card-header').removeClass('view_mode').addClass('edit_mode')
+                document.querySelector('#model_holder').style.display = 'none';
+                //$('#model_holder').addClass('d-none');
+                $('#model').removeClass('d-none');
+                $('#brand').change();
+                break;
+            case 'cancelEditLink':
+                $('.card-header').removeClass('edit_mode').addClass('view_mode')
+                document.querySelector('#model_holder').style.display = null;
+                $('#model').addClass('d-none');
+                break;
+            case "submitBtn":
+                break;
+            case "resetFormBtn":
+                document.forms['tms_vehicle_header_form'].reset();
+                break;
+            default:
+                break;
+        }
+    });
+
 })(window.tmsApp || {}, jQuery);
 

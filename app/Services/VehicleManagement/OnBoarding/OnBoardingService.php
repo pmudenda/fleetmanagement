@@ -15,8 +15,6 @@ use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\configurations\vehicle\ConfigVehicleBodyType;
 use App\Models\configurations\vehicle\ConfigVehicleBrand;
 use App\Models\configurations\vehicle\ConfigVehicleModel;
-use App\Models\general\BusinessAreas;
-use App\Models\general\File;
 use App\Models\general\OrganizationalUnits;
 use App\Models\vehiclemanagement\Assignment;
 use App\Models\vehiclemanagement\BodyAndWeightDetail;
@@ -49,12 +47,26 @@ class OnBoardingService
         $user = auth()->user();
 
         $chassisNumber = $request->input('chassisNumber');
+        $whiteBookSerial = $request->input('whiteBookSerial');
+        $engineNumber = $request->input('engineNumber');
 
-        if($request->chassisDetailsId == 0){
-            $exitingRegistration = ChassisDetail::where('chassis_number', $chassisNumber)->first();
+        if ($request->chassisDetailsId == 0) {
+            $recordByRegistrationNumber = ChassisDetail::where('chassis_number', $chassisNumber)->first();
 
-            if (!empty($exitingRegistration)) {
-                throw new VehicleOnBoardingException('The Chassis Number you have provided has already been registered');
+            if (!empty($recordByRegistrationNumber)) {
+                throw new VehicleOnBoardingException('The Chassis Number ' . $chassisNumber . ' has already been registered');
+            }
+
+            $recordMotorVehicleCertificate = ChassisDetail::where('chassis_number', $whiteBookSerial)->first();
+
+            if (!empty($recordMotorVehicleCertificate)) {
+                throw new VehicleOnBoardingException('Vehicle with  White Book Serial ' . $whiteBookSerial . ' has already been registered');
+            }
+
+            $recordByEngineNumber = ChassisDetail::where('engineNumber', $engineNumber)->first();
+
+            if (!empty($recordByEngineNumber)) {
+                throw new VehicleOnBoardingException('Vehicle with  White Book Serial ' . $engineNumber . ' has already been registered');
             }
         }
 
@@ -69,10 +81,10 @@ class OnBoardingService
                 'date_on_road' => Carbon::parse($request->input('registrationDate')),
                 'engine_number' => $request->input('engineNumber'),
                 'initial_odometer_reading' => $request->input('initialOdometerReading'),
-                'current_odometer_reading' => $request->input('currentOdometerReading'),
+                'current_odometer_reading' => 0, //$request->input('currentOdometerReading'),
                 'inspection_date' => Carbon::now()->format('Y-m-d'), //$request->input('inspectionDate'),
-                'lst_service_odometer_reading' =>  0, //$request->input('odometerReadingLastService')
-                'nxt_service_odometer_reading' =>  0, //$request->input('nextServiceOdometerReading')
+                'lst_service_odometer_reading' => 0, //$request->input('odometerReadingLastService')
+                'nxt_service_odometer_reading' => 0, //$request->input('nextServiceOdometerReading')
                 'odometer_reset' => false,
                 'registration_date' => Carbon::parse($request->input('registrationDate')),
                 'min_req_driving_license' => $request->input('requiredMinimumDrivingLicense'),
@@ -325,7 +337,7 @@ class OnBoardingService
         $bu_name = $businessUnitParts[1];
 
         $businessArea = GeneralTableConfigurations::where('code', '=', trim($request->input('businessArea')))
-            ->where('type','=','businessAreas')->first();
+            ->where('type', '=', 'businessAreas')->first();
 
         if (!$businessArea) {
             throw new VehicleOnBoardingException("Invalid Business Area", 0);

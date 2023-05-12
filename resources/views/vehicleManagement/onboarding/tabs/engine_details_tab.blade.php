@@ -7,7 +7,7 @@
     <input type="hidden" name="headerId" value="{{$reference}}"/>
     <input type="hidden" name="engineDetailsId" value="{{$vehicle->engineDetailsId ?? 0}}"/>
 
-    <x-error-view />
+    <x-error-view/>
     <fieldset class="border p-3">
         <legend style="width: inherit;">
             <h4 class="pt-2">Engine</h4>
@@ -90,7 +90,7 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
-                                    <input type="text"
+                                    <input type="number"
                                            required
                                            class="input-with-feedback form-control bold number_input view_mode"
                                            maxlength="140"
@@ -124,7 +124,7 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
-                                    <input type="text"
+                                    <input type="number"
                                            required
                                            class="input-with-feedback form-control bold number_input view_mode"
                                            maxlength="140"
@@ -148,37 +148,6 @@
             </tr>
 
             <tr>
-                <td class="frappe-control ">
-                    <label for="engineBrand" class="control-label reqd"
-                           style="padding-right: 0px;">
-                        Engine Brand:
-                    </label>
-                </td>
-                <td>
-                    <div class="control-input-wrapper">
-                        <div class="control-input">
-                            <div class="link-field ui-front" style="position: relative;">
-                                <select
-                                    required
-                                    class="input-with-feedback form-select bold view_mode"
-                                    data-fieldtype="Link"
-                                    data-fieldname="company"
-                                    id="engineBrand"
-                                    name="engineBrand"
-                                    v-model="engineDetails.engineBrand"
-                                    data-doctype="EngineDetails">
-                                    <option>Select Engine Brand</option>
-                                    <option v-for="engineBrand in engineBrands"
-                                            :value="engineBrand.name"
-                                            :key="engineBrand.guid">
-                                        @{{ engineBrand.name }}
-                                    </option>
-
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </td>
                 <td class="frappe-control">
                     <div class="clearfix">
                         <label for="fuelTypes" class="control-label reqd"
@@ -213,14 +182,36 @@
 
                     </div>
                 </td>
+
+                <td class="frappe-control " style="display: none">
+                    <label for="engineBrand" class="control-label reqd"
+                           style="padding-right: 0px;">
+                        Engine Brand:
+                    </label>
+                </td>
+                <td>
+                    <div class="control-input-wrapper">
+                        <div class="control-input">
+                            <div class="link-field ui-front" style="position: relative;">
+                                <input type="hidden"
+                                       data-fieldtype="Link"
+                                       data-fieldname="company"
+                                       id="engineBrand"
+                                       name="engineBrand"
+                                       value="N/A"
+                                       data-doctype="EngineDetails"/>
+                            </div>
+                        </div>
+                    </div>
+                </td>
             </tr>
 
             <tr>
                 <td class="frappe-control ">
-                    <label for="claimedEnginePower"
+                    <label for="engineType"
                            class="control-label reqd"
                            style="padding-right: 0px;">
-                        Engine Type:
+                        Engine Code:
                     </label>
                 </td>
                 <td>
@@ -232,6 +223,7 @@
                                     class="input-with-feedback form-control bold view_mode"
                                     data-fieldtype="Link"
                                     data-fieldname="company"
+                                    placeholder="e.g 1NZ"
                                     id="engineType"
                                     name="engineType"
                                     v-model="engineDetails.engineType"
@@ -261,7 +253,7 @@
                                     @change="transmissionTypeChanged">
                                     {{--<option value="">--Select Transmission--</option>--}}
                                     <option v-for="transType in transmissionTypes"
-                                    :value="transType.code">
+                                            :value="transType.code">
                                         @{{ transType.name }}
                                     </option>
                                 </select>
@@ -284,7 +276,8 @@
                     </div>
                 </td>
                 <td>
-                    <div class="control-input-wrapper">
+                    <div title="Number of kilometers per litre"
+                         class="control-input-wrapper">
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
@@ -357,7 +350,7 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
-                                    <input type="text"
+                                    <input type="number"
                                            class="input-with-feedback number_input form-control bold view_mode"
                                            maxlength="4"
                                            required
@@ -390,7 +383,7 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
-                                    <input type="text"
+                                    <input type="number"
                                            maxlength="4"
                                            class="input-with-feedback number_input form-control bold view_mode"
                                            v-model="engineDetails.sub_tank_capacity"
@@ -422,10 +415,10 @@
             <tbody>
             <tr>
                 <td class="frappe-control ">
-                <label for="numberOfTyres" class="control-label reqd"
-                       style="padding-right: 0px;">
-                    Total Number (F+R):
-                </label>
+                    <label for="numberOfTyres" class="control-label reqd"
+                           style="padding-right: 0px;">
+                        Total Number:
+                    </label>
                 </td>
                 <td>
                     <div class="control-input-wrapper">
@@ -433,6 +426,7 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="fv-row">
                                     <input type="text"
+                                           title="The number of tyres the vehicle has"
                                            id="numberOfTyres"
                                            name="numberOfTyres"
                                            v-model="otherDetails.numberOfTyres"
@@ -462,12 +456,13 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="awesomplete">
                                     <input type="text"
+                                           title="The tyre make e.g Good Year"
                                            class="input-with-feedback form-control bold view_mode"
                                            maxlength="140"
                                            id="tyreBrand"
                                            name="tyreBrand"
                                            v-model="otherDetails.tyreBrand"
-                                           placeholder=""/>
+                                           placeholder="e.g Good Year"/>
                                 </div>
 
                             </div>
@@ -496,7 +491,6 @@
                                            required
                                            id="frontTyreSize"
                                            name="frontTyreSize"
-                                           v-model="otherDetails.frontTyreSize"
                                            placeholder="e.g. 225/70/R17"
                                            autocomplete="off">
                                 </div>
@@ -522,7 +516,6 @@
                                            class="input-with-feedback form-control bold tyre-size view_mode"
                                            maxlength="15"
                                            placeholder="e.g. 225/70/R17"
-                                           v-model="otherDetails.rearTyreSize"
                                            name="rearTyreSize"
                                            id="rearTyreSize"
                                            data-doctype="Work Order"

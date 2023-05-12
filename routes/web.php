@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Configurations\GeneralTablesController;
+use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\Requisitions\FuelRequisitionController;
 use App\Http\Controllers\Security\PermissionsController;
 use App\Http\Controllers\Security\RolesController;
@@ -36,26 +37,6 @@ Route::get('/register', function () {
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('verify/document-number', function (Request $request): JsonResponse {
-
-        $valid = true;
-        if ($request->get('method') == 'registration_number') {
-            $valid = VehicleHeader::where('registration_number', trim($request->get('key')))->count() == 0;
-        } else if ($request->get('method') == 'chassis') {
-            $valid = ChassisDetail::where('chassis_number', trim($request->get('key')))->count() == 0;
-        }
-
-        return response()->json([
-            'state' => 'success',
-            'payload' => [
-                'validity' => $valid,
-                'message' => $valid ? 'Document number is valid' : 'Document number is invalid'
-            ],
-            'request' => $request->all()
-        ]);
-    })->name('document.number.validation');
-
-
     Route::get('/home', function () {
         return view('dashboard.home');
     })->name('home');
@@ -73,7 +54,6 @@ Route::group(['middleware' => 'auth'], function () {
             return view('UserManagement.user_profile')
                 ->with(['key' => $uuid, 'email' => $email]);
         })->name('profile');
-        // Route::get('/current/details', [UsersController::class, 'getCurrentUserDetails'])->name('user.current.details');
 
         Route::get('users/new', [UsersController::class, 'create'])->name('users.new');
 
@@ -135,31 +115,29 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/fuel/approve', [FuelRequisitionController::class, 'show'])->name('show.fuel.requisition');
         Route::post('/fuel/save', [FuelRequisitionController::class, 'store'])->name('save.fuel.requisition');
         Route::get('/fuel/list', [FuelRequisitionController::class, 'index'])->name('list.fuel.requisition');
+        Route::post('/fuel/odometer/validation', [FuelRequisitionController::class, 'validateOdometer'])->name('fuel.odometer.validation');
     });
 
-    Route::get('searchProjects', function (Request $request) {
-        $period = date('M-Y');
-        $searchCriteria = strtoupper(trim($request->input('search')));
-        $activeProjects = $this->projectCodeService->getActiveProjects($period, $searchCriteria);
-        return response()->json(array(
-            'items' => $activeProjects,
-            'total_count' => $activeProjects->count()
-        ));
-    })->name('search.project');
+    Route::get('searchProjects', [ProjectsController::class, 'findProjectByCode'])->name('search.project');
 
     Route::group(['prefix' => 'vehicle-management'], function () {
 
         Route::group(['prefix' => 'onboarding'], function () {
 
-            Route::get('/register', [VehicleOnBoardingController::class, 'start'])->name('new.vehicle');
+            Route::get('/register', [VehicleOnBoardingController::class, 'start'])
+                ->name('new.vehicle');
 
-            Route::get('/vehicle-details', [VehicleOnBoardingController::class, 'start'])->name('view.vehicle');
+            Route::get('/vehicle-details', [VehicleOnBoardingController::class, 'start'])
+                ->name('view.vehicle');
 
-            Route::get('/show-vehicle-details', [VehicleOnBoardingController::class, 'showDetails'])->name('vehicle.show');
+            Route::get('/show-vehicle-details', [VehicleOnBoardingController::class, 'showDetails'])
+                ->name('vehicle.show');
 
-            Route::get('/view/vehicle/details', [VehicleOnBoardingController::class, 'show'])->name('view.vehicle.detail');
+            Route::get('/view/vehicle/details', [VehicleOnBoardingController::class, 'show'])
+                ->name('view.vehicle.detail');
 
-            Route::post('post-vehicle-assignment', [VehicleOnBoardingController::class, 'store'])->name('vehicle.assignment.detail');
+            Route::post('post-vehicle-assignment', [VehicleOnBoardingController::class, 'store'])
+                ->name('vehicle.assignment.detail');
 
             Route::post('post-vehicle-details', [VehicleOnBoardingController::class, 'storeVehicleHeader'])
                 ->name('new.vehicle.header');
@@ -175,11 +153,14 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::post('post-body-details', [VehicleOnBoardingController::class, 'storeBodyDetails'])
                 ->name('vehicle.body.detail');
+
+            Route::get('verify/document-number',[VehicleOnBoardingController::class, "validateVehicleIdentifiers"])
+                ->name('document.number.validation');
         });
 
-        Route::get('vehicle/details/{ref}', [VehicleController::class, 'getAllDetails'])->name('vehicle.details');
+        Route::get('vehicle/all/details', [VehicleController::class, 'getAllDetails'])->name('vehicle.details');
 
-        Route::get('vehicle/details', [VehicleController::class, 'getDetails'])->name('api.vehicle');
+        Route::get('vehicle/details', [VehicleController::class, 'getDetails'])->name('requisition.vehicle.details');
 
         Route::get('articles/fuels', function () {
             return response()->json([

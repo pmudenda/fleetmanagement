@@ -21,10 +21,12 @@
                             <!-- <div class="connecting-line"></div> -->
                             <ul class="nav nav-tabs steps" role="tablist">
                                 <li role="presentation" data-index="0" class="active st1">
-                                    <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab"
+                                    <a href="#step1"
+                                       data-toggle="tab"
+                                       aria-controls="step1" role="tab"
                                        aria-expanded="true">
-                                        <span class="round-tab">1</span>
                                         <i>Vehicle Details</i>
+                                        <span class="round-tab">1</span>
                                     </a>
                                 </li>
                                 <li role="presentation" data-index="1" class="disabled st2">
@@ -49,24 +51,30 @@
                             <div class="tab-content px-5" id="main_form">
                                 <div class="tab-pane active step" role="tabpanel" id="step1">
                                     <h3 class="text-center">Vehicle Details</h3>
-                                    <div class="row px-3">
-                                        <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="vehicleNumber">Registration No*:</label>
-                                                <input name="regNo" type="text" class="form-control required"
-                                                       id="vehicleNumber" placeholder="BAC 1111" required>
+                                                <label for="vehicleNumber" class="field-required">Registration Number </label>
+
+                                                <input name="regNo" type="text"
+                                                       class="form-control required"
+                                                       id="vehicleNumber"
+                                                       placeholder=""
+                                                       required>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+
+                                        <div class="col-md-4">
                                             <div class="form-group ">
                                                 <label for="vehicleType">Make*:</label>
                                                 <select name="make"
                                                         onchange="loadModelByMaker(this, '/ajax/maker_to_model_upper', '#model');"
-                                                        class="form-control make  required" id="make" required></select>
-
+                                                        class="form-control make  required" id="make" required>
+                                                </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="vehicleType">Model*:</label>
                                                 <select name="model" class="form-control required" id="modelNo" required
@@ -75,8 +83,9 @@
                                                 </select>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-6">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
                                             <div class="form-group ">
                                                 <label for="ownerName">Model Code:</label>
                                                 <input name="model_code" type="text" class="form-control required"
@@ -84,7 +93,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="ownerAddress">Engine No*:</label>
                                                 <input name="engineNo" type="text" class="form-control required"
@@ -92,15 +101,16 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group ">
                                                 <label for="ownerAddress">Chassis No*:</label>
                                                 <input name="chassisNo" type="text" class="form-control required"
                                                        id="ownerAddress" placeholder="SVXX-XXXXXXX" required>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-6">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
                                             <div class="form-group ">
                                                 <label for="vehicleType">Color:</label>
                                                 <select name="costCenter" class="form-control make" id="color">
@@ -111,8 +121,11 @@
                                                 </select>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="col-md-6">
+                                    <div class="row px-3">
+
+                                        <div class="col-md-4">
                                             <div class="form-group ">
                                                 <label for="transmission">Transmission:</label>
                                                 <select name="transmission" class="form-control make" id="transmission">
@@ -123,7 +136,9 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6 options branded-options">
+                                        <div class="col-md-4"></div>
+
+                                        <div class="col-md-4 options">
                                             <p class="test">Branded: </p>
                                             <div class="options-inner branded-options-inner">
                                                 <input type="radio" id="poolVariance-yes" name="options"
@@ -138,7 +153,7 @@
 
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="ownerAddress">Current Odometer:</label>
                                                 <input name="odometer" type="text" class="form-control"
@@ -293,13 +308,14 @@
 
                                     <ul class="list-inline pull-right">
                                         <li>
-                                            <button type="button" class="btn btn-success btn-sm prev-step">Back</button>
+                                            <button type="button" class="btn btn-success btn-sm prev-step">Previous</button>
                                         </li>
                                         {{--<li>
                                             <button type="button" class="btn btn-success next-step skip-btn">Skip</button>
                                         </li>--}}
                                         <li>
-                                            <button type="button" class="btn btn-success btn-sm next-step">Continue</button>
+                                            <button type="button" class="btn btn-success btn-sm next-step">Continue
+                                            </button>
                                         </li>
                                     </ul>
                                 </div>
@@ -350,7 +366,7 @@
                                     </div>
                                     <ul class="list-inline pull-right">
                                         <li>
-                                            <button type="button" class="default-btn prev-step">Back</button>
+                                            <button type="button" class="default-btn prev-step">Previous</button>
                                         </li>
                                         <li>
                                             <button type="button" class="default-btn next-step skip-btn">Skip</button>

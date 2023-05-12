@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; @endphp
 @extends('layouts.app')
 @push('styles')
     <link href="{{asset("assets/plugins/select2/css/select2.min.css")}}" rel="stylesheet" type="text/css"/>
@@ -49,7 +50,7 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group">
                                                                 <input type="text"
-                                                                       data-action="{{route('api.vehicle')}}"
+                                                                       data-action="{{route('requisition.vehicle.details')}}"
                                                                        class="form-control form-control-sm"
                                                                        autocapitalize="characters"
                                                                        id="vehicle_registration"
@@ -74,7 +75,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                            <input type="hidden" class="form-control form-control-sm"
+                                                            <input type="hidden"
+                                                                   class="form-control form-control-sm"
                                                                    id="vehicle_description"
                                                                    name="vehicle_description"
                                                                    required readonly>
@@ -98,7 +100,6 @@
                                                                     <label class="form-check-inline">
                                                                         <input type="radio"
                                                                                id="costOnCostCentre"
-                                                                               disabled
                                                                                class="list-row-checkbox bold mr-3 when_valid"
                                                                                name="CostAssignedTo"
                                                                                value="CostCenterBasedRequisition"
@@ -151,7 +152,6 @@
                                                                     <label class="form-check-inline">
                                                                         <input type="radio"
                                                                                id="projectInput"
-                                                                               disabled
                                                                                class="list-row-checkbox bold mr-3 when_valid"
                                                                                autocomplete="off"
                                                                                name="CostAssignedTo"
@@ -207,10 +207,13 @@
                                                         <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="staff_name">
-                                                            Odometer Reading :
+                                                            Current Odometer Reading :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text"
+                                                                   data-url="{{route('fuel.odometer.validation')}}"
+                                                                   data-validation-method="fuelRequisitionOdometerReading"
+                                                                   data-params="[odometerNumber, vehicleRegistration]"
                                                                    class="form-control form-control-sm when_valid"
                                                                    id="odometer_reading"
                                                                    disabled
@@ -225,6 +228,43 @@
                                     </div>
 
                                     <div class="row d-none" id="outOfTown">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Departure Date:</label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <input type="date" class="form-control form-control-sm"
+                                                                   id="departure_date"
+                                                                   min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
+                                                                   name="departure_date"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="request_date">Return Date:</label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <input type="date" class="form-control form-control-sm"
+                                                                   id="return_date"
+                                                                   min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
+                                                                   name="return_date">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{--<div class="row d-none">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
@@ -259,7 +299,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>--}}
 
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
@@ -297,7 +337,7 @@
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="request_date"
                                                                    readonly
-                                                                   value="{{\Carbon\Carbon::now()->format('d/m/Y')}}"
+                                                                   value="{{Carbon::now()->format('d/m/Y')}}"
                                                                    name="request_date">
                                                         </div>
                                                     </div>
@@ -319,7 +359,7 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="next_fuel_date"
-                                                                   value="{{\Carbon\Carbon::now()->add('days', $daysToNextRefuel)->format('d/m/Y')}}"
+                                                                   value="{{Carbon::now()->add('days', $daysToNextRefuel)->format('d/m/Y')}}"
                                                                    name="next_fuel_date"
                                                                    readonly required>
                                                         </div>
@@ -369,6 +409,14 @@
                                             </tbody>
                                         </table>
                                     </div>
+
+                                    <div id="image_view" class="card text-center py-5 my-2" style="display: none;">
+                                        <h2 class="fs-2x fw-bold mb-10">Front View</h2>
+                                        <div class="form-group">
+                                            <div class="imagePreview"></div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -379,10 +427,10 @@
                                     <thead>
                                     <tr class="bg-dark">
                                         <th>Material Description</th>
-                                        <th>Project Number</th>
+                                        <th class="project_view_item d-none">Project Number</th>
                                         <th>Qty</th>
                                         <th>Unit Of Measure</th>
-                                        <th>Price</th>
+                                        <th>Price (ZMW)</th>
                                         <th>Amount(ZMW)</th>
                                     </tr>
                                     </thead>
@@ -394,7 +442,7 @@
                                             <input type="hidden" name="material_description">
                                             <input type="hidden" name="material_article_code">
                                         </td>
-                                        <td>
+                                        <td class="project_view_item d-none">
                                             <input type="text" name="projectCode" readonly value="000000"
                                                    class="form-control form-control-sm border-0"/>
                                         </td>
@@ -421,12 +469,17 @@
                                     </tbody>
                                     <tfoot>
                                     <tr>
+                                        <td class="project_view_item d-none"></td>
+                                        <td class="text-right"></td>
+                                        <td style="display: flex;justify-content: space-between;">
+                                            <strong>Total Quantity</strong>
+                                            <span class="text-bold text-right" id="totalQty"></span></td>
                                         <td></td>
-                                        <td class="text-right"><strong>Total Quantity</strong></td>
-                                        <td><span class="text-bold" id="totalQty"></span></td>
-                                        <td></td>
-                                        <td class="text-right"><strong>Total Amount</strong></td>
-                                        <td><span class="text-bold" id="totalAmount"></span></td>
+                                        <td class="text-right"></td>
+                                        <td style="display: flex;justify-content: space-between;">
+                                            <strong>Total Amount</strong>
+                                            <span class="text-bold" id="totalAmount"></span>
+                                        </td>
                                     </tr>
                                     </tfoot>
                                 </table>
@@ -444,21 +497,16 @@
 @push('scripts')
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script>
-        $(document).ready(function () {
-            Inputmask({
-                "mask": "AAA 9999"
-            }).mask("#vehicle_registration");
-        });
-
         (function (tmsApp, $) {
             function removeSubmissionAndDetailsOptions() {
                 let elements = document.querySelectorAll('.when_valid');
                 elements.forEach(function (element) {
                     element.setAttribute('disabled', 'disabled');
-                })
+                });
 
                 document.querySelector('#vehicleDetailsContainer').style.display = 'none';
                 //document.querySelector('#materialDetailsContainer').style.display = 'none';
+                document.querySelector('#image_view').style.display = 'none';
 
                 $('tbody#vehicleDetails').html('');
                 document.querySelector('[name="fuel_allocation"]').value = '';
@@ -477,73 +525,91 @@
 
                 document.querySelector('#vehicleDetailsContainer').style.display = null;
                 //document.querySelector('#materialDetailsContainer').style.display = null;
+                document.querySelector('#image_view').style.display = null;
             }
 
             function populateVehicleDetails(payload) {
                 let vehicle = payload['vehicle'];
                 let article = payload['article'];
+                let images = payload['images'];
+                let vehicle_state = payload['vehicle_state'];
 
-                if (vehicle && vehicle.brand_name) {
+                if (!vehicle || !vehicle.brand_name) {
+                    return;
+                }
 
-                    if (typeof vehicle.fuel_allocation === 'undefined' || vehicle.fuel_allocation == null || vehicle.fuel_allocation === "0") {
+                if (typeof vehicle.fuel_allocation === 'undefined' || vehicle.fuel_allocation == null || vehicle.fuel_allocation === "0") {
 
-                        tmsApp.showSystemMessage("Vehicle Details Incomplete", 'Vehicle has no Fuel Allocation, Request System Administrator to assign allocation', () => {
+                    tmsApp.showSystemMessage("Vehicle Details Incomplete",
+                        'Vehicle has no Fuel Allocation, Request System Administrator to assign allocation', () => {
                         }, "error")
 
-                        return;
-                    }
+                    return;
+                }
 
-                    if (vehicle['on_boarding_status'] != '030') {
-                        tmsApp.showSystemMessage("Vehicle Details Incomplete", 'Vehicle did not complete onboarding process, You can not proceed with requisition', () => {
-                        }, "error")
+                // BAD 1010
+                if (vehicle['on_boarding_status'] != '030') {
+                    tmsApp.showSystemMessage("Incomplete Vehicle Details",
+                        `The vehicle ${vehicle['registration_number']} is ${vehicle_state}. Please Contact Fleet Master
+                            System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com`,
+                        () => {
+                        },
+                        "error");
+                    return;
+                }
 
-                        return;
-                    }
-
-                    let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
-                    $("#vehicle_description").val(vLabel);
-                    let row = `<tr>
+                let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
+                $("#vehicle_description").val(vLabel);
+                let row = `<tr>
                                     <th>Make</th><td id="make">${vehicle.brand_name}</td>
                                </tr>
                                <tr>
                                     <th>Model</th><td id="model">${vehicle.model_name} ${vehicle.model_code}</td>
                                </tr>
-                               <tr>
-                                     <th>Registration</th><td id="registration">${vehicle['registration_number']}</td>
+                               <tr style="">
+                                     <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
                                 </tr>`;
 
-                    $('tbody#vehicleDetails').html(row);
+                $('tbody#vehicleDetails').html(row);
 
-                    if (vehicle.fuel_allocation) {
-                        let perWeekAllocation = vehicle.fuel_allocation * 7;
-                        document.querySelector('[name="fuel_allocation"]').value = perWeekAllocation ?? 0;
-                        document.querySelector('[name="material_quantity"]').value = perWeekAllocation ?? 0;
-                        document.querySelector('[name="material_quantity"]').setAttribute('max', perWeekAllocation);
-
-                    }
-
-                    enableSubmissionAndDetailsOptions();
-
-                    if (article) {
-
-                        /* Material Description and name */
-                        $("#material_description").text(article['name']);
-                        $('input[name="material_description"]').val(article['name']);
-                        $('input[name="material_article_code"]').val(article['code']);
-
-                        /* Unit Of Measure */
-                        $("#unit_of_measure").text(article['short_name']);
-                        $('input[name="unit_of_measure"]').val(article['short_name']);
-
-
-                        //$("#material_amount").text(tmsApp.formatMoney('', 2));
-                        //$('input[name="material_amount"]').val(tmsApp.formatMoney('', 2)).trigger('change');
-
-                        /* Material Price*/
-                        $("#material_price").text(tmsApp.formatMoney(article['price'], 2));
-                        $('input[name="material_price"]').val(article['price']).change();
-                    }
+                if (vehicle.fuel_allocation) {
+                    let perWeekAllocation = vehicle.fuel_allocation * 7;
+                    document.querySelector('[name="fuel_allocation"]').value = perWeekAllocation ?? 0;
+                    document.querySelector('[name="material_quantity"]').value = perWeekAllocation ?? 0;
+                    document.querySelector('[name="material_quantity"]').setAttribute('max', perWeekAllocation);
+                    $('#totalQty').text(tmsApp.numberFormat(perWeekAllocation));
                 }
+
+                enableSubmissionAndDetailsOptions();
+
+                if (article) {
+
+                    /* Material Description and name */
+                    $("#material_description").text(article['name']);
+                    $('input[name="material_description"]').val(article['name']);
+                    $('input[name="material_article_code"]').val(article['code']);
+
+                    /* Unit Of Measure */
+                    $("#unit_of_measure").text(article['short_name']);
+                    $('input[name="unit_of_measure"]').val(article['short_name']);
+
+
+                    //$("#material_amount").text(tmsApp.formatMoney('', 2));
+                    //$('input[name="material_amount"]').val(tmsApp.formatMoney('', 2)).trigger('change');
+
+                    /* Material Price*/
+                    $("#material_price").text(tmsApp.formatMoney(article['price'], 2));
+                    $('input[name="material_price"]').val(article['price']).change();
+                }
+
+                if (images && images.length > 0) {
+                    let frontViewImages = images.filter((image) => {
+                        return image.file_type === 'Front View';
+                    })
+                    let imagePath = frontViewImages[0]?.path;
+                    document.querySelector(".imagePreview").style.backgroundImage = "url(/storage" + imagePath + ")";
+                }
+
             }
 
             function findVehicle() {
@@ -563,7 +629,6 @@
                         }
                     },
                     function (xhr) {
-                        console.log(xhr);
                         tmsApp.showToast('We could not complete processing your request, please try again later')
                     }
                 )
@@ -604,26 +669,27 @@
                 }
             }
 
-            $('#vehicle_registration').keyup(function () {
-                this.value = this.value.toLocaleUpperCase();
-            });
-
-            $('#vehicle_registration').on('change', function () {
-                if (this.value && this.value.length < 6) {
+            $('#vehicle_registration').on('keyup, paste', function () {
+                if (this.value && this.value.length < 8) {
                     return;
                 }
-                removeSubmissionAndDetailsOptions();
-                findVehicle();
+                setTimeout(function () {
+                    removeSubmissionAndDetailsOptions();
+                    findVehicle();
+                }, 300);
             });
-
 
             $('#vehicleSearchBtn').on('click', function () {
-                if (document.querySelector('#vehicle_registration').value && document.querySelector('#vehicle_registration') < 6) {
+                if (document.querySelector('#vehicle_registration').value && document.querySelector('#vehicle_registration') < 8) {
                     return;
                 }
                 removeSubmissionAndDetailsOptions();
                 findVehicle();
             });
+
+            Inputmask({
+                "mask": "AAA 9999"
+            }).mask("#vehicle_registration");
 
             tmsApp.appFormValidator('form[name="fuelRequisitionForm"]',
                 {
@@ -662,7 +728,7 @@
                         required: "You must specify date task was opened"
                     },
                     'justification': {
-                        required: "Reason for requisition is mandatory",
+                        required: "Purpose for requisition is mandatory",
                         minlength: "The reason needs to be at least {0} characters!",
                         maxlength: "The reason must not be more than 255 characters"
                     },
@@ -767,10 +833,13 @@
                 }
             });
 
+            // cost allocation view
             $('input[name="CostAssignedTo"]').on('change', function () {
+
                 const $projectCodeCtrl = document.querySelector('#project_code');
                 const $costCentreCodeCtrl = document.querySelector('#cost_centre_code');
                 const $costCentreNameCtrl = document.querySelector('#cost_center_name');
+
                 if (this.value === 'CostCenterBasedRequisition') {
                     $($projectCodeCtrl).prop('disabled', true);
                     $($projectCodeCtrl).prop('required', false);
@@ -778,6 +847,7 @@
                     $costCentreCodeCtrl.style.display = null;
                     $($costCentreNameCtrl).prop('required', true);
                     $costCentreNameCtrl.style.display = null;
+                    $('.project_view_item').addClass('d-none');
                 } else if (this.value === 'ProjectBasedRequisition') {
                     $($projectCodeCtrl).prop('disabled', false);
                     $($projectCodeCtrl).prop('required', true);
@@ -785,9 +855,44 @@
                     $costCentreCodeCtrl.style.display = 'none';
                     $($costCentreNameCtrl).prop('required', false);
                     $costCentreNameCtrl.style.display = 'none';
+                    $('.project_view_item').removeClass('d-none');
                 }
             });
 
+            $("[name='odometer_reading']").on('change', function () {
+                //setTimeout
+                const odometerReading = document.querySelector('#odometer_reading').value;
+                const numberPlate = document.querySelector('#odometer_reading').value;
+                let formData = new FormData();
+                formData.append('odometer_reading', odometerReading);
+                formData.append('vehicle_registration', numberPlate);
+
+                const dataSet = document.querySelector('#odometer_reading').dataset;
+                fetch(dataSet['url'],
+                    {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    }
+                ).then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    return response.json();
+                }).then((response) => {
+                    if (!response.success) {
+                        removeSubmissionAndDetailsOptions();
+                        tmsApp.showToast(response['message'], 'error');
+                    }
+
+                });
+
+                //tmsApp.showToast('We could not complete processing your request, please try again later')
+
+            });
 
             $('#materialDetailsTable').on('change', 'select,input', function (e) {
                 eventHandler(this, e);
@@ -801,5 +906,5 @@
             });
         })(window.tmsApp || {}, jQuery)
     </script>
-    <script src="{{asset('assets/js/system/project_code.js').'?v='.\Carbon\Carbon::now()->format('his')}}"></script>
+    <script src="{{asset('assets/js/system/project_code.js').'?v='.Carbon::now()->format('his')}}"></script>
 @endpush
