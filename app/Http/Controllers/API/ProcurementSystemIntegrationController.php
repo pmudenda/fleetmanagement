@@ -33,7 +33,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
     public function getSuppliers(): JsonResponse
     {
         try {
-            $suppliers = PurchaseOrders::get();
+            $suppliers = PurchaseOrders::distinct()->get(['code_supplier','name_of_supplier']);;
             return response()->json([
                 'state' => 'success',
                 'payload' => $suppliers

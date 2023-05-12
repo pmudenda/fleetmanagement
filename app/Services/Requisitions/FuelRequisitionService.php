@@ -12,6 +12,7 @@ use App\Models\MaterialHeader;
 use App\Models\Security\User;
 use App\Models\vehiclemanagement\Assignment;
 use App\Models\vehiclemanagement\VehicleHeader;
+use App\Services\Integration\ProcurementService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\ReferenceNumberGeneratorService;
 use App\Services\Workflow\WorkflowService;
@@ -28,12 +29,15 @@ class FuelRequisitionService
     const FUEL_REQUISITION_NUMBER_PREFIX = "ZFMFUE";
     private VehicleDetailsService $vehicleDetailsService;
     private WorkflowService $workflowService;
+    private ProcurementService $procurementService;
 
     public function __construct(VehicleDetailsService $vehicleDetailsService,
-                                WorkflowService       $workflowService)
+                                WorkflowService       $workflowService,
+                                ProcurementService    $procurementService)
     {
         $this->vehicleDetailsService = $vehicleDetailsService;
         $this->workflowService = $workflowService;
+        $this->procurementService = $procurementService;
     }
 
 
@@ -100,9 +104,11 @@ class FuelRequisitionService
         $user = Auth()->user();
         $documentRef = ReferenceNumberGeneratorService::generateReferenceNumber(
             self::FUEL_REQUISITION_NUMBER_PREFIX,
-            1,
-        );
+            1);
 
+        $procurementRef = $this->procurementService->generateDocument();
+        $areaCode = $user->area_code ?? 'GR';
+        //$procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
         /*$processDetails = $this->workflowService->startWorkflowProcess(
             $documentRef,
             WorkflowProcessCodes::FuelRequisition->value,
@@ -113,9 +119,6 @@ class FuelRequisitionService
 
         $message = !empty($processDetails->Reference) ?
             ' With Approval Reference ' . $processDetails->Reference : '';*/
-
-        $areaCode = $user->area_code ?? 'GR';
-        $procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
 
         MaterialHeader::create(
             [
@@ -228,7 +231,7 @@ class FuelRequisitionService
 
         if (!empty($previousRequisition) && Carbon::parse($previousRequisition->valid_date_to)->lessThan($valid_from)) {
             throw new FuelRequisitionException(str_replace('@date_valid_to', $previousRequisition->valid_date_to,
-                str_replace('@req_no',$previousRequisition->req_no,ErrorMessages::requisitionStillActive)), 0);
+                str_replace('@req_no', $previousRequisition->req_no, ErrorMessages::requisitionStillActive)), 0);
         }
     }
 
