@@ -7,9 +7,11 @@ return new class extends Migration {
     public function up(): void
     {
         $command = "
-        CREATE OR REPLACE FUNCTION procDocumentNumberGenerator(ls_type in VARCHAR2, ls_area IN VARCHAR2) RETURN STRING AS
+        CREATE OR REPLACE FUNCTION procDocumentNumberGenerator(ls_type in VARCHAR2, ls_area IN VARCHAR2) RETURN STRING IS
+        ls_return  VARCHAR2(255);
         BEGIN
-            RETURN '//TODO. replace with actual call';
+             ls_return := (SEQUENCE_GENERATOR(ls_type,ls_area));
+             RETURN ls_return;
         END;
       ";
 
