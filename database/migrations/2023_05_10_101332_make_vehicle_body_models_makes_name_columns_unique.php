@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('REF_DIRECTORATES', function (Blueprint $table) {
-            $table->string('code')->nullable()->unique()->add();
-            $table->string('active')->change();
+        //
+        Schema::table('CONFIG_VEHICLE_BODY_TYPES', function (Blueprint $table) {
+            //$table->string('name')->unique()->change();
+        });
+
+        Schema::table('CONFIG_VEHICLE_BRANDS', function (Blueprint $table) {
+            //$table->string('name')->unique()->change();
         });
     }
 
@@ -22,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('REF_DIRECTORATES', function (Blueprint $table) {
-            //
-        });
+        //
     }
 };
