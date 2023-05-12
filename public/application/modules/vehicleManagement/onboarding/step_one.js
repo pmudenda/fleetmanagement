@@ -542,4 +542,6 @@ let app = new Vue({
         this.postVehicleHeaderData();
     }
 
+    new tmsApp.fileUploader().makeSingleFileUploader();
+
 })(window.tmsApp || {}, jQuery);

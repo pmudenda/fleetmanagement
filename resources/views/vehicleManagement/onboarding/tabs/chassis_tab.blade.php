@@ -484,6 +484,7 @@
                                 <div class="col-md-9">
                                     <input type="file" accept="image/*,.pdf"
                                            required
+                                           class="filer_input"
                                            name="motor_vehicle_certificate"/>
                                 </div>
                             </div>
@@ -493,6 +494,7 @@
                                 <div class="col-md-9">
                                     <input type="file" accept="image/*,.pdf"
                                            required
+                                           class="filer_input"
                                            name="insurance_cover_note"/>
                                 </div>
                             </div>
