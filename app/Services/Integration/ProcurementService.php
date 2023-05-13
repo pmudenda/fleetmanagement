@@ -20,14 +20,14 @@ class ProcurementService
              $stmt->bindParam(':ls_type', $doc_type);
              $stmt->bindParam(':ls_area', $area_code);
              $stmt->execute();*/
-            $results = DB::select('select storesDocumentNumberGenerator(:ls_type, :ls_area) as value from dual', ['ls_type' => $doc_type, 'ls_area' => $area_code]);
+            $results = DB::select('select storesDocumentNumberGenerator(:ls_type, :ls_area) as value from dual', ['ls_type' => $doc_type, 'ls_area' => $area_code])->first();
 
             var_dump($results);
             /*$result = DB::executeFunction(
                 'storesDocumentNumberGenerator',
                 ['ls_type' => trim($requisitionType), 'ls_area' => trim($area)],
                 PDO::PARAM_STR);*/
-            Log::info($results);
+            Log::info($results->value);
             return ""; //->value;
         } catch (\Exception $e) {
             Log::error($e);
