@@ -45,7 +45,7 @@ class FuelRequisitionController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => "Vehicle not found",
-                'requestPayload' => all()
+                'requestPayload' => $request->all()
             ]);
         }
 

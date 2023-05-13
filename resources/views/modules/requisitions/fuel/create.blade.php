@@ -670,7 +670,7 @@
             }
 
             $('#vehicle_registration').on('keyup paste enter', function () {
-                if (this.value && this.value.replace('_','').length < 8) {
+                if (this.value && this.value.replace('_', '').length < 8) {
                     return;
                 }
                 setTimeout(function () {
@@ -686,6 +686,7 @@
                 removeSubmissionAndDetailsOptions();
                 findVehicle();
             });
+
 
             Inputmask({
                 "mask": "AAA 9999"
@@ -868,27 +869,18 @@
                 formData.append('vehicle_registration', numberPlate);
 
                 const dataSet = document.querySelector('#odometer_reading').dataset;
-                fetch(dataSet['url'],
-                    {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                tmsApp.asyncPostFormData(
+                    ['url'],
+                    formData,
+                    function (response) {
+                        if (!response.success) {
+                            removeSubmissionAndDetailsOptions();
+                            tmsApp.showToast(response['message'], 'error');
                         }
+                    },
+                    function () {
                     }
-                ).then((response) => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-
-                    return response.json();
-                }).then((response) => {
-                    if (!response.success) {
-                        removeSubmissionAndDetailsOptions();
-                        tmsApp.showToast(response['message'], 'error');
-                    }
-
-                });
+                );
 
                 //tmsApp.showToast('We could not complete processing your request, please try again later')
 
