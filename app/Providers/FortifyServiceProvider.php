@@ -6,6 +6,7 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Helpers\ConfigHelper;
 use App\Helpers\StatusHelper;
 use App\Models\Security\User;
 use Carbon\Carbon;
