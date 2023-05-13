@@ -670,7 +670,7 @@
             }
 
             $('#vehicle_registration').on('keyup paste enter', function () {
-                if (this.value && this.value.length < 8) {
+                if (this.value && this.value.replace('_','').length < 8) {
                     return;
                 }
                 setTimeout(function () {
