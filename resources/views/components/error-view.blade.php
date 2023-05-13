@@ -22,4 +22,6 @@
     <div class="print-error-msg" style="display:none;">
         <ul style="color: red; font-weight: bold;"></ul>
     </div>
+    <div class="alert alert-danger d-none" id="system_alert">
+    </div>
 </div>

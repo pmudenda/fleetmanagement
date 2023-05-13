@@ -56,7 +56,7 @@ class FuelRequisitionController extends Controller
         $valid = $chassisDetail->initial_odometer_reading < $request->get('odometer_reading');
 
         return response()->json([
-            'success' => false,
+            'success' => $valid,
             'valid' => $valid,
             'message' => $valid ? SystemMessages::valid : SystemMessages::InvalidOdometer,
             'requestPayload' => $request->all()
