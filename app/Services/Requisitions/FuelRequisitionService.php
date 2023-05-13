@@ -119,7 +119,8 @@ class FuelRequisitionService
             1);
 
         $areaCode = $user->area_code ?? 'LR';
-        $procurementRef = $this->procurementService->generateDocumentNumber('', $areaCode);
+        $requisitionType = 'seq_store_req';
+        $procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
 
         //$procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
         /*$processDetails = $this->workflowService->startWorkflowProcess(

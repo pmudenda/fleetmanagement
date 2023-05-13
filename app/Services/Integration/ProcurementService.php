@@ -12,10 +12,9 @@ class ProcurementService
     {
         Log::info(' Generating Document For ' . $requisitionType . ' and Area ' . $area);
         //$result = DB::scalar("select storesDocumentNumberGenerator($requisitionType, $area) as value from dual");
-        $result = DB::executeFunction('storesDocumentNumberGenerator', ['ls_type' => $requisitionType, 'ls_area' => $area]);
-        //, PDO::PARAM_LOB
+        $result = DB::executeFunction('storesDocumentNumberGenerator', [':ls_type' => $requisitionType, ':ls_area' => $area], PDO::PARAM_STR);
         //Log::info('Document Number ' . $result);
-        return ""; //$result->value;
+        return "";// $result->value;
     }
 
 }
