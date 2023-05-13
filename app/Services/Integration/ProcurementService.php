@@ -13,8 +13,8 @@ class ProcurementService
 
         $requisitionType = empty($requisitionType) ? 'seq_store_req' : '';
 
-        $result = DB::selectOne("select procDocumentNumberGenerator($requisitionType, $area) as value from dual");
-        //DB::executeFunction('procDocumentNumberGenerator', ['ls_type' => 3, 'ls_area'], PDO::PARAM)
+        $result = DB::selectOne("select storesDocumentNumberGenerator($requisitionType, $area) as value from dual");
+        //$result = DB::executeFunction('storesDocumentNumberGenerator', ['ls_type' => $requisitionType, 'ls_area'=> $area], PDO:)
         Log::info('Document Number ', $result);
         return $result->value;
     }
