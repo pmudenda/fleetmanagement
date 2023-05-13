@@ -120,14 +120,14 @@ class FuelRequisitionService
 
         $areaCode = $user->area_code ?? 'LR';
         $requisitionType = 'seq_store_req';
-        $procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
-
+        //$procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
+        $procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
         if (empty($procurementRef)) {
             throw new FuelRequisitionException(ErrorMessages::storesRequisitionFailed());
         }
 
         Log::info('Stores Requisition ' . $procurementRef);
-        //$procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
+
         /*$processDetails = $this->workflowService->startWorkflowProcess(
             $documentRef,
             WorkflowProcessCodes::FuelRequisition->value,
