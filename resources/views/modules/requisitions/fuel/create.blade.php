@@ -15,7 +15,7 @@
                     <h4>New Fuel Requisition</h4>
                 </div>
                 <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                    <button type="button" id="submitRequisitionBtn" class="btn btn-success btn-sm mr-3 when_valid"
+                    <button type="button" id="submitRequisitionBtn" class="btn btn-success btn-sm mr-3 when_odo_valid"
                             disabled>
                         <i class="fas fa-save"></i> Submit
                     </button>
@@ -51,7 +51,7 @@
                                                             <div class="input-group">
                                                                 <input type="text"
                                                                        data-action="{{route('requisition.vehicle.details')}}"
-                                                                       class="form-control form-control-sm number_input"
+                                                                       class="form-control form-control-sm"
                                                                        autocapitalize="characters"
                                                                        id="vehicle_registration"
                                                                        placeholder="Vehicle Reg e.g AAB 6757"
@@ -214,7 +214,7 @@
                                                                    data-url="{{route('fuel.odometer.validation')}}"
                                                                    data-validation-method="fuelRequisitionOdometerReading"
                                                                    data-params="[odometerNumber, vehicleRegistration]"
-                                                                   class="form-control form-control-sm when_valid"
+                                                                   class="form-control form-control-sm when_valid number_input"
                                                                    id="odometer_reading"
                                                                    disabled
                                                                    required
@@ -882,7 +882,9 @@
                             //document.querySelector('#submitRequisitionBtn').setAttribute('disabled', 'disabled');
                             tmsApp.showToast(response['message'], 'error');
                         }else{
+                            tmsApp.showToast(response['message'], 'success');
                             document.querySelector('#submitRequisitionBtn').removeAttribute('disabled');
+                            //document.querySelector('.when_odo_valid').removeAttribute('disabled');
                         }
                     },
                     function (xhr) {

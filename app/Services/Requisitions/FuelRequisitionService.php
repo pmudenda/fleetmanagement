@@ -11,6 +11,7 @@ use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Models\Security\User;
 use App\Models\vehiclemanagement\Assignment;
+use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
 use App\Services\Integration\ProcurementService;
 use App\Services\VehicleManagement\VehicleDetailsService;
@@ -52,12 +53,14 @@ class FuelRequisitionService
 
         //$this->validateVehicleResponsibleUserStatus($registrationNumber);
 
-        /*if ($request->get('fuel_allocation') < $request->get('material_quantity')) {
+        if ($requisitionPostRequest->get('fuel_allocation') < $requisitionPostRequest->get('material_quantity')) {
             return response()->json([
                 'success' => false,
                 'message' => 'Quantity requested can not be more than allocation'
             ]);
-        }*/
+        }
+
+        self::validateCurrentOdometerAgainstInitial($registrationNumber, $requisitionPostRequest->odometer_reading);
 
 
         //$maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption) + $requisitionPostRequest->odometer_reading;
@@ -185,6 +188,21 @@ class FuelRequisitionService
         if (!in_array($vehicle->status, $allowedStatus)) {
             throw new FuelRequisitionException(ErrorMessages::vehicleNotActive, 0);
         }
+    }
+
+    /**
+     * @throws FuelRequisitionException
+     */
+    public function validateCurrentOdometerAgainstInitial($registration_number, $currentOdometer){
+
+        $vehicle = VehicleHeader::where('registration_number', trim($registration_number))->first();
+        $chassisDetail = ChassisDetail::where('vehicle_header_id', '=', $vehicle->id)->first();
+
+       if($chassisDetail->initial_odometer_reading > $currentOdometer){
+           throw new FuelRequisitionException(ErrorMessages::invalidCurrentOdometerreading(), 0);
+       }
+
+       return true;
     }
 
     /**

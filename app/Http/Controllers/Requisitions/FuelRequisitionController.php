@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Requisitions;
 
+use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
 use App\Exceptions\VehicleOnBoardingException;
 use App\Http\Controllers\Controller;
@@ -51,9 +52,7 @@ class FuelRequisitionController extends Controller
 
         $chassisDetail = ChassisDetail::where('vehicle_header_id', '=', $vehicle->id)->first();
 
-        //trim($request->get('odometer_reading'))
-
-        $valid = $chassisDetail->initial_odometer_reading < $request->get('odometer_reading');
+        $valid = $request->get('odometer_reading') > $chassisDetail->initial_odometer_reading;
 
         return response()->json([
             'success' => $valid,
@@ -80,7 +79,7 @@ class FuelRequisitionController extends Controller
             return $this->requisitionService->processRequest($request);
         } catch (\Exception $e) {
             Log::error($e);
-            $message = 'We could not complete processing your request due to an error';
+            $message = ErrorMessages::internalServerError;
 
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();

@@ -5,6 +5,6 @@ namespace App\Constants;
 class SystemMessages
 {
 
-    const valid = "Odometer is okay";
-    const InvalidOdometer = "Vehicle has invalid odometer ";
+    const valid = "Odometer validated successfully";
+    const InvalidOdometer = "Vehicle Odometer reading failed validation, Current odometer can not be less than the initial odometer value";
 }
