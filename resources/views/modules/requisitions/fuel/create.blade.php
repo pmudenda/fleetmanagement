@@ -210,7 +210,8 @@
                                                             Current Odometer Reading :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="text"
+                                                            <input type="number"
+                                                                   min="1"
                                                                    data-url="{{route('fuel.odometer.validation')}}"
                                                                    data-validation-method="fuelRequisitionOdometerReading"
                                                                    data-params="[odometerNumber, vehicleRegistration]"

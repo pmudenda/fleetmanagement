@@ -51,7 +51,7 @@ class FuelRequisitionService
 
         $this->validateVehicleStatus($registrationNumber);
 
-        //$this->validateVehicleResponsibleUserStatus($registrationNumber);
+        $this->validateVehicleResponsibleUserStatus($registrationNumber);
 
         if ($requisitionPostRequest->get('fuel_allocation') < $requisitionPostRequest->get('material_quantity')) {
             return response()->json([
@@ -62,6 +62,17 @@ class FuelRequisitionService
 
         self::validateCurrentOdometerAgainstInitial($registrationNumber, $requisitionPostRequest->odometer_reading);
 
+        $valid_to = null;
+        $valid_from = null;
+
+        if ($requisitionPostRequest->requisition_type == '011') {
+            $valid_to = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->return_date);
+            $valid_from = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->departure_date);
+
+        } else {
+            $valid_to = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->next_fuel_date);
+            $valid_from = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->request_date);
+        }
 
         //$maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption) + $requisitionPostRequest->odometer_reading;
 
@@ -79,27 +90,20 @@ class FuelRequisitionService
 
         // if there is an open requisition
         $openRequisitionStatusList = [StatusHelper::new(), StatusHelper::partiallyReleased()];
-        if (!empty($previousRequisition) && in_array($previousRequisition->status, $openRequisitionStatusList)) {
+
+        if (!empty($previousRequisition)) {
+            if(in_array($previousRequisition->status, $openRequisitionStatusList))
             return response()->json([
                 'success' => false,
                 'message' => 'Request failed validation, Vehicle has an open requisition Number '
                     . $previousRequisition->req_no
             ]);
+
+            $this->checkIfPreviousRequisitionPeriodElapsed($previousRequisition, $valid_from);
+
+            $this->validateOdometerStateValidation($previousRequisition, $requisitionPostRequest);
+
         }
-
-        //$valid_to = null;
-        if ($requisitionPostRequest->requisition_type == '011') {
-            $valid_to = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->return_date);
-            $valid_from = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->departure_date);
-
-        } else {
-            $valid_to = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->next_fuel_date);
-            $valid_from = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->request_date);
-        }
-
-        $this->checkIfPreviousRequisitionPeriodElapsed($previousRequisition, $valid_from);
-
-        $this->validateOdometerStateValidation($previousRequisition, $requisitionPostRequest);
 
         /********************** Save Data **************************/
         DB::beginTransaction();
@@ -218,7 +222,7 @@ class FuelRequisitionService
 
         $responsibleHead = User::where('staff_no', '=', $assignment->vehicleHolder)->first();
 
-        if ($responsibleHead->con_st_code != StatusHelper::active()) {
+        if ($responsibleHead->con_st_code != StatusHelper::activeUser()) {
             throw new FuelRequisitionException(ErrorMessages::responsibleUserNotActive, 0);
         }
     }
@@ -234,7 +238,7 @@ class FuelRequisitionService
         // verify that odometer reading is not the same as previous requisition
 
         if (!empty($previousRequisition) && ($requisitionPostRequest->odometer_reading <= $previousRequisition->odometer)) {
-            throw new FuelRequisitionException("Request failed odometer validation", 0);
+            throw new FuelRequisitionException(ErrorMessages::invalidCurrentOdometerReading(), 0);
         }
     }
 
