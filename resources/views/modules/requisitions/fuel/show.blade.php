@@ -35,7 +35,7 @@
                                class="border-0">
                             <thead>
                             <tr class="border-0">
-                                <th width="33%" colspan="4" style="border:none;" class="text-center">
+                                <th width="33%" colspan="4" style="border:none;" class="text-left">
                                     REQUISITION NUMBER: <span
                                         class="text-orange">{{ $requestDetails->proc_ref }}</span>
                                 </th>
