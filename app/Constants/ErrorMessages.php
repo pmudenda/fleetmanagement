@@ -17,4 +17,9 @@ class ErrorMessages
     {
         return "Invalid Current odometer, The value is less that the initial odometer reading";
     }
+
+    public static function vehicleHasActiveRequisition(): string
+    {
+        return  'Request failed validation, Vehicle has an open requisition Number @re_no';
+    }
 }

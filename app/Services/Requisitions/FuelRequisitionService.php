@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class FuelRequisitionService
@@ -78,6 +79,7 @@ class FuelRequisitionService
 
         //Log::info($maximumDistance . ' distance is');
 
+        Log::info($registrationNumber);
         // pick last requisition
         $previousRequisition = MaterialHeader::where('reg_no', $registrationNumber)
             ->whereIn('status', [
@@ -88,16 +90,19 @@ class FuelRequisitionService
             ->orderBy('date_created', 'desc')
             ->first();
 
+
         // if there is an open requisition
         $openRequisitionStatusList = [StatusHelper::new(), StatusHelper::partiallyReleased()];
 
         if (!empty($previousRequisition)) {
-            if(in_array($previousRequisition->status, $openRequisitionStatusList))
-            return response()->json([
-                'success' => false,
-                'message' => 'Request failed validation, Vehicle has an open requisition Number '
-                    . $previousRequisition->req_no
-            ]);
+            if (in_array($previousRequisition->status, $openRequisitionStatusList))
+                return response()->json([
+                    'success' => false,
+                    'message' => str_replace(
+                        '@re_no',
+                        $previousRequisition->req_no,
+                        ErrorMessages::vehicleHasActiveRequisition())
+                ]);
 
             $this->checkIfPreviousRequisitionPeriodElapsed($previousRequisition, $valid_from);
 
@@ -197,16 +202,17 @@ class FuelRequisitionService
     /**
      * @throws FuelRequisitionException
      */
-    public function validateCurrentOdometerAgainstInitial($registration_number, $currentOdometer){
+    public function validateCurrentOdometerAgainstInitial($registration_number, $currentOdometer)
+    {
 
         $vehicle = VehicleHeader::where('registration_number', trim($registration_number))->first();
         $chassisDetail = ChassisDetail::where('vehicle_header_id', '=', $vehicle->id)->first();
 
-       if($chassisDetail->initial_odometer_reading > $currentOdometer){
-           throw new FuelRequisitionException(ErrorMessages::invalidCurrentOdometerreading(), 0);
-       }
+        if ($chassisDetail->initial_odometer_reading > $currentOdometer) {
+            throw new FuelRequisitionException(ErrorMessages::invalidCurrentOdometerreading(), 0);
+        }
 
-       return true;
+        return true;
     }
 
     /**
