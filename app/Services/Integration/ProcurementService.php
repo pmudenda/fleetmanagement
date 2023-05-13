@@ -20,7 +20,7 @@ class ProcurementService
             $stmt->bindParam(':ls_type', $doc_type);
             $stmt->bindParam(':ls_area', $area_code);
             $stmt->execute();*/
-            $results = DB::select('select storesDocumentNumberGenerator(:ls_type, :ls_area)', ['ls_type' => $doc_type,'ls_area'=>$area_code ]);
+            $results = DB::select('select storesDocumentNumberGenerator(:ls_type, :ls_area) as value from dual', ['ls_type' => $doc_type,'ls_area'=>$area_code ]);
             /*$result = DB::executeFunction(
                 'storesDocumentNumberGenerator',
                 ['ls_type' => trim($requisitionType), 'ls_area' => trim($area)],
