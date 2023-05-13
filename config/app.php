@@ -202,7 +202,7 @@ return [
         App\Providers\RightsServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
 
-        Yajra\Oci8\Oci8ServiceProvider::class,
+        //Yajra\Oci8\Oci8ServiceProvider::class,
     ],
 
     /*

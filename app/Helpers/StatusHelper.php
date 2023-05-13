@@ -44,5 +44,10 @@ class StatusHelper
         return "00";
     }
 
+    public static function activeUser(): string
+    {
+        return '01';
+    }
+
 
 }

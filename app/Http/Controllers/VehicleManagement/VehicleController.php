@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\VehicleManagement;
 
-use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\vehiclemanagement\VehicleHeader;
 use App\Services\VehicleManagement\VehicleDetailsService;
@@ -90,9 +89,10 @@ class VehicleController extends Controller
 
             $article = $this->getArticleByCode($vehicle->fuel_types);
             $vehicle_state = "Pending @i detail processing";
+
             // StatusHelper::onboardingComplete()
-            if($vehicle->on_boarding_status == "021"){
-                $vehicle_state = str_replace('@i', 'General Data', $vehicle_state );
+            if ($vehicle->on_boarding_status == "021") {
+                $vehicle_state = str_replace('@i', 'General Data', $vehicle_state);
             }
             return response()->json([
                 'payload' => [
@@ -124,7 +124,7 @@ class VehicleController extends Controller
      * @param $ref_code
      * @return Collection
      */
-    public function getArticleByCode($ref_code)
+    public function getArticleByCode($ref_code): mixed
     {
         $results = DB::table('GEN_ARTICLES')
             ->leftJoin('CONFIG_UNIT_OF_MEASURES', 'GEN_ARTICLES.unit_of_measure_code', '=', 'CONFIG_UNIT_OF_MEASURES.code')
@@ -133,5 +133,16 @@ class VehicleController extends Controller
             ->get();
 
         return $results->first();
+    }
+
+
+    public function cleanUpWindow(Request $request): View
+    {
+        return view('vehicleManagement.migration.index');
+    }
+
+    public function register(Request $request): View
+    {
+        return view('vehicleManagement.vehicleList');
     }
 }

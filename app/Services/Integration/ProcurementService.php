@@ -8,7 +8,7 @@ use PDO;
 
 class ProcurementService
 {
-    public function generateDocument($requisitionType, $area): string
+    public function generateDocumentNumber($requisitionType, $area): string
     {
 
         $requisitionType = empty($requisitionType) ? 'seq_store_req' : '';

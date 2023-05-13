@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Article;
 use App\Models\reference\PurchaseOrders;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -46,4 +47,12 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
             ]);
         }
     }
+
+    public function fuelTypes(): JsonResponse
+    {
+        return response()->json([
+            'payload' => Article::where('group_code', '01')->get(['code', 'name'])
+        ]);
+    }
+
 }

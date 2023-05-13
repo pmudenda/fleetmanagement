@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\Requisitions\FuelRequisitionController;
@@ -9,10 +10,6 @@ use App\Http\Controllers\UserManagement\UsersController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
 use App\Http\Controllers\Workflow\WorkflowController;
-use App\Models\Article;
-use App\Models\vehiclemanagement\ChassisDetail;
-use App\Models\vehiclemanagement\VehicleHeader;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,9 +28,9 @@ Route::get('/', function () {
     return redirect(route('login'));
 });
 
-Route::get('/register', function () {
+/*Route::get('/register', function () {
     return view('auth.register');
-})->name('register');
+})->name('register');*/
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -61,6 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('user', function () {
             return view('UserManagement.viewUser');
+
         })->name('view.user');
 
         // user.store
@@ -162,21 +160,13 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('vehicle/details', [VehicleController::class, 'getDetails'])->name('requisition.vehicle.details');
 
-        Route::get('articles/fuels', function () {
-            return response()->json([
-                'payload' => Article::where('group_code', '01')->get(['code', 'name'])
-            ]);
-        })->name('fuel.types');
+        Route::get('articles/fuels', [ProcurementSystemIntegrationController::class,'fuelTypes'])->name('fuel.types');
 
         Route::get('/vehicle/list', [VehicleController::class, 'list'])->name('vehicles.list');
 
-        Route::get('/vehicles', function (Request $request) {
-            return view('vehicleManagement.vehicleList');
-        })->name('vehicle.edit');
+        Route::get('/vehicles', [VehicleController::class, 'register'])->name('vehicle.edit');
 
-        Route::get('/cleanup', function (Request $request) {
-            return view('vehicleManagement.migration.index');
-        })->name('vehicle.data.cleanup');
+        Route::get('/cleanup',[VehicleController::class, 'cleanUpWindow'])->name('vehicle.data.cleanup');
 
     });
 

@@ -7633,10 +7633,10 @@ svg {
     margin-bottom: 20px
 }
 
-.register-content .form-control {
+/*.register-content .form-control {
     height: 52px;
     font-size: 15px
-}
+}*/
 
 .password + .fa, .cPassword + .fa {
     top: 50%;
