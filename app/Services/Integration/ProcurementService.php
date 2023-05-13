@@ -27,7 +27,7 @@ class ProcurementService
                 'storesDocumentNumberGenerator',
                 ['ls_type' => trim($requisitionType), 'ls_area' => trim($area)],
                 PDO::PARAM_STR);*/
-            Log::info('Document Number ' . implode(',', $results));
+            Log::info($results);
             return ""; //->value;
         } catch (\Exception $e) {
             Log::error($e);
