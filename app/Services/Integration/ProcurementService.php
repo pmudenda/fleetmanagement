@@ -10,11 +10,18 @@ class ProcurementService
 {
     public function generateDocumentNumber(string $requisitionType, string $area): string
     {
-        Log::info(' Generating Document For ' . $requisitionType . ' and Area ' . $area);
-        //$result = DB::scalar("select storesDocumentNumberGenerator($requisitionType, $area) as value from dual");
-        $result = DB::executeFunction('storesDocumentNumberGenerator', ['ls_type' => trim($requisitionType), 'ls_area' => trim($area)], PDO::PARAM_STR);
-        //Log::info('Document Number ' . $result);
-        return "";// $result->value;
+        try {
+            Log::info(' Generating Document For ' . $requisitionType . ' and Area ' . $area);
+            $result = DB::selectOne("select storesDocumentNumberGenerator($requisitionType, $area) as value from dual");
+            /*$result = DB::executeFunction(
+                'storesDocumentNumberGenerator',
+                ['ls_type' => trim($requisitionType), 'ls_area' => trim($area)],
+                PDO::PARAM_STR);*/
+            //Log::info('Document Number ' . $result);
+            return $result->value;
+        } catch (\Exception $e) {
+            Log::error($e);
+        }
     }
 
 }
