@@ -873,7 +873,7 @@
 
                 const dataSet = document.querySelector('#odometer_reading').dataset;
                 tmsApp.asyncPostFormData(
-                    ['url'],
+                    dataSet['url'],
                     formData,
                     function (response) {
                         if (!response.success) {
