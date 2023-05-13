@@ -15,7 +15,8 @@ class ProcurementService
 
             $pdo = DB::getPdo();
             $stmt = $pdo->prepare("begin :result := storesDocumentNumberGenerator(:ls_type, :ls_area); end;");
-            $stmt->bindParam(':result', $result);
+            oci_bind_by_name($stmt,':result',$result);
+            //$stmt->bindParam(':result', $result);
             $stmt->bindParam(':ls_type', $doc_type);
             $stmt->bindParam(':ls_area', $area_code);
             $stmt->execute();
