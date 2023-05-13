@@ -11,7 +11,6 @@ use App\Http\Requests\ChassisDetailsPostRequest;
 use App\Http\Requests\CostingDetailsPost;
 use App\Http\Requests\EngineDetailsPost;
 use App\Http\Requests\VehicleHeaderRequest;
-use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\configurations\vehicle\ConfigVehicleBodyType;
 use App\Models\configurations\vehicle\ConfigVehicleBrand;
 use App\Models\configurations\vehicle\ConfigVehicleModel;
@@ -23,6 +22,7 @@ use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\CostAndValuation;
 use App\Models\vehiclemanagement\EngineDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
+use App\Services\BarCodes\BarcodeGenerationService;
 use App\Services\FileUploads\FileUploadService;
 use Carbon\Carbon;
 use Exception;
@@ -378,4 +378,37 @@ class OnBoardingService
             ],
             $data);
     }
+
+    public static function generateBarCode(VehicleHeader $record): string
+    {
+        $barCodeParams = [
+            'text' => $record->registration_number,
+            'size' => 50,
+            'orientation' => 'horizontal',
+            'code_type' => 'code128',
+            'print' => true,
+            'sizeFactor' => 1,
+            'filename' => $record->registration_number,
+            'filePath' => 'vehicleBarcodes',
+            'fileType' => '.jpeg',
+        ];
+
+        $codeService = new BarcodeGenerationService();
+        /*DB::table('VM_VEHICLE_HEADER')
+            ->where('id', '=', $record->id)
+            ->update(['barcode' => $barCodePath]);*/
+
+        return $codeService->renderBarcode(
+            $barCodeParams["text"],
+            $barCodeParams['size'],
+            $barCodeParams['orientation'],
+            $barCodeParams['code_type'], // code_type : code128,code39,code128b,code128a,,
+            $barCodeParams['print'],
+            $barCodeParams['sizeFactor'],
+            $barCodeParams['filename'] . $barCodeParams['fileType'],
+            $barCodeParams['filePath'],
+            $barCodeParams['fileType'],
+        )->filename($barCodeParams['filename'] . $barCodeParams['fileType']);
+    }
+
 }

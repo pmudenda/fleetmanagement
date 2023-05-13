@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\BarCodes;
 
 
 use App\Interfaces\BarCodePrint;

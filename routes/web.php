@@ -10,7 +10,8 @@ use App\Http\Controllers\UserManagement\UsersController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
 use App\Http\Controllers\Workflow\WorkflowController;
-use App\Services\DeviceRegistrationService;
+use App\Models\vehiclemanagement\VehicleHeader;
+use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -149,7 +150,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('post-body-details', [VehicleOnBoardingController::class, 'storeBodyDetails'])
                 ->name('vehicle.body.detail');
 
-            Route::get('verify/document-number',[VehicleOnBoardingController::class, "validateVehicleIdentifiers"])
+            Route::get('verify/document-number', [VehicleOnBoardingController::class, "validateVehicleIdentifiers"])
                 ->name('document.number.validation');
         });
 
@@ -157,13 +158,13 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('vehicle/details', [VehicleController::class, 'getDetails'])->name('requisition.vehicle.details');
 
-        Route::get('articles/fuels', [ProcurementSystemIntegrationController::class,'fuelTypes'])->name('fuel.types');
+        Route::get('articles/fuels', [ProcurementSystemIntegrationController::class, 'fuelTypes'])->name('fuel.types');
 
         Route::get('/vehicle/list', [VehicleController::class, 'list'])->name('vehicles.list');
 
         Route::get('/vehicles', [VehicleController::class, 'register'])->name('vehicle.edit');
 
-        Route::get('/cleanup',[VehicleController::class, 'cleanUpWindow'])->name('vehicle.data.cleanup');
+        Route::get('/cleanup', [VehicleController::class, 'cleanUpWindow'])->name('vehicle.data.cleanup');
 
     });
 
@@ -176,7 +177,9 @@ Route::get('barcodes', function (Request $request) {
         return "No Data Supplied";
     }
 
-    $barCodeImagePath = DeviceRegistrationService::generateBarCode(new Device(['serial_number' => "ADD 5952"]));
+    $barCodeImagePath = OnBoardingService::generateBarCode(new VehicleHeader(
+            ['registration_number' => $request->get('data')])
+    );
     return '<img alt="testing" src="' . $barCodeImagePath . '"/>';
 })->name('barcode.generate');
 
