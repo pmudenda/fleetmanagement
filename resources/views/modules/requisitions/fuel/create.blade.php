@@ -882,7 +882,7 @@
                             //document.querySelector('#submitRequisitionBtn').setAttribute('disabled', 'disabled');
                             tmsApp.showToast(response['message'], 'error');
                         }else{
-                            document.querySelector('#submitRequisitionBtn').setAttribute('disabled', 'disabled');
+                            document.querySelector('#submitRequisitionBtn').removeAttribute('disabled');
                         }
                     },
                     function (xhr) {
