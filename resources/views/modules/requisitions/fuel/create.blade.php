@@ -866,22 +866,25 @@
             $("[name='odometer_reading']").on('change', function () {
                 //setTimeout
                 const odometerReading = document.querySelector('#odometer_reading').value;
-                const numberPlate = document.querySelector('#odometer_reading').value;
+                const numberPlate = document.querySelector('#vehicle_registration').value;
                 let formData = new FormData();
                 formData.append('odometer_reading', odometerReading);
                 formData.append('vehicle_registration', numberPlate);
 
                 const dataSet = document.querySelector('#odometer_reading').dataset;
+                window.loaderMessage = "Validating Odometer, Please Wait !";
                 tmsApp.asyncPostFormData(
                     dataSet['url'],
                     formData,
                     function (response) {
+                        window.loaderMessage = "Please wait...";
                         if (!response.success) {
                             removeSubmissionAndDetailsOptions();
                             tmsApp.showToast(response['message'], 'error');
                         }
                     },
-                    function () {
+                    function (xhr) {
+                        window.loaderMessage = "Please wait...";
                     }
                 );
 
