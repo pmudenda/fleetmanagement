@@ -51,7 +51,7 @@
                                                             <div class="input-group">
                                                                 <input type="text"
                                                                        data-action="{{route('requisition.vehicle.details')}}"
-                                                                       class="form-control form-control-sm"
+                                                                       class="form-control form-control-sm number_input"
                                                                        autocapitalize="characters"
                                                                        id="vehicle_registration"
                                                                        placeholder="Vehicle Reg e.g AAB 6757"
@@ -670,7 +670,7 @@
             }
 
             $('#vehicle_registration').on('keyup paste enter', function () {
-                if (this.value && this.value.replace('_', '').length < 8) {
+                if (!this.value || this.value.replace('_', '').length < 8) {
                     return;
                 }
                 setTimeout(function () {
@@ -687,6 +687,9 @@
                 findVehicle();
             });
 
+            $(document).on('keypress', '.number_input', function (event) {
+                tmsApp.numberOnly(event);
+            })
 
             Inputmask({
                 "mask": "AAA 9999"
