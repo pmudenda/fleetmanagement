@@ -58,7 +58,7 @@ class FuelRequisitionController extends Controller
         return response()->json([
             'success' => false,
             'valid' => $valid,
-            'message' => SystemMessages::valid,
+            'message' => $valid ? SystemMessages::valid : SystemMessages::InvalidOdometer,
             'requestPayload' => $request->all()
         ]);
     }

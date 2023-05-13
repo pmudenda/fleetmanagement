@@ -870,7 +870,7 @@
                 let formData = new FormData();
                 formData.append('odometer_reading', odometerReading);
                 formData.append('vehicle_registration', numberPlate);
-
+                document.querySelector('#submitRequisitionBtn').setAttribute('disabled', 'disabled');
                 const dataSet = document.querySelector('#odometer_reading').dataset;
                 window.loaderMessage = "Validating Odometer, Please Wait !";
                 tmsApp.asyncPostFormData(
@@ -879,8 +879,10 @@
                     function (response) {
                         window.loaderMessage = "Please wait...";
                         if (!response.success) {
-                            removeSubmissionAndDetailsOptions();
+                            //document.querySelector('#submitRequisitionBtn').setAttribute('disabled', 'disabled');
                             tmsApp.showToast(response['message'], 'error');
+                        }else{
+                            document.querySelector('#submitRequisitionBtn').setAttribute('disabled', 'disabled');
                         }
                     },
                     function (xhr) {
