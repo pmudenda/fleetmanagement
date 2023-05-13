@@ -179,6 +179,7 @@ class BarcodeGenerationService extends BarCodePrint
                 $chksum = ($chksum + ($code_values[$activeKey] * $X));
 
             }
+
             $this->code_string .= $code_array[$code_keys[($chksum - (intval($chksum / 103) * 103))]];
 
             $this->code_string = "211214" . $this->code_string . "2331112";
@@ -344,9 +345,7 @@ class BarcodeGenerationService extends BarCodePrint
     {
 
         if (!is_string($this->code_type)) {
-
             throw new \RuntimeException("Code type {$this->code_type} must be string");
-
         }
 
         if (strtolower($this->code_type) == "code39") {
@@ -382,7 +381,6 @@ class BarcodeGenerationService extends BarCodePrint
         }
 
         throw new \RuntimeException("Invalid {$this->code_type} type");
-
     }
 
     /**
@@ -621,7 +619,7 @@ class BarcodeGenerationService extends BarCodePrint
 
         if ($this->print) {
 
-            imagestring($image, 5, 31, $img_height, $this->text, $black);
+            imagestring($image, 5, 31, $img_height, "Reg No. ".$this->text, $black);
 
         }
 
@@ -658,10 +656,9 @@ class BarcodeGenerationService extends BarCodePrint
      * @param string $sizeFactor
      * @return BarcodeGenerationService
      */
-    public function renderBarcode($text, $size, $orientation, $code_type, $print, $sizeFactor, $filename, $filepath = "", $fileType = ".jpeg")
+    public function renderBarcode($text, $size, $orientation, $code_type, $print, $sizeFactor,
+                                  $filename, $filepath = "", $fileType = ".jpeg")
     {
-
-
         $this->text = $text;
 
         $this->size = $size;
@@ -701,8 +698,4 @@ class BarcodeGenerationService extends BarCodePrint
         return "deviceBarcodes/" . $this->filename . $this->fileType;
     }
 
-    protected function storeAs($path): string
-    {
-        return public_path($path);
-    }
 }

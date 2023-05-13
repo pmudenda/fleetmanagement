@@ -669,7 +669,7 @@
                 }
             }
 
-            $('#vehicle_registration').on('keyup, paste', function () {
+            $('#vehicle_registration').on('keyup paste enter', function () {
                 if (this.value && this.value.length < 8) {
                     return;
                 }
