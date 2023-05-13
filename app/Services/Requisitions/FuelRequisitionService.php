@@ -220,9 +220,9 @@ class FuelRequisitionService
 
         $assignment = Assignment::where('vehicle_header_id', '=', $vehicle->id)->first();
 
-        $responsibleHead = User::where('staff_no', '=', $assignment->vehicleHolder)->first();
+        $responsibleHead = User::where('staff_no', '=', $assignment->responsible_head_id)->first();
 
-        if ($responsibleHead->con_st_code != StatusHelper::activeUser()) {
+        if (empty($responsibleHead) || $responsibleHead->con_st_code != StatusHelper::activeUser()) {
             throw new FuelRequisitionException(ErrorMessages::responsibleUserNotActive, 0);
         }
     }
