@@ -10,6 +10,7 @@ use App\Http\Controllers\UserManagement\UsersController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
 use App\Http\Controllers\Workflow\WorkflowController;
+use App\Services\DeviceRegistrationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,10 +28,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect(route('login'));
 });
-
-/*Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');*/
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -172,5 +169,15 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/workflow/approve', [WorkflowController::class, 'approve'])->name('workflow.approve');
 });
+
+Route::get('barcodes', function (Request $request) {
+
+    if (!$request->has('data')) {
+        return "No Data Supplied";
+    }
+
+    $barCodeImagePath = DeviceRegistrationService::generateBarCode(new Device(['serial_number' => "ADD 5952"]));
+    return '<img alt="testing" src="' . $barCodeImagePath . '"/>';
+})->name('barcode.generate');
 
 
