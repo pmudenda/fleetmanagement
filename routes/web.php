@@ -180,7 +180,7 @@ Route::get('barcodes', function (Request $request) {
     $barCodeImagePath = OnBoardingService::generateBarCode(new VehicleHeader(
             ['registration_number' => $request->get('data')])
     );
-    return '<img alt="testing" src="' . $barCodeImagePath . '"/>';
+    return '<img alt="testing" src="'.asset('storage/'.$barCodeImagePath).'"/>';
 })->name('barcode.generate');
 
 

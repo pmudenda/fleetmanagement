@@ -543,27 +543,28 @@ class BarcodeGenerationService extends BarCodePrint
          */
         if (empty($this->filepath)) {
             // Draw barcode to the screen or save in a file
-            $path = public_path() . "/" . "deviceBarcodes";
+            /*$path = public_path() . "/" . "deviceBarcodes";
             if (!file_exists($path)) {
                 mkdir($path);
-            }
+            }*/
 
             if ($this->fileType === '.jpeg') {
                 header('Content-Type: image/jpeg');
-                imagejpeg($this->prepareImage(), $path . "/" . $this->filename);
+                imagejpeg($this->prepareImage(), public_path('storage' . "/" . $this->filename));
             } else {
-                imagepng($this->prepareImage(), $path . "/" . $this->filename);
+                imagepng($this->prepareImage(), public_path('storage' . "/" . $this->filename));
             }
 
         } else {
-            if (!file_exists(public_path() . "/" . $this->filepath)) {
-                mkdir(public_path() . "/" . $this->filepath);
+            if (!file_exists(public_path('storage/' . $this->filepath))) {
+                mkdir(public_path('storage/' . $this->filepath));
             }
 
             if ($this->fileType === '.jpeg') {
-                imagejpeg($this->prepareImage(), public_path() . "/" . $this->filepath . "/" . $this->filename);
+                //Storage::disk('local')->put(public_path() )
+                imagejpeg($this->prepareImage(), public_path('storage/' . $this->filepath . "/" . $this->filename));
             } else {
-                imagepng($this->prepareImage(), public_path() . "/" . $this->filepath . "/" . $this->filename);
+                imagepng($this->prepareImage(), public_path('storage/'. $this->filepath . "/" . $this->filename));
             }
         }
 
