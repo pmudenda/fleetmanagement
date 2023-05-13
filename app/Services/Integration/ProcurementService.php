@@ -14,10 +14,10 @@ class ProcurementService
         $requisitionType = empty($requisitionType) ? 'seq_store_req' : '';
 
         Log::info(' Generating Document For '. $requisitionType .' and Area ' .$area);
-        //$result = DB::selectOne("select storesDocumentNumberGenerator($requisitionType, $area) as value from dual");
-        $result = DB::executeFunction('storesDocumentNumberGenerator', ['ls_type' => $requisitionType, 'ls_area'=> $area], PDO::PARAM_STR);
+        $result = DB::raw("select storesDocumentNumberGenerator($requisitionType, $area) as value from dual");
+        //$result = DB::executeFunction('storesDocumentNumberGenerator', ['ls_type' => $requisitionType, 'ls_area'=> $area], PDO::PARAM_STR);
         Log::info('Document Number ', $result);
-        return $result->value;
+        return $result;//->value;
     }
 
 }
