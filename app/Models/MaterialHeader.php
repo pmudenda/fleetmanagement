@@ -24,6 +24,7 @@ class MaterialHeader extends Model
         'town_to',
         'date_created',
         'created_by',
+        'requested_by_id',
         'requested_by',
         'comments',
         'status',

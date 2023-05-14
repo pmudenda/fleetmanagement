@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Article;
+use App\Models\reference\Article;
 use App\Models\reference\PurchaseOrders;
 use Exception;
 use Illuminate\Http\JsonResponse;

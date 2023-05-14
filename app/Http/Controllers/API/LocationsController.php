@@ -1,19 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\OrganizationStructure;
-
+namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
-use App\Models\reference\Areas;
+use App\Models\reference\LocationsModel;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
-class BusinessAreasController extends Controller
+class LocationsController extends Controller
 {
-    public function get(): JsonResponse
+    public function index(): JsonResponse
     {
         try {
-            $data = Areas::get();
+            $month = 60 * 60 * 24 * 30;
+            $data = cache()->remember('location', $month, function () {
+                return LocationsModel::get();
+            });
+
             return response()->json([
                 'state' => 'success',
                 'payload' => $data

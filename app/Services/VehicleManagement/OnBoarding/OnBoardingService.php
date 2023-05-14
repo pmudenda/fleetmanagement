@@ -15,7 +15,7 @@ use App\Models\configurations\vehicle\ConfigVehicleBodyType;
 use App\Models\configurations\vehicle\ConfigVehicleBrand;
 use App\Models\configurations\vehicle\ConfigVehicleModel;
 use App\Models\general\OrganizationalUnits;
-use App\Models\reference\BusinessAreas;
+use App\Models\reference\Areas;
 use App\Models\vehiclemanagement\Assignment;
 use App\Models\vehiclemanagement\BodyAndWeightDetail;
 use App\Models\vehiclemanagement\ChassisDetail;
@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\DB;
 class OnBoardingService
 {
     private FileUploadService $fileUploadService;
+    private BarcodeGenerationService $codeService;
 
     public function __construct(FileUploadService $fileUploadService)
     {
@@ -337,7 +338,7 @@ class OnBoardingService
         $bu_code = $businessUnitParts[0];
         $bu_name = $businessUnitParts[1];
 
-        $businessArea = BusinessAreas::where('area', '=', trim($request->input('businessArea')))
+        $businessArea = Areas::where('area', '=', trim($request->input('businessArea')))
             //->where('type', '=', 'businessAreas')
             ->first();
 
@@ -359,6 +360,7 @@ class OnBoardingService
             'created_name' => $user->name,
             'cost_center_name' => $code_center_name,
             'business_unit' => $bu_code,
+            'business_unit_name' => $bu_name,
             'business_area_name' => $businessArea->name
         ];
 
@@ -393,12 +395,7 @@ class OnBoardingService
             'fileType' => '.jpeg',
         ];
 
-        $codeService = new BarcodeGenerationService();
-        /*DB::table('VM_VEHICLE_HEADER')
-            ->where('id', '=', $record->id)
-            ->update(['barcode' => $barCodePath]);*/
-
-        return $codeService->renderBarcode(
+        $barCodePath = $codeService->renderBarcode(
             $barCodeParams["text"],
             $barCodeParams['size'],
             $barCodeParams['orientation'],
@@ -409,6 +406,12 @@ class OnBoardingService
             $barCodeParams['filePath'],
             $barCodeParams['fileType'],
         )->filename($barCodeParams['filename'] . $barCodeParams['fileType']);
+
+        DB::table('VM_VEHICLE_HEADER')
+            ->where('id', '=', $record->id)
+            ->update(['barcode' => $barCodePath]);
+
+        return $barCodePath;
     }
 
 }
