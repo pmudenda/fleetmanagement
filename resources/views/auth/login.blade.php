@@ -9,7 +9,7 @@
                 <h1 class="display-4 mt-0 font-weight-semi-bold">
                     FLEET MASTER
                 </h1>
-                <small>A TRANSPORT MANAGEMENT SYSTEM</small>
+                <small>A VEHICLE TRACKING & TRANSPORT MANAGEMENT SYSTEM</small>
             </div>
         </div>
         <div class="form-group">

@@ -118,44 +118,14 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview pl-3">
-
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-plus nav-icon"></i>
-                                        <p>
-                                            Job Card
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview pl-4">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('new.fuel.requisition') }}">
-                                                <i class="fas fa-plus nav-icon"></i>
-                                                <p>New</p>
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('list.fuel.requisition') }}">
-                                                <i class="fas fa-list nav-icon"></i>
-                                                <p>List</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Vehicle Requisition</p>
-                                    </a>
-                                </li>
-
                                 <li class="nav-item">
                                     <a href="{{route('maintenance.requisition')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Maintenance Requisition</p>
+                                        <i class="fas fa-plus nav-icon"></i>
+                                        <p>
+                                            Job Card
+                                        </p>
                                     </a>
+
                                 </li>
                             </ul>
                         </li>

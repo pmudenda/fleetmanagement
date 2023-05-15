@@ -3,7 +3,6 @@
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\Requisitions\FuelRequisitionController;
 use App\Http\Controllers\Security\PasswordResetController;
@@ -13,6 +12,8 @@ use App\Http\Controllers\UserManagement\UsersController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
 use App\Http\Controllers\Workflow\WorkflowController;
+use App\Http\Controllers\WorkshopManagement\MaintenanceController;
+use App\Http\Controllers\WorkshopManagement\WorkshopController;
 use App\Models\vehiclemanagement\VehicleHeader;
 use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
 use Illuminate\Http\Request;
@@ -163,15 +164,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'workshop-management'], function () {
 
-        Route::get('workshops/list', function () {
-            return view('');
-        })->name('workshop.list');
+        Route::get('workshops/list',[WorkshopController::class, 'index'])->name('workshop.list');
 
         Route::get('workshop/section', function () {
             return view('');
         })->name('workshop.sections');
 
         Route::get('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('maintenance.requisition');
+        Route::post('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
 
     });
 });

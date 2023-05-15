@@ -1859,6 +1859,7 @@ function checkOnboardingHeaderStatus() {
     });
 
     $('#purchase_order_number').on('keyup paste', function () {
+        this.value = this.value.toLocaleUpperCase();
         if (!this.value || this.value.length < 12) {
             return;
         }
@@ -1871,7 +1872,6 @@ function checkOnboardingHeaderStatus() {
     });
 
     $(document).on('change', '.weight_control', function () {
-        console.log(this.name);
         vehicleWeightValidations(this)
     });
 
