@@ -1336,7 +1336,7 @@ function checkOnboardingHeaderStatus() {
             formData,
             function (response_data) {
                 if (response_data.state === 'success') {
-                    let supplierData = response_data['payload'];
+                    let supplierData = response_data['payload'][0];
                     // document_no "C01CR1000983"
                     if (supplierData['po_status_description'] !== 'ISSUED') {
                         let message = 'The Purchase Order ' + supplierData['document_no']
