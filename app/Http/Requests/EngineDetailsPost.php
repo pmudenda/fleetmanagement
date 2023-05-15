@@ -25,7 +25,7 @@ class EngineDetailsPost extends FormRequest
         return [
             'numberOfCylinders' => 'required|numeric',
             'engineCapacity' => 'required|numeric',
-            'fuelTypes' => 'required|string|max:4',
+            'fuelTypes' => 'required|string',
             'fuelConsumption' => 'required|numeric',
             'engineType' => 'required|string|max:100',
             'claimedEnginePower' => 'required|numeric',

@@ -1053,6 +1053,7 @@ function checkOnboardingHeaderStatus() {
                 let location = selectElem.attr('data-value');
                 console.log(location);
                 selectElem.val(location);
+                selectElem.trigger('change');
             })
             .catch(function (error) {
                 // notify of error
@@ -1566,7 +1567,7 @@ function checkOnboardingHeaderStatus() {
                 required: 'Fuel Consumption is required'
             },
             'engineType': {
-                required: 'Engine Type is required'
+                required: 'Engine Code is required'
             },
         }
     );
