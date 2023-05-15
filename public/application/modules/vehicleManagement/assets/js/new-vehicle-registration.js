@@ -1353,6 +1353,7 @@ function checkOnboardingHeaderStatus() {
                     let selectElem = $('[name="supplierName"]');
                     selectElem.val(supplierData['code_supplier']);
                     selectElem.trigger('change');
+                    selectElem.attr('readonly', true).trigger('change');
                     document.querySelector('#purchase_order_number').value = supplierData['document_no'];
                 } else {
                     tmsApp.showToast(response_data['message'], 'error');
@@ -1517,6 +1518,10 @@ function checkOnboardingHeaderStatus() {
         e.preventDefault();
         e.stopPropagation();
         submitChassisDetails(e.currentTarget);
+    });
+
+    $('[name="supplierName"]').on('change', function (e) {
+        document.querySelector("#purchase_order_number").value = '';
     });
 
     tmsApp.appFormValidator('form[name="engineDetailsForm"]',
@@ -1793,7 +1798,7 @@ function checkOnboardingHeaderStatus() {
         submitAssignmentDetails();
     });
 
-    $('#purchase_order_number').on('keyup', function () {
+    $('#purchase_order_number').on('keyup paste', function () {
         if (this.value && this.value.length < 12) {
             return;
         }

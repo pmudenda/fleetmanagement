@@ -29,6 +29,7 @@ class CostingDetailsPost extends FormRequest
             'costPrice' => 'required|numeric',
             'premium' => 'required|numeric',
             'yearOfPurchase' => 'required|numeric',
+            'supplierName' => 'required|string',
         ];
     }
 }

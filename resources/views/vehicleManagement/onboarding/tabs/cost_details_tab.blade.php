@@ -12,30 +12,14 @@
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-5">
                 <div class="container-fluid pl-0">
-                    <div class="row">
+                 {{--   <div class="row">
                         <div class="form-group row pl-0">
-                            <label class="col-xs-12 col-sm-6 col-md-5 col-lg-5 app-field-label"
-                                   for="staff_no">Purchase Order Number :
-                            </label>
+
                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                <div class="input-group">
-                                    <input type="text"
-                                           data-action="{{route('verify.purchase.order')}}"
-                                           class="form-control form-control-sm"
-                                           id="purchase_order_number"
-                                           placeholder=""
-                                           name="purchase_order_number">
-                                    <div class="input-group-addon">
-                                        <button type="button" id="poSearchBtn"
-                                                name="userSearchBtn"
-                                                class="btn btn-primary btn-sm border-radius-0">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
-                    </div>
+                    </div>--}}
 
                     {{--<div class="row">
                         <div class="form-group row">
@@ -76,6 +60,30 @@
     </div>
     <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
         <tbody>
+        <tr>
+            <td class="frappe-control ">
+                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-5 app-field-label"
+                       for="staff_no">Purchase Order Number :
+                </label>
+            </td>
+            <td>
+                <div class="input-group">
+                    <input type="text"
+                           data-action="{{route('verify.purchase.order')}}"
+                           class="form-control form-control-sm"
+                           id="purchase_order_number"
+                           placeholder=""
+                           name="purchase_order_number">
+                    <div class="input-group-addon">
+                        <button type="button" id="poSearchBtn"
+                                name="userSearchBtn"
+                                class="btn btn-primary btn-sm border-radius-0">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </td>
+        </tr>
         <tr>
             <td class="frappe-control ">
                 <label for="supplierName" class="control-label reqd"
@@ -226,7 +234,7 @@
             <td class="frappe-control ">
                 <label for="costOfLicense" class="control-label reqd"
                        style="padding-right: 0px;">
-                    Cost Of License (Road Tax + Fitness):
+                    Cost Of License (Road Tax):
                 </label>
             </td>
             <td>

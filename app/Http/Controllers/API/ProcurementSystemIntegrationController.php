@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Constants\ErrorMessages;
 use App\Models\reference\Article;
 use App\Models\reference\PurchaseOrders;
 use Exception;
@@ -13,22 +14,36 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
 {
     public function verifyPurchaseOrder(Request $request): JsonResponse
     {
-        $document_number = $request->get('document_number');
-        if (empty($document_number)) {
+
+        try {
+            $document_number = $request->get('document_number');
+            if (empty($document_number)) {
+                return response()->json([
+                    'state' => 'success',
+                    'payload' => [],
+                    'message' => 'Bad request, data missing'
+                ]);
+            }
+            $purchaseOrder = PurchaseOrders::where('document_no', '=', $document_number)->get();
+            if (empty($purchaseOrder)) {
+                return response()->json([
+                    'state' => 'false',
+                    'payload' => [],
+                    'message' => 'Invalid Purchase Order Number'
+                ]);
+            }
             return response()->json([
                 'state' => 'success',
+                'payload' => $purchaseOrder,
+                'message' => 'Data Retrieved'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'state' => 'false',
                 'payload' => [],
-                'message' => 'Bad request, data missing'
+                'message' => ErrorMessages::internalServerError
             ]);
         }
-
-        $purchaseOrder = PurchaseOrders::where('document_no', '=', $document_number)->get();
-
-        return response()->json([
-            'state' => 'success',
-            'payload' => $purchaseOrder,
-            'message' => 'Data Retrieved'
-        ]);
     }
 
     public function getSuppliers(): JsonResponse
@@ -43,7 +58,8 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
             Log::error($e);
             return response()->json([
                 'state' => 'failure',
-                'payload' => []
+                'payload' => [],
+                'message' => ErrorMessages::internalServerError
             ]);
         }
     }
