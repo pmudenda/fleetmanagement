@@ -1029,7 +1029,7 @@ function checkOnboardingHeaderStatus() {
                 }
 
                 let locations = response['payload'];
-                tmsApp.populateDropDownList(selectElem, locations, "location", ["location"], "Select Location");
+                tmsApp.populateDropDownList(selectElem, locations, "location", ["location"], "");
 
                 let location = selectElem.attr('data-value');
                 console.log(location);
@@ -1067,7 +1067,7 @@ function checkOnboardingHeaderStatus() {
                 app.supplierList = response['payload'];
 
                 let suppliers = response['payload'];
-                tmsApp.populateDropDownList(selectElem, suppliers, "code_supplier", ["code_supplier", "name_of_supplier"], "--Select Supplier--");
+                tmsApp.populateDropDownList(selectElem, suppliers, "code_supplier", ["code_supplier", "name_of_supplier"], " ==> ", '--Select Supplier--');
 
                 let supplier = selectElem.attr('data-value');
                 if (supplier) {

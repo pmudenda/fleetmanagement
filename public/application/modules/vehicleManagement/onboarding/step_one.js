@@ -478,7 +478,7 @@ let app = new Vue({
                 }
 
                 let locations = response['payload'];
-                tmsApp.populateDropDownList(selectElem, locations, "location", ["location"], "Select Location")
+                tmsApp.populateDropDownList(selectElem, locations, "location", ["location"], "")
             })
             .catch(function (error) {
                 // notify of error
