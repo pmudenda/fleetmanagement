@@ -245,7 +245,7 @@
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
                                 <select
-                                    data-value="{{$vehicle->location}}"
+                                    data-value="{{$vehicle->location_name}}"
                                     required
                                     class="form-control"
                                     name="vehicleLocation"
