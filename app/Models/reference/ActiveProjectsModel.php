@@ -10,8 +10,7 @@ class ActiveProjectsModel extends Model
 {
     use HasFactory;
 
-    //table name
-    protected $table = 'active_projects_view';
+    protected $table = 'SPMS_PROJECTS_VIEW';
 
     protected $fillable = [
         'period',
