@@ -1567,7 +1567,7 @@ function checkOnboardingHeaderStatus() {
                 required: 'Fuel Consumption is required'
             },
             'engineType': {
-                required: 'Engine Type is required'
+                required: 'Engine Code is required'
             },
         }
     );

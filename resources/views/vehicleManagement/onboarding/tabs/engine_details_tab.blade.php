@@ -455,17 +455,14 @@
                     <div class="control-input-wrapper">
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
-                                <div class="awesomplete">
-                                    <input type="text"
-                                           title="The tyre make e.g Good Year"
-                                           class="input-with-feedback form-control bold view_mode"
-                                           maxlength="140"
-                                           id="tyreBrand"
-                                           name="tyreBrand"
-                                           v-model="otherDetails.tyreBrand"
-                                           placeholder="e.g Good Year"/>
-                                </div>
-
+                                <input type="text"
+                                       title="The tyre make e.g Good Year"
+                                       class="form-control view_mode"
+                                       maxlength="140"
+                                       id="tyreBrand"
+                                       name="tyreBrand"
+                                       v-model="otherDetails.tyreBrand"
+                                       placeholder="e.g Good Year"/>
                             </div>
                         </div>
 
