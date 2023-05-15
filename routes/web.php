@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\Requisitions\FuelRequisitionController;
 use App\Http\Controllers\Security\PasswordResetController;
@@ -41,7 +42,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'user-management'], function () {
 
-        Route::get('user/profile',[UsersController::class, 'profile'])->name('profile');
+        Route::get('user/profile', [UsersController::class, 'profile'])->name('profile');
 
         Route::get('users/new', [UsersController::class, 'create'])->name('users.new');
 
@@ -158,6 +159,21 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::post('/workflow/approve', [WorkflowController::class, 'approve'])->name('workflow.approve');
+
+
+    Route::group(['prefix' => 'workshop-management'], function () {
+
+        Route::get('workshops/list', function () {
+            return view('');
+        })->name('workshop.list');
+
+        Route::get('workshop/section', function () {
+            return view('');
+        })->name('workshop.sections');
+
+        Route::get('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('maintenance.requisition');
+
+    });
 });
 
 Route::get('barcodes', function (Request $request) {

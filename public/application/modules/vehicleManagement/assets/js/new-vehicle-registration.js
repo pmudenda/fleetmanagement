@@ -335,6 +335,7 @@ let app = new Vue({
             );
         });
 
+
         $(document).on('click', '.clearImage', function (event) {
             let btn = this;
             Swal.fire({
@@ -373,8 +374,51 @@ let app = new Vue({
 
                 $(input).closest('tr').find('input[data-emp="name"]').val(names[0].name)
 
+            });
+
+        $("#myPdf").on("change", function(e){
+            var file = e.target.files[0]
+            if(file.type == "application/pdf"){
+                var fileReader = new FileReader();
+                fileReader.onload = function() {
+                    var pdfData = new Uint8Array(this.result);
+                    // Using DocumentInitParameters object to load binary data.
+                    var loadingTask = pdfjsLib.getDocument({data: pdfData});
+                    loadingTask.promise.then(function(pdf) {
+                        console.log('PDF loaded');
+
+                        // Fetch the first page
+                        var pageNumber = 1;
+                        pdf.getPage(pageNumber).then(function(page) {
+                            console.log('Page loaded');
+
+                            var scale = 1.5;
+                            var viewport = page.getViewport({scale: scale});
+
+                            // Prepare canvas using PDF page dimensions
+                            var canvas = $("#pdfViewer")[0];
+                            var context = canvas.getContext('2d');
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
+
+                            // Render PDF page into canvas context
+                            var renderContext = {
+                                canvasContext: context,
+                                viewport: viewport
+                            };
+                            var renderTask = page.render(renderContext);
+                            renderTask.promise.then(function () {
+                                console.log('Page rendered');
+                            });
+                        });
+                    }, function (reason) {
+                        // PDF loading error
+                        console.error(reason);
+                    });
+                };
+                fileReader.readAsArrayBuffer(file);
             }
-        )
+        });
     },
 
     methods: {
@@ -1337,8 +1381,9 @@ function checkOnboardingHeaderStatus() {
             function (response_data) {
                 if (response_data.state === 'success') {
                     let supplierData = response_data['payload'][0];
+
                     // document_no "C01CR1000983"
-                    if (supplierData['po_status_description'] !== 'ISSUED') {
+                    if (['CLOSED', 'ISSUED'].indexOf(supplierData['po_status_description']) > 0) {
                         let message = 'The Purchase Order ' + supplierData['document_no']
                             + ' for supplier ' + supplierData['name_of_supplier']
                             + ' can not be used as it is in ' + supplierData['po_status_description']
@@ -1354,6 +1399,12 @@ function checkOnboardingHeaderStatus() {
                     selectElem.val(supplierData['code_supplier']);
                     selectElem.trigger('change');
                     selectElem.attr('readonly', true).trigger('change');
+
+                    let costPriceInput = $('[name="costPrice"]');
+
+                    costPriceInput.val(tmsApp.formatMoney(supplierData['price'], 2));
+                    selectElem.attr('readonly', true);
+
                     document.querySelector('#purchase_order_number').value = supplierData['document_no'];
                 } else {
                     tmsApp.showToast(response_data['message'], 'error');
@@ -1800,15 +1851,15 @@ function checkOnboardingHeaderStatus() {
 
     $('[name="poSearchBtn"]').on('click', function (e) {
         let  poNumber = $('#purchase_order_number').value;
-        if (poNumber && poNumber < 12) {
-            toastr.warning('Purchase order number is invalid');
+        if (!poNumber || poNumber < 12) {
+            toastr.warning('Invalid Purchase Order number');
             return;
         }
         getPurchaseOrderDetails();
     });
 
     $('#purchase_order_number').on('keyup paste', function () {
-        if (this.value && this.value.length < 12) {
+        if (!this.value || this.value.length < 12) {
             return;
         }
         getPurchaseOrderDetails();
