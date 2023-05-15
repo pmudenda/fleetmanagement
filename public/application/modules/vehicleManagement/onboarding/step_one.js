@@ -4,7 +4,7 @@ window.removeSpaces = function (value) {
     return value.replace(/\s/g, '');
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
     Inputmask({
         "mask": "AAA 9999"
     }).mask("#registrationNumber");
@@ -107,12 +107,8 @@ let app = new Vue({
 
         this.vehicleHeaderForm = document.querySelector('#tms_vehicle_header_form');
 
-        $(document).on('keyup', '#registrationNumber', function () {
-            //this.value = this.value.toLocaleUpperCase();
-        });
-
         $(document).on('keyup', '#vehicleLocation', function () {
-            if(!this.value){
+            if (!this.value) {
                 this.focus();
             }
             this.value = this.value.toLocaleUpperCase();
@@ -123,19 +119,7 @@ let app = new Vue({
             this.isHeaderSaved = true;
         }
 
-        //this.initValidators();
-
-        /*Inputmask({
-            "mask": "999/99/A99"
-        }).mask(".tyre-size");
-
-        Inputmask("decimal", {
-            "rightAlignNumerics": false
-        }).mask("#chargeOutRate");*/
-
-        //this.vueCreateSelect2();
-
-        $(document).on('click', '[data-select="file"]', function () {
+        /*$(document).on('click', '[data-select="file"]', function () {
             let fileInput = $(this).closest('p').find('input[type="file"]');
             $(fileInput).trigger('click');
         });
@@ -190,7 +174,7 @@ let app = new Vue({
                 $(input).closest('tr').find('input[data-emp="name"]').val(names[0].name)
 
             }
-        )
+        )*/
     },
 
     methods: {
@@ -201,14 +185,14 @@ let app = new Vue({
                     "label": 'Motor Vehicle',
                     'code': 'MV'
                 },
-               /* {
-                    "label": 'Boat',
-                    'code': 'BT'
-                },
-                {
-                    "label": 'Trailer',
-                    'code': 'TR'
-                },*/
+                /* {
+                     "label": 'Boat',
+                     'code': 'BT'
+                 },
+                 {
+                     "label": 'Trailer',
+                     'code': 'TR'
+                 },*/
             ]
         },
 
@@ -218,16 +202,15 @@ let app = new Vue({
             document.querySelector('#bodyType').value = selectedBody?.id;
         },
 
-        formatMoney: function (event) {
-
+        /*formatMoney: function (event) {
             setTimeout(function () {
                 let formatted = accounting.formatMoney(event.target.value, 'ZMW ');
                 //tmsApp.formatMoney(event.target.value);
-                console.log('%c' + formatted, "color: #148f32");
+
                 app['chassisDetails'].chargeOutRate = formatted;
                 //document.querySelector('#'+event.target.id).value = formatted;
             }, 300);
-        },
+        },*/
 
         getBodyTypes: function () {
             fetch(document.querySelector('#bodyTypesEndpoint').value)
@@ -346,7 +329,7 @@ let app = new Vue({
             document.querySelector('#model_code').value = model?.model_code;
         },
 
-        userUnitChanged: function (user_unit) {
+        /*userUnitChanged: function (user_unit) {
 
             app.vehicleHeader.user_unit_code = user_unit?.code_unit;
             document.querySelector('[name="user_unit"]').value = user_unit?.code_unit;
@@ -367,7 +350,6 @@ let app = new Vue({
             }
 
 
-            console.log(business_unit_code);
 
             let filteredBusinessUnits = app.businessUnits.filter(function (bu) {
                 return bu.code_bu?.trim() === business_unit_code?.trim();
@@ -381,38 +363,7 @@ let app = new Vue({
             const val = businessUnitOfInterest['code_bu'] + ':' + businessUnitOfInterest['description'];
             $('[name="businessUnit"]').val(val);
             this.assignmentDetails.businessUnit = val;
-        },
-
-        validateRegistrationNumber: function () {
-            let ref = app['vehicleHeader']['registration_number'] ?? document.querySelector('#registrationNumber').value
-            fetch(document.querySelector('#documentValidationUrl').value +
-                '?method=registration_number&key=' + ref)
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, chassis number could not be verified')
-                        return;
-                    }
-
-                    if (response['payload'].validity) {
-                        console.log(response['payload'].validity);
-                        //response.data.payload.message
-                        let assetNumberInput = document.querySelector("#assetNumber");
-                        if (assetNumberInput) {
-                            assetNumberInput.value = window.removeSpaces(document.querySelector('#registrationNumber').value);
-                        }
-                    } else {
-                        toastr.error('Duplicate registration number, vehicle already registered')
-                    }
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
-                });
-        },
+        },*/
 
         vehicleBrandChanged(selectedValue) {
             this.vehicleHeader.brand_guid = selectedValue?.id?.toString().trim();
@@ -477,10 +428,63 @@ let app = new Vue({
                     }, 'success');
             },
             function (xhr, settings, errorThrown) {
-                console.log(errorThrown)
                 setTimeout(function () {
                     tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
                 }, 300)
+            });
+    }
+
+    function validateRegistrationNumber() {
+        let ref = document.querySelector('#registrationNumber').value
+        fetch(document.querySelector('#documentValidationUrl').value +
+            '?method=registration_number&key=' + ref)
+            .then(response => response.json())
+            .then(response => {
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, chassis number could not be verified')
+                    return;
+                }
+
+                if (response['payload'].validity) {
+
+                    toastr.success(response['payload'].message, 'Registration Number Validation')
+                    let assetNumberInput = document.querySelector("#assetNumber");
+                    if (assetNumberInput) {
+                        assetNumberInput.value = window.removeSpaces(document.querySelector('#registrationNumber').value);
+                    }
+                    document.querySelector("#submitBtn").removeAttribute('disabled')
+                } else {
+                    document.querySelector("#submitBtn").setAttribute('disabled', 'disabled')
+                    toastr.error('Duplicate registration number, vehicle already registered', 'Invalid Registration')
+                }
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Connection error. Could not retrieve data, some feature might not work.', 'Invalid Registration')
+            });
+    }
+
+     function getLocations() {
+        fetch(document.querySelector('#locationUrl').value)
+            .then(response => response.json())
+            .then(response => {
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, no data found')
+                    return;
+                }
+
+                tmsApp.populateDropDownList("#vehicleLocation", response['payload'],"location","location")
+                app.organizationalUnits = response['payload'];
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Connection error. Could not retrieve data, some feature might not work.')
             });
     }
 
@@ -537,11 +541,21 @@ let app = new Vue({
         postVehicleHeaderData();
     });
 
+    $('#registrationNumber').on('keyup paste enter', function () {
+        if (!this.value || this.value.replace('_', '').length < 8) {
+            return;
+        }
+        setTimeout(function () {
+            validateRegistrationNumber();
+        }, 300);
+    });
+
     let saveVehicleHeaderInformation = function (e) {
         e.preventDefault();
         this.postVehicleHeaderData();
     }
 
+    getLocations();
     new tmsApp.fileUploader().makeSingleFileUploader();
 
 })(window.tmsApp || {}, jQuery);

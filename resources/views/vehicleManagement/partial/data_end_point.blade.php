@@ -51,7 +51,8 @@
        id="suppliersList"
        value="{{route('suppliers.list')}}"/>
 
-
+<input type="hidden" id="locationUrl" name="locationUrl"
+       value="{{ route('locations') }}">
 
 {{--<input type="hidden" id="businessAreaEndpoint" name="businessAreaEndpoint"
        value="{{ route('business.areas') }}">

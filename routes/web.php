@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\Requisitions\FuelRequisitionController;
 use App\Http\Controllers\Security\PermissionsController;
@@ -30,34 +31,25 @@ Route::get('/', function () {
     return redirect(route('login'));
 });
 
+
+Route::get('logout', [HomeController::class, 'logout']);
+
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/home', function () {
-        return view('dashboard.home');
-    })->name('home');
+    Route::get('/home', [HomeController::class, 'dashboard'])->name('home');
 
     Route::group(['prefix' => 'user-management'], function () {
 
-        Route::get('user/profile', function (Request $request) {
-            $uuid = $request->uuid ?? '';
-            $email = $request->email ?? '';
-
-            if (empty($uuid)) {
-                $uuid = Auth()->user()->guid;
-                $email = Auth()->user()->email;
-            }
-            return view('UserManagement.user_profile')
-                ->with(['key' => $uuid, 'email' => $email]);
-        })->name('profile');
+        Route::get('user/profile',[UsersController::class, 'profile'])->name('profile');
 
         Route::get('users/new', [UsersController::class, 'create'])->name('users.new');
 
         Route::get('users/list', [UsersController::class, 'index'])->name('users.list');
 
-        Route::get('user', function () {
-            return view('UserManagement.viewUser');
-
-        })->name('view.user');
+        //Route::get('user', [function () {
+        //            return view('UserManagement.viewUser');
+        //
+        //        }])->name('view.user');
 
         // user.store
         Route::resource('/user', UsersController::class);
@@ -180,7 +172,7 @@ Route::get('barcodes', function (Request $request) {
     $barCodeImagePath = OnBoardingService::generateBarCode(new VehicleHeader(
             ['registration_number' => $request->get('data')])
     );
-    return '<img alt="testing" src="'.asset('storage/'.$barCodeImagePath).'"/>';
+    return '<img alt="testing" src="' . asset('storage/' . $barCodeImagePath) . '"/>';
 })->name('barcode.generate');
 
 

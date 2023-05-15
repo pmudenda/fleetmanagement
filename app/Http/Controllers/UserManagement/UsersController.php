@@ -245,8 +245,8 @@ class UsersController extends Controller
 
     public function search(Request $request): JsonResponse
     {
-
         try {
+
             $searchParam = $request->searchCriteria;
             $apiURL = 'http://dev.zesco.co.zm/ezesco_forms/public/api/users';
             //$apiURL = 'http://127.0.0.1:3001/ezesco_forms/public/api/users';
@@ -275,15 +275,17 @@ class UsersController extends Controller
         }
     }
 
+    public function profile(Request $request): View|\Illuminate\Foundation\Application|Factory|Application
+    {
+        $uuid = $request->uuid ?? '';
+        $email = $request->email ?? '';
 
-    /* Process the logout request */
-    /* public function logout(Request $request): \Illuminate\Routing\Redirector|Application|RedirectResponse
-     {
-         $user =\auth()->user();
-         $user->current_login = config('constants.current_login_false') ;
-         $user->save();
-         Auth::logout();
-         return redirect('/login')->with(['msg_body' => 'You signed out!']);
-     }*/
+        if (empty($uuid)) {
+            $uuid = Auth()->user()->guid;
+            $email = Auth()->user()->email;
+        }
+        return view('UserManagement.user_profile')
+            ->with(['key' => $uuid, 'email' => $email]);
 
+    }
 }
