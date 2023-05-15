@@ -253,7 +253,6 @@ let app = new Vue({
         this.loadRegistrationTypes();
         this.loadLicenceClasses();
         this.getTransmissionTypes();
-        this.getSuppliers();
     },
 
     filters: {
@@ -379,24 +378,6 @@ let app = new Vue({
     },
 
     methods: {
-        getSuppliers: function () {
-            fetch(document.querySelector('#suppliersList').value)
-                .then(response => response.json())
-                .then(function (response) {
-                    console.log(response);
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Failed to retrieve Supplier Records', 'Connection Error');
-                        return;
-                    }
-                    app.supplierList = response['payload'];
-                })
-                .catch(function (error) {
-                    toastr.error(
-                        'Could not Retrieve Data, some feature might not work.', 'Connection error');
-                });
-        },
 
         bodyTypeChanged: function (selectedBody) {
             app['vehicleHeader'].body_type_guid = selectedBody?.guid;
@@ -1052,14 +1033,51 @@ function checkOnboardingHeaderStatus() {
 
                 let location = selectElem.attr('data-value');
                 console.log(location);
-                selectElem.val(location);
-                selectElem.trigger('change');
+                if (location) {
+                    selectElem.val(location);
+                    selectElem.trigger('change');
+                }
+
             })
             .catch(function (error) {
                 // notify of error
                 toastr.error(
                     'Connection error. Could not retrieve data, some feature might not work.')
             });
+    }
+
+    function getSuppliers() {
+        fetch(document.querySelector('#suppliersList').value)
+            .then(response => response.json())
+            .then(function (response) {
+                let selectElem = $('select[name="supplierName"]');
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Failed to retrieve Supplier Records', 'Connection Error');
+                    return;
+                }
+                /*<option value>--Supplier--</option>
+                <option v-for="supplier in supplierList"
+                                            :key="supplier.code_supplier"
+                    :value="supplier.code_supplier">
+                            @{{ supplier.name_of_supplier }}
+                    </option>*/
+
+                app.supplierList = response['payload'];
+
+                let suppliers = response['payload'];
+                tmsApp.populateDropDownList(selectElem, suppliers, "code_supplier", ["code_supplier", "name_of_supplier"], "--Select Supplier--");
+
+                let supplier = selectElem.attr('data-value');
+                if (supplier) {
+                    selectElem.val(supplier);
+                    selectElem.trigger('change');
+                }
+            }).catch(function (error) {
+            toastr.error(
+                'Could not Retrieve Data, some feature might not work.', 'Connection error');
+        });
     }
 
     function submitCostValuationDetails() {
@@ -1318,12 +1336,23 @@ function checkOnboardingHeaderStatus() {
             formData,
             function (response_data) {
                 if (response_data.state === 'success') {
-                    //populateVehicleDetails(response_data.payload);
-                    //app. = ;
-                    Vue.set('supplierList', response['payload'])
+                    let supplierData = response_data['payload'];
+                    // document_no "C01CR1000983"
+                    if (supplierData['po_status_description'] !== 'ISSUED') {
+                        let message = 'The Purchase Order ' + supplierData['document_no']
+                            + ' for supplier ' + supplierData['name_of_supplier']
+                            + ' can not be used as it is in ' + supplierData['po_status_description']
+                            + ' State';
+                        tmsApp.showSystemMessage('Purchase Order', message,
+                            function () {
+                            }, 'error');
+
+                        document.querySelector('#purchase_order_number').value = '';
+                    }
+
+                    $('[name="supplierName"]').val(supplierData['code_supplier']);
+                    document.querySelector('#purchase_order_number').value = supplierData['document_no'];
                 } else {
-                    //removeSubmissionAndDetailsOptions();
-                    //'No Purchase Orders Found, Check your input and try again'
                     tmsApp.showToast(response_data['message'], 'error');
                 }
             },
@@ -1853,6 +1882,8 @@ function checkOnboardingHeaderStatus() {
     });
 
     getLocations();
+
+    getSuppliers();
 
 })(window.tmsApp || {}, jQuery);
 
