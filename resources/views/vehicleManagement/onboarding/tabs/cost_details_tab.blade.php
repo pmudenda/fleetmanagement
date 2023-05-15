@@ -90,15 +90,10 @@
                             <div>
                                 <select class="form-select form-control-sm view_mode"
                                         data-doctype="CostingDetails"
+                                        data-value=""
                                         v-model="costingAndValuation.supplierName"
                                         id="supplierName"
                                         name="supplierName">
-                                    <option value>--Supplier--</option>
-                                    <option v-for="supplier in supplierList"
-                                            :key="supplier.code_supplier"
-                                            :value="supplier.code_supplier">
-                                        @{{ supplier.name_of_supplier }}
-                                    </option>
                                 </select>
                             </div>
 
