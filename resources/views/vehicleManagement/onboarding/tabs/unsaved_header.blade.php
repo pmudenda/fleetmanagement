@@ -159,12 +159,13 @@
                                 <div class="control-input-wrapper">
                                     <div class="control-input">
                                         <div class="link-field ui-front" style="position: relative;">
-                                           {{-- @input="userUnitChanged"--}}
+                                           {{-- --}}
                                             <v-select class="" required
                                                       :placeholder="'Select User Unit'"
                                                       :get-option-label="getUserUnitLabel"
                                                       :options="organizationalUnits"
                                                       label="description"
+                                                      @input="userUnitChanged"
                                                       data-doctype="vehicleHeader"
                                                       v-model="vehicleHeader.user_unit">
                                             </v-select>
@@ -216,7 +217,7 @@
                             <div class="col-md-9">
                                 <select
                                        required
-                                       class="form-select"
+                                       class="form-control"
                                        name="vehicleLocation"
                                        autocomplete="off"
                                        id="vehicleLocation"

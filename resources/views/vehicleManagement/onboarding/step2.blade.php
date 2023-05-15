@@ -99,6 +99,8 @@
                             <!--Begin:::Chassis Details Tab pane-->
                             <div class="tab-pane fade active show" id="tms_chassis_details_tab" role="tabpanel">
                                 @include('vehicleManagement.onboarding.tabs.chassis_tab')
+
+                                @include('vehicleManagement.onboarding.tabs.accessories_tab')
                             </div>
                             <!--End:::Chassis Details Tab pane-->
 

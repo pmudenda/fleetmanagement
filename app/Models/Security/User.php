@@ -30,7 +30,6 @@ class User extends Authenticatable
         'avatar',
         'phone',
         'extension',
-
         'nrc',
         'contract_type',
         'con_st_code',

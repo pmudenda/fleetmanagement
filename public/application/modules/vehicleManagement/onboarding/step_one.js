@@ -329,7 +329,7 @@ let app = new Vue({
             document.querySelector('#model_code').value = model?.model_code;
         },
 
-        /*userUnitChanged: function (user_unit) {
+        userUnitChanged: function (user_unit) {
 
             app.vehicleHeader.user_unit_code = user_unit?.code_unit;
             document.querySelector('[name="user_unit"]').value = user_unit?.code_unit;
@@ -350,11 +350,9 @@ let app = new Vue({
             }
 
 
-
             let filteredBusinessUnits = app.businessUnits.filter(function (bu) {
                 return bu.code_bu?.trim() === business_unit_code?.trim();
             });
-
 
             if (filteredBusinessUnits.length == 0) return;
 
@@ -363,7 +361,7 @@ let app = new Vue({
             const val = businessUnitOfInterest['code_bu'] + ':' + businessUnitOfInterest['description'];
             $('[name="businessUnit"]').val(val);
             this.assignmentDetails.businessUnit = val;
-        },*/
+        },
 
         vehicleBrandChanged(selectedValue) {
             this.vehicleHeader.brand_guid = selectedValue?.id?.toString().trim();
@@ -467,10 +465,11 @@ let app = new Vue({
             });
     }
 
-     function getLocations() {
+    function getLocations() {
         fetch(document.querySelector('#locationUrl').value)
             .then(response => response.json())
             .then(response => {
+                let selectElem = $('select[name="vehicleLocation"]');
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
@@ -478,8 +477,8 @@ let app = new Vue({
                     return;
                 }
 
-                tmsApp.populateDropDownList("#vehicleLocation", response['payload'],"location","location")
-                app.organizationalUnits = response['payload'];
+                let locations = response['payload'];
+                tmsApp.populateDropDownList(selectElem, locations, "location", ["location"], "Select Location")
             })
             .catch(function (error) {
                 // notify of error
