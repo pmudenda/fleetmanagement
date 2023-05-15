@@ -130,7 +130,7 @@
         if (records.length === 1) {
             let onlyOption = new Option(records[0].text, records[0].id, true, true);
             selectEl.empty().select2({
-                theme: "classic",
+                theme: "bootstrap4",
                 width: "resolve"
             }).append(onlyOption).trigger('change');
 
@@ -139,7 +139,7 @@
 
         let newOption = new Option(defaultValue, "", true, true);
         selectEl.empty().select2({
-            theme: "classic",
+            theme: "bootstrap4",
             width: "resolve",
             data: records
         }).append(newOption).trigger('change');

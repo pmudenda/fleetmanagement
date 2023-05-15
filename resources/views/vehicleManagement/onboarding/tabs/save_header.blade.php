@@ -246,11 +246,17 @@
                             <div class="col-md-9">
                                 <input type="text"
                                        required
+                                       id="locationHolder"
                                        class="form-control view_mode"
-                                       name="vehicleLocation"
-                                       id="vehicleLocation"
-                                       value="{{$vehicle->location_name ?? ''}}"
-                                       onpaste="return false;"/>
+                                       value="{{$vehicle->location_name ?? ''}}"/>
+                                <select
+                                    required
+                                    class="form-control d-none"
+                                    name="vehicleLocation"
+                                    autocomplete="off"
+                                    id="vehicleLocation" >
+                                 <option></option>
+                                </select>
                             </div>
                         </div>
                     </div>

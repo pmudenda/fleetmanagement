@@ -9,6 +9,7 @@ use App\Models\general\CostCenters;
 use App\Models\reference\PHCMSEmployee;
 use App\Models\Security\Role;
 use App\Models\Security\User;
+use App\Services\Security\ParameterEncryption;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -210,7 +211,6 @@ class UsersController extends Controller
 
     public function attach(Request $request, $id): RedirectResponse
     {
-
         try {
             $user = User::find($id);
             $user->roles()->syncWithoutDetaching($request->role_ids);
@@ -277,15 +277,15 @@ class UsersController extends Controller
 
     public function profile(Request $request): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        $uuid = $request->uuid ?? '';
-        $email = $request->email ?? '';
-
-        if (empty($uuid)) {
-            $uuid = Auth()->user()->guid;
-            $email = Auth()->user()->email;
+        if (empty($request->get('key'))) {
+            return redirect(route('users.list'));
         }
-        return view('UserManagement.user_profile')
-            ->with(['key' => $uuid, 'email' => $email]);
+
+        $id = (int)ParameterEncryption::decrypt($request->get('key'));
+        $user = User::where('id','=', $id)->first();
+        $roles = Role::all();
+        return view('UserManagement.show')
+            ->with(compact('user', 'roles'));
 
     }
 }

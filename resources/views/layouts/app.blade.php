@@ -28,20 +28,14 @@
     <!--Add Ons-->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/frappe/css/desk.bundle.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.bundle.css') }}">
-    {{--<link type="text/css" rel="stylesheet" href="{{asset('assets/frappe/css/report.bundle.css')}}">
-        <link type="text/css" rel="stylesheet" href="{{asset('assets/frappe/css/erpnext.bundle.css')}}">
-    <link href="{{ asset('assets/css/fullpage_loader.css') }}" rel="stylesheet" type="text/css">--}}
-
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/toastr/toastr.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/sweetalert2/sweetalert2.min.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/vue-select/vue-select.css') }}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/custom/datatables/datatables.bundle.css') }}">
     <link rel="stylesheet" type="text/css" href="{{asset("assets/plugins/jquery.filer/css/jquery.filer.css")}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/custom.css')}}">
-
-    {{--
-        <link rel="stylesheet" href="{{ asset('assets/css/fullpage_loader.css') }}" rel="stylesheet" type="text/css">
-    --}}
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
     <style>
         .nav-link {
             padding: 0.65rem 1rem;
@@ -151,6 +145,7 @@
 <script src="{{asset('themes/plugins/summernote/summernote-bs4.min.js')}}"></script>
 <script src="{{asset('themes/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
 <script src="{{asset('assets/js/accounting.min.js') }}"></script>
+<script src="{{asset('assets/plugins/select2/js/select2.js')}}"></script>
 <script src="{{asset('assets/plugins/vue/vue.js')}}"></script>
 <script src="{{asset('assets/plugins/vue-select/vue-select.js')}}"></script>
 <script src="{{asset('assets/plugins/vue-select2/js/vue-select.js')}}"></script>

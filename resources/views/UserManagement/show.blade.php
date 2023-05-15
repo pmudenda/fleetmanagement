@@ -2,13 +2,10 @@
 
 @push('styles')
     <!-- DataTables -->
-    <link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-    <link rel="stylesheet"
-          href="{{ asset('dashboard/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
     <style>
-
-
         input[name="tabs"] {
             display: none;
         }
@@ -60,10 +57,13 @@
         #tab4:checked ~ #content4 {
             display: block;
         }
+
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            color: var(--bs-nav-pills-link-active-color);
+            background-color: orange;
+        }
     </style>
-
 @endpush
-
 
 @section('content')
     <x-content-header :pageTitle="'USER DETAILS'" :activeCrumb="'User Details'" :link="'user.index'"
@@ -105,6 +105,7 @@
                             </div>
 
                             <h3 class="profile-username text-center">{{ $user->name }}</h3>
+
                             <p class="text-muted text-center">{{ $user->job_title ?? 'Position' }}</p>
 
                             <p class="text-muted text-center">{{ $user->man_no ?? '' }}</p>
@@ -124,7 +125,18 @@
                                     <b>Extension</b> <a class="float-right">{{ $user->phone ?? '' }}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Email</b> <a class="float-right">{{ $user->email }}</a>
+                                    <b>
+                                        Assigned Profile
+                                    </b>
+                                    <a class="float-right">
+                                        <span class="badge badge-success">
+                                        {{$user->roles->count()}}
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Email</b>
+                                    <a class="float-right">{{ $user->email }}</a>
                                 </li>
                                 <li class="list-group-item">
                                     <b>Status</b> <a class="float-right">
@@ -139,7 +151,12 @@
                                 </li>
 
                                 <li class="list-group-item">
-                                    <b>Total Logins</b> <a class="float-right">{{ $user->total_logins }}</a>
+                                    <b>Total Logins</b>
+                                    <a class="float-right">
+                                       <span class="badge badge-success p-2">
+                                             {{ $user->total_logins }}
+                                       </span>
+                                    </a>
                                 </li>
                             </ul>
 
@@ -181,77 +198,64 @@
                 <div class="col-xs-12 col-sm-7 pl-0">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">
-                                Assigned Profile
-                                <span class="badge badge-success">
-                                                            {{$user->roles->count()}}
-                                                        </span>
-                            </h5>
-                            <div class="card-tools">
-                                @can(config('rights.role_attach'))
-                                    <button type="button"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#addUserToGroup"
-                                            title="Add User To Groups"
-                                            class="btn btn-warning btn-sm">
-                                        <i class="fas fa-user-lock"></i>
-                                        Profiles
-                                    </button>
-                                @endcan
-                            </div>
+                            <ul class="nav nav-pills">
+                                <li class="card-title">
+                                    <a class="nav-link active" href="#activity"
+                                       data-toggle="tab">
+                                        Details
+                                    </a>
+                                </li>
+
+                                {{--<li class="card-title">
+                                    <a class="nav-link" href="#userInfoUpdate" data-toggle="tab">
+                                        Settings
+                                    </a>
+                                </li>--}}
+
+                                {{--<li class="card-title">
+                                    <a class="nav-link " href="#units" data-toggle="tab">
+                                        My User-Units
+                                    </a>
+                                </li>
+                                <li class="card-title">
+                                    <a class="nav-link " href="#workflow" data-toggle="tab">
+                                        My Work-flow
+                                    </a>
+                                </li>--}}
+
+                                <li class="card-title">
+                                    <a class="nav-link" href="#pass_reset" data-toggle="tab">
+                                        Password Reset
+                                    </a>
+                                </li>
+
+                            </ul>
                         </div>
                         <div class="card-body">
-                            @if(!empty($user->roles))
-                                <div class="table-responsive mt-10 ">
-                                    <table id="groupsTable"
-                                           class="table table-bordered table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th>Description</th>
-                                            @can(config('rights.role_detach'))
-                                                <th>Name</th>
-                                                @if(auth()->user()->id != $user->id )
-                                                    <th>Action</th>
-                                                @endif
-                                            @endcan
-                                        </tr>
-                                        </thead>
-                                        <tbody>
+                            <div class="tab-content">
 
-                                        @foreach($user->roles as $item)
-                                            <tr>
-                                                <td>
-                                                    {{$item->description}}
-                                                </td>
-                                                @can(config('rights.role_detach'))
-                                                    <td>
-                                                        {{$item->name}}
-                                                    </td>
-                                                    @if(auth()->user()->id != $user->id )
-                                                        <td>
-                                                            <div class="row">
-                                                                <div class="col-06">
-
-                                                                    <button
-                                                                        class="btn btn-sm btn-danger m-1"
-                                                                        data-sent_data="{{$item}}"
-                                                                        title="Revoke Role"
-                                                                        data-toggle="modal"
-                                                                        data-target="#removeFromGroup{{$item->id}}">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </button>
-
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    @endif
-                                                @endcan
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
+                                <div class="active tab-pane" id="activity">
+                                    <!-- Post -->
+                                    @include('UserManagement/userProfileTabs/userDetailsSummary')
                                 </div>
-                            @endif
+
+                                <div class="tab-pane" id="userInfoUpdate">
+                                    @include('UserManagement/userProfileTabs/details')
+                                </div>
+
+                                {{--
+                                <div class="tab-pane" id="units">
+                                    @include('UserManagement/userProfileTabs/units')
+                                </div>
+
+                                <div class="tab-pane" id="workflow">
+                                    @include('UserManagement/userProfileTabs/workflow')
+                                </div>
+                                --}}
+                                <div class="tab-pane" id="pass_reset">
+                                    @include('UserManagement/userProfileTabs/passwordReset')
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -308,6 +312,8 @@
     @endforeach
 
     <!-- Device Delete Modal -->
+
+
     <div class="modal fade" id="addUserToGroup" tabindex="-1" role="dialog"
          aria-labelledby="addUserToGroupTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -338,7 +344,7 @@
                                 @foreach($roles->whereNotIn( 'id', $user->roles->pluck('id')->toArray()) as $item)
                                     <tr>
                                         <td>
-                                            <input style="display: block" type="checkbox" id="role_ids"
+                                            <input style="display: block" type="checkbox"
                                                    name="role_ids[]"
                                                    value="{{$item->id}}">
                                         </td>
@@ -353,7 +359,8 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close
+                            </button>
 
                             @can(config('rights.role_attach'))
                                 <button type="submit" class="btn btn-sm btn-success">

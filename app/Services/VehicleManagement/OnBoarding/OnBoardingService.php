@@ -4,6 +4,7 @@ namespace App\Services\VehicleManagement\OnBoarding;
 
 use App\Enums\VehicleStatusEnum;
 use App\Exceptions\VehicleOnBoardingException;
+use App\Helpers\OnboardingStateHelper;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\AssignmentPostRequest;
 use App\Http\Requests\BodyDetailsPost;
@@ -65,10 +66,10 @@ class OnBoardingService
                 throw new VehicleOnBoardingException('Vehicle with  White Book Serial ' . $whiteBookSerial . ' has already been registered');
             }
 
-            $recordByEngineNumber = ChassisDetail::where('engineNumber', $engineNumber)->first();
+            $recordByEngineNumber = ChassisDetail::where('engine_number', $engineNumber)->first();
 
             if (!empty($recordByEngineNumber)) {
-                throw new VehicleOnBoardingException('Vehicle with  White Book Serial ' . $engineNumber . ' has already been registered');
+                throw new VehicleOnBoardingException('Vehicle with  Engine ' . $engineNumber . ' has already been registered');
             }
         }
 
@@ -364,15 +365,7 @@ class OnBoardingService
             'business_area_name' => $businessArea->name
         ];
 
-        $vehicleHeader = VehicleHeader::find($request->input('headerId'));
-
-        if (!$vehicleHeader) {
-            throw  new VehicleOnBoardingException("OnboardingRecord Not Found", 0);
-        }
-
-        $vehicleHeader->on_boarding_status = StatusHelper::onboardingComplete();
-        $vehicleHeader->status = StatusHelper::active();
-        $vehicleHeader->save();
+        $this->updateVehicleOnBoardingState($request->input('headerId') , OnboardingStateHelper::assignment);
 
         return Assignment::updateOrCreate(
             [
@@ -412,6 +405,32 @@ class OnBoardingService
             ->update(['barcode' => $barCodePath]);
 
         return $barCodePath;
+    }
+
+    /**
+     * @param int $headerId vehicle identifier
+     * @return void
+     * @throws VehicleOnBoardingException
+     */
+    public function updateVehicleOnBoardingState(int $headerId, string $stage): void
+    {
+        $vehicleHeader = VehicleHeader::find($headerId);
+
+        if (!$vehicleHeader) {
+            throw  new VehicleOnBoardingException("OnboardingRecord Not Found", 0);
+        }
+
+        $onboardingStatus = "";
+        if($stage === OnboardingStateHelper::assignment){
+            $onboardingStatus = StatusHelper::onboardingComplete();;
+            $vehicleHeader->status = StatusHelper::active();
+        }
+        else if (OnboardingStateHelper::generalData){
+
+        }
+
+        $vehicleHeader->on_boarding_status = $onboardingStatus;
+        $vehicleHeader->save();
     }
 
 }

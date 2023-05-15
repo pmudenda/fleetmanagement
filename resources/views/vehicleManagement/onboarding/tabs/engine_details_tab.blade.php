@@ -26,7 +26,7 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
-                                    <input type="text"
+                                    <input type="number"
                                            required
                                            id="numberOfCylinders"
                                            name="numberOfCylinders"
@@ -78,43 +78,11 @@
                 </td>
             </tr>
             <tr>
-                <td class="frappe-control ">
-                    <label for="claimedEnginePower"
-                           class="control-label reqd"
-                           style="padding-right: 0px;">
-                        Claimed Power:
-                    </label>
-                </td>
-                <td>
-                    <div class="control-input-wrapper">
-                        <div class="control-input">
-                            <div class="link-field ui-front" style="position: relative;">
-                                <div class="input-group bg-gray-300">
-                                    <input type="number"
-                                           required
-                                           class="input-with-feedback form-control bold number_input view_mode"
-                                           maxlength="140"
-                                           data-fieldname="company"
-                                           id="claimedEnginePower"
-                                           name="claimedEnginePower"
-                                           v-model="engineDetails.claimedEnginePower"
-                                           placeholder=""
-                                           data-doctype="EngineDetails"
-                                           data-target="Company" autocomplete="off"/>
-                                    <div
-                                        class="input-group-append pl-3 pr-3 align-self-center">
-                                        hp
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
                 <td class="frappe-control">
                     <div class="clearfix">
                         <label for="actualEnginePower" class="control-label reqd"
                                style="padding-right: 0px;">
-                            Actual Power:
+                            Engine Horse Power:
                         </label>
                         <span class="help"></span>
                     </div>
@@ -143,6 +111,40 @@
                             </div>
                         </div>
                         <p class="help-box small text-muted"></p>
+                    </div>
+                </td>
+
+                <td style="display: none;" class="frappe-control ">
+                    <label for="claimedEnginePower"
+                           class="control-label reqd"
+                           style="padding-right: 0px;">
+                        Horse Power:
+                    </label>
+                </td>
+                <td style="display: none;">
+                    <div class="control-input-wrapper">
+                        <div class="control-input">
+                            <div class="link-field ui-front" style="position: relative;">
+                                <div class="input-group bg-gray-300">
+                                    {{--v-model="engineDetails.claimedEnginePower"--}}
+                                    <input type="number"
+                                           required
+                                           class="input-with-feedback form-control bold number_input view_mode"
+                                           maxlength="140"
+                                           value="0"
+                                           data-fieldname="company"
+                                           id="claimedEnginePower"
+                                           name="claimedEnginePower"
+                                           placeholder=""
+                                           data-doctype="EngineDetails"
+                                           data-target="Company" autocomplete="off"/>
+                                    <div
+                                        class="input-group-append pl-3 pr-3 align-self-center">
+                                        hp
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -425,7 +427,7 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="fv-row">
-                                    <input type="text"
+                                    <input type="number"
                                            title="The number of tyres the vehicle has"
                                            id="numberOfTyres"
                                            name="numberOfTyres"
@@ -609,8 +611,9 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
-                                    <input type="text"
+                                    <input type="number"
                                            class="input-with-feedback form-control bold number_input view_mode"
+                                           min="6"
                                            maxlength="140" data-fieldtype="Link"
                                            data-fieldname="company"
                                            id="batteryPower"

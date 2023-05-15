@@ -5,6 +5,7 @@ use App\Http\Controllers\Configurations\GeneralTablesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\Requisitions\FuelRequisitionController;
+use App\Http\Controllers\Security\PasswordResetController;
 use App\Http\Controllers\Security\PermissionsController;
 use App\Http\Controllers\Security\RolesController;
 use App\Http\Controllers\UserManagement\UsersController;
@@ -32,7 +33,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('logout', [HomeController::class, 'logout']);
+Route::post('logout', [HomeController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -46,10 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('users/list', [UsersController::class, 'index'])->name('users.list');
 
-        //Route::get('user', [function () {
-        //            return view('UserManagement.viewUser');
-        //
-        //        }])->name('view.user');
+        Route::post('users/resetPassword', [PasswordResetController::class, 'resetPassword'])->name('user.reset.password');
 
         // user.store
         Route::resource('/user', UsersController::class);
@@ -59,7 +57,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('user/detach/{id}', [UsersController::class, 'detach'])->name('user.detach');
 
     });
-
 
     Route::group(['prefix' => 'security'], function () {
 
