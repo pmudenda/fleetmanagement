@@ -605,7 +605,7 @@
 
                 if (images && images.length > 0) {
                     let frontViewImages = images.filter((image) => {
-                        return image.file_type === 'Front View';
+                        return image['file_type'] === 'Front View';
                     })
                     let imagePath = frontViewImages[0]?.path;
                     document.querySelector(".imagePreview").style.backgroundImage = "url(/storage" + imagePath + ")";
@@ -626,11 +626,12 @@
                             populateVehicleDetails(response_data.payload);
                         } else {
                             removeSubmissionAndDetailsOptions();
-                            tmsApp.showToast('No Vehicle Found, Check your input and try again', 'error');
+                            tmsApp.systemError('Vehicle', ' No Vehicle Found, Check your input and try again', function () {
+                            });
                         }
                     },
                     function (xhr) {
-                        tmsApp.showToast('We could not complete processing your request, please try again later')
+                        tmsApp.systemError('System Message','We could not complete processing your request, please try again later', function(){});
                     }
                 )
             }
@@ -882,7 +883,7 @@
                         if (!response.success) {
                             //document.querySelector('#submitRequisitionBtn').setAttribute('disabled', 'disabled');
                             tmsApp.showToast(response['message'], 'error');
-                        }else{
+                        } else {
                             tmsApp.showToast(response['message'], 'success');
                             document.querySelector('#submitRequisitionBtn').removeAttribute('disabled');
                             //document.querySelector('.when_odo_valid').removeAttribute('disabled');
