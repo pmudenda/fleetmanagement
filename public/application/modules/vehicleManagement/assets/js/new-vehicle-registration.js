@@ -1798,11 +1798,19 @@ function checkOnboardingHeaderStatus() {
         submitAssignmentDetails();
     });
 
+    $('[name="poSearchBtn"]').on('click', function (e) {
+        let  poNumber = $('#purchase_order_number').value;
+        if (poNumber && poNumber < 12) {
+            toastr.warning('Purchase order number is invalid');
+            return;
+        }
+        getPurchaseOrderDetails();
+    });
+
     $('#purchase_order_number').on('keyup paste', function () {
         if (this.value && this.value.length < 12) {
             return;
         }
-
         getPurchaseOrderDetails();
     });
 

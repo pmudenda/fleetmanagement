@@ -76,13 +76,15 @@
                            name="purchase_order_number">
                     <div class="input-group-addon">
                         <button type="button" id="poSearchBtn"
-                                name="userSearchBtn"
+                                name="poSearchBtn"
                                 class="btn btn-primary btn-sm border-radius-0">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
                 </div>
             </td>
+            <td class="frappe-control"></td>
+            <td></td>
         </tr>
         <tr>
             <td class="frappe-control ">
