@@ -1350,7 +1350,9 @@ function checkOnboardingHeaderStatus() {
                         document.querySelector('#purchase_order_number').value = '';
                     }
 
-                    $('[name="supplierName"]').val(supplierData['code_supplier']);
+                    let selectElem = $('[name="supplierName"]');
+                    selectElem.val(supplierData['code_supplier']);
+                    selectElem.trigger('change');
                     document.querySelector('#purchase_order_number').value = supplierData['document_no'];
                 } else {
                     tmsApp.showToast(response_data['message'], 'error');
