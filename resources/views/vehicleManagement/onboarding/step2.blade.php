@@ -11,6 +11,9 @@
             display: inline-block;
             box-shadow: 0px -3px 6px 2px rgba(0, 0, 0, 0.2);
         }
+         th {
+             white-space: nowrap;
+         }
     </style>
     <link href="{{asset('assets/plugins/daterangepicker/daterangepicker.css')}}"/>
 @endpush
@@ -99,8 +102,6 @@
                             <!--Begin:::Chassis Details Tab pane-->
                             <div class="tab-pane fade active show" id="tms_chassis_details_tab" role="tabpanel">
                                 @include('vehicleManagement.onboarding.tabs.chassis_tab')
-
-                                @include('vehicleManagement.onboarding.tabs.accessories_tab')
                             </div>
                             <!--End:::Chassis Details Tab pane-->
 

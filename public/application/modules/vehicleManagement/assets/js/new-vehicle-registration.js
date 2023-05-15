@@ -291,7 +291,11 @@ let app = new Vue({
             window.getRegistrationDetails(window.reference);
         }
 
-        $(document).on('keyup', '#registrationNumber', function () {
+        $(document).on('keyup', '#chassisNumber', function () {
+            this.value = this.value.toLocaleUpperCase();
+        });
+
+        $(document).on('keyup', '#engineNumber', function () {
             this.value = this.value.toLocaleUpperCase();
         });
 
@@ -1031,6 +1035,28 @@ function checkOnboardingHeaderStatus() {
 
     }
 
+    function getLocations() {
+        fetch(document.querySelector('#locationUrl').value)
+            .then(response => response.json())
+            .then(response => {
+                let selectElem = $('select[name="vehicleLocation"]');
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, no data found')
+                    return;
+                }
+
+                let locations = response['payload'];
+                tmsApp.populateDropDownList(selectElem, locations, "location", ["location"], "Select Location")
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Connection error. Could not retrieve data, some feature might not work.')
+            });
+    }
+
     function submitCostValuationDetails() {
         $('.print-error-msg').css('display', 'none');
 
@@ -1103,9 +1129,13 @@ function checkOnboardingHeaderStatus() {
             return;
         }
 
+        let formData = new FormData($form);
+        formData.set('engineCapacity', tmsApp.getRawNumber(formData.get('engineCapacity')).toString());
+        formData.set('tank_capacity', tmsApp.getRawNumber(formData.get('tank_capacity')).toString());
+
         tmsApp.asyncPostFormData(
             $form.action,
-            new FormData($form),
+            formData,
             function (asyncResponse) {
                 if ('state' in asyncResponse && asyncResponse.state != 'success') {
                     if (asyncResponse.hasOwnProperty('errors')) {
@@ -1790,14 +1820,22 @@ function checkOnboardingHeaderStatus() {
             case "editRecordBtn":
                 $('.card-header').removeClass('view_mode').addClass('edit_mode')
                 document.querySelector('#model_holder').style.display = 'none';
+                let $locationHolder = document.querySelector('#locationHolder');
+                $locationHolder.style.display = 'none';
+
+                $('#vehicleLocation').val($locationHolder.value);
                 //$('#model_holder').addClass('d-none');
                 $('#model').removeClass('d-none');
+                $('#vehicleLocation').removeClass('d-none');
                 $('#brand').change();
                 break;
             case 'cancelEditLink':
                 $('.card-header').removeClass('edit_mode').addClass('view_mode')
                 document.querySelector('#model_holder').style.display = null;
+                document.querySelector('#locationHolder').style.display = null;
+
                 $('#model').addClass('d-none');
+                $('#vehicleLocation').addClass('d-none');
                 break;
             case "submitBtn":
                 break;
@@ -1808,6 +1846,8 @@ function checkOnboardingHeaderStatus() {
                 break;
         }
     });
+
+    getLocations();
 
 })(window.tmsApp || {}, jQuery);
 
