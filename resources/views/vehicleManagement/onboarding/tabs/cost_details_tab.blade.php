@@ -62,7 +62,7 @@
         <tbody>
         <tr>
             <td class="frappe-control ">
-                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-5 app-field-label"
+                <label class="app-field-label reqd"
                        for="staff_no">Purchase Order Number :
                 </label>
             </td>
