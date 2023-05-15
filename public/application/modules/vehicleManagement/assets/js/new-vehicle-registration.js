@@ -1851,15 +1851,15 @@ function checkOnboardingHeaderStatus() {
 
     $('[name="poSearchBtn"]').on('click', function (e) {
         let  poNumber = $('#purchase_order_number').value;
-        if (poNumber && poNumber < 12) {
-            toastr.warning('Purchase order number is invalid');
+        if (!poNumber || poNumber < 12) {
+            toastr.warning('Invalid Purchase Order number');
             return;
         }
         getPurchaseOrderDetails();
     });
 
     $('#purchase_order_number').on('keyup paste', function () {
-        if (this.value && this.value.length < 12) {
+        if (!this.value || this.value.length < 12) {
             return;
         }
         getPurchaseOrderDetails();

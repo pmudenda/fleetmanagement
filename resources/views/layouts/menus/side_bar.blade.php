@@ -110,13 +110,6 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('new.vehicle') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Maintenance Job Card</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-circle"></i>
                                 <p>
@@ -128,9 +121,9 @@
 
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="far fa-plus nav-icon"></i>
                                         <p>
-                                            Fuel Requisitions
+                                            Job Card
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
