@@ -299,12 +299,12 @@ let app = new Vue({
             this.value = this.value.toLocaleUpperCase();
         });
 
-        $(document).on('keyup', '#vehicleLocation', function () {
+        /*$(document).on('keyup', '#vehicleLocation', function () {
             if (!this.value) {
                 this.focus();
             }
             this.value = this.value.toLocaleUpperCase();
-        });
+        });*/
 
         Inputmask({
             "mask": "AAA 9999"
@@ -1048,7 +1048,11 @@ function checkOnboardingHeaderStatus() {
                 }
 
                 let locations = response['payload'];
-                tmsApp.populateDropDownList(selectElem, locations, "location", ["location"], "Select Location")
+                tmsApp.populateDropDownList(selectElem, locations, "location", ["location"], "Select Location");
+
+                let location = selectElem.attr('data-value');
+                console.log(location);
+                selectElem.val(location);
             })
             .catch(function (error) {
                 // notify of error

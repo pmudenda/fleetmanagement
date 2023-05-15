@@ -9,9 +9,10 @@ class ProjectCodeService
 {
     public function getActiveProjects(string $period, string $searchCriteria)
     {
-         $query = "SELECT * FROM ACTIVE_PROJECTS_VIEW
+         $query = "SELECT * FROM SPMS_PROJECTS_VIEW
           WHERE  PROJECT_CODE = '" . $searchCriteria . "' AND PERIOD LIKE '%{$period}%' AND BEGINNING_BALANCE != 0";
         $activeProjects = DB::select($query);
+
         return ActiveProjectsModel::hydrate($activeProjects);
     }
 }

@@ -21,7 +21,7 @@ class ProjectsController extends Controller
 
         $searchCriteria = strtoupper(trim($request->input('search')));
 
-        $activeProjects = collect([]); //$this->projectCodeService->getActiveProjects($period, $searchCriteria);
+        $activeProjects = $this->projectCodeService->getActiveProjects($period, $searchCriteria);
 
         return response()->json(array(
             'items' => $activeProjects,
