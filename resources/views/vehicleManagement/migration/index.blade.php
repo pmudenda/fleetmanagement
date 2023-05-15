@@ -33,13 +33,13 @@
                                     <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab"
                                        aria-expanded="false">
                                         <span class="round-tab">2</span>
-                                        <i>Step 2</i>
+                                        <i>Vehicle Details</i>
                                     </a>
                                 </li>
                                 <li role="presentation" data-index="2" class="disabled st3">
                                     <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab">
                                         <span class="round-tab">3</span>
-                                        <i>Step 3</i>
+                                        <i>Images</i>
                                     </a>
                                 </li>
 

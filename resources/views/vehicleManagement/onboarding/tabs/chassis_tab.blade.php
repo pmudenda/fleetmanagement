@@ -461,50 +461,61 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-12 mt-10">
-            <div class="row">
-                <table>
-                    <tr>
-                        <td>
-                            <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
-                                   style="padding-right: 0px;">
-                                Motor Vehicle Certificate:
-                            </label>
-                        </td>
-                        <td>
-                            <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
-                                   style="padding-right: 0px;">
-                                Insurance Cover Note:
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="col-md-7 fv-row">
-                                <div class="col-md-9">
-                                    <input type="file" accept="image/*,.pdf"
-                                           required
-                                           class="filer_input"
-                                           name="motor_vehicle_certificate"/>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="col-md-7 fv-row">
-                                <div class="col-md-9">
-                                    <input type="file" accept="image/*,.pdf"
-                                           required
-                                           class="filer_input"
-                                           name="insurance_cover_note"/>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+    </div>
 
-                <div class="form-group row"></div>
-                <div class="form-group row"></div>
-            </div>
+    <div class="card card-default">
+        <div class="card-header pl-0">
+            <h3 class="card-title pl-0">Vehicle Document<small class="pl-3 link-info"><strong> Only .pdf, jpg,jpeg,png,bmp allowed</strong> </small></h3>
+        </div>
+        <div class="card-body pl-0">
+            <table style="width: 60%;">
+                <tr>
+                    <td class="pl-0">
+                        <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
+                               style="padding-right: 0px;">
+                            Motor Vehicle Certificate:
+                            <small class="text-danger">.PDF, JPG, JPEG, PNG, BMP</small>
+                        </label>
+                    </td>
+                    <td>
+                        <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
+                               style="padding-right: 0px;">
+                            Insurance Cover Note:
+                            <small class="text-danger">.PDF, JPG, JPEG, PNG, BMP</small>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="col-md-7 fv-row">
+                            <div class="col-md-9 pl-0">
+                                <input type="file" accept="image/*,.pdf"
+                                       required
+                                       class="filer_input"
+                                       name="motor_vehicle_certificate"/>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="col-md-7 fv-row">
+                            <div class="col-md-9 pl-0">
+                                <input type="file" accept="image/*,.pdf"
+                                       required
+                                       class="filer_input"
+                                       name="insurance_cover_note"/>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <canvas style="display: none;" id="motor_vehicle_certificatepdfViewer"></canvas>
+                    </td>
+                    <td>
+                        <canvas style="display: none;" id="insurance_cover_notepdfViewer"></canvas>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 
@@ -581,7 +592,7 @@
         </div>
     </div>
 
-    <div class="row mt-10 mb-10 create_mode">
+    <div class="row mt-5 mb-10 create_mode">
         <div class="col-md-3">
             <div class="card text-center py-5 my-2">
                 <h2 class="fs-2x fw-bold mb-10">Front View</h2>

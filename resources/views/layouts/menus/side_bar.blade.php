@@ -5,11 +5,7 @@
         <img class="h-45px app-sidebar-logo-default brand-image img-circle elevation-3"
              style="opacity: .8"
              src="{{ asset('assets/dist/img/icons/zesco_logo.png') }}"
-             alt="">
-
-        {{--<img class="h-20px app-sidebar-logo-minimize"
-             src="{{ asset('assets/dist/img/icons/zesco_logo.png') }}"
-             alt="">--}}
+             alt="" />
         <span class="brand-text font-weight-light">
             {{ config('app.sys_name', 'Fleet Master') }}</span>
     </a>
@@ -98,20 +94,81 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+
                         <li class="nav-item">
-                            <a href="{{ route('new.vehicle') }}" class="nav-link">
+                            <a href="{{ route('workshop.sections') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Sections</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('vehicles.list') }}" class="nav-link">
+                            <a href="{{ route('workshop.list') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Workshops List</p>
                             </a>
                         </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('new.vehicle') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Maintenance Job Card</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-circle"></i>
+                                <p>
+                                    Maintenance
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview pl-3">
+
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Fuel Requisitions
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview pl-4">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('new.fuel.requisition') }}">
+                                                <i class="fas fa-plus nav-icon"></i>
+                                                <p>New</p>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('list.fuel.requisition') }}">
+                                                <i class="fas fa-list nav-icon"></i>
+                                                <p>List</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Vehicle Requisition</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('maintenance.requisition')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Maintenance Requisition</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
                     </ul>
+
                 </li>
 
 
@@ -124,20 +181,6 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview pl-3">
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Vehicle Requisition</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Maintenance Requisition</p>
-                            </a>
-                        </li>
 
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -162,6 +205,20 @@
                                     </a>
                                 </li>
                             </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Vehicle Requisition</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('maintenance.requisition')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Maintenance Requisition</p>
+                            </a>
                         </li>
                     </ul>
                 </li>
