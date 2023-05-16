@@ -42,7 +42,7 @@ class VehicleModelsController extends Controller
             $data = $request->all();
 
             $modelCode = trim(strtoupper($request->input('model_code')));
-            $vehicleModel = ConfigVehicleBrand::where('model_code', '=', $modelCode)
+            $vehicleModel = ConfigVehicleModel::where('model_code', '=', $modelCode)
                 ->where('model_name', '=', trim(strtoupper($request->input('model_code'))))
                 ->first();
 
