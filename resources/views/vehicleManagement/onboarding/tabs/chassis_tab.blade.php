@@ -480,12 +480,13 @@
                             <div class="col-md-9 pl-0">
                                 <input type="file" accept="image/*,.pdf"
                                        required
+                                       id="motor_vehicle_certificate"
                                        class="filer_input"
                                        name="motor_vehicle_certificate"/>
                             </div>
                         </div>
 
-                        <canvas style="display: none;" id="motor_vehicle_certificatepdfViewer"></canvas>
+                        <canvas style="display: none;" id="motor_vehicle_certificatePdfViewer"></canvas>
                     </div>
                     <div class="col">
                         <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
@@ -498,12 +499,13 @@
                             <div class="col-md-9 pl-0">
                                 <input type="file" accept="image/*,.pdf"
                                        required
+                                       id="insurance_cover_note"
                                        class="filer_input"
                                        name="insurance_cover_note"/>
                             </div>
                         </div>
 
-                        <canvas style="display: none;" id="insurance_cover_notepdfViewer"></canvas>
+                        <canvas style="display: none;" id="insurance_cover_notePdfViewer"></canvas>
                     </div>
                 </div>
             </div>

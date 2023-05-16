@@ -177,7 +177,7 @@ class VehicleOnBoardingController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::internalServerError;
-                //'Sorry, some errors were detected while processing your request, please try again later.';
+            //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -208,7 +208,7 @@ class VehicleOnBoardingController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::internalServerError;
-                //'Sorry, some errors were detected while processing your request, please try again later.';
+            //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -235,7 +235,7 @@ class VehicleOnBoardingController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::internalServerError;
-                //'Sorry, some errors were detected while processing your request, please try again later.';
+            //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -248,6 +248,32 @@ class VehicleOnBoardingController extends Controller
     }
 
     public function storeCostingDetails(CostingDetailsPost $request): JsonResponse
+    {
+        try {
+            $model = $this->onBoardingService->processCostingDetails($request);
+            return response()->json([
+                'state' => 'success',
+                'request' => $request->all(),
+                'payload' => $model,
+                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 5, 'reference' => $model->vehicle_header_id]),
+                'message' => 'Request Processed Successfully'
+            ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            $message = ErrorMessages::internalServerError;
+            //'Sorry, some errors were detected while processing your request, please try again later.';
+            if ($e instanceof VehicleOnBoardingException) {
+                $message = $e->getMessage();
+            }
+            return response()->json([
+                'state' => 'failure',
+                'payload' => (object)[],
+                'message' => $message
+            ]);
+        }
+    }
+
+    public function storeAccessoryDetails(CostingDetailsPost $request): JsonResponse
     {
         try {
             $model = $this->onBoardingService->processCostingDetails($request);
@@ -287,7 +313,7 @@ class VehicleOnBoardingController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::internalServerError;
-                //'Sorry, some errors were detected while processing your request, please try again later.';
+            //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -311,7 +337,7 @@ class VehicleOnBoardingController extends Controller
                 break;
             case 'chassis':
                 $valid = ChassisDetail::where('chassis_number', trim($request->get('key')))->count() == 0;
-                $message =$valid ? 'Chassis Number is valid' : 'Duplicate Chassis Number';;
+                $message = $valid ? 'Chassis Number is valid' : 'Duplicate Chassis Number';;
                 break;
             case 'motorVehicleCertificate':
                 $valid = ChassisDetail::where('white_book_serial', trim($request->get('key')))->count() == 0;

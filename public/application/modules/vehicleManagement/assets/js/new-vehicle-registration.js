@@ -1,7 +1,7 @@
 Vue.component('v-select', VueSelect.VueSelect);
 window.VehicleModels = [];
 
-function displayVehicleDetails(asyncResponse) {
+function displayVehicleDetails(asyncResponse, requestReference) {
     if (!asyncResponse.success) {
         toastr.error(asyncResponse['message'])
     }
@@ -16,18 +16,23 @@ function displayVehicleDetails(asyncResponse) {
         return;
     }
 
+    let hasHeaderId = (requestReference != null && requestReference != 0);
+    Vue.set(app['vehicleHeader'], 'id', requestReference);
+    Vue.nextTick(function () {
+        console.log('Header Id', hasHeaderId);
+        Vue.set(app['vehicleHeader'], 'isHeaderSaved', hasHeaderId);
+    });
+
     Vue.set(app['vehicleHeader'], 'registration_type', data['registration_type']);
     Vue.set(app['vehicleHeader'], 'brand_guid', data['brand_guid']);
     Vue.set(app['vehicleHeader'], 'model_guid', data['model_guid']);
     Vue.set(app['vehicleHeader'], 'model_code', data['model_code']);
 
-    //Vue.set(app['vehicleHeader'], 'registrationNumber', );
     const $registrationNumberCtrl = document.querySelector('[name="registrationNumber"]');
     if ($registrationNumberCtrl) {
         $registrationNumberCtrl.value = data['registration_number'];
     }
     Vue.set(app['vehicleHeader'], 'on_boarding_status', data['on_boarding_status']);
-
     Vue.set(app['vehicleHeader'], 'body_type_guid', data['body_type_guid']);
     Vue.set(app['vehicleHeader'], 'user_unit', data['business_unit_code']);
     Vue.set(app['vehicleHeader'], 'user_unit_code', data['business_unit_code']);
@@ -137,7 +142,7 @@ window.getRegistrationDetails = function (requestReference) {
         dataType: 'json',
         success: function (asyncResponse) {
             //console.log('Returning Response', asyncResponse);
-            displayVehicleDetails(asyncResponse);
+            displayVehicleDetails(asyncResponse, requestReference);
         },
         error: function (xhr, settings, errorThrown) {
             toastr.error(
@@ -168,6 +173,7 @@ let app = new Vue({
     components: {},
     data() {
         return {
+            isHeaderSaved: false,
             assignmentDetails: {},
             assignmentDetailsForm: null,
             bodyDetails: {
@@ -209,7 +215,6 @@ let app = new Vue({
                 leftView: null,
                 rightView: null,
             },
-            isHeaderSaved: false,
             licenseTypes: [],
             organizationalUnits: [],
             otherDetails: {},
@@ -229,6 +234,7 @@ let app = new Vue({
             vehicleHeader:
                 {
                     model: {},
+                    isHeaderSaved: false,
                     registration_type: 'MV'
                 },
             // validators
@@ -287,7 +293,7 @@ let app = new Vue({
 
         //this.initDropzone();
         if (this.vehicleHeader && this.vehicleHeader.id) {
-            this.isHeaderSaved = true;
+            this.vehicleHeader.isHeaderSaved = true;
         }
 
         if (window.reference) {
@@ -811,7 +817,7 @@ let app = new Vue({
                         );
 
                         setTimeout(function () {
-                            app.isHeaderSaved = true;
+                            app['vehicleHeader'].isHeaderSaved = true;
                         }, 500)
 
                         if (el.classList.contains("btn-light-primary")) {
@@ -821,7 +827,7 @@ let app = new Vue({
                         } else { // follow
                             el.classList.add("btn-light-primary");
                             el.classList.remove("btn-light");
-                            app.isHeaderSaved = true;
+                            app['vehicleHeader'].isHeaderSaved = true;
                             label.innerHTML = "Saved";
                         }
 
@@ -1032,6 +1038,27 @@ function checkOnboardingHeaderStatus() {
 (function (tmsApp, $) {
     function submitChassisDetails($form) {
         $('.print-error-msg').css('display', 'none');
+        // rear_view
+        // front_view
+        //insurance_cover_note
+        //motor_vehicle_certificate
+
+        if (document.querySelector('[name="front_view"]').files.length == 0) {
+            toastr.error('You have not attached the vehicle Front View Image', 'Validation Failure')
+            return;
+        }
+        if (document.querySelector('[name="rear_view"]').files.length == 0) {
+            toastr.error('You have not attached the vehicle Back View Image', 'Validation Failure')
+            return;
+        }
+        if (document.querySelector('[name="right_view"]').files.length == 0) {
+            toastr.error('You have not attached the vehicle Right View Image', 'Validation Failure')
+            return;
+        }
+        if (document.querySelector('[name="left_view"]').files.length == 0) {
+            toastr.error('You have not attached the vehicle Left View Image', 'Validation Failure')
+            return;
+        }
 
         let fileUploads = [].slice.call(document.querySelectorAll('input[type="file"]'));
         let filesValid = true;
@@ -1380,6 +1407,63 @@ function checkOnboardingHeaderStatus() {
         );
     }
 
+    function submitAccessoriesDetails() {
+        $('.print-error-msg').css('display', 'none');
+
+        let $form = document.forms['tms_accessories_form'];
+        const isValid = $($form).valid();
+
+        if (!isValid) {
+            toastr.warning(
+                "Sorry, the data did not pass validation check, for details, check the indicated fields",
+                'Validation'
+            );
+            return;
+        }
+
+        tmsApp.asyncPostFormData(
+            $form.action,
+            new FormData($form),
+            function (asyncResponse) {
+                if ('state' in asyncResponse && asyncResponse.state != 'success') {
+                    if (asyncResponse.hasOwnProperty('errors')) {
+                        tmsApp.printErrorMsg(asyncResponse.errors);
+                        return
+                    }
+
+                    setTimeout(function () {
+                        tmsApp.systemError(
+                            'Vehicle On-Boarding - Assignment',
+                            asyncResponse['message'],
+                            function () {
+                            }, 'error');
+                    }, 300);
+                    toastr.error(
+                        asyncResponse.message
+                    );
+                    return;
+                }
+
+                tmsApp.showSystemMessage(
+                    'Vehicle On-Boarding - Assignment',
+                    asyncResponse.message,
+                    function () {
+                        setTimeout(
+                            function () {
+                                window.location.href = asyncResponse['redirectUrl']
+                            }, 500
+                        );
+                    }, 'success');
+            },
+            function (xhr, settings, errorThrown) {
+                console.log(errorThrown)
+                setTimeout(function () {
+                    tmsApp.showErrorMessages(xhr, 'On-Boarding Completion');
+                }, 300)
+            }
+        );
+    }
+
     function getPurchaseOrderDetails() {
         const purchaseOrder = document.querySelector('#purchase_order_number').value
         let formData = new FormData();
@@ -1495,7 +1579,7 @@ function checkOnboardingHeaderStatus() {
     function nativeVehicleBrandChanged() {
         const brandId = $('select[name="brand"]').val()?.toString().trim();
 
-        if(!brandId){
+        if (!brandId) {
             return;
         }
 
@@ -1839,10 +1923,10 @@ function checkOnboardingHeaderStatus() {
                 required: true
             },
 
-            'motor_vehicle_certificate': {
+            motor_vehicle_certificate: {
                 required: true
             },
-            'insurance_cover_note': {
+            insurance_cover_note: {
                 required: true
             },
             front_view: {
@@ -1859,7 +1943,7 @@ function checkOnboardingHeaderStatus() {
             }
         },
         {
-            'chassisNumber': {
+            chassisNumber: {
                 required: "Chassis number is required"
             },
             'engineNumber': {
@@ -1881,7 +1965,7 @@ function checkOnboardingHeaderStatus() {
                 required: "Specify the minimum driver's license class required"
             },
             'initialOdometerReading': {
-                required: "Field is required"
+                required: "provide the vehicles initial odometer value"
             },
             'currentOdometerReading': {
                 required: "Provide current odometer reading"
@@ -1892,13 +1976,13 @@ function checkOnboardingHeaderStatus() {
             'nextServiceOdometerReading': {
                 required: "Your must provide the odometer reading when vehicle is next due for service"
             },
-            'inspectionDate': {
+            inspectionDate: {
                 required: "Your have not provided the date the vehicle was inspected"
             },
-            'motor_vehicle_certificate': {
+            motor_vehicle_certificate: {
                 required: "Motor Vehicle Certificate is required"
             },
-            'insurance_cover_note': {
+            insurance_cover_note: {
                 required: "Insurance Cover Note must be attached"
             }
         }
@@ -2186,6 +2270,13 @@ function checkOnboardingHeaderStatus() {
         e.preventDefault();
         e.stopPropagation();
         submitAssignmentDetails();
+    });
+
+
+    $('[name="tms_accessories_form"]').on('submit', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        submitAccessoriesDetails(e.currentTarget);
     });
 
     $('[name="poSearchBtn"]').on('click', function (e) {

@@ -154,6 +154,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('post-costing-details', [VehicleOnBoardingController::class, 'storeCostingDetails'])
                 ->name('vehicle.cost.detail');
 
+            Route::post('post-vehicle.accessories', [VehicleOnBoardingController::class, 'storeAccessoryDetails'])
+                ->name('vehicle.accessories.save');
+
             Route::post('post-body-details', [VehicleOnBoardingController::class, 'storeBodyDetails'])
                 ->name('vehicle.body.detail');
 
