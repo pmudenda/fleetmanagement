@@ -20,9 +20,9 @@ class VehicleModelsController extends Controller
     public function get(Request $request): JsonResponse
     {
         try {
-            $data = ConfigVehicleModel::select(DB::raw('*'))
+            $data = ConfigVehicleModel::get();
+                //select(DB::raw('*'))
                 //->groupBy('brand_guid')
-                ->get();
             return response()->json([
                 'state' => 'success',
                 'payload' => $data
@@ -42,7 +42,7 @@ class VehicleModelsController extends Controller
             $data = $request->all();
 
             $modelCode = trim(strtoupper($request->input('model_code')));
-            $vehicleModel = ConfigVehicleBrand::where('model_code', '=', $modelCode)
+            $vehicleModel = ConfigVehicleModel::where('model_code', '=', $modelCode)
                 ->where('model_name', '=', trim(strtoupper($request->input('model_code'))))
                 ->first();
 
@@ -54,7 +54,7 @@ class VehicleModelsController extends Controller
                 ]);
             }
 
-            $model = ConfigVehicleModel::updateOrCreate(
+            $model = ConfigVehicleModel::create(
                 [
                 'model_name' => trim(strtoupper($request->input('model_name'))),
                 'model_code' => $request->input('model_code')

@@ -810,6 +810,9 @@
                     'requisition_type': {
                         required: true,
                     },
+                    driver_staff_number: {
+                        required: true
+                    },
                     fuel_allocation: {
                         required: true
                     },
@@ -857,7 +860,10 @@
                     },
                     odometer_reading: {
                         required: 'You must declare the odometer reading'
-                    }
+                    },
+                    driver_staff_number: {
+                        required: "You need to provide driver details"
+                    },
                 }
             );
 

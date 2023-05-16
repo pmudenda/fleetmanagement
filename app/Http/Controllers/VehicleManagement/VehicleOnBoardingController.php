@@ -24,7 +24,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Validator;
 
 class VehicleOnBoardingController extends Controller
 {
@@ -106,21 +105,31 @@ class VehicleOnBoardingController extends Controller
                 $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments((int)$reference);
             }
             $viewName = match ($step) {
-                '1' => "vehicleManagement.onboarding.step1",
-                '2' => "vehicleManagement.onboarding.step2",
-                '3' => "vehicleManagement.onboarding.step3",
-                '4' => "vehicleManagement.onboarding.step4",
-                '5' => "vehicleManagement.onboarding.step5",
+                '1' => "vehicleManagement.onboarding.step6",
+                '2' => "vehicleManagement.onboarding.step6",
+                '3' => "vehicleManagement.onboarding.step6",
+                '4' => "vehicleManagement.onboarding.step6",
+                '5' => "vehicleManagement.onboarding.step6",
                 '6' => "vehicleManagement.onboarding.step6",
+                '7' => "vehicleManagement.onboarding.step6",
                 default => "vehicleManagement.onboarding.index",
             };
             return view($viewName)
-                ->with(compact('reference', 'vehicle', 'vehicleDocuments'));
+                ->with(compact(
+                    'reference',
+                    'vehicle',
+                    'step',
+                    'vehicleDocuments'
+                ));
         } catch (Exception $e) {
             Log::error($e);
 
             return view("vehicleManagement.onboarding.step1")
-                ->with(compact('reference', 'vehicle', 'vehicleDocuments'));
+                ->with(compact(
+                    'reference',
+                    'vehicle',
+                    'vehicleDocuments'
+                ));
         }
     }
 
@@ -168,7 +177,7 @@ class VehicleOnBoardingController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::internalServerError;
-                //'Sorry, some errors were detected while processing your request, please try again later.';
+            //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -199,7 +208,7 @@ class VehicleOnBoardingController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::internalServerError;
-                //'Sorry, some errors were detected while processing your request, please try again later.';
+            //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -226,7 +235,7 @@ class VehicleOnBoardingController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::internalServerError;
-                //'Sorry, some errors were detected while processing your request, please try again later.';
+            //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -239,6 +248,32 @@ class VehicleOnBoardingController extends Controller
     }
 
     public function storeCostingDetails(CostingDetailsPost $request): JsonResponse
+    {
+        try {
+            $model = $this->onBoardingService->processCostingDetails($request);
+            return response()->json([
+                'state' => 'success',
+                'request' => $request->all(),
+                'payload' => $model,
+                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 5, 'reference' => $model->vehicle_header_id]),
+                'message' => 'Request Processed Successfully'
+            ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            $message = ErrorMessages::internalServerError;
+            //'Sorry, some errors were detected while processing your request, please try again later.';
+            if ($e instanceof VehicleOnBoardingException) {
+                $message = $e->getMessage();
+            }
+            return response()->json([
+                'state' => 'failure',
+                'payload' => (object)[],
+                'message' => $message
+            ]);
+        }
+    }
+
+    public function storeAccessoryDetails(CostingDetailsPost $request): JsonResponse
     {
         try {
             $model = $this->onBoardingService->processCostingDetails($request);
@@ -278,7 +313,7 @@ class VehicleOnBoardingController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::internalServerError;
-                //'Sorry, some errors were detected while processing your request, please try again later.';
+            //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -294,15 +329,19 @@ class VehicleOnBoardingController extends Controller
     {
         $valid = true;
 
+        $message = '';
         switch ($request->get('method')) {
             case 'registration_number':
                 $valid = VehicleHeader::where('registration_number', trim($request->get('key')))->count() == 0;
+                $message = $valid ? 'Valid' : 'Duplicate Registration Number';
                 break;
-            case 'registration_number':
+            case 'chassis':
                 $valid = ChassisDetail::where('chassis_number', trim($request->get('key')))->count() == 0;
+                $message = $valid ? 'Chassis Number is valid' : 'Duplicate Chassis Number';;
                 break;
             case 'motorVehicleCertificate':
                 $valid = ChassisDetail::where('white_book_serial', trim($request->get('key')))->count() == 0;
+                $message = $valid ? 'White Book Serial is valid' : 'Duplicate White Book Number';;
                 break;
         }
 
@@ -310,7 +349,7 @@ class VehicleOnBoardingController extends Controller
             'state' => 'success',
             'payload' => [
                 'validity' => $valid,
-                'message' => $valid ? 'Document number is valid' : 'Document number is invalid'
+                'message' => $message
             ],
             'request' => $request->all()
         ]);
