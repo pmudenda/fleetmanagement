@@ -222,7 +222,6 @@ class OnBoardingService
                 'registration_type' => $request->registration_type
             ]);
 
-        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::header_data);
         DB::commit();
         return $model;
     }
