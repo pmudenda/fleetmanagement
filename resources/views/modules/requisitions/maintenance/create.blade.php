@@ -15,12 +15,18 @@
                     <h4>New Fuel Requisition</h4>
                 </div>
                 <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                    <button type="button" id="submitRequisitionBtn" class="btn btn-success btn-sm mr-3 when_odo_valid"
+                    <button type="button"
+                            id="submitRequisitionBtn"
+                            class="btn btn-success btn-sm mr-3 when_odo_valid"
                             disabled>
-                        <i class="fas fa-save"></i> Submit
+                        <i class="fas fa-save"></i>
+                        Submit
                     </button>
-                    <button type="button" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3">
-                        <i class="fas fa-undo"></i> Cancel
+                    <button type="button"
+                            id="resetRequisitionBtn"
+                            class="btn btn-danger btn-sm mr-3">
+                        <i class="fas fa-undo"></i>
+                        Cancel
                     </button>
 
                 </div>
@@ -30,7 +36,9 @@
 
                 <x-error-view/>
 
-                <form name="fuelRequisitionForm" id="fuelRequisitionForm" action="{{route('save.fuel.requisition')}}"
+                <form name="fuelRequisitionForm"
+                      id="fuelRequisitionForm"
+                      action="{{route('save.workshop.requisition')}}"
                       method="post">
                     @csrf
                     <div class="card-body user-data">
@@ -631,7 +639,8 @@
                         }
                     },
                     function (xhr) {
-                        tmsApp.systemError('System Message','We could not complete processing your request, please try again later', function(){});
+                        tmsApp.systemError('System Message', 'We could not complete processing your request, please try again later', function () {
+                        });
                     }
                 )
             }
