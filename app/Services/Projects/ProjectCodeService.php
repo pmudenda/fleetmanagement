@@ -10,7 +10,7 @@ class ProjectCodeService
     public function getActiveProjects(string $period, string $searchCriteria)
     {
          $query = "SELECT * FROM SPMS_PROJECTS_VIEW
-          WHERE  CODE_PROJECT = LIKE '%{$searchCriteria}%' OR DESCRIPTION LIKE '%{$searchCriteria}%'"; //AND BEGINNING_BALANCE != 0
+          WHERE  CODE_PROJECT LIKE '%{$searchCriteria}%' OR DESCRIPTION LIKE '%{$searchCriteria}%' AND STATUS == '01'";
         $activeProjects = DB::select($query);
 
         return ActiveProjectsModel::hydrate($activeProjects);
