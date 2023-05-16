@@ -64,16 +64,20 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     if (data['business_unit_code']) {
         $('select[name="user_unit"]').val(data['business_unit_code']);
-        setTimeout(function () {
-            $('select[name="user_unit"]').trigger('change');
-        }, 300);
+        $('select[name="user_unit"]').attr('data-value',data['business_unit_code']);
     }
     if (data['location_name']) {
         $('select[name="vehicleLocation"]').val(data['location_name']);
-        setTimeout(function () {
-            $('select[name="vehicleLocation"]').trigger('change');
-        }, 300);
+        $('select[name="vehicleLocation"]').attr('data-value', data['location_name']);
     }
+
+    setTimeout(function () {
+        $('select[name="vehicleLocation"]').trigger('change');
+    }, 300);
+
+    setTimeout(function () {
+        $('select[name="user_unit"]').trigger('change');
+    }, 300);
 
     //$("#user_unit").change();
     Vue.set(app['chassisDetails'], 'chassisNumber', data['chassis_number']);
