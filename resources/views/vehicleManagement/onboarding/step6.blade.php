@@ -12,6 +12,10 @@
             display: inline-block;
             box-shadow: 0px -3px 6px 2px rgba(0, 0, 0, 0.2);
         }
+
+        th {
+            white-space: nowrap;
+        }
     </style>
 @endpush
 @section('content')
@@ -20,9 +24,8 @@
         <div class="row g-12 g-xl-12" id="kt_app_main">
 
             <!--BEGIN:::VEHICLE HEADER -->
-            @include('vehicleManagement.onboarding.tabs.save_header')
+            @include('vehicleManagement.onboarding.tabs.unsaved_header')
             <!--END:::VEHICLE HEADER -->
-
             <!--BEGIN:::DETAILS  -->
             <div v-show="isHeaderSaved" class="col-md-12 col-sm-12 mb-5 mb-xl-10"
                  style="border-right: 1px solid dimgray;">
@@ -36,52 +39,68 @@
                             role="tablist">
 
                             <li class="nav-item" role="presentation" data-tab="tms_chassis_details_tab">
-                                <a class="nav-link text-active-primary pb-5" data-bs-toggle="tab"
+                                <a class="nav-link text-active-primary pb-5 @if($step==1) active @endif"
+                                   data-bs-toggle="tab"
                                    href="#tms_chassis_details_tab"
                                    aria-selected="false"
                                    role="tab"
                                    tabindex="-1">
                                     @include('layouts.partials.chassis_icon')
-                                    General Data
+                                    Step 1: General Data
                                 </a>
                             </li>
 
                             <li class="nav-item" role="presentation" data-tab="tms_engine_details_tab">
-                                <a class="nav-link text-active-primary pb-5"
+                                <a @if($step < 2 ) disabled="disabled"
+                                   @endif class="nav-link text-active-primary pb-5 @if($step==2) active @endif"
                                    data-bs-toggle="tab"
                                    href="#tms_engine_details_tab" aria-selected="false" role="tab"
                                    tabindex="-1">
                                     @include('layouts.partials.engine_icon')
-                                    Technical Data
+                                    Step 2: Technical Data
+                                </a>
+                            </li>
+
+                            <li class="nav-item" role="presentation" data-tab="tms_engine_details_tab">
+                                <a @if($step < 3 ) disabled="disabled"
+                                   @endif class="nav-link text-active-primary pb-5 @if($step == 3) active @endif"
+                                   data-bs-toggle="tab"
+                                   href="#tms_access_checkin_tab" aria-selected="false" role="tab"
+                                   tabindex="-1">
+                                    @include('layouts.partials.engine_icon')
+                                    Step 3: Accessories Check-in
                                 </a>
                             </li>
 
                             <li class="nav-item" role="presentation" data-tab="tms_costing_valuation_tab">
-                                <a class="nav-link text-active-primary pb-5"
+                                <a @if($step < 4 ) disabled="disabled"
+                                   @endif class="nav-link text-active-primary pb-5 @if($step==4) active @endif"
                                    data-bs-toggle="tab"
                                    href="#tms_costing_valuation_tab" aria-selected="false" role="tab"
                                    tabindex="-1">
                                     @include('layouts.partials.costing_icon')
-                                    Costing & Valuation
+                                    Step 4: Costing & Valuation
                                 </a>
                             </li>
 
                             <li class="nav-item" role="presentation" data-tab="tms_body_weight_tab">
-                                <a class="nav-link text-active-primary pb-5"
+                                <a @if($step < 5 ) disabled="disabled"
+                                   @endif class="nav-link text-active-primary pb-5 @if($step==5) active @endif"
                                    data-bs-toggle="tab"
                                    href="#tms_body_weight_tab" aria-selected="true" role="tab">
                                     @include('layouts.partials.body_icon')
-                                    Body & Weight Details
+                                    Step 5: Body & Weight Details
                                 </a>
                             </li>
 
                             <li class="nav-item" role="presentation" data-tab="tms_assignment_tab">
-                                <a class="nav-link text-active-primary pb-5 active"
+                                <a @if($step < 6 ) disabled="disabled"
+                                   @endif class="nav-link text-active-primary pb-5 @if($step==6) active @endif"
                                    data-bs-toggle="tab"
                                    href="#tms_assignment_tab" aria-selected="false" role="tab"
                                    tabindex="-1">
                                     @include('layouts.partials.assignment_icon')
-                                    Assignment
+                                   Step 6: Assignment
                                 </a>
                             </li>
 
@@ -92,31 +111,43 @@
                         <div class="tab-content" id="myTabContent">
 
                             <!--Begin:::Chassis Details Tab pane-->
-                            <div class="tab-pane fade" id="tms_chassis_details_tab" role="tabpanel">
+                            <div class="tab-pane fade @if($step==1) active show @endif" id="tms_chassis_details_tab"
+                                 role="tabpanel">
                                 @include('vehicleManagement.onboarding.tabs.chassis_tab')
                             </div>
                             <!--End:::Chassis Details Tab pane-->
 
                             <!--Begin:::Engine Details Tab pane-->
-                            <div class="tab-pane fade" id="tms_engine_details_tab" role="tabpanel">
+                            <div class="tab-pane fade @if($step==2) active show @endif" id="tms_engine_details_tab"
+                                 role="tabpanel">
                                 @include('vehicleManagement.onboarding.tabs.engine_details_tab')
                             </div>
                             <!--End:::Engine Details Tab pane-->
 
+                            <!--Begin:::Engine Details Tab pane-->
+                            <div class="tab-pane fade @if($step==3) active show @endif" id="tms_access_checkin_tab"
+                                 role="tabpanel">
+                                @include('vehicleManagement.onboarding.tabs.accessories_tab')
+                            </div>
+                            <!--End:::Engine Details Tab pane-->
+
                             <!--Begin::: Costing And Valuation Tab pane-->
-                            <div class="tab-pane fade" id="tms_costing_valuation_tab" role="tabpanel">
+                            <div class="tab-pane fade @if($step==4) active show @endif" id="tms_costing_valuation_tab"
+                                 role="tabpanel">
                                 @include('vehicleManagement.onboarding.tabs.cost_details_tab')
                             </div>
                             <!--End:::Tab pane-->
 
                             <!--Begin:::Body Weight Tab pane-->
-                            <div class="tab-pane fade" id="tms_body_weight_tab" role="tabpanel">
+                            <div class="tab-pane fade @if($step==5) active show @endif" id="tms_body_weight_tab"
+                                 role="tabpanel">
                                 @include('vehicleManagement.onboarding.tabs.weight_details_tab')
                             </div>
                             <!--End::: Body WeightTab pane-->
 
                             <!--Begin:::Assignment Tab pane-->
-                            <div class="tab-pane fade active show" id="tms_assignment_tab" role="tabpanel">
+                            <div class="tab-pane fade @if($step==6) active show @endif" id="tms_assignment_tab"
+                                 role="tabpanel">
                                 @include('vehicleManagement.onboarding.tabs.assignment_details')
                             </div>
                             <!--End::: Assignment Tab pane-->
