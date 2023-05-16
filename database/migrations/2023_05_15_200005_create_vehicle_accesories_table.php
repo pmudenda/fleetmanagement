@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('VM_VEHICLE_ACCESSORIES', function (Blueprint $table) {
+        Schema::create('CONFIG_ACCESSORIES', function (Blueprint $table) {
             $table->id();
             $table->string('created_by', 255)->nullable();
             $table->string('name', 255);
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('VM_VEHICLE_ACCESSORIES');
+        Schema::dropIfExists('CONFIG_ACCESSORIES');
     }
 };
