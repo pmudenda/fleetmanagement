@@ -26,6 +26,7 @@
             <!--BEGIN:::VEHICLE HEADER -->
             @include('vehicleManagement.onboarding.tabs.unsaved_header')
             <!--END:::VEHICLE HEADER -->
+
             <!--BEGIN:::DETAILS  -->
             <div v-show="isHeaderSaved" class="col-md-12 col-sm-12 mb-5 mb-xl-10"
                  style="border-right: 1px solid dimgray;">

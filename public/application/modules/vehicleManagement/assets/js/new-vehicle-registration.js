@@ -1,4 +1,5 @@
 Vue.component('v-select', VueSelect.VueSelect);
+window.VehicleModels = [];
 
 function displayVehicleDetails(asyncResponse) {
     if (!asyncResponse.success) {
@@ -208,18 +209,17 @@ let app = new Vue({
                 leftView: null,
                 rightView: null,
             },
-            isHeaderSaved: true,
+            isHeaderSaved: false,
             licenseTypes: [],
             organizationalUnits: [],
             otherDetails: {},
-            regNumberValidity: {
-                state: null,
-                message: null
-            },
+            /*  regNumberValidity: {
+                  state: null,
+                  message: null
+              },*/
             registrationTypes: [],
             searchedEmployeesList: [],
             selectedBrandModels: [],
-
             // forms
             selectedModelCodes: [],
             supplierList: [],
@@ -244,11 +244,11 @@ let app = new Vue({
     },
 
     created() {
-        this.getVehicleBrands();
-        this.getConfiguredModels();
-        this.getBodyTypes();
+        //this.getVehicleBrands();
+        //this.getConfiguredModels();
+        //this.getBodyTypes();
         this.getBusinessUnits();
-        this.getOrganizationalUnits();
+        //this.getOrganizationalUnits();
         this.getDirectorates();
         this.getCostCenters();
         this.getBusinessAreas();
@@ -373,33 +373,33 @@ let app = new Vue({
         });
 
         $(document).on('change', '[data-emp="staff_number"]', function (e) {
-                let input = e.target;
-                let value = input.value;
+            let input = e.target;
+            let value = input.value;
 
-                let names = app['searchedEmployeesList'].filter(function (user) {
-                    return user['staff_number'] === value;
-                });
-
-                if (names.length === 0) return;
-
-                $(input).closest('tr').find('input[data-emp="name"]').val(names[0].name)
-
+            let names = app['searchedEmployeesList'].filter(function (user) {
+                return user['staff_number'] === value;
             });
 
-        $("#myPdf").on("change", function(e){
+            if (names.length === 0) return;
+
+            $(input).closest('tr').find('input[data-emp="name"]').val(names[0].name)
+
+        });
+
+        $("#myPdf").on("change", function (e) {
             var file = e.target.files[0]
-            if(file.type == "application/pdf"){
+            if (file.type == "application/pdf") {
                 var fileReader = new FileReader();
-                fileReader.onload = function() {
+                fileReader.onload = function () {
                     var pdfData = new Uint8Array(this.result);
                     // Using DocumentInitParameters object to load binary data.
                     var loadingTask = pdfjsLib.getDocument({data: pdfData});
-                    loadingTask.promise.then(function(pdf) {
+                    loadingTask.promise.then(function (pdf) {
                         console.log('PDF loaded');
 
                         // Fetch the first page
                         var pageNumber = 1;
-                        pdf.getPage(pageNumber).then(function(page) {
+                        pdf.getPage(pageNumber).then(function (page) {
                             console.log('Page loaded');
 
                             var scale = 1.5;
@@ -438,22 +438,29 @@ let app = new Vue({
             document.querySelector('#bodyType').value = selectedBody?.guid;
         },
 
+        checkChassisNumberValidity: function () {
+            fetch(document.querySelector('#documentValidationUrl').value
+                + '?method=chassis&key=' + app['chassisDetails']['chassisNumber'])
+                .then(response => response.json())
+                .then(response => {
+                    // Populate results
+                    if (response.state === 'failure') {
+                        //show errors
+                        toastr.error('Chassis validity not verified', 'Connection error');
+                        return;
+                    }
+
+                    app['document_validity'].state = response['payload'].validity;
+                    app['document_validity'].message = response['payload'].message;
+                })
+                .catch(function (error) {
+                    // notify of error
+                    toastr.error(
+                        'Could not retrieve data, some feature might not work.', 'Connection error')
+                });
+        },
+
         checkValueChange(element) {
-        },
-
-        formatMoney: function (event) {
-            setTimeout(function () {
-                //ZMW
-                let formatted = accounting.formatMoney(event.target.value, '');
-                app['chassisDetails'].chargeOutRate = formatted;
-            }, 300);
-        },
-
-        formatCostPriceAsMoney: function (event) {
-            setTimeout(function () {
-                let formatted = accounting.formatMoney(event.target.value, '');
-                app['costingAndValuation'].costPrice = formatted;
-            }, 300);
         },
 
         formatBookValueAsMoney: function (event) {
@@ -464,25 +471,20 @@ let app = new Vue({
             }, 300);
         },
 
-        // web UI event
-        getBodyTypes: function () {
-            fetch(document.querySelector('#bodyTypesEndpoint').value)
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
+        formatCostPriceAsMoney: function (event) {
+            setTimeout(function () {
+                let formatted = accounting.formatMoney(event.target.value, '');
+                app['costingAndValuation'].costPrice = formatted;
+            }, 300);
+        },
 
-                    app.bodyTypes = response.payload;
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
-                });
+        // web UI event
+        formatMoney: function (event) {
+            setTimeout(function () {
+                //ZMW
+                let formatted = accounting.formatMoney(event.target.value, '');
+                app['chassisDetails'].chargeOutRate = formatted;
+            }, 300);
         },
 
         getBusinessAreas: function () {
@@ -585,53 +587,8 @@ let app = new Vue({
         },
 
         getModelLabel: function (val) {
-            if (typeof val === 'object') {
-                return val.model_name + '=>' + val.model_code;
-            }
-        },
-
-        /*getModelLabel: function (val) {
-            if (typeof val === 'object') {
-                return val.model_name + '=>' + val.model_code;
-            }
-        },*/
-
-        getOrganizationalUnits: function () {
-            fetch(document.querySelector('#orgUnitsEndpoint').value)
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-
-                    app.organizationalUnits = response['payload'];
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
-                });
-        },
-
-        getTransmissionTypes: function () {
-            this.transmissionTypes = [
-                {
-                    'name': 'Automatic',
-                    'code': 'AT'
-                },
-                {
-                    'name': 'Manual',
-                    'code': 'MT'
-                }
-            ]
-        },
-
-        getUserUnitLabel: function (val) {
-            if (typeof val === 'object') {
-                return val['code_unit'] + '=>' + val.description;
+            if (typeof val === 'object' && !Array.isArray(val)) {
+                return val['model_name'] + '=>' + val['model_code'];
             }
         },
 
@@ -641,24 +598,17 @@ let app = new Vue({
            }
        },*/
 
-        getVehicleBrands: function () {
-            fetch(document.querySelector('#brands-api').value)
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-
-                    app.vehicleBrands = response['payload'];
-                    app.engineBrands = response['payload'];
-                }).catch(function (error) {
-                // notify of error
-                toastr.error(
-                    'Connection error. Could not retrieve data, some feature might not work.')
-            });
+        getTransmissionTypes: function () {
+            this.transmissionTypes = [
+                {
+                    'name': 'AUTOMATIC',
+                    'code': 'AT'
+                },
+                {
+                    'name': 'MANUAL',
+                    'code': 'MT'
+                }
+            ]
         },
 
         /*getVehicleBrands: function () {
@@ -754,24 +704,6 @@ let app = new Vue({
                 });
         },*/
 
-        /*getConfiguredModels: function () {
-            fetch(document.querySelector('#modelEndpoint').value)
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-                    app.configuredModels = response['payload'];
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-                });
-        },*/
-
         /* getOrganizationalUnits: function () {
              fetch(document.querySelector('#orgUnitsEndpoint').value)
                  .then(response => response.json())
@@ -792,23 +724,10 @@ let app = new Vue({
                  });
          },*/
 
-
-        getConfiguredModels: function () {
-            fetch(document.querySelector('#modelEndpoint').value)
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-                    app.configuredModels = response['payload'];
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-                });
+        getUserUnitLabel: function (val) {
+            if (typeof val === 'object') {
+                return val['code_unit'] + '=>' + val.description;
+            }
         },
 
         loadLicenceClasses: function () {
@@ -837,24 +756,6 @@ let app = new Vue({
             ]
         },
 
-        modelChanged(model) {
-            this.vehicleHeader.model_guid = model?.id;
-            this.vehicleHeader.model_code = model?.model_code;
-            document.querySelector('#model').value = model?.id;
-            document.querySelector('#model_code').value = model?.model_code;
-            let $holder = document.querySelector('#model_holder');
-            if ($holder) {
-                $holder.value = model?.model_name;
-            }
-        },
-
-        /*modelChanged(model) {
-          this.vehicleHeader.model_guid = model?.id;
-          this.vehicleHeader.model_code = model?.model_code;
-          document.querySelector('#model').value = model?.id;
-          document.querySelector('#model_code').value = model?.model_code;
-      },*/
-
         postRequest(data, url, successCallBack, errorCallBack) {
             axios.post(url, data, {
                 headers: {
@@ -866,12 +767,9 @@ let app = new Vue({
             }).catch(function (error) {
                 errorCallBack(error);
             });
-        }
-        ,
+        },
 
         postVehicleHeaderData() {
-
-            // validate all required information
             if (!this.validators) {
                 return alert('No Validator Configured');
             }
@@ -899,7 +797,6 @@ let app = new Vue({
                             el.removeAttribute('data-kt-indicator');
                             el.disabled = false;
                         }, 300)
-
 
                         if (response.data.state != 'success') {
                             toastr.error(
@@ -942,8 +839,7 @@ let app = new Vue({
                     });
             });
 
-        }
-        ,
+        },
 
         postVehicleImages() {
             let completionForm = $('#completeRegistrationForm');
@@ -974,8 +870,7 @@ let app = new Vue({
                 });
 
             })
-        }
-        ,
+        },
 
         preview(event) {
             //$('#frame').src = URL.createObjectURL(event.target.files[0]);
@@ -1001,39 +896,14 @@ let app = new Vue({
                 }
 
                 $(uploadFile).closest('div').find('p').addClass('d-none');
-            }else{
+            } else {
 
-                toastr.error('only image (.jpg, .jpeg, .png, .bmp) file types are allowed','Invalid File Format Selected')
+                toastr.error('only image (.jpg, .jpeg, .png, .bmp) file types are allowed', 'Invalid File Format Selected')
             }
-        }
-        ,
+        },
 
-        switchTabs() {
-            let tabs = document.querySelectorAll('a[role="tab"]');
-            let activeIndex = 0;
-            $.each(tabs, function (index, element) {
-                if ($(element).hasClass('active')) {
-                    activeIndex = index;
-                    return;
-                }
-            });
-            let nextIndex = activeIndex < tabs.length - 1 ? activeIndex + 1 : activeIndex;
-
-            if (nextIndex === activeIndex) {
-                return;
-            }
-            $(tabs[activeIndex]).removeClass('active');
-            $(tabs[nextIndex]).addClass('active');
-
-            // switch visible content
-            let tabContent = document.querySelector('#myTabContent').children;
-            $(tabContent[nextIndex]).addClass('active').addClass('show');
-            $(tabContent[activeIndex]).removeClass('active').removeClass('show')
-        }
-        ,
-
-        transmissionTypeChanged: function (transmissionType) {
-            document.querySelector('#transmission_type').value = transmissionType?.code + ':' + transmissionType?.name;
+        registrationTypeChanged(selectedType) {
+            console.log(selectedType)
         },
 
         /*validateRegistrationNumber: function () {
@@ -1067,26 +937,31 @@ let app = new Vue({
                 });
         },*/
 
-        checkChassisNumberValidity: function () {
-            fetch(document.querySelector('#documentValidationUrl').value
-                + '?method=chassis&key=' + app['chassisDetails']['chassisNumber'])
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Chassis validity not verified', 'Connection error');
-                        return;
-                    }
+        switchTabs() {
+            let tabs = document.querySelectorAll('a[role="tab"]');
+            let activeIndex = 0;
+            $.each(tabs, function (index, element) {
+                if ($(element).hasClass('active')) {
+                    activeIndex = index;
+                    return;
+                }
+            });
+            let nextIndex = activeIndex < tabs.length - 1 ? activeIndex + 1 : activeIndex;
 
-                    app['document_validity'].state = response['payload'].validity;
-                    app['document_validity'].message = response['payload'].message;
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error(
-                        'Could not retrieve data, some feature might not work.', 'Connection error')
-                });
+            if (nextIndex === activeIndex) {
+                return;
+            }
+            $(tabs[activeIndex]).removeClass('active');
+            $(tabs[nextIndex]).addClass('active');
+
+            // switch visible content
+            let tabContent = document.querySelector('#myTabContent').children;
+            $(tabContent[nextIndex]).addClass('active').addClass('show');
+            $(tabContent[activeIndex]).removeClass('active').removeClass('show')
+        },
+
+        transmissionTypeChanged: function (transmissionType) {
+            document.querySelector('#transmission_type').value = transmissionType?.code + ':' + transmissionType?.name;
         },
 
         vehicleBrandChanged(selectedValue) {
@@ -1101,48 +976,6 @@ let app = new Vue({
             app.selectedBrandModels = app.configuredModels.filter(function (model) {
                 return model.brand_guid?.toString()?.trim() === app?.vehicleHeader.brand_guid?.toString().trim();
             });
-        },
-
-        /*vehicleTypeChanged() {
-            console.log('Vehicle Type Changed')
-        },*/
-
-        userUnitChanged: function (user_unit) {
-
-            app.vehicleHeader.user_unit_code = user_unit?.code_unit;
-            document.querySelector('[name="user_unit"]').value = user_unit?.code_unit;
-            let cost_center_code = user_unit?.cc_code
-            let business_unit_code = user_unit?.bu_code
-
-
-            let filteredCostCenters = app.costCenters.filter(function (cost_center) {
-                return cost_center.code_cost_center?.trim() === cost_center_code?.trim();
-            });
-
-
-            if (filteredCostCenters.length !== 0) {
-                let costCentreOfInterest = filteredCostCenters[0];
-
-                this.assignmentDetails.costCenter = costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description'];
-                $('[name="costCenter"]').val(costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description']);
-            }
-
-
-            let filteredBusinessUnits = app.businessUnits.filter(function (bu) {
-                return bu.code_bu?.trim() === business_unit_code?.trim();
-            });
-
-            if (filteredBusinessUnits.length == 0) return;
-
-            let businessUnitOfInterest = filteredBusinessUnits[0];
-
-            const val = businessUnitOfInterest['code_bu'] + ':' + businessUnitOfInterest['description'];
-            $('[name="businessUnit"]').val(val);
-            this.assignmentDetails.businessUnit = val;
-        },
-
-        registrationTypeChanged(selectedType) {
-            console.log(selectedType)
         },
     }
 });
@@ -1628,14 +1461,61 @@ function checkOnboardingHeaderStatus() {
         }
     }
 
+    function getVehicleBrands() {
+        fetch(document.querySelector('#brands-api').value)
+            .then(response => response.json())
+            .then(response => {
+                let selectElem = $('select[name="brand"]');
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, no data found')
+                    return;
+                }
+
+                //app.vehicleBrands = response['payload'];
+                //app.engineBrands = response['payload'];
+                let vehicleBrands = response['payload'];
+                tmsApp.populateDropDownList(selectElem, vehicleBrands, "id", ["name"], "");
+
+                let brand_id = selectElem.attr('data-value');
+                console.log(brand_id);
+                if (brand_id) {
+                    selectElem.val(brand_id);
+                    selectElem.trigger('change');
+                }
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Connection error. Could not retrieve data, some feature might not work.')
+            });
+    }
+
     function nativeVehicleBrandChanged() {
         const brandId = $('select[name="brand"]').val()?.toString().trim();
-        Vue.set(app['selectedBrandModels'], []);
-        let filteredResults = app.$data.configuredModels.filter(function (model) {
+
+        if(!brandId){
+            return;
+        }
+
+        let filteredResults = window.VehicleModels.filter(function (model) {
             return model.brand_guid?.toString().trim() === brandId;
         });
-        console.log(filteredResults);
-        Vue.set(app['selectedBrandModels'], filteredResults);
+
+        if (filteredResults.length === 0) {
+            toastr.warning('No Models Found for the selected models', 'Models')
+        }
+
+        let selectElem = $('select[name="model"]');
+        tmsApp.populateDropDownList(selectElem, filteredResults, "id", ["model_name", "model_code"], " => ");
+
+        let model = selectElem.attr('data-value');
+
+        if (model) {
+            selectElem.val(model);
+            selectElem.trigger('change');
+        }
     }
 
     function postVehicleHeaderData() {
@@ -1714,7 +1594,11 @@ function checkOnboardingHeaderStatus() {
                     document.querySelector("#submitBtn").removeAttribute('disabled')
                 } else {
                     document.querySelector("#submitBtn").setAttribute('disabled', 'disabled')
-                    toastr.error('Duplicate registration number, vehicle already registered', 'Invalid Registration')
+                    tmsApp.systemError(
+                        'Registration Number Validation',
+                        'Duplicate registration number, vehicle already with registration number ' +
+                        ref + ' already exists'
+                    );
                 }
             })
             .catch(function (error) {
@@ -1745,7 +1629,102 @@ function checkOnboardingHeaderStatus() {
                     selectElem.val(location);
                     selectElem.trigger('change');
                 }
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Connection error. Could not retrieve data, some feature might not work.')
+            });
+    }
 
+    function getConfiguredModels() {
+        fetch(document.querySelector('#modelEndpoint').value)
+            .then(response => response.json())
+            .then(response => {
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, no data found')
+                    return;
+                }
+                window.VehicleModels = response['payload']
+                //app.configuredModels = ;
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+            });
+    }
+
+    /*getConfiguredModels: function () {
+        fetch(document.querySelector('#modelEndpoint').value)
+            .then(response => response.json())
+            .then(response => {
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, no data found')
+                    return;
+                }
+                app.configuredModels = response['payload'];
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+            });
+    },*/
+
+    function getBodyTypes() {
+        fetch(document.querySelector('#bodyTypesEndpoint').value)
+            .then(response => response.json())
+            .then(response => {
+
+                let selectElem = $('select[name="bodyType"]');
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Failed to get Vehicle Body Types', 'Connection error');
+                    return;
+                }
+
+                let bodyTypes = response['payload'];
+                tmsApp.populateDropDownList(selectElem, bodyTypes, "id", ["body_type_name"], "");
+
+                let bodyTypeId = selectElem.attr('data-value');
+                if (bodyTypeId) {
+                    selectElem.val(bodyTypeId);
+                    selectElem.trigger('change');
+                }
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Connection error. Could not retrieve data, some feature might not work.')
+            });
+    }
+
+    function getOrganizationalUnits() {
+        fetch(document.querySelector('#orgUnitsEndpoint').value)
+            .then(response => response.json())
+            .then(response => {
+                // Populate results
+                let selectElem = $('select[name="user_unit"]');
+
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, no data found')
+                    return;
+                }
+
+                let bodyTypes = response['payload'];
+                tmsApp.populateDropDownList(selectElem, bodyTypes, "code_unit", ['code_unit', "description"], " => ");
+
+                let bodyTypeId = selectElem.attr('data-value');
+                if (bodyTypeId) {
+                    selectElem.val(bodyTypeId);
+                    selectElem.trigger('change');
+                }
+                app.organizationalUnits = response['payload'];
             })
             .catch(function (error) {
                 // notify of error
@@ -2210,7 +2189,7 @@ function checkOnboardingHeaderStatus() {
     });
 
     $('[name="poSearchBtn"]').on('click', function (e) {
-        let  poNumber = $('#purchase_order_number').value;
+        let poNumber = $('#purchase_order_number').value;
         if (!poNumber || poNumber < 12) {
             toastr.warning('Invalid Purchase Order number');
             return;
@@ -2227,9 +2206,57 @@ function checkOnboardingHeaderStatus() {
     });
 
     // vehicleWeightValidations
-    /*$(document).on('change', 'select[name="brand"]', function () {
+    $(document).on('change', 'select[name="brand"]', function () {
         nativeVehicleBrandChanged();
-    });*/
+    });
+    $(document).on('change', 'select[name="user_unit"]', function () {
+        let user_unit = $(this).val();
+        Vue.set(app['vehicleHeader'], 'user_unit_code', user_unit);
+        document.querySelector('[name="user_unit"]').value = user_unit;
+
+        let cost_center_code = user_unit?.cc_code
+
+        let business_unit_code = user_unit?.bu_code
+
+        let filteredCostCenters = app.costCenters.filter(function (cost_center) {
+            return cost_center.code_cost_center?.trim() === cost_center_code?.trim();
+        });
+
+        if (filteredCostCenters.length !== 0) {
+            let costCentreOfInterest = filteredCostCenters[0];
+
+            this.assignmentDetails.costCenter = costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description'];
+            $('[name="costCenter"]').val(costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description']);
+        }
+
+        let filteredBusinessUnits = app.businessUnits.filter(function (bu) {
+            return bu.code_bu?.trim() === business_unit_code?.trim();
+        });
+
+        if (filteredBusinessUnits.length == 0) return;
+
+        let businessUnitOfInterest = filteredBusinessUnits[0];
+
+        const val = businessUnitOfInterest['code_bu'] + ':' + businessUnitOfInterest['description'];
+        $('[name="businessUnit"]').val(val);
+        this.assignmentDetails.businessUnit = val;
+    });
+
+    $(document).on('change', 'select[name="model"]', function () {
+        const modelId = $(this).val()?.toString().trim();
+        if (!modelId) {
+            return;
+        }
+        console.log(modelId);
+        let filteredResults = window.VehicleModels.filter(function (model) {
+            return model.id?.toString().trim() === modelId;
+        });
+
+        if (filteredResults.length > 0) {
+            document.querySelector('#model_code').value = filteredResults[0]?.model_code;
+        }
+        console.log(filteredResults);
+    });
 
     $(document).on('change', '.weight_control', function () {
         vehicleWeightValidations(this)
@@ -2262,7 +2289,7 @@ function checkOnboardingHeaderStatus() {
                         assetNumberInput.value = window.removeSpaces(document.querySelector('#registrationNumber').value);
                     }
                 } else {
-                    toastr.error('Duplicate White book Serial Number' ,'Invalid White book serial')
+                    toastr.error('Duplicate White book Serial Number', 'Invalid White book serial')
                 }
             })
             .catch(function (error) {
@@ -2283,11 +2310,11 @@ function checkOnboardingHeaderStatus() {
                 let $locationHolder = document.querySelector('#locationHolder');
                 $locationHolder.style.display = 'none';
 
-                $('#vehicleLocation').val($locationHolder.value);
+                //$('#vehicleLocation').val($locationHolder.value);
                 //$('#model_holder').addClass('d-none');
-                $('#model').removeClass('d-none');
-                $('#vehicleLocation').removeClass('d-none');
-                $('#brand').change();
+                //$('#model').removeClass('d-none');
+                //$('#vehicleLocation').removeClass('d-none');
+                //$('#brand').change();
                 break;
             case 'cancelEditLink':
                 $('.card-header').removeClass('edit_mode').addClass('view_mode')
@@ -2306,6 +2333,14 @@ function checkOnboardingHeaderStatus() {
                 break;
         }
     });
+
+    getVehicleBrands();
+
+    getOrganizationalUnits();
+
+    getConfiguredModels();
+
+    getBodyTypes();
 
     getLocations();
 

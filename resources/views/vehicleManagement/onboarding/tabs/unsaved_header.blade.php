@@ -2,7 +2,8 @@
     <div id="card_header" class="card-header min-h-2px">
         <div class="card-title">
             <h2> Vehicle On-Boarding</h2>
-            <span v-if="!isHeaderSaved" class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
+            <span v-if="!isHeaderSaved"
+                  class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
             <span v-else class="ml-2 indicator-pill whitespace-nowrap green"><span>@{{ vehicleHeader.on_boarding_status || 'Saved' }}</span></span>
         </div>
 
@@ -36,13 +37,22 @@
                                             name="registration_type"
                                             @input="registrationTypeChanged"
                                             v-model="vehicleHeader.registration_type">
-                                        {{--<option>--Select Type--</option>--}}
                                         <option v-for="regType in registrationTypes"
                                                 :key="regType.code"
                                                 :value="regType.code">
                                             @{{ regType.label }}
                                         </option>
                                     </select>
+                                    {{--<select class="form-select form-control-sm view_mode"
+                                            name="registration_type"
+                                            v-on:change="vehicleTypeChanged"
+                                            v-model="vehicleHeader.vehicle_type">
+                                        <option v-for="registrationType in registrationTypes"
+                                                :key="registrationType.code"
+                                                :value="registrationType.code">
+                                            @{{ registrationType.label }}
+                                        </option>
+                                    </select>--}}
                                 </div>
                             </div>
                         </div>
@@ -60,18 +70,30 @@
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
                                 <div class="w-100 fv-row">
-                                    <v-select class="vue-select2"
+                                    {{--<v-select class="vue-select2"
                                               :placeholder="vehicle_brand_placeholder"
                                               :options="vehicleBrands"
                                               @input="vehicleBrandChanged"
                                               label="name"
                                     >
-                                    </v-select>
-                                    <input type="hidden"
+                                    </v-select>--}}
+                                    {{--<input type="hidden"
                                            name="brand"
                                            v-model="vehicleHeader.brand_guid"
                                            id="brand"
-                                           required/>
+                                           v-on:change="vehicleBrandChanged"
+                                           required/>--}}
+                                    {{--v-model="vehicleHeader.brand_guid"--}}
+                                    <select class="form-control view_mode"
+                                            name="brand"
+                                            id="brand">
+                                        <option>--Select Brand--</option>
+                                        <option v-for="brand in vehicleBrands"
+                                                :key="brand.id"
+                                                :value="brand.id | trimSpaces">
+                                            @{{brand.name}}
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -84,21 +106,11 @@
                         <div class="col-md-9 fv-row ">
                             <div class="col-md-9">
                                 <div class="w-100">
-                                    <v-select class="vue-select2"
-                                              required
-                                              :placeholder="vehicle_model_placeholder"
-                                              :get-option-label="getModelLabel"
-                                              :options="selectedBrandModels"
-                                              @input="modelChanged"
-                                              label="model_name"
-                                    >
-                                    </v-select>
-                                    <input
-                                        type="hidden"
-                                        name="model"
-                                        id="model"
-                                        v-model="vehicleHeader.model_guid"
-                                        required/>
+                                    <select class="form-select form-select-sm view_mode"
+                                            required
+                                            name="model"
+                                            id="model">
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -131,17 +143,14 @@
                         <div class="col-md-9 fv-row ">
                             <div class="col-md-9">
                                 <div class="w-100">
-                                    <v-select class="vue-select2"
-                                              required
-                                              :placeholder="'Pick Body Type'"
-                                              :options="bodyTypes"
-                                              @input="bodyTypeChanged"
-                                              label="body_type_name"
-                                    >
-                                    </v-select>
+                                    <select class="form-select form-select-sm view_mode"
+                                            required
+                                            id="bodyType"
+                                            name="bodyType">
+                                    </select>
                                     <input type="hidden"
-                                           id="bodyType"
-                                           name="bodyType"
+                                           id="bodyType_holder"
+                                           name="bodyType_holder"
                                            :value="vehicleHeader.body_type_guid"
                                     />
                                 </div>
@@ -160,23 +169,20 @@
                                 <div class="control-input-wrapper">
                                     <div class="control-input">
                                         <div class="link-field ui-front" style="position: relative;">
-                                           {{-- --}}
-                                            <v-select class="" required
-                                                      :placeholder="'Select User Unit'"
+                                            {{--  :placeholder="'Select User Unit'"
                                                       :get-option-label="getUserUnitLabel"
                                                       :options="organizationalUnits"
-                                                      label="description"
-                                                      @input="userUnitChanged"
-                                                      data-doctype="vehicleHeader"
-                                                      v-model="vehicleHeader.user_unit">
-                                            </v-select>
-                                            <input type="hidden" class="form-control form-control-solid"
-                                                   name="user_unit"
-                                                   id="user_unit"
+
+                                                    v-model="vehicleHeader.user_unit"
+                                                      label="description" --}}
+                                            <select class="form-control"
+                                                    required
+                                                    name="user_unit"
+                                                    id="user_unit"
+                                                    data-doctype="vehicleHeader"></select>
+                                            {{--<input type="hidden" class="form-control form-control-solid"
                                                    :value="vehicleHeader.user_unit_code"
-                                            />
-
-
+                                            />--}}
                                         </div>
                                     </div>
                                     <div class="control-value like-disabled-input bold"
@@ -216,15 +222,13 @@
                         </label>
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
+                                {{--v-model="vehicleHeader.location_code"--}}
                                 <select
-                                       required
-                                       class="form-control"
-                                       name="vehicleLocation"
-                                       autocomplete="off"
-                                       id="vehicleLocation"
-                                       v-model="vehicleHeader.location_code"
-                                       >
-                                    <option></option>
+                                    required
+                                    class="form-control"
+                                    name="vehicleLocation"
+                                    autocomplete="off"
+                                    id="vehicleLocation">
                                 </select>
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
                             </div>

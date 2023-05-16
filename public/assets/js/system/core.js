@@ -122,7 +122,7 @@
                 textArray.push(this.getProperty(data[i], textKeys[j]));
             }
             records.push({
-                id: this.getProperty(data[i], idKey),
+                id: this.getProperty(data[i], idKey?.trim()),
                 text: textArray.join(textKeySeparator)
             });
         }
