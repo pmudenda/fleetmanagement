@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\UserManagement;
 
+use App\Constants\ErrorMessages;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\general\BusinessUnits;
@@ -247,7 +248,7 @@ class UsersController extends Controller
     {
         try {
 
-            $searchParam = $request->searchCriteria;
+            $searchParam = trim($request->searchCriteria);
             $apiURL = 'http://dev.zesco.co.zm/ezesco_forms/public/api/users';
             //$apiURL = 'http://127.0.0.1:3001/ezesco_forms/public/api/users';
             $headers = [
@@ -270,7 +271,8 @@ class UsersController extends Controller
             Log::error($e);
             return response()->json([
                 'success' => false,
-                'payload' => []
+                'payload' => [],
+                'message' => ErrorMessages::employeeNotFound
             ]);
         }
     }
@@ -282,7 +284,7 @@ class UsersController extends Controller
         }
 
         $id = (int)ParameterEncryption::decrypt($request->get('key'));
-        $user = User::where('id','=', $id)->first();
+        $user = User::where('id', '=', $id)->first();
         $roles = Role::all();
         return view('UserManagement.show')
             ->with(compact('user', 'roles'));

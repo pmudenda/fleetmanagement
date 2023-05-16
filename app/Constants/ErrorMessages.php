@@ -15,6 +15,7 @@ class ErrorMessages
                             System Administrator on " . self::contact . ", " . self::email . " for technical assistance";
     public final const internalServerError = 'We could not complete processing your request due to an error. Please Contact Fleet Master
                             System Administrator on ' . self::contact . ', ' . self::email . " for technical assistance";
+    const employeeNotFound = "Employee Not Found, Please check the Staff Number and try again";
 
 
     public static function invalidCurrentOdometerReading(): string

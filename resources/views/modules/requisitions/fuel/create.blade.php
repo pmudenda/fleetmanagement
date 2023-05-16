@@ -7,7 +7,7 @@
 @endpush
 @section('content')
 
-    <x-content-header :pageTitle="'Fuel Requisitions'" :linkText="'Requisitions'" :activeCrumb="'Fuel Requisition'" />
+    <x-content-header :pageTitle="'Fuel Requisitions'" :linkText="'Requisitions'" :activeCrumb="'Fuel Requisition'"/>
     <section class="content">
         <div class="card">
             <div class="card-header">
@@ -223,6 +223,54 @@
                                                             />
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
+                                                            Driver:
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <div class="input-group">
+                                                                <input type="text"
+                                                                       data-action="{{route('user.search')}}"
+                                                                       class="form-control form-control-sm"
+                                                                       autocapitalize="characters"
+                                                                       id="driver_staff_number"
+                                                                       placeholder=""
+                                                                       name="driver_staff_number" required>
+                                                                <div class="input-group-addon">
+                                                                    <button type="button" id="employeeSearchBtn"
+                                                                            name="employeeSearchBtn"
+                                                                            class="btn btn-success btn-sm border-radius-0">
+                                                                        <i class="fas fa-search"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
+                                                           id="driver_name"
+                                                           name="driver_name"
+                                                           required readonly>
+                                                    <datalist id="employee_list">
+                                                    </datalist>
                                                 </div>
                                             </div>
                                         </div>
@@ -548,7 +596,6 @@
                     return;
                 }
 
-                // BAD 1010
                 if (vehicle['on_boarding_status'] != '030') {
                     tmsApp.showSystemMessage("Incomplete Vehicle Details",
                         `The vehicle ${vehicle['registration_number']} is ${vehicle_state}. Please Contact Fleet Master
@@ -613,6 +660,57 @@
 
             }
 
+            function findEmployee() {
+                const staff_number = document.querySelector('#driver_staff_number').value
+                let formData = new FormData();
+                formData.append('searchCriteria', staff_number);
+
+                fetch(
+                    document.querySelector("#driver_staff_number").getAttribute('data-action'),
+                    {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: formData,
+                        referrer: window.baseUrl,
+                        mode: 'cors',
+                        credentials: 'same-origin',
+                    }
+                )
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+
+                        return response.json();
+                    })
+                    .then(response => {
+                        //c
+                        console.log(response);
+
+                        if (!response.success || response.payload.length == 0) {
+
+                            return;
+                        }
+
+                        let optionListStr = '';
+                       if (Array.isArray(response.payload)){
+                           response.payload.forEach(function (item) {
+                               optionListStr+=`<option value="${item['con_per_no']}">${item['con_per_no']} =>${item.name}</option>`;
+                           })
+
+                           $('#employee_list').html(optionListStr);
+                           return;
+                        }
+
+                       document.querySelector('#driver_name').value = response.payload.name;
+                    })
+                    .catch(function (error) {
+                        tmsApp.showErrorMessages('', '');
+                    });
+            }
+
             function findVehicle() {
                 const numberPlate = document.querySelector('#vehicle_registration').value
                 let formData = new FormData();
@@ -631,7 +729,8 @@
                         }
                     },
                     function (xhr) {
-                        tmsApp.systemError('System Message','We could not complete processing your request, please try again later', function(){});
+                        tmsApp.systemError('System Message', 'We could not complete processing your request, please try again later', function () {
+                        });
                     }
                 )
             }
@@ -678,6 +777,15 @@
                 setTimeout(function () {
                     removeSubmissionAndDetailsOptions();
                     findVehicle();
+                }, 300);
+            });
+
+            $('#driver_staff_number').on('keyup paste enter', function () {
+                if (!this.value || this.value.replace('_', '').length < 5) {
+                    return;
+                }
+                setTimeout(function () {
+                    findEmployee();
                 }, 300);
             });
 
