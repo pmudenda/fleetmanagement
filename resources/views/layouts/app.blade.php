@@ -36,6 +36,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/custom.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('libs/session.timeout/session.timeout.css')}}">
     <style>
         .nav-link {
             padding: 0.65rem 1rem;
@@ -81,7 +82,7 @@
     </div>
     <!--Footer-->
     <aside class="control-sidebar control-sidebar-dark"></aside>
-
+    <input type="hidden" id="sessionStatusUrl" name="sessionStatusUrl" value="{{route('session.status')}}">
     <x-async-loader></x-async-loader>
     <x-approval-modal/>
 </div>
@@ -156,6 +157,7 @@
 <script src="{{asset('assets/js/global/page.loader.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{asset('assets/js/global/system_alerts.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>
+<script src="{{ asset('libs/session.timeout/session.timeout.js')}}"></script>
 
 <script>
     (function (tmsApp, $) {

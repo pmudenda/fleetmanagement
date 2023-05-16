@@ -5,7 +5,8 @@ $(document).ready(function () {
         ajax: {
             delay: 250,
             beforeSend: function(){
-                window.showLoaderModal(false);
+                //window.showLoaderModal(false);
+                window.loaderVisible = false;
             },
             url: document.querySelector('#projects_url').value,
             dataType: 'json',
@@ -28,7 +29,7 @@ $(document).ready(function () {
             cache: true
         },
         placeholder: 'Enter Project Code | Description',
-        minimumInputLength: 2,
+        minimumInputLength: 4,
         templateResult: formatRepo,
         templateSelection: formatRepoSelection
     });
