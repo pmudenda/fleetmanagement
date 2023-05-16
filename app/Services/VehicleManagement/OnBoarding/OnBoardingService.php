@@ -204,7 +204,7 @@ class OnBoardingService
             [
                 'brand_guid' => $brand->id,
                 'brand_name' => $brand->name,
-                'model_guid' => $vehicleModel->model_guid,
+                'model_guid' => $vehicleModel->id,
                 'model_name' => $vehicleModel->model_name,
                 'model_code' => $vehicleModel->model_code,
                 'body_type_guid' => $bodyType->id,
