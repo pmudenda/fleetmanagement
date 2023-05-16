@@ -334,16 +334,23 @@ let app = new Vue({
 
         let input = document.getElementById("userUnit");
 
-        //this.initDropzone();
         if (this.vehicleHeader && this.vehicleHeader.id) {
             this.vehicleHeader.isHeaderSaved = true;
         }
 
-        $(document).on('keyup', '#chassisNumber', function () {
+        $(document).on('keyup paste', '#chassisNumber', function () {
             this.value = this.value.toLocaleUpperCase();
         });
 
-        $(document).on('keyup', '#engineNumber', function () {
+        $(document).on('keyup paste', '#tyreBrand', function () {
+            this.value = this.value.toLocaleUpperCase();
+        });
+
+        $(document).on('keyup paste', '#batteryBrand', function () {
+            this.value = this.value.toLocaleUpperCase();
+        });
+
+        $(document).on('keyup paste', '#engineNumber', function () {
             this.value = this.value.toLocaleUpperCase();
         });
 
@@ -354,12 +361,12 @@ let app = new Vue({
             this.value = this.value.toLocaleUpperCase();
         });*/
 
-        $(document).on('keyup', '#vehicleLocation', function () {
+        /*$(document).on('keyup', '#vehicleLocation', function () {
             if (!this.value) {
                 this.focus();
             }
             this.value = this.value.toLocaleUpperCase();
-        });
+        });*/
 
         Inputmask({
             "mask": "AAA 9999"
@@ -372,8 +379,6 @@ let app = new Vue({
         /*Inputmask("decimal", {
             "rightAlignNumerics": false
         }).mask("#chargeOutRate");*/
-
-        //this.vueCreateSelect2();
 
         $(document).on('click', '[data-select="file"]', function () {
             let fileInput = $(this).closest('p').find('input[type="file"]');

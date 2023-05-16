@@ -190,7 +190,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-users" style="font-size: 20px;"></i>
                         <p>
-                            User Management
+                            Employee Management
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -207,6 +207,22 @@
                                 <i class="fas fa-users nav-icon"></i>
                                 <p>
                                     Users List
+                                </p>
+                            </a>
+                        </li>        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('users.driverList') }}">
+                                <i class="fas fa-users nav-icon"></i>
+                                <p>
+                                    Drivers List
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('users.driver') }}">
+                                <i class="fas fa-users nav-icon"></i>
+                                <p>
+                                    Drivers OnBoarding
                                 </p>
                             </a>
                         </li>
