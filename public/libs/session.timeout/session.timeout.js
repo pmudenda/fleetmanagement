@@ -55,24 +55,24 @@ $(document).ready(function () {
     $body.append(sessionModal);
 
     // Inactivity pop-up
-    window.COUNT_DOWN_TIME_MINUTES = 5 * 60; // 5 minutes
-    window.POP_UP_TIME_MILLISECONDS = 8 * 60 * 1000; // 8 minutes
+    window.COUNT_DOWN_TIME_MINUTES = 20 * 60; // 5 minutes
+    window.POP_UP_TIME_MILLISECONDS = 20 * 60 * 1000; // 8 minutes
     window.sessionInactiveSeconds = window.POP_UP_TIME_MILLISECONDS;
-    window.POLLING_INTERVAL_MILLISECONDS = 30 * 1000; // 30 seconds
+    window.POLLING_INTERVAL_MILLISECONDS = 60 * 1000; // 30 seconds
     window.refreshSession = false;
     window.isTimerVisible = false;
 
     window.intervalFunction = setInterval(
         function () {
-        window.sessionInactiveSeconds = window.sessionInactiveSeconds - window.POLLING_INTERVAL_MILLISECONDS;
-        if (window.sessionInactiveSeconds <= 0) {
-            window.refreshSession = true;
-            window.showInactivityPopUp();
-        }
-        if (!!window.refreshSession) {
-            window.getSessionStatus();
-        }
-    }, POLLING_INTERVAL_MILLISECONDS);
+            window.sessionInactiveSeconds = window.sessionInactiveSeconds - window.POLLING_INTERVAL_MILLISECONDS;
+            if (window.sessionInactiveSeconds <= 0) {
+                window.refreshSession = true;
+                window.showInactivityPopUp();
+            }
+            if (!!window.refreshSession) {
+                window.getSessionStatus();
+            }
+        }, POLLING_INTERVAL_MILLISECONDS);
 
     // reset inactivity session, there is activity on the page
     $body.on('change', 'input,select,textarea', function () {
@@ -106,39 +106,49 @@ $(document).ready(function () {
 
     window.getSessionStatus = function () {
         console.log("Check Session Status");
-        //window.showLoader = false;
-        $.ajax({
-            type: 'POST',
-            url: document.querySelector("#sessionStatusUrl").value,
-            cache: false,
-            headers: {
-                'X-CSRF-TOKEN': window.getCsrfToken()
-            },
-            complete: function (result) {
-                console.log(result);
-                let responsePayload = null;
-                if (result.hasOwnProperty('responseJSON')) {
-                    responsePayload = result.responseJSON;
+        window.showLoader = false;
+        fetch(
+            document.querySelector("#sessionStatusUrl").value,
+            {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                body: {},
+                //signal: window.abortControllers[endpointId].signal,
+                referrer: window.baseUrl,
+                mode: 'cors',
+                credentials: 'same-origin',
+            }
+        )
+            .then((response) => {
+                if (!response.ok) {
+                    window.logoutUser();
+                    return;
+                    //throw new Error(`HTTP error! Status: ${response.status}`);
+                }
 
-                    if (responsePayload.state === 'active')
-                    {
-                        window.showLoader = true;
-                        window.sessionInactiveSeconds = window.POP_UP_TIME_MILLISECONDS;
-                        window.refreshSession = false;
-                    } else {
-                        window.logoutUser();
-                    }
+                return response.json();
+            })
+            .then(response => {
+                console.log(response);
+                let responsePayload = null;
+                /*if (response.hasOwnProperty('responseJSON')) {   } else {}*/
+                responsePayload = response;
+
+                if (responsePayload.state === 'active') {
+                    window.showLoader = true;
+                    window.sessionInactiveSeconds = window.POP_UP_TIME_MILLISECONDS;
+                    window.refreshSession = false;
                 } else {
                     window.logoutUser();
                 }
-
                 $("#inactivity-modal").modal('hide');
-            }
-            ,
-            error: function (){
+                window.loaderVisible = true;
+            })
+            .catch(function (error) {
                 window.logoutUser();
-            }
-        });
+            });
     }
 
     window.getCsrfToken = function () {
