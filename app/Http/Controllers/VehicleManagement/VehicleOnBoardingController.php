@@ -10,6 +10,7 @@ use App\Http\Requests\BodyDetailsPost;
 use App\Http\Requests\ChassisDetailsPostRequest;
 use App\Http\Requests\CostingDetailsPost;
 use App\Http\Requests\EngineDetailsPost;
+use App\Http\Requests\OnboardingVehicleAccessoryRequest;
 use App\Http\Requests\VehicleHeaderRequest;
 use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
@@ -273,10 +274,10 @@ class VehicleOnBoardingController extends Controller
         }
     }
 
-    public function storeAccessoryDetails(CostingDetailsPost $request): JsonResponse
+    public function storeAccessoryDetails(OnboardingVehicleAccessoryRequest $request): JsonResponse
     {
         try {
-            $model = $this->onBoardingService->processCostingDetails($request);
+            $model = $this->onBoardingService->processAccessory($request);
             return response()->json([
                 'state' => 'success',
                 'request' => $request->all(),
