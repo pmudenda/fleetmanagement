@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('GEN_MATERIAL_HEADERS', function (Blueprint $table) {
-           $table->string('requested_by_id',13)->add();
+           $table->string('requested_by_id',13)->nullable()->add();
         });
     }
 
