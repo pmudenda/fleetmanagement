@@ -1951,5 +1951,6 @@ function checkOnboardingHeaderStatus() {
 
     getSuppliers();
 
+    new tmsApp.fileUploader().makeSingleFileUploader();
 })(window.tmsApp || {}, jQuery);
 

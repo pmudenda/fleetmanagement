@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\VehicleManagement;
 
+use App\Constants\ErrorMessages;
 use App\Exceptions\VehicleOnBoardingException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AssignmentPostRequest;
@@ -72,17 +73,6 @@ class VehicleOnBoardingController extends Controller
         }
         $viewName = 'vehicleManagement.details.view';
 
-        /*match ($step) {
-            '1' => "",
-            '2' => "vehicleManagement.onboarding.step2",
-            '3' => "vehicleManagement.onboarding.step3",
-            '4' => "vehicleManagement.onboarding.step4",
-            '5' => "vehicleManagement.onboarding.step5",
-            '6' => "vehicleManagement.onboarding.step6",
-            default => "vehicleManagement.onboarding.index",
-        };*/
-
-
         return view($viewName)
             ->with(compact('reference', 'vehicle', 'vehicleDocuments'));
     }
@@ -149,7 +139,8 @@ class VehicleOnBoardingController extends Controller
 
         } catch (Exception $e) {
             Log::error($e);
-            $message = 'Sorry, some errors were detected while processing your vehicle onboarding request, please try again later.';
+            $message = ErrorMessages::internalServerError;
+            //'Sorry, some errors were detected while processing your vehicle onboarding request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -176,7 +167,8 @@ class VehicleOnBoardingController extends Controller
 
         } catch (Exception $e) {
             Log::error($e);
-            $message = 'Sorry, some errors were detected while processing your request, please try again later.';
+            $message = ErrorMessages::internalServerError;
+                //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -206,7 +198,8 @@ class VehicleOnBoardingController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error($e);
-            $message = 'Sorry, some errors were detected while processing your request, please try again later.';
+            $message = ErrorMessages::internalServerError;
+                //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -232,7 +225,8 @@ class VehicleOnBoardingController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error($e);
-            $message = 'Sorry, some errors were detected while processing your request, please try again later.';
+            $message = ErrorMessages::internalServerError;
+                //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -257,7 +251,8 @@ class VehicleOnBoardingController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error($e);
-            $message = 'Sorry, some errors were detected while processing your request, please try again later.';
+            $message = ErrorMessages::internalServerError;
+            //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -282,7 +277,8 @@ class VehicleOnBoardingController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error($e);
-            $message = 'Sorry, some errors were detected while processing your request, please try again later.';
+            $message = ErrorMessages::internalServerError;
+                //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }

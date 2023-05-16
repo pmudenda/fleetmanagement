@@ -51,6 +51,7 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::authenticateUsing(function (Request $request) {
+
             $user = User::where(USERNAME_FIELD, $request->get(USER_NAME_INPUT_FIELD))
                 ->where(USER_STATUS_FIELD, StatusHelper::activeUser())
                 //->where(HAS_ACTIVE_SESSION_FIELD, ConfigHelper::currentLoginFalse())
@@ -58,12 +59,12 @@ class FortifyServiceProvider extends ServiceProvider
 
             if ($user &&
                 Hash::check($request->get(PASSWORD_INPUT_FIELD), $user->password)) {
+                Auth::logoutOtherDevices($request->get(PASSWORD_INPUT_FIELD));
+
                 $user->total_logins = ($user->total_logins ?? 0) + 1;
                 $user->last_login = Carbon::now();
                 $user->has_active_session = ConfigHelper::currentLoginTrue();
                 $user->save();
-
-                Auth::logoutOtherDevices($user->password);
                 return $user;
             }
         });
