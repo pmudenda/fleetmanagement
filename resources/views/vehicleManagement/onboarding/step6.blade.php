@@ -28,7 +28,7 @@
             <!--END:::VEHICLE HEADER -->
 
             <!--BEGIN:::DETAILS  -->
-            <div v-show="isHeaderSaved" class="col-md-12 col-sm-12 mb-5 mb-xl-10"
+            <div v-show="vehicleHeader.isHeaderSaved" class="col-md-12 col-sm-12 mb-5 mb-xl-10"
                  style="border-right: 1px solid dimgray;">
 
                 <div class="card card-flush">
