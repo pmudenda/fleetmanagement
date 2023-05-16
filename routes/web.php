@@ -52,7 +52,6 @@ Route::group(['middleware' => 'auth'], function () {
         return response()->json(array(
             'message' => '',
             'state' => 'active',
-            'user' => ParameterEncryption::encrypt($user->id)
         ));
     })->name('session.status');
 
