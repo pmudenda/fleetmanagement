@@ -306,7 +306,7 @@
                         <div class="control-input-wrapper">
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
-                                    <input type="text"
+                                    <input type="number"
                                            v-model="chassisDetails.initialOdometerReading"
                                            name="initialOdometerReading"
                                            id="initialOdometerReading"
