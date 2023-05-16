@@ -10,6 +10,7 @@ use App\Http\Controllers\Security\PasswordResetController;
 use App\Http\Controllers\Security\PermissionsController;
 use App\Http\Controllers\Security\RolesController;
 use App\Http\Controllers\UserManagement\UsersController;
+use App\Http\Controllers\DriverManagement\DriverController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
 use App\Http\Controllers\Workflow\WorkflowController;
@@ -64,6 +65,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('users/new', [UsersController::class, 'create'])->name('users.new');
 
         Route::get('users/list', [UsersController::class, 'index'])->name('users.list');
+
+        Route::get('users/driver', [DriverController::class, 'index'])->name('users.driver');
+        Route::get('users/driverList', [DriverController::class, 'driverList'])->name('users.driverList');
 
         Route::post('users/resetPassword', [PasswordResetController::class, 'resetPassword'])->name('user.reset.password');
 
