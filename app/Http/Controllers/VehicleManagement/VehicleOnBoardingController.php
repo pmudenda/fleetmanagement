@@ -4,6 +4,7 @@ namespace App\Http\Controllers\VehicleManagement;
 
 use App\Constants\ErrorMessages;
 use App\Exceptions\VehicleOnBoardingException;
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AssignmentPostRequest;
 use App\Http\Requests\BodyDetailsPost;
@@ -12,6 +13,7 @@ use App\Http\Requests\CostingDetailsPost;
 use App\Http\Requests\EngineDetailsPost;
 use App\Http\Requests\OnboardingVehicleAccessoryRequest;
 use App\Http\Requests\VehicleHeaderRequest;
+use App\Models\configurations\ConfigAccessories;
 use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
 use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
@@ -116,13 +118,14 @@ class VehicleOnBoardingController extends Controller
                 default => "vehicleManagement.onboarding.index",
             };
 
-            //$accessories =
+            $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
 
             return view($viewName)
                 ->with(compact(
                     'reference',
                     'vehicle',
                     'step',
+                    'accessories',
                     'vehicleDocuments'
                 ));
         } catch (Exception $e) {
