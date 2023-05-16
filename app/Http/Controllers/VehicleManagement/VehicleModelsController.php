@@ -20,9 +20,9 @@ class VehicleModelsController extends Controller
     public function get(Request $request): JsonResponse
     {
         try {
-            $data = ConfigVehicleModel::select(DB::raw('*'))
+            $data = ConfigVehicleModel::get();
+                //select(DB::raw('*'))
                 //->groupBy('brand_guid')
-                ->get();
             return response()->json([
                 'state' => 'success',
                 'payload' => $data
