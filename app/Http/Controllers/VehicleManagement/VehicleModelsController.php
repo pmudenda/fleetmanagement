@@ -54,7 +54,7 @@ class VehicleModelsController extends Controller
                 ]);
             }
 
-            $model = ConfigVehicleModel::updateOrCreate(
+            $model = ConfigVehicleModel::create(
                 [
                 'model_name' => trim(strtoupper($request->input('model_name'))),
                 'model_code' => $request->input('model_code')
