@@ -126,6 +126,8 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['otherDetails'], 'batteryPower', data['battery_power']);
 
     Vue.set(app['costingAndValuation'], 'supplierName', data['supplierName']);
+
+    $('select[name="supplierName"]').val(data['supplierName']);
     Vue.set(app['costingAndValuation'], 'costPrice', data['costPrice']);
     Vue.set(app['costingAndValuation'], 'yearOfPurchase', data['yearOfPurchase']);
     Vue.set(app['costingAndValuation'], 'bookValue', data['bookValue']);

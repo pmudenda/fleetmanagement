@@ -98,10 +98,10 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
+                                {{--v-model="costingAndValuation.supplierName"--}}
                                 <select class="form-select form-control-sm view_mode"
                                         data-doctype="CostingDetails"
                                         data-value=""
-                                        v-model="costingAndValuation.supplierName"
                                         id="supplierName"
                                         name="supplierName">
                                 </select>
