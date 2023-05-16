@@ -4,17 +4,23 @@
     <link href="{{asset("assets/plugins/select2/css/select2.min.css")}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset("assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")}}" rel="stylesheet"
           type="text/css"/>
+    <link href="{{asset("libs/steps/jquery-steps.css")}}" rel="stylesheet" type="text/css"/>
 @endpush
 @section('content')
 
-    <x-content-header/>
+    <x-content-header
+        :activeCrumb="'New Job Card'"
+        :linkText="'Job Card'"
+        :pageTitle="'Workshop Management'"/>
     <section class="content">
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <h4>New Fuel Requisition</h4>
+                    <h4>Workshop Job Card</h4>
+                    <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
+                    {{-- <span  class="ml-2 indicator-pill whitespace-nowrap green"><span>{{ 'Saved' }}</span></span>--}}
                 </div>
-                <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
+                {{--<div id="actionButtonsContainer" class="card-toolbar justify-content-end">
                     <button type="button"
                             id="submitRequisitionBtn"
                             class="btn btn-success btn-sm mr-3 when_odo_valid"
@@ -29,20 +35,21 @@
                         Cancel
                     </button>
 
-                </div>
+                </div>--}}
             </div>
 
             <div class="card-body pb-4 min-h-600px pt-0">
 
                 <x-error-view/>
 
-                <form name="fuelRequisitionForm"
-                      id="fuelRequisitionForm"
-                      action="{{route('save.workshop.requisition')}}"
-                      method="post">
+                <label class="app-required-marker"></label>
+                <form name="jobCardForm"
+                     id="jobCardForm"
+                     action="{{route('save.workshop.requisition')}}"
+                     method="post">
                     @csrf
-                    <div class="card-body user-data">
-                        <label class="app-required-marker"></label>
+                    <h1>Job Card Details</h1>
+                    <div>
                         <div class="container-fluid mt-2">
                             <div class="row">
                                 <div class="col-9">
@@ -95,7 +102,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="row d-none">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
@@ -128,7 +135,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
@@ -144,7 +150,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
 
                                     <div class="row">
@@ -158,19 +163,19 @@
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
                                                                     <label class="form-check-inline">
-                                                                        <input type="radio"
-                                                                               id="projectInput"
-                                                                               class="list-row-checkbox bold mr-3 when_valid"
-                                                                               autocomplete="off"
-                                                                               name="CostAssignedTo"
-                                                                               value="ProjectBasedRequisition">
-                                                                        Project
+                                                                        {{--    <input type="radio"
+                                                                                   id="projectInput"
+                                                                                   class="list-row-checkbox bold mr-3 when_valid"
+                                                                                   autocomplete="off"
+                                                                                   name="CostAssignedTo"
+                                                                                   value="ProjectBasedRequisition">--}}
+                                                                        Workshop
                                                                     </label>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <select disabled type="text" name="project_code"
+                                                            <select type="text" name="project_code"
                                                                     class="form-select mt-1 project-code-ajax"
                                                                     id="project_code">
                                                             </select>
@@ -189,7 +194,7 @@
                                                         <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="staff_name">
-                                                            Requisition Type:
+                                                            Repair Type:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <select name="requisition_type" id="requisition_type"
@@ -428,73 +433,257 @@
 
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="container-fluid">
-                            <div id="materialDetailsContainer" class="table-responsive mt-3">
-                                <table id="materialDetailsTable" class="table table-bordered">
-                                    <thead>
-                                    <tr class="bg-dark">
-                                        <th>Material Description</th>
-                                        <th class="project_view_item d-none">Project Number</th>
-                                        <th>Qty</th>
-                                        <th>Unit Of Measure</th>
-                                        <th>Price (ZMW)</th>
-                                        <th>Amount(ZMW)</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>
+                            <div class="container-fluid">
+                                <div id="materialDetailsContainer" class="table-responsive mt-3">
+                                    <table id="materialDetailsTable" class="table table-bordered">
+                                        <thead>
+                                        <tr class="bg-dark">
+                                            <th>Material Description</th>
+                                            <th class="project_view_item d-none">Project Number</th>
+                                            <th>Qty</th>
+                                            <th>Unit Of Measure</th>
+                                            <th>Price (ZMW)</th>
+                                            <th>Amount(ZMW)</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
                                             <span data-material-input="material_description"
                                                   id="material_description"></span>
-                                            <input type="hidden" name="material_description">
-                                            <input type="hidden" name="material_article_code">
-                                        </td>
-                                        <td class="project_view_item d-none">
-                                            <input type="text" name="projectCode" readonly value="000000"
-                                                   class="form-control form-control-sm border-0"/>
-                                        </td>
-                                        <td>
-                                            <input type="number" name="material_quantity"
-                                                   max=""
-                                                   disabled
-                                                   id="material_quantity"
-                                                   class="form-control form-control-sm when_valid"/>
-                                        </td>
-                                        <td>
-                                            <span data-material-input="unit_of_measure" id="unit_of_measure"></span>
-                                            <input type="hidden" name="unit_of_measure">
-                                        </td>
-                                        <td>
-                                            <span data-material-input="material_price" id="material_price"></span>
-                                            <input type="hidden" name="material_price" value="12">
-                                        </td>
-                                        <td>
-                                            <span data-material-input="material_amount" id="material_amount"></span>
-                                            <input type="hidden" name="material_amount">
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <td class="project_view_item d-none"></td>
-                                        <td class="text-right"></td>
-                                        <td style="display: flex;justify-content: space-between;">
-                                            <strong>Total Quantity</strong>
-                                            <span class="text-bold text-right" id="totalQty"></span></td>
-                                        <td></td>
-                                        <td class="text-right"></td>
-                                        <td style="display: flex;justify-content: space-between;">
-                                            <strong>Total Amount</strong>
-                                            <span class="text-bold" id="totalAmount"></span>
-                                        </td>
-                                    </tr>
-                                    </tfoot>
-                                </table>
+                                                <input type="hidden" name="material_description">
+                                                <input type="hidden" name="material_article_code">
+                                            </td>
+                                            <td class="project_view_item d-none">
+                                                <input type="text" name="projectCode" readonly value="000000"
+                                                       class="form-control form-control-sm border-0"/>
+                                            </td>
+                                            <td>
+                                                <input type="number" name="material_quantity"
+                                                       max=""
+                                                       disabled
+                                                       id="material_quantity"
+                                                       class="form-control form-control-sm when_valid"/>
+                                            </td>
+                                            <td>
+                                                <span data-material-input="unit_of_measure" id="unit_of_measure"></span>
+                                                <input type="hidden" name="unit_of_measure">
+                                            </td>
+                                            <td>
+                                                <span data-material-input="material_price" id="material_price"></span>
+                                                <input type="hidden" name="material_price" value="12">
+                                            </td>
+                                            <td>
+                                                <span data-material-input="material_amount" id="material_amount"></span>
+                                                <input type="hidden" name="material_amount">
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <td class="project_view_item d-none"></td>
+                                            <td class="text-right"></td>
+                                            <td style="display: flex;justify-content: space-between;">
+                                                <strong>Total Quantity</strong>
+                                                <span class="text-bold text-right" id="totalQty"></span></td>
+                                            <td></td>
+                                            <td class="text-right"></td>
+                                            <td style="display: flex;justify-content: space-between;">
+                                                <strong>Total Amount</strong>
+                                                <span class="text-bold" id="totalAmount"></span>
+                                            </td>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <h1>Accessories Checkin & Movement</h1>
+                    <div>
+                        {{--  <h2>Accident Details</h2>--}}
+                        {{--<div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="ownerAddress">Type of Accident*:</label>
+                                    <select id="accidentType" name="accidentType" class="form-control required">
+                                        <option value="none">Select Incident type</option>
+                                        <option value="one">One</option>
+                                        <option value="two">two</option>
+                                        <option value="three">two</option>
+                                    </select>
+                                    @error('accidentType')
+                                    <p>{{$message}}</p>
+
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="ownerAddress">Nature of accident*:</label>
+                                <select id="accidentNature" name="accidentNature" class="form-control required">
+                                    <option value="none">Select Incident Nature</option>
+                                    <option value="one">One</option>
+                                    <option value="two">two</option>
+                                    <option value="three">two</option>
+                                </select>
+                                @error('accidentNature')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="peopleInvolved">Number of people involved:</label>
+                                    <input name="peopleInvolved" type="number" class="form-control required" id="peopleInvolved" placeholder="Enter Number of people Involved" required>
+                                </div>
+                                @error('peopleInvolved')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <label for="date">Date*:</label>
+                                    <input name="date" type="date" class="form-control required" id="date" placeholder="00/00/0000" required>
+                                </div>
+                                @error('date')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <label for="time">Time*:</label>
+                                    <input name="time" type="time" class="form-control required" id="time" placeholder="00:00" required>
+                                </div>
+                                @error('time')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group ">
+                                    <label for="accidentDescription">Description Of Accident:</label>
+                                    <textarea  class="form-control" id="description" name="description" rows="5" cols="20"></textarea>
+                                    @error('description')
+                                    <p>{{$message}}</p>
+
+                                    @enderror
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 options policeNotification">
+                                <p class="test">Police Notified: </p>
+                                <div class="options-inner policeNotification-options-inner">
+                                    <input type="radio" id="policeNotification-yes" name="policeNotified" value="yes" >
+                                    <label for="policeNotification-yes">Yes</label>
+                                </div>
+                                <div class="options-inner policeNotification-options-inner">
+                                    <input type="radio" id="policeNotification-no" name="policeNotified" value="no" >
+                                    <label for="policeNotification-no">No</label>
+                                </div>
+                                @error('policeNotified')
+                                <p>{{$message}}</p>
+
+                                @enderror
+
+                            </div>
+
+
+
+
+
+                        </div>--}}
+                        2
+                    </div>
+
+                    <h1>Defects</h1>
+                    <div> 3
+                        {{-- <h2>Driver Details</h2>--}}
+                        {{--<div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="staffNo">Staff Number:</label>
+                                    <div class="regInput">
+                                        <input name="staffNumber" type="text" class="form-control required" id="staffNo" placeholder="Enter Staff Number" required>
+                                        --}}{{--                                <button id="staffQuery" class="btn btn-outline-success">Query</button>--}}{{--
+                                        --}}{{--                                <button id="staffClear" class="btn btn-outline-success">Clear</button>--}}{{--
+                                    </div>
+                                </div>
+                                @error('staffNumber')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <label for="driverName">Name:</label>
+                                    <input name="driverName" type="text" class="form-control required" id="driverName" placeholder="Enter Driver Name" >
+                                </div>
+                                @error('driverName')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="driverEmail">Email</label>
+                                    <input name="driverEmail" type="text" class="form-control required" id="driverEmail" placeholder="Enter Driver Email" required>
+                                </div>
+                                @error('driverEmail')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <label for="phoneNo">Phone No:</label>
+                                    <input name="phoneNo" type="text" class="form-control required" id="phoneNo" placeholder="Enter Phone No" required>
+                                </div>
+                                @error('phoneNo')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="driverAge">Age*:</label>
+                                    <input name="age" type="text" class="form-control required" id="driverAge" placeholder="Enter Driver Age" required>
+                                </div>
+                                @error('driverAge')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="driverPosition">Position*:</label>
+                                    <input name="driverPosition" type="text" class="form-control required" id="driverPosition" placeholder="Enter Driver Position" required>
+                                </div>
+                            </div>
+                            @error('driverPosition')
+                            <p>{{$message}}</p>
+
+                            @enderror
+
+                        </div>--}}
+                    </div>
+                    <h1>Parts Selection</h1>
+                    <div>Test</div>
+
                 </form>
 
                 <input type="hidden" value="{{ route('user.search') }}" id="newUserSearchUrl">
@@ -505,8 +694,168 @@
 @endsection
 @push('scripts')
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
+    <script src="{{asset("libs/steps/jquery.steps.js")}}"></script>
     <script>
+
+
+        $(function () {
+            //$("#jobCardForm").steps();
+            // cost allocation view
+        });
+
         (function (tmsApp, $) {
+
+            function initializeFormWizard() {
+                let form = $('#jobCardForm');
+                // formWizard.on("click", function (e) {
+                //     e.stopPropagation();
+                //     $(this).remove();
+
+                //let jobCardForm = formWizard.show();
+
+                form.steps({
+                    headerTag: "h1",
+                    bodyTag: "div",
+                    transitionEffect: "slideLeft",
+                    autoFocus: true,
+                    saveState: true,
+                    startIndex: 0,
+                    labels: {
+                        finish: 'Submit'
+                    },
+                    onStepChanging: function (event, currentIndex, newIndex) {
+                        // Allways allow previous action even if the current form is not valid!
+                        if (currentIndex > newIndex) {
+                            return true;
+                        }
+
+                        // Forbid next action on "Warning" step if the user is to young
+                        if (newIndex === 3 && Number($("#age-2").val()) < 18) {
+                            return false;
+                        }
+
+                        // Needed in some cases if the user went back (clean up)
+                        if (currentIndex < newIndex) {
+                            // To remove error styles
+                            form.find(".body:eq(" + newIndex + ") label.error").remove();
+                            form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+                        }
+
+                        form.validate().settings.ignore = ":disabled,:hidden";
+                        return form.valid();
+                    },
+                    onStepChanged: function (event, currentIndex, priorIndex) {
+                        // Used to skip the "Warning" step if the user is old enough.
+                        if (currentIndex === 2 && Number($("#age-2").val()) >= 18) {
+                            form.steps("next");
+                        }
+
+                        // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
+                        if (currentIndex === 2 && priorIndex === 3) {
+                            form.steps("previous");
+                        }
+                    },
+                    onFinishing: function (event, currentIndex) {
+                        form.validate().settings.ignore = ":disabled";
+                        return form.valid();
+                    },
+                    onFinished: function () {
+                        let form = $(this);
+
+                        let formData = {
+                            accidentNature: document.getElementById("accidentNature").value,
+                            accidentType: document.getElementById("accidentType").value,
+                            peopleInvolved: document.getElementById("peopleInvolved").value,
+                            date: document.getElementById("date").value,
+                            time: document.getElementById("time").value,
+                            description: document.getElementById("description").value,
+                            policeNotified: $('input[name="policeNotified"]:checked').val(),
+                            staffNumber: document.getElementById("staffNo").value,
+                            driverName: document.getElementById("driverName").value,
+                            driverEmail: document.getElementById("driverEmail").value,
+                            phoneNo: document.getElementById("phoneNo").value,
+                            age: document.getElementById("driverAge").value,
+                            driverPosition: document.getElementById("driverPosition").value,
+                            registrationNo: document.getElementById("registrationNo").value,
+                            modelNo: document.getElementById("modelNo").value,
+                            vehicleMake: document.getElementById("vehicleMake").value,
+                            chassisNo: document.getElementById("chassisNo").value
+                        }
+
+
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: 'POST',
+                            data: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function (response) {
+                                console.log(response)
+
+
+                                if (response.status === 'success') {
+                                    console.log(response)
+                                    launchErrorModal(response.message, "errorDisplay", true)
+
+                                } else {
+                                    launchErrorModal(response.message, "errorDisplay")
+                                }
+
+                            },
+                            error: function () {
+
+                            },
+
+                        })
+
+
+                        function launchErrorModal(message, id, done) {
+                            var modalElement = document.getElementById(id);
+                            var modal = new bootstrap.Modal(modalElement);
+                            modal.show();
+
+                            var modalBody = modalElement.querySelector(".modal-body");
+                            modalBody.innerHTML = message;
+
+                            var modalButton = modalElement.querySelector(".btn-danger");
+                            modalButton.addEventListener("click", function () {
+
+                                if (done) {
+                                    location.reload()
+                                }
+
+                                modal.hide();
+                            });
+                        }
+                    },
+
+                }).validate({
+                    errorPlacement: function errorPlacement(error, element) {
+                        error.insertAfter(element);
+                    },
+                    rules: {},
+                    messages: {
+                        accidentType: {
+                            required: "Accident Type is required when reporting"
+                        },
+                        registrationNo: {
+                            required: "Vehicle Registration is required"
+                        },
+                        vehicleMake: {
+                            required: "Vehicle Make is required"
+                        },
+                        vehicleModel: {
+                            required: "Vehicle Model is required"
+                        }
+                    }
+                });
+                //});
+                // })
+            }
+
+            initializeFormWizard();
+
             function removeSubmissionAndDetailsOptions() {
                 let elements = document.querySelectorAll('.when_valid');
                 elements.forEach(function (element) {
@@ -547,14 +896,14 @@
                     return;
                 }
 
-                if (typeof vehicle.fuel_allocation === 'undefined' || vehicle.fuel_allocation == null || vehicle.fuel_allocation === "0") {
+                /*if (typeof vehicle.fuel_allocation === 'undefined' || vehicle.fuel_allocation == null || vehicle.fuel_allocation === "0") {
 
                     tmsApp.showSystemMessage("Vehicle Details Incomplete",
                         'Vehicle has no Fuel Allocation, Request System Administrator to assign allocation', () => {
                         }, "error")
 
                     return;
-                }
+                }*/
 
                 // BAD 1010
                 if (vehicle['on_boarding_status'] != '030') {
@@ -848,64 +1197,6 @@
                 }
             });
 
-            // cost allocation view
-            $('input[name="CostAssignedTo"]').on('change', function () {
-
-                const $projectCodeCtrl = document.querySelector('#project_code');
-                const $costCentreCodeCtrl = document.querySelector('#cost_centre_code');
-                const $costCentreNameCtrl = document.querySelector('#cost_center_name');
-
-                if (this.value === 'CostCenterBasedRequisition') {
-                    $($projectCodeCtrl).prop('disabled', true);
-                    $($projectCodeCtrl).prop('required', false);
-                    $($costCentreCodeCtrl).prop('required', true);
-                    $costCentreCodeCtrl.style.display = null;
-                    $($costCentreNameCtrl).prop('required', true);
-                    $costCentreNameCtrl.style.display = null;
-                    $('.project_view_item').addClass('d-none');
-                } else if (this.value === 'ProjectBasedRequisition') {
-                    $($projectCodeCtrl).prop('disabled', false);
-                    $($projectCodeCtrl).prop('required', true);
-                    $($costCentreCodeCtrl).prop('required', false);
-                    $costCentreCodeCtrl.style.display = 'none';
-                    $($costCentreNameCtrl).prop('required', false);
-                    $costCentreNameCtrl.style.display = 'none';
-                    $('.project_view_item').removeClass('d-none');
-                }
-            });
-
-            $("[name='odometer_reading']").on('change', function () {
-                //setTimeout
-                const odometerReading = document.querySelector('#odometer_reading').value;
-                const numberPlate = document.querySelector('#vehicle_registration').value;
-                let formData = new FormData();
-                formData.append('odometer_reading', odometerReading);
-                formData.append('vehicle_registration', numberPlate);
-                document.querySelector('#submitRequisitionBtn').setAttribute('disabled', 'disabled');
-                const dataSet = document.querySelector('#odometer_reading').dataset;
-                window.loaderMessage = "Validating Odometer, Please Wait !";
-                tmsApp.asyncPostFormData(
-                    dataSet['url'],
-                    formData,
-                    function (response) {
-                        window.loaderMessage = "Please wait...";
-                        if (!response.success) {
-                            //document.querySelector('#submitRequisitionBtn').setAttribute('disabled', 'disabled');
-                            tmsApp.showToast(response['message'], 'error');
-                        } else {
-                            tmsApp.showToast(response['message'], 'success');
-                            document.querySelector('#submitRequisitionBtn').removeAttribute('disabled');
-                            //document.querySelector('.when_odo_valid').removeAttribute('disabled');
-                        }
-                    },
-                    function (xhr) {
-                        window.loaderMessage = "Please wait...";
-                    }
-                );
-
-                //tmsApp.showToast('We could not complete processing your request, please try again later')
-
-            });
 
             $('#materialDetailsTable').on('change', 'select,input', function (e) {
                 eventHandler(this, e);

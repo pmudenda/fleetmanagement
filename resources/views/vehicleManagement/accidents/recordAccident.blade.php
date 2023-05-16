@@ -251,7 +251,6 @@
             </section>
 
         </form>
-
         <div class="modal fade" id="errorDisplay" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -534,6 +533,5 @@
 @endsection
 @push('scripts')
     <script src="{{asset("libs/steps/jquery.steps.min.js")}}"></script>
-    <script src="{{asset("libs/steps/jquery.steps.js")}}"></script>
     <script src="{{asset("application/modules/vehicleManagement/accidentRecording.formWizard.js")}}"></script>
 @endpush
