@@ -26,13 +26,13 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['vehicleHeader'], 'registration_type', data['registration_type']);
     Vue.set(app['vehicleHeader'], 'brand_guid', data['brand_guid']);
 
-    $('[name="brand"]').val(data['brand_guid'])
-    $('[name="brand"]').trigger('change');
+    if(data['brand_guid']){
+        $('[name="brand"]').val(data['brand_guid'])
+        $('[name="brand"]').trigger('change');
+    }
 
     Vue.set(app['vehicleHeader'], 'model_guid', data['model_guid']);
     Vue.set(app['vehicleHeader'], 'model_code', data['model_code']);
-
-    body_type_guid
 
     const $registrationNumberCtrl = document.querySelector('[name="registrationNumber"]');
     if ($registrationNumberCtrl) {
@@ -40,11 +40,19 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     }
     Vue.set(app['vehicleHeader'], 'on_boarding_status', data['on_boarding_status']);
     Vue.set(app['vehicleHeader'], 'body_type_guid', data['body_type_guid']);
-    $('[name="bodyType"]').val(data['body_type_guid'])
-    $('[name="bodyType"]').trigger('change');
+    if(data['body_type_guid']){
+        $('[name="bodyType"]').val(data['body_type_guid'])
+        $('[name="bodyType"]').trigger('change');
+    }
+
     Vue.set(app['vehicleHeader'], 'user_unit', data['business_unit_code']);
     Vue.set(app['vehicleHeader'], 'user_unit_code', data['business_unit_code']);
-    $("#user_unit").change();
+    if(data['business_unit_code']){
+        $('[name="user_unit"]').val(data['body_type_guid'])
+        $('[name="bodyType"]').trigger('change');
+    }
+
+    //$("#user_unit").change();
     Vue.set(app['chassisDetails'], 'chassisNumber', data['chassis_number']);
     Vue.set(app['chassisDetails'], 'engineNumber', data['engine_number']);
     Vue.set(app['chassisDetails'], 'whiteBookSerial', data['white_book_serial']);
