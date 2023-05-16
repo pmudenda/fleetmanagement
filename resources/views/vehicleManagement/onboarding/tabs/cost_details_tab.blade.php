@@ -195,7 +195,6 @@
                                        v-on:change="formatBookValueAsMoney($event)"
                                        data-doctype="CostingDetails"
                                        autocomplete="off"/>
-
                             </div>
                         </div>
                     </div>
@@ -278,6 +277,25 @@
                 </div>
             </td>
 
+        </tr>
+        <tr>
+            <td class="frappe-control ">
+                <label for="premium" class="control-label"
+                       style="padding-right: 0px;">
+                    Purchase Order:
+                </label>
+            </td>
+            <td>
+                <div class="col-md-7 fv-row pl-0">
+                    <div class="col-md-9 pl-0">
+                        <input type="file" accept="image/*,.pdf"
+                               class="filer_input"
+                               name="purchaseOrderDocument"/>
+                    </div>
+                </div>
+            </td>
+            <td></td>
+            <td></td>
         </tr>
         </tbody>
     </table>

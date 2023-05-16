@@ -22,6 +22,7 @@ class CostAndValuation extends Model
         'yearOfPurchase',
         'created_by',
         'created_name',
-        'vehicle_header_id'
+        'vehicle_header_id',
+        'purchase_order_document'
     ];
 }

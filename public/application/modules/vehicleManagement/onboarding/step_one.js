@@ -555,6 +555,6 @@ let app = new Vue({
     }
 
     getLocations();
-    new tmsApp.fileUploader().makeSingleFileUploader();
+    //new tmsApp.fileUploader().makeSingleFileUploader();
 
 })(window.tmsApp || {}, jQuery);

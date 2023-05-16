@@ -266,6 +266,18 @@ class OnBoardingService
     {
         $user = auth()->user();
 
+        $purchase_order_document = '';
+        if($request->purchaseOrderDocument){
+            $purchase_order_document = $this->fileUploadService->uploadFile($request,
+                'front_view',
+                'vehicleRegistration',
+                $request->input('headerId'),
+                'vehicleRegistration',
+                'Front View',
+                $user
+            );
+        }
+
         return CostAndValuation::updateOrCreate(
             [
                 'vehicle_header_id' => $request->input('headerId'),
@@ -281,6 +293,7 @@ class OnBoardingService
                 'yearOfPurchase' => $request->input('yearOfPurchase'),
                 'created_by' => $user->id,
                 'created_name' => $user->name,
+                'purchase_order_document' => $purchase_order_document
             ]);
     }
 
