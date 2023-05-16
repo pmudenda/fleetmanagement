@@ -12,6 +12,7 @@ use App\Models\Security\User;
 use Carbon\Carbon;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
@@ -52,7 +53,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::authenticateUsing(function (Request $request) {
             $user = User::where(USERNAME_FIELD, $request->get(USER_NAME_INPUT_FIELD))
                 ->where(USER_STATUS_FIELD, StatusHelper::activeUser())
-                ->where(HAS_ACTIVE_SESSION_FIELD, ConfigHelper::currentLoginFalse())
+                //->where(HAS_ACTIVE_SESSION_FIELD, ConfigHelper::currentLoginFalse())
                 ->first();
 
             if ($user &&
@@ -61,6 +62,8 @@ class FortifyServiceProvider extends ServiceProvider
                 $user->last_login = Carbon::now();
                 $user->has_active_session = ConfigHelper::currentLoginTrue();
                 $user->save();
+
+                Auth::logoutOtherDevices($user->password);
                 return $user;
             }
         });

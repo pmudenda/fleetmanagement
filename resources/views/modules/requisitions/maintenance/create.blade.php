@@ -44,9 +44,9 @@
 
                 <label class="app-required-marker"></label>
                 <form name="jobCardForm"
-                     id="jobCardForm"
-                     action="{{route('save.workshop.requisition')}}"
-                     method="post">
+                      id="jobCardForm"
+                      action="{{route('save.workshop.requisition')}}"
+                      method="post">
                     @csrf
                     <h1>Job Card Details</h1>
                     <div>
@@ -102,7 +102,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row d-none">
+                                    {{--<div class="row d-none">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
@@ -150,7 +150,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>--}}
 
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
@@ -162,23 +162,48 @@
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
-                                                                    <label class="form-check-inline">
-                                                                        {{--    <input type="radio"
-                                                                                   id="projectInput"
-                                                                                   class="list-row-checkbox bold mr-3 when_valid"
-                                                                                   autocomplete="off"
-                                                                                   name="CostAssignedTo"
-                                                                                   value="ProjectBasedRequisition">--}}
+                                                                    <label class="form-check-inline field-required">
                                                                         Workshop
                                                                     </label>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <select type="text" name="project_code"
+                                                            {{--<select type="text" name="project_code"
                                                                     class="form-select mt-1 project-code-ajax"
                                                                     id="project_code">
+                                                            </select>--}}
+                                                            <select
+                                                                required
+                                                                class="form-select form-select-sm"
+                                                                name="workshop"
+                                                                autocomplete="off"
+                                                                id="workshop">
+                                                                <option></option>
                                                             </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-6 col-md-6 d-none">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                            for="job_card_no">
+                                                            Job Car No.:
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <input type="text"
+                                                                   min="1"
+                                                                   class="form-control form-control-sm when_valid number_input"
+                                                                   id="job_card_no"
+                                                                   readonly
+                                                                   name="odometer_reading"
+                                                            />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -433,8 +458,7 @@
 
                                 </div>
                             </div>
-
-                            <div class="container-fluid">
+                            {{--<div class="container-fluid">
                                 <div id="materialDetailsContainer" class="table-responsive mt-3">
                                     <table id="materialDetailsTable" class="table table-bordered">
                                         <thead>
@@ -497,7 +521,7 @@
                                         </tfoot>
                                     </table>
                                 </div>
-                            </div>
+                            </div>--}}
                         </div>
                     </div>
 
@@ -696,13 +720,6 @@
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script src="{{asset("libs/steps/jquery.steps.js")}}"></script>
     <script>
-
-
-        $(function () {
-            //$("#jobCardForm").steps();
-            // cost allocation view
-        });
-
         (function (tmsApp, $) {
 
             function initializeFormWizard() {
@@ -856,6 +873,37 @@
 
             initializeFormWizard();
 
+            function getWorkshops() {
+                fetch(document.querySelector('#locationUrl').value)
+                    .then(response => response.json())
+                    .then(response => {
+                        let selectElem = $('select[name="vehicleLocation"]');
+                        // Populate results
+                        if (response.state === 'failure') {
+                            //show errors
+                            toastr.error('Connection error, no data found')
+                            return;
+                        }
+
+                        let locations = response['payload'];
+                        tmsApp.populateDropDownList(selectElem, locations, "location", ["location"], "");
+
+                        let location = selectElem.attr('data-value');
+                        console.log(location);
+                        if (location) {
+                            selectElem.val(location);
+                            selectElem.trigger('change');
+                        }
+
+                    })
+                    .catch(function (error) {
+                        // notify of error
+                        toastr.error(
+                            'Connection error. Could not retrieve data, some feature might not work.')
+                    });
+            }
+
+
             function removeSubmissionAndDetailsOptions() {
                 let elements = document.querySelectorAll('.when_valid');
                 elements.forEach(function (element) {
@@ -873,7 +921,7 @@
                 $('input[name="material_description"]').val(tmsApp.formatMoney('0', 2));
             }
 
-            function enableSubmissionAndDetailsOptions() {
+            function enableWebUIControls() {
 
                 let elements = document.querySelectorAll('.when_valid');
 
@@ -918,9 +966,7 @@
 
                 let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
                 $("#vehicle_description").val(vLabel);
-                let row = `<tr>
-                                    <th>Make</th><td id="make">${vehicle.brand_name}</td>
-                               </tr>
+                let row = `<tr><th>Make</th><td id="make">${vehicle.brand_name}</td></tr>
                                <tr>
                                     <th>Model</th><td id="model">${vehicle.model_name} ${vehicle.model_code}</td>
                                </tr>
@@ -930,35 +976,28 @@
 
                 $('tbody#vehicleDetails').html(row);
 
-                if (vehicle.fuel_allocation) {
+                /*if (vehicle.fuel_allocation) {
                     let perWeekAllocation = vehicle.fuel_allocation * 7;
                     document.querySelector('[name="fuel_allocation"]').value = perWeekAllocation ?? 0;
                     document.querySelector('[name="material_quantity"]').value = perWeekAllocation ?? 0;
                     document.querySelector('[name="material_quantity"]').setAttribute('max', perWeekAllocation);
                     $('#totalQty').text(tmsApp.numberFormat(perWeekAllocation));
-                }
+                }*/
 
-                enableSubmissionAndDetailsOptions();
+                enableWebUIControls();
 
-                if (article) {
+                /*if (article) {
 
-                    /* Material Description and name */
                     $("#material_description").text(article['name']);
                     $('input[name="material_description"]').val(article['name']);
                     $('input[name="material_article_code"]').val(article['code']);
 
-                    /* Unit Of Measure */
                     $("#unit_of_measure").text(article['short_name']);
                     $('input[name="unit_of_measure"]').val(article['short_name']);
 
-
-                    //$("#material_amount").text(tmsApp.formatMoney('', 2));
-                    //$('input[name="material_amount"]').val(tmsApp.formatMoney('', 2)).trigger('change');
-
-                    /* Material Price*/
                     $("#material_price").text(tmsApp.formatMoney(article['price'], 2));
                     $('input[name="material_price"]').val(article['price']).change();
-                }
+                }*/
 
                 if (images && images.length > 0) {
                     let frontViewImages = images.filter((image) => {
@@ -983,13 +1022,20 @@
                             populateVehicleDetails(response_data.payload);
                         } else {
                             removeSubmissionAndDetailsOptions();
-                            tmsApp.systemError('Vehicle', ' No Vehicle Found, Check your input and try again', function () {
-                            });
+                            tmsApp.systemError(
+                                'Vehicle',
+                                'Vehicle with Registration No.' + numberPlate
+                                + '  Found, Check your input and try again',
+                                function () {
+                                });
                         }
                     },
                     function (xhr) {
-                        tmsApp.systemError('System Message', 'We could not complete processing your request, please try again later', function () {
-                        });
+                        tmsApp.systemError(
+                            'System Message',
+                            'We could not complete processing your request, please try again later',
+                            function () {
+                            });
                     }
                 )
             }
