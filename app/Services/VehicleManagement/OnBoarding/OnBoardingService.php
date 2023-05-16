@@ -486,7 +486,7 @@ class OnBoardingService
 
     public function processAccessory(OnboardingVehicleAccessoryRequest $request)
     {
-
+        return $request->all();
     }
 
 }

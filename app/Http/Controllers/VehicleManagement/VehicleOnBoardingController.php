@@ -115,6 +115,9 @@ class VehicleOnBoardingController extends Controller
                 '7' => "vehicleManagement.onboarding.step6",
                 default => "vehicleManagement.onboarding.index",
             };
+
+            //$accessories =
+
             return view($viewName)
                 ->with(compact(
                     'reference',
@@ -282,7 +285,11 @@ class VehicleOnBoardingController extends Controller
                 'state' => 'success',
                 'request' => $request->all(),
                 'payload' => $model,
-                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 5, 'reference' => $model->vehicle_header_id]),
+                'redirectUrl' => URL::signedRoute('new.vehicle', [
+                    'step' => 5,
+                    //'reference' => $model->vehicle_header_id
+                    'reference' => $request->get('headerId')
+                ]),
                 'message' => 'Request Processed Successfully'
             ]);
         } catch (Exception $e) {
