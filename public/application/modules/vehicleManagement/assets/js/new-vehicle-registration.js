@@ -66,6 +66,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         $('select[name="user_unit"]').val(data['business_unit_code']);
         $('select[name="user_unit"]').attr('data-value',data['business_unit_code']);
     }
+
     if (data['location_name']) {
         $('select[name="vehicleLocation"]').val(data['location_name']);
         $('select[name="vehicleLocation"]').attr('data-value', data['location_name']);
@@ -127,10 +128,27 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     Vue.set(app['costingAndValuation'], 'supplierName', data['supplierName']);
 
+
+
     $('select[name="supplierName"]').val(data['supplierName']);
+    //$('select[name="supplierName"]')
+
+
+    $('input[name="costPrice"]').val(data['costPrice']);
+    $('input[name="costPrice"]').trigger('change');
     Vue.set(app['costingAndValuation'], 'costPrice', data['costPrice']);
+
+
+    $('input[name="yearOfPurchase"]').val(data['yearOfPurchase']);
+    $('input[name="yearOfPurchase"]').trigger('change');
     Vue.set(app['costingAndValuation'], 'yearOfPurchase', data['yearOfPurchase']);
+
+
+    $('input[name="bookValue"]').val(data['bookValue']);
+    $('input[name="bookValue"]').trigger('change');
     Vue.set(app['costingAndValuation'], 'bookValue', data['bookValue']);
+
+
     Vue.set(app['costingAndValuation'], 'assetNumber', data['assetNumber']);
 
     let assetNumberInput = document.querySelector("#assetNumber");
