@@ -53,7 +53,7 @@
 
                             <li class="nav-item" role="presentation" data-tab="tms_engine_details_tab">
                                 <a @if($step < 3 ) disabled="disabled"
-                                   @endif class="nav-link text-active-primary pb-5 @if($step==2) active @endif"
+                                   @endif class="nav-link text-active-primary pb-5 @if($step==3) active @endif"
                                    data-bs-toggle="tab"
                                    href="#tms_engine_details_tab" aria-selected="false" role="tab"
                                    tabindex="-1">
@@ -64,7 +64,7 @@
 
                             <li class="nav-item" role="presentation" data-tab="tms_engine_details_tab">
                                 <a @if($step < 4 ) disabled="disabled"
-                                   @endif class="nav-link text-active-primary pb-5 @if($step == 3) active @endif"
+                                   @endif class="nav-link text-active-primary pb-5 @if($step == 4) active @endif"
                                    data-bs-toggle="tab"
                                    href="#tms_access_checkin_tab" aria-selected="false" role="tab"
                                    tabindex="-1">
@@ -75,7 +75,7 @@
 
                             <li class="nav-item" role="presentation" data-tab="tms_costing_valuation_tab">
                                 <a @if($step < 5 ) disabled="disabled"
-                                   @endif class="nav-link text-active-primary pb-5 @if($step==4) active @endif"
+                                   @endif class="nav-link text-active-primary pb-5 @if($step==5) active @endif"
                                    data-bs-toggle="tab"
                                    href="#tms_costing_valuation_tab" aria-selected="false" role="tab"
                                    tabindex="-1">
@@ -86,7 +86,7 @@
 
                             <li class="nav-item" role="presentation" data-tab="tms_body_weight_tab">
                                 <a @if($step < 6 ) disabled="disabled"
-                                   @endif class="nav-link text-active-primary pb-5 @if($step==5) active @endif"
+                                   @endif class="nav-link text-active-primary pb-5 @if($step==6) active @endif"
                                    data-bs-toggle="tab"
                                    href="#tms_body_weight_tab" aria-selected="true" role="tab">
                                     @include('layouts.partials.body_icon')
@@ -96,7 +96,7 @@
 
                             <li class="nav-item" role="presentation" data-tab="tms_assignment_tab">
                                 <a @if($step < 7 ) disabled="disabled"
-                                   @endif class="nav-link text-active-primary pb-5 @if($step==6) active @endif"
+                                   @endif class="nav-link text-active-primary pb-5 @if($step==7) active @endif"
                                    data-bs-toggle="tab"
                                    href="#tms_assignment_tab" aria-selected="false" role="tab"
                                    tabindex="-1">
