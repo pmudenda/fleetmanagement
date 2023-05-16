@@ -105,7 +105,7 @@ class OnBoardingService
             'front_view',
             'vehicleRegistration',
             $request->input('headerId'),
-            'vehicleRegistration',
+            'Vehicle Registration',
             'Front View',
             $user
         );
@@ -114,7 +114,7 @@ class OnBoardingService
             'rear_view',
             'vehicleRegistration',
             $request->input('headerId'),
-            'vehicleRegistration',
+            'Vehicle Registration',
             'Back View',
             $user
         );
@@ -123,7 +123,7 @@ class OnBoardingService
             'right_view',
             'vehicleRegistration',
             $request->input('headerId'),
-            'vehicleRegistration',
+            'Vehicle Registration',
             'Right View',
             $user
         );
@@ -132,7 +132,7 @@ class OnBoardingService
             'left_view',
             'vehicleRegistration',
             $request->input('headerId'),
-            'vehicleRegistration',
+            'Vehicle Registration',
             'Left View',
             $user
         );
@@ -141,7 +141,7 @@ class OnBoardingService
             'insurance_cover_note',
             'vehicleRegistration',
             $request->input('headerId'),
-            'insurance',
+            'Vehicle Registration',
             'Insurance Cover',
             $user
         );
@@ -150,7 +150,7 @@ class OnBoardingService
             'motor_vehicle_certificate',
             'vehicleRegistration',
             $request->input('headerId'),
-            'whitebooks',
+            'Vehicle Registration',
             'Motor Vehicle Certificate',
             $user
         );
@@ -284,11 +284,11 @@ class OnBoardingService
         $purchase_order_document = '';
         if ($request->purchaseOrderDocument) {
             $purchase_order_document = $this->fileUploadService->uploadFile($request,
-                'front_view',
+                'purchaseOrderDocument',
                 'vehicleRegistration',
                 $request->input('headerId'),
                 'vehicleRegistration',
-                'Front View',
+                'Purchase Order',
                 $user
             );
         }
