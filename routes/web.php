@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\ParameterEncryption;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
 use App\Http\Controllers\HomeController;
@@ -38,6 +39,22 @@ Route::get('/', function () {
 Route::post('logout', [HomeController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => 'auth'], function () {
+
+    //SESSION EXPIRE
+    Route::post('getStatus', function () {
+        $user = Auth()->user();
+        if (!$user || $user->id == 0) {
+            return response()->json(array(
+                'message' => 'Session Expired',
+                'state' => 'expired'
+            ));
+        }
+        return response()->json(array(
+            'message' => '',
+            'state' => 'active',
+            'user' => ParameterEncryption::encrypt($user->id)
+        ));
+    })->name('session.status');
 
     Route::get('/home', [HomeController::class, 'dashboard'])->name('home');
 
