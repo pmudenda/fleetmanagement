@@ -5,7 +5,7 @@
       action="{{route('vehicle.accessories.save')}}">
     <input type="hidden" name="doctype" value="CostingDetails"/>
     <input type="hidden" name="headerId" value="{{$reference}}"/>
-    <input type="hidden" name="costAndValuationId" value="{{$vehicle->costAndValuationId ?? 0}}"/>
+    <input type="hidden" name="accessoryHeaderId" value="{{$vehicle->accessoryHeaderId ?? 0}}"/>
 
     <x-error-view/>
     <div class="create_mode">
