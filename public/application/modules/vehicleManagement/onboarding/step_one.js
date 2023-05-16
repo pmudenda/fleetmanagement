@@ -89,11 +89,11 @@ let app = new Vue({
     },
 
     created() {
-        this.getVehicleBrands();
-        this.getConfiguredModels();
-        this.getBodyTypes();
-        this.getOrganizationalUnits();
-        this.loadRegistrationTypes()
+        //this.getVehicleBrands();
+        //this.getConfiguredModels();
+        //this.getBodyTypes();
+        //this.getOrganizationalUnits();
+        //this.loadRegistrationTypes()
         this.licenseTypes = [
             {'code': 'A', 'name': 'Class A'},
             {'code': 'B', 'name': 'Class B'},
@@ -104,20 +104,12 @@ let app = new Vue({
 
     mounted() {
         console.log("%c✔ Vehicle OnBoarding Running", "color: #148f32");
-
-        this.vehicleHeaderForm = document.querySelector('#tms_vehicle_header_form');
-
-        $(document).on('keyup', '#vehicleLocation', function () {
-            if (!this.value) {
-                this.focus();
-            }
-            this.value = this.value.toLocaleUpperCase();
-        });
+        //this.vehicleHeaderForm = document.querySelector('#tms_vehicle_header_form');
 
         //this.initDropzone();
-        if (this.vehicleHeader && this.vehicleHeader.id) {
+        /*if (this.vehicleHeader && this.vehicleHeader.id) {
             this.isHeaderSaved = true;
-        }
+        }*/
 
         /*$(document).on('click', '[data-select="file"]', function () {
             let fileInput = $(this).closest('p').find('input[type="file"]');
@@ -178,292 +170,10 @@ let app = new Vue({
     },
 
     methods: {
-
-        loadRegistrationTypes: function () {
-            this.registrationTypes = [
-                {
-                    "label": 'Motor Vehicle',
-                    'code': 'MV'
-                },
-                /* {
-                     "label": 'Boat',
-                     'code': 'BT'
-                 },
-                 {
-                     "label": 'Trailer',
-                     'code': 'TR'
-                 },*/
-            ]
-        },
-
-        // web UI event
-        bodyTypeChanged: function (selectedBody) {
-            app['vehicleHeader'].body_type_guid = selectedBody?.id;
-            document.querySelector('#bodyType').value = selectedBody?.id;
-        },
-
-        /*formatMoney: function (event) {
-            setTimeout(function () {
-                let formatted = accounting.formatMoney(event.target.value, 'ZMW ');
-                //tmsApp.formatMoney(event.target.value);
-
-                app['chassisDetails'].chargeOutRate = formatted;
-                //document.querySelector('#'+event.target.id).value = formatted;
-            }, 300);
-        },*/
-
-        getBodyTypes: function () {
-            fetch(document.querySelector('#bodyTypesEndpoint').value)
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-
-                    app.bodyTypes = response.payload;
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
-                });
-        },
-
-        getBusinessUnits: function () {
-            fetch(document.querySelector('#businessUnitsEndpoint').value)
-                .then(response => response.json())
-                .then(function (response) {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-
-                    app.businessUnits = response.data['payload'];
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
-                });
-        },
-
-        getConfiguredModels: function () {
-            fetch(document.querySelector('#modelEndpoint').value)
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-                    app.configuredModels = response['payload'];
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-                });
-        },
-
-        getModelLabel: function (val) {
-            if (typeof val === 'object') {
-                return val.model_name + '=>' + val.model_code;
-            }
-        },
-
-        getOrganizationalUnits: function () {
-            fetch(document.querySelector('#orgUnitsEndpoint').value)
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-
-                    app.organizationalUnits = response['payload'];
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
-                });
-        },
-
-        getUserUnitLabel: function (val) {
-            if (typeof val === 'object') {
-                return val['code_unit'] + '=>' + val.description;
-            }
-        },
-
-        getVehicleBrands: function () {
-            fetch(document.querySelector('#brands-api').value)
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-
-                    app.vehicleBrands = response['payload'];
-                    app.engineBrands = response['payload'];
-                }).catch(function (error) {
-                // notify of error
-                toastr.error(
-                    'Connection error. Could not retrieve data, some feature might not work.')
-            });
-        },
-
-        modelChanged(model) {
-            this.vehicleHeader.model_guid = model?.id;
-            this.vehicleHeader.model_code = model?.model_code;
-            document.querySelector('#model').value = model?.id;
-            document.querySelector('#model_code').value = model?.model_code;
-        },
-
-        userUnitChanged: function (user_unit) {
-
-            app.vehicleHeader.user_unit_code = user_unit?.code_unit;
-            document.querySelector('[name="user_unit"]').value = user_unit?.code_unit;
-            let cost_center_code = user_unit?.cc_code
-            let business_unit_code = user_unit?.bu_code
-
-
-            let filteredCostCenters = app.costCenters.filter(function (cost_center) {
-                return cost_center.code_cost_center?.trim() === cost_center_code?.trim();
-            });
-
-
-            if (filteredCostCenters.length !== 0) {
-                let costCentreOfInterest = filteredCostCenters[0];
-
-                this.assignmentDetails.costCenter = costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description'];
-                $('[name="costCenter"]').val(costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description']);
-            }
-
-
-            let filteredBusinessUnits = app.businessUnits.filter(function (bu) {
-                return bu.code_bu?.trim() === business_unit_code?.trim();
-            });
-
-            if (filteredBusinessUnits.length == 0) return;
-
-            let businessUnitOfInterest = filteredBusinessUnits[0];
-
-            const val = businessUnitOfInterest['code_bu'] + ':' + businessUnitOfInterest['description'];
-            $('[name="businessUnit"]').val(val);
-            this.assignmentDetails.businessUnit = val;
-        },
-
-        vehicleBrandChanged(selectedValue) {
-            this.vehicleHeader.brand_guid = selectedValue?.id?.toString().trim();
-            this.selectedBrandModels = [];
-            app.selectedBrandModels = app.configuredModels.filter(function (model) {
-                return model.brand_guid?.toString()?.trim() === app?.vehicleHeader.brand_guid?.toString().trim();
-            });
-        },
-
-        registrationTypeChanged(selectedType) {
-            console.log('Vehicle Type Changed', selectedType)
-        },
     }
 });
 
 (function (tmsApp, $) {
-
-    function postVehicleHeaderData() {
-        $('.print-error-msg').css('display', 'none');
-        // validate all required information
-        if (!$('form[name="vehicleHeaderForm"]').valid()) {
-            toastr.warning(
-                "Sorry, the data did not pass validation check, check the data and try again."
-            );
-            return;
-        }
-
-        let $form = document.forms['vehicleHeaderForm'];
-
-        tmsApp.asyncPostFormData(
-            $form.action,
-            new FormData($form),
-            function (asyncResponse) {
-                if (asyncResponse.hasOwnProperty('state') && asyncResponse.state != 'success') {
-                    if (asyncResponse.hasOwnProperty('errors')) {
-                        tmsApp.printErrorMsg(asyncResponse.errors);
-                        return
-                    }
-
-                    setTimeout(function () {
-                        tmsApp.systemError(
-                            'Vehicle On-Boarding',
-                            asyncResponse['message'],
-                            function () {
-                            }, 'error');
-                    }, 300);
-                    toastr.error(
-                        asyncResponse.message
-                    );
-                    return;
-                }
-
-                tmsApp.showSystemMessage(
-                    'Vehicle OnBoarding',
-                    asyncResponse.message,
-                    function () {
-                        setTimeout(
-                            function () {
-                                window.location.href = asyncResponse['redirectUrl']
-                            }, 500
-                        );
-                    }, 'success');
-            },
-            function (xhr, settings, errorThrown) {
-                setTimeout(function () {
-                    tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
-                }, 300)
-            });
-    }
-
-    function validateRegistrationNumber() {
-        let ref = document.querySelector('#registrationNumber').value
-        fetch(document.querySelector('#documentValidationUrl').value +
-            '?method=registration_number&key=' + ref)
-            .then(response => response.json())
-            .then(response => {
-                // Populate results
-                if (response.state === 'failure') {
-                    //show errors
-                    toastr.error('Connection error, chassis number could not be verified')
-                    return;
-                }
-
-                if (response['payload'].validity) {
-
-                    toastr.success(response['payload'].message, 'Registration Number Validation')
-                    let assetNumberInput = document.querySelector("#assetNumber");
-                    if (assetNumberInput) {
-                        assetNumberInput.value = window.removeSpaces(document.querySelector('#registrationNumber').value);
-                    }
-                    document.querySelector("#submitBtn").removeAttribute('disabled')
-                } else {
-                    document.querySelector("#submitBtn").setAttribute('disabled', 'disabled')
-                    toastr.error('Duplicate registration number, vehicle already registered', 'Invalid Registration')
-                }
-            })
-            .catch(function (error) {
-                // notify of error
-                toastr.error(
-                    'Connection error. Could not retrieve data, some feature might not work.', 'Invalid Registration')
-            });
-    }
 
     function getLocations() {
         fetch(document.querySelector('#locationUrl').value)
@@ -487,74 +197,6 @@ let app = new Vue({
             });
     }
 
-    tmsApp.appFormValidator('form[name="vehicleHeaderForm"]',
-        {
-            'brand': {
-                required: true
-            },
-            'registrationNumber': {
-                required: true
-            },
-            'model': {
-                required: true
-            },
-            'vehicleLocation': {
-                required: true
-            },
-            'model_code': {
-                required: true
-            },
-            'bodyType': {
-                required: true
-            },
-            'userUnit': {
-                required: true
-            }
-        },
-        {
-            'brand': {
-                required: "Vehicle brand is required"
-            },
-            'registrationNumber': {
-                required: "Registration number is required"
-            },
-            'model': {
-                required: "You must declare vehicle model"
-            },
-            'vehicleLocation': {
-                required: "Vehicle location is mandatory"
-            },
-            'model_code': {
-                required: "Vehicle Model code is required"
-            },
-            'bodyType': {
-                required: "Body type is required"
-            },
-            'userUnit': {
-                required: "Select the user unit responsible for the vehicle"
-            }
-        }
-    );
-
-    $("#submitBtn").on('click', function () {
-        postVehicleHeaderData();
-    });
-
-    $('#registrationNumber').on('keyup paste enter', function () {
-        if (!this.value || this.value.replace('_', '').length < 8) {
-            return;
-        }
-        setTimeout(function () {
-            validateRegistrationNumber();
-        }, 300);
-    });
-
-    let saveVehicleHeaderInformation = function (e) {
-        e.preventDefault();
-        this.postVehicleHeaderData();
-    }
-
-    getLocations();
     //new tmsApp.fileUploader().makeSingleFileUploader();
 
 })(window.tmsApp || {}, jQuery);

@@ -35,9 +35,10 @@
                                     <select class="form-select form-select-sm"
                                             name="registration_type"
                                             @input="registrationTypeChanged"
-                                            v-model="vehicleHeader.vehicle_type">
-                                        <option>--Select Type--</option>
-                                        <option v-for="regType in registrationTypes" :key="regType.code"
+                                            v-model="vehicleHeader.registration_type">
+                                        {{--<option>--Select Type--</option>--}}
+                                        <option v-for="regType in registrationTypes"
+                                                :key="regType.code"
                                                 :value="regType.code">
                                             @{{ regType.label }}
                                         </option>

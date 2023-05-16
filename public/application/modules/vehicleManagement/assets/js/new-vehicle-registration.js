@@ -14,7 +14,8 @@ function displayVehicleDetails(asyncResponse) {
     if (!data || data.length == 0) {
         return;
     }
-    Vue.set(app['vehicleHeader'], 'vehicle_type', data['registration_type']);
+
+    Vue.set(app['vehicleHeader'], 'registration_type', data['registration_type']);
     Vue.set(app['vehicleHeader'], 'brand_guid', data['brand_guid']);
     Vue.set(app['vehicleHeader'], 'model_guid', data['model_guid']);
     Vue.set(app['vehicleHeader'], 'model_code', data['model_code']);
@@ -156,6 +157,7 @@ window.filterData = function (niddle, key, hayStack) {
     else
         return null;
 }
+
 window.removeSpaces = function (value) {
     if (!value) return;
     return value.replace(/\s/g, '');
@@ -226,7 +228,8 @@ let app = new Vue({
             vehicleBrands: [],
             vehicleHeader:
                 {
-                    model: {}
+                    model: {},
+                    registration_type: 'MV'
                 },
             // validators
             vehicleHeaderForm: null,
@@ -271,6 +274,7 @@ let app = new Vue({
 
     mounted() {
         console.log("%c✔ ZESCO Fleet Master Running", "color: #148f32");
+        console.log("%c✔ Vehicle OnBoarding Process", "color: #148f32");
 
         this.vehicleHeaderForm = document.querySelector('#tms_vehicle_header_form');
         this.chassisDetailsForm = document.querySelector('#tms_chassis_details_form');
@@ -305,6 +309,13 @@ let app = new Vue({
             this.value = this.value.toLocaleUpperCase();
         });*/
 
+        $(document).on('keyup', '#vehicleLocation', function () {
+            if (!this.value) {
+                this.focus();
+            }
+            this.value = this.value.toLocaleUpperCase();
+        });
+
         Inputmask({
             "mask": "AAA 9999"
         }).mask("#registrationNumber");
@@ -334,7 +345,6 @@ let app = new Vue({
                 false
             );
         });
-
 
         $(document).on('click', '.clearImage', function (event) {
             let btn = this;
@@ -426,28 +436,6 @@ let app = new Vue({
         bodyTypeChanged: function (selectedBody) {
             app['vehicleHeader'].body_type_guid = selectedBody?.guid;
             document.querySelector('#bodyType').value = selectedBody?.guid;
-        },
-
-        checkChassisNumberValidity: function () {
-            fetch(document.querySelector('#documentValidationUrl').value
-                + '?method=chassis&key=' + app['chassisDetails']['chassisNumber'])
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Chassis validity not verified', 'Connection error');
-                        return;
-                    }
-
-                    app['document_validity'].state = response['payload'].validity;
-                    app['document_validity'].message = response['payload'].message;
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error(
-                        'Could not retrieve data, some feature might not work.', 'Connection error')
-                });
         },
 
         checkValueChange(element) {
@@ -602,6 +590,12 @@ let app = new Vue({
             }
         },
 
+        /*getModelLabel: function (val) {
+            if (typeof val === 'object') {
+                return val.model_name + '=>' + val.model_code;
+            }
+        },*/
+
         getOrganizationalUnits: function () {
             fetch(document.querySelector('#orgUnitsEndpoint').value)
                 .then(response => response.json())
@@ -641,6 +635,12 @@ let app = new Vue({
             }
         },
 
+        /*getUserUnitLabel: function (val) {
+           if (typeof val === 'object') {
+               return val['code_unit'] + '=>' + val.description;
+           }
+       },*/
+
         getVehicleBrands: function () {
             fetch(document.querySelector('#brands-api').value)
                 .then(response => response.json())
@@ -660,6 +660,138 @@ let app = new Vue({
                     'Connection error. Could not retrieve data, some feature might not work.')
             });
         },
+
+        /*getVehicleBrands: function () {
+            fetch(document.querySelector('#brands-api').value)
+                .then(response => response.json())
+                .then(response => {
+                    // Populate results
+                    if (response.state === 'failure') {
+                        //show errors
+                        toastr.error('Connection error, no data found')
+                        return;
+                    }
+
+                    app.vehicleBrands = response['payload'];
+                    app.engineBrands = response['payload'];
+                }).catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Connection error. Could not retrieve data, some feature might not work.')
+            });
+        },*/
+
+        /*loadRegistrationTypes: function () {
+    this.registrationTypes = [
+        {
+            "label": 'Motor Vehicle',
+            'code': 'MV'
+        },
+         {
+             "label": 'Boat',
+             'code': 'BT'
+         },
+         {
+             "label": 'Trailer',
+             'code': 'TR'
+         },
+    ]
+},*/
+
+        // web UI event
+        /*bodyTypeChanged: function (selectedBody) {
+            app['vehicleHeader'].body_type_guid = selectedBody?.id;
+            document.querySelector('#bodyType').value = selectedBody?.id;
+        },*/
+
+        /*formatMoney: function (event) {
+            setTimeout(function () {
+                let formatted = accounting.formatMoney(event.target.value, 'ZMW ');
+                //tmsApp.formatMoney(event.target.value);
+
+                app['chassisDetails'].chargeOutRate = formatted;
+                //document.querySelector('#'+event.target.id).value = formatted;
+            }, 300);
+        },*/
+
+        /*getBodyTypes: function () {
+            fetch(document.querySelector('#bodyTypesEndpoint').value)
+                .then(response => response.json())
+                .then(response => {
+                    // Populate results
+                    if (response.state === 'failure') {
+                        //show errors
+                        toastr.error('Connection error, no data found')
+                        return;
+                    }
+
+                    app.bodyTypes = response.payload;
+                })
+                .catch(function (error) {
+                    // notify of error
+                    toastr.error(
+                        'Connection error. Could not retrieve data, some feature might not work.')
+                });
+        },*/
+
+        /*getBusinessUnits: function () {
+            fetch(document.querySelector('#businessUnitsEndpoint').value)
+                .then(response => response.json())
+                .then(function (response) {
+                    // Populate results
+                    if (response.state === 'failure') {
+                        //show errors
+                        toastr.error('Connection error, no data found')
+                        return;
+                    }
+
+                    app.businessUnits = response.data['payload'];
+                })
+                .catch(function (error) {
+                    // notify of error
+                    toastr.error(
+                        'Connection error. Could not retrieve data, some feature might not work.')
+                });
+        },*/
+
+        /*getConfiguredModels: function () {
+            fetch(document.querySelector('#modelEndpoint').value)
+                .then(response => response.json())
+                .then(response => {
+                    // Populate results
+                    if (response.state === 'failure') {
+                        //show errors
+                        toastr.error('Connection error, no data found')
+                        return;
+                    }
+                    app.configuredModels = response['payload'];
+                })
+                .catch(function (error) {
+                    // notify of error
+                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+                });
+        },*/
+
+        /* getOrganizationalUnits: function () {
+             fetch(document.querySelector('#orgUnitsEndpoint').value)
+                 .then(response => response.json())
+                 .then(response => {
+                     // Populate results
+                     if (response.state === 'failure') {
+                         //show errors
+                         toastr.error('Connection error, no data found')
+                         return;
+                     }
+
+                     app.organizationalUnits = response['payload'];
+                 })
+                 .catch(function (error) {
+                     // notify of error
+                     toastr.error(
+                         'Connection error. Could not retrieve data, some feature might not work.')
+                 });
+         },*/
+
 
         getConfiguredModels: function () {
             fetch(document.querySelector('#modelEndpoint').value)
@@ -715,6 +847,13 @@ let app = new Vue({
                 $holder.value = model?.model_name;
             }
         },
+
+        /*modelChanged(model) {
+          this.vehicleHeader.model_guid = model?.id;
+          this.vehicleHeader.model_code = model?.model_code;
+          document.querySelector('#model').value = model?.id;
+          document.querySelector('#model_code').value = model?.model_code;
+      },*/
 
         postRequest(data, url, successCallBack, errorCallBack) {
             axios.post(url, data, {
@@ -843,11 +982,15 @@ let app = new Vue({
             let uploadFile = $(event.target);
             let self = event.target;
             let files = !!self.files ? self.files : [];
-            if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+            if (!files.length || !window.FileReader) return;
+            // no file selected, or no FileReader support
 
-            if (/^image/.test(files[0].type)) { // only image file
-                let reader = new FileReader(); // instance of the FileReader
-                reader.readAsDataURL(files[0]); // read the local file
+            if (/^image/.test(files[0].type)) {
+                // only image file
+                let reader = new FileReader();
+                // instance of the FileReader
+                reader.readAsDataURL(files[0]);
+                // read the local file
 
                 reader.onloadend = function () {
                     // set image data as background of div
@@ -856,9 +999,12 @@ let app = new Vue({
                         'display': 'block'
                     });
                 }
-            }
 
-            $(uploadFile).closest('div').find('p').addClass('d-none');
+                $(uploadFile).closest('div').find('p').addClass('d-none');
+            }else{
+
+                toastr.error('only image (.jpg, .jpeg, .png, .bmp) file types are allowed','Invalid File Format Selected')
+            }
         }
         ,
 
@@ -883,9 +1029,6 @@ let app = new Vue({
             let tabContent = document.querySelector('#myTabContent').children;
             $(tabContent[nextIndex]).addClass('active').addClass('show');
             $(tabContent[activeIndex]).removeClass('active').removeClass('show')
-
-            console.log(activeIndex)
-
         }
         ,
 
@@ -893,7 +1036,7 @@ let app = new Vue({
             document.querySelector('#transmission_type').value = transmissionType?.code + ':' + transmissionType?.name;
         },
 
-        validateRegistrationNumber: function () {
+        /*validateRegistrationNumber: function () {
             let ref = app['vehicleHeader']['registration_number'] ?? document.querySelector('#registrationNumber').value
 
             fetch(document.querySelector('#documentValidationUrl').value +
@@ -903,19 +1046,18 @@ let app = new Vue({
                     // Populate results
                     if (response.state === 'failure') {
                         //show errors
-                        toastr.error('Connection error, chassis number could not be verified')
+                        toastr.error('Connection error, Vehicle registration number could not be verified')
                         return;
                     }
 
                     if (response['payload'].validity) {
                         console.log(response['payload'].validity);
-                        //response.data.payload.message
                         let assetNumberInput = document.querySelector("#assetNumber");
                         if (assetNumberInput) {
                             assetNumberInput.value = window.removeSpaces(document.querySelector('#registrationNumber').value);
                         }
                     } else {
-                        toastr.warning('Invalid registration number, vehicle already registered')
+                        toastr.error('Duplicate Registration Number' ,'Invalid Vehicle Registration Number')
                     }
                 })
                 .catch(function (error) {
@@ -923,19 +1065,84 @@ let app = new Vue({
                     toastr.error(
                         'Connection error. Could not retrieve data, some feature might not work.')
                 });
+        },*/
+
+        checkChassisNumberValidity: function () {
+            fetch(document.querySelector('#documentValidationUrl').value
+                + '?method=chassis&key=' + app['chassisDetails']['chassisNumber'])
+                .then(response => response.json())
+                .then(response => {
+                    // Populate results
+                    if (response.state === 'failure') {
+                        //show errors
+                        toastr.error('Chassis validity not verified', 'Connection error');
+                        return;
+                    }
+
+                    app['document_validity'].state = response['payload'].validity;
+                    app['document_validity'].message = response['payload'].message;
+                })
+                .catch(function (error) {
+                    // notify of error
+                    toastr.error(
+                        'Could not retrieve data, some feature might not work.', 'Connection error')
+                });
         },
 
         vehicleBrandChanged(selectedValue) {
-            $('#model_holder').addClass('d-none');
-            $('#model').removeClass('d-none');
+            this.vehicleHeader.brand_guid = selectedValue?.id?.toString().trim();
             this.selectedBrandModels = [];
-            app.selectedBrandModels = app.configuredModels.filter(function (model) {
+            //$('#model_holder').addClass('d-none');
+            //$('#model').removeClass('d-none');
+            /*app.selectedBrandModels = app.configuredModels.filter(function (model) {
                 return model.brand_guid?.toString().trim() === app?.vehicleHeader.brand_guid?.toString().trim();
+            });*/
+
+            app.selectedBrandModels = app.configuredModels.filter(function (model) {
+                return model.brand_guid?.toString()?.trim() === app?.vehicleHeader.brand_guid?.toString().trim();
             });
         },
 
-        vehicleTypeChanged() {
+        /*vehicleTypeChanged() {
             console.log('Vehicle Type Changed')
+        },*/
+
+        userUnitChanged: function (user_unit) {
+
+            app.vehicleHeader.user_unit_code = user_unit?.code_unit;
+            document.querySelector('[name="user_unit"]').value = user_unit?.code_unit;
+            let cost_center_code = user_unit?.cc_code
+            let business_unit_code = user_unit?.bu_code
+
+
+            let filteredCostCenters = app.costCenters.filter(function (cost_center) {
+                return cost_center.code_cost_center?.trim() === cost_center_code?.trim();
+            });
+
+
+            if (filteredCostCenters.length !== 0) {
+                let costCentreOfInterest = filteredCostCenters[0];
+
+                this.assignmentDetails.costCenter = costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description'];
+                $('[name="costCenter"]').val(costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description']);
+            }
+
+
+            let filteredBusinessUnits = app.businessUnits.filter(function (bu) {
+                return bu.code_bu?.trim() === business_unit_code?.trim();
+            });
+
+            if (filteredBusinessUnits.length == 0) return;
+
+            let businessUnitOfInterest = filteredBusinessUnits[0];
+
+            const val = businessUnitOfInterest['code_bu'] + ':' + businessUnitOfInterest['description'];
+            $('[name="businessUnit"]').val(val);
+            this.assignmentDetails.businessUnit = val;
+        },
+
+        registrationTypeChanged(selectedType) {
+            console.log(selectedType)
         },
     }
 });
@@ -1058,36 +1265,6 @@ function checkOnboardingHeaderStatus() {
                 }, 300)
             });
 
-    }
-
-    function getLocations() {
-        fetch(document.querySelector('#locationUrl').value)
-            .then(response => response.json())
-            .then(response => {
-                let selectElem = $('select[name="vehicleLocation"]');
-                // Populate results
-                if (response.state === 'failure') {
-                    //show errors
-                    toastr.error('Connection error, no data found')
-                    return;
-                }
-
-                let locations = response['payload'];
-                tmsApp.populateDropDownList(selectElem, locations, "location", ["location"], "");
-
-                let location = selectElem.attr('data-value');
-                console.log(location);
-                if (location) {
-                    selectElem.val(location);
-                    selectElem.trigger('change');
-                }
-
-            })
-            .catch(function (error) {
-                // notify of error
-                toastr.error(
-                    'Connection error. Could not retrieve data, some feature might not work.')
-            });
     }
 
     function getSuppliers() {
@@ -1459,6 +1636,189 @@ function checkOnboardingHeaderStatus() {
         });
         console.log(filteredResults);
         Vue.set(app['selectedBrandModels'], filteredResults);
+    }
+
+    function postVehicleHeaderData() {
+        $('.print-error-msg').css('display', 'none');
+        // validate all required information
+        if (!$('form[name="vehicleHeaderForm"]').valid()) {
+            toastr.warning(
+                "Sorry, the data did not pass validation check, check the data and try again."
+            );
+            return;
+        }
+
+        let $form = document.forms['vehicleHeaderForm'];
+
+        tmsApp.asyncPostFormData(
+            $form.action,
+            new FormData($form),
+            function (asyncResponse) {
+                if (asyncResponse.hasOwnProperty('state') && asyncResponse.state != 'success') {
+                    if (asyncResponse.hasOwnProperty('errors')) {
+                        tmsApp.printErrorMsg(asyncResponse.errors);
+                        return
+                    }
+
+                    setTimeout(function () {
+                        tmsApp.systemError(
+                            'Vehicle On-Boarding',
+                            asyncResponse['message'],
+                            function () {
+                            }, 'error');
+                    }, 300);
+                    toastr.error(
+                        asyncResponse.message
+                    );
+                    return;
+                }
+
+                tmsApp.showSystemMessage(
+                    'Vehicle OnBoarding',
+                    asyncResponse.message,
+                    function () {
+                        setTimeout(
+                            function () {
+                                window.location.href = asyncResponse['redirectUrl']
+                            }, 500
+                        );
+                    }, 'success');
+            },
+            function (xhr, settings, errorThrown) {
+                setTimeout(function () {
+                    tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
+                }, 300)
+            });
+    }
+
+    function validateRegistrationNumber() {
+        let ref = document.querySelector('#registrationNumber').value
+        fetch(document.querySelector('#documentValidationUrl').value +
+            '?method=registration_number&key=' + ref)
+            .then(response => response.json())
+            .then(response => {
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, chassis number could not be verified')
+                    return;
+                }
+
+                if (response['payload'].validity) {
+
+                    toastr.success(response['payload'].message, 'Registration Number Validation')
+                    let assetNumberInput = document.querySelector("#assetNumber");
+                    if (assetNumberInput) {
+                        assetNumberInput.value = window.removeSpaces(document.querySelector('#registrationNumber').value);
+                    }
+                    document.querySelector("#submitBtn").removeAttribute('disabled')
+                } else {
+                    document.querySelector("#submitBtn").setAttribute('disabled', 'disabled')
+                    toastr.error('Duplicate registration number, vehicle already registered', 'Invalid Registration')
+                }
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Connection error. Could not retrieve data, some feature might not work.', 'Invalid Registration')
+            });
+    }
+
+    function getLocations() {
+        fetch(document.querySelector('#locationUrl').value)
+            .then(response => response.json())
+            .then(response => {
+                let selectElem = $('select[name="vehicleLocation"]');
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, no data found')
+                    return;
+                }
+
+                let locations = response['payload'];
+                tmsApp.populateDropDownList(selectElem, locations, "location", ["location"], "");
+
+                let location = selectElem.attr('data-value');
+                console.log(location);
+                if (location) {
+                    selectElem.val(location);
+                    selectElem.trigger('change');
+                }
+
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Connection error. Could not retrieve data, some feature might not work.')
+            });
+    }
+
+    tmsApp.appFormValidator('form[name="vehicleHeaderForm"]',
+        {
+            'brand': {
+                required: true
+            },
+            'registrationNumber': {
+                required: true
+            },
+            'model': {
+                required: true
+            },
+            'vehicleLocation': {
+                required: true
+            },
+            'model_code': {
+                required: true
+            },
+            'bodyType': {
+                required: true
+            },
+            'userUnit': {
+                required: true
+            }
+        },
+        {
+            'brand': {
+                required: "Vehicle brand is required"
+            },
+            'registrationNumber': {
+                required: "Registration number is required"
+            },
+            'model': {
+                required: "You must declare vehicle model"
+            },
+            'vehicleLocation': {
+                required: "Vehicle location is mandatory"
+            },
+            'model_code': {
+                required: "Vehicle Model code is required"
+            },
+            'bodyType': {
+                required: "Body type is required"
+            },
+            'userUnit': {
+                required: "Select the user unit responsible for the vehicle"
+            }
+        }
+    );
+
+    $("#submitBtn").on('click', function () {
+        postVehicleHeaderData();
+    });
+
+    $('#registrationNumber').on('keyup paste enter', function () {
+        if (!this.value || this.value.replace('_', '').length < 8) {
+            return;
+        }
+        setTimeout(function () {
+            validateRegistrationNumber();
+        }, 300);
+    });
+
+    let saveVehicleHeaderInformation = function (e) {
+        e.preventDefault();
+        this.postVehicleHeaderData();
     }
 
     tmsApp.appFormValidator('form[name="tmsChassisDetailsForm"]',
@@ -1867,9 +2227,9 @@ function checkOnboardingHeaderStatus() {
     });
 
     // vehicleWeightValidations
-    $(document).on('change', 'select[name="brand"]', function () {
+    /*$(document).on('change', 'select[name="brand"]', function () {
         nativeVehicleBrandChanged();
-    });
+    });*/
 
     $(document).on('change', '.weight_control', function () {
         vehicleWeightValidations(this)
@@ -1902,7 +2262,7 @@ function checkOnboardingHeaderStatus() {
                         assetNumberInput.value = window.removeSpaces(document.querySelector('#registrationNumber').value);
                     }
                 } else {
-                    toastr.error('Duplicate registration number, vehicle already registered')
+                    toastr.error('Duplicate White book Serial Number' ,'Invalid White book serial')
                 }
             })
             .catch(function (error) {

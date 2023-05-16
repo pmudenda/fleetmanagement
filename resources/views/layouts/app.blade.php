@@ -35,7 +35,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset("assets/plugins/jquery.filer/css/jquery.filer.css")}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/custom.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/select2/css/select2.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+    <link rel="stylesheet" type="text/css"
+          href="{{asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('libs/session.timeout/session.timeout.css')}}">
     <style>
         .nav-link {
@@ -157,7 +158,7 @@
 <script src="{{asset('assets/js/global/page.loader.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{asset('assets/js/global/system_alerts.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>
-<script src="{{ asset('libs/session.timeout/session.timeout.js')}}"></script>
+<script src="{{ asset('libs/session.timeout/session.timeout.js').'?v='.Carbon::now()->format('his')}}"></script>
 
 <script>
     (function (tmsApp, $) {
