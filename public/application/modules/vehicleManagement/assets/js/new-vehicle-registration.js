@@ -1104,7 +1104,7 @@ function checkOnboardingHeaderStatus() {
             return;
         }
 
-        let fileUploads = [].slice.call(document.querySelectorAll('input[type="file"]'));
+        /*let fileUploads = [].slice.call(document.querySelectorAll('input[type="file"]'));
         let filesValid = true;
         fileUploads.map(function (fileSelect) {
             if (!fileSelect.files || fileSelect.files.length === 0) {
@@ -1116,7 +1116,7 @@ function checkOnboardingHeaderStatus() {
 
         if (!filesValid) {
             return;
-        }
+        }*/
 
         $form = document.forms['tmsChassisDetailsForm'];
 
