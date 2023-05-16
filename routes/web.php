@@ -164,7 +164,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'workshop-management'], function () {
 
-        Route::get('workshops/list',[WorkshopController::class, 'index'])->name('workshop.list');
+        Route::get('workshops/list', [WorkshopController::class, 'index'])->name('workshop.list');
 
         Route::get('workshop/section', function () {
             return view('');
@@ -181,8 +181,8 @@ Route::get('barcodes', function (Request $request) {
     if (!$request->has('data')) {
         return "No Data Supplied";
     }
-
-    $barCodeImagePath = OnBoardingService::generateBarCode(new VehicleHeader(
+    $service = new OnBoardingService();
+    $barCodeImagePath = $service->generateBarCode(new VehicleHeader(
             ['registration_number' => $request->get('data')])
     );
     return '<img alt="testing" src="' . asset('storage/' . $barCodeImagePath) . '"/>';

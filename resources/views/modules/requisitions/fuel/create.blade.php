@@ -7,7 +7,7 @@
 @endpush
 @section('content')
 
-    <x-content-header/>
+    <x-content-header :pageTitle="'Fuel Requisitions'" :linkText="'Requisitions'" :activeCrumb="'Fuel Requisition'" />
     <section class="content">
         <div class="card">
             <div class="card-header">

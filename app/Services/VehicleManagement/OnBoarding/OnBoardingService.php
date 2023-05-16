@@ -365,7 +365,9 @@ class OnBoardingService
             'business_area_name' => $businessArea->name
         ];
 
-        $this->updateVehicleOnBoardingState($request->input('headerId') , OnboardingStateHelper::assignment);
+        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::assignment);
+
+        self::generateBarCode($request->input('headerId'));
 
         return Assignment::updateOrCreate(
             [
@@ -374,8 +376,9 @@ class OnBoardingService
             $data);
     }
 
-    public static function generateBarCode(VehicleHeader $record): string
+    public function generateBarCode($headerId): string
     {
+        $record = VehicleHeader::find($headerId);
         $barCodeParams = [
             'text' => $record->registration_number,
             'size' => 50,
@@ -388,7 +391,7 @@ class OnBoardingService
             'fileType' => '.jpeg',
         ];
 
-        $barCodePath = $codeService->renderBarcode(
+        $barCodePath = $this->codeService->renderBarcode(
             $barCodeParams["text"],
             $barCodeParams['size'],
             $barCodeParams['orientation'],
@@ -400,15 +403,18 @@ class OnBoardingService
             $barCodeParams['fileType'],
         )->filename($barCodeParams['filename'] . $barCodeParams['fileType']);
 
-        DB::table('VM_VEHICLE_HEADER')
+        /*DB::table('VM_VEHICLE_HEADER')
             ->where('id', '=', $record->id)
-            ->update(['barcode' => $barCodePath]);
+            ->update(['barcode' => $barCodePath]);*/
 
+        $record->barcode = $barCodePath;
+        $record->save();
         return $barCodePath;
     }
 
     /**
      * @param int $headerId vehicle identifier
+     * @param string $stage
      * @return void
      * @throws VehicleOnBoardingException
      */
@@ -421,11 +427,10 @@ class OnBoardingService
         }
 
         $onboardingStatus = "";
-        if($stage === OnboardingStateHelper::assignment){
+        if ($stage === OnboardingStateHelper::assignment) {
             $onboardingStatus = StatusHelper::onboardingComplete();;
             $vehicleHeader->status = StatusHelper::active();
-        }
-        else if (OnboardingStateHelper::generalData){
+        } else if (OnboardingStateHelper::generalData) {
 
         }
 
