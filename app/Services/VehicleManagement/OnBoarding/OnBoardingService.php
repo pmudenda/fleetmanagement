@@ -283,7 +283,7 @@ class OnBoardingService
 
         $purchase_order_document = '';
         if ($request->purchaseOrderDocument) {
-            $purchase_order_document = $this->fileUploadService->uploadFile($request,
+            $uploadPath = $this->fileUploadService->uploadFile($request,
                 'purchaseOrderDocument',
                 'vehicleRegistration',
                 $request->input('headerId'),
@@ -291,6 +291,8 @@ class OnBoardingService
                 'Purchase Order',
                 $user
             );
+
+            $purchase_order_document = empty($uploadPath) ? '' : $uploadPath[0]['path'];
         }
 
         $model = CostAndValuation::updateOrCreate(
