@@ -27,13 +27,14 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <label for="brand" class="fs-6 fw-semibold form-label mt-3 col-md-3">
+                        <label for="registration_type" class="fs-6 fw-semibold form-label mt-3 col-md-3">
                             <span class="required">Registration Type</span>
                         </label>
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
                                 <div class="w-100 fv-row">
                                     <select class="form-select form-select-sm"
+                                            id="registration_type"
                                             name="registration_type"
                                             @input="registrationTypeChanged"
                                             v-model="vehicleHeader.registration_type">
@@ -43,16 +44,6 @@
                                             @{{ regType.label }}
                                         </option>
                                     </select>
-                                    {{--<select class="form-select form-control-sm view_mode"
-                                            name="registration_type"
-                                            v-on:change="vehicleTypeChanged"
-                                            v-model="vehicleHeader.vehicle_type">
-                                        <option v-for="registrationType in registrationTypes"
-                                                :key="registrationType.code"
-                                                :value="registrationType.code">
-                                            @{{ registrationType.label }}
-                                        </option>
-                                    </select>--}}
                                 </div>
                             </div>
                         </div>
@@ -70,20 +61,6 @@
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
                                 <div class="w-100 fv-row">
-                                    {{--<v-select class="vue-select2"
-                                              :placeholder="vehicle_brand_placeholder"
-                                              :options="vehicleBrands"
-                                              @input="vehicleBrandChanged"
-                                              label="name"
-                                    >
-                                    </v-select>--}}
-                                    {{--<input type="hidden"
-                                           name="brand"
-                                           v-model="vehicleHeader.brand_guid"
-                                           id="brand"
-                                           v-on:change="vehicleBrandChanged"
-                                           required/>--}}
-                                    {{--v-model="vehicleHeader.brand_guid"--}}
                                     <select class="form-control view_mode"
                                             name="brand"
                                             id="brand">
@@ -151,7 +128,6 @@
                                     <input type="hidden"
                                            id="bodyType_holder"
                                            name="bodyType_holder"
-                                           :value="vehicleHeader.body_type_guid"
                                     />
                                 </div>
                             </div>
@@ -169,12 +145,6 @@
                                 <div class="control-input-wrapper">
                                     <div class="control-input">
                                         <div class="link-field ui-front" style="position: relative;">
-                                            {{--  :placeholder="'Select User Unit'"
-                                                      :get-option-label="getUserUnitLabel"
-                                                      :options="organizationalUnits"
-
-                                                    v-model="vehicleHeader.user_unit"
-                                                      label="description" --}}
                                             <select class="form-control"
                                                     required
                                                     name="user_unit"

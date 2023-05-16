@@ -18,6 +18,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     let hasHeaderId = (requestReference != null && requestReference != 0);
     Vue.set(app['vehicleHeader'], 'id', requestReference);
+
     Vue.nextTick(function () {
         console.log('Header Id', hasHeaderId);
         Vue.set(app['vehicleHeader'], 'isHeaderSaved', hasHeaderId);
@@ -27,11 +28,11 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['vehicleHeader'], 'brand_guid', data['brand_guid']);
 
     if(data['brand_guid']){
-        $('[name="brand"]').val(data['brand_guid'])
-        $('[name="brand"]').trigger('change');
+        $('select[name="brand"]').val(data['brand_guid'])
+        $('select[name="brand"]').trigger('change');
     }
 
-    Vue.set(app['vehicleHeader'], 'model_guid', data['model_guid']);
+    //Vue.set(app['vehicleHeader'], 'model_guid', data['model_guid']);
     Vue.set(app['vehicleHeader'], 'model_code', data['model_code']);
 
     const $registrationNumberCtrl = document.querySelector('[name="registrationNumber"]');
@@ -40,16 +41,29 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     }
     Vue.set(app['vehicleHeader'], 'on_boarding_status', data['on_boarding_status']);
     Vue.set(app['vehicleHeader'], 'body_type_guid', data['body_type_guid']);
+
     if(data['body_type_guid']){
-        $('[name="bodyType"]').val(data['body_type_guid'])
-        $('[name="bodyType"]').trigger('change');
+        $('select[name="bodyType"]').val(parseInt(data['body_type_guid']))
+        setTimeout(function(){
+            $('select[name="bodyType"]').trigger('change');
+        }, 600);
+
     }
 
-    Vue.set(app['vehicleHeader'], 'user_unit', data['business_unit_code']);
-    Vue.set(app['vehicleHeader'], 'user_unit_code', data['business_unit_code']);
+    //Vue.set(app['vehicleHeader'], 'user_unit', data['business_unit_code']);
+    //Vue.set(app['vehicleHeader'], 'user_unit_code', data['business_unit_code']);
+
     if(data['business_unit_code']){
-        $('[name="user_unit"]').val(data['body_type_guid'])
-        $('[name="bodyType"]').trigger('change');
+        $('select[name="user_unit"]').val(data['business_unit_code']);
+        setTimeout(function(){
+            $('select[name="user_unit"]').trigger('change');
+        }, 300);
+    }
+    if(data['location_name']){
+        $('select[name="vehicleLocation"]').val(data['location_name']);
+        setTimeout(function(){
+            $('select[name="vehicleLocation"]').trigger('change');
+        }, 300);
     }
 
     //$("#user_unit").change();
@@ -157,7 +171,7 @@ window.getRegistrationDetails = function (requestReference) {
         data: {reference: requestReference},
         dataType: 'json',
         success: function (asyncResponse) {
-            //console.log('Returning Response', asyncResponse);
+
             displayVehicleDetails(asyncResponse, requestReference);
         },
         error: function (xhr, settings, errorThrown) {
@@ -310,10 +324,6 @@ let app = new Vue({
         //this.initDropzone();
         if (this.vehicleHeader && this.vehicleHeader.id) {
             this.vehicleHeader.isHeaderSaved = true;
-        }
-
-        if (window.reference) {
-            window.getRegistrationDetails(window.reference);
         }
 
         $(document).on('keyup', '#chassisNumber', function () {
@@ -2454,5 +2464,9 @@ function checkOnboardingHeaderStatus() {
     getSuppliers();
 
     new tmsApp.fileUploader().makeSingleFileUploader();
+
+    if (window.reference) {
+        window.getRegistrationDetails(window.reference);
+    }
 })(window.tmsApp || {}, jQuery);
 
