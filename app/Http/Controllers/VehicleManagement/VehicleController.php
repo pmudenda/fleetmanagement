@@ -138,11 +138,6 @@ class VehicleController extends Controller
             )
             ->get();
 
-        $users = DB::table('users')
-            ->joinSub($latestPosts, 'latest_posts', function (JoinClause $join) {
-                $join->on('users.id', '=', 'latest_posts.user_id');
-            })->get();
-
         return $results->first();
     }
 
