@@ -56,14 +56,15 @@ class VehicleDetailsService
                 'VM_ENGINE_DETAILS.fuel_types')
             ->get();
 
-            return $results->first();
+        return $results->first();
     }
 
     public function getVehicleImages(mixed $reference)
     {
         return File::where('reference_number', "=", $reference)
             ->where('status', '=', '01')
-            ->where('module', '=', 'vehicleRegistration')
+            ->whereIn('module', ['vehicleRegistration', 'Vehicle Registration'])
+            ->whereIn('file_type', ["Front View", "Back View", "Right View", "Left View"])
             ->get();
     }
 }
