@@ -498,6 +498,7 @@
                                         <td>
                                             <input type="number" name="material_quantity"
                                                    max=""
+                                                   min=""
                                                    disabled
                                                    id="material_quantity"
                                                    class="form-control form-control-sm when_valid"/>
@@ -612,7 +613,7 @@
                                     <th>Make</th><td id="make">${vehicle.brand_name}</td>
                                </tr>
                                <tr>
-                                    <th>Model</th><td id="model">${vehicle.model_name} ${vehicle.model_code}</td>
+                                    <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle.model_code}</td>
                                </tr>
                                <tr style="">
                                      <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
@@ -624,7 +625,9 @@
                     let perWeekAllocation = vehicle.fuel_allocation * 7;
                     document.querySelector('[name="fuel_allocation"]').value = perWeekAllocation ?? 0;
                     document.querySelector('[name="material_quantity"]').value = perWeekAllocation ?? 0;
-                    document.querySelector('[name="material_quantity"]').setAttribute('max', perWeekAllocation);
+                    document.querySelector('[name="material_quantity"]').setAttribute('max', perWeekAllocation?.toString());
+                    document.querySelector('[name="material_quantity"]').setAttribute('min', vehicle.fuel_allocation);
+
                     $('#totalQty').text(tmsApp.numberFormat(perWeekAllocation));
                 }
 
@@ -638,8 +641,8 @@
                     $('input[name="material_article_code"]').val(article['code']);
 
                     /* Unit Of Measure */
-                    $("#unit_of_measure").text(article['short_name']);
-                    $('input[name="unit_of_measure"]').val(article['short_name']);
+                    $("#unit_of_measure").text(article['description']);
+                    $('input[name="unit_of_measure"]').val(article['description']);
 
 
                     //$("#material_amount").text(tmsApp.formatMoney('', 2));
@@ -996,7 +999,10 @@
                         window.loaderMessage = "Please wait...";
                         if (!response.success) {
                             //document.querySelector('#submitRequisitionBtn').setAttribute('disabled', 'disabled');
-                            tmsApp.showToast(response['message'], 'error');
+                            //tmsApp.showToast(, 'error');
+                            tmsApp.systemError(
+                                'Odometer Validation',
+                                response['message']);
                         } else {
                             tmsApp.showToast(response['message'], 'success');
                             document.querySelector('#submitRequisitionBtn').removeAttribute('disabled');
