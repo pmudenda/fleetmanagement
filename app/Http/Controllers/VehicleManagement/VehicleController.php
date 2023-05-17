@@ -88,11 +88,10 @@ class VehicleController extends Controller
             $vehicleImages = $this->vehicleDetailsService->getVehicleImages($vehicle->vehicle_header_id);
 
             $article = $this->getArticleByCode($vehicle->fuel_types);
-            $vehicle_state = "Pending @i detail processing";
-
+            $vehicle_state = '';
             // StatusHelper::onboardingComplete()
-            if ($vehicle->on_boarding_status == "021") {
-                $vehicle_state = str_replace('@i', 'General Data', $vehicle_state);
+            if ($vehicle->on_boarding_status != "030") {
+                $vehicle_state = str_replace("@", $vehicle->on_boarding_status, "Pending @ detail processing");
             }
             return response()->json([
                 'payload' => [
@@ -126,10 +125,17 @@ class VehicleController extends Controller
      */
     public function getArticleByCode($ref_code): mixed
     {
-        $results = DB::table('GEN_ARTICLES')
-            ->leftJoin('CONFIG_UNIT_OF_MEASURES', 'GEN_ARTICLES.unit_of_measure_code', '=', 'CONFIG_UNIT_OF_MEASURES.code')
-            ->where('GEN_ARTICLES.code', '=', $ref_code)
-            ->select('GEN_ARTICLES.*', 'CONFIG_UNIT_OF_MEASURES.name as unitName', 'CONFIG_UNIT_OF_MEASURES.short_name')
+        $results = DB::table('SPMS_ARTICLES_VIEW')
+            ->leftJoin('STOCK_MANAGEMENT_VIEW', 'SPMS_ARTICLES_VIEW.CODE_ARTICLE', '=', 'STOCK_MANAGEMENT_VIEW.CODE_ARTICLE')
+            ->leftJoin('UNITS_VIEW', 'SPMS_ARTICLES_VIEW.UNIT_MEASURE', '=', 'UNITS_VIEW.code_unit')
+            ->where('STOCK_MANAGEMENT_VIEW.LEVEL_TYPE', '=', '02')
+            ->where('SPMS_ARTICLES_VIEW.CODE_ARTICLE', '=', $ref_code)
+            ->select(
+                'UNITS_VIEW.description',
+                'STOCK_MANAGEMENT_VIEW.description as name',
+                'SPMS_ARTICLES_VIEW.CODE_ARTICLE as code',
+                'STOCK_MANAGEMENT_VIEW.PRICE_MAP as price'
+            )
             ->get();
 
         return $results->first();
