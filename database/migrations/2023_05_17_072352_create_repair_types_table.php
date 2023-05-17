@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('VM_VEHICLE_ACCESSORIES', function (Blueprint $table) {
+        Schema::create('CONFIG_REPAIR_TYPES', function (Blueprint $table) {
             $table->id();
-            $table->Integer('vehicle_header_id');
             $table->string('name', 255);
-            $table->string('code', 10);
+            $table->string('code', 25);
+            $table->string('created_by', 255);
+            $table->timestamp('deleted_at');
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('VM_VEHICLE_ACCESSORIES');
+        Schema::dropIfExists('CONFIG_REPAIR_TYPES');
     }
 };

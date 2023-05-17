@@ -70,3 +70,7 @@ $(document).ready(function () {
         });
     }
 });
+
+$('.project-code-ajax').on('change', function () {
+    $('.project-code-ajax').select2('close');
+});

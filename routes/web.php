@@ -193,6 +193,7 @@ Route::group(['middleware' => 'auth'], function () {
         })->name('workshop.sections');
 
         Route::get('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('maintenance.requisition');
+
         Route::post('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
 
     });

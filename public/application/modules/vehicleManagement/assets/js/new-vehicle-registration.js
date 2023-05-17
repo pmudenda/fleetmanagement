@@ -1928,6 +1928,10 @@ function checkOnboardingHeaderStatus() {
             });
     },*/
 
+    function getTyresBrands(){
+
+    }
+
     function getBodyTypes() {
         fetch(document.querySelector('#bodyTypesEndpoint').value)
             .then(response => response.json())
@@ -2579,6 +2583,8 @@ function checkOnboardingHeaderStatus() {
     getVehicleBrands();
 
     getOrganizationalUnits();
+
+    getTyresBrands();
 
     getBodyTypes();
 

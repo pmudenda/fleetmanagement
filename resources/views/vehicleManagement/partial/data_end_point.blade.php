@@ -54,6 +54,12 @@
 <input type="hidden" id="locationUrl" name="locationUrl"
        value="{{ route('locations') }}">
 
+<input type="hidden" id="tyreUrl" name="locationUrl"
+       value="{{ route('tyres.get') }}">
+
+<input type="hidden" id="batteryUrl" name="locationUrl"
+       value="{{ route('battery.get') }}">
+
 {{--<input type="hidden" id="businessAreaEndpoint" name="businessAreaEndpoint"
        value="{{ route('business.areas') }}">
 

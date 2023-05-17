@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\WorkshopManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\RepairTypes;
 use Illuminate\View\View;
 
 class MaintenanceController extends Controller
@@ -11,11 +12,11 @@ class MaintenanceController extends Controller
     {
 
         $daysToNextRefuel = 0;
-        $requisitionTypes = [];
+        $repairTypes = RepairTypes::get();
         return view('modules.requisitions.maintenance.create')
             ->with(
                 compact(
-                    'requisitionTypes',
+                    'repairTypes',
                     'daysToNextRefuel'
                 )
             );
