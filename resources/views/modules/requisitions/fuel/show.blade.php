@@ -443,7 +443,9 @@
                                     <thead>
                                     <tr class="bg-dark">
                                         <th>Material Description</th>
-                                        <th>Project Number</th>
+                                        @if($requestDetails->cost_assigned_to =='CostCenter')
+                                            <th>Project Number</th>
+                                        @endif
                                         <th>Qty</th>
                                         <th>Unit Of Measure</th>
                                         <th>Price</th>
@@ -456,11 +458,13 @@
                                             <span data-material-input="material_description"
                                                   id="material_description">{{$requestDetails->specifications}}</span>
                                         </td>
-                                        <td>
-                                            <input type="text" name="projectCode" readonly
-                                                   value="{{$requestDetails->project_code}}"
-                                                   class="form-control form-control-sm border-0"/>
-                                        </td>
+                                        @if($requestDetails->cost_assigned_to =='CostCenter')
+                                            <td>
+                                                <input type="text" name="projectCode" readonly
+                                                       value="{{$requestDetails->project_code}}"
+                                                       class="form-control form-control-sm border-0"/>
+                                            </td>
+                                        @endif
                                         <td>
                                             <span name="material_quantity"
                                                   id="material_quantity">{{$requestDetails->quantity}}</span>
