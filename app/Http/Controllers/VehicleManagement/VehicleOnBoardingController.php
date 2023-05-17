@@ -265,13 +265,12 @@ class VehicleOnBoardingController extends Controller
                 'state' => 'success',
                 'request' => $request->all(),
                 'payload' => $model,
-                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 6, 'reference' => $model->vehicle_header_id]),
+                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 7, 'reference' => $model->vehicle_header_id]),
                 'message' => 'Request Processed Successfully'
             ]);
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::internalServerError;
-            //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -321,7 +320,7 @@ class VehicleOnBoardingController extends Controller
                 'state' => 'success',
                 'request' => $request->all(),
                 'payload' => $model,
-                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 7, 'reference' => $model->vehicle_header_id]),
+                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 6, 'reference' => $model->vehicle_header_id]),
                 'message' => 'Request Submitted Successfully'
             ]);
         } catch (Exception $e) {
