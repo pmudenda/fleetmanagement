@@ -29,6 +29,7 @@ class VehicleHeader extends Model
         'created_name',
         'status',
         'on_boarding_status',
-        'registration_type'
+        'registration_type',
+        'barcode'
     ];
 }
