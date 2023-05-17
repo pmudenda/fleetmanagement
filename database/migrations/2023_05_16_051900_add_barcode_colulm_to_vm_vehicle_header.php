@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('vm_vehicle_header', function (Blueprint $table) {
-            $table->string('VM_VEHICLE_HEADER')->nullable()->add();
+            $table->string('barcode')->nullable()->add();
         });
     }
 
