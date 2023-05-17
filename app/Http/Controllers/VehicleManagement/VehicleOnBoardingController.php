@@ -107,6 +107,7 @@ class VehicleOnBoardingController extends Controller
                 $vehicle = $this->vehicleDetailsService->getVehicleDetails((int)$reference);
                 $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments((int)$reference);
             }
+
             $viewName = "vehicleManagement.onboarding.start";
             /*match ($step) {
                 '1' => ,
@@ -132,13 +133,10 @@ class VehicleOnBoardingController extends Controller
         }
         catch (Exception $e) {
             Log::error($e);
-            $message = "Error on Page";
-            return view("vehicleManagement.onboarding.step1")
+            $message = "Error on occurred while trying to start Onboarding View";
+            return view("error")
                 ->with(compact(
                     'message',
-                    'reference',
-                    'vehicle',
-                    'vehicleDocuments'
                 ));
         }
     }

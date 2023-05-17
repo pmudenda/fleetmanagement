@@ -2,9 +2,9 @@
     <div id="card_header" class="card-header min-h-2px">
         <div class="card-title">
             <h2> Vehicle On-Boarding</h2>
-            <span v-if="!isHeaderSaved"
+            <span v-if="!vehicleHeader.isHeaderSaved"
                   class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
-            <span v-else class="ml-2 indicator-pill whitespace-nowrap green"><span>@{{ vehicleHeader.on_boarding_status | formatStatus }}</span></span>
+            <span v-else class="ml-2 indicator-pill whitespace-nowrap green"><span>@{{ vehicleHeader.on_boarding_status || 'Saved' }}</span></span>
         </div>
 
         <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
