@@ -114,9 +114,7 @@
                             <!--Begin:::Chassis Details Tab pane-->
                             <div class="tab-pane fade @if($step==2) active show @endif" id="tms_chassis_details_tab"
                                  role="tabpanel">
-                               {{-- @include('vehicleManagement.onboarding.tabs.chassis_tab')--}}
-
-                                @include('vehicleManagement.onboarding.tabs.accessories_tab')
+                                @include('vehicleManagement.onboarding.tabs.chassis_tab')
                             </div>
                             <!--End:::Chassis Details Tab pane-->
 
@@ -132,7 +130,7 @@
                             <div class="tab-pane fade @if($step==4) active show @endif"
                                  id="tms_access_checkin_tab"
                                  role="tabpanel">
-
+                                @include('vehicleManagement.onboarding.tabs.accessories_tab')
                             </div>
                             <!--End:::Engine Details Tab pane-->
 
