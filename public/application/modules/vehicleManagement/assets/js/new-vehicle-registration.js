@@ -142,12 +142,12 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     $('input[name="yearOfPurchase"]').val(data['yearOfPurchase']);
     $('input[name="yearOfPurchase"]').trigger('change');
-    Vue.set(app['costingAndValuation'], 'yearOfPurchase', data['yearOfPurchase']);
+    //Vue.set(app['costingAndValuation'], 'yearOfPurchase', data['yearOfPurchase']);
 
 
     $('input[name="bookValue"]').val(data['bookValue']);
     $('input[name="bookValue"]').trigger('change');
-    Vue.set(app['costingAndValuation'], 'bookValue', data['bookValue']);
+    //Vue.set(app['costingAndValuation'], 'bookValue', data['bookValue']);
 
 
     Vue.set(app['costingAndValuation'], 'assetNumber', data['assetNumber']);
@@ -157,9 +157,19 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         const assetNumber = window.removeSpaces(data['registration_number']);
         assetNumberInput.value = assetNumber
         Vue.set(app['costingAndValuation'], 'assetNumber', assetNumber);
+
+        $('input[name="assetNumber"]').val(assetNumber);
+        $('input[name="assetNumber"]').trigger('change');
     }
     Vue.set(app['costingAndValuation'], 'costOfLicense', data['costOfLicense']);
     Vue.set(app['costingAndValuation'], 'premium', data['premium']);
+
+    $('input[name="costOfLicense"]').val(data['costOfLicense']);
+    $('input[name="costOfLicense"]').trigger('change');
+
+    $('input[name="premium"]').val(data['premium']);
+    $('input[name="premium"]').trigger('change');
+
 
     Vue.set(app['bodyDetails'], 'height', data['height']);
     Vue.set(app['bodyDetails'], 'length', data['length']);
@@ -1113,6 +1123,33 @@ function checkOnboardingHeaderStatus() {
 }
 
 (function (tmsApp, $) {
+
+
+    function formatBookValueAsMoney (el) {
+        setTimeout(function () {
+            let formatted = accounting.formatMoney(el.value, '');
+            console.log('%c' + formatted, "color: #148f32");
+            document.querySelector('[name="bookValue"]').value = formatted;
+        }, 300);
+    }
+
+    function formatCostPriceAsMoney  (el) {
+        setTimeout(function () {
+            let formatted = accounting.formatMoney(el.value, '');
+
+            document.querySelector('[name="costPrice"]').value = formatted;
+            //app['costingAndValuation'].costPrice = formatted;
+        }, 300);
+    }
+
+    // web UI event
+    function formatMoney  (event) {
+        setTimeout(function () {
+            //ZMW
+            let formatted = accounting.formatMoney(event.target.value, '');
+            //app['chassisDetails'].chargeOutRate = formatted;
+        }, 300);
+    }
     function nativeUserUnitChanged(user_unit) {
 
         //Vue.set(app['vehicleHeader'], 'user_unit_code', user_unit);
