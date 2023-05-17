@@ -18,24 +18,7 @@
                 <div class="card-title">
                     <h4>Workshop Job Card</h4>
                     <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
-                    {{-- <span  class="ml-2 indicator-pill whitespace-nowrap green"><span>{{ 'Saved' }}</span></span>--}}
                 </div>
-                {{--<div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                    <button type="button"
-                            id="submitRequisitionBtn"
-                            class="btn btn-success btn-sm mr-3 when_odo_valid"
-                            disabled>
-                        <i class="fas fa-save"></i>
-                        Submit
-                    </button>
-                    <button type="button"
-                            id="resetRequisitionBtn"
-                            class="btn btn-danger btn-sm mr-3">
-                        <i class="fas fa-undo"></i>
-                        Cancel
-                    </button>
-
-                </div>--}}
             </div>
 
             <div class="card-body pb-4 min-h-600px pt-0">
@@ -52,7 +35,7 @@
                     <div>
                         <div class="container-fluid mt-2">
                             <div class="row">
-                                <div class="col-9">
+                                <div class="col-10">
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
@@ -62,7 +45,7 @@
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
                                                             for="staff_no">Registration #:
                                                         </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <div class="input-group">
                                                                 <input type="text"
                                                                        data-action="{{route('requisition.vehicle.details')}}"
@@ -89,68 +72,24 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
+                                                        <label
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                        for="staff_no">Date In :
+                                                    </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                            <input type="hidden"
+                                                            <input type="text"
                                                                    class="form-control form-control-sm"
                                                                    id="vehicle_description"
+                                                                   readonly
+                                                                   value="{{ Carbon::now()->format('d/m/Y') }}"
                                                                    name="vehicle_description"
-                                                                   required readonly>
+                                                                   required>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    {{--<div class="row d-none">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <div
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <label class="form-check-inline">
-                                                                        <input type="radio"
-                                                                               id="costOnCostCentre"
-                                                                               class="list-row-checkbox bold mr-3 when_valid"
-                                                                               name="CostAssignedTo"
-                                                                               value="CostCenterBasedRequisition"
-                                                                               checked>
-                                                                        Cost Center
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="text" class="form-control form-control-sm"
-                                                                   id="cost_centre_code"
-                                                                   value="{{$costCenter->code_cost_center ?? ''}}"
-                                                                   name="cost_centre_code"
-                                                                   required readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-10">
-                                                            <input type="text" class="form-control form-control-sm"
-                                                                   id="cost_center_name"
-                                                                   value="{{$costCenter->description ?? ''}}"
-                                                                   name="cost_center_name"
-                                                                   required readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>--}}
 
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
@@ -168,11 +107,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            {{--<select type="text" name="project_code"
-                                                                    class="form-select mt-1 project-code-ajax"
-                                                                    id="project_code">
-                                                            </select>--}}
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <select
                                                                 required
                                                                 class="form-select form-select-sm"
@@ -187,21 +122,22 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-xs-12 col-sm-6 col-md-6 d-none">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
                                                             for="job_card_no">
-                                                            Job Car No.:
+                                                            Time In:
                                                         </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <input type="text"
                                                                    min="1"
+                                                                   readonly
+                                                                   value="{{ Carbon::now()->format('H:i:s') }}"
                                                                    class="form-control form-control-sm when_valid number_input"
                                                                    id="job_card_no"
-                                                                   readonly
                                                                    name="odometer_reading"
                                                             />
                                                         </div>
@@ -221,7 +157,7 @@
                                                             for="staff_name">
                                                             Repair Type:
                                                         </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <select name="requisition_type" id="requisition_type"
                                                                     disabled
                                                                     class="form-control form-select-sm when_valid"
@@ -245,19 +181,21 @@
                                                         <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="staff_name">
-                                                            Current Odometer Reading :
+                                                            Service Advisor:
                                                         </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="number"
-                                                                   min="1"
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                            <input type="text"
+                                                                   readonly
                                                                    data-url="{{route('fuel.odometer.validation')}}"
                                                                    data-validation-method="fuelRequisitionOdometerReading"
                                                                    data-params="[odometerNumber, vehicleRegistration]"
                                                                    class="form-control form-control-sm when_valid number_input"
                                                                    id="odometer_reading"
+                                                                   value="{{ auth()->user()->name }} | RECEPTION"
                                                                    disabled
                                                                    required
-                                                                   name="odometer_reading"
+                                                                   readonly
+                                                                   name="service_advisor"
                                                             />
                                                         </div>
                                                     </div>
@@ -266,79 +204,33 @@
                                         </div>
                                     </div>
 
-                                    <div class="row d-none" id="outOfTown">
+                                    <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Departure Date:</label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="date" class="form-control form-control-sm"
-                                                                   id="departure_date"
-                                                                   min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
-                                                                   name="departure_date"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Return Date:</label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="date" class="form-control form-control-sm"
-                                                                   id="return_date"
-                                                                   min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
-                                                                   name="return_date">
+                                                            for="staff_name">
+                                                            Acciccent Memo No:
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                            <select name="requisition_type" id="requisition_type"
+                                                                    disabled
+                                                                    class="form-control form-select-sm when_valid"
+                                                                    required>
+                                                                <option value=""> --Select--</option>
+                                                                @foreach ($requisitionTypes as $requisitionType)
+                                                                    <option
+                                                                        value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    {{--<div class="row d-none">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Departure Date:</label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="date" class="form-control form-control-sm"
-                                                                   id="departure_date"
-                                                                   min="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
-                                                                   name="departure_date"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Return Date:</label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="date" class="form-control form-control-sm"
-                                                                   id="return_date"
-                                                                   min="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
-                                                                   name="return_date">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>--}}
 
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
@@ -347,37 +239,10 @@
                                                     <div class="form-group row">
                                                         <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Allocation Per Week:</label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <div class="input-group input-group-sm">
-                                                                <input type="text" class="form-control form-control-sm"
-                                                                       id="fuel_allocation"
-                                                                       name="fuel_allocation"
-                                                                       readonly
-                                                                />
-                                                                <div class="input-group-text">
-                                                                    Ltr
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Request Date:</label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            for="request_date">ODOMETER:</label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <input type="text" class="form-control form-control-sm"
-                                                                   id="request_date"
-                                                                   readonly
-                                                                   value="{{Carbon::now()->format('d/m/Y')}}"
-                                                                   name="request_date">
+                                                                   id="request_date"name="request_date">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -393,46 +258,20 @@
                                                         <label
                                                             class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
                                                             for="next_fuel_date">
-                                                            Next Refueling Date :
+                                                            Fuel Level :
                                                         </label>
-                                                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
-                                                            <input type="text" class="form-control form-control-sm"
-                                                                   id="next_fuel_date"
-                                                                   value="{{Carbon::now()->add('days', $daysToNextRefuel)->format('d/m/Y')}}"
-                                                                   name="next_fuel_date"
-                                                                   readonly required>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                            <select name="requisition_type" id="requisition_type"
+                                                                    disabled
+                                                                    class="form-control form-select-sm when_valid"
+                                                                    required>
+                                                                <option value=""> --Select--</option>
+                                                                @foreach ($requisitionTypes as $requisitionType)
+                                                                    <option
+                                                                        value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Purpose:</label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
-                                                        <textarea type="text"
-                                                                  id="justification"
-                                                                  name="justification"
-                                                                  disabled
-                                                                  style="height: 129px;"
-                                                                  class="form-control form-control-sm when_valid"></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
                                                     </div>
                                                 </div>
                                             </div>
@@ -527,106 +366,53 @@
 
                     <h1>Accessories Checkin & Movement</h1>
                     <div>
-                        {{--  <h2>Accident Details</h2>--}}
-                        {{--<div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="ownerAddress">Type of Accident*:</label>
-                                    <select id="accidentType" name="accidentType" class="form-control required">
-                                        <option value="none">Select Incident type</option>
-                                        <option value="one">One</option>
-                                        <option value="two">two</option>
-                                        <option value="three">two</option>
-                                    </select>
-                                    @error('accidentType')
-                                    <p>{{$message}}</p>
-
-                                    @enderror
+                        @php
+                            
+                        @endphp
+                        <div class="container-fluid mt-5">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-9 col-md-8">
+                                    <div class="row">
+                                        <div class="col">
+                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th class="pl-2">Item</th>
+                                                    <th>Present</th>
+                                                    <th class="pr-2">Not Present</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="pl-2" style="width: 75%;">Spare Tyre</td>
+                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
+                                                    <td><input type="radio" value="no" name="spareTyre"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col">
+                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th class="pl-2">Item</th>
+                                                    <th>Present</th>
+                                                    <th class="pr-2">Not Present</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="pl-2" style="width: 75%;">Jack</td>
+                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
+                                                    <td><input type="radio" value="no" name="spareTyre"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="col-md-6">
-                                <label for="ownerAddress">Nature of accident*:</label>
-                                <select id="accidentNature" name="accidentNature" class="form-control required">
-                                    <option value="none">Select Incident Nature</option>
-                                    <option value="one">One</option>
-                                    <option value="two">two</option>
-                                    <option value="three">two</option>
-                                </select>
-                                @error('accidentNature')
-                                <p>{{$message}}</p>
-
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="peopleInvolved">Number of people involved:</label>
-                                    <input name="peopleInvolved" type="number" class="form-control required" id="peopleInvolved" placeholder="Enter Number of people Involved" required>
-                                </div>
-                                @error('peopleInvolved')
-                                <p>{{$message}}</p>
-
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group ">
-                                    <label for="date">Date*:</label>
-                                    <input name="date" type="date" class="form-control required" id="date" placeholder="00/00/0000" required>
-                                </div>
-                                @error('date')
-                                <p>{{$message}}</p>
-
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group ">
-                                    <label for="time">Time*:</label>
-                                    <input name="time" type="time" class="form-control required" id="time" placeholder="00:00" required>
-                                </div>
-                                @error('time')
-                                <p>{{$message}}</p>
-
-                                @enderror
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="form-group ">
-                                    <label for="accidentDescription">Description Of Accident:</label>
-                                    <textarea  class="form-control" id="description" name="description" rows="5" cols="20"></textarea>
-                                    @error('description')
-                                    <p>{{$message}}</p>
-
-                                    @enderror
-
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 options policeNotification">
-                                <p class="test">Police Notified: </p>
-                                <div class="options-inner policeNotification-options-inner">
-                                    <input type="radio" id="policeNotification-yes" name="policeNotified" value="yes" >
-                                    <label for="policeNotification-yes">Yes</label>
-                                </div>
-                                <div class="options-inner policeNotification-options-inner">
-                                    <input type="radio" id="policeNotification-no" name="policeNotified" value="no" >
-                                    <label for="policeNotification-no">No</label>
-                                </div>
-                                @error('policeNotified')
-                                <p>{{$message}}</p>
-
-                                @enderror
-
-                            </div>
-
-
-
-
-
-                        </div>--}}
-                        2
+                        </div>
                     </div>
 
                     <h1>Defects</h1>
@@ -759,7 +545,7 @@
                         }
 
                         form.validate().settings.ignore = ":disabled,:hidden";
-                        return form.valid();
+                        return true ;//form.valid();
                     },
                     onStepChanged: function (event, currentIndex, priorIndex) {
                         // Used to skip the "Warning" step if the user is old enough.
