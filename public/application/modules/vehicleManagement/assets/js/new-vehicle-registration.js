@@ -344,7 +344,7 @@ let app = new Vue({
         this.getBusinessUnits();
         //this.getOrganizationalUnits();
         this.getDirectorates();
-        this.getCostCenters();
+        //this.getCostCenters();
         this.getBusinessAreas();
         this.getFuelTypes();
         this.loadRegistrationTypes();
@@ -623,27 +623,6 @@ let app = new Vue({
 
                     window.businessUnits = response['payload'];
                     app.businessUnits = response['payload'];
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
-                });
-        },
-
-        getCostCenters: function () {
-            fetch(document.querySelector('#costCenterEndpoint').value)
-                .then(response => response.json())
-                .then(function (response) {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-
-                    window.costCenters = response['payload'];
-                    app.costCenters = response['payload'];
                 })
                 .catch(function (error) {
                     // notify of error
@@ -1826,6 +1805,27 @@ function checkOnboardingHeaderStatus() {
 
     }
 
+    function getCostCenters () {
+        fetch(document.querySelector('#costCenterEndpoint').value)
+            .then(response => response.json())
+            .then(function (response) {
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, no data found')
+                    return;
+                }
+
+                window.costCenters = response['payload'];
+                //app.costCenters = response['payload'];
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Connection error. Could not retrieve data, some feature might not work.')
+            });
+    }
+
     function validateRegistrationNumber() {
         let ref = document.querySelector('#registrationNumber').value
         fetch(document.querySelector('#documentValidationUrl').value +
@@ -1986,6 +1986,8 @@ function checkOnboardingHeaderStatus() {
                     'Connection error. Could not retrieve data, some feature might not work.')
             });
     }
+
+    getCostCenters();
 
     tmsApp.appFormValidator('form[name="vehicleHeaderForm"]',
         {
@@ -2364,7 +2366,6 @@ function checkOnboardingHeaderStatus() {
         submitBodyDetails();
     });
 
-
     tmsApp.appFormValidator('form[name="tms_assignment_form"]',
         {
             businessArea: {
@@ -2441,7 +2442,6 @@ function checkOnboardingHeaderStatus() {
         e.stopPropagation();
         submitAssignmentDetails();
     });
-
 
     $('[name="tms_accessories_form"]').on('submit', function (e) {
         e.preventDefault();
@@ -2572,6 +2572,7 @@ function checkOnboardingHeaderStatus() {
                 break;
         }
     });
+
 
     getConfiguredModels();
 

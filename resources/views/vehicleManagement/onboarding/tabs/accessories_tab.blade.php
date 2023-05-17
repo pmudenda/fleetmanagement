@@ -42,10 +42,10 @@
                                 @if(($key%2) == 0)
                                     <tr>
                                         <td class="pl-2" style="width: 35%;">{{$accessory->name}}</td>
-                                        <td><input type="radio" value="yes" name="{{$accessory->name}}"></td>
-                                        <td><input type="radio" value="no" name="{{$accessory->name}}"></td>
+                                        <td><input type="radio" value="yes" name="{{$accessory->code}}"></td>
+                                        <td><input type="radio" value="no" name="{{$accessory->code}}"></td>
                                         <td style="width: 45%;">
-                                            <input typeof="text" name="" class="form-control form-control-sm" />
+                                            <input typeof="text" name="comment{{$accessory->code}}" class="form-control form-control-sm" />
                                         </td>
                                     </tr>
                                 @endif
@@ -68,10 +68,10 @@
                                 @if(($key%2) != 0)
                                     <tr>
                                         <td class="pl-2" style="width: 35%;">{{$accessory->name}}</td>
-                                        <td><input type="radio" value="yes" name="{{$accessory->name}}"></td>
-                                        <td><input type="radio" value="no" name="{{$accessory->name}}"></td>
+                                        <td><input type="radio" value="yes" name="{{$accessory->code}}"></td>
+                                        <td><input type="radio" value="no" name="{{$accessory->code}}"></td>
                                         <td style="width: 45%;">
-                                            <input typeof="text" class="form-control form-control-sm">
+                                            <input typeof="text" name="comment{{$accessory->code}}" class="form-control form-control-sm">
                                         </td>
                                     </tr>
                                 @endif

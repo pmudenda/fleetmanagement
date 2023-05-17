@@ -92,13 +92,13 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
+                                {{--v-model="assignmentDetails.businessUnit"--}}
                                 <input type="text"
                                        class="input-with-feedback form-control bold view_mode"
                                        id="businessUnit"
                                        required
                                        readonly
                                        name="businessUnit"
-                                       v-model="assignmentDetails.businessUnit"
                                        placeholder="Business Unit"/>
                             </div>
                         </div>
@@ -122,11 +122,11 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
+                                {{--v-model="assignmentDetails.costCenter"--}}
                                 <input type="text"
                                        class="input-with-feedback form-control bold view_mode"
                                        placeholder="Cost Center"
                                        readonly
-                                       v-model="assignmentDetails.costCenter"
                                        name="costCenter"
                                        id="costCenter"
                                        data-doctype="AssignmentDetails"/>
