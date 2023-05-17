@@ -202,6 +202,19 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     }
 }
 
+function formatBookValueAsMoney (el) {
+    setTimeout(function () {
+        document.querySelector('[name="bookValue"]').value = accounting.formatMoney(el.value, '');
+    }, 300);
+}
+
+function formatCostPriceAsMoney  (el) {
+    setTimeout(function () {
+        document.querySelector('[name="costPrice"]').value = accounting.formatMoney(el.value, '');
+        //app['costingAndValuation'].costPrice = formatted;
+    }, 300);
+}
+
 window.getRegistrationDetails = function (requestReference) {
     console.log(requestReference);
 
@@ -1123,24 +1136,6 @@ function checkOnboardingHeaderStatus() {
 }
 
 (function (tmsApp, $) {
-
-
-    function formatBookValueAsMoney (el) {
-        setTimeout(function () {
-            let formatted = accounting.formatMoney(el.value, '');
-            console.log('%c' + formatted, "color: #148f32");
-            document.querySelector('[name="bookValue"]').value = formatted;
-        }, 300);
-    }
-
-    function formatCostPriceAsMoney  (el) {
-        setTimeout(function () {
-            let formatted = accounting.formatMoney(el.value, '');
-
-            document.querySelector('[name="costPrice"]').value = formatted;
-            //app['costingAndValuation'].costPrice = formatted;
-        }, 300);
-    }
 
     // web UI event
     function formatMoney  (event) {
