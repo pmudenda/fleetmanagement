@@ -1597,7 +1597,7 @@ function checkOnboardingHeaderStatus() {
                     let supplierData = response_data['payload'][0];
 
                     // document_no "C01CR1000983"
-                    if (['CLOSED', 'ISSUED'].indexOf(supplierData['po_status_description']) > 0) {
+                    if (['CLOSED', 'ISSUED'].indexOf(supplierData['po_status_description']) < 0) {
                         let message = 'The Purchase Order ' + supplierData['document_no']
                             + ' for supplier ' + supplierData['name_of_supplier']
                             + ' can not be used as it is in ' + supplierData['po_status_description']
@@ -2418,8 +2418,13 @@ function checkOnboardingHeaderStatus() {
 
     $('[name="poSearchBtn"]').on('click', function (e) {
         let poNumber = $('#purchase_order_number').value;
-        if (!poNumber || poNumber < 12) {
-            toastr.warning('Invalid Purchase Order number');
+        if (!poNumber) {
+            toastr.error('No Purchase Order number provided');
+            return;
+        }
+
+        if (poNumber.length < 12) {
+            toastr.warning('Invalid Purchase Order number, Please check the number and try again');
             return;
         }
         getPurchaseOrderDetails();
