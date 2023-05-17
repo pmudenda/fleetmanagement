@@ -107,8 +107,9 @@ class VehicleOnBoardingController extends Controller
                 $vehicle = $this->vehicleDetailsService->getVehicleDetails((int)$reference);
                 $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments((int)$reference);
             }
-            $viewName = match ($step) {
-                '1' => "vehicleManagement.onboarding.step6",
+            $viewName = "vehicleManagement.onboarding.start";
+            /*match ($step) {
+                '1' => ,
                 '2' => "vehicleManagement.onboarding.step6",
                 '3' => "vehicleManagement.onboarding.step6",
                 '4' => "vehicleManagement.onboarding.step6",
@@ -116,7 +117,7 @@ class VehicleOnBoardingController extends Controller
                 '6' => "vehicleManagement.onboarding.step6",
                 '7' => "vehicleManagement.onboarding.step6",
                 default => "vehicleManagement.onboarding.index",
-            };
+            };*/
 
             $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
 
@@ -128,11 +129,13 @@ class VehicleOnBoardingController extends Controller
                     'accessories',
                     'vehicleDocuments'
                 ));
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             Log::error($e);
-
+            $message = "Error on Page";
             return view("vehicleManagement.onboarding.step1")
                 ->with(compact(
+                    'message',
                     'reference',
                     'vehicle',
                     'vehicleDocuments'
@@ -184,7 +187,6 @@ class VehicleOnBoardingController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::internalServerError;
-            //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -209,7 +211,10 @@ class VehicleOnBoardingController extends Controller
                 'state' => 'success',
                 'request' => $request->all(),
                 'payload' => $model,
-                'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 3, 'reference' => $model->vehicle_header_id]),
+                'redirectUrl' => URL::signedRoute('new.vehicle', [
+                    'step' => 3,
+                    'reference' => $model->vehicle_header_id
+                ]),
                 'message' => 'Vehicle General Data Processed Successfully'
             ]);
         } catch (Exception $e) {

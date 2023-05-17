@@ -12,4 +12,5 @@ class OnboardingStateHelper
     const header_data = "HEADER_DATA";
 
     const costing = "COSTING_DATA";
+    const accessoriesCheckin = "ACCESSORIES_CHECKIN";
 }

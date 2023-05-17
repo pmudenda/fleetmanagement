@@ -433,7 +433,8 @@
                     </td>
                     <td class="frappe-control" colspan="1">
                         <div class="clearfix" style="display: none;">
-                            <label for="odometerReset" class="control-label"
+                            <label for="odometerReset"
+                                   class="control-label"
                                    style="padding-right: 0px;">
                                 Odometer Reset:</label>
                             <span class="help"></span>

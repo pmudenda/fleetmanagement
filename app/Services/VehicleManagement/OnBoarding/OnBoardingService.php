@@ -155,6 +155,8 @@ class OnBoardingService
             $user
         );
 
+        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::generalData);
+
         DB::commit();
 
         return $model;
@@ -217,7 +219,7 @@ class OnBoardingService
                 'location_name' => strtoupper(trim($request->input('vehicleLocation'))),
                 'created_by' => $user->id,
                 'created_name' => $user->name,
-                'on_boarding_status' => StatusHelper::PendingVerification(),
+                'on_boarding_status' => StatusHelper::PendingGeneralDataEntry(),
                 'statue' => StatusHelper::new(),
                 'registration_type' => $request->registration_type
             ]);
@@ -473,20 +475,30 @@ class OnBoardingService
 
         $onboardingStatus = "";
         if ($stage === OnboardingStateHelper::assignment) {
-            $onboardingStatus = StatusHelper::onboardingComplete();;
+            $onboardingStatus = StatusHelper::onboardingComplete();
             $vehicleHeader->status = StatusHelper::active();
-
-            $vehicleHeader->on_boarding_status = $onboardingStatus;
-            $vehicleHeader->save();
         } else if (OnboardingStateHelper::generalData) {
-
+            $onboardingStatus = StatusHelper::PendingTechnicalDataEntry();
+        } else if (OnboardingStateHelper::technicalData) {
+            $onboardingStatus = StatusHelper::PendingAccessoriesCheckin();
+        }
+        else if (OnboardingStateHelper::accessoriesCheckin) {
+            $onboardingStatus = StatusHelper::PendingCostingDataEntry();
+        }
+        else if (OnboardingStateHelper::costing) {
+            $onboardingStatus = StatusHelper::PendingAssignment();
         }
 
-
+        $vehicleHeader->on_boarding_status = $onboardingStatus;
+        $vehicleHeader->save();
     }
 
+    /**
+     * @throws VehicleOnBoardingException
+     */
     public function processAccessory(OnboardingVehicleAccessoryRequest $request)
     {
+        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::accessoriesCheckin);
         return $request->all();
     }
 

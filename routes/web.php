@@ -184,7 +184,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/workflow/approve', [WorkflowController::class, 'approve'])->name('workflow.approve');
 
-
     Route::group(['prefix' => 'workshop-management'], function () {
 
         Route::get('workshops/list', [WorkshopController::class, 'index'])->name('workshop.list');

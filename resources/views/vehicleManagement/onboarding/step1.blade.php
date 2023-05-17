@@ -4,7 +4,6 @@
 @section('content')
     <section class="content">
         <div class="row g-12 g-xl-12" id="kt_app_main">
-
             <!--BEGIN:::VEHICLE HEADER -->
             @include('vehicleManagement.onboarding.tabs.unsaved_header')
             {{--@include('vehicleManagement.onboarding.tabs.save_header')--}}
