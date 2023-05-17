@@ -410,6 +410,158 @@
                                             </table>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th class="pl-2">Item</th>
+                                                    <th>Present</th>
+                                                    <th class="pr-2">Not Present</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="pl-2" style="width: 75%;">Wheel Spanner</td>
+                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
+                                                    <td><input type="radio" value="no" name="spareTyre"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col">
+                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th class="pl-2">Item</th>
+                                                    <th>Present</th>
+                                                    <th class="pr-2">Not Present</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="pl-2" style="width: 75%;">Tool Kit</td>
+                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
+                                                    <td><input type="radio" value="no" name="spareTyre"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th class="pl-2">Item</th>
+                                                    <th>Present</th>
+                                                    <th class="pr-2">Not Present</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="pl-2" style="width: 75%;">Radio</td>
+                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
+                                                    <td><input type="radio" value="no" name="spareTyre"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col">
+                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th class="pl-2">Item</th>
+                                                    <th>Present</th>
+                                                    <th class="pr-2">Not Present</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="pl-2" style="width: 75%;">OWNER BOOK MANUAL</td>
+                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
+                                                    <td><input type="radio" value="no" name="spareTyre"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th class="pl-2">Item</th>
+                                                    <th>Present</th>
+                                                    <th class="pr-2">Not Present</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="pl-2" style="width: 75%;">FIRE EXTINGUISHER</td>
+                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
+                                                    <td><input type="radio" value="no" name="spareTyre"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col">
+                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th class="pl-2">Item</th>
+                                                    <th>Present</th>
+                                                    <th class="pr-2">Not Present</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="pl-2" style="width: 75%;">FIRST AID BOX</td>
+                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
+                                                    <td><input type="radio" value="no" name="spareTyre"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th class="pl-2">Item</th>
+                                                    <th>Present</th>
+                                                    <th class="pr-2">Not Present</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="pl-2" style="width: 75%;">AERIAL VHF</td>
+                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
+                                                    <td><input type="radio" value="no" name="spareTyre"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col">
+                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th class="pl-2">Item</th>
+                                                    <th>Present</th>
+                                                    <th class="pr-2">Not Present</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="pl-2" style="width: 75%;">UHF AERIAL</td>
+                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
+                                                    <td><input type="radio" value="no" name="spareTyre"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
