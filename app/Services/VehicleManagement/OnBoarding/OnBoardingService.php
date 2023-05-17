@@ -35,9 +35,11 @@ class OnBoardingService
     private FileUploadService $fileUploadService;
     private BarcodeGenerationService $codeService;
 
-    public function __construct(FileUploadService $fileUploadService)
+    public function __construct(FileUploadService $fileUploadService,
+                                BarcodeGenerationService $codeService)
     {
         $this->fileUploadService = $fileUploadService;
+        $this->codeService = $codeService;
     }
 
     /**
