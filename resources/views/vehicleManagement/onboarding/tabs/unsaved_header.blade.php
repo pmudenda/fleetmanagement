@@ -2,7 +2,7 @@
     <div id="card_header" class="card-header min-h-2px">
         <div class="card-title">
             <h2> Vehicle On-Boarding</h2>
-            <span v-if="!isHeaderSaved"
+            <span v-if="!vehicleHeader.isHeaderSaved"
                   class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
             <span v-else class="ml-2 indicator-pill whitespace-nowrap green"><span>@{{ vehicleHeader.on_boarding_status || 'Saved' }}</span></span>
         </div>
@@ -94,7 +94,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="modelCode" class="fs-6 fw-semibold form-label col-md-3">
+                        <label for="model_code" class="fs-6 fw-semibold form-label col-md-3">
                             <span class="required">Model Code</span>
                         </label>
 
@@ -136,7 +136,7 @@
 
 
                     <div class="form-group row">
-                        <label for="userUnit" class="fs-6 fw-semibold form-label col-md-3">
+                        <label for="user_unit" class="fs-6 fw-semibold form-label col-md-3">
                             <span class="required">User Unit</span>
                         </label>
 
@@ -150,9 +150,6 @@
                                                     name="user_unit"
                                                     id="user_unit"
                                                     data-doctype="vehicleHeader"></select>
-                                            {{--<input type="hidden" class="form-control form-control-solid"
-                                                   :value="vehicleHeader.user_unit_code"
-                                            />--}}
                                         </div>
                                     </div>
                                     <div class="control-value like-disabled-input bold"

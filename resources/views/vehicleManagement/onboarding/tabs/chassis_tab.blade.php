@@ -306,7 +306,7 @@
                         <div class="control-input-wrapper">
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
-                                    <input type="text"
+                                    <input type="number"
                                            v-model="chassisDetails.initialOdometerReading"
                                            name="initialOdometerReading"
                                            id="initialOdometerReading"
@@ -433,7 +433,8 @@
                     </td>
                     <td class="frappe-control" colspan="1">
                         <div class="clearfix" style="display: none;">
-                            <label for="odometerReset" class="control-label"
+                            <label for="odometerReset"
+                                   class="control-label"
                                    style="padding-right: 0px;">
                                 Odometer Reset:</label>
                             <span class="help"></span>

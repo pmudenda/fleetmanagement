@@ -11,7 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-
+        Schema::create('CONFIG_ACCESSORIES', function (Blueprint $table) {
+            $table->id();
+            $table->string('created_by', 255)->nullable();
+            $table->string('name', 255);
+            $table->string('code', 10);
+            $table->string('status', 10);
+            $table->timestamps();
+        });
     }
 
     /**
@@ -19,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('CONFIG_ACCESSORIES');
+        //
     }
 };

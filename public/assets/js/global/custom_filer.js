@@ -158,6 +158,7 @@
         this.makeSingleFileUploader = function () {
             //Example single
             $('.filer_input').filer({
+                limit: 1,
                 extensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf'],
                 changeInput: true,
                 showThumbs: true,

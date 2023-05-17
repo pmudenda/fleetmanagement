@@ -27,9 +27,9 @@
                     <div class="card-body user-data">
                         <div class="container-fluid mt-2">
                             <div class="row">
-                                <div class="col-9">
+                                <div class="col-12">
                                     <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="col-xs-12 col-sm-12 col-md-12">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
@@ -37,7 +37,7 @@
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
                                                             for="staff_no">Registration #:
                                                         </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
                                                             <div class="input-group">
                                                                 <input type="text"
                                                                        data-action="{{route('vehicle.details')}}"
@@ -59,38 +59,12 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                            <input type="hidden" class="form-control form-control-sm"
-                                                                   id="vehicle_description"
-                                                                   name="vehicle_description"
-                                                                   required readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="col-3">
-                                    <div id="vehicleDetailsContainer" style="display: none;"
-                                         class="col-xs-12 col-sm-12 col-md-12">
-                                        <h1>Vehicle Details</h1>
-                                        <table class="table">
-                                            <tbody id="vehicleDetails" class="vehicleDetails">
-                                            </tbody>
-                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="container-fluid">
+                       {{-- <div class="container-fluid">
                             <div id="materialDetailsContainer" class="table-responsive mt-3" style="display: none;">
                                 <table id="materialDetailsTable" class="table table-bordered">
                                     <thead>
@@ -138,7 +112,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
+                        </div>--}}
                     </div>
                 </form>
 

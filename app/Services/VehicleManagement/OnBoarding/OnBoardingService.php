@@ -11,6 +11,7 @@ use App\Http\Requests\BodyDetailsPost;
 use App\Http\Requests\ChassisDetailsPostRequest;
 use App\Http\Requests\CostingDetailsPost;
 use App\Http\Requests\EngineDetailsPost;
+use App\Http\Requests\OnboardingVehicleAccessoryRequest;
 use App\Http\Requests\VehicleHeaderRequest;
 use App\Models\configurations\vehicle\ConfigVehicleBodyType;
 use App\Models\configurations\vehicle\ConfigVehicleBrand;
@@ -104,7 +105,7 @@ class OnBoardingService
             'front_view',
             'vehicleRegistration',
             $request->input('headerId'),
-            'vehicleRegistration',
+            'Vehicle Registration',
             'Front View',
             $user
         );
@@ -113,7 +114,7 @@ class OnBoardingService
             'rear_view',
             'vehicleRegistration',
             $request->input('headerId'),
-            'vehicleRegistration',
+            'Vehicle Registration',
             'Back View',
             $user
         );
@@ -122,7 +123,7 @@ class OnBoardingService
             'right_view',
             'vehicleRegistration',
             $request->input('headerId'),
-            'vehicleRegistration',
+            'Vehicle Registration',
             'Right View',
             $user
         );
@@ -131,7 +132,7 @@ class OnBoardingService
             'left_view',
             'vehicleRegistration',
             $request->input('headerId'),
-            'vehicleRegistration',
+            'Vehicle Registration',
             'Left View',
             $user
         );
@@ -140,7 +141,7 @@ class OnBoardingService
             'insurance_cover_note',
             'vehicleRegistration',
             $request->input('headerId'),
-            'insurance',
+            'Vehicle Registration',
             'Insurance Cover',
             $user
         );
@@ -149,10 +150,12 @@ class OnBoardingService
             'motor_vehicle_certificate',
             'vehicleRegistration',
             $request->input('headerId'),
-            'whitebooks',
+            'Vehicle Registration',
             'Motor Vehicle Certificate',
             $user
         );
+
+        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::generalData);
 
         DB::commit();
 
@@ -170,6 +173,7 @@ class OnBoardingService
     {
         $user = auth()->user();
 
+        DB::beginTransaction();
         $user_unit_code = $request->input('user_unit');
 
         $organizationUnit = OrganizationalUnits::where('code_unit', $user_unit_code)->first();
@@ -197,7 +201,7 @@ class OnBoardingService
             throw new Exception('Vehicle Body Type Not Found');
         }
 
-        return VehicleHeader::updateOrCreate(
+        $model = VehicleHeader::updateOrCreate(
             [
                 'registration_number' => $registrationNumber,
             ],
@@ -215,21 +219,25 @@ class OnBoardingService
                 'location_name' => strtoupper(trim($request->input('vehicleLocation'))),
                 'created_by' => $user->id,
                 'created_name' => $user->name,
-                'on_boarding_status' => StatusHelper::PendingVerification(),
+                'on_boarding_status' => StatusHelper::PendingGeneralDataEntry(),
                 'statue' => StatusHelper::new(),
                 'registration_type' => $request->registration_type
             ]);
+
+        DB::commit();
+        return $model;
     }
 
     /**
      * @param EngineDetailsPost $request
      * @return mixed
+     * @throws VehicleOnBoardingException
      */
     public function processEngineDetails(EngineDetailsPost $request): EngineDetail
     {
         $user = auth()->user();
-
-        return EngineDetail::updateOrCreate(
+        DB::beginTransaction();
+        $model = EngineDetail::updateOrCreate(
             [
                 'vehicle_header_id' => $request->input('headerId'),
             ],
@@ -256,29 +264,39 @@ class OnBoardingService
                 'created_by' => $user->id,
                 'created_name' => $user->name
             ]);
+
+        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::technicalData);
+
+        DB::commit();
+        return $model;
     }
 
     /**
      * @param CostingDetailsPost $request
      * @return mixed
+     * @throws VehicleOnBoardingException
      */
     public function processCostingDetails(CostingDetailsPost $request): CostAndValuation
     {
         $user = auth()->user();
 
+        DB::beginTransaction();
+
         $purchase_order_document = '';
-        if($request->purchaseOrderDocument){
-            $purchase_order_document = $this->fileUploadService->uploadFile($request,
-                'front_view',
+        if ($request->purchaseOrderDocument) {
+            $uploadPath = $this->fileUploadService->uploadFile($request,
+                'purchaseOrderDocument',
                 'vehicleRegistration',
                 $request->input('headerId'),
                 'vehicleRegistration',
-                'Front View',
+                'Purchase Order',
                 $user
             );
+
+            $purchase_order_document = empty($uploadPath) ? '' : $uploadPath[0]['path'];
         }
 
-        return CostAndValuation::updateOrCreate(
+        $model = CostAndValuation::updateOrCreate(
             [
                 'vehicle_header_id' => $request->input('headerId'),
             ],
@@ -295,16 +313,23 @@ class OnBoardingService
                 'created_name' => $user->name,
                 'purchase_order_document' => $purchase_order_document
             ]);
+
+        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::costing);
+
+        DB::commit();
+
+        return $model;
     }
 
     /**
      * @param BodyDetailsPost $request
      * @return mixed
+     * @throws VehicleOnBoardingException
      */
     public function processingBodyDetails(BodyDetailsPost $request): mixed
     {
         $user = auth()->user();
-
+        DB::beginTransaction();
         $data = [
             'vehicle_header_id' => $request->input('headerId'),
             'height' => $request->input('height'),
@@ -327,11 +352,16 @@ class OnBoardingService
             'created_name' => $user->name,
         ];
 
-        return BodyAndWeightDetail::updateOrCreate(
+        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::bodyDetails);
+
+        $model = BodyAndWeightDetail::updateOrCreate(
             [
                 'vehicle_header_id' => $request->input('headerId'),
             ],
             $data);
+        DB::commit();
+
+        return $model;
     }
 
     /**
@@ -343,7 +373,7 @@ class OnBoardingService
     {
         // marks completion of on-boarding
         $user = auth()->user();
-
+        DB::beginTransaction();
         $costCenterParts = explode(":", $request->get('costCenter'));
         $businessUnitParts = explode(":", $request->get('businessUnit'));
         $code_center_code = $costCenterParts[0];
@@ -382,11 +412,15 @@ class OnBoardingService
 
         self::generateBarCode($request->input('headerId'));
 
-        return Assignment::updateOrCreate(
+        $model = Assignment::updateOrCreate(
             [
                 'vehicle_header_id' => $request->input('headerId'),
             ],
             $data);
+
+        DB::commit();
+
+        return $model;
     }
 
     public function generateBarCode($headerId): string
@@ -441,14 +475,31 @@ class OnBoardingService
 
         $onboardingStatus = "";
         if ($stage === OnboardingStateHelper::assignment) {
-            $onboardingStatus = StatusHelper::onboardingComplete();;
+            $onboardingStatus = StatusHelper::onboardingComplete();
             $vehicleHeader->status = StatusHelper::active();
         } else if (OnboardingStateHelper::generalData) {
-
+            $onboardingStatus = StatusHelper::PendingTechnicalDataEntry();
+        } else if (OnboardingStateHelper::technicalData) {
+            $onboardingStatus = StatusHelper::PendingAccessoriesCheckin();
+        }
+        else if (OnboardingStateHelper::accessoriesCheckin) {
+            $onboardingStatus = StatusHelper::PendingCostingDataEntry();
+        }
+        else if (OnboardingStateHelper::costing) {
+            $onboardingStatus = StatusHelper::PendingAssignment();
         }
 
         $vehicleHeader->on_boarding_status = $onboardingStatus;
         $vehicleHeader->save();
+    }
+
+    /**
+     * @throws VehicleOnBoardingException
+     */
+    public function processAccessory(OnboardingVehicleAccessoryRequest $request)
+    {
+        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::accessoriesCheckin);
+        return $request->all();
     }
 
 }
