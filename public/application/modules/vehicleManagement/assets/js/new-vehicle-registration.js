@@ -1,5 +1,7 @@
 Vue.component('v-select', VueSelect.VueSelect);
 window.VehicleModels = [];
+window.organizationUnits = [];
+window.businessUnits = [];
 
 function displayVehicleDetails(asyncResponse, requestReference) {
     if (!asyncResponse.success) {
@@ -596,6 +598,7 @@ let app = new Vue({
                         return;
                     }
 
+                    window.businessUnits = response['payload'];
                     app.businessUnits = response['payload'];
                 })
                 .catch(function (error) {
@@ -616,6 +619,7 @@ let app = new Vue({
                         return;
                     }
 
+                    window.costCenters = response['payload'];
                     app.costCenters = response['payload'];
                 })
                 .catch(function (error) {
@@ -1114,12 +1118,24 @@ function checkOnboardingHeaderStatus() {
         //Vue.set(app['vehicleHeader'], 'user_unit_code', user_unit);
         document.querySelector('[name="user_unit"]').value = user_unit;
 
-        let cost_center_code = user_unit?.cc_code
+        let filteredUserUnits = window.organizationUnits.filter(function (userUnit) {
+            return userUnit['code_unit']?.trim() === user_unit?.trim();
+        });
 
-        let business_unit_code = user_unit?.bu_code
+        let cost_center_code = '';
+        let business_unit_code = '';
+        if (filteredUserUnits.length !== 0) {
+            let userUnit = filteredUserUnits[0];
+            cost_center_code = userUnit?.cc_code
+            business_unit_code = userUnit?.bu_code
+        }
 
-        let filteredCostCenters = app.costCenters.filter(function (cost_center) {
-            return cost_center.code_cost_center?.trim() === cost_center_code?.trim();
+        if (cost_center_code == '' || business_unit_code == '') {
+            return;
+        }
+
+        let filteredCostCenters = window.costCenters.filter(function (cost_center) {
+            return cost_center['code_cost_center']?.trim() === cost_center_code?.trim();
         });
 
         if (filteredCostCenters.length !== 0) {
@@ -1127,29 +1143,25 @@ function checkOnboardingHeaderStatus() {
 
             console.log(costCentreOfInterest);
 
-            this.assignmentDetails.costCenter = costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description'];
+            //this.assignmentDetails.costCenter = costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description'];
             $('[name="costCenter"]').val(costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description']);
         }
 
-        let filteredBusinessUnits = app.businessUnits.filter(function (bu) {
+        let filteredBusinessUnits = window.businessUnits.filter(function (bu) {
             return bu.code_bu?.trim() === business_unit_code?.trim();
         });
 
-        if (filteredBusinessUnits.length == 0) return;
+        if (filteredBusinessUnits.length === 0) return;
 
         let businessUnitOfInterest = filteredBusinessUnits[0];
 
         const val = businessUnitOfInterest['code_bu'] + ':' + businessUnitOfInterest['description'];
         $('[name="businessUnit"]').val(val);
-        this.assignmentDetails.businessUnit = val;
+        Vue.set(app['assignmentDetails'], 'businessUnit,', val);
     }
 
     function submitChassisDetails($form) {
         $('.print-error-msg').css('display', 'none');
-        // rear_view
-        // front_view
-        //insurance_cover_note
-        //motor_vehicle_certificate
 
         if (document.querySelector('[name="front_view"]').files.length == 0) {
             toastr.error('You have not attached the vehicle Front View Image', 'Validation Failure')
@@ -1857,8 +1869,7 @@ function checkOnboardingHeaderStatus() {
                     toastr.error('Connection error, no data found')
                     return;
                 }
-                window.VehicleModels = response['payload']
-                //app.configuredModels = ;
+                window.VehicleModels = response['payload'];
             })
             .catch(function (error) {
                 // notify of error
@@ -1926,15 +1937,15 @@ function checkOnboardingHeaderStatus() {
                     return;
                 }
 
-                let bodyTypes = response['payload'];
-                tmsApp.populateDropDownList(selectElem, bodyTypes, "code_unit", ['code_unit', "description"], " => ");
+                let userUnits = response['payload'];
+                window.organizationUnits = userUnits;
+                tmsApp.populateDropDownList(selectElem, userUnits, "code_unit", ['code_unit', "description"], " => ");
 
-                let bodyTypeId = selectElem.attr('data-value');
-                if (bodyTypeId) {
-                    selectElem.val(bodyTypeId);
+                let userUnitId = selectElem.attr('data-value');
+                if (userUnitId) {
+                    selectElem.val(userUnitId);
                     selectElem.trigger('change');
                 }
-                app.organizationalUnits = response['payload'];
             })
             .catch(function (error) {
                 // notify of error

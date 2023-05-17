@@ -10,9 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        $sequence = DB::getSequence();
+        //$sequence = DB::getSequence();
         // create a sequence
-        $sequence->create('REQ_FUEL_SEQUENCE');
+        //$sequence->create('REQ_FUEL_SEQUENCE');
         /*Schema::create('fuel_req_sequence', function (Blueprint $table) {
             $table->id();
 
