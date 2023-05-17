@@ -135,7 +135,7 @@
                                        name="costPrice"
                                        v-model="costingAndValuation.costPrice"
                                        placeholder=""
-                                       v-on:change="formatCostPriceAsMoney($event)"
+                                       onchange="formatCostPriceAsMoney(this)"
                                        autocomplete="off">
                             </div>
                         </div>
@@ -159,7 +159,6 @@
                                 <input type="number" min="1990" max="{{date('Y')}}" step="1"
                                        class="input-with-feedback form-control bold number_input view_mode"
                                        maxlength="4"
-                                       v-model="costingAndValuation.yearOfPurchase"
                                        name="yearOfPurchase"
                                        id="yearOfPurchase"
                                        data-doctype="CostingDetails"
@@ -185,14 +184,14 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
+                               {{-- v-model="costingAndValuation.bookValue"--}}
                                 <input type="text"
                                        class="input-with-feedback form-control bold view_mode"
                                        id="bookValue"
                                        data-a-sign="ZMW "
                                        name="bookValue"
-                                       v-model="costingAndValuation.bookValue"
                                        placeholder=""
-                                       v-on:change="formatBookValueAsMoney($event)"
+                                       onchange="formatBookValueAsMoney(this)"
                                        data-doctype="CostingDetails"
                                        autocomplete="off"/>
                             </div>
@@ -214,6 +213,7 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
+                               {{-- v-model="costingAndValuation.assetNumber"--}}
                                 <input type="text"
                                        class="input-with-feedback form-control bold view_mode"
                                        maxlength="140"
@@ -221,7 +221,6 @@
                                        data-fieldname="company"
                                        id="assetNumber"
                                        name="assetNumber"
-                                       v-model="costingAndValuation.assetNumber"
                                        placeholder=""/>
                             </div>
 
@@ -239,6 +238,7 @@
                 </label>
             </td>
             <td>
+                {{--v-model="costingAndValuation.costOfLicense"--}}
                 <div class="control-input-wrapper">
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
@@ -247,7 +247,6 @@
                                    id="costOfLicense"
                                    data-a-sign="ZMW"
                                    name="costOfLicense"
-                                   v-model="costingAndValuation.costOfLicense"
                                    placeholder=""
                                    data-target="Company">
                         </div>
@@ -270,7 +269,6 @@
                                    maxlength="140"
                                    id="premium"
                                    name="premium"
-                                   v-model="costingAndValuation.premium"
                                    placeholder=""/>
                         </div>
                         <small>10% of Cost Price</small>
