@@ -10,6 +10,8 @@
 @section('content')
     <div class="row g-12 g-xl-12" id="kt_app_main">
 
+        <h1>ERROR</h1>
+
         <!--BEGIN:::VEHICLE HEADER -->
         @include('vehicleManagement.onboarding.tabs.unsaved_header')
         <!--END:::VEHICLE HEADER -->

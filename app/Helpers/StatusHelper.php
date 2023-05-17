@@ -14,6 +14,35 @@ class StatusHelper
         return "021";
     }
 
+
+    public static function PendingGeneralDataEntry(): string
+    {
+        return "100";
+    }
+
+    public static function PendingTechnicalDataEntry(): string
+    {
+        return "101";
+    }
+
+    public static function PendingAccessoriesCheckin(): string
+    {
+        return "102";
+    }
+
+    public static function PendingCostingDataEntry(): string
+    {
+        return "103";
+    }
+
+    public static function PendingAssignment(): string
+    {
+        return "104";
+    }
+
+
+
+
     public static function active(): string
     {
         return "01";

@@ -64,7 +64,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     if (data['business_unit_code']) {
         $('select[name="user_unit"]').val(data['business_unit_code']);
-        $('select[name="user_unit"]').attr('data-value',data['business_unit_code']);
+        $('select[name="user_unit"]').attr('data-value', data['business_unit_code']);
     }
 
     if (data['location_name']) {
@@ -127,7 +127,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['otherDetails'], 'batteryPower', data['battery_power']);
 
     Vue.set(app['costingAndValuation'], 'supplierName', data['supplierName']);
-
 
 
     $('select[name="supplierName"]').val(data['supplierName']);
@@ -231,12 +230,13 @@ window.removeSpaces = function (value) {
     if (!value) return;
     return value.replace(/\s/g, '');
 }
+
 let app = new Vue({
     'el': '#kt_app_main',
     components: {},
     data() {
         return {
-            isHeaderSaved: false,
+            isHeaderSaved: true,
             assignmentDetails: {},
             assignmentDetailsForm: null,
             bodyDetails: {
@@ -335,8 +335,16 @@ let app = new Vue({
         },
         formatStatus: function (value) {
             if (!value) return 'Saved';
-            if ('021') {
-                return 'Pending';
+            if (value == '100') {
+                return 'Pending General Data Entry';
+            } else if (value == '101') {
+                return 'Pending Technical Data Entry';
+            } else if (value == "102") {
+                return 'Pending Accessories Checkin';
+            } else if (value == "103") {
+                return 'Pending Costing Data Entry';
+            } else if (value == "104") {
+                return 'Pending Assignment';
             }
         }
     },
@@ -1037,13 +1045,14 @@ let app = new Vue({
         vehicleBrandChanged(selectedValue) {
             this.vehicleHeader.brand_guid = selectedValue?.id?.toString().trim();
             this.selectedBrandModels = [];
+
             //$('#model_holder').addClass('d-none');
             //$('#model').removeClass('d-none');
             /*app.selectedBrandModels = app.configuredModels.filter(function (model) {
                 return model.brand_guid?.toString().trim() === app?.vehicleHeader.brand_guid?.toString().trim();
             });*/
 
-            app.selectedBrandModels = app.configuredModels.filter(function (model) {
+            app.selectedBrandModels = app['configuredModels'].filter(function (model) {
                 return model.brand_guid?.toString()?.trim() === app?.vehicleHeader.brand_guid?.toString().trim();
             });
         },
@@ -1100,6 +1109,41 @@ function checkOnboardingHeaderStatus() {
 }
 
 (function (tmsApp, $) {
+    function nativeUserUnitChanged(user_unit) {
+
+        //Vue.set(app['vehicleHeader'], 'user_unit_code', user_unit);
+        document.querySelector('[name="user_unit"]').value = user_unit;
+
+        let cost_center_code = user_unit?.cc_code
+
+        let business_unit_code = user_unit?.bu_code
+
+        let filteredCostCenters = app.costCenters.filter(function (cost_center) {
+            return cost_center.code_cost_center?.trim() === cost_center_code?.trim();
+        });
+
+        if (filteredCostCenters.length !== 0) {
+            let costCentreOfInterest = filteredCostCenters[0];
+
+            console.log(costCentreOfInterest);
+
+            this.assignmentDetails.costCenter = costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description'];
+            $('[name="costCenter"]').val(costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description']);
+        }
+
+        let filteredBusinessUnits = app.businessUnits.filter(function (bu) {
+            return bu.code_bu?.trim() === business_unit_code?.trim();
+        });
+
+        if (filteredBusinessUnits.length == 0) return;
+
+        let businessUnitOfInterest = filteredBusinessUnits[0];
+
+        const val = businessUnitOfInterest['code_bu'] + ':' + businessUnitOfInterest['description'];
+        $('[name="businessUnit"]').val(val);
+        this.assignmentDetails.businessUnit = val;
+    }
+
     function submitChassisDetails($form) {
         $('.print-error-msg').css('display', 'none');
         // rear_view
@@ -1558,12 +1602,18 @@ function checkOnboardingHeaderStatus() {
                     selectElem.trigger('change');
                     selectElem.attr('readonly', true).trigger('change');
 
-                    let costPriceInput = $('[name="costPrice"]');
+                    let price = supplierData['price'];
+                    let costPriceInput = document.querySelector('[name="costPrice"]');
+                    costPriceInput.value = tmsApp.formatMoney(price, 2);
+                    costPriceInput.setAttribute('readonly', 'readonly');
 
-                    costPriceInput.val(tmsApp.formatMoney(supplierData['price'], 2));
-                    selectElem.attr('readonly', true);
+                    let bookValueInput = document.querySelector('[name="bookValue"]');
+                    bookValueInput.value = tmsApp.formatMoney(price, 2);
+                    bookValueInput.setAttribute('readonly', 'readonly');
 
                     document.querySelector('#purchase_order_number').value = supplierData['document_no'];
+
+                    calculateInsurancePremium(price);
                 } else {
                     tmsApp.showToast(response_data['message'], 'error');
                 }
@@ -1643,7 +1693,7 @@ function checkOnboardingHeaderStatus() {
     function nativeVehicleBrandChanged() {
         const brandId = $('select[name="brand"]').val()?.toString().trim();
 
-        console.log('Brand Value '+ brandId);
+        console.log('Brand Value ' + brandId);
 
         if (!brandId) {
             return;
@@ -1721,6 +1771,14 @@ function checkOnboardingHeaderStatus() {
                     tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
                 }, 300)
             });
+    }
+
+    function calculateInsurancePremium(currentValue) {
+        let insurancePremium = tmsApp.formatMoney(((10 / 100) * currentValue), 2);
+        let insurancePremium_Ctl = document.querySelector('#premium')
+        insurancePremium_Ctl.value = insurancePremium;
+        insurancePremium_Ctl.setAttribute('readonly', 'readonly');
+
     }
 
     function validateRegistrationNumber() {
@@ -2368,37 +2426,10 @@ function checkOnboardingHeaderStatus() {
     $(document).on('change', 'select[name="brand"]', function () {
         nativeVehicleBrandChanged();
     });
+
     $(document).on('change', 'select[name="user_unit"]', function () {
         let user_unit = $(this).val();
-        Vue.set(app['vehicleHeader'], 'user_unit_code', user_unit);
-        document.querySelector('[name="user_unit"]').value = user_unit;
-
-        let cost_center_code = user_unit?.cc_code
-
-        let business_unit_code = user_unit?.bu_code
-
-        let filteredCostCenters = app.costCenters.filter(function (cost_center) {
-            return cost_center.code_cost_center?.trim() === cost_center_code?.trim();
-        });
-
-        if (filteredCostCenters.length !== 0) {
-            let costCentreOfInterest = filteredCostCenters[0];
-
-            this.assignmentDetails.costCenter = costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description'];
-            $('[name="costCenter"]').val(costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description']);
-        }
-
-        let filteredBusinessUnits = app.businessUnits.filter(function (bu) {
-            return bu.code_bu?.trim() === business_unit_code?.trim();
-        });
-
-        if (filteredBusinessUnits.length == 0) return;
-
-        let businessUnitOfInterest = filteredBusinessUnits[0];
-
-        const val = businessUnitOfInterest['code_bu'] + ':' + businessUnitOfInterest['description'];
-        $('[name="businessUnit"]').val(val);
-        this.assignmentDetails.businessUnit = val;
+        nativeUserUnitChanged(user_unit);
     });
 
     $(document).on('change', 'select[name="model"]', function () {

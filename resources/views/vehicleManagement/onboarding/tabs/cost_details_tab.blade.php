@@ -273,6 +273,7 @@
                                    v-model="costingAndValuation.premium"
                                    placeholder=""/>
                         </div>
+                        <small>10% of Cost Price</small>
                     </div>
                 </div>
             </td>
@@ -288,7 +289,8 @@
             <td>
                 <div class="col-md-7 fv-row pl-0">
                     <div class="col-md-9 pl-0">
-                        <input type="file" accept="image/*,.pdf"
+                        <input type="file"
+                               accept="image/*,.pdf"
                                class="filer_input"
                                name="purchaseOrderDocument"/>
                     </div>
