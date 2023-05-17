@@ -394,7 +394,7 @@ class OnBoardingService
 
         $data = [
             'vehicle_header_id' => $request->input('headerId'),
-            'business_area_code' => $businessArea->code,
+            'business_area_code' => $businessArea->area,
             'directorate' => $request->input('directorate'),
             'cost_center' => $code_center_code,
             'responsible_head_id' => $request->input('responsibleHODId') ?? $request->input('vehicleHolderId'),
@@ -407,7 +407,7 @@ class OnBoardingService
             'cost_center_name' => $code_center_name,
             'business_unit' => $bu_code,
             'business_unit_name' => $bu_name,
-            'business_area_name' => $businessArea->name
+            'business_area_name' => $businessArea->description
         ];
 
         $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::assignment);
