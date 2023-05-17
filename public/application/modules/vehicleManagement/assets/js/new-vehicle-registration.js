@@ -1328,12 +1328,13 @@ function checkOnboardingHeaderStatus() {
         formData.set('bookValue', tmsApp.getFloat(formData.get('bookValue')).toString());
         formData.set('costPrice', tmsApp.getFloat(formData.get('costPrice')).toString());
         formData.set('costOfLicense', tmsApp.getFloat(formData.get('costOfLicense')).toString());
+        formData.set('premium', tmsApp.getFloat(formData.get('premium')).toString());
         tmsApp.play_alert('sound-submit');
         tmsApp.asyncPostFormData(
             form.action,
             formData,
             function (asyncResponse) {
-                if ('state' in asyncResponse && asyncResponse.state != 'success') {
+                if ('state' in asyncResponse && asyncResponse.state !== 'success') {
                     if (asyncResponse.hasOwnProperty('errors')) {
                         tmsApp.printErrorMsg(asyncResponse.errors);
                         return
@@ -1393,7 +1394,7 @@ function checkOnboardingHeaderStatus() {
             $form.action,
             formData,
             function (asyncResponse) {
-                if ('state' in asyncResponse && asyncResponse.state != 'success') {
+                if ('state' in asyncResponse && asyncResponse.state !== 'success') {
                     if (asyncResponse.hasOwnProperty('errors')) {
                         tmsApp.printErrorMsg(asyncResponse.errors);
                         return
@@ -1452,7 +1453,7 @@ function checkOnboardingHeaderStatus() {
             $form.action,
             formData,
             function (asyncResponse) {
-                if ('state' in asyncResponse && asyncResponse.state != 'success') {
+                if ('state' in asyncResponse && asyncResponse.state !== 'success') {
                     if (asyncResponse.hasOwnProperty('errors')) {
                         tmsApp.printErrorMsg(asyncResponse.errors);
                         return
@@ -1515,7 +1516,7 @@ function checkOnboardingHeaderStatus() {
                     $form.action,
                     new FormData($form),
                     function (asyncResponse) {
-                        if ('state' in asyncResponse && asyncResponse.state != 'success') {
+                        if ('state' in asyncResponse && asyncResponse.state !== 'success') {
                             if (asyncResponse.hasOwnProperty('errors')) {
                                 tmsApp.printErrorMsg(asyncResponse.errors);
                                 return
@@ -1577,7 +1578,7 @@ function checkOnboardingHeaderStatus() {
             $form.action,
             new FormData($form),
             function (asyncResponse) {
-                if ('state' in asyncResponse && asyncResponse.state != 'success') {
+                if ('state' in asyncResponse && asyncResponse.state !== 'success') {
                     if (asyncResponse.hasOwnProperty('errors')) {
                         tmsApp.printErrorMsg(asyncResponse.errors);
                         return

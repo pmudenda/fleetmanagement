@@ -42,8 +42,8 @@
                                 @if(($key%2) == 0)
                                     <tr>
                                         <td class="pl-2" style="width: 35%;">{{$accessory->name}}</td>
-                                        <td><input type="radio" value="yes" name="spareTyre"></td>
-                                        <td><input type="radio" value="no" name="spareTyre"></td>
+                                        <td><input type="radio" value="yes" name="{{$accessory->name}}"></td>
+                                        <td><input type="radio" value="no" name="{{$accessory->name}}"></td>
                                         <td style="width: 45%;">
                                             <input typeof="text" name="" class="form-control form-control-sm" />
                                         </td>
@@ -68,8 +68,8 @@
                                 @if(($key%2) != 0)
                                     <tr>
                                         <td class="pl-2" style="width: 35%;">{{$accessory->name}}</td>
-                                        <td><input type="radio" value="yes" name="spareTyre"></td>
-                                        <td><input type="radio" value="no" name="spareTyre"></td>
+                                        <td><input type="radio" value="yes" name="{{$accessory->name}}"></td>
+                                        <td><input type="radio" value="no" name="{{$accessory->name}}"></td>
                                         <td style="width: 45%;">
                                             <input typeof="text" class="form-control form-control-sm">
                                         </td>
