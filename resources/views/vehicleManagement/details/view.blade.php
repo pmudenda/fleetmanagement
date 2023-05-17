@@ -20,7 +20,7 @@
         <div class="row g-12 g-xl-12" id="kt_app_main">
 
             <!--BEGIN:::VEHICLE HEADER -->
-            @include('vehicleManagement.onboarding.tabs.save_header')
+            @include('vehicleManagement.onboarding.tabs.unsaved_header')
             <!--END:::VEHICLE HEADER -->
 
             <!--BEGIN:::DETAILS  -->
@@ -139,7 +139,6 @@
     <script>
         window.reference = `{!! $reference !!}`;
     </script>
-    {{--<script src="{{ asset('assets/global/plugins.bundle.js') }}"></script>--}}
     <script src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
     <script
         src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js').'?v='.Carbon::now()->format('his')}}"></script>

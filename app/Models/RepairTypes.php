@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Models\reference;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StockManagment extends Model
+class RepairTypes extends Model
 {
     use HasFactory;
-    protected $table = 'stock_management_view';
+
+    protected $table = 'CONFIG_REPAIR_TYPES';
 }

@@ -158,14 +158,14 @@
                                                             Repair Type:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select name="requisition_type" id="requisition_type"
-                                                                    disabled
-                                                                    class="form-control form-select-sm when_valid"
+                                                            <select name="requisition_type"
+                                                                    id="requisition_type"
+                                                                    class="form-select form-select-sm when_valid"
                                                                     required>
                                                                 <option value=""> --Select--</option>
-                                                                @foreach ($requisitionTypes as $requisitionType)
+                                                                @foreach ($repairTypes as $repairType)
                                                                     <option
-                                                                        value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
+                                                                        value="{{$repairType->code}}">{{$repairType->name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -367,7 +367,7 @@
                     <h1>Accessories Checkin & Movement</h1>
                     <div>
                         @php
-                            
+
                         @endphp
                         <div class="container-fluid mt-5">
                             <div class="row">

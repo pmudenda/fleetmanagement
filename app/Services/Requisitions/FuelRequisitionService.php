@@ -4,6 +4,7 @@ namespace App\Services\Requisitions;
 
 use App\Constants\ErrorMessages;
 use App\Enums\VehicleStatusEnum;
+use App\Enums\WorkflowProcessCodes;
 use App\Exceptions\FuelRequisitionException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\FuelRequisitionPostRequest;
@@ -13,6 +14,7 @@ use App\Models\Security\User;
 use App\Models\vehiclemanagement\Assignment;
 use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
+use App\Models\Workflow\WorkflowActions;
 use App\Services\Integration\ProcurementService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\ReferenceNumberGeneratorService;
@@ -48,7 +50,7 @@ class FuelRequisitionService
      */
     public function processRequest(FuelRequisitionPostRequest $requisitionPostRequest): JsonResponse
     {
-        $registrationNumber = $requisitionPostRequest->vehicle_registration;
+        $registrationNumber = $requisitionPostRequest->get('vehicle_registration');
 
         $this->validateVehicleStatus($registrationNumber);
 
@@ -61,18 +63,18 @@ class FuelRequisitionService
             ]);
         }
 
-        self::validateCurrentOdometerAgainstInitial($registrationNumber, $requisitionPostRequest->odometer_reading);
+        self::validateCurrentOdometerAgainstInitial($registrationNumber, $requisitionPostRequest->get('odometer_reading'));
 
         $valid_to = null;
         $valid_from = null;
 
-        if ($requisitionPostRequest->requisition_type == '011') {
-            $valid_to = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->return_date);
-            $valid_from = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->departure_date);
+        if ($requisitionPostRequest->get('requisition_type') == '011') {
+            $valid_to = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->get('return_date'));
+            $valid_from = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->get('departure_date'));
 
         } else {
-            $valid_to = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->next_fuel_date);
-            $valid_from = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->request_date);
+            $valid_to = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('next_fuel_date'));
+            $valid_from = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('request_date'));
         }
 
         //$maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption) + $requisitionPostRequest->odometer_reading;
@@ -128,13 +130,13 @@ class FuelRequisitionService
 
         Log::info('Stores Requisition ' . $procurementRef);
 
-        /*$processDetails = $this->workflowService->startWorkflowProcess(
+        $processDetails = $this->workflowService->startWorkflowProcess(
             $documentRef,
             WorkflowProcessCodes::FuelRequisition->value,
             WorkflowActions::submit(),
-            $requisitionPostRequest->justification,
+            $requisitionPostRequest->get('justification'),
             $user
-        );*/
+        );
 
         $message = !empty($documentRef) ?
             ' With Approval Reference ' . $documentRef : '';
@@ -145,12 +147,12 @@ class FuelRequisitionService
                 'st_pur' => $procurementRef,
                 'req_no' => $documentRef,
                 'reg_no' => $registrationNumber,
-                'cost_centre' => $requisitionPostRequest->cost_centre_code,
+                'cost_centre' => $requisitionPostRequest->get('cost_centre_code'),
                 'valid_date_from' => $valid_from,
                 'valid_date_to' => $valid_to,
-                'odometer' => $requisitionPostRequest->odometer_reading,
-                'town_from' => $requisitionPostRequest->town_from,
-                'town_to' => $requisitionPostRequest->town_to,
+                'odometer' => $requisitionPostRequest->get('odometer_reading'),
+                'town_from' => $requisitionPostRequest->get('town_from'),
+                'town_to' => $requisitionPostRequest->get('town_to'),
                 'date_created' => Carbon::now(),
                 'created_by' => $user->id,
                 'requested_by' => $user->name,
@@ -184,7 +186,7 @@ class FuelRequisitionService
 
         return response()->json([
             'success' => true,
-            'message' => 'Requisition  Submitted Successfully. Requisition Number ' . $documentRef,
+            'message' => 'Requisition Submitted Successfully. Requisition Number ' . $documentRef,
             'redirectUrl' => URL::signedRoute('show.fuel.requisition', ['ref' => $documentRef])
         ]);
     }
