@@ -132,7 +132,7 @@ class VehicleController extends Controller
             ->where('SPMS_ARTICLES_VIEW.CODE_ARTICLE', '=', $ref_code)
             ->select(
                 'UNITS_VIEW.description',
-                'STOCK_MANAGEMENT_VIEW.description as name',
+                'SPMS_ARTICLES_VIEW.description as name',
                 'SPMS_ARTICLES_VIEW.CODE_ARTICLE as code',
                 'STOCK_MANAGEMENT_VIEW.PRICE_MAP as price'
             )
