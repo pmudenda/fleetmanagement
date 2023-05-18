@@ -158,23 +158,10 @@
                           name="add_vehicle_model_form">
                         <div class="modal-header">
                             <h2 class="fw-bold">Add a Vehicle Model</h2>
-
-                            <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal">
-                            <span class="svg-icon svg-icon-1">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
-                                          rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor"></rect>
-                                    <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                          transform="rotate(45 7.41422 6)" fill="currentColor"></rect>
-                                </svg>
-
-                            </span>
-                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
                         <div class="modal-body py-10 px-lg-17">
-
                             <div class="scroll-y mh-300px me-n7 pe-7">
                                 <div class="fv-row">
 
@@ -186,19 +173,13 @@
                                                aria-label="Specify brand" data-bs-original-title="Specify brand"
                                                data-kt-initialized="1"></i>
                                         </label>
-
                                         <select name="brand" id="data-kt-table-filter_month"
-                                                class="form-select form-select-solid fw-bold" data-kt-select2="true"
-                                                data-placeholder="Select option" data-allow-clear="true"
-                                                data-kt-table-filter="brand" data-hide-search="true"
-                                                data-select2-id="select2-data-17-tvzx" tabindex="-1" aria-hidden="true">
-                                            <option data-select2-id="select2-data-19-scpe"></option>
+                                                class="form-select form-select-solid fw-bold">
                                             <option v-for="brand in brands" v-bind:key="brand.id"
                                                     v-bind:value="brand.id">
                                                 @{{ brand.name }}
                                             </option>
                                         </select>
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
                                     </div>
 
                                     <div class="d-flex flex-column mb-7 fv-row fv-plugins-icon-container">
@@ -211,8 +192,11 @@
                                                data-kt-initialized="1"></i>
                                         </label>
 
-                                        <input type="text" class="form-control form-control-solid"
-                                               placeholder="e.g Land Cruiser" v-model="model_name" id="model_name"
+                                        <input type="text"
+                                               class="form-control form-control-solid"
+                                               placeholder="e.g Land Cruiser"
+                                               v-model="model_name"
+                                               id="model_name"
                                                name="model_name"/>
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                     </div>
@@ -227,8 +211,12 @@
                                                data-kt-initialized="1"></i>
                                         </label>
 
-                                        <input type="text" class="form-control form-control-solid" placeholder="e.g 1GR"
-                                               v-model="model_code" id="model_code" name="model_code"/>
+                                        <input type="text"
+                                               class="form-control form-control-solid"
+                                               placeholder="e.g 1GR"
+                                               v-model="model_code"
+                                               id="model_code"
+                                               name="model_code"/>
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                     </div>
 
@@ -244,7 +232,6 @@
                                             <span v-else="isEnabled">No</span>
                                         </span>
                                         </label>
-
                                     </div>
                                 </div>
                             </div>
@@ -282,24 +269,43 @@
     <script>
         (function (tmsApp, $) {
 
+            $(document).on('keyup paste', '#model_name', function () {
+                this.value = this.value.toLocaleUpperCase();
+            });
+
+            $(document).on('keyup paste', '#model_code', function () {
+                this.value = this.value.toLocaleUpperCase();
+            });
+
+
             tmsApp.appFormValidator('form[name="add_vehicle_model_form"]',
                 {
-                    'body_type_name': {
+                    brand: {
+                        required: true
+                    },
+                    model_name: {
+                        required: true
+                    },
+                    model_code: {
                         required: true
                     }
                 },
                 {
-                    'body_type_name': {
-                        required: 'brand name is required',
-                        maxlength: 'brand name must contain 3 to 50 characters'
+                    brand: {
+                        required: 'Brand is required',
+                    },
+                    model_name: {
+                        required: 'Model name is required'
+                    },
+                    model_code: {
+                        required: 'Model code is required'
                     }
                 }
             );
 
             function submitData() {
-                let $form = document.forms['add_vehicle_model_form'];
+                let $form = document.querySelector('form[name="add_vehicle_model_form"]')
 
-                //let radio = this.modalEl.querySelector('input[type="checkbox"]:checked');
                 const submitButton = document.querySelector('#kt_modal_add_submit');
                 //console.log('validated!');
                 // Show loading indication
@@ -320,62 +326,73 @@
                     );
                     return;
                 }
-                //  new FormData($form),
-                tmsApp.asyncPostJson(
-                    $form.action,
-                    {
-                        brand_name: $('[name="brand"] :selected').text().trim(),
-                        brand_guid: $('[name="brand"] :selected').val(),
-                        model_name: $('[name="model_name"]').val(),
-                        model_code: $('[name="model_code"]').val(),
-                        status: '01'
-                    },
-                    function (asyncResponse) {
-                        submitButton.removeAttribute(
-                            'data-kt-indicator');
 
-                        submitButton.disabled = false;
-                        if ('state' in asyncResponse && asyncResponse.state != 'success') {
-                            if (asyncResponse.hasOwnProperty('errors')) {
-                                tmsApp.printErrorMsg(asyncResponse.errors);
-                                return
-                            }
-
-                            setTimeout(function () {
-                                tmsApp.systemError(
-                                    'Vehicle Model Record Creation',
-                                    asyncResponse['message'],
-                                    function () {
-                                    }, 'error');
-                            }, 300);
-                            toastr.error(
-                                asyncResponse.message
-                            );
-                            return;
-                        }
-
-                        tmsApp.showSystemMessage(
-                            "Request has been successfully submitted!",
-                            asyncResponse.message,
-                            function () {
-                                setTimeout(
-                                    function () {
-                                        //app.$data.modal.hide();
-                                        //window.location.href = asyncResponse['redirectUrl'];
-                                        //addRecordToTable();
-                                        window.location.reload();
-                                    }, 500
-                                );
-                            }, 'success');
-                    },
-                    function (xhr, settings, errorThrown) {
-                        console.log(errorThrown)
+                tmsApp.confirm('Vehicle Model',
+                    'Are you sure you want to submit the request ?',
+                    'Yes',
+                    'No, Cancel',
+                    function () {
+                        bootstrap.Modal.getOrCreateInstance(document.querySelector('#kt_modal_add')).hide();
                         setTimeout(function () {
-                            tmsApp.showErrorMessages(xhr, 'Vehicle Brand');
+                            tmsApp.asyncPostJson(
+                                $form.action,
+                                {
+                                    brand_name: $('[name="brand"] :selected').text().trim(),
+                                    brand_guid: $('[name="brand"] :selected').val(),
+                                    model_name: $('[name="model_name"]').val(),
+                                    model_code: $('[name="model_code"]').val(),
+                                    status: '01'
+                                },
+                                function (asyncResponse) {
+                                    submitButton.removeAttribute(
+                                        'data-kt-indicator');
+
+                                    submitButton.disabled = false;
+                                    if ('state' in asyncResponse && asyncResponse.state != 'success') {
+                                        if (asyncResponse.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(asyncResponse.errors);
+                                            return
+                                        }
+
+                                        setTimeout(function () {
+                                            tmsApp.systemError(
+                                                'Vehicle Model Record Creation',
+                                                asyncResponse['message'],
+                                                function () {
+                                                }, 'error');
+                                        }, 300);
+                                        toastr.error(
+                                            asyncResponse.message
+                                        );
+                                        return;
+                                    }
+
+                                    tmsApp.showSystemMessage(
+                                        'Record Creation',
+                                        "Request has been successfully submitted!",
+                                        function () {
+                                            setTimeout(
+                                                function () {
+                                                    //app.$data.modal.hide();
+                                                    //window.location.href = asyncResponse['redirectUrl'];
+                                                    //addRecordToTable();
+                                                    window.location.reload();
+                                                }, 500
+                                            );
+                                        }, 'success');
+                                },
+                                function (xhr, settings, errorThrown) {
+                                    console.log(errorThrown)
+                                    setTimeout(function () {
+                                        tmsApp.showErrorMessages(xhr, 'Vehicle Brand');
+                                    }, 300)
+                                },
+                                'POST'
+                            );
                         }, 300)
-                    },
-                    'POST'
-                );
+
+                    }, function () {
+                    });
             }
 
             $(document).on('click', '#kt_modal_add_submit', function () {

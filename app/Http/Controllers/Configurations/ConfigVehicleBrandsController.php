@@ -76,7 +76,7 @@ class ConfigVehicleBrandsController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => '',
+                'message' => 'Record Added Successfully',
                 'payload' => $model
             ]);
         } catch (Exception $e) {
