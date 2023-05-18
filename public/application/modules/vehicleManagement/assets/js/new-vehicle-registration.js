@@ -2756,9 +2756,9 @@ function checkOnboardingHeaderStatus() {
 
     getLocations();
 
-    getTyresBrands();
+    /*getTyresBrands();
 
-    getBatteryTypes();
+    getBatteryTypes();*/
 
     getSuppliers();
 
