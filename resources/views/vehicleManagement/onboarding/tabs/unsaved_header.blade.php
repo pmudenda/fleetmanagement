@@ -4,7 +4,11 @@
             <h2> Vehicle On-Boarding</h2>
             <span v-if="!vehicleHeader.isHeaderSaved"
                   class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
-            <span v-else class="ml-2 indicator-pill whitespace-nowrap green"><span>@{{ vehicleHeader.on_boarding_status || 'Saved' }}</span></span>
+            <span v-else class="ml-2 indicator-pill whitespace-nowrap green">
+                <span>
+                    @{{ vehicleHeader.on_boarding_status | formatStatus }}
+                </span>
+            </span>
         </div>
 
         <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
@@ -101,11 +105,11 @@
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
                                 <div class="w-100">
+                                    {{-- :value="vehicleHeader.model_code"--}}
                                     <input class="form-control form-control-solid"
                                            name="model_code"
                                            readonly
                                            id="model_code"
-                                           :value="vehicleHeader.model_code"
                                     />
                                 </div>
                             </div>
