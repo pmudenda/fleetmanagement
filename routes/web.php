@@ -188,9 +188,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('workshops/list', [WorkshopController::class, 'index'])->name('workshop.list');
 
-        Route::get('workshop/section', function () {
-            return view('');
-        })->name('workshop.sections');
+        Route::get('workshop/section',[WorkshopController::class, 'sections'])->name('workshop.sections');
 
         Route::get('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('maintenance.requisition');
 

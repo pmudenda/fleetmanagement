@@ -16,12 +16,13 @@ class WorkflowController extends Controller
     public function showWorkTask(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $workTask = WorkflowTask:: orderBy('created_at', 'ASC')->get();
-        return view('software-incidence.approvals', compact(['workTask']))
+        return view('modules.workflow.approvals', compact(['workTask']))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     public function approve(Request $request): JsonResponse
     {
+
         return response()->json([
             'requestPayload' => $request->json(),
             'success' => true,

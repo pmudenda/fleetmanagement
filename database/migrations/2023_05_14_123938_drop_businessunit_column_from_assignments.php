@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('VM_ASSIGNMENTS', function (Blueprint $table) {
+            // replaced with business_unit
             $table->dropColumn('businessunit');
         });
     }

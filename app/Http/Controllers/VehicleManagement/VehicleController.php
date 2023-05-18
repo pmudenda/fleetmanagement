@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\VehicleManagement;
 
+use App\Constants\ErrorMessages;
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Models\configurations\general\Status;
 use App\Models\vehiclemanagement\VehicleHeader;
+use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
+use App\Services\Workflow\WorkflowService;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -18,10 +23,13 @@ use Illuminate\Support\Facades\Log;
 class VehicleController extends Controller
 {
     private VehicleDetailsService $vehicleDetailsService;
+    private ProcurementSystemIntegrationService $procurementService;
 
-    public function __construct(VehicleDetailsService $vehicleDetailsService)
+    public function __construct(VehicleDetailsService $vehicleDetailsService,
+                                ProcurementSystemIntegrationService $procurementService)
     {
         $this->vehicleDetailsService = $vehicleDetailsService;
+        $this->procurementService = $procurementService;
     }
 
     public function getAllDetails(Request $request): JsonResponse
@@ -87,10 +95,10 @@ class VehicleController extends Controller
             }
             $vehicleImages = $this->vehicleDetailsService->getVehicleImages($vehicle->vehicle_header_id);
 
-            $article = $this->getArticleByCode($vehicle->fuel_types);
+            $article = $this->procurementService->getArticleByCode($vehicle->fuel_types);
             $vehicle_state = '';
             // StatusHelper::onboardingComplete()
-            if ($vehicle->on_boarding_status != "030") {
+            if ($vehicle->on_boarding_status != StatusHelper::onboardingComplete()) {
                 $vehicle_state = str_replace("@", $vehicle->on_boarding_status, "Pending @ detail processing");
             }
             return response()->json([
@@ -107,7 +115,7 @@ class VehicleController extends Controller
             Log::error($e);
             return response()->json([
                 'success' => 'false',
-                'message' => 'We could not complete processing your request, Please Fleet Master System Administrator '
+                'message' => ErrorMessages::internalServerError
             ]);
         }
     }
@@ -115,40 +123,17 @@ class VehicleController extends Controller
     public function list(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $vehicleList = VehicleHeader::get();
-        return view('vehicleManagement.vehicleList')
+        return view('modules.vehicleManagement.vehicleList')
             ->with(compact('vehicleList'));
     }
 
-    /**
-     * @param $ref_code
-     * @return Collection
-     */
-    public function getArticleByCode($ref_code): mixed
-    {
-        $results = DB::table('SPMS_ARTICLES_VIEW')
-            ->leftJoin('STOCK_MANAGEMENT_VIEW', 'SPMS_ARTICLES_VIEW.CODE_ARTICLE', '=', 'STOCK_MANAGEMENT_VIEW.CODE_ARTICLE')
-            ->leftJoin('UNITS_VIEW', 'SPMS_ARTICLES_VIEW.UNIT_MEASURE', '=', 'UNITS_VIEW.code_unit')
-            ->where('STOCK_MANAGEMENT_VIEW.LEVEL_TYPE', '=', '02')
-            ->where('SPMS_ARTICLES_VIEW.CODE_ARTICLE', '=', $ref_code)
-            ->select(
-                'UNITS_VIEW.description',
-                'SPMS_ARTICLES_VIEW.description as name',
-                'SPMS_ARTICLES_VIEW.CODE_ARTICLE as code',
-                'STOCK_MANAGEMENT_VIEW.PRICE_MAP as price'
-            )
-            ->get();
-
-        return $results->first();
-    }
-
-
     public function cleanUpWindow(Request $request): View
     {
-        return view('vehicleManagement.migration.index');
+        return view('modules.vehicleManagement.migration.index');
     }
 
     public function register(Request $request): View
     {
-        return view('vehicleManagement.vehicleList');
+        return view('modules.vehicleManagement.vehicleList');
     }
 }

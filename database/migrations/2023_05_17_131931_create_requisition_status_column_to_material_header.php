@@ -4,16 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('requisition_status_column_to_material_header', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('GEN_MATERIAL_HEADERS', function (Blueprint $table) {
+            $table->string('requisition_status', 20)->add();;
         });
     }
 
@@ -22,6 +20,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('requisition_status_column_to_material_header');
+        Schema::dropIfExists('GEN_MATERIAL_HEADERS');
     }
 };

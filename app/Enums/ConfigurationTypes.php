@@ -14,4 +14,5 @@ enum ConfigurationTypes : string
     case STATUS_GENERAL = "statusgeneral";
     case STORES_MOVEMENT_TYPES = "movementtype";
     case INSURANCE_SUB_TYPES = "insurancesubtypes";
+    case WORKS_FLOW_SECTION = "wkshp_section";
 }

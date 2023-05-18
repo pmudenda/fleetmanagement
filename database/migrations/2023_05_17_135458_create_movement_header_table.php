@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->string('business_area', 255);
             $table->string('cost_centre', 255);
             $table->string('work_order_no', 255);
-            $table->string('sft_number', 255)->nullable();
+            $table->string('stf_number', 255)->nullable();
             $table->string('requested_by');
             $table->string('system_of_origin');
             $table->string('requisition_no');

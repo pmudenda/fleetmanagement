@@ -98,14 +98,26 @@
                         <li class="nav-item">
                             <a href="{{ route('workshop.sections') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Sections</p>
+                                <p></p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ route('configuration.general.table',['ref'=>'wkshp_section']) }}">
+                                           {{-- <span class="menu-bullet">
+                                                <span class="bullet bullet-dot">
+                                                </span></span>
+                                <span class="menu-title"> </span>--}}
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Workshop Sections</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a href="{{ route('workshop.list') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Workshops List</p>
+                                <p>Workshops</p>
                             </a>
                         </li>
 
@@ -209,7 +221,7 @@
                                     Users List
                                 </p>
                             </a>
-                        </li>        
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('users.driverList') }}">
                                 <i class="fas fa-users nav-icon"></i>

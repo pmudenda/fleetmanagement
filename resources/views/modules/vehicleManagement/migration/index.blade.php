@@ -18,7 +18,6 @@
                 <div class="col-md-12 mt-10">
                     <div class="wizard">
                         <div class="wizard-inner">
-                            <!-- <div class="connecting-line"></div> -->
                             <ul class="nav nav-tabs steps" role="tablist">
                                 <li role="presentation" data-index="0" class="active st1">
                                     <a href="#step1"
@@ -376,8 +375,6 @@
                                         </li>
                                     </ul>
                                 </div>
-
-
                             </div>
                             <div class="clearfix"></div>
                         </form>

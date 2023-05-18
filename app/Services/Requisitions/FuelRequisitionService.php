@@ -15,7 +15,7 @@ use App\Models\vehiclemanagement\Assignment;
 use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
 use App\Models\Workflow\WorkflowActions;
-use App\Services\Integration\ProcurementService;
+use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\ReferenceNumberGeneratorService;
 use App\Services\Workflow\WorkflowService;
@@ -33,11 +33,11 @@ class FuelRequisitionService
     const FUEL_REQUISITION_NUMBER_PREFIX = "ZFMFUE";
     private VehicleDetailsService $vehicleDetailsService;
     private WorkflowService $workflowService;
-    private ProcurementService $procurementService;
+    private ProcurementSystemIntegrationService $procurementService;
 
-    public function __construct(VehicleDetailsService $vehicleDetailsService,
-                                WorkflowService       $workflowService,
-                                ProcurementService    $procurementService)
+    public function __construct(VehicleDetailsService               $vehicleDetailsService,
+                                WorkflowService                     $workflowService,
+                                ProcurementSystemIntegrationService $procurementService)
     {
         $this->vehicleDetailsService = $vehicleDetailsService;
         $this->workflowService = $workflowService;
@@ -122,7 +122,7 @@ class FuelRequisitionService
 
         $areaCode = $user->area_code ?? 'LR';
         $requisitionType = 'seq_store_req';
-        //$procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
+        $procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
         $procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
         if (empty($procurementRef)) {
             throw new FuelRequisitionException(ErrorMessages::storesRequisitionFailed());
@@ -146,7 +146,7 @@ class FuelRequisitionService
                 'proc_ref' => $procurementRef,
                 'st_pur' => $procurementRef,
                 'req_no' => $documentRef,
-                'reg_no' => $registrationNumber,
+                'veh_reg_no' => $registrationNumber,
                 'cost_centre' => $requisitionPostRequest->get('cost_centre_code'),
                 'valid_date_from' => $valid_from,
                 'valid_date_to' => $valid_to,

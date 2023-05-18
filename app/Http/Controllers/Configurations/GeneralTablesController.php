@@ -64,6 +64,10 @@ class GeneralTablesController extends Controller
                 "id" => ConfigurationTypes::INSURANCE_SUB_TYPES->value,
                 'title' => 'Insurance SubTypes',
             ],
+            [
+                '' => ConfigurationTypes::WORKS_FLOW_SECTION->value,
+                'title' => 'Workshop Sections'
+            ]
         ]);
 
         $match = $types->where('id', '=', strtolower($id));
@@ -81,7 +85,7 @@ class GeneralTablesController extends Controller
         $entries = GeneralTableConfigurations::all();
         $type = 'nothing';
 
-        return view('configurations.generalTables.index')
+        return view('modules.configurations.generalTables.index')
             ->with(compact('entries', Constants::TYPE_KEY));
     }
 
@@ -102,7 +106,7 @@ class GeneralTablesController extends Controller
             $entries = GeneralTableConfigurations::where(Constants::TYPE_KEY, $type)->get();
         }
 
-        return view('configurations.generalTables.index')->with(
+        return view('modules.configurations.generalTables.index')->with(
             [
                 'type' => $dbType,
                 'entries' => $entries,

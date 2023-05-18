@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name', 255);
             $table->string('code', 25);
-            $table->string('created_by', 255);
+            $table->string('created_by', 255)->nullable();
+            $table->string('modified_by', 255)->nullable();
             $table->timestamp('deleted_at');
             $table->timestamps();
         });

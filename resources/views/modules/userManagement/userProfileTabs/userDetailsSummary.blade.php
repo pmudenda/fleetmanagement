@@ -104,4 +104,4 @@
 
 </div>
 
-{{--@include('UserManagement/userProfileTabs/details')--}}
+{{--@include('userManagement/userProfileTabs/details')--}}

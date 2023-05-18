@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('unit_of_measure', 20);
             $table->string('article_type', 255);
             $table->string('transaction_type', 255);
-            $table->string('sft_number', 255)->nullable();
+            $table->string('stf_number', 255)->nullable();
             $table->string('veh_reg_no');
             $table->string('authorised_by');
             $table->timestamps();

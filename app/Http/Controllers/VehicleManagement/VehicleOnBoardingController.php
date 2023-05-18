@@ -42,7 +42,7 @@ class VehicleOnBoardingController extends Controller
 
     public function show(): View
     {
-        $viewName = 'vehicleManagement.details.index';
+        $viewName = 'modules.vehicleManagement.details.index';
         return view($viewName);
     }
 
@@ -73,7 +73,7 @@ class VehicleOnBoardingController extends Controller
             $vehicle = $this->vehicleDetailsService->getVehicleDetails($reference);
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
         }
-        $viewName = 'vehicleManagement.details.view';
+        $viewName = 'modules.vehicleManagement.details.view';
 
         return view($viewName)
             ->with(compact('reference', 'vehicle', 'vehicleDocuments'));
@@ -108,7 +108,7 @@ class VehicleOnBoardingController extends Controller
                 $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments((int)$reference);
             }
 
-            $viewName = "vehicleManagement.onboarding.start";
+            $viewName = "modules.vehicleManagement.onboarding.start";
             /*match ($step) {
                 '1' => ,
                 '2' => "vehicleManagement.onboarding.step6",

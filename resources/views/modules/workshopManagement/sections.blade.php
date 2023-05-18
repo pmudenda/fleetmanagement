@@ -11,8 +11,8 @@
 
 @section('content')
 
-    <x-content-header :pageTitle="'Workshop List'" :activeCrumb="'Works'" :link="'home'"
-                      :linkText="'Workshops'"/>
+    <x-content-header :pageTitle="'Workshop Sections'" :activeCrumb="'Workshop Sections'" :link="'home'"
+                      :linkText="'Sections'"/>
 
     <!-- Main content -->
     <section class="content">
@@ -26,7 +26,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                <h4>Manager Workshops</h4>
+                                <h4>Manager Workshop Sections</h4>
                             </div>
                             <div class="card-toolbar justify-content-end">
                                 <!--begin::Filter-->
@@ -58,10 +58,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
-                                        <th>Workshop Code</th>
-                                        <th>Area Code</th>
-                                        <th>Cost Center</th>
-                                        <th>Store</th>
+                                        <th>Section Code</th>
                                         <th>Status</th>
                                         {{--@can(config('rights.user_show'))--}}
                                         <th>Action</th>
@@ -69,27 +66,18 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($workshopsList as $key => $workshop)
+                                    @foreach($workshop_sections as $key => $workshop)
                                         <tr>
                                             <td>
                                                 {{++$key}}
                                             </td>
                                             <td>
-                                                {{$workshop->workshop_name}}
+                                                {{$workshop->name}}
                                             </td>
                                             <td>
-                                                {{$workshop->workshop_code}}
+                                                {{$workshop->code}}
                                             </td>
 
-                                            <td>
-                                                {{$workshop->area_code ?? '--'}}
-                                            </td>
-                                            <td>
-                                                {{$workshop->cost_center ?? '--'}}
-                                            </td>
-                                            <td>
-                                                {{$workshop->store_code ?? '--'}}
-                                            </td>
                                             <td>
                                                 @if($workshop->status == '01')
                                                     Active
@@ -162,31 +150,13 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3">
-                            @if(str_contains(strtolower($typeStr) ,"status"))
-                                <label style="display: none;" for="message-text" class="col-form-label">Active:</label>
-                                <select name="status" style="display: none;"
-                                        class="form-control @error('status') is-invalid @enderror" id="data_status"
-                                        required>
-                                    <option value="1">Yes</option>
-                                </select>
-                                @error('status')
-                                <p class=" errorText">{{$message}}</p>
-                                @enderror
-                            @else
+                        <div class="mb-3 d-none">
                                 <label for="message-text" class="col-form-label">Status:</label>
                                 <select name="status" class="form-control @error('status') is-invalid @enderror"
                                         id="data_status"
                                         required>
                                     <option>Select Status</option>
-                                    @foreach($statusList as $status)
-                                        <option value="{{$status->code}}">{{$status->name}}</option>
-                                    @endforeach
                                 </select>
-                                @error('status')
-                                <p class=" errorText">{{$message}}</p>
-                                @enderror
-                            @endIf
 
                         </div>
 
@@ -244,13 +214,10 @@
                             <input type="text" class="form-control" id="data_edit_code" name="code">
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-3 d-none">
                             <label for="message-text" class="col-form-label">Status:</label>
                             <select name="status" class="form-control" id="data_edit_status">
-                                <option>Select Status</option>
-                                @foreach($statusList as $status)
-                                    <option value="{{$status->code}}">{{$status->name}}</option>
-                                @endforeach
+                                <option value="01">Active</option>
                             </select>
                         </div>
 

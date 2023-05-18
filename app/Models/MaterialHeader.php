@@ -15,7 +15,7 @@ class MaterialHeader extends Model
         'proc_ref',
         'st_pur',
         'req_no',
-        'reg_no',
+        'veh_reg_no',
         'cost_centre',
         'valid_date_from',
         'valid_date_to',

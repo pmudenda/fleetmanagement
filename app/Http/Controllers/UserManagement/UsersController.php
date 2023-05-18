@@ -30,7 +30,7 @@ class UsersController extends Controller
     public function index(): Factory|View|Application
     {
         $users = User::select('*')->get();
-        return view('UserManagement.index')->with(compact('users'));
+        return view('modules.userManagement.index')->with(compact('users'));
     }
 
     public function getCurrentUserDetails(): JsonResponse
@@ -61,7 +61,7 @@ class UsersController extends Controller
         $businessUnits = BusinessUnits::where('status', '=', '01')->get();
         $costCenters = CostCenters::where('status', '=', '01')->get();
 
-        return view('UserManagement.addUser')
+        return view('modules.userManagement.addUser')
             ->with(compact('roles', 'businessUnits', 'costCenters'));
     }
 
@@ -201,7 +201,8 @@ class UsersController extends Controller
     public function show(User $user): Factory|View|Application
     {
         $roles = Role::all();
-        return view('UserManagement.show')->with(compact('user', 'roles'));
+        return view('modules.userManagement.show')
+            ->with(compact('user', 'roles'));
     }
 
 
@@ -286,7 +287,7 @@ class UsersController extends Controller
         $id = (int)ParameterEncryption::decrypt($request->get('key'));
         $user = User::where('id', '=', $id)->first();
         $roles = Role::all();
-        return view('UserManagement.show')
+        return view('modules.userManagement.show')
             ->with(compact('user', 'roles'));
 
     }

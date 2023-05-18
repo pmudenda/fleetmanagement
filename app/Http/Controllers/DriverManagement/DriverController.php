@@ -27,15 +27,15 @@ use Illuminate\Support\Str;
 class DriverController extends Controller
 {
 
-    public function index()
+    public function index(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         $users = []; //User::select('*')->get();
-        return view('DriverManagement.index')->with(compact('users'));
-    }    
-    
-    public function driverList()
+        return view('modules.driverManagement.index')->with(compact('users'));
+    }
+
+    public function driverList(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         $users = []; //User::select('*')->get();
-        return view('DriverManagement.driverList')->with(compact('users'));
+        return view('modules.driverManagement.driverList')->with(compact('users'));
     }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('proc_ref');
             $table->string('req_no');
-            $table->string('reg_no')->nullable();
+            $table->string('veh_reg_no')->nullable();
             $table->timestamp('valid_date_from')->nullable();
             $table->timestamp('valid_date_to')->nullable();
             $table->date('date_created');

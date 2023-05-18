@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('vm_vehicle_header', function (Blueprint $table) {
+        Schema::table('VM_VEHICLE_HEADER', function (Blueprint $table) {
             $table->string('barcode')->nullable()->add();
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('vm_vehicle_header', function (Blueprint $table) {
+        Schema::table('VM_VEHICLE_HEADER', function (Blueprint $table) {
             //
         });
     }
