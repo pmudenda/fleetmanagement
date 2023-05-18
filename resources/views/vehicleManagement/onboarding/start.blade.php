@@ -170,7 +170,6 @@
     </section>
     <x-employee-search-modal/>
 
-
     <div class="modal fade" id="vehicleDisk"
          tabindex="-1"
          aria-labelledby="exampleModalLabel"
@@ -182,7 +181,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="diskArea">
-                    <img src="{{asset('assets/dist/img/disk.jpeg')}}" />
+                   {{-- <img src="{{asset('assets/dist/img/disk.jpeg')}}" />--}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="print" class="btn btn-danger">Print</button>
@@ -202,11 +201,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <iframe id="documentView" style="border: none;" width="30%" />
+                    <iframe id="documentView" src="" style="border: none;" width="30%" ></iframe>
                 </div>
-                {{--<div class="modal-footer">
-                    <button type="button" class="btn btn-danger">Okay</button>
-                </div>--}}
+                <div class="modal-footer">
+                    <button type="button" data-bs-dismiss="modal" class="btn btn-danger">Close</button>
+                </div>
             </div>
         </div>
     </div>
