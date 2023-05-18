@@ -206,6 +206,17 @@
                         </div>
                     </div>
 
+                        {{--@if($vehicle && !$empty($vehicle->barcode)) @endif--}}
+                        <div class="form-group row mt-10 d-none" id="barcodeContainer">
+                            <label for="barcode" class="fs-6 fw-semibold form-label col-md-3">
+                                <span class="required">Vehicle Badge</span>
+                            </label>
+                            <div class="col-md-9 fv-row">
+                                <div class="col-md-9">
+                                    <img id="barcode" src="">
+                                </div>
+                            </div>
+                        </div>
 
                 </div>
             </div>

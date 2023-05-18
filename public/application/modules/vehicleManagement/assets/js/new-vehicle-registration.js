@@ -38,8 +38,10 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     if (data['brand_guid']) {
         $('select[name="brand"]').val(data['brand_guid']);
         $('select[name="brand"]').attr('data-value', data['brand_guid']);
-        $('select[name="brand"]').trigger('change');
 
+        setTimeout(function () {
+            $('select[name="brand"]').trigger('change');
+        }, 600);
         //$('select[name="model"]').trigger('change');
     }
 
@@ -130,7 +132,17 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     Vue.set(app['otherDetails'], 'batteryBrand', data['battery_brand']);
     Vue.set(app['otherDetails'], 'batterySize', data['battery_size']);
+    $('input[name="batterySize"]').val(data['battery_size']);
+
+    $('select[name="batteryBrand"]').val(data['battery_brand']);
+
     Vue.set(app['otherDetails'], 'batteryPower', data['battery_power']);
+    $('select[name="batteryPower"]').val(data['battery_power']);
+
+    setTimeout(function () {
+        $('select[name="batteryPower"]').trigger('change');
+        $('select[name="batteryBrand"]').trigger('change');
+    }, 300);
 
     Vue.set(app['costingAndValuation'], 'supplierName', data['supplierName']);
 
@@ -720,21 +732,21 @@ let app = new Vue({
         },*/
 
         /*loadRegistrationTypes: function () {
-    this.registrationTypes = [
-        {
-            "label": 'Motor Vehicle',
-            'code': 'MV'
-        },
-         {
-             "label": 'Boat',
-             'code': 'BT'
-         },
-         {
-             "label": 'Trailer',
-             'code': 'TR'
-         },
-    ]
-},*/
+            this.registrationTypes = [
+                {
+                    "label": 'Motor Vehicle',
+                    'code': 'MV'
+                },
+                 {
+                     "label": 'Boat',
+                     'code': 'BT'
+                 },
+                 {
+                     "label": 'Trailer',
+                     'code': 'TR'
+                 },
+            ]
+        },*/
 
         // web UI event
         /*bodyTypeChanged: function (selectedBody) {
@@ -1734,7 +1746,8 @@ function checkOnboardingHeaderStatus() {
         });
 
         if (filteredResults.length === 0) {
-            toastr.warning('No Models Found for the selected models', 'Models')
+            //toastr.warning('No Models Found for the selected models', 'Models')
+            getConfiguredModels();
         }
 
         let selectElem = $('select[name="model"]');
@@ -1934,7 +1947,100 @@ function checkOnboardingHeaderStatus() {
     },*/
 
     function getTyresBrands() {
+        fetch(document.querySelector('#tyreUrl').value)
+            .then(response => response.json())
+            .then(response => {
 
+                let frontTyreElem = $('select[name="frontTyreSize"]');
+                let rearTyreSizeElem = $('select[name="rearTyreSize"]');
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, no tyre brand information found')
+                    return;
+                }
+
+                let tyreSizes = response['payload'];
+                tmsApp.populateDropDownList(frontTyreElem, tyreSizes, "description", ["description"], "");
+
+                tmsApp.populateDropDownList(rearTyreSizeElem, tyreSizes, "description", ["description"], "");
+
+              /*  let location = selectElem.attr('data-value');
+                console.log(location);
+                if (location) {
+                    frontTyreElem.val(location);
+                    frontTyreElem.trigger('change');
+                }*/
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error('Connection error. Could not retrieve tyre information, some feature might not work.')
+            });
+    }
+
+    function getBatteryTypes() {
+        fetch(document.querySelector('#batteryUrl').value)
+            .then(response => response.json())
+            .then(response => {
+
+                let selectElem = $('select[name="batteryBrand"]');
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, no tyre brand information found')
+                    return;
+                }
+
+                let tyreBrands = response['payload'];
+                tmsApp.populateDropDownList(selectElem, tyreBrands, "description", ["description"], "");
+
+                let location = selectElem.attr('data-value');
+                console.log(location);
+                if (location) {
+                    selectElem.val(location);
+                    selectElem.trigger('change');
+                }
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error('Connection error. Could not retrieve tyre information.', 'Connection error')
+            });
+    }
+
+    function checkWhiteBookSerialValidity() {
+        let ref = document.querySelector('#whiteBookSerial').value
+        fetch(document.querySelector('#documentValidationUrl').value +
+            '?method=motorVehicleCertificate&key=' + ref)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                return response.json();
+            })
+            .then(response => {
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, white book number could not be verified')
+                    return;
+                }
+
+                if (response['payload'].validity) {
+                    console.log(response['payload'].validity);
+                    document.querySelector("#tms_save_chassis").removeAttribute('disabled');
+                    toastr.success('White Book number valid', 'White Book Number Validation');
+                } else {
+                    toastr.error('Duplicate White book Serial Number', 'Invalid White book serial')
+                    document.querySelector("#tms_save_chassis").setAttribute('disabled', 'disabled')
+                    return;
+                }
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Connection error. Could not retrieve data, some feature might not work.')
+            });
     }
 
     function checkChassisNumberValidity() {
@@ -1952,10 +2058,10 @@ function checkOnboardingHeaderStatus() {
                         'Duplicate Chassis number, vehicle already with chassis number ' +
                         chassisNumber + ' already exists'
                     );
-                    document.querySelector("#submitBtn").setAttribute('disabled', 'disabled')
+                    document.querySelector("#tms_save_chassis").setAttribute('disabled', 'disabled')
                     return;
-                }else {
-                    document.querySelector("#submitBtn").removeAttribute('disabled');
+                } else {
+                    document.querySelector("#tms_save_chassis").removeAttribute('disabled');
                     toastr.success('Chassis number valid', 'Chassis Number Validation');
                 }
             })
@@ -1965,6 +2071,36 @@ function checkOnboardingHeaderStatus() {
                     'Could not retrieve data, some feature might not work.', 'Connection error')
             });
     }
+
+    function checkEngineNumberValidity() {
+        let engineNumber = document.querySelector('[name="engineNumber"]').value;
+        fetch(document.querySelector('#documentValidationUrl').value
+            + '?method=engine_number&key=' + engineNumber)
+            .then(response => response.json())
+            .then(response => {
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Vehicle Engine number verification failed', 'Connection error');
+                    tmsApp.systemError(
+                        'Chassis Number Validation',
+                        'Duplicate Engine number, vehicle already with Engine number number ' +
+                        engineNumber + ' already exists'
+                    );
+                    document.querySelector("#tms_save_chassis").setAttribute('disabled', 'disabled')
+                    return;
+                } else {
+                    document.querySelector("#tms_save_chassis").removeAttribute('disabled');
+                    toastr.success('Engine Number number valid', 'Engine Number Validation');
+                }
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Could not retrieve data, some feature might not work.', 'Connection error')
+            });
+    }
+
 
     function getBodyTypes() {
         fetch(document.querySelector('#bodyTypesEndpoint').value)
@@ -2211,6 +2347,10 @@ function checkOnboardingHeaderStatus() {
 
     $('[name="chassisNumber"]').on('change paste', function () {
         checkChassisNumberValidity();
+    });
+
+    $('[name="engineNumber"]').on('change paste', function () {
+        checkEngineNumberValidity();
     });
 
     tmsApp.appFormValidator('form[name="engineDetailsForm"]',
@@ -2545,40 +2685,8 @@ function checkOnboardingHeaderStatus() {
     });
 
     $(document).on('change paste', '[name="whiteBookSerial"]', function () {
-        let ref = document.querySelector('#whiteBookSerial').value
-        fetch(document.querySelector('#documentValidationUrl').value +
-            '?method=motorVehicleCertificate&key=' + ref)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
 
-                return response.json();
-            })
-            .then(response => {
-                // Populate results
-                if (response.state === 'failure') {
-                    //show errors
-                    toastr.error('Connection error, chassis number could not be verified')
-                    return;
-                }
-
-                if (response['payload'].validity) {
-                    console.log(response['payload'].validity);
-                    //response.data.payload.message
-                    let assetNumberInput = document.querySelector("#assetNumber");
-                    if (assetNumberInput) {
-                        assetNumberInput.value = window.removeSpaces(document.querySelector('#registrationNumber').value);
-                    }
-                } else {
-                    toastr.error('Duplicate White book Serial Number', 'Invalid White book serial')
-                }
-            })
-            .catch(function (error) {
-                // notify of error
-                toastr.error(
-                    'Connection error. Could not retrieve data, some feature might not work.')
-            });
+        checkWhiteBookSerialValidity()
     });
 
     checkOnboardingHeaderStatus();
@@ -2622,11 +2730,13 @@ function checkOnboardingHeaderStatus() {
 
     getOrganizationalUnits();
 
-    getTyresBrands();
-
     getBodyTypes();
 
     getLocations();
+
+    getTyresBrands();
+
+    getBatteryTypes();
 
     getSuppliers();
 

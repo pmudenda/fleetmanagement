@@ -483,14 +483,12 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
-                                    <input type="text"
-                                           class="input-with-feedback form-control bold tyre-size view_mode"
-                                           maxlength="15"
+                                    <select type="text"
+                                           class="input-with-feedback form-select bold tyre-size view_mode"
                                            required
                                            id="frontTyreSize"
                                            name="frontTyreSize"
-                                           placeholder="e.g. 225/70/R17"
-                                           autocomplete="off">
+                                            autocomplete="off"></select>
                                 </div>
                             </div>
                         </div>
@@ -510,14 +508,12 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
-                                    <input type="text"
+                                    <select type="text"
                                            class="input-with-feedback form-control bold tyre-size view_mode"
-                                           maxlength="15"
-                                           placeholder="e.g. 225/70/R17"
                                            name="rearTyreSize"
                                            id="rearTyreSize"
                                            data-doctype="Work Order"
-                                           autocomplete="off">
+                                            autocomplete="off"></select>
                                 </div>
 
                             </div>
@@ -548,18 +544,15 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
-                                    <input type="text"
-                                           id="batteryBrand"
-                                           name="batteryBrand"
-                                           v-model="otherDetails.batteryBrand"
-                                           class="input-with-feedback form-control bold view_mode"
-                                           maxlength="140"
-                                           data-fieldtype="Link"
-                                           data-fieldname="company"
-                                           placeholder=""
-                                           data-doctype="OtherDetails"
-                                           autocomplete="off"/>
-
+                                    {{--v-model="otherDetails.batteryBrand"--}}
+                                    <select type="text"
+                                            id="batteryBrand"
+                                            name="batteryBrand"
+                                            class="input-with-feedback form-control bold view_mode"
+                                            data-fieldtype="Link"
+                                            data-fieldname="company"
+                                            data-doctype="OtherDetails"
+                                            autocomplete="off"></select>
                                 </div>
                             </div>
                         </div>
@@ -603,20 +596,22 @@
                     </label>
                 </td>
                 <td>
+                    {{--v-model="otherDetails.batteryPower"--}}
                     <div class="control-input-wrapper">
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
-                                    <input type="number"
-                                           class="input-with-feedback form-control bold number_input view_mode"
-                                           min="6"
-                                           maxlength="140" data-fieldtype="Link"
-                                           data-fieldname="company"
-                                           id="batteryPower"
-                                           name="batteryPower"
-                                           v-model="otherDetails.batteryPower"
-                                           placeholder=""
-                                           data-target="Company">
+                                    <select type="number"
+                                            class="form-select view_mode"
+                                            data-fieldtype="Link"
+                                            data-fieldname="company"
+                                            id="batteryPower"
+                                            name="batteryPower"
+                                            placeholder=""
+                                            data-target="Company">
+                                        <option value="12">12</option>
+                                        <option value="24">24</option>
+                                    </select>
                                     <div
                                         class="input-group-addon align-self-center pr-3 pl-3">
                                         V

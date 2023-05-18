@@ -29,6 +29,7 @@ use App\Services\FileUploads\FileUploadService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OnBoardingService
 {
@@ -156,6 +157,12 @@ class OnBoardingService
             'Motor Vehicle Certificate',
             $user
         );
+        try {
+            self::generateBarCode($request->input('headerId'));
+        }catch (\Exception $e){
+            Log::error($e);
+        }
+
 
         $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::generalData);
 
@@ -411,8 +418,6 @@ class OnBoardingService
         ];
 
         $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::assignment);
-
-        self::generateBarCode($request->input('headerId'));
 
         $model = Assignment::updateOrCreate(
             [

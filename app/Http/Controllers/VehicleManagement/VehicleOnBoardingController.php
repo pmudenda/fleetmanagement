@@ -130,8 +130,7 @@ class VehicleOnBoardingController extends Controller
                     'accessories',
                     'vehicleDocuments'
                 ));
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Log::error($e);
             $message = "Error on occurred while trying to start Onboarding View";
             return view("error")
@@ -351,6 +350,10 @@ class VehicleOnBoardingController extends Controller
             case 'chassis':
                 $valid = ChassisDetail::where('chassis_number', trim($request->get('key')))->count() == 0;
                 $message = $valid ? 'Chassis Number is valid' : 'Duplicate Chassis Number';;
+                break;
+            case 'engine_number':
+                $valid = ChassisDetail::where('engine_number', trim($request->get('key')))->count() == 0;
+                $message = $valid ? 'Engine Number valid' : 'Duplicate Engine Number';;
                 break;
             case 'motorVehicleCertificate':
                 $valid = ChassisDetail::where('white_book_serial', trim($request->get('key')))->count() == 0;
