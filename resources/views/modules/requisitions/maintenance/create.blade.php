@@ -137,8 +137,8 @@
                                                                    readonly
                                                                    value="{{ Carbon::now()->format('H:i:s') }}"
                                                                    class="form-control form-control-sm when_valid number_input"
-                                                                   id="job_card_no"
-                                                                   name="odometer_reading"
+                                                                   id="timeIn"
+                                                                   name="timeIn"
                                                             />
                                                         </div>
                                                     </div>
@@ -158,8 +158,8 @@
                                                             Repair Type:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select name="requisition_type"
-                                                                    id="requisition_type"
+                                                            <select name="repairType"
+                                                                    id="repairTypeDropdownList"
                                                                     class="form-select form-select-sm when_valid"
                                                                     required>
                                                                 <option value=""> --Select--</option>
@@ -204,7 +204,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div id="accidentRecordNo" class="row d-none">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
@@ -212,18 +212,13 @@
                                                         <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="staff_name">
-                                                            Acciccent Memo No:
+                                                            Accident No:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <select name="requisition_type" id="requisition_type"
-                                                                    disabled
                                                                     class="form-control form-select-sm when_valid"
                                                                     required>
                                                                 <option value=""> --Select--</option>
-                                                                @foreach ($requisitionTypes as $requisitionType)
-                                                                    <option
-                                                                        value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
-                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
@@ -239,7 +234,7 @@
                                                     <div class="form-group row">
                                                         <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">ODOMETER:</label>
+                                                            for="request_date">Odometer:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="request_date"name="request_date">
@@ -266,10 +261,6 @@
                                                                     class="form-control form-select-sm when_valid"
                                                                     required>
                                                                 <option value=""> --Select--</option>
-                                                                @foreach ($requisitionTypes as $requisitionType)
-                                                                    <option
-                                                                        value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
-                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
@@ -297,271 +288,16 @@
 
                                 </div>
                             </div>
-                            {{--<div class="container-fluid">
-                                <div id="materialDetailsContainer" class="table-responsive mt-3">
-                                    <table id="materialDetailsTable" class="table table-bordered">
-                                        <thead>
-                                        <tr class="bg-dark">
-                                            <th>Material Description</th>
-                                            <th class="project_view_item d-none">Project Number</th>
-                                            <th>Qty</th>
-                                            <th>Unit Of Measure</th>
-                                            <th>Price (ZMW)</th>
-                                            <th>Amount(ZMW)</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>
-                                            <span data-material-input="material_description"
-                                                  id="material_description"></span>
-                                                <input type="hidden" name="material_description">
-                                                <input type="hidden" name="material_article_code">
-                                            </td>
-                                            <td class="project_view_item d-none">
-                                                <input type="text" name="projectCode" readonly value="000000"
-                                                       class="form-control form-control-sm border-0"/>
-                                            </td>
-                                            <td>
-                                                <input type="number" name="material_quantity"
-                                                       max=""
-                                                       disabled
-                                                       id="material_quantity"
-                                                       class="form-control form-control-sm when_valid"/>
-                                            </td>
-                                            <td>
-                                                <span data-material-input="unit_of_measure" id="unit_of_measure"></span>
-                                                <input type="hidden" name="unit_of_measure">
-                                            </td>
-                                            <td>
-                                                <span data-material-input="material_price" id="material_price"></span>
-                                                <input type="hidden" name="material_price" value="12">
-                                            </td>
-                                            <td>
-                                                <span data-material-input="material_amount" id="material_amount"></span>
-                                                <input type="hidden" name="material_amount">
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                        <tfoot>
-                                        <tr>
-                                            <td class="project_view_item d-none"></td>
-                                            <td class="text-right"></td>
-                                            <td style="display: flex;justify-content: space-between;">
-                                                <strong>Total Quantity</strong>
-                                                <span class="text-bold text-right" id="totalQty"></span></td>
-                                            <td></td>
-                                            <td class="text-right"></td>
-                                            <td style="display: flex;justify-content: space-between;">
-                                                <strong>Total Amount</strong>
-                                                <span class="text-bold" id="totalAmount"></span>
-                                            </td>
-                                        </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>--}}
                         </div>
                     </div>
 
                     <h1>Accessories Checkin & Movement</h1>
                     <div>
-                        @php
-
-                        @endphp
                         <div class="container-fluid mt-5">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-9 col-md-8">
-                                    <div class="row">
-                                        <div class="col">
-                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <th class="pl-2">Item</th>
-                                                    <th>Present</th>
-                                                    <th class="pr-2">Not Present</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td class="pl-2" style="width: 75%;">Spare Tyre</td>
-                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
-                                                    <td><input type="radio" value="no" name="spareTyre"></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="col">
-                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <th class="pl-2">Item</th>
-                                                    <th>Present</th>
-                                                    <th class="pr-2">Not Present</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td class="pl-2" style="width: 75%;">Jack</td>
-                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
-                                                    <td><input type="radio" value="no" name="spareTyre"></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <th class="pl-2">Item</th>
-                                                    <th>Present</th>
-                                                    <th class="pr-2">Not Present</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td class="pl-2" style="width: 75%;">Wheel Spanner</td>
-                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
-                                                    <td><input type="radio" value="no" name="spareTyre"></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="col">
-                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <th class="pl-2">Item</th>
-                                                    <th>Present</th>
-                                                    <th class="pr-2">Not Present</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td class="pl-2" style="width: 75%;">Tool Kit</td>
-                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
-                                                    <td><input type="radio" value="no" name="spareTyre"></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <th class="pl-2">Item</th>
-                                                    <th>Present</th>
-                                                    <th class="pr-2">Not Present</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td class="pl-2" style="width: 75%;">Radio</td>
-                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
-                                                    <td><input type="radio" value="no" name="spareTyre"></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="col">
-                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <th class="pl-2">Item</th>
-                                                    <th>Present</th>
-                                                    <th class="pr-2">Not Present</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td class="pl-2" style="width: 75%;">OWNER BOOK MANUAL</td>
-                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
-                                                    <td><input type="radio" value="no" name="spareTyre"></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <th class="pl-2">Item</th>
-                                                    <th>Present</th>
-                                                    <th class="pr-2">Not Present</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td class="pl-2" style="width: 75%;">FIRE EXTINGUISHER</td>
-                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
-                                                    <td><input type="radio" value="no" name="spareTyre"></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="col">
-                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <th class="pl-2">Item</th>
-                                                    <th>Present</th>
-                                                    <th class="pr-2">Not Present</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td class="pl-2" style="width: 75%;">FIRST AID BOX</td>
-                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
-                                                    <td><input type="radio" value="no" name="spareTyre"></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <th class="pl-2">Item</th>
-                                                    <th>Present</th>
-                                                    <th class="pr-2">Not Present</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td class="pl-2" style="width: 75%;">AERIAL VHF</td>
-                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
-                                                    <td><input type="radio" value="no" name="spareTyre"></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="col">
-                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <th class="pl-2">Item</th>
-                                                    <th>Present</th>
-                                                    <th class="pr-2">Not Present</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td class="pl-2" style="width: 75%;">UHF AERIAL</td>
-                                                    <td><input type="radio" value="yes" name="spareTyre"></td>
-                                                    <td><input type="radio" value="no" name="spareTyre"></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+
+
                                 </div>
                             </div>
                         </div>
@@ -841,19 +577,18 @@
                     });
             }
 
-
             function removeSubmissionAndDetailsOptions() {
                 let elements = document.querySelectorAll('.when_valid');
                 elements.forEach(function (element) {
                     element.setAttribute('disabled', 'disabled');
                 });
 
-                document.querySelector('#vehicleDetailsContainer').style.display = 'none';
+                //document.querySelector('#vehicleDetailsContainer').style.display = 'none';
                 //document.querySelector('#materialDetailsContainer').style.display = 'none';
                 document.querySelector('#image_view').style.display = 'none';
 
                 $('tbody#vehicleDetails').html('');
-                document.querySelector('[name="fuel_allocation"]').value = '';
+                //document.querySelector('[name="fuel_allocation"]').value = '';
 
                 $("#material_description").text(tmsApp.formatMoney('0', 2));
                 $('input[name="material_description"]').val(tmsApp.formatMoney('0', 2));
@@ -1039,7 +774,7 @@
                 "mask": "AAA 9999"
             }).mask("#vehicle_registration");
 
-            tmsApp.appFormValidator('form[name="fuelRequisitionForm"]',
+           /* tmsApp.appFormValidator('form[name="fuelRequisitionForm"]',
                 {
                     'requisition_type': {
                         required: true,
@@ -1093,7 +828,7 @@
                         required: 'You must declare the odometer reading'
                     }
                 }
-            );
+            );*/
 
             $('#submitRequisitionBtn').on('click', function () {
                 let $form = document.forms['fuelRequisitionForm'];
@@ -1168,9 +903,15 @@
                 );
             })
 
-            $('#resetRequisitionBtn').on('click', function () {
-                document.forms['fuelRequisitionForm'].reset();
-                removeSubmissionAndDetailsOptions();
+            $('#repairTypeDropdownList').on('change', function () {
+                //document.forms['fuelRequisitionForm'].reset();
+                //removeSubmissionAndDetailsOptions();
+                if(this.value === '001'){
+                    document.querySelector("#accidentRecordNo").classList.remove('d-none');
+                }else{
+                    document.querySelector("#accidentRecordNo").classList.add('d-none');
+                }
+
             });
 
             $('select[name="requisition_type"]').on('change', function () {
