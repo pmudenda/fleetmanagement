@@ -20,7 +20,7 @@
             </button>
         </div>
         <div class="card-toolbar justify-content-end" v-if="vehicleHeader.isHeaderSaved">
-            <button type="button" id="printDisk" data-bs-target="#vehicleDisk" data-bs-toggle="modal" class="btn btn-default btn-sm mr-3">
+            <button type="button" data-bs-target="#vehicleDisk" data-bs-toggle="modal" class="btn btn-default btn-sm mr-3">
                 <i class="fas fa-print"></i> Print Disk
             </button>
         </div>
