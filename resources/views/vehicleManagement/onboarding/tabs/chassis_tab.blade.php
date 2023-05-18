@@ -19,6 +19,7 @@
                         </label>
                     </td>
                     <td>
+                        {{--@change="checkChassisNumberValidity" v-model="chassisDetails.chassisNumber"--}}
                         <div class="control-input-wrapper">
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
@@ -27,17 +28,14 @@
                                                required
                                                id="chassisNumber"
                                                name="chassisNumber"
-                                               v-model="chassisDetails.chassisNumber"
                                                class="input-with-feedback form-control bold view_mode"
                                                maxlength="140"
-                                               @change="checkChassisNumberValidity"
                                                data-fieldtype="Link"
                                                data-fieldname="company"
                                                placeholder=""
                                                data-doctype="ChassisDetails"
                                                data-target="Company"
                                                autocomplete="off" role="combobox"/>
-
                                     </div>
                                 </div>
                             </div>
@@ -55,13 +53,14 @@
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="">
+                                        {{--v-model="chassisDetails.engineNumber"--}}
                                         <input type="text"
                                                required
                                                class="input-with-feedback form-control view_mode"
                                                maxlength="140" data-fieldtype="Link"
                                                data-fieldname="company" id="engineNumber"
                                                name="engineNumber"
-                                               v-model="chassisDetails.engineNumber" placeholder=""
+                                               placeholder=""
                                                data-doctype="ChassisDetails"
                                                autocomplete="off"/>
                                     </div>
@@ -85,6 +84,7 @@
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="">
+                                        {{--v-model="chassisDetails.whiteBookSerial"--}}
                                         <input type="text"
                                                class="input-with-feedback form-control view_mode"
                                                maxlength="50"
@@ -92,7 +92,6 @@
                                                data-fieldname="company"
                                                id="whiteBookSerial"
                                                name="whiteBookSerial"
-                                               v-model="chassisDetails.whiteBookSerial"
                                                placeholder=""
                                                autocomplete="off">
                                     </div>

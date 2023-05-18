@@ -84,8 +84,12 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     //$("#user_unit").change();
     Vue.set(app['chassisDetails'], 'chassisNumber', data['chassis_number']);
+    $('input[name="chassisNumber"]').val(data['chassis_number']);
     Vue.set(app['chassisDetails'], 'engineNumber', data['engine_number']);
+    $('input[name="engineNumber"]').val(data['engine_number']);
     Vue.set(app['chassisDetails'], 'whiteBookSerial', data['white_book_serial']);
+    $('input[name="whiteBookSerial"]').val(data['white_book_serial']);
+
     Vue.set(app['chassisDetails'], 'stickerRegistrationNumber', data['sticker_registration_number']);
     Vue.set(app['chassisDetails'], 'yearOfManufacture', data['year_of_manufacture']);
     Vue.set(app['chassisDetails'], 'registrationDate', data['registration_date']);
@@ -202,13 +206,13 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     }
 }
 
-function formatBookValueAsMoney (el) {
+function formatBookValueAsMoney(el) {
     setTimeout(function () {
         document.querySelector('[name="bookValue"]').value = accounting.formatMoney(el.value, '');
     }, 300);
 }
 
-function formatCostPriceAsMoney  (el) {
+function formatCostPriceAsMoney(el) {
     setTimeout(function () {
         document.querySelector('[name="costPrice"]').value = accounting.formatMoney(el.value, '');
         //app['costingAndValuation'].costPrice = formatted;
@@ -1117,13 +1121,14 @@ function checkOnboardingHeaderStatus() {
 (function (tmsApp, $) {
 
     // web UI event
-    function formatMoney  (event) {
+    function formatMoney(event) {
         setTimeout(function () {
             //ZMW
             let formatted = accounting.formatMoney(event.target.value, '');
             //app['chassisDetails'].chargeOutRate = formatted;
         }, 300);
     }
+
     function nativeUserUnitChanged(user_unit) {
 
         //Vue.set(app['vehicleHeader'], 'user_unit_code', user_unit);
@@ -1805,7 +1810,7 @@ function checkOnboardingHeaderStatus() {
 
     }
 
-    function getCostCenters () {
+    function getCostCenters() {
         fetch(document.querySelector('#costCenterEndpoint').value)
             .then(response => response.json())
             .then(function (response) {
@@ -1835,7 +1840,7 @@ function checkOnboardingHeaderStatus() {
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
-                    toastr.error('Connection error, chassis number could not be verified')
+                    toastr.error('Vehicle registration number could not be verified', 'Connection error')
                     return;
                 }
 
@@ -1928,8 +1933,37 @@ function checkOnboardingHeaderStatus() {
             });
     },*/
 
-    function getTyresBrands(){
+    function getTyresBrands() {
 
+    }
+
+    function checkChassisNumberValidity() {
+        let chassisNumber = document.querySelector('[name="chassisNumber"]').value;
+        fetch(document.querySelector('#documentValidationUrl').value
+            + '?method=chassis&key=' + chassisNumber)
+            .then(response => response.json())
+            .then(response => {
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Vehicle Identification number verification failed', 'Connection error');
+                    tmsApp.systemError(
+                        'Chassis Number Validation',
+                        'Duplicate Chassis number, vehicle already with chassis number ' +
+                        chassisNumber + ' already exists'
+                    );
+                    document.querySelector("#submitBtn").setAttribute('disabled', 'disabled')
+                    return;
+                }else {
+                    document.querySelector("#submitBtn").removeAttribute('disabled');
+                    toastr.success('Chassis number valid', 'Chassis Number Validation');
+                }
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Could not retrieve data, some feature might not work.', 'Connection error')
+            });
     }
 
     function getBodyTypes() {
@@ -2172,6 +2206,11 @@ function checkOnboardingHeaderStatus() {
 
     $('[name="supplierName"]').on('change', function (e) {
         document.querySelector("#purchase_order_number").value = '';
+    });
+
+
+    $('[name="chassisNumber"]').on('change paste', function () {
+        checkChassisNumberValidity();
     });
 
     tmsApp.appFormValidator('form[name="engineDetailsForm"]',
@@ -2505,7 +2544,7 @@ function checkOnboardingHeaderStatus() {
         vehicleWeightValidations(this)
     });
 
-    $(document).on('change', '[name="whiteBookSerial"]', function () {
+    $(document).on('change paste', '[name="whiteBookSerial"]', function () {
         let ref = document.querySelector('#whiteBookSerial').value
         fetch(document.querySelector('#documentValidationUrl').value +
             '?method=motorVehicleCertificate&key=' + ref)
@@ -2552,7 +2591,6 @@ function checkOnboardingHeaderStatus() {
                 document.querySelector('#model_holder').style.display = 'none';
                 let $locationHolder = document.querySelector('#locationHolder');
                 $locationHolder.style.display = 'none';
-
                 //$('#vehicleLocation').val($locationHolder.value);
                 //$('#model_holder').addClass('d-none');
                 //$('#model').removeClass('d-none');
