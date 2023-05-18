@@ -29,7 +29,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['vehicleHeader'], 'registration_type', data['registration_type']);
     Vue.set(app['vehicleHeader'], 'brand_guid', data['brand_guid']);
 
-
     if (data['model_guid']) {
         $('select[name="model"]').val(data['model_guid']);
         $('select[name="model"]').attr('data-value', data['model_guid']);
@@ -215,6 +214,11 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         Vue.set(app['images'], 'rightView', window.filterData("Right View", 'file_type', documents));
         Vue.set(app['images'], 'rearView', window.filterData("Back View", 'file_type', documents));
         Vue.set(app['images'], 'frontView', window.filterData("Front View", 'file_type', documents));
+    }
+
+    if (data['barcode']) {
+        $('#barcode').attr('src', '/storage/' + data['barcode']);
+        $('#barcodeContainer').removeClass('d-none');
     }
 }
 
@@ -1965,12 +1969,12 @@ function checkOnboardingHeaderStatus() {
 
                 tmsApp.populateDropDownList(rearTyreSizeElem, tyreSizes, "description", ["description"], "");
 
-              /*  let location = selectElem.attr('data-value');
-                console.log(location);
-                if (location) {
-                    frontTyreElem.val(location);
-                    frontTyreElem.trigger('change');
-                }*/
+                /*  let location = selectElem.attr('data-value');
+                  console.log(location);
+                  if (location) {
+                      frontTyreElem.val(location);
+                      frontTyreElem.trigger('change');
+                  }*/
             })
             .catch(function (error) {
                 // notify of error
@@ -2685,11 +2689,17 @@ function checkOnboardingHeaderStatus() {
     });
 
     $(document).on('change paste', '[name="whiteBookSerial"]', function () {
-
         checkWhiteBookSerialValidity()
     });
 
     checkOnboardingHeaderStatus();
+
+    $(document).on('click', 'button[data-zfm-view-file]', function () {
+        console.log(this);
+        $("#documentView").attr('src', $(this).attr('data-document-url'));
+        let fileViewModal = bootstrap.Modal.getOrCreateInstance(document.querySelector('#fileViewModal'))
+        fileViewModal.show();
+    })
 
     $(document).on('click', '.card-toolbar .btn', function () {
         console.log(this.id);
@@ -2717,6 +2727,9 @@ function checkOnboardingHeaderStatus() {
                 break;
             case "resetFormBtn":
                 document.forms['tms_vehicle_header_form'].reset();
+                break;
+            case "printDisk":
+
                 break;
             default:
                 break;

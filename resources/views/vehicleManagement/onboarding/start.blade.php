@@ -169,6 +169,47 @@
         </div>
     </section>
     <x-employee-search-modal/>
+
+
+    <div class="modal fade" id="vehicleDisk"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Vehicle Disk</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="diskArea">
+                    <img src="{{asset('assets/dist/img/disk.jpeg')}}" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="print" class="btn btn-danger">Print</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="fileViewModal"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Vehicle Disk</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="documentView" style="border: none;" width="30%" />
+                </div>
+                {{--<div class="modal-footer">
+                    <button type="button" class="btn btn-danger">Okay</button>
+                </div>--}}
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')

@@ -11,12 +11,17 @@
             </span>
         </div>
 
-        <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
+        <div v-if="!vehicleHeader.isHeaderSaved" id="actionButtonsContainer" class="card-toolbar justify-content-end">
             <button type="button" id="submitBtn" disabled class="btn btn-success btn-sm mr-3">
                 <i class="fas fa-paper-plane"></i> Submit
             </button>
             <button type="button" id="resetFormBtn" class="btn btn-danger btn-sm mr-3">
                 <i class="fas fa-undo"></i> Cancel
+            </button>
+        </div>
+        <div class="card-toolbar justify-content-end" v-if="vehicleHeader.isHeaderSaved">
+            <button type="button" id="printDisk" data-bs-target="#vehicleDisk" data-bs-toggle="modal" class="btn btn-default btn-sm mr-3">
+                <i class="fas fa-print"></i> Print Disk
             </button>
         </div>
     </div>
@@ -213,7 +218,7 @@
                             </label>
                             <div class="col-md-9 fv-row">
                                 <div class="col-md-9">
-                                    <img id="barcode" src="">
+                                    <img id="barcode" alt="vehicle barcode" src="">
                                 </div>
                             </div>
                         </div>
