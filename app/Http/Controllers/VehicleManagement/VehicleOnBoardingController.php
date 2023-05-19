@@ -100,7 +100,7 @@ class VehicleOnBoardingController extends Controller
             $step = 7;
         }
 
-        return redirect(route('new.vehicle', ['step' => $step, 'reference' => $reference]));
+        return redirect(URL::signedRoute('new.vehicle', ['step' => $step, 'reference' => $reference]));
     }
 
 
