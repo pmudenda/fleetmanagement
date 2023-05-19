@@ -209,7 +209,7 @@
                                     Users List
                                 </p>
                             </a>
-                        </li>        
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('users.driverList') }}">
                                 <i class="fas fa-users nav-icon"></i>
@@ -369,13 +369,10 @@
                         <li class="nav-item">
                             <a class="nav-link"
                                href="{{ route('charge.out.rate') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot">
-                                        </span>
-                                    </span>
-                                <span class="menu-title">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
                                       Charge Out Rates
-                                </span>
+                                </p>
                             </a>
                         </li>
 
@@ -503,7 +500,7 @@
                                     </a>
                                 </li>
 
-                    
+
                             </ul>
                         </li>
 

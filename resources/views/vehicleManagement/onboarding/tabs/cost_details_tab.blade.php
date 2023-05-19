@@ -288,6 +288,7 @@
                 <div class="col-md-7 fv-row pl-0">
                     <div class="col-md-9 pl-0">
                         <input type="file"
+                               required
                                accept="image/*,.pdf"
                                class="filer_input"
                                name="purchaseOrderDocument"/>

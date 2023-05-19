@@ -2,6 +2,7 @@
 
 use App\Helpers\ParameterEncryption;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
+use App\Http\Controllers\configurations\ChargeOutRateController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
@@ -115,9 +116,8 @@ Route::group(['middleware' => 'auth'], function () {
             return view('configurations.vehicle.types');
         })->name('vehicle.body.types');
 
-        Route::get('vehicle/charge-outrate', function () {
-            return view('configurations.chargeoutrate');
-        })->name('charge.out.rate');
+        Route::get('vehicle/charge-outrate',[ChargeOutRateController::class, 'index'])->name('charge.out.rate');
+        Route::post('save/charge-outrate',[ChargeOutRateController::class, 'store'])->name('save.charge.out.rate');
     });
 
     Route::group(['prefix' => 'requisitions'], function () {
