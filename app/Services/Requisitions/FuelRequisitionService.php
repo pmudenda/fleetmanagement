@@ -83,7 +83,7 @@ class FuelRequisitionService
 
         Log::info($registrationNumber);
         // pick last requisition
-        $previousRequisition = MaterialHeader::where('reg_no', $registrationNumber)
+        $previousRequisition = MaterialHeader::where('veh_reg_no', $registrationNumber)
             ->whereIn('status', [
                 StatusHelper::new(),
                 StatusHelper::approved(),
