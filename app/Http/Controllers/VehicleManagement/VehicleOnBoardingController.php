@@ -96,8 +96,10 @@ class VehicleOnBoardingController extends Controller
             $step = 5;
         } elseif ($vehicle->on_boarding_status == StatusHelper::PendingAssignment()) {
             $step = 6;
-        }else{
+        }else if($vehicle->on_boarding_status = '030'){
             $step = 7;
+        }else{
+            $step = 1;
         }
 
         return redirect(URL::signedRoute('new.vehicle', ['step' => $step, 'reference' => $reference]));

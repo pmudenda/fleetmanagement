@@ -231,13 +231,12 @@
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="input-group bg-gray-300">
-
+                                        {{--v-model="chassisDetails."--}}
                                         <input type="text"
                                                name="chargeOutRate"
                                                id="chargeOutRate"
                                                class="input-with-feedback form-control view_mode"
                                                required
-                                               v-model="chassisDetails.chargeOutRate"
                                                placeholder=""
                                                v-on:change="formatMoney($event)"
                                                data-doctype="ChassisDetails"
@@ -462,7 +461,7 @@
         </div>
     </div>
 
-    <div class="card card-default">
+    <div class="card card-default" v-if="!documents.insurance && !documents.certificate">
         <div class="card-header pl-0">
             <h3 class="card-title pl-0">Vehicle Document<small class="pl-3 link-info"><strong> Only .pdf, jpg,jpeg,png,bmp allowed</strong> </small></h3>
         </div>

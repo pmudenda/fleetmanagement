@@ -107,13 +107,16 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
 
     Vue.set(app['chassisDetails'], 'chargeOutRate', data['vehicle_charge_out_rate']);
+
+    $('input[name="chargeOutRate"]').val(data['vehicle_charge_out_rate']);
+    $('input[name="chargeOutRate"]').trigger('change');
+
     Vue.set(app['chassisDetails'], 'requiredMinimumDrivingLicense', data['min_req_driving_license']);
     Vue.set(app['chassisDetails'], 'initialOdometerReading', data['initial_odometer_reading']);
     Vue.set(app['chassisDetails'], 'currentOdometerReading', data['current_odometer_reading']);
     Vue.set(app['chassisDetails'], 'odometerReadingLastService', data['lst_service_odometer_reading']);
     Vue.set(app['chassisDetails'], 'nextServiceOdometerReading', data['nxt_service_odometer-reading']);
     Vue.set(app['chassisDetails'], 'inspectionDate', data['inspection_date']);
-
 
     Vue.set(app['engineDetails'], 'numberOfCylinders', data['number_of_cylinders']);
     Vue.set(app['engineDetails'], 'engineCapacity', data['engine_capacity']);
@@ -1156,7 +1159,8 @@ function userUnitChanged() {
 }
 
 function checkOnboardingHeaderStatus() {
-    const headerId = document.querySelector('[name="headerId"]').value;
+    const headerId = $('[name="headerId"]').val();
+    if(!headerId) return;
 
     if (headerId && parseInt(headerId) > 0) {
         // hide submit and cancel button
@@ -1735,7 +1739,7 @@ function checkOnboardingHeaderStatus() {
     }
 
     function getVehicleBrands() {
-        fetch(document.querySelector('#brands-api').value)
+        fetch($('#brands-api').val())
             .then(response => response.json())
             .then(response => {
                 let selectElem = $('select[name="brand"]');
@@ -1858,7 +1862,13 @@ function checkOnboardingHeaderStatus() {
     }
 
     function getCostCenters() {
-        fetch(document.querySelector('#costCenterEndpoint').value)
+        const $urlCtrl = document.querySelector('#costCenterEndpoint');
+        if (!$urlCtrl) return;
+        let url = $urlCtrl.value
+
+        if (!url) return;
+
+        fetch(url)
             .then(response => response.json())
             .then(function (response) {
                 // Populate results
@@ -1916,7 +1926,7 @@ function checkOnboardingHeaderStatus() {
     }
 
     function getLocations() {
-        fetch(document.querySelector('#locationUrl').value)
+        fetch($('#locationUrl').val())
             .then(response => response.json())
             .then(response => {
                 let selectElem = $('select[name="vehicleLocation"]');
@@ -1945,7 +1955,8 @@ function checkOnboardingHeaderStatus() {
     }
 
     function getConfiguredModels() {
-        fetch(document.querySelector('#modelEndpoint').value)
+        let url =$('#modelEndpoint').val();
+        fetch(url)
             .then(response => response.json())
             .then(response => {
                 // Populate results
