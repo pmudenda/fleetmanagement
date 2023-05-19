@@ -207,21 +207,27 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
 
     $('select[name="supplierName"]').val(data['supplierName']);
-    //$('select[name="supplierName"]')
+    $('select[name="supplierName"]').trigger('change');
 
 
-    $('input[name="costPrice"]').val(data['costPrice']);
-    $('input[name="costPrice"]').trigger('change');
+    //$('input[name="costPrice"]').val(data['costPrice']);
+    //$('input[name="costPrice"]').trigger('change');
     Vue.set(app['costingAndValuation'], 'costPrice', data['costPrice']);
 
 
+    let price = data['costPrice'];
+    let costPriceInput = document.querySelector('[name="costPrice"]');
+    costPriceInput.value = tmsApp.formatMoney(price, 2);
+    costPriceInput.setAttribute('readonly', 'readonly');
+
+
     $('input[name="yearOfPurchase"]').val(data['yearOfPurchase']);
-    $('input[name="yearOfPurchase"]').trigger('change');
+    //$('input[name="yearOfPurchase"]').trigger('change');
     //Vue.set(app['costingAndValuation'], 'yearOfPurchase', data['yearOfPurchase']);
 
 
     $('input[name="bookValue"]').val(data['bookValue']);
-    $('input[name="bookValue"]').trigger('change');
+    //$('input[name="bookValue"]').trigger('change');
     //Vue.set(app['costingAndValuation'], 'bookValue', data['bookValue']);
 
 

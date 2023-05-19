@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('VM_COST_AND_VALUATIONS', function (Blueprint $table) {
-            $table->string('purchase_order_no','100');
+            $table->string('purchase_order_no','100')->nullable();
         });
     }
 

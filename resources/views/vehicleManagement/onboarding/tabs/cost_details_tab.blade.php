@@ -127,15 +127,14 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
+                                {{--v-model="costingAndValuation.costPrice"onchange="formatCostPriceAsMoney(this)"--}}
                                 <input type="text"
                                        class="input-with-feedback form-control bold view_mode"
                                        maxlength="15"
                                        data-a-sign="ZMW "
                                        id="costPrice"
                                        name="costPrice"
-                                       v-model="costingAndValuation.costPrice"
                                        placeholder=""
-                                       onchange="formatCostPriceAsMoney(this)"
                                        autocomplete="off">
                             </div>
                         </div>
@@ -185,13 +184,13 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
                                {{-- v-model="costingAndValuation.bookValue"--}}
+                                {{--onchange="formatBookValueAsMoney(this)"--}}
                                 <input type="text"
                                        class="input-with-feedback form-control bold view_mode"
                                        id="bookValue"
                                        data-a-sign="ZMW "
                                        name="bookValue"
                                        placeholder=""
-                                       onchange="formatBookValueAsMoney(this)"
                                        data-doctype="CostingDetails"
                                        autocomplete="off"/>
                             </div>
@@ -300,6 +299,25 @@
         </tr>
         </tbody>
     </table>
+    {{--<table class="table align-middle table-row-dashed dataTable no-footer">
+        <thead>
+        <tr class="bg-dark">
+            <th>Document Type</th>
+            <th>File Name</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tr>
+            <td>Insurance Cover Note</td>
+            <td>@{{ documents.insurance?.originalDocumentName }}</td>
+            <td>
+                <button data-zfm-view-file="insurance"
+                        type="button" :data-document-url="'/storage'+documents.insurance?.path"
+                        class="btn btn-sm btn-success">View File
+                </button>
+            </td>
+        </tr>
+    </table>--}}
     <div class="create_mode">
         <button type="submit" id="tms_save_costing"
                 class="btn btn-success btn-sm">
