@@ -121,11 +121,13 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     const $frontTyreSizeCtrl = document.querySelector('[name="frontTyreSize"]');
     if ($frontTyreSizeCtrl) {
         $frontTyreSizeCtrl.value = data['front_tyre_size'];
+        $frontTyreSizeCtrl.setAttribute('data-value',  data['front_tyre_size']);
     }
     //Vue.set(app['otherDetails'], 'frontTyreSize', );
     const $rearTyreSizeCtrl = document.querySelector('[name="rearTyreSize"]');
     if ($rearTyreSizeCtrl) {
         $rearTyreSizeCtrl.value = data['rear_tyre_size'];
+        $rearTyreSizeCtrl.setAttribute('data-value',  data['rear_tyre_size']);
     }
     //Vue.set(app['otherDetails'], 'rearTyreSize', data['']);
 
@@ -1981,16 +1983,24 @@ function checkOnboardingHeaderStatus() {
                 }
 
                 let tyreSizes = response['payload'];
+
                 tmsApp.populateDropDownList(frontTyreElem, tyreSizes, "description", ["description"], "");
 
                 tmsApp.populateDropDownList(rearTyreSizeElem, tyreSizes, "description", ["description"], "");
 
-                /*  let location = selectElem.attr('data-value');
-                  console.log(location);
-                  if (location) {
-                      frontTyreElem.val(location);
+                  let frontSize = frontTyreElem.attr('data-value');
+                  console.log(frontSize);
+                  if (frontSize) {
+                      frontTyreElem.val(frontSize);
                       frontTyreElem.trigger('change');
-                  }*/
+                  }
+
+                let rearTyreSize = rearTyreSizeElem.attr('data-value');
+                console.log(rearTyreSize);
+                if (rearTyreSize) {
+                    rearTyreSizeElem.val(frontSize);
+                    rearTyreSizeElem.trigger('change');
+                }
             })
             .catch(function (error) {
                 // notify of error
@@ -1998,7 +2008,7 @@ function checkOnboardingHeaderStatus() {
             });
     }
 
-    function getBatteryTypes() {
+    function getBatterySizes() {
         fetch(document.querySelector('#batteryUrl').value)
             .then(response => response.json())
             .then(response => {
@@ -2774,7 +2784,7 @@ function checkOnboardingHeaderStatus() {
 
     getTyresBrands();
 
-    getBatteryTypes();
+    getBatterySizes();
 
     getSuppliers();
 

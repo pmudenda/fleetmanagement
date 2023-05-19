@@ -572,8 +572,8 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
                                     {{--v-model="otherDetails.batterySize"--}}
-                                    <select type="text"
-                                            class="form-select input-with-feedback form-control  bold view_mode"
+                                    <select
+                                            class="form-select input-with-feedback form-control  view_mode"
                                             data-fieldtype="Link"
                                             data-fieldname="company"
                                             id="batterySize"
