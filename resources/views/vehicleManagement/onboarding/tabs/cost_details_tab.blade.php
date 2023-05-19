@@ -309,10 +309,10 @@
         </thead>
         <tr>
             <td>Insurance Cover Note</td>
-            <td>@{{ documents.insurance?.originalDocumentName }}</td>
+            <td>@{{ documents.purchase_order?.originalDocumentName }}</td>
             <td>
                 <button data-zfm-view-file="insurance"
-                        type="button" :data-document-url="'/storage'+documents.insurance?.path"
+                        type="button" :data-document-url="'/storage'+documents.purchase_order?.path"
                         class="btn btn-sm btn-success">View File
                 </button>
             </td>

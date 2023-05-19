@@ -203,36 +203,39 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         $('select[name="rearTyreSize"]').trigger('change');
     }, 600);
 
-    Vue.set(app['costingAndValuation'], 'supplierName', data['supplierName']);
+    Vue.set(app['costingAndValuation'], 'supplierName', data['suppliername']);
 
 
-    $('select[name="supplierName"]').val(data['supplierName']);
+    $('select[name="supplierName"]').val(data['suppliername']);
     $('select[name="supplierName"]').trigger('change');
 
 
     //$('input[name="costPrice"]').val(data['costPrice']);
     //$('input[name="costPrice"]').trigger('change');
-    Vue.set(app['costingAndValuation'], 'costPrice', data['costPrice']);
+    Vue.set(app['costingAndValuation'], 'costPrice', data['costprice']);
 
 
-    let price = data['costPrice'];
+    let price = data['costprice'];
     let costPriceInput = document.querySelector('[name="costPrice"]');
     costPriceInput.value = accounting.formatMoney(price, 2);
     costPriceInput.setAttribute('readonly', 'readonly');
 
 
-    $('input[name="yearOfPurchase"]').val(data['yearOfPurchase']);
-    //$('input[name="yearOfPurchase"]').trigger('change');
-    //Vue.set(app['costingAndValuation'], 'yearOfPurchase', data['yearOfPurchase']);
+    setTimeout(function () {
 
+        $('input[name="yearOfPurchase"]').val(data['yearofpurchase']);
+        //$('input[name="yearOfPurchase"]').trigger('change');
+        //Vue.set(app['costingAndValuation'], 'yearOfPurchase', data['yearOfPurchase']);
 
-    $('input[name="bookValue"]').val(data['bookValue']);
-    //$('input[name="bookValue"]').trigger('change');
-    //Vue.set(app['costingAndValuation'], 'bookValue', data['bookValue']);
+        $('input[name="bookValue"]').val(data['bookvalue']);
+        $('input[name="isOperationsVehicle"]').val(data['ispoolvehicle']);
+        //$('input[name="bookValue"]').trigger('change');
+        //Vue.set(app['costingAndValuation'], 'bookValue', data['bookValue']);
 
+    }, 600);
 
     Vue.set(app['costingAndValuation'], 'assetNumber', data['assetNumber']);
-
+    //
     let assetNumberInput = document.querySelector("#assetNumber");
     if (!data['assetNumber'] && assetNumberInput) {
         const assetNumber = window.removeSpaces(data['registration_number']);
@@ -242,10 +245,10 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         $('input[name="assetNumber"]').val(assetNumber);
         $('input[name="assetNumber"]').trigger('change');
     }
-    Vue.set(app['costingAndValuation'], 'costOfLicense', data['costOfLicense']);
+    Vue.set(app['costingAndValuation'], 'costOfLicense', data['costoflicense']);
     Vue.set(app['costingAndValuation'], 'premium', data['premium']);
 
-    $('input[name="costOfLicense"]').val(data['costOfLicense']);
+    $('input[name="costOfLicense"]').val(data['costoflicense']);
     $('input[name="costOfLicense"]').trigger('change');
 
     $('input[name="premium"]').val(data['premium']);
@@ -255,21 +258,21 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['bodyDetails'], 'height', data['height']);
     Vue.set(app['bodyDetails'], 'length', data['length']);
     Vue.set(app['bodyDetails'], 'width', data['width']);
-    Vue.set(app['bodyDetails'], 'seatCapFront', data['seatCapFront']);
+    Vue.set(app['bodyDetails'], 'seatCapFront', data['numberofseats']);
 
-    Vue.set(app['bodyDetails'], 'distanceAxle1', data['distanceAxle1']);
-    Vue.set(app['bodyDetails'], 'distanceAxle2', data['distanceAxle2']);
-    Vue.set(app['bodyDetails'], 'distanceAxle3', data['distanceAxle3']);
-    Vue.set(app['bodyDetails'], 'distanceAxle4', data['distanceAxle4']);
+    Vue.set(app['bodyDetails'], 'distanceAxle1', data['distanceaxle1']);
+    Vue.set(app['bodyDetails'], 'distanceAxle2', data['distanceaxle2']);
+    Vue.set(app['bodyDetails'], 'distanceAxle3', data['distanceaxle3']);
+    Vue.set(app['bodyDetails'], 'distanceAxle4', data['distanceaxle4']);
 
-    Vue.set(app['weightDetails'], 'tareWeight', data['tareWeight']);
-    Vue.set(app['weightDetails'], 'grossWeight', data['grossWeight']);
+    Vue.set(app['weightDetails'], 'tareWeight', data['tareweight']);
+    Vue.set(app['weightDetails'], 'grossWeight', data['grossweight']);
 
 
     Vue.set(app['assignmentDetails'], 'businessArea', data['business_area_code']);
     Vue.set(app['assignmentDetails'], 'directorate', data['directorate']);
     //Vue.set(app['assignmentDetails'], 'businessUnit', data['directorate']);
-    Vue.set(app['assignmentDetails'], 'isOperationsVehicle', data['isPoolVehicle']);
+    Vue.set(app['assignmentDetails'], 'isOperationsVehicle', data['ispoolvehicle']);
 
     if (asyncResponse['payload'].hasOwnProperty('documents')) {
         let documents = asyncResponse['payload']['documents'];
@@ -280,6 +283,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         Vue.set(app['images'], 'rightView', window.filterData("Right View", 'file_type', documents));
         Vue.set(app['images'], 'rearView', window.filterData("Back View", 'file_type', documents));
         Vue.set(app['images'], 'frontView', window.filterData("Front View", 'file_type', documents));
+        Vue.set(app['documents'], 'purchase_order', window.filterData("Purchase Order", 'file_type', documents));
     }
 
     if (data['barcode']) {
