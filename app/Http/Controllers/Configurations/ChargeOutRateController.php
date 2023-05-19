@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\configurations;
+namespace App\Http\Controllers\Configurations;
 
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
