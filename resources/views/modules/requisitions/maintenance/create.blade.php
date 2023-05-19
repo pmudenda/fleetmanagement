@@ -653,10 +653,10 @@
             initializeFormWizard();
 
             function getWorkshops() {
-                fetch(document.querySelector('#locationUrl').value)
+                fetch(document.querySelector('#workshopsUrl').value)
                     .then(response => response.json())
                     .then(response => {
-                        let selectElem = $('select[name="vehicleLocation"]');
+                        let selectElem = $('select[name="workshop"]');
                         // Populate results
                         if (response.state === 'failure') {
                             //show errors
@@ -688,15 +688,12 @@
                     element.setAttribute('disabled', 'disabled');
                 });
 
-                //document.querySelector('#vehicleDetailsContainer').style.display = 'none';
-                //document.querySelector('#materialDetailsContainer').style.display = 'none';
                 document.querySelector('#image_view').style.display = 'none';
 
                 $('tbody#vehicleDetails').html('');
-                //document.querySelector('[name="fuel_allocation"]').value = '';
 
-                $("#material_description").text(tmsApp.formatMoney('0', 2));
-                $('input[name="material_description"]').val(tmsApp.formatMoney('0', 2));
+                //$("#material_description").text(tmsApp.formatMoney('0', 2));
+                //$('input[name="material_description"]').val(tmsApp.formatMoney('0', 2));
             }
 
             function enableWebUIControls() {
@@ -1027,6 +1024,8 @@
                 }
 
             });
+
+            getWorkshops();
         })(window.tmsApp || {}, jQuery)
     </script>
     <script src="{{asset('assets/js/system/project_code.js').'?v='.Carbon::now()->format('his')}}"></script>
