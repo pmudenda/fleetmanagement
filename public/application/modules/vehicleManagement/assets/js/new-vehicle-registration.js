@@ -1554,12 +1554,16 @@ function checkOnboardingHeaderStatus() {
         let formData = new FormData();
         formData.append('purchase_order_number', purchaseOrder);
 
-        tmsApp.asyncGetFormData($('#purchase_order_number').attr('data-action') + '?document_number=' + purchaseOrder, formData, function (response_data) {
+        tmsApp.asyncGetFormData(
+            $('#purchase_order_number').attr('data-action')
+            + '?document_number=' + purchaseOrder,
+            formData,
+            function (response_data) {
             if (response_data.state === 'success') {
                 let supplierData = response_data['payload']
 
-                if(!supplierData){
-
+                if(!supplierData || supplierData.length > 0){
+                    tmsApp.showToast('The purchase order number you provided did not match any record')
                     return
                 }
 

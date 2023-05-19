@@ -664,15 +664,15 @@
                             return;
                         }
 
-                        let locations = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, locations, "location", ["location"], "");
+                        let workshops = response['payload'];
+                        tmsApp.populateDropDownList(selectElem, workshops, "workshop_code", ["workshop_name", "area_code"], "=>");
 
-                        let location = selectElem.attr('data-value');
+                        /*let location = selectElem.attr('data-value');
                         console.log(location);
                         if (location) {
                             selectElem.val(location);
                             selectElem.trigger('change');
-                        }
+                        }*/
 
                     })
                     .catch(function (error) {
