@@ -486,6 +486,7 @@
 
                 <input type="hidden" value="{{ route('user.search') }}" id="newUserSearchUrl">
                 <input type="hidden" value="{{route('search.project')}}" id="projects_url">
+                <input type="hidden" value="{{route('all.workshop.list')}}" id="workshopsUrl">
             </div>
         </div>
     </section>
