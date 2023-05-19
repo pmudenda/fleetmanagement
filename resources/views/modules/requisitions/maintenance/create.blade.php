@@ -89,9 +89,9 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                        for="staff_no">Date In :
-                                                    </label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                            for="staff_no">Date In :
+                                                        </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                             <input type="text"
                                                                    class="form-control form-control-sm"
@@ -253,7 +253,7 @@
                                                             for="request_date">Odometer:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <input type="text" class="form-control form-control-sm"
-                                                                   id="request_date"name="request_date">
+                                                                   id="request_date" name="request_date">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -272,7 +272,8 @@
                                                             Fuel Level :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select name="requisition_type" id="requisition_type"
+                                                            <select name="fuel_level"
+                                                                    id="fuel_level"
                                                                     disabled
                                                                     class="form-control form-select-sm when_valid"
                                                                     required>
@@ -296,7 +297,6 @@
                                     </div>
 
                                     <div id="image_view" class="card text-center py-5 my-2" style="display: none;">
-                                        <h2 class="fs-2x fw-bold mb-10">Front View</h2>
                                         <div class="form-group">
                                             <div class="imagePreview"></div>
                                         </div>
@@ -312,10 +312,10 @@
                         <div class="container-fluid mt-5">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-9 col-md-8">
-                               {{--     <form id="tms_accessories_form"
-                                          name="tms_accessories_form"
-                                          class="form fv-plugins-bootstrap5 fv-plugins-framework"
-                                          action="{{route('vehicle.accessories.save')}}">--}}
+                                    {{--     <form id="tms_accessories_form"
+                                               name="tms_accessories_form"
+                                               class="form fv-plugins-bootstrap5 fv-plugins-framework"
+                                               action="{{route('vehicle.accessories.save')}}">--}}
                                     {{--<div class="d-flex justify-content-end">
                                         {{-- class="create_mode">
                                             <button type="submit" id="saveVehicleAccessories"
@@ -331,73 +331,86 @@
                                             </button>
                                         </div>
                                     </div>--}}
-                                        <div class="container-fluid mt-5">
-                                            <div class="row">
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <div class="row">
+                                    <div class="container-fluid mt-5">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <div class="row">
 
-                                                        <div class="col">
-                                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                                <thead>
-                                                                <tr class="bg-dark">
-                                                                    <th class="pl-2">Item</th>
-                                                                    <th>Present</th>
-                                                                    <th class="pr-2">Not Present</th>
-                                                                    <th class="pr-2">Remarks</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                @foreach($accessories as $key => $accessory)
-                                                                    @if(($key%2) == 0)
-                                                                        <tr>
-                                                                            <td class="pl-2" style="width: 35%;">{{$accessory->name}}</td>
-                                                                            <td><input type="radio" value="YES" required name="{{str_replace(' ','', $accessory->code)}}"></td>
-                                                                            <td><input type="radio" value="NO" required name="{{str_replace(' ','', $accessory->code)}}"></td>
-                                                                            <td style="width: 45%;">
-                                                                                <input typeof="text" name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
-                                                                                       class="form-control form-control-sm"/>
-                                                                            </td>
-                                                                        </tr>
-                                                                    @endif
-                                                                @endforeach
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="col">
-                                                            <table class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                                <thead>
-                                                                <tr class="bg-dark">
-                                                                    <th class="pl-2">Item</th>
-                                                                    <th>Present</th>
-                                                                    <th class="pr-2">Not Present</th>
-                                                                    <th class="pr-2">Remarks</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                @foreach($accessories as $key => $accessory)
-                                                                    @if(($key%2) != 0)
-                                                                        <tr>
-                                                                            <td class="pl-2" style="width: 35%;">
-                                                                                {{$accessory->name}}
-                                                                            </td>
-                                                                            <td><input type="radio" required value="YES" name="{{str_replace(' ','', $accessory->code)}}"></td>
-                                                                            <td><input type="radio" required value="NO" name="{{str_replace(' ','', $accessory->code)}}"></td>
-                                                                            <td style="width: 45%;">
-                                                                                <input typeof="text" name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
-                                                                                       class="form-control form-control-sm">
-                                                                            </td>
-                                                                        </tr>
-                                                                    @endif
-                                                                @endforeach
-
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-
+                                                    <div class="col">
+                                                        <table
+                                                            class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                            <thead>
+                                                            <tr class="bg-dark">
+                                                                <th class="pl-2">Item</th>
+                                                                <th>Present</th>
+                                                                <th class="pr-2">Not Present</th>
+                                                                <th class="pr-2">Remarks</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            @foreach($accessories as $key => $accessory)
+                                                                @if(($key%2) == 0)
+                                                                    <tr>
+                                                                        <td class="pl-2"
+                                                                            style="width: 35%;">{{$accessory->name}}</td>
+                                                                        <td><input type="radio" value="YES" required
+                                                                                   name="{{str_replace(' ','', $accessory->code)}}">
+                                                                        </td>
+                                                                        <td><input type="radio" value="NO" required
+                                                                                   name="{{str_replace(' ','', $accessory->code)}}">
+                                                                        </td>
+                                                                        <td style="width: 45%;">
+                                                                            <input typeof="text"
+                                                                                   name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
+                                                                                   class="form-control form-control-sm"/>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endif
+                                                            @endforeach
+                                                            </tbody>
+                                                        </table>
                                                     </div>
+                                                    <div class="col">
+                                                        <table
+                                                            class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                            <thead>
+                                                            <tr class="bg-dark">
+                                                                <th class="pl-2">Item</th>
+                                                                <th>Present</th>
+                                                                <th class="pr-2">Not Present</th>
+                                                                <th class="pr-2">Remarks</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            @foreach($accessories as $key => $accessory)
+                                                                @if(($key%2) != 0)
+                                                                    <tr>
+                                                                        <td class="pl-2" style="width: 35%;">
+                                                                            {{$accessory->name}}
+                                                                        </td>
+                                                                        <td><input type="radio" required value="YES"
+                                                                                   name="{{str_replace(' ','', $accessory->code)}}">
+                                                                        </td>
+                                                                        <td><input type="radio" required value="NO"
+                                                                                   name="{{str_replace(' ','', $accessory->code)}}">
+                                                                        </td>
+                                                                        <td style="width: 45%;">
+                                                                            <input typeof="text"
+                                                                                   name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
+                                                                                   class="form-control form-control-sm">
+                                                                        </td>
+                                                                    </tr>
+                                                                @endif
+                                                            @endforeach
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -487,6 +500,7 @@
                 <input type="hidden" value="{{ route('user.search') }}" id="newUserSearchUrl">
                 <input type="hidden" value="{{route('search.project')}}" id="projects_url">
                 <input type="hidden" value="{{route('all.workshop.list')}}" id="workshopsUrl">
+                <input type="hidden" value="{{route('fuels.levels')}}" id="fuelLevelsUrl">
             </div>
         </div>
     </section>
@@ -605,7 +619,7 @@
                         }
 
                         form.validate().settings.ignore = ":disabled,:hidden";
-                        return true ;//form.valid();
+                        return true;//form.valid();
                     },
                     onStepChanged: function (event, currentIndex, priorIndex) {
                         // Used to skip the "Warning" step if the user is old enough.
@@ -673,6 +687,29 @@
                             selectElem.val(location);
                             selectElem.trigger('change');
                         }*/
+
+                    })
+                    .catch(function (error) {
+                        // notify of error
+                        toastr.error(
+                            'Connection error. Could not retrieve data, some feature might not work.')
+                    });
+            }
+
+            function getFuelLevels() {
+                fetch(document.querySelector('#fuelLevelsUrl').value)
+                    .then(response => response.json())
+                    .then(response => {
+                        let selectElem = $('select[name="fuel_level"]');
+                        // Populate results
+                        if (response.state === 'failure') {
+                            //show errors
+                            toastr.error('Connection error, no data found')
+                            return;
+                        }
+
+                        let fuelLevels = response['payload'];
+                        tmsApp.populateDropDownList(selectElem, fuelLevels, "code", ["name"], "");
 
                     })
                     .catch(function (error) {
@@ -876,61 +913,61 @@
                 "mask": "AAA 9999"
             }).mask("#vehicle_registration");
 
-           /* tmsApp.appFormValidator('form[name="fuelRequisitionForm"]',
-                {
-                    'requisition_type': {
-                        required: true,
-                    },
-                    fuel_allocation: {
-                        required: true
-                    },
-                    project_code: {
-                        required: '#projectInput:checked'
-                    },
-                    'cost_centre_code': {
-                        required: '#costOnCostCentre:checked'
-                    },
-                    justification: {
-                        required: true,
-                        minlength: 15,
-                        maxlength: 255
-                    },
-                    projectCode: {
-                        required: true
-                    },
-                    material_quantity: {
-                        required: true
-                    }
-                },
-                {
-                    'requisition_type': {
-                        required: "You have not declared the type of requisition"
-                    },
-                    'fuel_allocation': {
-                        required: "The vehicle does not have a valida fuel allocation"
-                    },
-                    'dateOpened': {
-                        required: "You must specify date task was opened"
-                    },
-                    'justification': {
-                        required: "Purpose for requisition is mandatory",
-                        minlength: "The reason needs to be at least {0} characters!",
-                        maxlength: "The reason must not be more than 255 characters"
-                    },
-                    projectCode: {
-                        required: 'Missing Project Code'
-                    },
-                    material_quantity: {
-                        required: 'You have not declared the quantity being requested for'
-                    },
-                    project_code: {
-                        required: 'Project Code is missing'
-                    },
-                    odometer_reading: {
-                        required: 'You must declare the odometer reading'
-                    }
-                }
-            );*/
+            /* tmsApp.appFormValidator('form[name="fuelRequisitionForm"]',
+                 {
+                     'requisition_type': {
+                         required: true,
+                     },
+                     fuel_allocation: {
+                         required: true
+                     },
+                     project_code: {
+                         required: '#projectInput:checked'
+                     },
+                     'cost_centre_code': {
+                         required: '#costOnCostCentre:checked'
+                     },
+                     justification: {
+                         required: true,
+                         minlength: 15,
+                         maxlength: 255
+                     },
+                     projectCode: {
+                         required: true
+                     },
+                     material_quantity: {
+                         required: true
+                     }
+                 },
+                 {
+                     'requisition_type': {
+                         required: "You have not declared the type of requisition"
+                     },
+                     'fuel_allocation': {
+                         required: "The vehicle does not have a valida fuel allocation"
+                     },
+                     'dateOpened': {
+                         required: "You must specify date task was opened"
+                     },
+                     'justification': {
+                         required: "Purpose for requisition is mandatory",
+                         minlength: "The reason needs to be at least {0} characters!",
+                         maxlength: "The reason must not be more than 255 characters"
+                     },
+                     projectCode: {
+                         required: 'Missing Project Code'
+                     },
+                     material_quantity: {
+                         required: 'You have not declared the quantity being requested for'
+                     },
+                     project_code: {
+                         required: 'Project Code is missing'
+                     },
+                     odometer_reading: {
+                         required: 'You must declare the odometer reading'
+                     }
+                 }
+             );*/
 
             $('#submitRequisitionBtn').on('click', function () {
                 let $form = document.forms['fuelRequisitionForm'];
@@ -1006,9 +1043,9 @@
             })
 
             $('#repairTypeDropdownList').on('change', function () {
-                if(this.value === '001'){
+                if (this.value === '001') {
                     document.querySelector("#accidentRecordNo").classList.remove('d-none');
-                }else{
+                } else {
                     document.querySelector("#accidentRecordNo").classList.add('d-none');
                 }
             });
@@ -1026,6 +1063,8 @@
             });
 
             getWorkshops();
+            
+            getFuelLevels();
         })(window.tmsApp || {}, jQuery)
     </script>
     <script src="{{asset('assets/js/system/project_code.js').'?v='.Carbon::now()->format('his')}}"></script>

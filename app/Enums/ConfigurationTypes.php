@@ -10,7 +10,7 @@ enum ConfigurationTypes : string
     case ACCIDENT_NATURE = "accidentnature";
     case BUSINESS_AREAS = "businessareas";
     case VEHICLE_STATUS = "vehiclestatus";
-    case FUEL_TYPES = "fueltypes";
+    case FUEL_LEVELS = "FuelLevel";
     case STATUS_GENERAL = "statusgeneral";
     case STORES_MOVEMENT_TYPES = "movementtype";
     case INSURANCE_SUB_TYPES = "insurancesubtypes";

@@ -205,6 +205,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
 
         Route::get('workshops/list/json', [WorkshopController::class, 'getActiveWorkShops'])->name('all.workshop.list');
+        Route::get('fuel-levels/list/json', [MaintenanceController::class, 'getFuelLevels'])->name('fuels.levels');
     });
 });
 
