@@ -198,7 +198,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     setTimeout(function () {
         $('select[name="batteryPower"]').trigger('change');
-        $('select[name="batterySize"]').trigger('change');
+        //$('select[name="batterySize"]').trigger('change');
         $('select[name="frontTyreSize"]').trigger('change');
         $('select[name="rearTyreSize"]').trigger('change');
     }, 600);

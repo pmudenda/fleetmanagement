@@ -97,7 +97,7 @@ class VehicleOnBoardingController extends Controller
             $step = 5;
         } elseif ($vehicle->on_boarding_status == StatusHelper::PendingAssignment()) {
             $step = 6;
-        } else if ($vehicle->on_boarding_status = '030') {
+        } else if ($vehicle->on_boarding_status = StatusHelper::onboardingComplete()) {
             $step = 7;
         } else {
             $step = 1;

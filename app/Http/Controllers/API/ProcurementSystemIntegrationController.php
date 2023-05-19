@@ -19,7 +19,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
             $document_number = $request->get('document_number');
             if (empty($document_number)) {
                 return response()->json([
-                    'state' => 'success',
+                    'state' => 'false',
                     'payload' => [],
                     'message' => 'Bad request, data missing'
                 ]);
@@ -33,7 +33,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
                 ]);
             }
             return response()->json([
-                'state' => 'success',
+                'state' => $purchaseOrder->count > 0 ? 'success' : 'erorr',
                 'payload' => $purchaseOrder,
                 'message' => 'Data Retrieved'
             ]);
