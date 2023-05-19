@@ -99,6 +99,12 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     $('input[name="registration_date"]').val(data['registration_date']);
 
+    if (data['registration_date']) {
+        let dateOI = data['registration_date'].split(' ')[0];
+        document.querySelector("#registration_date").value = dateOI;
+    }
+
+
     Vue.set(app['chassisDetails'], 'chargeOutRate', data['vehicle_charge_out_rate']);
     Vue.set(app['chassisDetails'], 'requiredMinimumDrivingLicense', data['min_req_driving_license']);
     Vue.set(app['chassisDetails'], 'initialOdometerReading', data['initial_odometer_reading']);
@@ -126,13 +132,13 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     const $frontTyreSizeCtrl = document.querySelector('[name="frontTyreSize"]');
     if ($frontTyreSizeCtrl) {
         $frontTyreSizeCtrl.value = data['front_tyre_size'];
-        $frontTyreSizeCtrl.setAttribute('data-value',  data['front_tyre_size']);
+        $frontTyreSizeCtrl.setAttribute('data-value', data['front_tyre_size']);
     }
     //Vue.set(app['otherDetails'], 'frontTyreSize', );
     const $rearTyreSizeCtrl = document.querySelector('[name="rearTyreSize"]');
     if ($rearTyreSizeCtrl) {
         $rearTyreSizeCtrl.value = data['rear_tyre_size'];
-        $rearTyreSizeCtrl.setAttribute('data-value',  data['rear_tyre_size']);
+        $rearTyreSizeCtrl.setAttribute('data-value', data['rear_tyre_size']);
     }
     //Vue.set(app['otherDetails'], 'rearTyreSize', data['']);
 
@@ -429,7 +435,7 @@ let app = new Vue({
         $(document).on('keyup paste', '[name="whiteBookSerial"]', function () {
             this.value = this.value.toLocaleUpperCase();
         });
-     $(document).on('keyup paste', '[name="engineType"]', function () {
+        $(document).on('keyup paste', '[name="engineType"]', function () {
             this.value = this.value.toLocaleUpperCase();
         });
 
@@ -1993,12 +1999,12 @@ function checkOnboardingHeaderStatus() {
 
                 tmsApp.populateDropDownList(rearTyreSizeElem, tyreSizes, "description", ["description"], "");
 
-                  let frontSize = frontTyreElem.attr('data-value');
-                  console.log(frontSize);
-                  if (frontSize) {
-                      frontTyreElem.val(frontSize);
-                      frontTyreElem.trigger('change');
-                  }
+                let frontSize = frontTyreElem.attr('data-value');
+                console.log(frontSize);
+                if (frontSize) {
+                    frontTyreElem.val(frontSize);
+                    frontTyreElem.trigger('change');
+                }
 
                 let rearTyreSize = rearTyreSizeElem.attr('data-value');
                 console.log(rearTyreSize);
