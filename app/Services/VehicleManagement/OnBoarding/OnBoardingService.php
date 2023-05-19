@@ -504,11 +504,15 @@ class OnBoardingService
      */
     public function processAccessory(OnboardingVehicleAccessoryRequest $request): array
     {
+        $headerId = $request->get('headerId');
         $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
             ->get()->pluck('name');
 
         foreach ($accessoryNames as $accessoryName) {
             $accessoryName = str_replace($accessoryName, ' ', '');
+
+            $request->get($accessoryName);
+            $request->get('COMMENT_'.$accessoryName);
         }
 
 
