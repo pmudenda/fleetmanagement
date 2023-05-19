@@ -139,9 +139,6 @@
                                             Complete
                                         </div>
                                     @else
-                                        <div class="badge badge-light-warning">
-                                            Pending
-                                        </div>
                                         @if ($vehicle->on_boarding_status == '100')
                                             <div class="badge badge-light-warning">
                                                 Pending General Data Entry

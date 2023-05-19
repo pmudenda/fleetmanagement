@@ -91,9 +91,14 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['chassisDetails'], 'whiteBookSerial', data['white_book_serial']);
     $('input[name="whiteBookSerial"]').val(data['white_book_serial']);
 
+
     Vue.set(app['chassisDetails'], 'stickerRegistrationNumber', data['sticker_registration_number']);
     Vue.set(app['chassisDetails'], 'yearOfManufacture', data['year_of_manufacture']);
+
     Vue.set(app['chassisDetails'], 'registrationDate', data['registration_date']);
+
+    $('input[name="registration_date"]').val(data['registration_date']);
+
     Vue.set(app['chassisDetails'], 'chargeOutRate', data['vehicle_charge_out_rate']);
     Vue.set(app['chassisDetails'], 'requiredMinimumDrivingLicense', data['min_req_driving_license']);
     Vue.set(app['chassisDetails'], 'initialOdometerReading', data['initial_odometer_reading']);
