@@ -142,6 +142,28 @@
                                         <div class="badge badge-light-warning">
                                             Pending
                                         </div>
+                                        @if ($vehicle->on_boarding_status == '100')
+                                            <div class="badge badge-light-warning">
+                                                Pending General Data Entry
+                                            </div>
+                                        @elseif ($vehicle->on_boarding_status == '101')
+                                            <div class="badge badge-light-warning">
+                                                Pending Technical Data Entry
+                                            </div>
+                                        @elseif ($vehicle->on_boarding_status == "102")
+                                            <div class="badge badge-light-warning">
+                                                Pending Accessories Checkin
+                                            </div>
+                                        @elseif ($vehicle->on_boarding_status == "103")
+
+                                            <div class="badge badge-light-warning">
+                                                Pending Costing Data Entry
+                                            </div>
+                                        @elseif ($vehicle->on_boarding_status == "104")
+                                            <div class="badge badge-light-warning">
+                                                Pending Assignment
+                                            </div>
+                                        @endif
                                     @endif
                                 </td>
 
@@ -180,7 +202,7 @@
                                                 @if($vehicle->on_boarding_status != StatusHelper::onboardingComplete())
                                                     <li>
                                                         <a class="dropdown-item"
-                                                           href="{{URL::signedRoute('new.vehicle',['step' => 2, 'reference' => $vehicle->id])}}">
+                                                           href="{{URL::signedRoute('resume.onboarding',['reference' => $vehicle->id])}}">
                                                             Complete Onboarding
                                                         </a>
                                                     </li>
