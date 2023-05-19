@@ -117,7 +117,11 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('vehicle/charge-outrate', function () {
             return view('configurations.chargeoutrate');
-        })->name('charge.out.rate');
+        })->name('charge.out.rate');        
+        
+        Route::get('vehicle/fuel-allocation', function () {
+            return view('configurations.fuelallocation');
+        })->name('vehicle.fuel.allocation');
     });
 
     Route::group(['prefix' => 'requisitions'], function () {
