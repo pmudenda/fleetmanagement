@@ -180,7 +180,6 @@
                                                data-fieldname="registrationDate"
                                                name="registrationDate"
                                                id="registrationDate"
-                                               v-model="chassisDetails.registrationDate"
                                                placeholder=""
                                                data-doctype="ChassisDetails"
                                         />
