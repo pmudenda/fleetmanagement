@@ -146,7 +146,7 @@ class FuelRequisitionService
                 'proc_ref' => $procurementRef,
                 'st_pur' => $procurementRef,
                 'req_no' => $documentRef,
-                'reg_no' => $registrationNumber,
+                'veh_reg_no' => $registrationNumber,
                 'cost_centre' => $requisitionPostRequest->get('cost_centre_code'),
                 'valid_date_from' => $valid_from,
                 'valid_date_to' => $valid_to,
