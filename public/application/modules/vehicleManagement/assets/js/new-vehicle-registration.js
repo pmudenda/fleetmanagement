@@ -1556,11 +1556,23 @@ function checkOnboardingHeaderStatus() {
 
         tmsApp.asyncGetFormData($('#purchase_order_number').attr('data-action') + '?document_number=' + purchaseOrder, formData, function (response_data) {
             if (response_data.state === 'success') {
-                let supplierData = response_data['payload'][0];
+                let supplierData = response_data['payload']
 
-                // document_no "C01CR1000983"
+                if(!supplierData){
+
+                    return
+                }
+
+                supplierData = supplierData[0];
+                ///ocument_no "C01CR1000983"
                 if (['CLOSED', 'ISSUED'].indexOf(supplierData['po_status_description']) < 0) {
-                    let message = 'The Purchase Order ' + supplierData['document_no'] + ' for supplier ' + supplierData['name_of_supplier'] + ' can not be used as it is in ' + supplierData['po_status_description'] + ' State';
+                    let message = 'The Purchase Order '
+                        + supplierData['document_no']
+                        + ' for supplier '
+                        + supplierData['name_of_supplier']
+                        + ' can not be used as it is in '
+                        + supplierData['po_status_description'] +
+                        ' State';
                     tmsApp.showSystemMessage('Purchase Order', message, function () {
                     }, 'error');
 
