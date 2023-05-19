@@ -363,6 +363,17 @@
                                             </span>
                                     </a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('vehicle.fuel.allocation') }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot">
+                                                </span></span>
+                                        <span class="menu-title">
+                                                Fuel Allocation
+                                            </span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 

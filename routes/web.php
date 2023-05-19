@@ -116,6 +116,10 @@ Route::group(['middleware' => 'auth'], function () {
             return view('configurations.vehicle.types');
         })->name('vehicle.body.types');
 
+        Route::get('vehicle/fuel-allocation', function () {
+            return view('configurations.fuelallocation');
+        })->name('vehicle.fuel.allocation');
+
         Route::get('vehicle/charge-outrate',[ChargeOutRateController::class, 'index'])->name('charge.out.rate');
         Route::post('save/charge-outrate',[ChargeOutRateController::class, 'store'])->name('save.charge.out.rate');
     });
