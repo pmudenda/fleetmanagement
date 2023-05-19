@@ -7,7 +7,7 @@
         <div class="text-center">
             <div class="mb-5">
                 <h1 class="display-4 mt-0 font-weight-semi-bold">
-                   ZESCO FLEET MASTER
+                   ZESCO FLEET MAST
                 </h1>
                 <small>A VEHICLE TRACKING & TRANSPORT MANAGEMENT SYSTEM</small>
             </div>

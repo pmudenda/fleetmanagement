@@ -207,6 +207,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
 
     $('select[name="supplierName"]').val(data['suppliername']);
+    $('select[name="supplierName"]').attr('data-value', data['suppliername']);
     $('select[name="supplierName"]').trigger('change');
 
 
@@ -274,16 +275,15 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     //Vue.set(app['assignmentDetails'], 'businessUnit', data['directorate']);
     Vue.set(app['assignmentDetails'], 'isOperationsVehicle', data['ispoolvehicle']);
 
-    if(data['ispoolvehicle'] == 'N'){
+    if (data['ispoolvehicle'] == 'N') {
         //Vue.set(app['assignmentDetails'], 'isOperationsVehicle', data['vehicleHolder']);
         $('input[name="vehicleHolderId"]').val(data['responsible_head_id']);
         $('input[name="vehicleHolder"]').val(data['responsible_head_name']);
-    }else{
+    } else {
 
         $('input[name="vehicleHolderId"]').val(data['responsible_head_id']);
         $('input[name="responsibleHODId"]').val(data['responsible_head_name']);
     }
-
 
 
     if (asyncResponse['payload'].hasOwnProperty('documents')) {
@@ -334,10 +334,7 @@ window.getRegistrationDetails = function (requestReference) {
             displayVehicleDetails(asyncResponse, requestReference);
         },
         error: function (xhr, settings, errorThrown) {
-            toastr.error(
-                'Vehicle details could not be retrieved due to connection error',
-                'Vehicle Details'
-            )
+            toastr.error('Vehicle details could not be retrieved due to connection error', 'Vehicle Details')
         }
     })
 }
@@ -347,10 +344,7 @@ window.filterData = function (niddle, key, hayStack) {
         return document[key] === niddle;
     })
 
-    if (result.length > 0)
-        return result[0];
-    else
-        return null;
+    if (result.length > 0) return result[0]; else return null;
 }
 
 window.removeSpaces = function (value) {
@@ -359,27 +353,20 @@ window.removeSpaces = function (value) {
 }
 
 let app = new Vue({
-    'el': '#kt_app_main',
-    components: {},
-    data() {
+    'el': '#kt_app_main', components: {}, data() {
         return {
             isHeaderSaved: true,
             assignmentDetails: {},
             assignmentDetailsForm: null,
             bodyDetails: {
-                numberOfSeats: 0,
-                volumeOfBootTanker:
-                    0,
-                seatCapRear:
-                    0
+                numberOfSeats: 0, volumeOfBootTanker: 0, seatCapRear: 0
             },
             bodyDetailsForm: null,
             bodyTypes: [],
             businessAreas: [],
             businessUnits: [],
             chassisDetails: {
-                stickerRegistrationNumber: null,
-                status: 'active'
+                stickerRegistrationNumber: null, status: 'active'
             },
             chassisDetailsForm: null,
             chassisDetailsFormValidator: null,
@@ -390,8 +377,7 @@ let app = new Vue({
             dataStatus: 0,
             directorates: [],
             document_validity: {
-                state: null,
-                message: null
+                state: null, message: null
             },
             documents: {},
             engineBrands: [],
@@ -400,34 +386,25 @@ let app = new Vue({
             engineDetailsFormValidator: null,
             fuelTypes: [],
             images: {
-                frontView: null,
-                rearView: null,
-                leftView: null,
-                rightView: null,
+                frontView: null, rearView: null, leftView: null, rightView: null,
             },
             licenseTypes: [],
             organizationalUnits: [],
-            otherDetails: {},
-            /*  regNumberValidity: {
+            otherDetails: {}, /*  regNumberValidity: {
                   state: null,
                   message: null
               },*/
             registrationTypes: [],
             searchedEmployeesList: [],
-            selectedBrandModels: [],
-            // forms
+            selectedBrandModels: [], // forms
             selectedModelCodes: [],
             supplierList: [],
             transmissionTypes: [],
             validators: [],
             vehicleBrands: [],
-            vehicleHeader:
-                {
-                    model: {},
-                    isHeaderSaved: false,
-                    registration_type: 'MV'
-                },
-            // validators
+            vehicleHeader: {
+                model: {}, isHeaderSaved: false, registration_type: 'MV'
+            }, // validators
             vehicleHeaderForm: null,
             vehicleHeaderFormValidator: null,
             vehicleHeaderId: null,
@@ -459,8 +436,7 @@ let app = new Vue({
             if (!val) return "";
             if (typeof val === 'number') return val;
             return val?.trim();
-        },
-        formatStatus: function (value) {
+        }, formatStatus: function (value) {
             if (!value) return 'Saved';
             if (value == '100') {
                 return 'Pending General Data Entry';
@@ -554,13 +530,9 @@ let app = new Vue({
 
         let fileSelects = [].slice.call(document.querySelectorAll('.fileElem'));
         fileSelects.map(function (fileSelect) {
-            fileSelect.addEventListener(
-                "change",
-                (e) => {
-                    app.preview(e);
-                },
-                false
-            );
+            fileSelect.addEventListener("change", (e) => {
+                app.preview(e);
+            }, false);
         });
 
         $(document).on('click', '.clearImage', function (event) {
@@ -573,14 +545,12 @@ let app = new Vue({
                 confirmButtonText: "Yes, remove it!",
                 cancelButtonText: "No, return",
                 customClass: {
-                    confirmButton: "btn btn-primary",
-                    cancelButton: "btn btn-active-light"
+                    confirmButton: "btn btn-primary", cancelButton: "btn btn-active-light"
                 }
             }).then(function (result) {
                 if (result.value) {
                     $(btn).parent().css({
-                        "background-image": "",
-                        'display': 'none'
+                        "background-image": "", 'display': 'none'
                     });
                     // find the upload btn and make visible
                     $(btn).parent().parent().find('p').removeClass('d-none');
@@ -630,8 +600,7 @@ let app = new Vue({
 
                             // Render PDF page into canvas context
                             var renderContext = {
-                                canvasContext: context,
-                                viewport: viewport
+                                canvasContext: context, viewport: viewport
                             };
                             var renderTask = page.render(renderContext);
                             renderTask.promise.then(function () {
@@ -656,8 +625,7 @@ let app = new Vue({
         },
 
         checkChassisNumberValidity: function () {
-            fetch(document.querySelector('#documentValidationUrl').value
-                + '?method=chassis&key=' + app['chassisDetails']['chassisNumber'])
+            fetch(document.querySelector('#documentValidationUrl').value + '?method=chassis&key=' + app['chassisDetails']['chassisNumber'])
                 .then(response => response.json())
                 .then(response => {
                     // Populate results
@@ -672,8 +640,7 @@ let app = new Vue({
                 })
                 .catch(function (error) {
                     // notify of error
-                    toastr.error(
-                        'Could not retrieve data, some feature might not work.', 'Connection error')
+                    toastr.error('Could not retrieve data, some feature might not work.', 'Connection error')
                 });
         },
 
@@ -719,8 +686,7 @@ let app = new Vue({
                 })
                 .catch(function (error) {
                     // notify of error
-                    toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
+                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
                 });
         },
 
@@ -740,8 +706,7 @@ let app = new Vue({
                 })
                 .catch(function (error) {
                     // notify of error
-                    toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
+                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
                 });
         },
 
@@ -760,8 +725,7 @@ let app = new Vue({
                 })
                 .catch(function (error) {
                     // notify of error
-                    toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
+                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
                 });
         },
 
@@ -779,8 +743,7 @@ let app = new Vue({
                 })
                 .catch(function (error) {
                     // notify of error
-                    toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
+                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
                 });
         },
 
@@ -797,16 +760,11 @@ let app = new Vue({
        },*/
 
         getTransmissionTypes: function () {
-            this.transmissionTypes = [
-                {
-                    'name': 'AUTOMATIC',
-                    'code': 'AT'
-                },
-                {
-                    'name': 'MANUAL',
-                    'code': 'MT'
-                }
-            ]
+            this.transmissionTypes = [{
+                'name': 'AUTOMATIC', 'code': 'AT'
+            }, {
+                'name': 'MANUAL', 'code': 'MT'
+            }]
         },
 
         /*getVehicleBrands: function () {
@@ -929,36 +887,29 @@ let app = new Vue({
         },
 
         loadLicenceClasses: function () {
-            this.licenseTypes = [
-                {'code': 'A', 'name': 'Class A'},
-                {'code': 'B', 'name': 'Class B'},
-                {'code': 'C', 'name': 'Class C'},
-                {'code': 'E', 'name': 'Class E'},
-            ];
+            this.licenseTypes = [{'code': 'A', 'name': 'Class A'}, {'code': 'B', 'name': 'Class B'}, {
+                'code': 'C',
+                'name': 'Class C'
+            }, {'code': 'E', 'name': 'Class E'},];
         },
 
         loadRegistrationTypes: function () {
-            this.registrationTypes = [
-                {
-                    "label": 'Motor Vehicle',
-                    'code': 'MV'
-                },
-                /*{
+            this.registrationTypes = [{
+                "label": 'Motor Vehicle', 'code': 'MV'
+            }, /*{
                     "label": 'Boat',
                     'code': 'BT'
                 },
                 {
                     "label": 'Trailer',
                     'code': 'TR'
-                },*/
-            ]
+                },*/]
         },
 
         postRequest(data, url, successCallBack, errorCallBack) {
             axios.post(url, data, {
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    , 'content-type': 'text/json'
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'content-type': 'text/json'
                 }
             }).then(function (response) {
                 successCallBack(response);
@@ -974,9 +925,7 @@ let app = new Vue({
             this.vehicleHeaderFormValidator.validate().then(function (status) {
                 console.log('validated!');
                 if (status !== 'Valid') {
-                    toastr.warning(
-                        "Sorry, the data did not pass validation check, check the data and try again."
-                    );
+                    toastr.warning("Sorry, the data did not pass validation check, check the data and try again.");
                     return;
                 }
 
@@ -984,57 +933,48 @@ let app = new Vue({
                 el.setAttribute('data-kt-indicator', 'on');
                 el.disabled = true;
 
-                app.postRequest(
-                    new FormData($(app.vehicleHeaderForm)[0]),
-                    app.vehicleHeaderForm.action,
-                    function (response) {
-                        let el = document.querySelector('#tms_save_vehicle');
-                        let label = el.querySelector(".indicator-label");
+                app.postRequest(new FormData($(app.vehicleHeaderForm)[0]), app.vehicleHeaderForm.action, function (response) {
+                    let el = document.querySelector('#tms_save_vehicle');
+                    let label = el.querySelector(".indicator-label");
 
-                        setTimeout(function () {
-                            el.removeAttribute('data-kt-indicator');
-                            el.disabled = false;
-                        }, 300)
-
-                        if (response.data.state != 'success') {
-                            toastr.error(
-                                response.data.message
-                            );
-                            return;
-                        }
-
-                        app.vehicleHeaderId = response.data.payload.id;
-                        toastr.success(
-                            response.data.message
-                        );
-
-                        setTimeout(function () {
-                            app['vehicleHeader'].isHeaderSaved = true;
-                        }, 500)
-
-                        if (el.classList.contains("btn-light-primary")) {
-                            el.classList.remove("btn-light-primary");
-                            el.classList.add("btn-light");
-                            label.innerHTML = "Saved";
-                        } else { // follow
-                            el.classList.add("btn-light-primary");
-                            el.classList.remove("btn-light");
-                            app['vehicleHeader'].isHeaderSaved = true;
-                            label.innerHTML = "Saved";
-                        }
-
-                    }, function (error) {
-                        let el = document.querySelector('#tms_save_vehicle');
-                        let label = el.querySelector(".indicator-label");
-                        label.innerHTML = "Submit";
+                    setTimeout(function () {
                         el.removeAttribute('data-kt-indicator');
                         el.disabled = false;
+                    }, 300)
 
-                        toastr.error(
-                            error.message
-                        );
+                    if (response.data.state != 'success') {
+                        toastr.error(response.data.message);
+                        return;
+                    }
 
-                    });
+                    app.vehicleHeaderId = response.data.payload.id;
+                    toastr.success(response.data.message);
+
+                    setTimeout(function () {
+                        app['vehicleHeader'].isHeaderSaved = true;
+                    }, 500)
+
+                    if (el.classList.contains("btn-light-primary")) {
+                        el.classList.remove("btn-light-primary");
+                        el.classList.add("btn-light");
+                        label.innerHTML = "Saved";
+                    } else { // follow
+                        el.classList.add("btn-light-primary");
+                        el.classList.remove("btn-light");
+                        app['vehicleHeader'].isHeaderSaved = true;
+                        label.innerHTML = "Saved";
+                    }
+
+                }, function (error) {
+                    let el = document.querySelector('#tms_save_vehicle');
+                    let label = el.querySelector(".indicator-label");
+                    label.innerHTML = "Submit";
+                    el.removeAttribute('data-kt-indicator');
+                    el.disabled = false;
+
+                    toastr.error(error.message);
+
+                });
             });
 
         },
@@ -1048,20 +988,17 @@ let app = new Vue({
                 contentType: false,
                 processData: false,
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    , 'content-type': 'text/json'
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'content-type': 'text/json'
                 }
             }).done(function (response) {
 
                 Swal.fire({
-                    text: "Vehicle Registration Completed Successfully," +
-                        "You will be refreshed"
-                    , icon: "success"
-                    , buttonsStyling: false
-                    , confirmButtonText: "Ok"
-                    , customClass: {
-                        confirmButton: "btn fw-bold btn-primary"
-                        ,
+                    text: "Vehicle Registration Completed Successfully," + "You will be refreshed",
+                    icon: "success",
+                    buttonsStyling: false,
+                    confirmButtonText: "Ok",
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-primary",
                     }
                 }).then(function () {
                     window.location.reload();
@@ -1088,8 +1025,7 @@ let app = new Vue({
                 reader.onloadend = function () {
                     // set image data as background of div
                     uploadFile.closest("div").find('.imagePreview').css({
-                        "background-image": "url(" + this.result + ")",
-                        'display': 'block'
+                        "background-image": "url(" + this.result + ")", 'display': 'block'
                     });
                 }
 
@@ -1324,53 +1260,37 @@ function checkOnboardingHeaderStatus() {
         $form = document.forms['tmsChassisDetailsForm'];
 
         if (!$($form).valid()) {
-            toastr.warning(
-                "Sorry, the data did not pass validation check, check the data and try again."
-            );
+            toastr.warning("Sorry, the data did not pass validation check, check the data and try again.");
             return;
         }
 
         tmsApp.play_alert('sound-submit');
-        tmsApp.asyncPostFormData(
-            $form.action,
-            new FormData($form),
-            function (asyncResponse) {
-                if ('state' in asyncResponse && asyncResponse.state != 'success') {
-                    if (asyncResponse.hasOwnProperty('errors')) {
-                        tmsApp.printErrorMsg(asyncResponse.errors);
-                        return
-                    }
-
-                    setTimeout(function () {
-                        tmsApp.systemError(
-                            'Vehicle On-Boarding - General Data',
-                            asyncResponse['message'],
-                            function () {
-                            }, 'error');
-                    }, 300);
-                    toastr.error(
-                        asyncResponse.message
-                    );
-                    return;
+        tmsApp.asyncPostFormData($form.action, new FormData($form), function (asyncResponse) {
+            if ('state' in asyncResponse && asyncResponse.state != 'success') {
+                if (asyncResponse.hasOwnProperty('errors')) {
+                    tmsApp.printErrorMsg(asyncResponse.errors);
+                    return
                 }
 
-                tmsApp.showSystemMessage(
-                    'Vehicle On-Boarding - General Data',
-                    asyncResponse.message,
-                    function () {
-                        setTimeout(
-                            function () {
-                                window.location.href = asyncResponse['redirectUrl']
-                            }, 500
-                        );
-                    }, 'success');
-            },
-            function (xhr, settings, errorThrown) {
-                console.log(errorThrown)
                 setTimeout(function () {
-                    tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
-                }, 300)
-            });
+                    tmsApp.systemError('Vehicle On-Boarding - General Data', asyncResponse['message'], function () {
+                    }, 'error');
+                }, 300);
+                toastr.error(asyncResponse.message);
+                return;
+            }
+
+            tmsApp.showSystemMessage('Vehicle On-Boarding - General Data', asyncResponse.message, function () {
+                setTimeout(function () {
+                    window.location.href = asyncResponse['redirectUrl']
+                }, 500);
+            }, 'success');
+        }, function (xhr, settings, errorThrown) {
+            console.log(errorThrown)
+            setTimeout(function () {
+                tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
+            }, 300)
+        });
 
     }
 
@@ -1403,8 +1323,7 @@ function checkOnboardingHeaderStatus() {
                     selectElem.trigger('change');
                 }
             }).catch(function (error) {
-            toastr.error(
-                'Could not Retrieve Data, some feature might not work.', 'Connection error');
+            toastr.error('Could not Retrieve Data, some feature might not work.', 'Connection error');
         });
     }
 
@@ -1412,9 +1331,7 @@ function checkOnboardingHeaderStatus() {
         $('.print-error-msg').css('display', 'none');
 
         if (!$(document.forms['tms_costing_valuation_form']).valid()) {
-            toastr.warning(
-                "Sorry, the data did not pass validation check, check the data and try again."
-            );
+            toastr.warning("Sorry, the data did not pass validation check, check the data and try again.");
             return;
         }
 
@@ -1425,46 +1342,32 @@ function checkOnboardingHeaderStatus() {
         formData.set('costOfLicense', tmsApp.getFloat(formData.get('costOfLicense')).toString());
         formData.set('premium', tmsApp.getFloat(formData.get('premium')).toString());
         tmsApp.play_alert('sound-submit');
-        tmsApp.asyncPostFormData(
-            form.action,
-            formData,
-            function (asyncResponse) {
-                if ('state' in asyncResponse && asyncResponse.state !== 'success') {
-                    if (asyncResponse.hasOwnProperty('errors')) {
-                        tmsApp.printErrorMsg(asyncResponse.errors);
-                        return
-                    }
-
-                    setTimeout(function () {
-                        tmsApp.systemError(
-                            'Vehicle On-Boarding - Chassis Details',
-                            asyncResponse['message'],
-                            function () {
-                            }, 'error');
-                    }, 300);
-                    toastr.error(
-                        asyncResponse.message
-                    );
-                    return;
+        tmsApp.asyncPostFormData(form.action, formData, function (asyncResponse) {
+            if ('state' in asyncResponse && asyncResponse.state !== 'success') {
+                if (asyncResponse.hasOwnProperty('errors')) {
+                    tmsApp.printErrorMsg(asyncResponse.errors);
+                    return
                 }
 
-                tmsApp.showSystemMessage(
-                    'Vehicle On-Boarding - Cost & Valuation Details',
-                    asyncResponse.message,
-                    function () {
-                        setTimeout(
-                            function () {
-                                window.location.href = asyncResponse['redirectUrl']
-                            }, 500
-                        );
-                    }, 'success');
-            },
-            function (xhr, settings, errorThrown) {
-                console.log(errorThrown)
                 setTimeout(function () {
-                    tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
-                }, 300)
-            });
+                    tmsApp.systemError('Vehicle On-Boarding - Chassis Details', asyncResponse['message'], function () {
+                    }, 'error');
+                }, 300);
+                toastr.error(asyncResponse.message);
+                return;
+            }
+
+            tmsApp.showSystemMessage('Vehicle On-Boarding - Cost & Valuation Details', asyncResponse.message, function () {
+                setTimeout(function () {
+                    window.location.href = asyncResponse['redirectUrl']
+                }, 500);
+            }, 'success');
+        }, function (xhr, settings, errorThrown) {
+            console.log(errorThrown)
+            setTimeout(function () {
+                tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
+            }, 300)
+        });
 
     }
 
@@ -1475,9 +1378,7 @@ function checkOnboardingHeaderStatus() {
         const isValid = $($form).valid();
 
         if (!isValid) {
-            toastr.warning(
-                "Sorry, the data did not pass validation check, check the data and try again."
-            );
+            toastr.warning("Sorry, the data did not pass validation check, check the data and try again.");
             return;
         }
 
@@ -1485,46 +1386,32 @@ function checkOnboardingHeaderStatus() {
         formData.set('engineCapacity', tmsApp.getRawNumber(formData.get('engineCapacity')).toString());
         formData.set('tank_capacity', tmsApp.getRawNumber(formData.get('tank_capacity')).toString());
 
-        tmsApp.asyncPostFormData(
-            $form.action,
-            formData,
-            function (asyncResponse) {
-                if ('state' in asyncResponse && asyncResponse.state !== 'success') {
-                    if (asyncResponse.hasOwnProperty('errors')) {
-                        tmsApp.printErrorMsg(asyncResponse.errors);
-                        return
-                    }
-
-                    setTimeout(function () {
-                        tmsApp.systemError(
-                            'Vehicle On-Boarding - Technical Data',
-                            asyncResponse['message'],
-                            function () {
-                            }, 'error');
-                    }, 300);
-                    toastr.error(
-                        asyncResponse.message
-                    );
-                    return;
+        tmsApp.asyncPostFormData($form.action, formData, function (asyncResponse) {
+            if ('state' in asyncResponse && asyncResponse.state !== 'success') {
+                if (asyncResponse.hasOwnProperty('errors')) {
+                    tmsApp.printErrorMsg(asyncResponse.errors);
+                    return
                 }
 
-                tmsApp.showSystemMessage(
-                    'Vehicle On-Boarding - Technical Data',
-                    asyncResponse.message,
-                    function () {
-                        setTimeout(
-                            function () {
-                                window.location.href = asyncResponse['redirectUrl']
-                            }, 500
-                        );
-                    }, 'success');
-            },
-            function (xhr, settings, errorThrown) {
-                console.log(errorThrown)
                 setTimeout(function () {
-                    tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
-                }, 300)
-            });
+                    tmsApp.systemError('Vehicle On-Boarding - Technical Data', asyncResponse['message'], function () {
+                    }, 'error');
+                }, 300);
+                toastr.error(asyncResponse.message);
+                return;
+            }
+
+            tmsApp.showSystemMessage('Vehicle On-Boarding - Technical Data', asyncResponse.message, function () {
+                setTimeout(function () {
+                    window.location.href = asyncResponse['redirectUrl']
+                }, 500);
+            }, 'success');
+        }, function (xhr, settings, errorThrown) {
+            console.log(errorThrown)
+            setTimeout(function () {
+                tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
+            }, 300)
+        });
     }
 
     function submitBodyDetails() {
@@ -1534,9 +1421,7 @@ function checkOnboardingHeaderStatus() {
         const isValid = $($form).valid();
 
         if (!isValid) {
-            toastr.warning(
-                "Sorry, the data did not pass validation check, check the data and try again."
-            );
+            toastr.warning("Sorry, the data did not pass validation check, check the data and try again.");
             return;
         }
 
@@ -1544,47 +1429,32 @@ function checkOnboardingHeaderStatus() {
         formData.set('grossWeight', tmsApp.getFloat(formData.get('grossWeight')).toString());
         formData.set('tareWeight', tmsApp.getFloat(formData.get('tareWeight')).toString());
 
-        tmsApp.asyncPostFormData(
-            $form.action,
-            formData,
-            function (asyncResponse) {
-                if ('state' in asyncResponse && asyncResponse.state !== 'success') {
-                    if (asyncResponse.hasOwnProperty('errors')) {
-                        tmsApp.printErrorMsg(asyncResponse.errors);
-                        return
-                    }
-
-                    setTimeout(function () {
-                        tmsApp.systemError(
-                            'Vehicle On-Boarding - Body Details',
-                            asyncResponse['message'],
-                            function () {
-                            }, 'error');
-                    }, 300);
-                    toastr.error(
-                        asyncResponse.message
-                    );
-                    return;
+        tmsApp.asyncPostFormData($form.action, formData, function (asyncResponse) {
+            if ('state' in asyncResponse && asyncResponse.state !== 'success') {
+                if (asyncResponse.hasOwnProperty('errors')) {
+                    tmsApp.printErrorMsg(asyncResponse.errors);
+                    return
                 }
 
-                tmsApp.showSystemMessage(
-                    'Vehicle On-Boarding - Body Details',
-                    asyncResponse.message,
-                    function () {
-                        setTimeout(
-                            function () {
-                                window.location.href = asyncResponse['redirectUrl']
-                            }, 500
-                        );
-                    }, 'success');
-            },
-            function (xhr, settings, errorThrown) {
-                console.log(errorThrown)
                 setTimeout(function () {
-                    tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
-                }, 300)
+                    tmsApp.systemError('Vehicle On-Boarding - Body Details', asyncResponse['message'], function () {
+                    }, 'error');
+                }, 300);
+                toastr.error(asyncResponse.message);
+                return;
             }
-        );
+
+            tmsApp.showSystemMessage('Vehicle On-Boarding - Body Details', asyncResponse.message, function () {
+                setTimeout(function () {
+                    window.location.href = asyncResponse['redirectUrl']
+                }, 500);
+            }, 'success');
+        }, function (xhr, settings, errorThrown) {
+            console.log(errorThrown)
+            setTimeout(function () {
+                tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
+            }, 300)
+        });
     }
 
     function submitAssignmentDetails() {
@@ -1594,65 +1464,40 @@ function checkOnboardingHeaderStatus() {
         const isValid = $($form).valid();
 
         if (!isValid) {
-            toastr.warning(
-                "Sorry, the data did not pass validation check, check the data and try again.",
-                'Validation'
-            );
+            toastr.warning("Sorry, the data did not pass validation check, check the data and try again.", 'Validation');
             return;
         }
 
-        tmsApp.confirm(
-            'Completion Of Onboarding',
-            "Are you sure you would like to complete the onboarding of this vehicle?",
-            'Yes',
-            'No',
-            function () {
-                tmsApp.asyncPostFormData(
-                    $form.action,
-                    new FormData($form),
-                    function (asyncResponse) {
-                        if ('state' in asyncResponse && asyncResponse.state !== 'success') {
-                            if (asyncResponse.hasOwnProperty('errors')) {
-                                tmsApp.printErrorMsg(asyncResponse.errors);
-                                return
-                            }
-
-                            setTimeout(function () {
-                                tmsApp.systemError(
-                                    'Vehicle On-Boarding - Assignment',
-                                    asyncResponse['message'],
-                                    function () {
-                                    }, 'error');
-                            }, 300);
-                            toastr.error(
-                                asyncResponse.message
-                            );
-                            return;
-                        }
-
-                        tmsApp.showSystemMessage(
-                            'Vehicle On-Boarding - Assignment',
-                            asyncResponse.message,
-                            function () {
-                                setTimeout(
-                                    function () {
-                                        window.location.href = asyncResponse['redirectUrl']
-                                    }, 500
-                                );
-                            }, 'success');
-                    },
-                    function (xhr, settings, errorThrown) {
-                        console.log(errorThrown)
-                        setTimeout(function () {
-                            tmsApp.showErrorMessages(xhr, 'On-Boarding Completion');
-                        }, 300)
+        tmsApp.confirm('Completion Of Onboarding', "Are you sure you would like to complete the onboarding of this vehicle?", 'Yes', 'No', function () {
+            tmsApp.asyncPostFormData($form.action, new FormData($form), function (asyncResponse) {
+                if ('state' in asyncResponse && asyncResponse.state !== 'success') {
+                    if (asyncResponse.hasOwnProperty('errors')) {
+                        tmsApp.printErrorMsg(asyncResponse.errors);
+                        return
                     }
-                );
-            },
-            function () {
 
-            }
-        );
+                    setTimeout(function () {
+                        tmsApp.systemError('Vehicle On-Boarding - Assignment', asyncResponse['message'], function () {
+                        }, 'error');
+                    }, 300);
+                    toastr.error(asyncResponse.message);
+                    return;
+                }
+
+                tmsApp.showSystemMessage('Vehicle On-Boarding - Assignment', asyncResponse.message, function () {
+                    setTimeout(function () {
+                        window.location.href = asyncResponse['redirectUrl']
+                    }, 500);
+                }, 'success');
+            }, function (xhr, settings, errorThrown) {
+                console.log(errorThrown)
+                setTimeout(function () {
+                    tmsApp.showErrorMessages(xhr, 'On-Boarding Completion');
+                }, 300)
+            });
+        }, function () {
+
+        });
     }
 
     function submitAccessoriesDetails() {
@@ -1662,54 +1507,36 @@ function checkOnboardingHeaderStatus() {
         const isValid = $($form).valid();
 
         if (!isValid) {
-            toastr.warning(
-                "Sorry, the data did not pass validation check, for details, check the indicated fields",
-                'Validation'
-            );
+            toastr.warning("Sorry, the data did not pass validation check, for details, check the indicated fields", 'Validation');
             return;
         }
 
-        tmsApp.asyncPostFormData(
-            $form.action,
-            new FormData($form),
-            function (asyncResponse) {
-                if ('state' in asyncResponse && asyncResponse.state !== 'success') {
-                    if (asyncResponse.hasOwnProperty('errors')) {
-                        tmsApp.printErrorMsg(asyncResponse.errors);
-                        return
-                    }
-
-                    setTimeout(function () {
-                        tmsApp.systemError(
-                            'Vehicle On-Boarding - Assignment',
-                            asyncResponse['message'],
-                            function () {
-                            }, 'error');
-                    }, 300);
-                    toastr.error(
-                        asyncResponse.message
-                    );
-                    return;
+        tmsApp.asyncPostFormData($form.action, new FormData($form), function (asyncResponse) {
+            if ('state' in asyncResponse && asyncResponse.state !== 'success') {
+                if (asyncResponse.hasOwnProperty('errors')) {
+                    tmsApp.printErrorMsg(asyncResponse.errors);
+                    return
                 }
 
-                tmsApp.showSystemMessage(
-                    'Vehicle On-Boarding - Assignment',
-                    asyncResponse.message,
-                    function () {
-                        setTimeout(
-                            function () {
-                                window.location.href = asyncResponse['redirectUrl']
-                            }, 500
-                        );
-                    }, 'success');
-            },
-            function (xhr, settings, errorThrown) {
-                console.log(errorThrown)
                 setTimeout(function () {
-                    tmsApp.showErrorMessages(xhr, 'On-Boarding Completion');
-                }, 300)
+                    tmsApp.systemError('Vehicle On-Boarding - Assignment', asyncResponse['message'], function () {
+                    }, 'error');
+                }, 300);
+                toastr.error(asyncResponse.message);
+                return;
             }
-        );
+
+            tmsApp.showSystemMessage('Vehicle On-Boarding - Assignment', asyncResponse.message, function () {
+                setTimeout(function () {
+                    window.location.href = asyncResponse['redirectUrl']
+                }, 500);
+            }, 'success');
+        }, function (xhr, settings, errorThrown) {
+            console.log(errorThrown)
+            setTimeout(function () {
+                tmsApp.showErrorMessages(xhr, 'On-Boarding Completion');
+            }, 300)
+        });
     }
 
     function getPurchaseOrderDetails() {
@@ -1717,52 +1544,43 @@ function checkOnboardingHeaderStatus() {
         let formData = new FormData();
         formData.append('purchase_order_number', purchaseOrder);
 
-        tmsApp.asyncGetFormData(
-            $('#purchase_order_number').attr('data-action') + '?document_number=' + purchaseOrder,
-            formData,
-            function (response_data) {
-                if (response_data.state === 'success') {
-                    let supplierData = response_data['payload'][0];
+        tmsApp.asyncGetFormData($('#purchase_order_number').attr('data-action') + '?document_number=' + purchaseOrder, formData, function (response_data) {
+            if (response_data.state === 'success') {
+                let supplierData = response_data['payload'][0];
 
-                    // document_no "C01CR1000983"
-                    if (['CLOSED', 'ISSUED'].indexOf(supplierData['po_status_description']) < 0) {
-                        let message = 'The Purchase Order ' + supplierData['document_no']
-                            + ' for supplier ' + supplierData['name_of_supplier']
-                            + ' can not be used as it is in ' + supplierData['po_status_description']
-                            + ' State';
-                        tmsApp.showSystemMessage('Purchase Order', message,
-                            function () {
-                            }, 'error');
+                // document_no "C01CR1000983"
+                if (['CLOSED', 'ISSUED'].indexOf(supplierData['po_status_description']) < 0) {
+                    let message = 'The Purchase Order ' + supplierData['document_no'] + ' for supplier ' + supplierData['name_of_supplier'] + ' can not be used as it is in ' + supplierData['po_status_description'] + ' State';
+                    tmsApp.showSystemMessage('Purchase Order', message, function () {
+                    }, 'error');
 
-                        document.querySelector('#purchase_order_number').value = '';
-                    }
-
-                    let selectElem = $('[name="supplierName"]');
-                    selectElem.val(supplierData['code_supplier']);
-                    selectElem.trigger('change');
-                    selectElem.attr('readonly', true).trigger('change');
-
-                    let price = supplierData['price'];
-                    let costPriceInput = document.querySelector('[name="costPrice"]');
-                    costPriceInput.value = tmsApp.formatMoney(price, 2);
-                    costPriceInput.setAttribute('readonly', 'readonly');
-
-                    let bookValueInput = document.querySelector('[name="bookValue"]');
-                    bookValueInput.value = tmsApp.formatMoney(price, 2);
-                    bookValueInput.setAttribute('readonly', 'readonly');
-
-                    document.querySelector('#purchase_order_number').value = supplierData['document_no'];
-
-                    calculateInsurancePremium(price);
-                } else {
-                    tmsApp.showToast(response_data['message'], 'error');
+                    document.querySelector('#purchase_order_number').value = '';
                 }
-            },
-            function (xhr) {
-                console.log(xhr);
-                tmsApp.showToast('We could not complete processing your request, please try again later')
+
+                let selectElem = $('[name="supplierName"]');
+                selectElem.val(supplierData['code_supplier']);
+                selectElem.trigger('change');
+                selectElem.attr('readonly', true).trigger('change');
+
+                let price = supplierData['price'];
+                let costPriceInput = document.querySelector('[name="costPrice"]');
+                costPriceInput.value = tmsApp.formatMoney(price, 2);
+                costPriceInput.setAttribute('readonly', 'readonly');
+
+                let bookValueInput = document.querySelector('[name="bookValue"]');
+                bookValueInput.value = tmsApp.formatMoney(price, 2);
+                bookValueInput.setAttribute('readonly', 'readonly');
+
+                document.querySelector('#purchase_order_number').value = supplierData['document_no'];
+
+                calculateInsurancePremium(price);
+            } else {
+                tmsApp.showToast(response_data['message'], 'error');
             }
-        )
+        }, function (xhr) {
+            console.log(xhr);
+            tmsApp.showToast('We could not complete processing your request, please try again later')
+        })
     }
 
     function vehicleWeightValidations(element) {
@@ -1825,8 +1643,7 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error(
-                    'Connection error. Could not retrieve data, some feature might not work.')
+                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
             });
     }
 
@@ -1865,53 +1682,37 @@ function checkOnboardingHeaderStatus() {
         $('.print-error-msg').css('display', 'none');
         // validate all required information
         if (!$('form[name="vehicleHeaderForm"]').valid()) {
-            toastr.warning(
-                "Sorry, the data did not pass validation check, check the data and try again."
-            );
+            toastr.warning("Sorry, the data did not pass validation check, check the data and try again.");
             return;
         }
 
         let $form = document.forms['vehicleHeaderForm'];
 
-        tmsApp.asyncPostFormData(
-            $form.action,
-            new FormData($form),
-            function (asyncResponse) {
-                if (asyncResponse.hasOwnProperty('state') && asyncResponse.state != 'success') {
-                    if (asyncResponse.hasOwnProperty('errors')) {
-                        tmsApp.printErrorMsg(asyncResponse.errors);
-                        return
-                    }
-
-                    setTimeout(function () {
-                        tmsApp.systemError(
-                            'Vehicle On-Boarding',
-                            asyncResponse['message'],
-                            function () {
-                            }, 'error');
-                    }, 300);
-                    toastr.error(
-                        asyncResponse.message
-                    );
-                    return;
+        tmsApp.asyncPostFormData($form.action, new FormData($form), function (asyncResponse) {
+            if (asyncResponse.hasOwnProperty('state') && asyncResponse.state != 'success') {
+                if (asyncResponse.hasOwnProperty('errors')) {
+                    tmsApp.printErrorMsg(asyncResponse.errors);
+                    return
                 }
 
-                tmsApp.showSystemMessage(
-                    'Vehicle OnBoarding',
-                    asyncResponse.message,
-                    function () {
-                        setTimeout(
-                            function () {
-                                window.location.href = asyncResponse['redirectUrl']
-                            }, 500
-                        );
-                    }, 'success');
-            },
-            function (xhr, settings, errorThrown) {
                 setTimeout(function () {
-                    tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
-                }, 300)
-            });
+                    tmsApp.systemError('Vehicle On-Boarding', asyncResponse['message'], function () {
+                    }, 'error');
+                }, 300);
+                toastr.error(asyncResponse.message);
+                return;
+            }
+
+            tmsApp.showSystemMessage('Vehicle OnBoarding', asyncResponse.message, function () {
+                setTimeout(function () {
+                    window.location.href = asyncResponse['redirectUrl']
+                }, 500);
+            }, 'success');
+        }, function (xhr, settings, errorThrown) {
+            setTimeout(function () {
+                tmsApp.showErrorMessages(xhr, 'Vehicle On-Boarding');
+            }, 300)
+        });
     }
 
     function calculateInsurancePremium(currentValue) {
@@ -1944,15 +1745,13 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error(
-                    'Connection error. Could not retrieve data, some feature might not work.')
+                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
             });
     }
 
     function validateRegistrationNumber() {
         let ref = document.querySelector('#registrationNumber').value
-        fetch(document.querySelector('#documentValidationUrl').value +
-            '?method=registration_number&key=' + ref)
+        fetch(document.querySelector('#documentValidationUrl').value + '?method=registration_number&key=' + ref)
             .then(response => response.json())
             .then(response => {
                 // Populate results
@@ -1972,17 +1771,12 @@ function checkOnboardingHeaderStatus() {
                     document.querySelector("#submitBtn").removeAttribute('disabled')
                 } else {
                     document.querySelector("#submitBtn").setAttribute('disabled', 'disabled')
-                    tmsApp.systemError(
-                        'Registration Number Validation',
-                        'Duplicate registration number, vehicle already with registration number ' +
-                        ref + ' already exists'
-                    );
+                    tmsApp.systemError('Registration Number Validation', 'Duplicate registration number, vehicle already with registration number ' + ref + ' already exists');
                 }
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error(
-                    'Connection error. Could not retrieve data, some feature might not work.', 'Invalid Registration')
+                toastr.error('Connection error. Could not retrieve data, some feature might not work.', 'Invalid Registration')
             });
     }
 
@@ -2010,8 +1804,7 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error(
-                    'Connection error. Could not retrieve data, some feature might not work.')
+                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
             });
     }
 
@@ -2063,8 +1856,7 @@ function checkOnboardingHeaderStatus() {
                     selectElem.trigger('change');
                 }
             }).catch(function (error) {
-            toastr.error(
-                'Could not Retrieve Data, some feature might not work.', 'Connection error');
+            toastr.error('Could not Retrieve Data, some feature might not work.', 'Connection error');
         });
     }
 
@@ -2139,8 +1931,7 @@ function checkOnboardingHeaderStatus() {
 
     function checkWhiteBookSerialValidity() {
         let ref = document.querySelector('#whiteBookSerial').value
-        fetch(document.querySelector('#documentValidationUrl').value +
-            '?method=motorVehicleCertificate&key=' + ref)
+        fetch(document.querySelector('#documentValidationUrl').value + '?method=motorVehicleCertificate&key=' + ref)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -2168,26 +1959,20 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error(
-                    'Connection error. Could not retrieve data, some feature might not work.')
+                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
             });
     }
 
     function checkChassisNumberValidity() {
         let chassisNumber = document.querySelector('[name="chassisNumber"]').value;
-        fetch(document.querySelector('#documentValidationUrl').value
-            + '?method=chassis&key=' + chassisNumber)
+        fetch(document.querySelector('#documentValidationUrl').value + '?method=chassis&key=' + chassisNumber)
             .then(response => response.json())
             .then(response => {
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
                     toastr.error('Vehicle Identification number verification failed', 'Connection error');
-                    tmsApp.systemError(
-                        'Chassis Number Validation',
-                        'Duplicate Chassis number, vehicle already with chassis number ' +
-                        chassisNumber + ' already exists'
-                    );
+                    tmsApp.systemError('Chassis Number Validation', 'Duplicate Chassis number, vehicle already with chassis number ' + chassisNumber + ' already exists');
                     document.querySelector("#tms_save_chassis").setAttribute('disabled', 'disabled')
                     return;
                 } else {
@@ -2197,26 +1982,20 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error(
-                    'Could not retrieve data, some feature might not work.', 'Connection error')
+                toastr.error('Could not retrieve data, some feature might not work.', 'Connection error')
             });
     }
 
     function checkEngineNumberValidity() {
         let engineNumber = document.querySelector('[name="engineNumber"]').value;
-        fetch(document.querySelector('#documentValidationUrl').value
-            + '?method=engine_number&key=' + engineNumber)
+        fetch(document.querySelector('#documentValidationUrl').value + '?method=engine_number&key=' + engineNumber)
             .then(response => response.json())
             .then(response => {
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
                     toastr.error('Vehicle Engine number verification failed', 'Connection error');
-                    tmsApp.systemError(
-                        'Chassis Number Validation',
-                        'Duplicate Engine number, vehicle already with Engine number number ' +
-                        engineNumber + ' already exists'
-                    );
+                    tmsApp.systemError('Chassis Number Validation', 'Duplicate Engine number, vehicle already with Engine number number ' + engineNumber + ' already exists');
                     document.querySelector("#tms_save_chassis").setAttribute('disabled', 'disabled')
                     return;
                 } else {
@@ -2226,8 +2005,7 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error(
-                    'Could not retrieve data, some feature might not work.', 'Connection error')
+                toastr.error('Could not retrieve data, some feature might not work.', 'Connection error')
             });
     }
 
@@ -2255,8 +2033,7 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error(
-                    'Connection error. Could not retrieve data, some feature might not work.')
+                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
             });
     }
 
@@ -2285,61 +2062,45 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error(
-                    'Connection error. Could not retrieve data, some feature might not work.')
+                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
             });
     }
 
     getCostCenters();
 
-    tmsApp.appFormValidator('form[name="vehicleHeaderForm"]',
-        {
-            'brand': {
-                required: true
-            },
-            'registrationNumber': {
-                required: true
-            },
-            'model': {
-                required: true
-            },
-            'vehicleLocation': {
-                required: true
-            },
-            'model_code': {
-                required: true
-            },
-            'bodyType': {
-                required: true
-            },
-            'userUnit': {
-                required: true
-            }
-        },
-        {
-            'brand': {
-                required: "Vehicle brand is required"
-            },
-            'registrationNumber': {
-                required: "Registration number is required"
-            },
-            'model': {
-                required: "You must declare vehicle model"
-            },
-            'vehicleLocation': {
-                required: "Vehicle location is mandatory"
-            },
-            'model_code': {
-                required: "Vehicle Model code is required"
-            },
-            'bodyType': {
-                required: "Body type is required"
-            },
-            'userUnit': {
-                required: "Select the user unit responsible for the vehicle"
-            }
+    tmsApp.appFormValidator('form[name="vehicleHeaderForm"]', {
+        'brand': {
+            required: true
+        }, 'registrationNumber': {
+            required: true
+        }, 'model': {
+            required: true
+        }, 'vehicleLocation': {
+            required: true
+        }, 'model_code': {
+            required: true
+        }, 'bodyType': {
+            required: true
+        }, 'userUnit': {
+            required: true
         }
-    );
+    }, {
+        'brand': {
+            required: "Vehicle brand is required"
+        }, 'registrationNumber': {
+            required: "Registration number is required"
+        }, 'model': {
+            required: "You must declare vehicle model"
+        }, 'vehicleLocation': {
+            required: "Vehicle location is mandatory"
+        }, 'model_code': {
+            required: "Vehicle Model code is required"
+        }, 'bodyType': {
+            required: "Body type is required"
+        }, 'userUnit': {
+            required: "Select the user unit responsible for the vehicle"
+        }
+    });
 
     $("#submitBtn").on('click', function () {
         postVehicleHeaderData();
@@ -2359,109 +2120,78 @@ function checkOnboardingHeaderStatus() {
         this.postVehicleHeaderData();
     }
 
-    tmsApp.appFormValidator('form[name="tmsChassisDetailsForm"]',
-        {
-            'chassisNumber': {
-                required: true
-            },
-            'engineNumber': {
-                required: true
-            },
-            'whiteBookSerial': {
-                required: true
-            },
-            'yearOfManufacture': {
-                required: true
-            },
-            'registrationDate': {
-                required: true
-            },
-            'chargeOutRate': {
-                required: true
-            },
-            'requiredMinimumDrivingLicense': {
-                required: true
-            },
-            'initialOdometerReading': {
-                required: true
-            },
-            'currentOdometerReading': {
-                required: true
-            },
-            'odometerReadingLastService': {
-                required: true
-            },
-            /* 'nextServiceOdometerReading': {
+    tmsApp.appFormValidator('form[name="tmsChassisDetailsForm"]', {
+        'chassisNumber': {
+            required: true
+        }, 'engineNumber': {
+            required: true
+        }, 'whiteBookSerial': {
+            required: true
+        }, 'yearOfManufacture': {
+            required: true
+        }, 'registrationDate': {
+            required: true
+        }, 'chargeOutRate': {
+            required: true
+        }, 'requiredMinimumDrivingLicense': {
+            required: true
+        }, 'initialOdometerReading': {
+            required: true
+        }, 'currentOdometerReading': {
+            required: true
+        }, 'odometerReadingLastService': {
+            required: true
+        }, /* 'nextServiceOdometerReading': {
                  required: true
              },*/
-            'inspectionDate': {
-                required: true
-            },
-
-            motor_vehicle_certificate: {
-                required: true
-            },
-            insurance_cover_note: {
-                required: true
-            },
-            front_view: {
-                required: true
-            },
-            rear_view: {
-                required: true
-            },
-            right_view: {
-                required: true
-            },
-            left_view: {
-                required: true
-            }
+        'inspectionDate': {
+            required: true
         },
-        {
-            chassisNumber: {
-                required: "Chassis number is required"
-            },
-            'engineNumber': {
-                required: "Engine number is required"
-            },
-            'whiteBookSerial': {
-                required: "Provide White Book Serial number"
-            },
-            'yearOfManufacture': {
-                required: "Year vehicle was manufactured is required"
-            },
-            'registrationDate': {
-                required: "Indicate when vehicle was registered with the authority"
-            },
-            'chargeOutRate': {
-                required: "You have not provided charge-out rate"
-            },
-            'requiredMinimumDrivingLicense': {
-                required: "Specify the minimum driver's license class required"
-            },
-            'initialOdometerReading': {
-                required: "provide the vehicles initial odometer value"
-            },
-            'currentOdometerReading': {
-                required: "Provide current odometer reading"
-            },
-            'odometerReadingLastService': {
-                required: "Odometer reading at last service is required"
-            },
-            'nextServiceOdometerReading': {
-                required: "Your must provide the odometer reading when vehicle is next due for service"
-            },
-            inspectionDate: {
-                required: "Your have not provided the date the vehicle was inspected"
-            },
-            motor_vehicle_certificate: {
-                required: "Motor Vehicle Certificate is required"
-            },
-            insurance_cover_note: {
-                required: "Insurance Cover Note must be attached"
-            }
+
+        motor_vehicle_certificate: {
+            required: true
+        }, insurance_cover_note: {
+            required: true
+        }, front_view: {
+            required: true
+        }, rear_view: {
+            required: true
+        }, right_view: {
+            required: true
+        }, left_view: {
+            required: true
         }
-    );
+    }, {
+        chassisNumber: {
+            required: "Chassis number is required"
+        }, 'engineNumber': {
+            required: "Engine number is required"
+        }, 'whiteBookSerial': {
+            required: "Provide White Book Serial number"
+        }, 'yearOfManufacture': {
+            required: "Year vehicle was manufactured is required"
+        }, 'registrationDate': {
+            required: "Indicate when vehicle was registered with the authority"
+        }, 'chargeOutRate': {
+            required: "You have not provided charge-out rate"
+        }, 'requiredMinimumDrivingLicense': {
+            required: "Specify the minimum driver's license class required"
+        }, 'initialOdometerReading': {
+            required: "provide the vehicles initial odometer value"
+        }, 'currentOdometerReading': {
+            required: "Provide current odometer reading"
+        }, 'odometerReadingLastService': {
+            required: "Odometer reading at last service is required"
+        }, 'nextServiceOdometerReading': {
+            required: "Your must provide the odometer reading when vehicle is next due for service"
+        }, inspectionDate: {
+            required: "Your have not provided the date the vehicle was inspected"
+        }, motor_vehicle_certificate: {
+            required: "Motor Vehicle Certificate is required"
+        }, insurance_cover_note: {
+            required: "Insurance Cover Note must be attached"
+        }
+    });
 
     $('[name="tmsChassisDetailsForm"]').on('submit', function (e) {
         e.preventDefault();
@@ -2482,89 +2212,75 @@ function checkOnboardingHeaderStatus() {
         checkEngineNumberValidity();
     });
 
-    tmsApp.appFormValidator('form[name="engineDetailsForm"]',
-        {
-            'numberOfCylinders': {
-                required: true
-            },
-            'engineCapacity': {
-                required: true
-            },
-            'fuelTypes': {
-                required: true
-            },
-            'fuelConsumption': {
-                required: true
-            },
-            'engineType': {
-                required: true
-            },
-
-
-            'claimedEnginePower': {
-                required: true
-            },
-            'actualEnginePower': {
-                required: true
-            },
-            'engineBrand': {
-                required: true
-            },
-
-            'transmission_type': {
-                required: true
-            },
-
-            'tank_capacity': {
-                required: true
-            },
-
-            'numberOfTyres': {
-                required: true
-            },
-
-            'tyreBrand': {
-                required: true
-            },
-
-            'frontTyreSize': {
-                required: true
-            },
-
-            'rearTyreSize': {
-                required: true
-            },
-
-            'batteryBrand': {
-                required: true
-            },
-            'batterySize': {
-                required: true
-            },
-
-            'batteryPower': {
-                required: true
-            },
-
+    tmsApp.appFormValidator('form[name="engineDetailsForm"]', {
+        'numberOfCylinders': {
+            required: true
+        }, 'engineCapacity': {
+            required: true
+        }, 'fuelTypes': {
+            required: true
+        }, 'fuelConsumption': {
+            required: true
+        }, 'engineType': {
+            required: true
         },
-        {
-            'numberOfCylinders': {
-                required: 'Number of cylinders is required'
-            },
-            'engineCapacity': {
-                required: 'Engine capacity is required'
-            },
-            'fuelTypes': {
-                required: 'Fuel Type is required'
-            },
-            'fuelConsumption': {
-                required: 'Fuel Consumption is required'
-            },
-            'engineType': {
-                required: 'Engine Code is required'
-            },
-        }
-    );
+
+
+        'claimedEnginePower': {
+            required: true
+        }, 'actualEnginePower': {
+            required: true
+        }, 'engineBrand': {
+            required: true
+        },
+
+        'transmission_type': {
+            required: true
+        },
+
+        'tank_capacity': {
+            required: true
+        },
+
+        'numberOfTyres': {
+            required: true
+        },
+
+        'tyreBrand': {
+            required: true
+        },
+
+        'frontTyreSize': {
+            required: true
+        },
+
+        'rearTyreSize': {
+            required: true
+        },
+
+        'batteryBrand': {
+            required: true
+        }, 'batterySize': {
+            required: true
+        },
+
+        'batteryPower': {
+            required: true
+        },
+
+    }, {
+        'numberOfCylinders': {
+            required: 'Number of cylinders is required'
+        }, 'engineCapacity': {
+            required: 'Engine capacity is required'
+        }, 'fuelTypes': {
+            required: 'Fuel Type is required'
+        }, 'fuelConsumption': {
+            required: 'Fuel Consumption is required'
+        }, 'engineType': {
+            required: 'Engine Code is required'
+        },
+    });
 
     $('[name="engineDetailsForm"]').on('submit', function (e) {
         e.preventDefault();
@@ -2573,60 +2289,43 @@ function checkOnboardingHeaderStatus() {
     });
 
 
-    tmsApp.appFormValidator('form[name="tms_costing_valuation_form"]',
-        {
-            'supplierName': {
-                required: true
-            },
-            'costPrice': {
-                required: true
-            },
-            'yearOfPurchase': {
-                required: true
-            },
-            'bookValue': {
-                required: true
-            },
-            'assetNumber': {
-                required: true
-            },
-            'costOfLicense': {
-                required: true
-            },
-            'premium': {
-                required: true
-            },
-            purchaseOrderDocument: {
-                required: true
-            }
-        },
-        {
-            'supplierName': {
-                required: "Vehicle Supplier is required"
-            },
-            'costPrice': {
-                required: "Cost is required"
-            },
-            'yearOfPurchase': {
-                required: "You must declare the year vehicle was purchased"
-            },
-            'bookValue': {
-                required: "Item current book value must be declared"
-            },
-            'assetNumber': {
-                required: "Asset number is mandatory for asset management"
-            },
-            'costOfLicense': {
-                required: "Cost of Road Tax & Fitness"
-            },
-            'premium': {
-                required: "You must declare the insurance premium being paid"
-            },
-            'purchaseOrderDocument': {
-                required: 'You must attach the purchase order before submitting'
-            }
+    tmsApp.appFormValidator('form[name="tms_costing_valuation_form"]', {
+        'supplierName': {
+            required: true
+        }, 'costPrice': {
+            required: true
+        }, 'yearOfPurchase': {
+            required: true
+        }, 'bookValue': {
+            required: true
+        }, 'assetNumber': {
+            required: true
+        }, 'costOfLicense': {
+            required: true
+        }, 'premium': {
+            required: true
+        }, purchaseOrderDocument: {
+            required: true
         }
-    );
+    }, {
+        'supplierName': {
+            required: "Vehicle Supplier is required"
+        }, 'costPrice': {
+            required: "Cost is required"
+        }, 'yearOfPurchase': {
+            required: "You must declare the year vehicle was purchased"
+        }, 'bookValue': {
+            required: "Item current book value must be declared"
+        }, 'assetNumber': {
+            required: "Asset number is mandatory for asset management"
+        }, 'costOfLicense': {
+            required: "Cost of Road Tax & Fitness"
+        }, 'premium': {
+            required: "You must declare the insurance premium being paid"
+        }, 'purchaseOrderDocument': {
+            required: 'You must attach the purchase order before submitting'
+        }
+    });
 
     $('[name="tms_costing_valuation_form"]').on('submit', function (e) {
         e.preventDefault();
@@ -2635,48 +2334,35 @@ function checkOnboardingHeaderStatus() {
     });
 
 
-    tmsApp.appFormValidator('form[name="tms_body_weight_form"]',
-        {
-            'height': {
-                required: true
-            },
-            'length': {
-                required: true
-            },
-            'width': {
-                required: true
-            },
-            'seatCapFront': {
-                required: true
-            },
-            'tareWeight': {
-                required: true
-            },
-            'grossWeight': {
-                required: true
-            },
+    tmsApp.appFormValidator('form[name="tms_body_weight_form"]', {
+        'height': {
+            required: true
+        }, 'length': {
+            required: true
+        }, 'width': {
+            required: true
+        }, 'seatCapFront': {
+            required: true
+        }, 'tareWeight': {
+            required: true
+        }, 'grossWeight': {
+            required: true
         },
-        {
-            'height': {
-                required: "required"
-            },
-            'length': {
-                required: "required"
-            },
-            'width': {
-                required: "required"
-            },
-            'seatCapFront': {
-                required: "required"
-            },
-            'tareWeight': {
-                required: "required"
-            },
-            'grossWeight': {
-                required: "Vehicle Weight is required"
-            },
-        }
-    );
+    }, {
+        'height': {
+            required: "required"
+        }, 'length': {
+            required: "required"
+        }, 'width': {
+            required: "required"
+        }, 'seatCapFront': {
+            required: "required"
+        }, 'tareWeight': {
+            required: "required"
+        }, 'grossWeight': {
+            required: "Vehicle Weight is required"
+        },
+    });
 
     $('[name="tms_body_weight_form"]').on('submit', function (e) {
         e.preventDefault();
@@ -2684,76 +2370,59 @@ function checkOnboardingHeaderStatus() {
         submitBodyDetails();
     });
 
-    tmsApp.appFormValidator('form[name="tms_assignment_form"]',
-        {
-            businessArea: {
-                required: true
-            },
-            isPoolVehicle: {
-                required: true
-            },
-            directorate: {
-                required: true
-            },
-            businessUnit: {
-                required: true
-            },
-            costCenter: {
-                required: true
-            },
-            isMileageExempt: {
-                required: true
-            },
-            responsibleHOD: {
-                required: $("#isPoolVehicle:checked")
-            },
-
-            responsibleHODId: {
-                required: $("#isPoolVehicle:checked")
-            },
-            vehicleHolder: {
-                required: $("#isNotPoolVehicle:checked")
-            },
-
-            vehicleHolderId: {
-                required: $("#isNotPoolVehicle:checked")
-            },
+    tmsApp.appFormValidator('form[name="tms_assignment_form"]', {
+        businessArea: {
+            required: true
+        }, isPoolVehicle: {
+            required: true
+        }, directorate: {
+            required: true
+        }, businessUnit: {
+            required: true
+        }, costCenter: {
+            required: true
+        }, isMileageExempt: {
+            required: true
+        }, responsibleHOD: {
+            required: $("#isPoolVehicle:checked")
         },
-        {
-            businessArea: {
-                required: "You must declare the business area"
-            },
-            isPoolVehicle: {
-                required: "You must declare if the vehicle is operational or personal to holder"
-            },
-            directorate: {
-                required: 'Directorate is required'
-            },
-            businessUnit: {
-                required: "Business Unit is required"
-            },
-            costCenter: {
-                required: "Cost Center is required"
-            },
-            isMileageExempt: {
-                required: "Required"
-            },
-            responsibleHOD: {
-                required: "Personnel responsible for vehicles must be declared"
-            },
 
-            responsibleHODId: {
-                required: "Personnel responsible for vehicles must be declared"
-            },
-            vehicleHolder: {
-                required: "Declare the officer assigned the vehicle"
-            },
+        responsibleHODId: {
+            required: $("#isPoolVehicle:checked")
+        }, vehicleHolder: {
+            required: $("#isNotPoolVehicle:checked")
+        },
 
-            vehicleHolderId: {
-                required: "Declare the officer assigned the vehicle"
-            },
-        }
-    );
+        vehicleHolderId: {
+            required: $("#isNotPoolVehicle:checked")
+        },
+    }, {
+        businessArea: {
+            required: "You must declare the business area"
+        }, isPoolVehicle: {
+            required: "You must declare if the vehicle is operational or personal to holder"
+        }, directorate: {
+            required: 'Directorate is required'
+        }, businessUnit: {
+            required: "Business Unit is required"
+        }, costCenter: {
+            required: "Cost Center is required"
+        }, isMileageExempt: {
+            required: "Required"
+        }, responsibleHOD: {
+            required: "Personnel responsible for vehicles must be declared"
+        },
+
+        responsibleHODId: {
+            required: "Personnel responsible for vehicles must be declared"
+        }, vehicleHolder: {
+            required: "Declare the officer assigned the vehicle"
+        },
+
+        vehicleHolderId: {
+            required: "Declare the officer assigned the vehicle"
+        },
+    });
 
     $('[name="tms_assignment_form"]').on('submit', function (e) {
         e.preventDefault();

@@ -299,7 +299,7 @@
         </tr>
         </tbody>
     </table>
-    <table v-if="" class="table align-middle table-row-dashed dataTable no-footer">
+    <table v-if="documents && documents.purchase_order" class="table align-middle table-row-dashed dataTable no-footer">
         <thead>
         <tr class="bg-dark">
             <th>Document Type</th>
