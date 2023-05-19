@@ -33,7 +33,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
                 ]);
             }
             return response()->json([
-                'state' => empty($purchaseOrder) ? 'success' : 'erorr',
+                'state' => empty($purchaseOrder) ?  'erorr' : 'success',
                 'payload' => $purchaseOrder,
                 'message' => empty($purchaseOrder) ? " Data could not be retrieved" : 'Data Retrieved'
             ]);

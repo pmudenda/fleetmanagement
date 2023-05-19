@@ -287,9 +287,9 @@
                                 </div>
                                 <div class="col-12">
                                     <div id="vehicleDetailsContainer" style="display: none;"
-                                         class="col-xs-12 col-sm-12 col-md-12">
+                                         class="col-xs-12 col-sm-12 col-md-12 pl-0">
                                         <h1>Vehicle Details</h1>
-                                        <table class="table">
+                                        <table class="table table-striped">
                                             <tbody id="vehicleDetails" class="vehicleDetails">
                                             </tbody>
                                         </table>
@@ -1008,21 +1008,10 @@
             })
 
             $('#repairTypeDropdownList').on('change', function () {
-                //document.forms['fuelRequisitionForm'].reset();
-                //removeSubmissionAndDetailsOptions();
                 if(this.value === '001'){
                     document.querySelector("#accidentRecordNo").classList.remove('d-none');
                 }else{
                     document.querySelector("#accidentRecordNo").classList.add('d-none');
-                }
-
-            });
-
-            $('select[name="requisition_type"]').on('change', function () {
-                if (this.value === '011') {
-                    $("#outOfTown").removeClass('d-none');
-                } else {
-                    $("#outOfTown").addClass('d-none');
                 }
             });
 
