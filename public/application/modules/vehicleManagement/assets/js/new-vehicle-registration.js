@@ -131,9 +131,10 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     Vue.set(app['otherDetails'], 'batteryBrand', data['battery_brand']);
     Vue.set(app['otherDetails'], 'batterySize', data['battery_size']);
-    $('input[name="batteryBrand"]').val(data['battery_size']);
 
-    $('select[name="batteryBrand"]').val(data['battery_brand']);
+    $('select[name="batterySize"]').val(data['battery_size']);
+
+    $('input[name="batteryBrand"]').val(data['battery_brand']);
 
     Vue.set(app['otherDetails'], 'batteryPower', data['battery_power']);
     $('select[name="batteryPower"]').val(data['battery_power']);
@@ -141,7 +142,10 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     setTimeout(function () {
         $('select[name="batteryPower"]').trigger('change');
         $('select[name="batterySize"]').trigger('change');
-    }, 300);
+        $('select[name="frontTyreSize"]').trigger('change');
+        $('select[name="rearTyreSize"]').trigger('change');
+        $('select[name="batterySize"]').trigger('change');
+    }, 600);
 
     Vue.set(app['costingAndValuation'], 'supplierName', data['supplierName']);
 

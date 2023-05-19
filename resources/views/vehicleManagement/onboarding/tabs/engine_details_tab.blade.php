@@ -573,7 +573,7 @@
                                 <div>
                                     {{--v-model="otherDetails.batterySize"--}}
                                     <select type="text"
-                                            class="form-select bold view_mode"
+                                            class="form-select input-with-feedback form-control  bold view_mode"
                                             data-fieldtype="Link"
                                             data-fieldname="company"
                                             id="batterySize"
