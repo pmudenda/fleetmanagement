@@ -217,7 +217,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     let price = data['costPrice'];
     let costPriceInput = document.querySelector('[name="costPrice"]');
-    costPriceInput.value = tmsApp.formatMoney(price, 2);
+    costPriceInput.value = accounting.formatMoney(price, 2);
     costPriceInput.setAttribute('readonly', 'readonly');
 
 
