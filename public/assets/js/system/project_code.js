@@ -1,6 +1,7 @@
 'use strict';
 $(document).ready(function () {
     $('.project-code-ajax').select2({
+        selectOnClose: true,
         theme: 'bootstrap4',
         ajax: {
             delay: 250,
