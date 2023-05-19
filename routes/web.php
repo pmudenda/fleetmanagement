@@ -169,6 +169,10 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('verify/document-number', [VehicleOnBoardingController::class, "validateVehicleIdentifiers"])
                 ->name('document.number.validation');
+
+            Route::get('/resume', [VehicleOnBoardingController::class, 'resume'])
+                ->name('resume.onboarding');
+
         });
 
         Route::get('vehicle/all/details', [VehicleController::class, 'getAllDetails'])->name('vehicle.details');

@@ -79,6 +79,30 @@ class VehicleOnBoardingController extends Controller
             ->with(compact('reference', 'vehicle', 'vehicleDocuments'));
     }
 
+    public function resume(Request $request): RedirectResponse
+    {
+        $reference = $request->get('reference');
+
+        $vehicle = VehicleHeader::where('id', '=', $reference)->first();
+
+        $step = '';
+        if ($vehicle->on_boarding_status == StatusHelper::PendingGeneralDataEntry()) {
+            $step = 2;
+        } elseif ($vehicle->on_boarding_status == StatusHelper::PendingTechnicalDataEntry()) {
+            $step = 3;
+        } elseif ($vehicle->on_boarding_status == StatusHelper::PendingAccessoriesCheckin()) {
+            $step = 4;
+        } elseif ($vehicle->on_boarding_status == StatusHelper::PendingCostingDataEntry()) {
+            $step = 5;
+        } elseif ($vehicle->on_boarding_status == StatusHelper::PendingAssignment()) {
+            $step = 6;
+        }else{
+            $step = 7;
+        }
+
+        return redirect(URL::signedRoute('new.vehicle', ['step' => $step, 'reference' => $reference]));
+    }
+
 
     public function start(Request $request): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
     {
