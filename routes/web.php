@@ -77,7 +77,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/get-employee-data', [UsersController::class, 'search'])->name('user.search');
         Route::post('user/attach/{id}', [UsersController::class, 'attach'])->name('user.attach');
         Route::post('user/detach/{id}', [UsersController::class, 'detach'])->name('user.detach');
-
     });
 
     Route::group(['prefix' => 'security'], function () {
@@ -115,6 +114,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('vehicle/body-types', function () {
             return view('configurations.vehicle.types');
         })->name('vehicle.body.types');
+
+        Route::get('vehicle/charge-outrate', function () {
+            return view('configurations.chargeoutrate');
+        })->name('charge.out.rate');
     });
 
     Route::group(['prefix' => 'requisitions'], function () {
@@ -179,7 +182,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/vehicles', [VehicleController::class, 'register'])->name('vehicle.edit');
 
         Route::get('/cleanup', [VehicleController::class, 'cleanUpWindow'])->name('vehicle.data.cleanup');
-
     });
 
     Route::post('/workflow/approve', [WorkflowController::class, 'approve'])->name('workflow.approve');
@@ -195,20 +197,19 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('maintenance.requisition');
 
         Route::post('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
-
     });
 });
 
 Route::get('barcodes', function (Request $request) {
 
-    if (!$request->has('data')) {
+   /* if (!$request->has('data')) {
         return "No Data Supplied";
     }
     $service = new OnBoardingService();
-    $barCodeImagePath = $service->generateBarCode(new VehicleHeader(
-            ['registration_number' => $request->get('data')])
+    $barCodeImagePath = $service->generateBarCode(
+        new VehicleHeader(
+            ['registration_number' => $request->get('data')]
+        )
     );
-    return '<img alt="testing" src="' . asset('storage/' . $barCodeImagePath) . '"/>';
+    return '<img alt="testing" src="' . asset('storage/' . $barCodeImagePath) . '"/>';*/
 })->name('barcode.generate');
-
-
