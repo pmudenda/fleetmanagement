@@ -2748,7 +2748,7 @@ function checkOnboardingHeaderStatus() {
         $("#documentView").attr('src', $(this).attr('data-document-url'));
         let fileViewModal = bootstrap.Modal.getOrCreateInstance(document.querySelector('#fileViewModal'))
         fileViewModal.show();
-    })
+    });
 
     $(document).on('click', '.card-toolbar .btn', function () {
         console.log(this.id);
@@ -2794,6 +2794,8 @@ function checkOnboardingHeaderStatus() {
         WinPrint.print();
         WinPrint.close();
     });
+
+
 
     getConfiguredModels();
 

@@ -54,7 +54,7 @@ class FuelRequisitionService
 
         $this->validateVehicleStatus($registrationNumber);
 
-        $this->validateVehicleResponsibleUserStatus($registrationNumber);
+        //$this->validateVehicleResponsibleUserStatus($registrationNumber);
 
         if ($requisitionPostRequest->get('fuel_allocation') < $requisitionPostRequest->get('material_quantity')) {
             return response()->json([
@@ -130,13 +130,13 @@ class FuelRequisitionService
 
         Log::info('Stores Requisition ' . $procurementRef);
 
-        $processDetails = $this->workflowService->startWorkflowProcess(
+        /*$processDetails = $this->workflowService->startWorkflowProcess(
             $documentRef,
             WorkflowProcessCodes::FuelRequisition->value,
             WorkflowActions::submit(),
             $requisitionPostRequest->get('justification'),
             $user
-        );
+        );*/
 
         $message = !empty($documentRef) ?
             ' With Approval Reference ' . $documentRef : '';
