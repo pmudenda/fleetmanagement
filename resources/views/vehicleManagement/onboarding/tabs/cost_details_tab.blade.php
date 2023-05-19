@@ -299,7 +299,7 @@
         </tr>
         </tbody>
     </table>
-    {{--<table class="table align-middle table-row-dashed dataTable no-footer">
+    <table v-if="" class="table align-middle table-row-dashed dataTable no-footer">
         <thead>
         <tr class="bg-dark">
             <th>Document Type</th>
@@ -317,7 +317,7 @@
                 </button>
             </td>
         </tr>
-    </table>--}}
+    </table>
     <div class="create_mode">
         <button type="submit" id="tms_save_costing"
                 class="btn btn-success btn-sm">
