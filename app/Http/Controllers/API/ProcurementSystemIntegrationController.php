@@ -29,13 +29,13 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
                 return response()->json([
                     'state' => 'false',
                     'payload' => [],
-                    'message' => 'Invalid Purchase Order Number'
+                    'message' => 'Invalid Purchase Order Number, The Purchase Order Number did not match any record'
                 ]);
             }
             return response()->json([
-                'state' => $purchaseOrder->count > 0 ? 'success' : 'erorr',
+                'state' => empty($purchaseOrder) ? 'success' : 'erorr',
                 'payload' => $purchaseOrder,
-                'message' => 'Data Retrieved'
+                'message' => empty($purchaseOrder) ? " Data could not be retrieved" : 'Data Retrieved'
             ]);
         } catch (Exception $e) {
             return response()->json([

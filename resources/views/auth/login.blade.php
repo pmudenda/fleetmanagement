@@ -7,7 +7,7 @@
         <div class="text-center">
             <div class="mb-5">
                 <h1 class="display-4 mt-0 font-weight-semi-bold">
-                   ZESCO FLEET MAST
+                   ZESCO FLEET MASTER
                 </h1>
                 <small>A VEHICLE TRACKING & TRANSPORT MANAGEMENT SYSTEM</small>
             </div>
@@ -22,9 +22,7 @@
                    autofocus=""
                    class="form-control form-control-sm @error('email') is-invalid @enderror"/>
             @error('email')
-            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
             @enderror
         </div>
         <div class="form-group">

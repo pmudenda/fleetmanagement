@@ -70,14 +70,14 @@
                 <div class="input-group">
                     <input type="text"
                            data-action="{{route('verify.purchase.order')}}"
-                           class="form-control form-control-sm"
+                           class="form-control form-control-sm view_mode"
                            id="purchase_order_number"
                            placeholder=""
                            name="purchase_order_number">
                     <div class="input-group-addon">
                         <button type="button" id="poSearchBtn"
                                 name="poSearchBtn"
-                                class="btn btn-primary btn-sm border-radius-0">
+                                class="btn btn-primary btn-sm border-radius-0 view_mode">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>

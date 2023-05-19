@@ -215,7 +215,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     //$('input[name="costPrice"]').trigger('change');
     Vue.set(app['costingAndValuation'], 'costPrice', data['costprice']);
 
-
     let price = data['costprice'];
     let costPriceInput = document.querySelector('[name="costPrice"]');
     costPriceInput.value = accounting.formatMoney(price, 2);
@@ -225,6 +224,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     setTimeout(function () {
 
         $('input[name="yearOfPurchase"]').val(data['yearofpurchase']);
+        $('input[name="purchase_order_number"]').val(data['purchase_order_no']);
         //$('input[name="yearOfPurchase"]').trigger('change');
         //Vue.set(app['costingAndValuation'], 'yearOfPurchase', data['yearOfPurchase']);
 
@@ -1540,7 +1540,17 @@ function checkOnboardingHeaderStatus() {
     }
 
     function getPurchaseOrderDetails() {
-        const purchaseOrder = document.querySelector('#purchase_order_number').value
+        const purchaseOrder = document.querySelector('#purchase_order_number').value;
+
+        if(purchaseOrder.substring(0, 3) != "C02"){
+            let message = 'The purchase order number provided is not related to Vehicle purchase, Please contact system Administrator on';
+            message +='Please Contact Fleet Master\n' +
+                ' System Administrator on 3309,3350,3351,3306,3307, fleetmaster@zesco.co.zm'
+            tmsApp.showSystemMessage('Purchase Order', message, function () {
+            }, 'error');
+            return;
+        }
+
         let formData = new FormData();
         formData.append('purchase_order_number', purchaseOrder);
 

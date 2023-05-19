@@ -68,7 +68,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                        {{--<div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
@@ -82,7 +82,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>--}}
 
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
@@ -285,7 +285,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-12">
                                     <div id="vehicleDetailsContainer" style="display: none;"
                                          class="col-xs-12 col-sm-12 col-md-12">
                                         <h1>Vehicle Details</h1>
