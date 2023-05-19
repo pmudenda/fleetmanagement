@@ -443,7 +443,7 @@
                                     <thead>
                                     <tr class="bg-dark">
                                         <th>Material Description</th>
-                                        @if($requestDetails->cost_assigned_to =='CostCenter')
+                                        @if($requestDetails->cost_assigned_to !='CostCenter')
                                             <th>Project Number</th>
                                         @endif
                                         <th>Qty</th>
@@ -458,7 +458,7 @@
                                             <span data-material-input="material_description"
                                                   id="material_description">{{$requestDetails->specifications}}</span>
                                         </td>
-                                        @if($requestDetails->cost_assigned_to =='CostCenter')
+                                        @if($requestDetails->cost_assigned_to !='CostCenter')
                                             <td>
                                                 <input type="text" name="projectCode" readonly
                                                        value="{{$requestDetails->project_code}}"

@@ -10,7 +10,7 @@
     <x-error-view/>
     <div class="d-flex justify-content-end">
         <div class="create_mode">
-            <button type="submit" id="tms_save_costing"
+            <button type="submit" id="saveVehicleAccessories"
                     class="btn btn-success btn-sm">
                 <i class="fas fa-paper-plane"></i>
                 <span class="indicator-label">
@@ -27,6 +27,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="row">
+
                     <div class="col">
                         <table class="table table-row-dashed align-middle gs-0 table-bordered">
                             <thead>
@@ -42,10 +43,11 @@
                                 @if(($key%2) == 0)
                                     <tr>
                                         <td class="pl-2" style="width: 35%;">{{$accessory->name}}</td>
-                                        <td><input type="radio" value="yes" name="{{$accessory->code}}"></td>
-                                        <td><input type="radio" value="no" name="{{$accessory->code}}"></td>
+                                        <td><input type="radio" value="YES" required name="{{str_replace(' ','', $accessory->code)}}"></td>
+                                        <td><input type="radio" value="NO" required name="{{str_replace(' ','', $accessory->code)}}"></td>
                                         <td style="width: 45%;">
-                                            <input typeof="text" name="comment{{$accessory->code}}" class="form-control form-control-sm" />
+                                            <input typeof="text" name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
+                                                   class="form-control form-control-sm"/>
                                         </td>
                                     </tr>
                                 @endif
@@ -67,11 +69,14 @@
                             @foreach($accessories as $key => $accessory)
                                 @if(($key%2) != 0)
                                     <tr>
-                                        <td class="pl-2" style="width: 35%;">{{$accessory->name}}</td>
-                                        <td><input type="radio" value="yes" name="{{$accessory->code}}"></td>
-                                        <td><input type="radio" value="no" name="{{$accessory->code}}"></td>
+                                        <td class="pl-2" style="width: 35%;">
+                                            {{$accessory->name}}
+                                        </td>
+                                        <td><input type="radio" required value="YES" name="{{str_replace(' ','', $accessory->code)}}"></td>
+                                        <td><input type="radio" required value="NO" name="{{str_replace(' ','', $accessory->code)}}"></td>
                                         <td style="width: 45%;">
-                                            <input typeof="text" name="comment{{$accessory->code}}" class="form-control form-control-sm">
+                                            <input typeof="text" name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
+                                                   class="form-control form-control-sm">
                                         </td>
                                     </tr>
                                 @endif
@@ -80,6 +85,7 @@
                             </tbody>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>

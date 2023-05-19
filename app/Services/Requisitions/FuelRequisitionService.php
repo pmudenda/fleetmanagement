@@ -54,7 +54,7 @@ class FuelRequisitionService
 
         $this->validateVehicleStatus($registrationNumber);
 
-        $this->validateVehicleResponsibleUserStatus($registrationNumber);
+        //$this->validateVehicleResponsibleUserStatus($registrationNumber);
 
         if ($requisitionPostRequest->get('fuel_allocation') < $requisitionPostRequest->get('material_quantity')) {
             return response()->json([
@@ -83,7 +83,7 @@ class FuelRequisitionService
 
         Log::info($registrationNumber);
         // pick last requisition
-        $previousRequisition = MaterialHeader::where('reg_no', $registrationNumber)
+        $previousRequisition = MaterialHeader::where('veh_reg_no', $registrationNumber)
             ->whereIn('status', [
                 StatusHelper::new(),
                 StatusHelper::approved(),
@@ -130,13 +130,13 @@ class FuelRequisitionService
 
         Log::info('Stores Requisition ' . $procurementRef);
 
-        $processDetails = $this->workflowService->startWorkflowProcess(
+        /*$processDetails = $this->workflowService->startWorkflowProcess(
             $documentRef,
             WorkflowProcessCodes::FuelRequisition->value,
             WorkflowActions::submit(),
             $requisitionPostRequest->get('justification'),
             $user
-        );
+        );*/
 
         $message = !empty($documentRef) ?
             ' With Approval Reference ' . $documentRef : '';
@@ -146,7 +146,7 @@ class FuelRequisitionService
                 'proc_ref' => $procurementRef,
                 'st_pur' => $procurementRef,
                 'req_no' => $documentRef,
-                'reg_no' => $registrationNumber,
+                'veh_reg_no' => $registrationNumber,
                 'cost_centre' => $requisitionPostRequest->get('cost_centre_code'),
                 'valid_date_from' => $valid_from,
                 'valid_date_to' => $valid_to,

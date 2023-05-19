@@ -99,7 +99,18 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     $('input[name="registration_date"]').val(data['registration_date']);
 
+    if (data['registration_date']) {
+        let dateOI = data['registration_date'].split(' ')[0];
+        //document.querySelector("#registrationDate").value = dateOI;
+        document.getElementById("registrationDate").value = dateOI;
+    }
+
+
     Vue.set(app['chassisDetails'], 'chargeOutRate', data['vehicle_charge_out_rate']);
+
+    $('input[name="chargeOutRate"]').val(data['vehicle_charge_out_rate']);
+    $('input[name="chargeOutRate"]').trigger('change');
+
     Vue.set(app['chassisDetails'], 'requiredMinimumDrivingLicense', data['min_req_driving_license']);
     Vue.set(app['chassisDetails'], 'initialOdometerReading', data['initial_odometer_reading']);
     Vue.set(app['chassisDetails'], 'currentOdometerReading', data['current_odometer_reading']);
@@ -107,32 +118,64 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['chassisDetails'], 'nextServiceOdometerReading', data['nxt_service_odometer-reading']);
     Vue.set(app['chassisDetails'], 'inspectionDate', data['inspection_date']);
 
-
     Vue.set(app['engineDetails'], 'numberOfCylinders', data['number_of_cylinders']);
+    $('input[name="numberOfCylinders"]').val(data['number_of_cylinders']);
+    $('input[name="numberOfCylinders"]').trigger('change');
+
     Vue.set(app['engineDetails'], 'engineCapacity', data['engine_capacity']);
-    Vue.set(app['engineDetails'], 'claimedEnginePower', data['claimed_engine_power']);
+
+    $('input[name="engineCapacity"]').val(data['engine_capacity']);
+    $('input[name="engineCapacity"]').trigger('change');
+
     Vue.set(app['engineDetails'], 'actualEnginePower', data['actual_engine_power']);
+    $('input[name="actualEnginePower"]').val(data['actual_engine_power']);
+    $('input[name="actualEnginePower"]').trigger('change');
+
+
+    Vue.set(app['engineDetails'], 'claimedEnginePower', data['claimed_engine_power']);
+
     Vue.set(app['engineDetails'], 'engineBrand', data['engine_brand']);
     Vue.set(app['engineDetails'], 'fuelTypes', data['fuel_types']);
+
+
+    $('select[name="fuelTypes"]').val(data['fuel_types']);
+    $('select[name="fuelTypes"]').trigger('change');
+
+
     Vue.set(app['engineDetails'], 'engineType', data['engine_type']);
+    $('select[name="engineType"]').val(data['engine_type']);
+    $('select[name="engineType"]').trigger('change');
+
     Vue.set(app['engineDetails'], 'transmissionType', data['transmission_type']);
     Vue.set(app['engineDetails'], 'fuelConsumption', data['fuel_consumption']);
+
+    $('input[name="fuelConsumption"]').val(data['fuel_consumption']);
+    $('input[name="fuelConsumption"]').trigger('change');
+
+
+
     Vue.set(app['engineDetails'], 'tank_capacity', data['tank_capacity']);
     Vue.set(app['engineDetails'], 'sub_tank_capacity', data['sub_tank_capacity']);
     Vue.set(app['engineDetails'], 'sub_tank_capacity', data['sub_tank_capacity']);
+
+    $('input[name="tank_capacity"]').val(data['tank_capacity']);
+    $('input[name="tank_capacity"]').trigger('change');
+
+    $('input[name="sub_tank_capacity"]').val(data['sub_tank_capacity']);
+    $('input[name="sub_tank_capacity"]').trigger('change');
 
     Vue.set(app['otherDetails'], 'numberOfTyres', data['number_of_tyres']);
     Vue.set(app['otherDetails'], 'tyreBrand', data['tyre_brand']);
     const $frontTyreSizeCtrl = document.querySelector('[name="frontTyreSize"]');
     if ($frontTyreSizeCtrl) {
         $frontTyreSizeCtrl.value = data['front_tyre_size'];
-        $frontTyreSizeCtrl.setAttribute('data-value',  data['front_tyre_size']);
+        $frontTyreSizeCtrl.setAttribute('data-value', data['front_tyre_size']);
     }
     //Vue.set(app['otherDetails'], 'frontTyreSize', );
     const $rearTyreSizeCtrl = document.querySelector('[name="rearTyreSize"]');
     if ($rearTyreSizeCtrl) {
         $rearTyreSizeCtrl.value = data['rear_tyre_size'];
-        $rearTyreSizeCtrl.setAttribute('data-value',  data['rear_tyre_size']);
+        $rearTyreSizeCtrl.setAttribute('data-value', data['rear_tyre_size']);
     }
     //Vue.set(app['otherDetails'], 'rearTyreSize', data['']);
 
@@ -429,7 +472,7 @@ let app = new Vue({
         $(document).on('keyup paste', '[name="whiteBookSerial"]', function () {
             this.value = this.value.toLocaleUpperCase();
         });
-     $(document).on('keyup paste', '[name="engineType"]', function () {
+        $(document).on('keyup paste', '[name="engineType"]', function () {
             this.value = this.value.toLocaleUpperCase();
         });
 
@@ -1149,7 +1192,8 @@ function userUnitChanged() {
 }
 
 function checkOnboardingHeaderStatus() {
-    const headerId = document.querySelector('[name="headerId"]').value;
+    const headerId = $('[name="headerId"]').val();
+    if(!headerId) return;
 
     if (headerId && parseInt(headerId) > 0) {
         // hide submit and cancel button
@@ -1728,7 +1772,7 @@ function checkOnboardingHeaderStatus() {
     }
 
     function getVehicleBrands() {
-        fetch(document.querySelector('#brands-api').value)
+        fetch($('#brands-api').val())
             .then(response => response.json())
             .then(response => {
                 let selectElem = $('select[name="brand"]');
@@ -1851,7 +1895,13 @@ function checkOnboardingHeaderStatus() {
     }
 
     function getCostCenters() {
-        fetch(document.querySelector('#costCenterEndpoint').value)
+        const $urlCtrl = document.querySelector('#costCenterEndpoint');
+        if (!$urlCtrl) return;
+        let url = $urlCtrl.value
+
+        if (!url) return;
+
+        fetch(url)
             .then(response => response.json())
             .then(function (response) {
                 // Populate results
@@ -1909,7 +1959,7 @@ function checkOnboardingHeaderStatus() {
     }
 
     function getLocations() {
-        fetch(document.querySelector('#locationUrl').value)
+        fetch($('#locationUrl').val())
             .then(response => response.json())
             .then(response => {
                 let selectElem = $('select[name="vehicleLocation"]');
@@ -1938,7 +1988,8 @@ function checkOnboardingHeaderStatus() {
     }
 
     function getConfiguredModels() {
-        fetch(document.querySelector('#modelEndpoint').value)
+        let url =$('#modelEndpoint').val();
+        fetch(url)
             .then(response => response.json())
             .then(response => {
                 // Populate results
@@ -1955,23 +2006,39 @@ function checkOnboardingHeaderStatus() {
             });
     }
 
-    /*getConfiguredModels: function () {
-        fetch(document.querySelector('#modelEndpoint').value)
+    function getChargeOutRate() {
+        fetch(document.querySelector('#suppliersList').value)
             .then(response => response.json())
-            .then(response => {
+            .then(function (response) {
+                let selectElem = $('select[name="supplierName"]');
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
-                    toastr.error('Connection error, no data found')
+                    toastr.error('Failed to retrieve Supplier Records', 'Connection Error');
                     return;
                 }
-                app.configuredModels = response['payload'];
-            })
-            .catch(function (error) {
-                // notify of error
-                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-            });
-    },*/
+                /*<option value>--Supplier--</option>
+                <option v-for="supplier in supplierList"
+                                            :key="supplier.code_supplier"
+                    :value="supplier.code_supplier">
+                            @{{ supplier.name_of_supplier }}
+                    </option>*/
+
+                app.supplierList = response['payload'];
+
+                let suppliers = response['payload'];
+                tmsApp.populateDropDownList(selectElem, suppliers, "code_supplier", ["code_supplier", "name_of_supplier"], " ==> ", '--Select Supplier--');
+
+                let supplier = selectElem.attr('data-value');
+                if (supplier) {
+                    selectElem.val(supplier);
+                    selectElem.trigger('change');
+                }
+            }).catch(function (error) {
+            toastr.error(
+                'Could not Retrieve Data, some feature might not work.', 'Connection error');
+        });
+    }
 
     function getTyresBrands() {
         fetch(document.querySelector('#tyreUrl').value)
@@ -1993,12 +2060,12 @@ function checkOnboardingHeaderStatus() {
 
                 tmsApp.populateDropDownList(rearTyreSizeElem, tyreSizes, "description", ["description"], "");
 
-                  let frontSize = frontTyreElem.attr('data-value');
-                  console.log(frontSize);
-                  if (frontSize) {
-                      frontTyreElem.val(frontSize);
-                      frontTyreElem.trigger('change');
-                  }
+                let frontSize = frontTyreElem.attr('data-value');
+                console.log(frontSize);
+                if (frontSize) {
+                    frontTyreElem.val(frontSize);
+                    frontTyreElem.trigger('change');
+                }
 
                 let rearTyreSize = rearTyreSizeElem.attr('data-value');
                 console.log(rearTyreSize);
@@ -2135,7 +2202,6 @@ function checkOnboardingHeaderStatus() {
                     'Could not retrieve data, some feature might not work.', 'Connection error')
             });
     }
-
 
     function getBodyTypes() {
         fetch(document.querySelector('#bodyTypesEndpoint').value)
@@ -2730,7 +2796,7 @@ function checkOnboardingHeaderStatus() {
         $("#documentView").attr('src', $(this).attr('data-document-url'));
         let fileViewModal = bootstrap.Modal.getOrCreateInstance(document.querySelector('#fileViewModal'))
         fileViewModal.show();
-    })
+    });
 
     $(document).on('click', '.card-toolbar .btn', function () {
         console.log(this.id);
@@ -2776,6 +2842,8 @@ function checkOnboardingHeaderStatus() {
         WinPrint.print();
         WinPrint.close();
     });
+
+
 
     getConfiguredModels();
 

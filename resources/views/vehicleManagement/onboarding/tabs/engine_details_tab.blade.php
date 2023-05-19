@@ -26,11 +26,11 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
+                                    {{--v-model="engineDetails.numberOfCylinders"--}}
                                     <input type="number"
                                            required
                                            id="numberOfCylinders"
                                            name="numberOfCylinders"
-                                           v-model="engineDetails.numberOfCylinders"
                                            class="input-with-feedback form-control bold number_input view_mode"
                                            data-fieldtype="Link"
                                            data-fieldname="company"
@@ -54,6 +54,7 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
+                                    {{--v-model="engineDetails.engineCapacity"--}}
                                     <input type="text"
                                            class="input-with-feedback form-control bold number_input view_mode"
                                            maxlength="140"
@@ -62,7 +63,6 @@
                                            data-fieldname="company"
                                            id="engineCapacity"
                                            name="engineCapacity"
-                                           v-model="engineDetails.engineCapacity"
                                            placeholder=""
                                            data-doctype="EngineDetails"/>
                                     <div
@@ -92,11 +92,11 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
+                                  {{--v-model="engineDetails.actualEnginePower"--}}
                                     <input type="number"
                                            required
                                            class="input-with-feedback form-control bold number_input view_mode"
                                            maxlength="140"
-                                           v-model="engineDetails.actualEnginePower"
                                            name="actualEnginePower"
                                            id="actualEnginePower"
                                            placeholder=""
@@ -164,12 +164,12 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
+                                    {{--v-model="engineDetails.fuelTypes"--}}
                                     <select
                                         required
                                         class="input-with-feedback form-select bold view_mode"
                                         id="fuelTypes"
                                         name="fuelTypes"
-                                        v-model="engineDetails.fuelTypes"
                                         data-doctype="EngineDetails">
                                         <option v-for="fuelType in fuelTypes"
                                                 :value="fuelType.code_article" :key="fuelType.code_article">
@@ -282,12 +282,12 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
+                                    {{--v-model="engineDetails.fuelConsumption"--}}
                                     <input type="text"
                                            required
                                            class="input-with-feedback form-control bold view_mode"
                                            maxlength="2"
                                            max="25"
-                                           v-model="engineDetails.fuelConsumption"
                                            name="fuelConsumption"
                                            id="fuelConsumption"
                                            placeholder=""
@@ -352,11 +352,11 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
+                                    {{--v-model="engineDetails.tank_capacity"--}}
                                     <input type="number"
                                            class="input-with-feedback number_input form-control bold view_mode"
                                            maxlength="4"
                                            required
-                                           v-model="engineDetails.tank_capacity"
                                            name="tank_capacity"
                                            id="tank_capacity"
                                            placeholder=""
@@ -385,10 +385,10 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
+                                    {{--v-model="engineDetails.sub_tank_capacity"--}}
                                     <input type="number"
                                            maxlength="4"
                                            class="input-with-feedback number_input form-control bold view_mode"
-                                           v-model="engineDetails.sub_tank_capacity"
                                            name="sub_tank_capacity"
                                            id="sub_tank_capacity"
                                            placeholder=""
