@@ -484,10 +484,10 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
                                     <select type="text"
-                                           class="input-with-feedback form-select bold tyre-size view_mode"
-                                           required
-                                           id="frontTyreSize"
-                                           name="frontTyreSize"
+                                            class="input-with-feedback form-select bold tyre-size view_mode"
+                                            required
+                                            id="frontTyreSize"
+                                            name="frontTyreSize"
                                             autocomplete="off"></select>
                                 </div>
                             </div>
@@ -509,10 +509,10 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
                                     <select type="text"
-                                           class="input-with-feedback form-control bold tyre-size view_mode"
-                                           name="rearTyreSize"
-                                           id="rearTyreSize"
-                                           data-doctype="Work Order"
+                                            class="input-with-feedback form-control bold tyre-size view_mode"
+                                            name="rearTyreSize"
+                                            id="rearTyreSize"
+                                            data-doctype="Work Order"
                                             autocomplete="off"></select>
                                 </div>
 
@@ -545,14 +545,14 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
                                     {{--v-model="otherDetails.batteryBrand"--}}
-                                    <select type="text"
-                                            id="batteryBrand"
-                                            name="batteryBrand"
-                                            class="input-with-feedback form-control bold view_mode"
-                                            data-fieldtype="Link"
-                                            data-fieldname="company"
-                                            data-doctype="OtherDetails"
-                                            autocomplete="off"></select>
+                                    <input type="text"
+                                           id="batteryBrand"
+                                           name="batteryBrand"
+                                           class="input-with-feedback form-control bold view_mode"
+                                           data-fieldtype="Link"
+                                           data-fieldname="company"
+                                           data-doctype="OtherDetails"
+                                           autocomplete="off"/>
                                 </div>
                             </div>
                         </div>
@@ -570,16 +570,14 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
-                                    <input type="text"
-                                           class="input-with-feedback form-control bold view_mode"
-                                           maxlength="140"
-                                           data-fieldtype="Link"
-                                           data-fieldname="company"
-                                           id="batterySize"
-                                           name="batterySize"
-                                           v-model="otherDetails.batterySize"
-                                           placeholder=""
-                                           data-doctype="OtherDetails"/>
+                                    {{--v-model="otherDetails.batterySize"--}}
+                                    <select type="text"
+                                            class="input-with-feedback form-control bold view_mode"
+                                            data-fieldtype="Link"
+                                            data-fieldname="company"
+                                            id="batterySize"
+                                            name="batterySize"
+                                            data-doctype="OtherDetails"></select>
                                 </div>
 
                             </div>

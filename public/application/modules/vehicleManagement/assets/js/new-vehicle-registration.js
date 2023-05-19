@@ -131,7 +131,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     Vue.set(app['otherDetails'], 'batteryBrand', data['battery_brand']);
     Vue.set(app['otherDetails'], 'batterySize', data['battery_size']);
-    $('input[name="batterySize"]').val(data['battery_size']);
+    $('input[name="batteryBrand"]').val(data['battery_size']);
 
     $('select[name="batteryBrand"]').val(data['battery_brand']);
 
@@ -140,7 +140,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     setTimeout(function () {
         $('select[name="batteryPower"]').trigger('change');
-        $('select[name="batteryBrand"]').trigger('change');
+        $('select[name="batterySize"]').trigger('change');
     }, 300);
 
     Vue.set(app['costingAndValuation'], 'supplierName', data['supplierName']);
@@ -416,6 +416,9 @@ let app = new Vue({
         });
 
         $(document).on('keyup paste', '[name="whiteBookSerial"]', function () {
+            this.value = this.value.toLocaleUpperCase();
+        });
+     $(document).on('keyup paste', '[name="engineType"]', function () {
             this.value = this.value.toLocaleUpperCase();
         });
 
@@ -1992,7 +1995,7 @@ function checkOnboardingHeaderStatus() {
             .then(response => response.json())
             .then(response => {
 
-                let selectElem = $('select[name="batteryBrand"]');
+                let selectElem = $('select[name="batterySize"]');
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors

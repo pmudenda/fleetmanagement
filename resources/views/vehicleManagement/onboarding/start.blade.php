@@ -188,6 +188,7 @@
                         <i class="fas fa-print"></i>
                         Print
                     </button>
+                    <button type="button" data-bs-dismiss="modal" class="btn btn-default">Close</button>
                 </div>
             </div>
         </div>
@@ -197,17 +198,17 @@
          tabindex="-1"
          aria-labelledby="exampleModalLabel"
          aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Vehicle Disk</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <iframe id="documentView" src="" style="border: none;" width="30%" ></iframe>
+                    <iframe id="documentView" src="" style="border: none;" width="100%" height="600px;" ></iframe>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" data-bs-dismiss="modal" class="btn btn-danger">Close</button>
+                    <button type="button" data-bs-dismiss="modal" class="btn btn-default">Close</button>
                 </div>
             </div>
         </div>
