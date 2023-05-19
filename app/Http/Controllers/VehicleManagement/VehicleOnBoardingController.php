@@ -14,6 +14,7 @@ use App\Http\Requests\EngineDetailsPost;
 use App\Http\Requests\OnboardingVehicleAccessoryRequest;
 use App\Http\Requests\VehicleHeaderRequest;
 use App\Models\configurations\ConfigAccessories;
+use App\Models\configurations\VehicleAccessories;
 use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
 use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
@@ -96,9 +97,9 @@ class VehicleOnBoardingController extends Controller
             $step = 5;
         } elseif ($vehicle->on_boarding_status == StatusHelper::PendingAssignment()) {
             $step = 6;
-        }else if($vehicle->on_boarding_status = '030'){
+        } else if ($vehicle->on_boarding_status = '030') {
             $step = 7;
-        }else{
+        } else {
             $step = 1;
         }
 
@@ -135,6 +136,7 @@ class VehicleOnBoardingController extends Controller
             }
 
             $viewName = "vehicleManagement.onboarding.start";
+
             /*match ($step) {
                 '1' => ,
                 '2' => "vehicleManagement.onboarding.step6",
@@ -148,11 +150,14 @@ class VehicleOnBoardingController extends Controller
 
             $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
 
+            $enteredAccessories = VehicleAccessories::where('vehicle_header_id', '=', (int)$reference)->get();
+
             return view($viewName)
                 ->with(compact(
                     'reference',
                     'vehicle',
                     'step',
+                    'enteredAccessories',
                     'accessories',
                     'vehicleDocuments'
                 ));

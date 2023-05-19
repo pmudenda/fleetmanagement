@@ -17,6 +17,7 @@ use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\vehicle\ConfigVehicleBodyType;
 use App\Models\configurations\vehicle\ConfigVehicleBrand;
 use App\Models\configurations\vehicle\ConfigVehicleModel;
+use App\Models\configurations\VehicleAccessories;
 use App\Models\general\OrganizationalUnits;
 use App\Models\reference\Areas;
 use App\Models\vehiclemanagement\Assignment;
@@ -505,14 +506,24 @@ class OnBoardingService
     public function processAccessory(OnboardingVehicleAccessoryRequest $request): array
     {
         $headerId = $request->get('headerId');
+
         $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
-            ->get()->pluck('name');
-
+            ->get();
         foreach ($accessoryNames as $accessoryName) {
-            $accessoryName = str_replace($accessoryName, ' ', '');
+            $accessoryCode= $accessoryName->code;
 
-            $request->get($accessoryName);
-            $request->get('COMMENT_'.$accessoryName);
+            $response = $request->get($accessoryCode);
+            $remarks = $request->get('COMMENT_'.$accessoryCode);
+
+            VehicleAccessories::create(
+                [
+                    'vehicle_header_id' => $headerId,
+                    'name' => $accessoryName->name,
+                    'code' =>$accessoryCode,
+                    'remarks' => $remarks,
+                    'response' => $response
+                ]
+            );
         }
 
 

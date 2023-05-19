@@ -43,10 +43,10 @@
                                 @if(($key%2) == 0)
                                     <tr>
                                         <td class="pl-2" style="width: 35%;">{{$accessory->name}}</td>
-                                        <td><input type="radio" value="YES" required name="{{str_replace(' ','', $accessory->name)}}"></td>
-                                        <td><input type="radio" value="NO" required name="{{str_replace(' ','', $accessory->name)}}"></td>
+                                        <td><input type="radio" value="YES" required name="{{str_replace(' ','', $accessory->code)}}"></td>
+                                        <td><input type="radio" value="NO" required name="{{str_replace(' ','', $accessory->code)}}"></td>
                                         <td style="width: 45%;">
-                                            <input typeof="text" name="COMMENT_{{str_replace(' ','', $accessory->name)}}"
+                                            <input typeof="text" name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
                                                    class="form-control form-control-sm"/>
                                         </td>
                                     </tr>
@@ -69,11 +69,13 @@
                             @foreach($accessories as $key => $accessory)
                                 @if(($key%2) != 0)
                                     <tr>
-                                        <td class="pl-2" style="width: 35%;">{{$accessory->name}}</td>
-                                        <td><input type="radio" required value="YES" name="{{str_replace(' ','', $accessory->name)}}"></td>
-                                        <td><input type="radio" required value="NO" name="{{str_replace(' ','', $accessory->name)}}"></td>
+                                        <td class="pl-2" style="width: 35%;">
+                                            {{$accessory->name}}
+                                        </td>
+                                        <td><input type="radio" required value="YES" name="{{str_replace(' ','', $accessory->code)}}"></td>
+                                        <td><input type="radio" required value="NO" name="{{str_replace(' ','', $accessory->code)}}"></td>
                                         <td style="width: 45%;">
-                                            <input typeof="text" name="COMMENT_{{str_replace(' ','', $accessory->name)}}"
+                                            <input typeof="text" name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
                                                    class="form-control form-control-sm">
                                         </td>
                                     </tr>
