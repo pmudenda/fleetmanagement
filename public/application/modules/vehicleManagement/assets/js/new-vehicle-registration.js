@@ -153,7 +153,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     $('input[name="fuelConsumption"]').trigger('change');
 
 
-
     Vue.set(app['engineDetails'], 'tank_capacity', data['tank_capacity']);
     Vue.set(app['engineDetails'], 'sub_tank_capacity', data['sub_tank_capacity']);
     Vue.set(app['engineDetails'], 'sub_tank_capacity', data['sub_tank_capacity']);
@@ -165,7 +164,14 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     $('input[name="sub_tank_capacity"]').trigger('change');
 
     Vue.set(app['otherDetails'], 'numberOfTyres', data['number_of_tyres']);
+
+    $('input[name="numberOfTyres"]').val(data['number_of_tyres']);
+    $('input[name="numberOfTyres"]').trigger('change');
+
     Vue.set(app['otherDetails'], 'tyreBrand', data['tyre_brand']);
+    $('input[name="tyreBrand"]').val(data['tyre_brand']);
+
+
     const $frontTyreSizeCtrl = document.querySelector('[name="frontTyreSize"]');
     if ($frontTyreSizeCtrl) {
         $frontTyreSizeCtrl.value = data['front_tyre_size'];
@@ -180,11 +186,12 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     //Vue.set(app['otherDetails'], 'rearTyreSize', data['']);
 
     Vue.set(app['otherDetails'], 'batteryBrand', data['battery_brand']);
+    $('input[name="batteryBrand"]').val(data['battery_brand']);
+
     Vue.set(app['otherDetails'], 'batterySize', data['battery_size']);
 
     $('select[name="batterySize"]').val(data['battery_size']);
-
-    $('input[name="batteryBrand"]').val(data['battery_brand']);
+    $('select[name="batterySize"]').attr('data-value', data['battery_size']);
 
     Vue.set(app['otherDetails'], 'batteryPower', data['battery_power']);
     $('select[name="batteryPower"]').val(data['battery_power']);
@@ -194,7 +201,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         $('select[name="batterySize"]').trigger('change');
         $('select[name="frontTyreSize"]').trigger('change');
         $('select[name="rearTyreSize"]').trigger('change');
-        $('select[name="batterySize"]').trigger('change');
     }, 600);
 
     Vue.set(app['costingAndValuation'], 'supplierName', data['supplierName']);
@@ -511,9 +517,9 @@ let app = new Vue({
             "mask": "999/99/A99"
         }).mask(".tyre-size");
 
-        Inputmask({
+        /*Inputmask({
             "mask": "99.9"
-        }).mask("#fuelConsumption");
+        }).mask("#fuelConsumption");*/
 
         /*Inputmask("decimal", {
             "rightAlignNumerics": false
@@ -1193,7 +1199,7 @@ function userUnitChanged() {
 
 function checkOnboardingHeaderStatus() {
     const headerId = $('[name="headerId"]').val();
-    if(!headerId) return;
+    if (!headerId) return;
 
     if (headerId && parseInt(headerId) > 0) {
         // hide submit and cancel button
@@ -1988,7 +1994,7 @@ function checkOnboardingHeaderStatus() {
     }
 
     function getConfiguredModels() {
-        let url =$('#modelEndpoint').val();
+        let url = $('#modelEndpoint').val();
         fetch(url)
             .then(response => response.json())
             .then(response => {
@@ -2568,6 +2574,9 @@ function checkOnboardingHeaderStatus() {
             'premium': {
                 required: true
             },
+            purchaseOrderDocument: {
+                required: true
+            }
         },
         {
             'supplierName': {
@@ -2591,6 +2600,9 @@ function checkOnboardingHeaderStatus() {
             'premium': {
                 required: "You must declare the insurance premium being paid"
             },
+            'purchaseOrderDocument': {
+                required: 'You must attach the purchase order before submitting'
+            }
         }
     );
 
@@ -2842,7 +2854,6 @@ function checkOnboardingHeaderStatus() {
         WinPrint.print();
         WinPrint.close();
     });
-
 
 
     getConfiguredModels();

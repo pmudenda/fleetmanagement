@@ -286,7 +286,7 @@
                                     <input type="text"
                                            required
                                            class="input-with-feedback form-control bold view_mode"
-                                           maxlength="2"
+                                           maxlength="4"
                                            max="25"
                                            name="fuelConsumption"
                                            id="fuelConsumption"
@@ -427,11 +427,11 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="fv-row">
+                                    {{--v-model="otherDetails.numberOfTyres"--}}
                                     <input type="number"
                                            title="The number of tyres the vehicle has"
                                            id="numberOfTyres"
                                            name="numberOfTyres"
-                                           v-model="otherDetails.numberOfTyres"
                                            class="input-with-feedback form-control bold number_input view_mode"
                                            maxlength="140"
                                            placeholder=""
@@ -456,13 +456,13 @@
                     <div class="control-input-wrapper">
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
+                               {{-- v-model="otherDetails.tyreBrand"--}}
                                 <input type="text"
                                        title="The tyre make e.g Good Year"
                                        class="form-control view_mode"
                                        maxlength="140"
                                        id="tyreBrand"
                                        name="tyreBrand"
-                                       v-model="otherDetails.tyreBrand"
                                        placeholder="e.g Good Year"/>
                             </div>
                         </div>
@@ -540,7 +540,7 @@
                         Brand:
                     </label>
                 </td>
-                <td>
+                <td style="width: 25%;">
                     <div class="control-input-wrapper">
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
@@ -566,14 +566,13 @@
                         <span class="help"></span>
                     </div>
                 </td>
-                <td>
+                <td style="width: 25%;">
                     <div class="control-input-wrapper">
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
                                     {{--v-model="otherDetails.batterySize"--}}
-                                    <select
-                                            class="form-select input-with-feedback form-control  view_mode"
+                                    <select class="form-select input-with-feedback form-control  view_mode"
                                             data-fieldtype="Link"
                                             data-fieldname="company"
                                             id="batterySize"
@@ -606,7 +605,6 @@
                                             data-fieldname="company"
                                             id="batteryPower"
                                             name="batteryPower"
-                                            placeholder=""
                                             data-target="Company">
                                         <option value="12">12</option>
                                         <option value="24">24</option>
