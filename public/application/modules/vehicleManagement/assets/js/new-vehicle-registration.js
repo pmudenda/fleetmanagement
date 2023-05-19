@@ -119,17 +119,50 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['chassisDetails'], 'inspectionDate', data['inspection_date']);
 
     Vue.set(app['engineDetails'], 'numberOfCylinders', data['number_of_cylinders']);
+    $('input[name="numberOfCylinders"]').val(data['number_of_cylinders']);
+    $('input[name="numberOfCylinders"]').trigger('change');
+
     Vue.set(app['engineDetails'], 'engineCapacity', data['engine_capacity']);
-    Vue.set(app['engineDetails'], 'claimedEnginePower', data['claimed_engine_power']);
+
+    $('input[name="engineCapacity"]').val(data['engine_capacity']);
+    $('input[name="engineCapacity"]').trigger('change');
+
     Vue.set(app['engineDetails'], 'actualEnginePower', data['actual_engine_power']);
+    $('input[name="actualEnginePower"]').val(data['actual_engine_power']);
+    $('input[name="actualEnginePower"]').trigger('change');
+
+
+    Vue.set(app['engineDetails'], 'claimedEnginePower', data['claimed_engine_power']);
+
     Vue.set(app['engineDetails'], 'engineBrand', data['engine_brand']);
     Vue.set(app['engineDetails'], 'fuelTypes', data['fuel_types']);
+
+
+    $('select[name="fuelTypes"]').val(data['fuel_types']);
+    $('select[name="fuelTypes"]').trigger('change');
+
+
     Vue.set(app['engineDetails'], 'engineType', data['engine_type']);
+    $('select[name="engineType"]').val(data['engine_type']);
+    $('select[name="engineType"]').trigger('change');
+
     Vue.set(app['engineDetails'], 'transmissionType', data['transmission_type']);
     Vue.set(app['engineDetails'], 'fuelConsumption', data['fuel_consumption']);
+
+    $('input[name="fuelConsumption"]').val(data['fuel_consumption']);
+    $('input[name="fuelConsumption"]').trigger('change');
+
+
+
     Vue.set(app['engineDetails'], 'tank_capacity', data['tank_capacity']);
     Vue.set(app['engineDetails'], 'sub_tank_capacity', data['sub_tank_capacity']);
     Vue.set(app['engineDetails'], 'sub_tank_capacity', data['sub_tank_capacity']);
+
+    $('input[name="tank_capacity"]').val(data['tank_capacity']);
+    $('input[name="tank_capacity"]').trigger('change');
+
+    $('input[name="sub_tank_capacity"]').val(data['sub_tank_capacity']);
+    $('input[name="sub_tank_capacity"]').trigger('change');
 
     Vue.set(app['otherDetails'], 'numberOfTyres', data['number_of_tyres']);
     Vue.set(app['otherDetails'], 'tyreBrand', data['tyre_brand']);
@@ -1973,23 +2006,39 @@ function checkOnboardingHeaderStatus() {
             });
     }
 
-    /*getConfiguredModels: function () {
-        fetch(document.querySelector('#modelEndpoint').value)
+    function getChargeOutRate() {
+        fetch(document.querySelector('#suppliersList').value)
             .then(response => response.json())
-            .then(response => {
+            .then(function (response) {
+                let selectElem = $('select[name="supplierName"]');
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
-                    toastr.error('Connection error, no data found')
+                    toastr.error('Failed to retrieve Supplier Records', 'Connection Error');
                     return;
                 }
-                app.configuredModels = response['payload'];
-            })
-            .catch(function (error) {
-                // notify of error
-                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-            });
-    },*/
+                /*<option value>--Supplier--</option>
+                <option v-for="supplier in supplierList"
+                                            :key="supplier.code_supplier"
+                    :value="supplier.code_supplier">
+                            @{{ supplier.name_of_supplier }}
+                    </option>*/
+
+                app.supplierList = response['payload'];
+
+                let suppliers = response['payload'];
+                tmsApp.populateDropDownList(selectElem, suppliers, "code_supplier", ["code_supplier", "name_of_supplier"], " ==> ", '--Select Supplier--');
+
+                let supplier = selectElem.attr('data-value');
+                if (supplier) {
+                    selectElem.val(supplier);
+                    selectElem.trigger('change');
+                }
+            }).catch(function (error) {
+            toastr.error(
+                'Could not Retrieve Data, some feature might not work.', 'Connection error');
+        });
+    }
 
     function getTyresBrands() {
         fetch(document.querySelector('#tyreUrl').value)
@@ -2153,7 +2202,6 @@ function checkOnboardingHeaderStatus() {
                     'Could not retrieve data, some feature might not work.', 'Connection error')
             });
     }
-
 
     function getBodyTypes() {
         fetch(document.querySelector('#bodyTypesEndpoint').value)
