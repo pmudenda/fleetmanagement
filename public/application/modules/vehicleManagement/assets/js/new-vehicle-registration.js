@@ -101,7 +101,8 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     if (data['registration_date']) {
         let dateOI = data['registration_date'].split(' ')[0];
-        document.querySelector("#registration_date").value = dateOI;
+        //document.querySelector("#registrationDate").value = dateOI;
+        document.getElementById("registrationDate").value = dateOI;
     }
 
 
