@@ -22,8 +22,22 @@
         <!--BEGIN:::VEHICLE HEADER -->
         <div class="card mb-xl-10">
             <div id="card_header" class="card-header min-h-2px">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h4>Vehicle Chargeout rate</h4>
+                    </div>
+                    <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
+                        <button type="button" id="submitSaveChargeRateBtn" class="btn btn-success btn-sm mr-3 when_odo_valid">
+                            <i class="fas fa-save"></i> Submit
+                        </button>
+                        <button type="button" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3">
+                            <i class="fas fa-undo"></i> Cancel
+                        </button>
+    
+                    </div>
+                </div>
                 <div class="card-title">
-                    <h2> Vehicle On-Boarding</h2>
+                    <h2> Charge out rate form</h2>
                     <span 
                         class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
                 </div>
@@ -35,14 +49,9 @@
                     <form name="vehicleHeaderForm" id="tms_vehicle_header_form" class="form"
                         action="{{route('new.vehicle.header')}}">
                         <input type="hidden" name="doctype" value="VehicleHeader" />
-                        <div class="row">
-                            <div class="col-md-6">
-
-                            </div>
-                            <div class="col-md-6"></div>
-                        </div>
-
+                     
                         <div class="row  mt-5">
+                            <!--- LEFT -->
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="brand" class="fs-6 fw-semibold form-label col-md-3">
@@ -107,7 +116,23 @@
                                     </div>
                                 </div>
                             </div>
+ <!--- RIGHT -->
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="brand" class="fs-6 fw-semibold form-label col-md-3">
+                                        <span class="required">Charge</span>
+                                    </label>
+                                    <div class="col-md-9 fv-row">
+                                        <div class="col-md-9">
+                                            <div class="w-100 fv-row">
+                                                <input class="form-control form-control-solid" name="charge_rate" placeholder="Enter charge rate"
+                                                id="model_code" />
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                 </div>
                 </form>
@@ -148,6 +173,15 @@ function formatMoney(event) {
         //app['chassisDetails'].chargeOutRate = formatted;
     }, 300);
 }
+
+
+$(function() {
+  // Your code here
+  // This code will run only when the DOM is ready
+  // You can manipulate DOM elements, bind events, etc.
+});
+
+
 
 function nativeUserUnitChanged(user_unit) {
 
@@ -674,39 +708,6 @@ function getPurchaseOrderDetails() {
     )
 }
 
-function vehicleWeightValidations(element) {
-    const grossWeightCtl = document.querySelector('[name="grossWeight"]');
-    const tareWeightCtl = document.querySelector('[name="tareWeight"]');
-    switch (element.name) {
-        case "tareWeight":
-            let grossWeight = grossWeightCtl.value;
-            if (grossWeight && typeof parseInt(tmsApp.getFloat(grossWeight)) === 'number') {
-                // if net-weight is a greater than gross weight
-                if (element.value > grossWeight) {
-                    tmsApp.showToast('Vehicle net weight can not be more than the gross weight', 'error', 'Validation Error');
-                    document.querySelector('#tms_save_body').setAttribute('disabled', 'disabled');
-                } else {
-                    document.querySelector('#tms_save_body').removeAttribute('disabled');
-                }
-            }
-            break;
-
-        case "grossWeight":
-            let tareWeight = tareWeightCtl.value;
-            if (tareWeight && typeof parseInt(tmsApp.getFloat(tareWeight)) === 'number') {
-                // if net-weight is a greater than gross weight
-                if (element.value < tareWeight) {
-                    tmsApp.showToast('Vehicle gross weight can not be less than the net weight', 'error', 'Validation Error');
-                    document.querySelector('#tms_save_body').setAttribute('disabled', 'disabled');
-                } else {
-                    document.querySelector('#tms_save_body').removeAttribute('disabled');
-                }
-            }
-            break;
-        default:
-            break;
-    }
-}
 
 function getVehicleBrands() {
     fetch(document.querySelector('#brands-api').value)
@@ -772,7 +773,7 @@ function nativeVehicleBrandChanged() {
 
 function postVehicleHeaderData() {
     $('.print-error-msg').css('display', 'none');
-    // validate all required information
+   
     if (!$('form[name="vehicleHeaderForm"]').valid()) {
         toastr.warning(
             "Sorry, the data did not pass validation check, check the data and try again."
@@ -823,101 +824,6 @@ function postVehicleHeaderData() {
         });
 }
 
-function calculateInsurancePremium(currentValue) {
-    let insurancePremium = tmsApp.formatMoney(((10 / 100) * currentValue), 2);
-    let insurancePremium_Ctl = document.querySelector('#premium')
-    insurancePremium_Ctl.value = insurancePremium;
-    insurancePremium_Ctl.setAttribute('readonly', 'readonly');
-
-}
-
-function getCostCenters() {
-    fetch(document.querySelector('#costCenterEndpoint').value)
-        .then(response => response.json())
-        .then(function (response) {
-            // Populate results
-            if (response.state === 'failure') {
-                //show errors
-                toastr.error('Connection error, no data found')
-                return;
-            }
-
-            window.costCenters = response['payload'];
-            //app.costCenters = response['payload'];
-        })
-        .catch(function (error) {
-            // notify of error
-            toastr.error(
-                'Connection error. Could not retrieve data, some feature might not work.')
-        });
-}
-
-function validateRegistrationNumber() {
-    let ref = document.querySelector('#registrationNumber').value
-    fetch(document.querySelector('#documentValidationUrl').value +
-        '?method=registration_number&key=' + ref)
-        .then(response => response.json())
-        .then(response => {
-            // Populate results
-            if (response.state === 'failure') {
-                //show errors
-                toastr.error('Vehicle registration number could not be verified', 'Connection error')
-                return;
-            }
-
-            if (response['payload'].validity) {
-
-                toastr.success(response['payload'].message, 'Registration Number Validation')
-                let assetNumberInput = document.querySelector("#assetNumber");
-                if (assetNumberInput) {
-                    assetNumberInput.value = window.removeSpaces(document.querySelector('#registrationNumber').value);
-                }
-                document.querySelector("#submitBtn").removeAttribute('disabled')
-            } else {
-                document.querySelector("#submitBtn").setAttribute('disabled', 'disabled')
-                tmsApp.systemError(
-                    'Registration Number Validation',
-                    'Duplicate registration number, vehicle already with registration number ' +
-                    ref + ' already exists'
-                );
-            }
-        })
-        .catch(function (error) {
-            // notify of error
-            toastr.error(
-                'Connection error. Could not retrieve data, some feature might not work.', 'Invalid Registration')
-        });
-}
-
-function getLocations() {
-    fetch(document.querySelector('#locationUrl').value)
-        .then(response => response.json())
-        .then(response => {
-            let selectElem = $('select[name="vehicleLocation"]');
-            // Populate results
-            if (response.state === 'failure') {
-                //show errors
-                toastr.error('Connection error, no data found')
-                return;
-            }
-
-            let locations = response['payload'];
-            tmsApp.populateDropDownList(selectElem, locations, "location", ["location"], "");
-
-            let location = selectElem.attr('data-value');
-            console.log(location);
-            if (location) {
-                selectElem.val(location);
-                selectElem.trigger('change');
-            }
-        })
-        .catch(function (error) {
-            // notify of error
-            toastr.error(
-                'Connection error. Could not retrieve data, some feature might not work.')
-        });
-}
-
 function getConfiguredModels() {
     fetch(document.querySelector('#modelEndpoint').value)
         .then(response => response.json())
@@ -933,187 +839,6 @@ function getConfiguredModels() {
         .catch(function (error) {
             // notify of error
             toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-        });
-}
-
-/*getConfiguredModels: function () {
-    fetch(document.querySelector('#modelEndpoint').value)
-        .then(response => response.json())
-        .then(response => {
-            // Populate results
-            if (response.state === 'failure') {
-                //show errors
-                toastr.error('Connection error, no data found')
-                return;
-            }
-            app.configuredModels = response['payload'];
-        })
-        .catch(function (error) {
-            // notify of error
-            toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-        });
-},*/
-
-function getTyresBrands() {
-    fetch(document.querySelector('#tyreUrl').value)
-        .then(response => response.json())
-        .then(response => {
-
-            let frontTyreElem = $('select[name="frontTyreSize"]');
-            let rearTyreSizeElem = $('select[name="rearTyreSize"]');
-            // Populate results
-            if (response.state === 'failure') {
-                //show errors
-                toastr.error('Connection error, no tyre brand information found')
-                return;
-            }
-
-            let tyreSizes = response['payload'];
-
-            tmsApp.populateDropDownList(frontTyreElem, tyreSizes, "description", ["description"], "");
-
-            tmsApp.populateDropDownList(rearTyreSizeElem, tyreSizes, "description", ["description"], "");
-
-              let frontSize = frontTyreElem.attr('data-value');
-              console.log(frontSize);
-              if (frontSize) {
-                  frontTyreElem.val(frontSize);
-                  frontTyreElem.trigger('change');
-              }
-
-            let rearTyreSize = rearTyreSizeElem.attr('data-value');
-            console.log(rearTyreSize);
-            if (rearTyreSize) {
-                rearTyreSizeElem.val(frontSize);
-                rearTyreSizeElem.trigger('change');
-            }
-        })
-        .catch(function (error) {
-            // notify of error
-            toastr.error('Connection error. Could not retrieve tyre information, some feature might not work.')
-        });
-}
-
-function getBatterySizes() {
-    fetch(document.querySelector('#batteryUrl').value)
-        .then(response => response.json())
-        .then(response => {
-
-            let selectElem = $('select[name="batterySize"]');
-            // Populate results
-            if (response.state === 'failure') {
-                //show errors
-                toastr.error('Connection error, no tyre brand information found')
-                return;
-            }
-
-            let tyreBrands = response['payload'];
-            tmsApp.populateDropDownList(selectElem, tyreBrands, "description", ["description"], "");
-
-            let location = selectElem.attr('data-value');
-            console.log(location);
-            if (location) {
-                selectElem.val(location);
-                selectElem.trigger('change');
-            }
-        })
-        .catch(function (error) {
-            // notify of error
-            toastr.error('Connection error. Could not retrieve tyre information.', 'Connection error')
-        });
-}
-
-function checkWhiteBookSerialValidity() {
-    let ref = document.querySelector('#whiteBookSerial').value
-    fetch(document.querySelector('#documentValidationUrl').value +
-        '?method=motorVehicleCertificate&key=' + ref)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            return response.json();
-        })
-        .then(response => {
-            // Populate results
-            if (response.state === 'failure') {
-                //show errors
-                toastr.error('Connection error, white book number could not be verified')
-                return;
-            }
-
-            if (response['payload'].validity) {
-                console.log(response['payload'].validity);
-                document.querySelector("#tms_save_chassis").removeAttribute('disabled');
-                toastr.success('White Book number valid', 'White Book Number Validation');
-            } else {
-                toastr.error('Duplicate White book Serial Number', 'Invalid White book serial')
-                document.querySelector("#tms_save_chassis").setAttribute('disabled', 'disabled')
-                return;
-            }
-        })
-        .catch(function (error) {
-            // notify of error
-            toastr.error(
-                'Connection error. Could not retrieve data, some feature might not work.')
-        });
-}
-
-function checkChassisNumberValidity() {
-    let chassisNumber = document.querySelector('[name="chassisNumber"]').value;
-    fetch(document.querySelector('#documentValidationUrl').value
-        + '?method=chassis&key=' + chassisNumber)
-        .then(response => response.json())
-        .then(response => {
-            // Populate results
-            if (response.state === 'failure') {
-                //show errors
-                toastr.error('Vehicle Identification number verification failed', 'Connection error');
-                tmsApp.systemError(
-                    'Chassis Number Validation',
-                    'Duplicate Chassis number, vehicle already with chassis number ' +
-                    chassisNumber + ' already exists'
-                );
-                document.querySelector("#tms_save_chassis").setAttribute('disabled', 'disabled')
-                return;
-            } else {
-                document.querySelector("#tms_save_chassis").removeAttribute('disabled');
-                toastr.success('Chassis number valid', 'Chassis Number Validation');
-            }
-        })
-        .catch(function (error) {
-            // notify of error
-            toastr.error(
-                'Could not retrieve data, some feature might not work.', 'Connection error')
-        });
-}
-
-function checkEngineNumberValidity() {
-    let engineNumber = document.querySelector('[name="engineNumber"]').value;
-    fetch(document.querySelector('#documentValidationUrl').value
-        + '?method=engine_number&key=' + engineNumber)
-        .then(response => response.json())
-        .then(response => {
-            // Populate results
-            if (response.state === 'failure') {
-                //show errors
-                toastr.error('Vehicle Engine number verification failed', 'Connection error');
-                tmsApp.systemError(
-                    'Chassis Number Validation',
-                    'Duplicate Engine number, vehicle already with Engine number number ' +
-                    engineNumber + ' already exists'
-                );
-                document.querySelector("#tms_save_chassis").setAttribute('disabled', 'disabled')
-                return;
-            } else {
-                document.querySelector("#tms_save_chassis").removeAttribute('disabled');
-                toastr.success('Engine Number number valid', 'Engine Number Validation');
-            }
-        })
-        .catch(function (error) {
-            // notify of error
-            toastr.error(
-                'Could not retrieve data, some feature might not work.', 'Connection error')
         });
 }
 
@@ -1147,37 +872,6 @@ function getBodyTypes() {
         });
 }
 
-function getOrganizationalUnits() {
-    fetch(document.querySelector('#orgUnitsEndpoint').value)
-        .then(response => response.json())
-        .then(response => {
-            // Populate results
-            let selectElem = $('select[name="user_unit"]');
-
-            if (response.state === 'failure') {
-                //show errors
-                toastr.error('Connection error, no data found')
-                return;
-            }
-
-            let userUnits = response['payload'];
-            window.organizationUnits = userUnits;
-            tmsApp.populateDropDownList(selectElem, userUnits, "code_unit", ['code_unit', "description"], " => ");
-
-            let userUnitId = selectElem.attr('data-value');
-            if (userUnitId) {
-                selectElem.val(userUnitId);
-                selectElem.trigger('change');
-            }
-        })
-        .catch(function (error) {
-            // notify of error
-            toastr.error(
-                'Connection error. Could not retrieve data, some feature might not work.')
-        });
-}
-
-getCostCenters();
 
 tmsApp.appFormValidator('form[name="vehicleHeaderForm"]',
     {
@@ -1228,342 +922,8 @@ tmsApp.appFormValidator('form[name="vehicleHeaderForm"]',
     }
 );
 
-$("#submitBtn").on('click', function () {
-    postVehicleHeaderData();
-});
-
-$('#registrationNumber').on('keyup paste enter', function () {
-    if (!this.value || this.value.replace('_', '').length < 8) {
-        return;
-    }
-    setTimeout(function () {
-        validateRegistrationNumber();
-    }, 300);
-});
-
-let saveVehicleHeaderInformation = function (e) {
-    e.preventDefault();
-    this.postVehicleHeaderData();
-}
-
-tmsApp.appFormValidator('form[name="tmsChassisDetailsForm"]',
-    {
-        'chassisNumber': {
-            required: true
-        },
-        'engineNumber': {
-            required: true
-        },
-        'whiteBookSerial': {
-            required: true
-        },
-        'yearOfManufacture': {
-            required: true
-        },
-        'registrationDate': {
-            required: true
-        },
-        'chargeOutRate': {
-            required: true
-        },
-        'requiredMinimumDrivingLicense': {
-            required: true
-        },
-        'initialOdometerReading': {
-            required: true
-        },
-        'currentOdometerReading': {
-            required: true
-        },
-        'odometerReadingLastService': {
-            required: true
-        },
-        /* 'nextServiceOdometerReading': {
-             required: true
-         },*/
-        'inspectionDate': {
-            required: true
-        },
-
-        motor_vehicle_certificate: {
-            required: true
-        },
-        insurance_cover_note: {
-            required: true
-        },
-        front_view: {
-            required: true
-        },
-        rear_view: {
-            required: true
-        },
-        right_view: {
-            required: true
-        },
-        left_view: {
-            required: true
-        }
-    },
-    {
-        chassisNumber: {
-            required: "Chassis number is required"
-        },
-        'engineNumber': {
-            required: "Engine number is required"
-        },
-        'whiteBookSerial': {
-            required: "Provide White Book Serial number"
-        },
-        'yearOfManufacture': {
-            required: "Year vehicle was manufactured is required"
-        },
-        'registrationDate': {
-            required: "Indicate when vehicle was registered with the authority"
-        },
-        'chargeOutRate': {
-            required: "You have not provided charge-out rate"
-        },
-        'requiredMinimumDrivingLicense': {
-            required: "Specify the minimum driver's license class required"
-        },
-        'initialOdometerReading': {
-            required: "provide the vehicles initial odometer value"
-        },
-        'currentOdometerReading': {
-            required: "Provide current odometer reading"
-        },
-        'odometerReadingLastService': {
-            required: "Odometer reading at last service is required"
-        },
-        'nextServiceOdometerReading': {
-            required: "Your must provide the odometer reading when vehicle is next due for service"
-        },
-        inspectionDate: {
-            required: "Your have not provided the date the vehicle was inspected"
-        },
-        motor_vehicle_certificate: {
-            required: "Motor Vehicle Certificate is required"
-        },
-        insurance_cover_note: {
-            required: "Insurance Cover Note must be attached"
-        }
-    }
-);
-
-$('[name="tmsChassisDetailsForm"]').on('submit', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    submitChassisDetails(e.currentTarget);
-});
-
-$('[name="supplierName"]').on('change', function (e) {
-    document.querySelector("#purchase_order_number").value = '';
-});
 
 
-$('[name="chassisNumber"]').on('change paste', function () {
-    checkChassisNumberValidity();
-});
-
-$('[name="engineNumber"]').on('change paste', function () {
-    checkEngineNumberValidity();
-});
-
-tmsApp.appFormValidator('form[name="engineDetailsForm"]',
-    {
-        'numberOfCylinders': {
-            required: true
-        },
-        'engineCapacity': {
-            required: true
-        },
-        'fuelTypes': {
-            required: true
-        },
-        'fuelConsumption': {
-            required: true
-        },
-        'engineType': {
-            required: true
-        },
-
-
-        'claimedEnginePower': {
-            required: true
-        },
-        'actualEnginePower': {
-            required: true
-        },
-        'engineBrand': {
-            required: true
-        },
-
-        'transmission_type': {
-            required: true
-        },
-
-        'tank_capacity': {
-            required: true
-        },
-
-        'numberOfTyres': {
-            required: true
-        },
-
-        'tyreBrand': {
-            required: true
-        },
-
-        'frontTyreSize': {
-            required: true
-        },
-
-        'rearTyreSize': {
-            required: true
-        },
-
-        'batteryBrand': {
-            required: true
-        },
-        'batterySize': {
-            required: true
-        },
-
-        'batteryPower': {
-            required: true
-        },
-
-    },
-    {
-        'numberOfCylinders': {
-            required: 'Number of cylinders is required'
-        },
-        'engineCapacity': {
-            required: 'Engine capacity is required'
-        },
-        'fuelTypes': {
-            required: 'Fuel Type is required'
-        },
-        'fuelConsumption': {
-            required: 'Fuel Consumption is required'
-        },
-        'engineType': {
-            required: 'Engine Code is required'
-        },
-    }
-);
-
-$('[name="engineDetailsForm"]').on('submit', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    submitEngineDetails(e.currentTarget);
-});
-
-
-tmsApp.appFormValidator('form[name="tms_costing_valuation_form"]',
-    {
-        'supplierName': {
-            required: true
-        },
-        'costPrice': {
-            required: true
-        },
-        'yearOfPurchase': {
-            required: true
-        },
-        'bookValue': {
-            required: true
-        },
-        'assetNumber': {
-            required: true
-        },
-        'costOfLicense': {
-            required: true
-        },
-        'premium': {
-            required: true
-        },
-    },
-    {
-        'supplierName': {
-            required: "Vehicle Supplier is required"
-        },
-        'costPrice': {
-            required: "Cost is required"
-        },
-        'yearOfPurchase': {
-            required: "You must declare the year vehicle was purchased"
-        },
-        'bookValue': {
-            required: "Item current book value must be declared"
-        },
-        'assetNumber': {
-            required: "Asset number is mandatory for asset management"
-        },
-        'costOfLicense': {
-            required: "Cost of Road Tax & Fitness"
-        },
-        'premium': {
-            required: "You must declare the insurance premium being paid"
-        },
-    }
-);
-
-$('[name="tms_costing_valuation_form"]').on('submit', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    submitCostValuationDetails();
-});
-
-
-tmsApp.appFormValidator('form[name="tms_body_weight_form"]',
-    {
-        'height': {
-            required: true
-        },
-        'length': {
-            required: true
-        },
-        'width': {
-            required: true
-        },
-        'seatCapFront': {
-            required: true
-        },
-        'tareWeight': {
-            required: true
-        },
-        'grossWeight': {
-            required: true
-        },
-    },
-    {
-        'height': {
-            required: "required"
-        },
-        'length': {
-            required: "required"
-        },
-        'width': {
-            required: "required"
-        },
-        'seatCapFront': {
-            required: "required"
-        },
-        'tareWeight': {
-            required: "required"
-        },
-        'grossWeight': {
-            required: "Vehicle Weight is required"
-        },
-    }
-);
-
-$('[name="tms_body_weight_form"]').on('submit', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    submitBodyDetails();
-});
 
 
 // vehicleWeightValidations
@@ -1571,10 +931,6 @@ $(document).on('change', 'select[name="brand"]', function () {
     nativeVehicleBrandChanged();
 });
 
-$(document).on('change', 'select[name="user_unit"]', function () {
-    let user_unit = $(this).val();
-    nativeUserUnitChanged(user_unit);
-});
 
 $(document).on('change', 'select[name="model"]', function () {
     const modelId = $(this).val()?.toString().trim();
@@ -1590,56 +946,6 @@ $(document).on('change', 'select[name="model"]', function () {
         document.querySelector('#model_code').value = filteredResults[0]?.model_code;
     }
     console.log(filteredResults);
-});
-
-$(document).on('change', '.weight_control', function () {
-    vehicleWeightValidations(this)
-});
-
-$(document).on('change paste', '[name="whiteBookSerial"]', function () {
-    checkWhiteBookSerialValidity()
-});
-
-$(document).on('click', 'button[data-zfm-view-file]', function () {
-    console.log(this);
-    $("#documentView").attr('src', $(this).attr('data-document-url'));
-    let fileViewModal = bootstrap.Modal.getOrCreateInstance(document.querySelector('#fileViewModal'))
-    fileViewModal.show();
-})
-
-$(document).on('click', '.card-toolbar .btn', function () {
-    console.log(this.id);
-    switch (this.id) {
-        case "editRecordBtn":
-            $('.card-header').removeClass('view_mode').addClass('edit_mode')
-            document.querySelector('#model_holder').style.display = 'none';
-            let $locationHolder = document.querySelector('#locationHolder');
-            $locationHolder.style.display = 'none';
-            //$('#vehicleLocation').val($locationHolder.value);
-            //$('#model_holder').addClass('d-none');
-            //$('#model').removeClass('d-none');
-            //$('#vehicleLocation').removeClass('d-none');
-            //$('#brand').change();
-            break;
-        case 'cancelEditLink':
-            $('.card-header').removeClass('edit_mode').addClass('view_mode')
-            document.querySelector('#model_holder').style.display = null;
-            document.querySelector('#locationHolder').style.display = null;
-
-            $('#model').addClass('d-none');
-            $('#vehicleLocation').addClass('d-none');
-            break;
-        case "submitBtn":
-            break;
-        case "resetFormBtn":
-            document.forms['tms_vehicle_header_form'].reset();
-            break;
-        case "printDisk":
-
-            break;
-        default:
-            break;
-    }
 });
 
 
