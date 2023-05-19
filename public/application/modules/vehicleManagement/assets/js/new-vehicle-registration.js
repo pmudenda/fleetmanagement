@@ -457,6 +457,10 @@ let app = new Vue({
             "mask": "999/99/A99"
         }).mask(".tyre-size");
 
+        Inputmask({
+            "mask": "99.9"
+        }).mask("#fuelConsumption");
+
         /*Inputmask("decimal", {
             "rightAlignNumerics": false
         }).mask("#chargeOutRate");*/

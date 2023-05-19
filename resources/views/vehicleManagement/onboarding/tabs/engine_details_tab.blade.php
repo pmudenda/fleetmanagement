@@ -285,7 +285,8 @@
                                     <input type="text"
                                            required
                                            class="input-with-feedback form-control bold view_mode"
-                                           maxlength="140"
+                                           maxlength="2"
+                                           max="25"
                                            v-model="engineDetails.fuelConsumption"
                                            name="fuelConsumption"
                                            id="fuelConsumption"
