@@ -36,13 +36,25 @@ ZFM is a web based fleet & logistics management system built using laravel frame
 ## System Scripts
 ```oracle
 CREATE SEQUENCE "FLEETMASTER"."FUEL_REQ_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
-20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
+    20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
 
 CREATE SEQUENCE "FLEETMASTER"."SPARES_REQ_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
-20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
+    20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
 
 
-create or replace FUNCTION fn_generate_reference_number (
+CREATE SEQUENCE "FLEETMASTER"."PURCHASE_REQ_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
+    20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
+
+
+
+CREATE SEQUENCE "FLEETMASTER"."STORES_REQ_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
+    20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
+
+CREATE SEQUENCE "FLEETMASTER"."GENERAL_REQ_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
+    20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
+
+
+CREATE OR REPLACE FUNCTION fn_generate_reference_number (
     p_module VARCHAR2
 ) RETURN STRING IS
     v_prefix    VARCHAR2(7);
@@ -50,20 +62,28 @@ create or replace FUNCTION fn_generate_reference_number (
     v_reference VARCHAR2(20);
 BEGIN
     IF p_module = 'FUEL_REQ' THEN
-        v_prefix := 'ZFMFUEL';
+        v_prefix := 'ZFMFUE';
         v_next_num := "FLEETMASTER"."FUEL_REQ_SEQ".nextval;
     ELSIF p_module = 'SPARES_REQ' THEN
         v_prefix := 'ZFMREF';
         v_next_num := "FLEETMASTER"."SPARES_REQ_SEQ".nextval;
+    ELSIF p_module = 'PUR' THEN
+        v_prefix := 'ZFMPUR';
+        v_next_num := "FLEETMASTER"."PURCHASE_REQ_SEQ".nextval;
+    ELSIF p_module = 'STR' THEN
+        v_prefix := 'ZFMSTR';
+        v_next_num := "FLEETMASTER"."STORES_REQ_SEQ".nextval;
+    ELSIF p_module = 'REQ' THEN
+        v_prefix := 'ZFMREQ';
+        v_next_num := "FLEETMASTER"."GENERAL_REQ_SEQ".nextval;
     END IF;
 
-    v_reference := v_prefix || to_char(v_next_num);
+    v_reference := v_prefix
+        || lpad(to_char(v_next_num), 7, '0');
     RETURN v_reference;
-
 EXCEPTION
-    WHEN  OTHERS THEN
+    WHEN OTHERS THEN
         dbms_output.put_line('Error!');
-
 END;
 ```
 
