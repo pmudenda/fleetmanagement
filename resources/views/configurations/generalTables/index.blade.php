@@ -165,7 +165,7 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3 d-none">
+                        <div class="mb-3">
                             @if(str_contains(strtolower($typeStr) ,"status"))
                                 <label style="display: none;" for="message-text" class="col-form-label">Active:</label>
                                 <select name="status" style="display: none;"
@@ -181,10 +181,10 @@
                                 <select name="status" class="form-control @error('status') is-invalid @enderror"
                                         id="data_status"
                                         required>
-                                    <option value="01">Active</option>
-                                    {{--@foreach($statusList as $status)
+                                    <option>Select Status</option>
+                                    @foreach($statusList as $status)
                                         <option value="{{$status->code}}">{{$status->name}}</option>
-                                    @endforeach--}}
+                                    @endforeach
                                 </select>
                                 @error('status')
                                 <p class=" errorText">{{$message}}</p>
@@ -247,15 +247,17 @@
                             <input type="text" class="form-control" id="data_edit_code" name="code">
                         </div>
 
-                        <div class="mb-3 d-none">
+                        <div class="mb-3">
                             <label for="message-text" class="col-form-label">Status:</label>
                             <select name="status" class="form-control" id="data_edit_status">
-                                <option value="01">Active</option>
-                                {{--@foreach($statusList as $status)
+                                <option>Select Status</option>
+                                @foreach($statusList as $status)
                                     <option value="{{$status->code}}">{{$status->name}}</option>
-                                @endforeach--}}
+                                @endforeach
                             </select>
                         </div>
+
+
                     </div>
                     <div class="modal-footer">
                         <button id="closeEditButton" type="button"
@@ -420,7 +422,7 @@
                 document.getElementById("data_edit_name").value = recordData.record_name
                 // document.getElementById("data_type").value = ""
                 document.getElementById("data_edit_code").value = recordData.record_code
-                //document.getElementById("data_edit_status").value = recordData.record_status
+                document.getElementById("data_edit_status").value = recordData.record_status
 
             })
 
@@ -433,7 +435,7 @@
             document.querySelector("#editRecordModal").addEventListener('hidden.bs.modal', (e) => {
                 document.getElementById("data_name").value = "";
                 document.getElementById("data_code").value = ""
-                //document.getElementById("data_status").value = "Select Status"
+                document.getElementById("data_status").value = "Select Status"
             })
 
             $('form[name="configurationEditTableForm"]').on('submit', function (e) {
@@ -443,7 +445,7 @@
                 let formData = {
                     name: document.getElementById("data_edit_name").value,
                     code: document.getElementById("data_edit_code").value,
-                    //status: document.getElementById("data_edit_status").value,
+                    status: document.getElementById("data_edit_status").value,
                 }
 
                 tmsApp.asyncPostFormData(
