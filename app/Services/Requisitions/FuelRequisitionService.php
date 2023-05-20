@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\URL;
 class FuelRequisitionService
 {
 
-    const FUEL_REQUISITION_NUMBER_PREFIX = "ZFMFUE";
+    const FUEL_REQUISITION = "FUEL_REQ";
     private VehicleDetailsService $vehicleDetailsService;
     private WorkflowService $workflowService;
     private ProcurementService $procurementService;
@@ -116,27 +116,26 @@ class FuelRequisitionService
         DB::beginTransaction();
 
         $user = Auth()->user();
-        $documentRef = ReferenceNumberGeneratorService::generateReferenceNumber(
-            self::FUEL_REQUISITION_NUMBER_PREFIX,
-            1);
+
+        $documentRef = ReferenceNumberGeneratorService::generateReferenceNumber(self::FUEL_REQUISITION,);
 
         $areaCode = $user->area_code ?? 'LR';
         $requisitionType = 'seq_store_req';
-        //$procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
-        $procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
+        $procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
+        //$procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
         if (empty($procurementRef)) {
             throw new FuelRequisitionException(ErrorMessages::storesRequisitionFailed());
         }
 
         Log::info('Stores Requisition ' . $procurementRef);
 
-        /*$processDetails = $this->workflowService->startWorkflowProcess(
+        $processDetails = $this->workflowService->startWorkflowProcess(
             $documentRef,
             WorkflowProcessCodes::FuelRequisition->value,
             WorkflowActions::submit(),
             $requisitionPostRequest->get('justification'),
             $user
-        );*/
+        );
 
         $message = !empty($documentRef) ?
             ' With Approval Reference ' . $documentRef : '';

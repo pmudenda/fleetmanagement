@@ -4311,7 +4311,7 @@ textarea.form-control-lg {
     white-space: nowrap;
     background-color: transparent;
     border: 0;
-    border-radius: var(--bs-dropdown-item-border-radius, 0);
+    /*border-radius: var(--bs-dropdown-item-border-radius, 0);*/
 }
 
 .dropdown-item:hover, .dropdown-item:focus {
@@ -4502,7 +4502,7 @@ textarea.form-control-lg {
 .nav-link {
     display: block;
     padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
-    font-size: var(--bs-nav-link-font-size);
+    /*font-size: var(--bs-nav-link-font-size);*/
     /*font-weight: var(--bs-nav-link-font-weight);*/
     /*color: var(--bs-nav-link-color);*/
     transition: color 0.15s ease-in-out;
@@ -4752,7 +4752,7 @@ textarea.form-control-lg {
 }
 
 .navbar-nav-scroll {
-    max-height: var(--bs-scroll-height, 75vh);
+    /*max-height: var(--bs-scroll-height, 75vh);*/
     overflow-y: auto;
 }
 

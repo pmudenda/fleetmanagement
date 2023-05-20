@@ -33,11 +33,39 @@ ZFM is a web based fleet & logistics management system built using laravel frame
 - [ php artisan migrate]()
 - [ php artisan db:seed --class= {SeederClassName}]() - replace {SeederClassName} with actual class name e.g UserSeeder
 
-## Importing Users from Active Directory
-To import users from AD, run php artisan import
-## Contributing
-To contribute to this project, create an issue and subsequently a pull request
-## Code of Conduct
+## System Scripts
+```oracle
+CREATE SEQUENCE "FLEETMASTER"."FUEL_REQ_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
+20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
+
+CREATE SEQUENCE "FLEETMASTER"."SPARES_REQ_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
+20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
+
+
+create or replace FUNCTION fn_generate_reference_number (
+    p_module VARCHAR2
+) RETURN STRING IS
+    v_prefix    VARCHAR2(7);
+    v_next_num  INTEGER;
+    v_reference VARCHAR2(20);
+BEGIN
+    IF p_module = 'FUEL_REQ' THEN
+        v_prefix := 'ZFMFUEL';
+        v_next_num := "FLEETMASTER"."FUEL_REQ_SEQ".nextval;
+    ELSIF p_module = 'SPARES_REQ' THEN
+        v_prefix := 'ZFMREF';
+        v_next_num := "FLEETMASTER"."SPARES_REQ_SEQ".nextval;
+    END IF;
+
+    v_reference := v_prefix || to_char(v_next_num);
+    RETURN v_reference;
+
+EXCEPTION
+    WHEN  OTHERS THEN
+        dbms_output.put_line('Error!');
+
+END;
+```
 
 In order to ensure that the system remains stable at all times, all features, bugs and enhance will be done using issue first approach. A pull request will then be merged by repository administrator.
 ## Security Vulnerabilities

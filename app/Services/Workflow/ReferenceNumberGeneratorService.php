@@ -4,16 +4,23 @@ namespace App\Services\Workflow;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Log;
 
 class ReferenceNumberGeneratorService
 {
-    public static function generateReferenceNumber($prefix, $value, $module = 'GEN_MATERIAL_HEADERS'): string
+    public static function generateReferenceNumber($module): string
     {
         // use the total number of kilometer allowance in the system
-        $count = DB::select("SELECT count(id) as total FROM " . $module);
+        $results = DB::select("select fn_generate_reference_number (:p_module) as value from dual", ['p_module' => $module]);
+
+        $result = null;
+        if (is_array($results) && !empty($results)) {
+            $result = $results[0];
+        }
+
+        Log::info($result->value);
         //random number
-        $random = $count[0]->total;
+        /*$random = $count[0]->total;
         $random = sprintf("%07d", ($random + $value));
         $random = $prefix . $random;
 
@@ -28,8 +35,8 @@ class ReferenceNumberGeneratorService
             return $random;
         } else {
             $random = self::generateReferenceNumber($prefix, $value, $module);
-        }
+        }*/
 
-        return $random;
+        return $result->value;
     }
 }
