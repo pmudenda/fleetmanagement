@@ -16,7 +16,9 @@
                 <!--begin::Card toolbar-->
                 <div class="card-toolbar justify-content-end">
                     <div class="d-flex" kt_table-toolbar="base">
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#kt_modal_add_brand"
+                        <button type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#kt_modal_add_brand"
                                 class="btn btn-sm btn-primary">
                             <i class="fas fa-plus"></i>
                             Add
@@ -163,22 +165,25 @@
                                                data-kt-initialized="1"></i>
                                         </label>
 
-                                        <input type="text" autocomplete="off"
-                                               maxlength="140"
+                                        <input type="text"
+                                               autocomplete="off"
+                                               maxlength="50"
+                                               required
                                                class="input-with-feedback form-control form-control-solid"
                                                placeholder="e.g Toyota"
-                                               v-model="brand_name" id="brand_name" name="brand_name"/>
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                                               v-model="brand_name"
+                                               id="brand_name"
+                                               name="brand_name"/>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group d-none">
                                         <div class="clearfix">
                                             <label for="status" class="control-label reqd" style="padding-right: 0px;">Status</label>
                                             <span class="help"></span>
                                         </div>
                                         <div class="control-input-wrapper">
                                             <div class="control-input flex align-center">
-                                                <select name="status" id="status"
+                                                <input name="status" id="status"
                                                         autocomplete="off"
                                                         required
                                                         class="input-with-feedback form-control ellipsis bold"
@@ -186,20 +191,10 @@
                                                         data-fieldtype="Select"
                                                         data-fieldname="status"
                                                         placeholder=""
-                                                        data-doctype="VehicleBrand">
-                                                    <option value="">--Select--</option>
-                                                    <option v-for="status in statusList" :value="status.code">@{{
-                                                        status.name }}
-                                                    </option>
-                                                </select>
+                                                        data-doctype="VehicleBrand" />
                                             </div>
-                                            <div class="control-value like-disabled-input bold" style="display: none;">
-                                                Active
-                                            </div>
-                                            <p class="help-box small text-muted"></p>
                                         </div>
                                     </div>
-
                                     <div class="d-flex flex-stack d-none">
 
                                         <div class="me-5">
@@ -215,7 +210,6 @@
                                         <span v-else="isEnabled">No</span>
                                     </span>
                                         </label>
-
                                     </div>
                                 </div>
                             </div>

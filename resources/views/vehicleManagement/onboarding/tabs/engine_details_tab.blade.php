@@ -26,11 +26,11 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
+                                    {{--v-model="engineDetails.numberOfCylinders"--}}
                                     <input type="number"
                                            required
                                            id="numberOfCylinders"
                                            name="numberOfCylinders"
-                                           v-model="engineDetails.numberOfCylinders"
                                            class="input-with-feedback form-control bold number_input view_mode"
                                            data-fieldtype="Link"
                                            data-fieldname="company"
@@ -54,6 +54,7 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
+                                    {{--v-model="engineDetails.engineCapacity"--}}
                                     <input type="text"
                                            class="input-with-feedback form-control bold number_input view_mode"
                                            maxlength="140"
@@ -62,7 +63,6 @@
                                            data-fieldname="company"
                                            id="engineCapacity"
                                            name="engineCapacity"
-                                           v-model="engineDetails.engineCapacity"
                                            placeholder=""
                                            data-doctype="EngineDetails"/>
                                     <div
@@ -92,11 +92,11 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
+                                  {{--v-model="engineDetails.actualEnginePower"--}}
                                     <input type="number"
                                            required
                                            class="input-with-feedback form-control bold number_input view_mode"
                                            maxlength="140"
-                                           v-model="engineDetails.actualEnginePower"
                                            name="actualEnginePower"
                                            id="actualEnginePower"
                                            placeholder=""
@@ -164,12 +164,12 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
+                                    {{--v-model="engineDetails.fuelTypes"--}}
                                     <select
                                         required
                                         class="input-with-feedback form-select bold view_mode"
                                         id="fuelTypes"
                                         name="fuelTypes"
-                                        v-model="engineDetails.fuelTypes"
                                         data-doctype="EngineDetails">
                                         <option v-for="fuelType in fuelTypes"
                                                 :value="fuelType.code_article" :key="fuelType.code_article">
@@ -282,11 +282,12 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
+                                    {{--v-model="engineDetails.fuelConsumption"--}}
                                     <input type="text"
                                            required
                                            class="input-with-feedback form-control bold view_mode"
-                                           maxlength="140"
-                                           v-model="engineDetails.fuelConsumption"
+                                           maxlength="4"
+                                           max="25"
                                            name="fuelConsumption"
                                            id="fuelConsumption"
                                            placeholder=""
@@ -351,11 +352,11 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
+                                    {{--v-model="engineDetails.tank_capacity"--}}
                                     <input type="number"
                                            class="input-with-feedback number_input form-control bold view_mode"
                                            maxlength="4"
                                            required
-                                           v-model="engineDetails.tank_capacity"
                                            name="tank_capacity"
                                            id="tank_capacity"
                                            placeholder=""
@@ -384,10 +385,10 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
+                                    {{--v-model="engineDetails.sub_tank_capacity"--}}
                                     <input type="number"
                                            maxlength="4"
                                            class="input-with-feedback number_input form-control bold view_mode"
-                                           v-model="engineDetails.sub_tank_capacity"
                                            name="sub_tank_capacity"
                                            id="sub_tank_capacity"
                                            placeholder=""
@@ -426,11 +427,11 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="fv-row">
+                                    {{--v-model="otherDetails.numberOfTyres"--}}
                                     <input type="number"
                                            title="The number of tyres the vehicle has"
                                            id="numberOfTyres"
                                            name="numberOfTyres"
-                                           v-model="otherDetails.numberOfTyres"
                                            class="input-with-feedback form-control bold number_input view_mode"
                                            maxlength="140"
                                            placeholder=""
@@ -455,13 +456,13 @@
                     <div class="control-input-wrapper">
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
+                               {{-- v-model="otherDetails.tyreBrand"--}}
                                 <input type="text"
                                        title="The tyre make e.g Good Year"
                                        class="form-control view_mode"
                                        maxlength="140"
                                        id="tyreBrand"
                                        name="tyreBrand"
-                                       v-model="otherDetails.tyreBrand"
                                        placeholder="e.g Good Year"/>
                             </div>
                         </div>
@@ -483,14 +484,12 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
-                                    <input type="text"
-                                           class="input-with-feedback form-control bold tyre-size view_mode"
-                                           maxlength="15"
-                                           required
-                                           id="frontTyreSize"
-                                           name="frontTyreSize"
-                                           placeholder="e.g. 225/70/R17"
-                                           autocomplete="off">
+                                    <select type="text"
+                                            class="input-with-feedback form-select bold tyre-size view_mode"
+                                            required
+                                            id="frontTyreSize"
+                                            name="frontTyreSize"
+                                            autocomplete="off"></select>
                                 </div>
                             </div>
                         </div>
@@ -510,14 +509,12 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
-                                    <input type="text"
-                                           class="input-with-feedback form-control bold tyre-size view_mode"
-                                           maxlength="15"
-                                           placeholder="e.g. 225/70/R17"
-                                           name="rearTyreSize"
-                                           id="rearTyreSize"
-                                           data-doctype="Work Order"
-                                           autocomplete="off">
+                                    <select type="text"
+                                            class="input-with-feedback form-control bold tyre-size view_mode"
+                                            name="rearTyreSize"
+                                            id="rearTyreSize"
+                                            data-doctype="Work Order"
+                                            autocomplete="off"></select>
                                 </div>
 
                             </div>
@@ -543,23 +540,20 @@
                         Brand:
                     </label>
                 </td>
-                <td>
+                <td style="width: 25%;">
                     <div class="control-input-wrapper">
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
+                                    {{--v-model="otherDetails.batteryBrand"--}}
                                     <input type="text"
                                            id="batteryBrand"
                                            name="batteryBrand"
-                                           v-model="otherDetails.batteryBrand"
                                            class="input-with-feedback form-control bold view_mode"
-                                           maxlength="140"
                                            data-fieldtype="Link"
                                            data-fieldname="company"
-                                           placeholder=""
                                            data-doctype="OtherDetails"
                                            autocomplete="off"/>
-
                                 </div>
                             </div>
                         </div>
@@ -572,21 +566,18 @@
                         <span class="help"></span>
                     </div>
                 </td>
-                <td>
+                <td style="width: 25%;">
                     <div class="control-input-wrapper">
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div>
-                                    <input type="text"
-                                           class="input-with-feedback form-control bold view_mode"
-                                           maxlength="140"
-                                           data-fieldtype="Link"
-                                           data-fieldname="company"
-                                           id="batterySize"
-                                           name="batterySize"
-                                           v-model="otherDetails.batterySize"
-                                           placeholder=""
-                                           data-doctype="OtherDetails"/>
+                                    {{--v-model="otherDetails.batterySize"--}}
+                                    <select class="form-select input-with-feedback form-control  view_mode"
+                                            data-fieldtype="Link"
+                                            data-fieldname="company"
+                                            id="batterySize"
+                                            name="batterySize"
+                                            data-doctype="OtherDetails"></select>
                                 </div>
 
                             </div>
@@ -603,20 +594,21 @@
                     </label>
                 </td>
                 <td>
+                    {{--v-model="otherDetails.batteryPower"--}}
                     <div class="control-input-wrapper">
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
-                                    <input type="number"
-                                           class="input-with-feedback form-control bold number_input view_mode"
-                                           min="6"
-                                           maxlength="140" data-fieldtype="Link"
-                                           data-fieldname="company"
-                                           id="batteryPower"
-                                           name="batteryPower"
-                                           v-model="otherDetails.batteryPower"
-                                           placeholder=""
-                                           data-target="Company">
+                                    <select type="number"
+                                            class="form-select view_mode"
+                                            data-fieldtype="Link"
+                                            data-fieldname="company"
+                                            id="batteryPower"
+                                            name="batteryPower"
+                                            data-target="Company">
+                                        <option value="12">12</option>
+                                        <option value="24">24</option>
+                                    </select>
                                     <div
                                         class="input-group-addon align-self-center pr-3 pl-3">
                                         V

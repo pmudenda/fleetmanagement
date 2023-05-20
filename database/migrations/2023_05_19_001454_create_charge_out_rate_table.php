@@ -4,20 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('CONFIG_REPAIR_TYPES', function (Blueprint $table) {
+        Schema::create('CONFIG_CHARGE_OUT_RATE', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 255);
-            $table->string('code', 25);
-            $table->string('created_by', 255)->nullable();
+            $table->string('created_by', 255);
             $table->string('modified_by', 255)->nullable();
-            $table->timestamp('deleted_at')->nullable();
+            $table->string('vehicle_specification', 20);
+            $table->string('vehicle_description');
+            $table->decimal('charge', 18, 2);
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('CONFIG_REPAIR_TYPES');
+        Schema::dropIfExists('CONFIG_CHARGE_OUT_RATE');
     }
 };

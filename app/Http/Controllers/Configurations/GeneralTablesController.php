@@ -49,8 +49,8 @@ class GeneralTablesController extends Controller
                 'title' => 'Vehicle Status',
             ],
             [
-                "id" => ConfigurationTypes::FUEL_TYPES->value,
-                'title' => 'Fuel Types',
+                "id" => ConfigurationTypes::FUEL_LEVELS->value,
+                'title' => 'Fuel Levels',
             ],
             [
                 "id" => ConfigurationTypes::STATUS_GENERAL->value,

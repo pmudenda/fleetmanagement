@@ -3,7 +3,6 @@
 use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
 use App\Http\Controllers\Configurations\VehicleBodyTypesController;
 use App\Http\Controllers\VehicleManagement\VehicleModelsController;
-use App\Models\configurations\vehicle\ConfigVehicleBodyType;
 use App\Models\reference\BatteryModel;
 use App\Models\reference\TyreSizesModel;
 use Illuminate\Support\Facades\Log;
@@ -21,15 +20,19 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     Route::get('/models', [VehicleModelsController::class, 'get'])->name('models.get');
     Route::delete('/models', [VehicleModelsController::class, 'destroy'])->name('models.delete');
 
-
     /** BODY TYPES **/
     Route::post('/vehicle/body-types', [VehicleBodyTypesController::class, 'store'])->name('body_type.save');
     Route::get('/vehicle/body-types', [VehicleBodyTypesController::class, 'index'])->name('body_type.get');
     Route::delete('/vehicle/body-types', [VehicleBodyTypesController::class, 'destroy'])->name('body_type.delete');
 
 
+    Route::delete('/vehicle/print-disk', function () {
+        return view("");
+    })->name('print.vehicle.disk');
+
+
     //BATTERY
-    Route::get('/references/battery-brands', function (){
+    Route::get('/references/battery-brands', function () {
         try {
 
             $data = BatteryModel::get();
@@ -45,7 +48,7 @@ Route::group(['prefix' => 'v1/en'], function (): void {
             ]);
         }
     })->name('battery.get');
-    Route::get('/references/tyre-sizes', function (){
+    Route::get('/references/tyre-sizes', function () {
         try {
             $data = TyreSizesModel::get();
             return response()->json([

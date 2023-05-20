@@ -38,7 +38,7 @@ class EngineDetailsPost extends FormRequest
             'frontTyreSize' => 'required|string',
             'rearTyreSize' => 'required|string',
             'batteryBrand' => 'required|string|max:100',
-            'batterySize' => 'required|string|max:10',
+            'batterySize' => 'required|string',
             'batteryPower' => 'required|numeric',
         ];
     }

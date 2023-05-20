@@ -13,9 +13,11 @@ use App\Http\Requests\CostingDetailsPost;
 use App\Http\Requests\EngineDetailsPost;
 use App\Http\Requests\OnboardingVehicleAccessoryRequest;
 use App\Http\Requests\VehicleHeaderRequest;
+use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\vehicle\ConfigVehicleBodyType;
 use App\Models\configurations\vehicle\ConfigVehicleBrand;
 use App\Models\configurations\vehicle\ConfigVehicleModel;
+use App\Models\configurations\VehicleAccessories;
 use App\Models\general\OrganizationalUnits;
 use App\Models\reference\Areas;
 use App\Models\vehiclemanagement\Assignment;
@@ -29,13 +31,14 @@ use App\Services\FileUploads\FileUploadService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OnBoardingService
 {
     private FileUploadService $fileUploadService;
     private BarcodeGenerationService $codeService;
 
-    public function __construct(FileUploadService $fileUploadService,
+    public function __construct(FileUploadService        $fileUploadService,
                                 BarcodeGenerationService $codeService)
     {
         $this->fileUploadService = $fileUploadService;
@@ -156,6 +159,12 @@ class OnBoardingService
             'Motor Vehicle Certificate',
             $user
         );
+        try {
+            self::generateBarCode($request->input('headerId'));
+        } catch (\Exception $e) {
+            Log::error($e);
+        }
+
 
         $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::generalData);
 
@@ -412,8 +421,6 @@ class OnBoardingService
 
         $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::assignment);
 
-        self::generateBarCode($request->input('headerId'));
-
         $model = Assignment::updateOrCreate(
             [
                 'vehicle_header_id' => $request->input('headerId'),
@@ -483,11 +490,9 @@ class OnBoardingService
             $onboardingStatus = StatusHelper::PendingTechnicalDataEntry();
         } else if (OnboardingStateHelper::technicalData) {
             $onboardingStatus = StatusHelper::PendingAccessoriesCheckin();
-        }
-        else if (OnboardingStateHelper::accessoriesCheckin) {
+        } else if (OnboardingStateHelper::accessoriesCheckin) {
             $onboardingStatus = StatusHelper::PendingCostingDataEntry();
-        }
-        else if (OnboardingStateHelper::costing) {
+        } else if (OnboardingStateHelper::costing) {
             $onboardingStatus = StatusHelper::PendingAssignment();
         }
 
@@ -498,9 +503,32 @@ class OnBoardingService
     /**
      * @throws VehicleOnBoardingException
      */
-    public function processAccessory(OnboardingVehicleAccessoryRequest $request)
+    public function processAccessory(OnboardingVehicleAccessoryRequest $request): array
     {
+        $headerId = $request->get('headerId');
+
+        $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
+            ->get();
+        foreach ($accessoryNames as $accessoryName) {
+            $accessoryCode= $accessoryName->code;
+
+            $response = $request->get($accessoryCode);
+            $remarks = $request->get('COMMENT_'.$accessoryCode);
+
+            VehicleAccessories::create(
+                [
+                    'vehicle_header_id' => $headerId,
+                    'name' => $accessoryName->name,
+                    'code' =>$accessoryCode,
+                    'remarks' => $remarks,
+                    'response' => $response
+                ]
+            );
+        }
+
+
         $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::accessoriesCheckin);
+
         return $request->all();
     }
 

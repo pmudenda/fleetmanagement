@@ -1,7 +1,7 @@
 <?php
 
-use App\Helpers\ParameterEncryption;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
+use App\Http\Controllers\Configurations\ChargeOutRateController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
@@ -77,7 +77,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/get-employee-data', [UsersController::class, 'search'])->name('user.search');
         Route::post('user/attach/{id}', [UsersController::class, 'attach'])->name('user.attach');
         Route::post('user/detach/{id}', [UsersController::class, 'detach'])->name('user.detach');
-
     });
 
     Route::group(['prefix' => 'security'], function () {
@@ -115,6 +114,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('vehicle/body-types', function () {
             return view('configurations.vehicle.types');
         })->name('vehicle.body.types');
+
+        Route::get('vehicle/fuel-allocation', function () {
+            return view('configurations.fuelallocation');
+        })->name('vehicle.fuel.allocation');
+
+        Route::get('vehicle/charge-outrate',[ChargeOutRateController::class, 'index'])->name('charge.out.rate');
+        Route::post('save/charge-outrate',[ChargeOutRateController::class, 'store'])->name('save.charge.out.rate');
     });
 
     Route::group(['prefix' => 'requisitions'], function () {
@@ -166,6 +172,10 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('verify/document-number', [VehicleOnBoardingController::class, "validateVehicleIdentifiers"])
                 ->name('document.number.validation');
+
+            Route::get('/resume', [VehicleOnBoardingController::class, 'resume'])
+                ->name('resume.onboarding');
+
         });
 
         Route::get('vehicle/all/details', [VehicleController::class, 'getAllDetails'])->name('vehicle.details');
@@ -179,7 +189,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/vehicles', [VehicleController::class, 'register'])->name('vehicle.edit');
 
         Route::get('/cleanup', [VehicleController::class, 'cleanUpWindow'])->name('vehicle.data.cleanup');
-
     });
 
     Route::post('/workflow/approve', [WorkflowController::class, 'approve'])->name('workflow.approve');
@@ -194,19 +203,21 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
 
+        Route::get('workshops/list/json', [WorkshopController::class, 'getActiveWorkShops'])->name('all.workshop.list');
+        Route::get('fuel-levels/list/json', [MaintenanceController::class, 'getFuelLevels'])->name('fuels.levels');
     });
 });
 
 Route::get('barcodes', function (Request $request) {
 
-    if (!$request->has('data')) {
+   /* if (!$request->has('data')) {
         return "No Data Supplied";
     }
     $service = new OnBoardingService();
-    $barCodeImagePath = $service->generateBarCode(new VehicleHeader(
-            ['registration_number' => $request->get('data')])
+    $barCodeImagePath = $service->generateBarCode(
+        new VehicleHeader(
+            ['registration_number' => $request->get('data')]
+        )
     );
-    return '<img alt="testing" src="' . asset('storage/' . $barCodeImagePath) . '"/>';
+    return '<img alt="testing" src="' . asset('storage/' . $barCodeImagePath) . '"/>';*/
 })->name('barcode.generate');
-
-

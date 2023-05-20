@@ -1,21 +1,28 @@
 (function (tmsApp, $) {
 
+    let myModalEl = document.getElementById('kt_modal_add_brand');
+    let myModal = new bootstrap.Modal(myModalEl);
+
+    myModalEl.addEventListener('hidden.bs.modal', function (event) {
+        document.querySelector('[name="addRecordForm"]').reset();
+    });
+
+    $(document).on('keyup paste', '#brand_name', function () {
+        this.value = this.value.toLocaleUpperCase();
+    });
+
+
     tmsApp.appFormValidator('form[name="addRecordForm"]',
         {
             'brand_name': {
                 required: 'brand name is required',
-            },
-            "status": {
-                required: 'Status is required'
+                maxlength: 50
             }
         },
         {
             'brand_name': {
-                required: 'brand name is required',
-                maxlength: 'brand name must contain 3 to 50 characters'
-            },
-            "status": {
-                required: 'Status is required'
+                required: 'Brand name is required',
+                maxlength: 'Brand can not be more than 50 characters'
             }
         },
     );
@@ -33,61 +40,71 @@
     }
 
     function submitVehicleBrand() {
-        let $form = document.forms['addRecordForm'];
+        let $form = document.querySelector('form[name="addRecordForm"]')
 
         if (!$($form).valid()) {
             toastr.warning(
-                "Sorry, the data did not pass validation check, check the data and try again."
+                "Sorry, the data did not pass validation check, Brand name is required, check the data and try again.",
+                "Validation Failure"
             );
             return;
         }
 
-        tmsApp.asyncPostFormData(
-            $form.action,
-            new FormData($form),
-            function (asyncResponse) {
-                if ('success' in asyncResponse && !asyncResponse.success) {
-                    if (asyncResponse.hasOwnProperty('errors')) {
-                        tmsApp.printErrorMsg(asyncResponse.errors);
-                        return
-                    }
-
-                    setTimeout(function () {
-                        tmsApp.systemError(
-                            'Vehicle Make Record Creation',
-                            asyncResponse['message'],
-                            function () {
-                            }, 'error');
-                    }, 300);
-                    toastr.error(
-                        asyncResponse.message
-                    );
-                    return;
-                }
-
-                tmsApp.showSystemMessage(
-                    'Record Creation',
-                    asyncResponse.message,
-                    function () {
-                        setTimeout(
-                            function () {
-                                //app.$data.modal.hide();
-                                //window.location.href = asyncResponse['redirectUrl'];
-                                //addRecordToTable();
-                                window.location.reload();
-                            }, 500
-                        );
-                    }, 'success');
-            },
-            function (xhr, settings, errorThrown) {
-                console.log(errorThrown)
+        tmsApp.confirm('Vehicle Brand',
+            'Are you sure you want to submit the request ?',
+            'Yes',
+            'No, Cancel',
+            function () {
+                bootstrap.Modal.getOrCreateInstance(document.querySelector('#kt_modal_add_brand')).hide();
                 setTimeout(function () {
-                    tmsApp.showErrorMessages(xhr, 'Vehicle Brand');
+                    tmsApp.asyncPostFormData(
+                        $form.action,
+                        new FormData($form),
+                        function (asyncResponse) {
+                            if (asyncResponse.hasOwnProperty('success') && !asyncResponse.success) {
+                                if (asyncResponse.hasOwnProperty('errors')) {
+                                    tmsApp.printErrorMsg(asyncResponse.errors);
+                                    return
+                                }
+
+                                setTimeout(function () {
+                                    tmsApp.systemError(
+                                        'Vehicle Make Record Creation',
+                                        asyncResponse['message'],
+                                        function () {
+                                        }, 'error');
+                                }, 300);
+                                toastr.error(
+                                    asyncResponse.message
+                                );
+                                return;
+                            }
+                            let message = 'Record Created Successfully';
+                            tmsApp.showSystemMessage(
+                                'Record Creation',
+                                message,
+                                function () {
+                                    setTimeout(
+                                        function () {
+                                            window.location.reload();
+                                        }, 500
+                                    );
+                                }, 'success');
+                        },
+                        function (xhr, settings, errorThrown) {
+                            console.log(errorThrown)
+                            setTimeout(function () {
+                                tmsApp.showErrorMessages(xhr, 'Vehicle Brand');
+                            }, 300)
+                        }
+                    );
                 }, 300)
-            });
+
+            }, function () {
+        });
     }
 
-    $(document).on('click','#submitAddFormRecord', function (e) {
+    $(document).on('click', '#submitAddFormRecord', function (e) {
         submitVehicleBrand();
     });
 

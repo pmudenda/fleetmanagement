@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\WorkshopManagement;
 
 use App\Enums\Constants;
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\configurations\WorkShop;
+use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 
 class WorkshopController extends Controller
@@ -29,6 +31,17 @@ class WorkshopController extends Controller
                 'type',
                 'typeStr'
             ));
+    }
+
+    public function getActiveWorkShops(): JsonResponse
+    {
+        $workshopsList = WorkShop::where('status', '=', StatusHelper::active())->get();
+
+        return response()->json([
+            'state' => 'success',
+            'message' => 'Data retrieved Successfully',
+            'payload' => $workshopsList
+        ]);
     }
 
 }

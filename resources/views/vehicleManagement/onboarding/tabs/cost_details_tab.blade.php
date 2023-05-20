@@ -70,14 +70,14 @@
                 <div class="input-group">
                     <input type="text"
                            data-action="{{route('verify.purchase.order')}}"
-                           class="form-control form-control-sm"
+                           class="form-control form-control-sm view_mode"
                            id="purchase_order_number"
                            placeholder=""
                            name="purchase_order_number">
                     <div class="input-group-addon">
                         <button type="button" id="poSearchBtn"
                                 name="poSearchBtn"
-                                class="btn btn-primary btn-sm border-radius-0">
+                                class="btn btn-primary btn-sm border-radius-0 view_mode">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
@@ -127,15 +127,14 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
+                                {{--v-model="costingAndValuation.costPrice"onchange="formatCostPriceAsMoney(this)"--}}
                                 <input type="text"
                                        class="input-with-feedback form-control bold view_mode"
                                        maxlength="15"
                                        data-a-sign="ZMW "
                                        id="costPrice"
                                        name="costPrice"
-                                       v-model="costingAndValuation.costPrice"
                                        placeholder=""
-                                       onchange="formatCostPriceAsMoney(this)"
                                        autocomplete="off">
                             </div>
                         </div>
@@ -185,13 +184,13 @@
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
                                {{-- v-model="costingAndValuation.bookValue"--}}
+                                {{--onchange="formatBookValueAsMoney(this)"--}}
                                 <input type="text"
                                        class="input-with-feedback form-control bold view_mode"
                                        id="bookValue"
                                        data-a-sign="ZMW "
                                        name="bookValue"
                                        placeholder=""
-                                       onchange="formatBookValueAsMoney(this)"
                                        data-doctype="CostingDetails"
                                        autocomplete="off"/>
                             </div>
@@ -288,6 +287,7 @@
                 <div class="col-md-7 fv-row pl-0">
                     <div class="col-md-9 pl-0">
                         <input type="file"
+                               required
                                accept="image/*,.pdf"
                                class="filer_input"
                                name="purchaseOrderDocument"/>
@@ -298,6 +298,25 @@
             <td></td>
         </tr>
         </tbody>
+    </table>
+    <table v-if="documents && documents.purchase_order" class="table align-middle table-row-dashed dataTable no-footer">
+        <thead>
+        <tr class="bg-dark">
+            <th>Document Type</th>
+            <th>File Name</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tr>
+            <td>Insurance Cover Note</td>
+            <td>@{{ documents.purchase_order?.originalDocumentName }}</td>
+            <td>
+                <button data-zfm-view-file="insurance"
+                        type="button" :data-document-url="'/storage'+documents.purchase_order?.path"
+                        class="btn btn-sm btn-success">View File
+                </button>
+            </td>
+        </tr>
     </table>
     <div class="create_mode">
         <button type="submit" id="tms_save_costing"

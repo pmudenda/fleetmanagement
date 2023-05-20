@@ -133,6 +133,50 @@
         </div>
     </section>
     <x-employee-search-modal/>
+
+    <div class="modal fade" id="vehicleDisk"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Vehicle Disk</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center" id="diskArea">
+                    <img class="img-fluid" src="{{asset('assets/dist/img/disk.jpeg')}}" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="print" class="btn btn-primary btn-sm">
+                        <i class="fas fa-print"></i>
+                        Print
+                    </button>
+                    <button type="button" data-bs-dismiss="modal" class="btn btn-default">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="fileViewModal"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">File Viewer</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="documentView" src="" style="border: none;" width="100%" height="600px;" ></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-bs-dismiss="modal" class="btn btn-default">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')

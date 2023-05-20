@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class OnboardingVehicleAccessoryRequest extends FormRequest
+class ChargeOutRateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,12 +17,16 @@ class OnboardingVehicleAccessoryRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-
+            "brand" => "required",
+            "model" => "required",
+            "model_code" => "required",
+            "bodyType" => "required",
+            "rate" => "required|numeric"
         ];
     }
 }

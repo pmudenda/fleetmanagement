@@ -78,7 +78,7 @@ class VehicleBodyTypesController extends Controller
 
             return response()->json([
                 'state' => 'success',
-                'message' => '',
+                'message' => 'Record successfully',
                 'payload' => $model
             ]);
 

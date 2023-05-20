@@ -375,7 +375,28 @@
                                             </span>
                                     </a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('vehicle.fuel.allocation') }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot">
+                                                </span></span>
+                                        <span class="menu-title">
+                                                Fuel Allocation
+                                            </span>
+                                    </a>
+                                </li>
                             </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ route('charge.out.rate') }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                      Charge Out Rates
+                                </p>
+                            </a>
                         </li>
 
                         <li class="nav-item">
@@ -501,6 +522,8 @@
                                         </span>
                                     </a>
                                 </li>
+
+
                             </ul>
                         </li>
 

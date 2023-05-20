@@ -14,6 +14,7 @@ use App\Http\Requests\EngineDetailsPost;
 use App\Http\Requests\OnboardingVehicleAccessoryRequest;
 use App\Http\Requests\VehicleHeaderRequest;
 use App\Models\configurations\ConfigAccessories;
+use App\Models\configurations\VehicleAccessories;
 use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
 use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
@@ -42,7 +43,7 @@ class VehicleOnBoardingController extends Controller
 
     public function show(): View
     {
-        $viewName = 'modules.vehicleManagement.details.index';
+        $viewName = 'vehicleManagement.details.index';
         return view($viewName);
     }
 
@@ -73,10 +74,36 @@ class VehicleOnBoardingController extends Controller
             $vehicle = $this->vehicleDetailsService->getVehicleDetails($reference);
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
         }
-        $viewName = 'modules.vehicleManagement.details.view';
+        $viewName = 'vehicleManagement.details.view';
 
         return view($viewName)
             ->with(compact('reference', 'vehicle', 'vehicleDocuments'));
+    }
+
+    public function resume(Request $request): RedirectResponse
+    {
+        $reference = $request->get('reference');
+
+        $vehicle = VehicleHeader::where('id', '=', $reference)->first();
+
+        $step = '';
+        if ($vehicle->on_boarding_status == StatusHelper::PendingGeneralDataEntry()) {
+            $step = 2;
+        } elseif ($vehicle->on_boarding_status == StatusHelper::PendingTechnicalDataEntry()) {
+            $step = 3;
+        } elseif ($vehicle->on_boarding_status == StatusHelper::PendingAccessoriesCheckin()) {
+            $step = 4;
+        } elseif ($vehicle->on_boarding_status == StatusHelper::PendingCostingDataEntry()) {
+            $step = 5;
+        } elseif ($vehicle->on_boarding_status == StatusHelper::PendingAssignment()) {
+            $step = 6;
+        } else if ($vehicle->on_boarding_status = StatusHelper::onboardingComplete()) {
+            $step = 7;
+        } else {
+            $step = 1;
+        }
+
+        return redirect(URL::signedRoute('new.vehicle', ['step' => $step, 'reference' => $reference]));
     }
 
 
@@ -108,7 +135,8 @@ class VehicleOnBoardingController extends Controller
                 $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments((int)$reference);
             }
 
-            $viewName = "modules.vehicleManagement.onboarding.start";
+            $viewName = "vehicleManagement.onboarding.start";
+
             /*match ($step) {
                 '1' => ,
                 '2' => "vehicleManagement.onboarding.step6",
@@ -122,16 +150,18 @@ class VehicleOnBoardingController extends Controller
 
             $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
 
+            $enteredAccessories = VehicleAccessories::where('vehicle_header_id', '=', (int)$reference)->get();
+
             return view($viewName)
                 ->with(compact(
                     'reference',
                     'vehicle',
                     'step',
+                    'enteredAccessories',
                     'accessories',
                     'vehicleDocuments'
                 ));
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Log::error($e);
             $message = "Error on occurred while trying to start Onboarding View";
             return view("error")
@@ -351,6 +381,10 @@ class VehicleOnBoardingController extends Controller
             case 'chassis':
                 $valid = ChassisDetail::where('chassis_number', trim($request->get('key')))->count() == 0;
                 $message = $valid ? 'Chassis Number is valid' : 'Duplicate Chassis Number';;
+                break;
+            case 'engine_number':
+                $valid = ChassisDetail::where('engine_number', trim($request->get('key')))->count() == 0;
+                $message = $valid ? 'Engine Number valid' : 'Duplicate Engine Number';;
                 break;
             case 'motorVehicleCertificate':
                 $valid = ChassisDetail::where('white_book_serial', trim($request->get('key')))->count() == 0;

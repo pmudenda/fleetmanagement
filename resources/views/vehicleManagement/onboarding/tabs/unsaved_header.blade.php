@@ -4,15 +4,24 @@
             <h2> Vehicle On-Boarding</h2>
             <span v-if="!vehicleHeader.isHeaderSaved"
                   class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
-            <span v-else class="ml-2 indicator-pill whitespace-nowrap green"><span>@{{ vehicleHeader.on_boarding_status || 'Saved' }}</span></span>
+            <span v-else class="ml-2 indicator-pill whitespace-nowrap green">
+                <span>
+                    @{{ vehicleHeader.on_boarding_status | formatStatus }}
+                </span>
+            </span>
         </div>
 
-        <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
+        <div v-if="!vehicleHeader.isHeaderSaved" id="actionButtonsContainer" class="card-toolbar justify-content-end">
             <button type="button" id="submitBtn" disabled class="btn btn-success btn-sm mr-3">
                 <i class="fas fa-paper-plane"></i> Submit
             </button>
             <button type="button" id="resetFormBtn" class="btn btn-danger btn-sm mr-3">
                 <i class="fas fa-undo"></i> Cancel
+            </button>
+        </div>
+        <div class="card-toolbar justify-content-end" v-if="vehicleHeader.isHeaderSaved">
+            <button type="button" data-bs-target="#vehicleDisk" data-bs-toggle="modal" class="btn btn-default btn-sm mr-3">
+                <i class="fas fa-print"></i> Print Disk
             </button>
         </div>
     </div>
@@ -101,11 +110,11 @@
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
                                 <div class="w-100">
+                                    {{-- :value="vehicleHeader.model_code"--}}
                                     <input class="form-control form-control-solid"
                                            name="model_code"
                                            readonly
                                            id="model_code"
-                                           :value="vehicleHeader.model_code"
                                     />
                                 </div>
                             </div>
@@ -202,6 +211,17 @@
                         </div>
                     </div>
 
+                        {{--@if($vehicle && !$empty($vehicle->barcode)) @endif--}}
+                        <div class="form-group row mt-10 d-none" id="barcodeContainer">
+                            <label for="barcode" class="fs-6 fw-semibold form-label col-md-3">
+                                <span class="required">Vehicle Badge</span>
+                            </label>
+                            <div class="col-md-9 fv-row">
+                                <div class="col-md-9">
+                                    <img id="barcode" alt="vehicle barcode" src="">
+                                </div>
+                            </div>
+                        </div>
 
                 </div>
             </div>

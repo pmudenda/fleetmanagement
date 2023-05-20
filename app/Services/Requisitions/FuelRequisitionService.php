@@ -15,7 +15,7 @@ use App\Models\vehiclemanagement\Assignment;
 use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
 use App\Models\Workflow\WorkflowActions;
-use App\Services\Integration\ProcurementSystemIntegrationService;
+use App\Services\Integration\ProcurementService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\ReferenceNumberGeneratorService;
 use App\Services\Workflow\WorkflowService;
@@ -30,14 +30,14 @@ use Illuminate\Support\Facades\URL;
 class FuelRequisitionService
 {
 
-    const FUEL_REQUISITION_NUMBER_PREFIX = "ZFMFUE";
+    const FUEL_REQUISITION = "FUEL_REQ";
     private VehicleDetailsService $vehicleDetailsService;
     private WorkflowService $workflowService;
-    private ProcurementSystemIntegrationService $procurementService;
+    private ProcurementService $procurementService;
 
-    public function __construct(VehicleDetailsService               $vehicleDetailsService,
-                                WorkflowService                     $workflowService,
-                                ProcurementSystemIntegrationService $procurementService)
+    public function __construct(VehicleDetailsService $vehicleDetailsService,
+                                WorkflowService       $workflowService,
+                                ProcurementService    $procurementService)
     {
         $this->vehicleDetailsService = $vehicleDetailsService;
         $this->workflowService = $workflowService;
@@ -54,7 +54,7 @@ class FuelRequisitionService
 
         $this->validateVehicleStatus($registrationNumber);
 
-        $this->validateVehicleResponsibleUserStatus($registrationNumber);
+        //$this->validateVehicleResponsibleUserStatus($registrationNumber);
 
         if ($requisitionPostRequest->get('fuel_allocation') < $requisitionPostRequest->get('material_quantity')) {
             return response()->json([
@@ -83,7 +83,7 @@ class FuelRequisitionService
 
         Log::info($registrationNumber);
         // pick last requisition
-        $previousRequisition = MaterialHeader::where('reg_no', $registrationNumber)
+        $previousRequisition = MaterialHeader::where('veh_reg_no', $registrationNumber)
             ->whereIn('status', [
                 StatusHelper::new(),
                 StatusHelper::approved(),
@@ -116,14 +116,13 @@ class FuelRequisitionService
         DB::beginTransaction();
 
         $user = Auth()->user();
-        $documentRef = ReferenceNumberGeneratorService::generateReferenceNumber(
-            self::FUEL_REQUISITION_NUMBER_PREFIX,
-            1);
+
+        $documentRef = ReferenceNumberGeneratorService::generateReferenceNumber(self::FUEL_REQUISITION,);
 
         $areaCode = $user->area_code ?? 'LR';
         $requisitionType = 'seq_store_req';
         $procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
-        $procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
+        //$procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
         if (empty($procurementRef)) {
             throw new FuelRequisitionException(ErrorMessages::storesRequisitionFailed());
         }
