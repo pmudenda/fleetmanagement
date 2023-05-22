@@ -14,5 +14,5 @@ enum ConfigurationTypes : string
     case STORES_MOVEMENT_TYPES = "MOVE_TYP";
     case INSURANCE_SUB_TYPES = "INSUR_SUB_TYPE";
     case WORK_SHOP_SECTION = "WORK_SHOP_SEC";
-    const LICENSE_CLASS = 'LICE_CLS';
+    case LICENSE_CLASS = 'LICE_CLS';
 }
