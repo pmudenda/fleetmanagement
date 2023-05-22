@@ -36,7 +36,7 @@ class DriverController extends Controller
             ->orWhere('name', $request->get('searchCriteria'))
             ->get();
 
-        if(empty($drivers)){
+        if (empty($drivers)) {
             return response()->json([
                 'success' => 'false',
                 'payload' => [],

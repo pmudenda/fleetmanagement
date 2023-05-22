@@ -296,6 +296,71 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-5">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3"
+                                                                        for="staff_name">
+                                                                         Copy Of License:
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-6 col-md-5">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-5">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        for="staff_name">
+                                                                        Copy Of License (Front):
+                                                                    </label>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                        <input type="file"
+                                                                               class="form-control form-control-sm"
+                                                                               id="license_date_expiry" name="license_date_expiry" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-6 col-md-5">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        for="staff_name">
+                                                                        Copy Of License (Back):
+                                                                    </label>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                        <input type="file"
+                                                                               class="form-control form-control-sm"
+                                                                               id="license_date_expiry" name="license_date_expiry" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -379,6 +444,30 @@
 
                                                     </div>
                                                 </div>
+
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-5">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        for="staff_name">
+                                                                        Copy Of Permit:
+                                                                    </label>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                        <input type="file"
+                                                                               class="form-control form-control-sm"
+                                                                               id="permit_copy"
+                                                                               name="permit_copy"
+                                                                               required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </form>
