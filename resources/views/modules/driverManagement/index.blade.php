@@ -232,8 +232,9 @@
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="date"
+                                                                               max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
                                                                                class="form-control form-control-sm"
-                                                                               id="job_title" name="job_title" required>
+                                                                               id="license_date_issued" name="license_date_issued" required>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -254,7 +255,7 @@
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="date"
                                                                                class="form-control form-control-sm"
-                                                                               id="job_title" name="job_title" required>
+                                                                               id="license_date_expiry" name="license_date_expiry" required>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -310,7 +311,8 @@
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="text"
                                                                                class="form-control form-control-sm"
-                                                                               id="permit_number" name="permit_number"
+                                                                               id="permit_number"
+                                                                               name="permit_number"
                                                                                required>
                                                                     </div>
                                                                 </div>
@@ -329,8 +331,11 @@
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="date"
+                                                                               max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
                                                                                class="form-control form-control-sm"
-                                                                               id="job_title" name="job_title" required>
+                                                                               id="permit_date_issued"
+                                                                               name="permit_date_issued"
+                                                                               required>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -351,7 +356,9 @@
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="date"
                                                                                class="form-control form-control-sm"
-                                                                               id="job_title" name="job_title" required>
+                                                                               id="permit_date_expiry"
+                                                                               name="permit_date_expiry"
+                                                                               required>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -428,8 +435,8 @@
                 document.querySelector('[name="department"]').value = data?.functional_section;
 
 
-                document.querySelector('[name="staff_email"]').value = data?.staff_email;
-                document.querySelector('[name="staff_number"]').value = data?.con_per_no;
+                //document.querySelector('[name="staff_email"]').value = data?.staff_email;
+                //document.querySelector('[name="staff_number"]').value = data?.con_per_no;
 
                 //document.querySelector('[name="cc_code"]').value = data?.cc_code;
                 //document.querySelector('[name="bu_code"]').value = data?.bu_code;
