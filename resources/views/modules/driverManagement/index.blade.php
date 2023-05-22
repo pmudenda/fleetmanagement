@@ -388,7 +388,7 @@
         (function (tmsApp, $) {
 
             $('#staff_number').on('keyup paste enter change', function () {
-                if (!this.value || this.value.replace('_', '').length < 5) {
+                if (!this.value || this.value.length < 5) {
                     return;
                 }
                 setTimeout(function () {
@@ -397,7 +397,8 @@
             });
 
             $('#employeeSearchBtn').on('click', function () {
-                if (!this.value || this.value.length < 5) {
+                const staff_number = document.querySelector('#staff_number').value
+                if (!staff_number || staff_number.length < 5) {
                     toastr.warning('Invalid Staff Number Provided')
                     return;
                 }

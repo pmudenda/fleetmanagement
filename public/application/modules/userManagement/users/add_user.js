@@ -30,6 +30,7 @@
                                     'User Creation',
                                     asyncResponse['message'],
                                     function () {
+                                        document.forms['tms_user_definition'].reset();
                                         window.location.reload();
                                     }, 'success');
                             }, 300);
@@ -47,8 +48,6 @@
                             asyncResponse['message'],
                             function () {
                             });
-
-
                     },
                     function (xhr, settings, errorThrown) {
                         console.log(errorThrown);
