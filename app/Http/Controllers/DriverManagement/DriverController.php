@@ -36,6 +36,14 @@ class DriverController extends Controller
             ->orWhere('name', $request->get('searchCriteria'))
             ->get();
 
+        if(empty($drivers)){
+            return response()->json([
+                'success' => 'false',
+                'payload' => [],
+                'message' => 'No driver Found. Verify the input and ensure the employee was registered as an authorised driver.'
+            ]);
+        }
+
         return response()->json([
             'success' => true,
             'payload' => $drivers

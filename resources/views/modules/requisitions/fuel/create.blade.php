@@ -332,7 +332,8 @@
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="mobile_no">Departure Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <select id="departureTown" name="departureTown" class="form-select">
+                                                            <select id="departureTown" name="departureTown"
+                                                                    class="form-select">
                                                                 <option value="LUSAKA">LUSAKA</option>
                                                                 <option value="MAZABUKA">MAZABUKA</option>
                                                                 <option value="CHOMA">CHOMA</option>
@@ -350,7 +351,8 @@
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="request_date">Destination Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <select id="destinationTown" name="destinationTown" class="form-select">
+                                                            <select id="destinationTown" name="destinationTown"
+                                                                    class="form-select">
                                                                 <option value="LUSAKA">LUSAKA</option>
                                                                 <option value="MAZABUKA">MAZABUKA</option>
                                                                 <option value="CHOMA">CHOMA</option>
@@ -705,7 +707,7 @@
                         console.log(response);
 
                         if (!response.success || response.payload.length == 0) {
-
+                            tmsApp.systemError('Driver Verification', response['message']);
                             return;
                         }
 
