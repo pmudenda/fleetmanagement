@@ -4,15 +4,6 @@
         document.querySelector('#actionButtonsContainer').style.display = 'none';
     });
 
-    $('#employee_search_criteria').on('keyup paste enter change', function () {
-        if (!this.value || this.value.length < 5) {
-            return;
-        }
-        setTimeout(function () {
-            tmsApp.findEmployee();
-        }, 300);
-    });
-
     $("#submitUserBtn").on('click', function () {
 
         // validate data here

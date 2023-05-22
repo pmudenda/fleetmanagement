@@ -51,6 +51,15 @@
         );
     }
 
+    $('#employee_search_criteria').on('keyup paste enter change', function () {
+        if (!this.value || this.value.length < 5) {
+            return;
+        }
+        setTimeout(function () {
+            findEmployee();
+        }, 300);
+    });
+
     $(document).on('click', '#employeeSearchBtn', function (event) {
         findEmployee();
     });
@@ -275,7 +284,6 @@
         _modal.modal('hide');
     });
 
-    tmsApp.findEmployee = findEmployee();
 })(window.tmsApp || {}, jQuery, window.supportData || {assignmenttype: 'single', inputfield: '', field: ''});
 
 
