@@ -275,6 +275,9 @@
                                                                             id="license_class"
                                                                             name="license_class"
                                                                             class="form-select">
+                                                                            @foreach($licenseClasses as $licenseClass)
+                                                                                <option {{$licenseClass->code}}>{{$licenseClass->name}}</option>
+                                                                            @endforeach
                                                                         </select>
                                                                     </div>
                                                                 </div>
