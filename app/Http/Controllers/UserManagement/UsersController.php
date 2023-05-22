@@ -271,7 +271,7 @@ class UsersController extends Controller
 
              $dataset = PHCMSEmployee::select('*')
                 ->where('con_per_no', $searchParam)
-                ->first();
+                ->get();
 
             /*$response = Http::withHeaders($headers)->get($apiURL, [
                 'staff_number' => $searchParam,
