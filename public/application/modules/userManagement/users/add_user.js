@@ -24,7 +24,6 @@
                     $form.action,
                     new FormData($form),
                     function (asyncResponse) {
-                        console.log(asyncResponse);
                         if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                             setTimeout(function () {
                                 tmsApp.showSystemMessage(
@@ -33,21 +32,23 @@
                                     function () {
                                         window.location.reload();
                                     }, 'success');
-                            }, 300)
-                        } else {
-
-                            if (asyncResponse.hasOwnProperty('errors')) {
-                                tmsApp.printErrorMsg(asyncResponse.errors);
-                                return
-                            }
-
-                            tmsApp.systemError(
-                                'User Creation',
-                                asyncResponse['message'],
-                                function () {
-                                });
+                            }, 300);
+                            return;
 
                         }
+
+                        if (asyncResponse.hasOwnProperty('errors')) {
+                            tmsApp.printErrorMsg(asyncResponse.errors);
+                            return
+                        }
+
+                        tmsApp.systemError(
+                            'User Creation',
+                            asyncResponse['message'],
+                            function () {
+                            });
+
+
                     },
                     function (xhr, settings, errorThrown) {
                         console.log(errorThrown);
@@ -150,7 +151,7 @@
                 }
 
                 let locations = response['payload'];
-                tmsApp.populateDropDownList(selectElem, locations, "area", ["area","description"], " - ")
+                tmsApp.populateDropDownList(selectElem, locations, "area", ["area", "description"], " - ")
             })
             .catch(function (error) {
                 // notify of error

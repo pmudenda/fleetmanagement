@@ -22,7 +22,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -269,9 +268,13 @@ class UsersController extends Controller
                 'Content-Type' => 'application/json',
             ];
 
-             $dataset = PHCMSEmployee::select('*')
+            $dataset = PHCMSEmployee::select('*')
                 ->where('con_per_no', $searchParam)
                 ->first();
+
+            if (empty($dataset)) {
+                $dataset = [];
+            }
 
             /*$response = Http::withHeaders($headers)->get($apiURL, [
                 'staff_number' => $searchParam,

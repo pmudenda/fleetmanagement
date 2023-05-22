@@ -38,6 +38,9 @@
             formData,
             function (response_data) {
                 if (response_data.success === 'true' || response_data.success === true) {
+                    if(response_data['payload'].length === 0){
+                        tmsApp.systemError('', 'No User Found with provided staff number');
+                    }
                     populateEmployeeDetails(response_data['payload']);
                 } else {
                     tmsApp.play_alert('sound-error');

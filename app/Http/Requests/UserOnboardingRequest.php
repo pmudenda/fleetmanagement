@@ -23,8 +23,8 @@ class UserOnboardingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'bu_code' => 'required',
-            'cc_code' => 'required',
+            'business_unit_code' => 'required',
+            'cost_center_code' => 'required',
             'password' => 'required',
             'staff_supervisor' => 'required',
             'user_profile' => 'required',
