@@ -238,7 +238,6 @@
                                                class="input-with-feedback form-control view_mode"
                                                required
                                                placeholder=""
-                                               v-on:change="formatMoney($event)"
                                                data-doctype="ChassisDetails"
                                                autocomplete="off"/>
                                         <div

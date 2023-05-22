@@ -50,6 +50,8 @@ class FuelRequisitionService
      */
     public function processRequest(FuelRequisitionPostRequest $requisitionPostRequest): JsonResponse
     {
+        $isOutOfTownRequisition = $requisitionPostRequest->get('requisition_type') == '011';
+
         $registrationNumber = $requisitionPostRequest->get('vehicle_registration');
 
         $this->validateVehicleStatus($registrationNumber);
@@ -68,7 +70,7 @@ class FuelRequisitionService
         $valid_to = null;
         $valid_from = null;
 
-        if ($requisitionPostRequest->get('requisition_type') == '011') {
+        if ($isOutOfTownRequisition) {
             $valid_to = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->get('return_date'));
             $valid_from = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->get('departure_date'));
 

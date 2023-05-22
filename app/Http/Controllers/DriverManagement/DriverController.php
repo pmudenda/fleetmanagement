@@ -5,9 +5,12 @@ namespace App\Http\Controllers\DriverManagement;
 use App\Enums\ConfigurationTypes;
 use App\Http\Controllers\Controller;
 use App\Models\configurations\GeneralTableConfigurations;
+use App\Models\Driver;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Request;
 
 class DriverController extends Controller
 {
@@ -27,8 +30,16 @@ class DriverController extends Controller
         return view('modules.driverManagement.driverList')->with(compact('users'));
     }
 
-    public function findDriver()
+    public function findDriver(Request $request): JsonResponse
     {
+        $drivers = Driver::where('staff_number', '=', $request->get('searchCriteria'))
+            ->orWhere('name', $request->get('searchCriteria'))
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'payload' => $drivers
+        ]);
 
     }
 }

@@ -27,6 +27,16 @@
                             <div class="card-title">
                                 <h4>Driver Management</h4>
                             </div>
+                            <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
+                                <button type="button" id="submitRequisitionBtn" class="btn btn-success btn-sm mr-3 when_odo_valid"
+                                        disabled>
+                                    <i class="fas fa-save"></i> Submit
+                                </button>
+                                <button type="button" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3">
+                                    <i class="fas fa-undo"></i> Cancel
+                                </button>
+
+                            </div>
                         </div>
                         <div class="card-body p-2">
                             <div class="table-responsive mt-10 ">

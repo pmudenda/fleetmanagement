@@ -210,7 +210,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('users/driver', [DriverController::class, 'index'])->name('users.driver');
         Route::get('users/driverList', [DriverController::class, 'driverList'])->name('users.driverList');
-        Route::get('driver', [DriverController::class, 'findDriver'])->name('driver.search');
+        Route::post('driver', [DriverController::class, 'findDriver'])->name('driver.search');
     });
 
 

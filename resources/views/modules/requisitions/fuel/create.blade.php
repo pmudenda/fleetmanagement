@@ -125,7 +125,7 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-10">
+                                                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="cost_center_name"
                                                                    value="{{$costCenter->description ?? ''}}"
@@ -267,11 +267,15 @@
                                         <div class="col-xs-12 col-sm-12 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
-                                                    <input type="text"
-                                                           class="form-control form-control-sm"
-                                                           id="driver_name"
-                                                           name="driver_name"
-                                                           required readonly />
+                                                    <div class="form-group row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                                                            <input type="text"
+                                                                   class="form-control form-control-sm"
+                                                                   id="driver_name"
+                                                                   name="driver_name"
+                                                                   required readonly/>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -319,7 +323,7 @@
                                         </div>
                                     </div>
 
-                                    {{--<div class="row d-none">
+                                    <div class="row d-none">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
@@ -354,7 +358,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>--}}
+                                    </div>
 
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
@@ -704,19 +708,19 @@
                         }
 
                         let optionListStr = '';
-                       if (Array.isArray(response.payload)){
-                           response.payload.forEach(function (item) {
-                               optionListStr+=`<option value="${item['con_per_no']}">${item['con_per_no']} =>${item.name}</option>`;
-                           })
+                        if (Array.isArray(response.payload)) {
+                            response.payload.forEach(function (item) {
+                                optionListStr += `<option value="${item['con_per_no']}">${item['con_per_no']} =>${item.name}</option>`;
+                            })
 
-                           $('#employee_list').html(optionListStr);
-                           return;
+                            $('#employee_list').html(optionListStr);
+                            return;
                         }
 
-                       document.querySelector('#driver_name').value = response.payload.name;
+                        document.querySelector('#driver_name').value = response.payload.name;
                     })
-                    .catch(function (error) {
-                        tmsApp.showErrorMessages('', '');
+                    .catch(function (xhr, settings, error) {
+                        tmsApp.showErrorMessages(xhr, 'Driver Validation');
                     });
             }
 
@@ -733,13 +737,12 @@
                             populateVehicleDetails(response_data.payload);
                         } else {
                             removeSubmissionAndDetailsOptions();
-                            tmsApp.systemError('Vehicle', ' No Vehicle Found, Check your input and try again', function () {
-                            });
+                            let $message = response_data['message'] ? response_data['message'] : ' No Vehicle Found, Check your input and try again';
+                            tmsApp.systemError('Vehicle', $message);
                         }
                     },
                     function (xhr) {
-                        tmsApp.systemError('System Message', 'We could not complete processing your request, please try again later', function () {
-                        });
+                        tmsApp.systemError('System Message', 'We could not complete processing your request, please try again later');
                     }
                 )
             }
@@ -790,7 +793,19 @@
             });
 
             $('#driver_staff_number').on('keyup paste enter', function () {
-                if (!this.value || this.value.replace('_', '').length < 5) {
+                if (!this.value || this.value.length < 5) {
+                    return;
+                }
+                setTimeout(function () {
+                    findEmployee();
+                }, 300);
+            });
+
+            $('#employeeSearchBtn').on('click', function () {
+                if (!this.value || this.value.length < 5) {
+                    return;
+                }
+                if (!document.querySelector('#driver_staff_number').value || document.querySelector('#driver_staff_number') < 8) {
                     return;
                 }
                 setTimeout(function () {
@@ -799,7 +814,7 @@
             });
 
             $('#vehicleSearchBtn').on('click', function () {
-                if (document.querySelector('#vehicle_registration').value && document.querySelector('#vehicle_registration') < 8) {
+                if (!document.querySelector('#vehicle_registration').value || document.querySelector('#vehicle_registration') < 8) {
                     return;
                 }
                 removeSubmissionAndDetailsOptions();

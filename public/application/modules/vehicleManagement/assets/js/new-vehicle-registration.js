@@ -512,6 +512,10 @@ let app = new Vue({
         }).mask("#registrationNumber");
 
         Inputmask({
+            "mask": "9999"
+        }).mask("#yearOfManufacture");
+
+        Inputmask({
             "mask": "999/99/A99"
         }).mask(".tyre-size");
 
@@ -2357,6 +2361,13 @@ function checkOnboardingHeaderStatus() {
         e.preventDefault();
         e.stopPropagation();
         submitCostValuationDetails();
+    });
+
+    $(document).on('keyup', '#chargeOutRate', function(){
+        setTimeout(function () {
+            let rawValue = accounting.unformat(this.value);
+            this.value = accounting.formatMoney(rawValue, 'ZMW ');
+        }, 300);
     });
 
 
