@@ -3,7 +3,7 @@
     function populateEmployeeDetails(response) {
         let data = response;//.data.employee;
         //let data = response;
-        if(!data.con_per_no){
+        if (!data.con_per_no) {
             tmsApp.showToast('User Not Found', 'error')
             return;
         }
@@ -26,7 +26,8 @@
 
         document.querySelector('#actionButtonsContainer').style.display = null;
     }
-    tmsApp.findEmployee = function () {
+
+    function findEmployee() {
         const employee_search_criteria = document.querySelector('#employee_search_criteria').value;
         let formData = new FormData();
         formData.append('searchCriteria', employee_search_criteria);
@@ -51,7 +52,7 @@
     }
 
     $(document).on('click', '#employeeSearchBtn', function (event) {
-        tmsApp.findEmployee();
+        findEmployee();
     });
 
     let $modal = $('#searchEmployeeModal');
@@ -274,6 +275,7 @@
         _modal.modal('hide');
     });
 
+    tmsApp.findEmployee = findEmployee();
 })(window.tmsApp || {}, jQuery, window.supportData || {assignmenttype: 'single', inputfield: '', field: ''});
 
 
