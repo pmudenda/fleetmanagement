@@ -6,6 +6,7 @@ use App\Constants\ErrorMessages;
 use App\Exceptions\UserOnBoardingException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserOnboardingRequest;
 use App\Models\general\BusinessUnits;
 use App\Models\general\CostCenters;
 use App\Models\reference\PHCMSEmployee;
@@ -67,7 +68,7 @@ class UsersController extends Controller
     }
 
 
-    public function store(Request $request): JsonResponse
+    public function store(UserOnboardingRequest $request): JsonResponse
     {
         try {
 
@@ -130,7 +131,7 @@ class UsersController extends Controller
                         'job_code' => $employee_phcms->job_code ?? "--",
                         'station' => $employee_phcms->station ?? "--",
                         'affiliated_union' => $employee_phcms->affiliated_union ?? "--",
-
+                        'area_code' => $request->get('business_area'),
                         //'extension' => '',
                         //'sex' => $request->gender,
                         //'nrc' => $request->nrc,
@@ -143,7 +144,7 @@ class UsersController extends Controller
                         //'pay_point',
                         //'job_code',
                         //'user_unit_code',
-                        //'area_code'
+
                         //'user_unit_id',
                         //'positions_id',
                         //'user_region_id',
@@ -178,7 +179,8 @@ class UsersController extends Controller
                         'supervisor_code' => $request->staff_supervisorId,
                         'supervisor_name' => $request->staff_supervisor,
                         'job_title' => $request->job_title,
-                        'guid' => Str::uuid()
+                        'guid' => Str::uuid(),
+                        'area_code' => $request->get('business_area'),
                     ],
                 );
             }
