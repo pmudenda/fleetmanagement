@@ -213,7 +213,7 @@
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="text"
                                                                                class="form-control form-control-sm"
-                                                                               id="staff_license" name="staff_license"
+                                                                               id="license_number" name="license_number"
                                                                                required>
                                                                     </div>
                                                                 </div>
@@ -268,7 +268,7 @@
                                                                     <label
                                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="staff_name">
-                                                                        License Class:
+                                                                        License Category:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <select
@@ -310,7 +310,7 @@
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="text"
                                                                                class="form-control form-control-sm"
-                                                                               id="staff_license" name="staff_license"
+                                                                               id="permit_number" name="permit_number"
                                                                                required>
                                                                     </div>
                                                                 </div>
@@ -385,6 +385,14 @@
     <!-- page script -->
     <script>
         (function (tmsApp, $) {
+
+            Inputmask({
+                "mask": "99999999"
+            }).mask("#permit_number");
+
+            Inputmask({
+                "mask": "99999999"
+            }).mask("#license_number");
 
             $('#staff_number').on('keyup paste enter change', function () {
                 if (!this.value || this.value.length < 5) {
