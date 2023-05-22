@@ -26,8 +26,7 @@
 
         document.querySelector('#actionButtonsContainer').style.display = null;
     }
-
-    $(document).on('click', '#employeeSearchBtn', function (event) {
+    tmsApp.findEmployee = function () {
         const employee_search_criteria = document.querySelector('#employee_search_criteria').value;
         let formData = new FormData();
         formData.append('searchCriteria', employee_search_criteria);
@@ -49,6 +48,10 @@
                 tmsApp.systemError('', 'We could not complete processing your request, please try again later')
             }
         );
+    }
+
+    $(document).on('click', '#employeeSearchBtn', function (event) {
+        tmsApp.findEmployee();
     });
 
     let $modal = $('#searchEmployeeModal');
