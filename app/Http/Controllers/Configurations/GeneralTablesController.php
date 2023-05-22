@@ -22,7 +22,6 @@ use Illuminate\Support\Facades\Log;
 class GeneralTablesController extends Controller
 {
 
-
     public static function findType($ref): array
     {
 
@@ -71,12 +70,12 @@ class GeneralTablesController extends Controller
                 'ref' => 'insurancesubtypes',
                 "id" => ConfigurationTypes::INSURANCE_SUB_TYPES->value,
                 'title' => 'Insurance SubTypes',
+            ],
+            [
+                'ref' => 'driverLicenseClass',
+                'id' => ConfigurationTypes::LICENSE_CLASS->value,
+                'title' => 'Driver License Class'
             ]
-            /*[
-                'ref' => 'workshopSections',
-                'id' => ConfigurationTypes::WORK_SHOP_SECTION->value,
-                'title' => 'Workshop Sections'
-            ]*/
         ]);
 
         $match = $types->where('ref', '=', strtolower($ref));

@@ -53,7 +53,7 @@
                                                                                class="form-control form-control-sm"
                                                                                id="staff_number"
                                                                                placeholder="Enter staff number"
-                                                                               name="staff_number" required />
+                                                                               name="staff_number" required/>
                                                                         <div class="input-group-addon">
                                                                             <button type="button" id="employeeSearchBtn"
                                                                                     name="userSearchBtn"
@@ -130,7 +130,9 @@
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="text"
                                                                                class="form-control form-control-sm"
-                                                                               id="job_title" name="job_title" required
+                                                                               id="job_title"
+                                                                               name="job_title"
+                                                                               required
                                                                                readonly>
                                                                     </div>
                                                                 </div>
@@ -146,13 +148,15 @@
                                                                 <div class="form-group row">
                                                                     <label
                                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                                        for="user_unit">
+                                                                        for="department">
                                                                         Department :
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="text"
                                                                                class="form-control form-control-sm"
-                                                                               id="user_unit" name="user_unit" readonly
+                                                                               id="department"
+                                                                               name="department"
+                                                                               readonly
                                                                                required>
                                                                     </div>
                                                                 </div>
@@ -174,18 +178,10 @@
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="hidden" name="cost_center_code">
                                                                         <input type="hidden" name="nrc">
-                                                                        <select type="text"
-                                                                                class="form-select form-control-sm"
-                                                                                id="cc_code"
-                                                                                name="cc_code" required disabled>
-                                                                            <option></option>
-                                                                            {{-- @foreach ($costCenters as $costCenter)
-                                                                            <option
-                                                                                value="{{$costCenter->code_cost_center}}">
-                                                                                {{$costCenter->code_cost_center}}
-                                                                                -> {{$costCenter->description}}</option>
-                                                                            @endforeach --}}
-                                                                        </select>
+                                                                        <input type="text"
+                                                                               class="form-select form-control-sm"
+                                                                               id="location"
+                                                                               name="location" required readonly/>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -272,20 +268,20 @@
                                                                     <label
                                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="staff_name">
-                                                                        Driver License:
+                                                                        License Class:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <input type="file" class="custom-file-input"
-                                                                               id="customFile">
+                                                                        <select
+                                                                            id="license_class"
+                                                                            name="license_class"
+                                                                            class="form-select">
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
-
-
                                             </div>
                                         </div>
 
@@ -407,6 +403,35 @@
                 }, 300);
             });
 
+            function populateEmployeeDetails(response) {
+                let data = response;
+
+                if (!data.con_per_no) {
+                    tmsApp.showToast('User Not Found', 'error')
+                    return;
+                }
+                document.querySelector('[name="name"]').value = data?.name;
+                document.querySelector('[name="grade"]').value = data?.grade;
+                document.querySelector('[name="job_title"]').value = data?.job_title;
+                document.querySelector('[name="location"]').value = data?.location;
+                document.querySelector('[name="department"]').value = data?.functional_section;
+
+
+                document.querySelector('[name="staff_email"]').value = data?.staff_email;
+                document.querySelector('[name="staff_number"]').value = data?.con_per_no;
+
+                //document.querySelector('[name="cc_code"]').value = data?.cc_code;
+                //document.querySelector('[name="bu_code"]').value = data?.bu_code;
+                //document.querySelector('[name="cost_center_code"]').value = data?.cc_code;
+                //document.querySelector('[name="business_unit_code"]').value = data?.bu_code;
+                //document.querySelector('[name="login_name"]').value = data?.con_per_no;
+                //document.querySelector('[name="directorate"]').value = data?.directorate;
+                //document.querySelector('[name="mobile_no"]').value = data?.mobile_no;
+
+                document.querySelector('[name="nrc"]').value = data?.nrc;
+                document.querySelector('#actionButtonsContainer').style.display = null;
+            }
+
 
             function findEmployee() {
                 const staff_number = document.querySelector('#staff_number').value
@@ -451,7 +476,7 @@
                             return;
                         }
 
-                        document.querySelector('#driver_name').value = response.payload.name;
+                        populateEmployeeDetails(response.payload);
                     })
                     .catch(function (error) {
                         tmsApp.showErrorMessages('', '');

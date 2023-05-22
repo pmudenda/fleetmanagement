@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\DriverManagement;
 
 use App\Constants\ErrorMessages;
+use App\Enums\ConfigurationTypes;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\general\BusinessUnits;
 use App\Models\general\CostCenters;
 use App\Models\reference\PHCMSEmployee;
@@ -29,8 +31,8 @@ class DriverController extends Controller
 
     public function index(): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        $users = []; //User::select('*')->get();
-        return view('modules.driverManagement.index')->with(compact('users'));
+        $licenseClasses = GeneralTableConfigurations::where('type', ConfigurationTypes::LICENSE_CLASS.value())->get();
+        return view('modules.driverManagement.index')->with(compact('licenseClasses'));
     }
 
     public function driverList(): View|\Illuminate\Foundation\Application|Factory|Application

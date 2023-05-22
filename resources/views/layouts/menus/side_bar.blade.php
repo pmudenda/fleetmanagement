@@ -409,6 +409,18 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview pl-3">
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'driverLicenseClass']) }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot">
+                                                </span></span>
+
+                                        <p class="menu-title">
+                                            License Class
+                                        </p>
+                                    </a>
+                                </li>
 
                                 <li class="nav-item">
                                     <a class="nav-link"
