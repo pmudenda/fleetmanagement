@@ -24,7 +24,10 @@ class ContentHeader extends Component
         $this->pageTitle = $pageTitle;
         $this->activeCrumb = $activeCrumb;
         $this->link = $link;
-        $this->linkText = $linkText;
+        if (!empty($linkText)) {
+            $this->linkText = $linkText;
+        }
+
     }
 
     /**

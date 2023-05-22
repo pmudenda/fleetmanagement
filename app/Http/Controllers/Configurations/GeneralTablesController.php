@@ -72,7 +72,7 @@ class GeneralTablesController extends Controller
                 'title' => 'Insurance SubTypes',
             ],
             [
-                'ref' => 'driverLicenseClass',
+                'ref' => 'driverlicenseclass',
                 'id' => ConfigurationTypes::LICENSE_CLASS->value,
                 'title' => 'Driver License Class'
             ]
