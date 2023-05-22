@@ -100,16 +100,16 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         Route::get('vehicle/make', function () {
-            return view('configurations.vehicle.brands');
+            return view('modules.configurations.vehicle.brands');
         })->name('vehicle.make');
 
         Route::get('vehicle/models', function () {
-            return view('configurations.vehicle.models');
+            return view('modules.configurations.vehicle.models');
         })->name('vehicle.models');
 
 
         Route::get('vehicle/body-types', function () {
-            return view('configurations.vehicle.types');
+            return view('modules.configurations.vehicle.types');
         })->name('vehicle.body.types');
 
         Route::get('vehicle/fuel-allocation', function () {

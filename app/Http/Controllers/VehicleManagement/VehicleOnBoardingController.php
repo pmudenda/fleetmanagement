@@ -74,7 +74,7 @@ class VehicleOnBoardingController extends Controller
             $vehicle = $this->vehicleDetailsService->getVehicleDetails($reference);
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
         }
-        $viewName = 'vehicleManagement.details.view';
+        $viewName = 'modules.vehicleManagement.details.view';
 
         return view($viewName)
             ->with(compact('reference', 'vehicle', 'vehicleDocuments'));
