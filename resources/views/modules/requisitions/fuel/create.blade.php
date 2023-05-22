@@ -286,7 +286,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row d-none" id="outOfTown">
+                                    <div class="row d-none outOfTown">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
@@ -323,19 +323,20 @@
                                         </div>
                                     </div>
 
-                                    <div class="row d-none">
+                                    <div class="row d-none outOfTown">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Departure Date:</label>
+                                                            for="mobile_no">Departure Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="date" class="form-control form-control-sm"
-                                                                   id="departure_date"
-                                                                   min="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
-                                                                   name="departure_date"/>
+                                                            <select id="departureTown" name="departureTown" class="form-select">
+                                                                <option value="LUSAKA">LUSAKA</option>
+                                                                <option value="MAZABUKA">MAZABUKA</option>
+                                                                <option value="CHOMA">CHOMA</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -347,12 +348,13 @@
                                                     <div class="form-group row">
                                                         <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Return Date:</label>
+                                                            for="request_date">Destination Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="date" class="form-control form-control-sm"
-                                                                   id="return_date"
-                                                                   min="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
-                                                                   name="return_date">
+                                                            <select id="destinationTown" name="destinationTown" class="form-select">
+                                                                <option value="LUSAKA">LUSAKA</option>
+                                                                <option value="MAZABUKA">MAZABUKA</option>
+                                                                <option value="CHOMA">CHOMA</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -971,9 +973,9 @@
 
             $('select[name="requisition_type"]').on('change', function () {
                 if (this.value === '011') {
-                    $("#outOfTown").removeClass('d-none');
+                    $(".outOfTown").removeClass('d-none');
                 } else {
-                    $("#outOfTown").addClass('d-none');
+                    $(".outOfTown").addClass('d-none');
                 }
             });
 
