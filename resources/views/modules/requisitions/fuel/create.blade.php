@@ -26,14 +26,14 @@
                 </div>
             </div>
 
-            <div class="card-body pb-4 min-h-600px pt-0">
+            <div class="card-body pb-4 min-h-600px pt-0 pl-2">
 
                 <x-error-view/>
 
                 <form name="fuelRequisitionForm" id="fuelRequisitionForm" action="{{route('save.fuel.requisition')}}"
                       method="post">
                     @csrf
-                    <div class="card-body user-data">
+                    <div class="card-body user-data pl-0">
                         <label class="app-required-marker"></label>
                         <div class="container-fluid mt-2">
                             <div class="row">
@@ -229,7 +229,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="col-xs-12 col-sm-12 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
@@ -241,7 +241,8 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group">
                                                                 <input type="text"
-                                                                       data-action="{{route('user.search')}}"
+                                                                       list="employee_list"
+                                                                       data-action="{{route('driver.search')}}"
                                                                        class="form-control form-control-sm"
                                                                        autocapitalize="characters"
                                                                        id="driver_staff_number"
@@ -254,6 +255,8 @@
                                                                         <i class="fas fa-search"></i>
                                                                     </button>
                                                                 </div>
+                                                                <datalist id="employee_list">
+                                                                </datalist>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -261,18 +264,21 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="col-xs-12 col-sm-12 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <input type="text"
                                                            class="form-control form-control-sm"
                                                            id="driver_name"
                                                            name="driver_name"
-                                                           required readonly>
-                                                    <datalist id="employee_list">
-                                                    </datalist>
+                                                           required readonly />
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-12 col-md-6"></div>
+                                        <div class="col-xs-12 col-sm-12 col-md-6">
+
                                         </div>
                                     </div>
 

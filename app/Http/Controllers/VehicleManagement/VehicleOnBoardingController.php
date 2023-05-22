@@ -43,7 +43,7 @@ class VehicleOnBoardingController extends Controller
 
     public function show(): View
     {
-        $viewName = 'vehicleManagement.details.index';
+        $viewName = 'modules.vehicleManagement.details.index';
         return view($viewName);
     }
 
@@ -135,18 +135,7 @@ class VehicleOnBoardingController extends Controller
                 $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments((int)$reference);
             }
 
-            $viewName = "vehicleManagement.onboarding.start";
-
-            /*match ($step) {
-                '1' => ,
-                '2' => "vehicleManagement.onboarding.step6",
-                '3' => "vehicleManagement.onboarding.step6",
-                '4' => "vehicleManagement.onboarding.step6",
-                '5' => "vehicleManagement.onboarding.step6",
-                '6' => "vehicleManagement.onboarding.step6",
-                '7' => "vehicleManagement.onboarding.step6",
-                default => "vehicleManagement.onboarding.index",
-            };*/
+            $viewName = "modules.vehicleManagement.onboarding.start";
 
             $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
 

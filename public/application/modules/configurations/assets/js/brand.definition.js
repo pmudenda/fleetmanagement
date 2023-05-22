@@ -94,7 +94,7 @@
                         function (xhr, settings, errorThrown) {
                             console.log(errorThrown)
                             setTimeout(function () {
-                                tmsApp.showErrorMessages(xhr, 'Vehicle Brand');
+                                tmsApp.showErrorMessages(xhr, 'Record Creation');
                             }, 300)
                         }
                     );

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\UserManagement;
 
 use App\Constants\ErrorMessages;
+use App\Exceptions\UserOnBoardingException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\general\BusinessUnits;
@@ -70,11 +71,18 @@ class UsersController extends Controller
     {
         try {
 
-            $validateWithHcms = false;
+            $validateWithHCMS = true;
             //will be profile assigned
             DB::beginTransaction();
-            if ($validateWithHcms) {
-                $employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_number)->first();
+            if ($validateWithHCMS) {
+                try {
+                    $employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_number)->first();
+                } catch (\Exception $ex) {
+                    Log::error($ex);
+                    throw new UserOnBoardingException(
+                        "User Failed to be created because the Staff number ("
+                        . $request->staff_number . ") could not be verified with PHCMS.");
+                }
                 $employee = User::firstOrCreate(
                     [
                         'staff_no' => $request->staff_number,
@@ -186,10 +194,13 @@ class UsersController extends Controller
                 'message' => 'Employee has successfully been created..'
             ]);
 
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            $message = "User Failed to be created because the Staff number (" . $request->staff_number . ")
-                could not be verified with PHCMS.";
+        } catch (\Exception $ex) {
+            Log::error($ex);
+            $message = "User Failed to be created because of an error";
+            if ($ex instanceof UserOnBoardingException) {
+                $message = $ex->getMessage();
+            }
+
             return response()->json([
                 'success' => false,
                 'message' => $message
@@ -250,23 +261,25 @@ class UsersController extends Controller
         try {
 
             $searchParam = trim($request->searchCriteria);
-            $apiURL = 'http://dev.zesco.co.zm/ezesco_forms/public/api/users';
+            //$apiURL = 'http://dev.zesco.co.zm/ezesco_forms/public/api/users';
             //$apiURL = 'http://127.0.0.1:3001/ezesco_forms/public/api/users';
             $headers = [
                 'Content-Type' => 'application/json',
             ];
-            /*
+
              $dataset = PHCMSEmployee::select('*')
-                ->where('con_per_no', $search)
+                ->where('con_per_no', $searchParam)
                 ->first();
-            */
-            $response = Http::withHeaders($headers)->get($apiURL, [
+
+            /*$response = Http::withHeaders($headers)->get($apiURL, [
                 'staff_number' => $searchParam,
-            ]);
+            ]);*/
 
             return response()->json([
                 'success' => true,
-                'payload' => $response->json()
+                'payload' => response()->json(
+                    $dataset
+                )
             ]);
         } catch (\Exception $e) {
             Log::error($e);

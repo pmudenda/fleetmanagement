@@ -15,7 +15,7 @@ use App\Models\vehiclemanagement\Assignment;
 use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
 use App\Models\Workflow\WorkflowActions;
-use App\Services\Integration\ProcurementService;
+use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\ReferenceNumberGeneratorService;
 use App\Services\Workflow\WorkflowService;
@@ -33,11 +33,11 @@ class FuelRequisitionService
     const FUEL_REQUISITION = "FUEL_REQ";
     private VehicleDetailsService $vehicleDetailsService;
     private WorkflowService $workflowService;
-    private ProcurementService $procurementService;
+    private ProcurementSystemIntegrationService $procurementService;
 
-    public function __construct(VehicleDetailsService $vehicleDetailsService,
-                                WorkflowService       $workflowService,
-                                ProcurementService    $procurementService)
+    public function __construct(VehicleDetailsService               $vehicleDetailsService,
+                                WorkflowService                     $workflowService,
+                                ProcurementSystemIntegrationService $procurementService)
     {
         $this->vehicleDetailsService = $vehicleDetailsService;
         $this->workflowService = $workflowService;

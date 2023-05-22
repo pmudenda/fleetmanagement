@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endpush
 @section('content')
-    <x-content-header :pageTitle="$type" :activeCrumb="'Define '. $type" :link="'home'"
-                      :linkText="$type"/>
+    <x-content-header :pageTitle="$title" :activeCrumb="'Define '. $title" :link="'home'"
+                      :linkText="$title"/>
 
     <section class="content">
         <x-error-view/>
@@ -19,7 +19,7 @@
                     <div class="card">
                         <div class="card-header ">
                             <div class="card-title">
-                                {{$type}}
+                                {{$title}}
                             </div>
                             <ul class="nav nav-pills card-header-pills justify-content-end">
                                 <li class="nav-item">
@@ -47,7 +47,7 @@
                                         <tr>
                                             <th>Name</th>
                                             <th>Code</th>
-                                            @if(str_contains(strtolower($typeStr) ,"status"))
+                                            @if(str_contains(strtolower($type) ,"status"))
                                                 <th>Active</th>
                                             @else
                                                 <th>Status</th>
@@ -57,7 +57,7 @@
                                         </thead>
 
                                         <tbody>
-                                        @if($type == 'nothing')
+                                        @if($title == 'nothing')
                                             <tr>
                                                 <td colspan="4">No Records Found</td>
                                             </tr>
@@ -84,25 +84,42 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <button
-                                                            id="editButton"
-                                                            data-id="{{$entry->id}}"
-                                                            data-record_name="{{$entry->name}}"
-                                                            data-record_status="{{$entry->active}}"
-                                                            data-record_code="{{$entry->code}}"
-                                                            class="btn btn-sm btn-primary"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#editRecordModal">
-                                                            <i class="fa fa-edit"></i>
-                                                            Edit
-                                                        </button>
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
+                                                                    type="button"
+                                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                                    aria-expanded="false">
+                                                                Actions
+                                                            </button>
+                                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                                {{-- @can(config('rights.edit_vehicle'))--}}
 
-                                                        <button type="submit" id="deleteButton"
-                                                                data-id="{{$entry->id}}"
-                                                                class="delButton btn btn-sm btn-danger">
-                                                            <i class="fa fa-trash"></i>
-                                                            Delete
-                                                        </button>
+                                                                    <li>
+                                                                        <a href="#"
+                                                                            id="editButton"
+                                                                            data-id="{{$entry->id}}"
+                                                                            data-record_name="{{$entry->name}}"
+                                                                            data-record_status="{{$entry->active}}"
+                                                                            data-record_code="{{$entry->code}}"
+                                                                            class="dropdown-item"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#editRecordModal">
+                                                                            <i class="fa fa-edit"></i>
+                                                                            Edit
+                                                                        </a>
+                                                                    </li>
+
+                                                                    <li>
+                                                                        <button type="submit" id="deleteButton"
+                                                                                data-id="{{$entry->id}}"
+                                                                                class="delButton dropdown-item">
+                                                                            <i class="fa fa-trash"></i>
+                                                                            Delete
+                                                                        </button>
+                                                                    </li>
+                                                                {{--@endcan--}}
+                                                            </ul>
+                                                        </div>
 
                                                     </td>
                                                 </tr>
@@ -128,12 +145,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    @if($type == 'nothing')
+                    @if($title == 'nothing')
                         <h1 class="modal-title fs-5" id="createRecordModalLabel">Add <span
                                 id="modalTitle">Add Record</span></h1>
                     @else
                         <h1 class="modal-title fs-5" id="createRecordModalLabel">Add <span
-                                id="modalTitle">{{$type}}</span>
+                                id="modalTitle">{{$title}}</span>
                         </h1>
                     @endif
 
@@ -141,8 +158,8 @@
                 </div>
                 <form name="configurationTableForm" method="post" action="{{route('save.data')}}">
                     @csrf
-                    @if($type != 'nothing')
-                        <input type="text" value="{{$typeStr}}" name="type" style="display: none" id="data_type"/>
+                    @if($title != 'nothing')
+                        <input type="text" value="{{$type}}" name="type" style="display: none" id="data_type"/>
                     @endif
 
                     <div class="modal-body">
@@ -165,8 +182,8 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3">
-                            @if(str_contains(strtolower($typeStr) ,"status"))
+                        <div class="mb-3 d-none">
+                            {{--@if(str_contains(strtolower($type) ,"status"))
                                 <label style="display: none;" for="message-text" class="col-form-label">Active:</label>
                                 <select name="status" style="display: none;"
                                         class="form-control @error('status') is-invalid @enderror" id="data_status"
@@ -178,6 +195,7 @@
                                 @enderror
                             @else
                                 <label for="message-text" class="col-form-label">Status:</label>
+
                                 <select name="status" class="form-control @error('status') is-invalid @enderror"
                                         id="data_status"
                                         required>
@@ -189,7 +207,7 @@
                                 @error('status')
                                 <p class=" errorText">{{$message}}</p>
                                 @enderror
-                            @endIf
+                            @endIf--}}
 
                         </div>
 
@@ -219,12 +237,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    @if($type == 'nothing')
+                    @if($title == 'nothing')
                         <h1 class="modal-title fs-5" id="editRecordModalLabel">Add <span id="modalTitle">First</span>
                         </h1>
                     @else
                         <h1 class="modal-title fs-5" id="editRecordModalLabel">Edit <span
-                                id="modalTitle">{{$type}}</span>
+                                id="modalTitle">{{$title}}</span>
                         </h1>
                     @endif
 
@@ -233,8 +251,8 @@
                 <form name="configurationEditTableForm" method="post">
                     @csrf
                     @method('PUT')
-                    @if($type != 'nothing')
-                        <input type="text" value="{{$typeStr}}" name="type" style="display: none" id="data_type"/>
+                    @if($title != 'nothing')
+                        <input type="text" value="{{$type}}" name="type" style="display: none" id="data_type"/>
                     @endif
                     <div class="modal-body">
 
@@ -247,7 +265,7 @@
                             <input type="text" class="form-control" id="data_edit_code" name="code">
                         </div>
 
-                        <div class="mb-3">
+                        {{--<div class="mb-3">
                             <label for="message-text" class="col-form-label">Status:</label>
                             <select name="status" class="form-control" id="data_edit_status">
                                 <option>Select Status</option>
@@ -255,9 +273,7 @@
                                     <option value="{{$status->code}}">{{$status->name}}</option>
                                 @endforeach
                             </select>
-                        </div>
-
-
+                        </div>--}}
                     </div>
                     <div class="modal-footer">
                         <button id="closeEditButton" type="button"

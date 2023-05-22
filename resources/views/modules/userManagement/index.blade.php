@@ -78,13 +78,13 @@
                                             </td>
                                             <td>
                                                 @if(!empty($user->avatar))
-                                                    <img class="profile-user-img img-fluid img-circle" width="100%"
+                                                    <img class="profile-user-img img-fluid img-circle border-0" width="100%"
                                                          src="{{ asset('storage/user_avatar/' . $user->avatar) }}"
                                                          alt="Image not found"
                                                          style="width: 60px; height: 54px;"
                                                     />
                                                 @else
-                                                    <img class="profile-user-img img-fluid img-circle" width="100%"
+                                                    <img class="profile-user-img img-fluid img-circle border-0" width="100%"
                                                          src="{{ asset('assets/media/avatars/avatar.png') }}"
                                                          alt="Image not found"
                                                          style="width: 60px; height: 54px;"

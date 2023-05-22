@@ -45,7 +45,7 @@ class ChargeOutRateController extends Controller
                 'created_by' => auth()->user()->id
             ]);
             return response()->json(
-                data: [
+                [
                     'message' => SystemMessages::chargeOutRateAddedSuccessfully(),
                     'success' => true,
                     'payload' => $request->all()
@@ -54,7 +54,7 @@ class ChargeOutRateController extends Controller
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json(
-                data: [
+                [
                     'message' => ErrorMessages::internalServerError,
                     'success' => false,
                     'payload' => $request->all()

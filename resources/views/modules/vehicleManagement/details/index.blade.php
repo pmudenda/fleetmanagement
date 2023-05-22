@@ -17,14 +17,14 @@
                 </div>
             </div>
 
-            <div class="card-body pb-4 min-h-600px pt-0">
+            <div class="card-body pb-4 min-h-600px pt-0 pl-2">
 
                 <x-error-view/>
 
                 <form name="fuelRequisitionForm" id="fuelRequisitionForm" action="{{route('save.fuel.requisition')}}"
                       method="post">
                     @csrf
-                    <div class="card-body user-data">
+                    <div class="card-body user-data pl-0">
                         <div class="container-fluid mt-2">
                             <div class="row">
                                 <div class="col-12">
@@ -32,26 +32,28 @@
                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Registration #:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
-                                                            <div class="input-group">
-                                                                <input type="text"
-                                                                       data-action="{{route('vehicle.details')}}"
-                                                                       class="form-control form-control-sm"
-                                                                       autocapitalize="characters"
-                                                                       id="vehicle_registration"
-                                                                       placeholder="Vehicle Reg e.g AAB 6757"
-                                                                       name="vehicle_registration" required>
-                                                                <div class="input-group-addon">
-                                                                    <button type="button" id="vehicleSearchBtn"
-                                                                            name="vehicleSearchBtn"
-                                                                            class="btn btn-success btn-sm border-radius-0">
-                                                                        <i class="fas fa-search"></i>
-                                                                    </button>
+                                                    <div class="col-6">
+                                                        <div class="form-group row">
+                                                            <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                for="staff_no">Registration #:
+                                                            </label>
+                                                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
+                                                                <div class="input-group">
+                                                                    <input type="text"
+                                                                           data-action="{{route('vehicle.details')}}"
+                                                                           class="form-control form-control-sm"
+                                                                           autocapitalize="characters"
+                                                                           id="vehicle_registration"
+                                                                           placeholder="Vehicle Reg e.g AAB 6757"
+                                                                           name="vehicle_registration" required>
+                                                                    <div class="input-group-addon">
+                                                                        <button type="button" id="vehicleSearchBtn"
+                                                                                name="vehicleSearchBtn"
+                                                                                class="btn btn-success btn-sm border-radius-0">
+                                                                            <i class="fas fa-search"></i>
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -218,11 +220,15 @@
                 )
             }
 
-            $('#vehicle_registration').keyup(function () {
+           /* $('#vehicle_registration').keyup(function () {
                 this.value = this.value.toLocaleUpperCase();
-            });
+            });*/
 
-            $('#vehicle_registration').on('change', function () {
+            Inputmask({
+               "mask": "AAA 9999"
+           }).mask("#vehicle_registration");
+
+            $('#vehicle_registration').on('change paste keyup', function () {
                 if (this.value && this.value.length < 6) {
                     return;
                 }
@@ -232,9 +238,7 @@
                 findVehicle();
             });
 
-            /*Inputmask({
-                "mask": "AAA 9999"
-            }).mask("#vehicle_registration");*/
+
 
             $('#vehicleSearchBtn').on('click', function () {
                 if (document.querySelector('#vehicle_registration').value && document.querySelector('#vehicle_registration') < 6) {

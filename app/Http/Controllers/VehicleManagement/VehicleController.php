@@ -5,6 +5,7 @@ namespace App\Http\Controllers\VehicleManagement;
 use App\Constants\ErrorMessages;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\general\Status;
 use App\Models\vehiclemanagement\VehicleHeader;
 use App\Services\Integration\ProcurementSystemIntegrationService;
@@ -130,6 +131,14 @@ class VehicleController extends Controller
     public function cleanUpWindow(Request $request): View
     {
         return view('modules.vehicleManagement.migration.index');
+    }
+
+    public function accessories(Request $request): View
+    {
+        $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
+
+        return view('modules.vehicleManagement.general.accessories')
+            ->with(compact('accessories'));
     }
 
     public function register(Request $request): View

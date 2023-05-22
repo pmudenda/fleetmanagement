@@ -66,9 +66,6 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('users/list', [UsersController::class, 'index'])->name('users.list');
 
-        Route::get('users/driver', [DriverController::class, 'index'])->name('users.driver');
-        Route::get('users/driverList', [DriverController::class, 'driverList'])->name('users.driverList');
-
         Route::post('users/resetPassword', [PasswordResetController::class, 'resetPassword'])->name('user.reset.password');
 
         // user.store
@@ -116,7 +113,7 @@ Route::group(['middleware' => 'auth'], function () {
         })->name('vehicle.body.types');
 
         Route::get('vehicle/fuel-allocation', function () {
-            return view('configurations.fuelallocation');
+            return view('modules.configurations.fuelallocation');
         })->name('vehicle.fuel.allocation');
 
         Route::get('vehicle/charge-outrate',[ChargeOutRateController::class, 'index'])->name('charge.out.rate');
@@ -189,6 +186,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/vehicles', [VehicleController::class, 'register'])->name('vehicle.edit');
 
         Route::get('/cleanup', [VehicleController::class, 'cleanUpWindow'])->name('vehicle.data.cleanup');
+
+        Route::get('/accessories', [VehicleController::class, 'accessories'])->name('vehicle.accessories');
     });
 
     Route::post('/workflow/approve', [WorkflowController::class, 'approve'])->name('workflow.approve');
@@ -206,6 +205,15 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('workshops/list/json', [WorkshopController::class, 'getActiveWorkShops'])->name('all.workshop.list');
         Route::get('fuel-levels/list/json', [MaintenanceController::class, 'getFuelLevels'])->name('fuels.levels');
     });
+
+    Route::group(['prefix' => 'driver-management'], function () {
+
+        Route::get('users/driver', [DriverController::class, 'index'])->name('users.driver');
+        Route::get('users/driverList', [DriverController::class, 'driverList'])->name('users.driverList');
+        Route::get('driver', [DriverController::class, 'findDriver'])->name('driver.search');
+    });
+
+
 });
 
 Route::get('barcodes', function (Request $request) {

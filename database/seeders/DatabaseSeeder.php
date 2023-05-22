@@ -19,11 +19,14 @@ class DatabaseSeeder extends Seeder
             RequisitionTypeSeeder::class,
             RolesAndPermissionsSeeder::class,
             StatusSeeder::class,
-            UnitOfMeasureSeeder::class,
+            //UnitOfMeasureSeeder::class,
             VehicleBodyTypesSeeder::class,
             VehicleBrandsSeeder::class,
             //OrganogramSeeder::class
             WorkflowSeeder::class,
+            WorkShopSeeder::class,
+            VehicleAccessoriesSeeder::class,
+
         ]);
     }
 }

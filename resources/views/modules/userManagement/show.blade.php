@@ -88,7 +88,7 @@
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
                                              data-target="#modal-edit-profile"
-                                            @endif
+                                                @endif
                                         />
                                     @else
                                         <img class="profile-user-img img-fluid img-circle" width="100%"
@@ -98,7 +98,7 @@
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
                                              data-target="#modal-edit-profile"
-                                            @endif
+                                                @endif
                                         />
                                     @endif
                                 </a>
@@ -236,11 +236,11 @@
 
                                 <div class="active tab-pane" id="activity">
                                     <!-- Post -->
-                                    @include('UserManagement/userProfileTabs/userDetailsSummary')
+                                    @include('modules.userManagement.userProfileTabs.userDetailsSummary')
                                 </div>
 
                                 <div class="tab-pane" id="userInfoUpdate">
-                                    @include('UserManagement/userProfileTabs/details')
+                                    @include('modules.userManagement.userProfileTabs.details')
                                 </div>
 
                                 {{--
@@ -253,7 +253,7 @@
                                 </div>
                                 --}}
                                 <div class="tab-pane" id="pass_reset">
-                                    @include('UserManagement/userProfileTabs/passwordReset')
+                                    @include('modules.userManagement.userProfileTabs.passwordReset')
                                 </div>
                             </div>
                         </div>
@@ -319,7 +319,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div
-                    class="modal-header ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle">
+                        class="modal-header ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle">
                     <h5 class="modal-title" id="addUserToGroupTitle">
                         Add Profile To User
                     </h5>

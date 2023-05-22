@@ -5,6 +5,11 @@
     <link href="{{asset("assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")}}" rel="stylesheet"
           type="text/css"/>
     <link href="{{asset("libs/steps/jquery-steps.css")}}" rel="stylesheet" type="text/css"/>
+    <style>
+        th {
+            white-space: nowrap;
+        }
+    </style>
 @endpush
 @section('content')
 
@@ -181,7 +186,7 @@
                                                                 <option value=""> --Select--</option>
                                                                 @foreach ($repairTypes as $repairType)
                                                                     <option
-                                                                        value="{{$repairType->code}}">{{$repairType->name}}</option>
+                                                                        value="{{$repairType->code}}">{{$repairType->code}}-{{$repairType->name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -274,7 +279,6 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <select name="fuel_level"
                                                                     id="fuel_level"
-                                                                    disabled
                                                                     class="form-control form-select-sm when_valid"
                                                                     required>
                                                                 <option value=""> --Select--</option>
@@ -1063,7 +1067,7 @@
             });
 
             getWorkshops();
-            
+
             getFuelLevels();
         })(window.tmsApp || {}, jQuery)
     </script>

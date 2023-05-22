@@ -20,7 +20,7 @@
         <div class="row g-12 g-xl-12" id="kt_app_main">
 
             <!--BEGIN:::VEHICLE HEADER -->
-            @include('vehicleManagement.onboarding.tabs.unsaved_header')
+            @include('modules.vehicleManagement.onboarding.tabs.unsaved_header')
             <!--END:::VEHICLE HEADER -->
 
             <!--BEGIN:::DETAILS  -->
@@ -93,31 +93,31 @@
 
                             <!--Begin:::Chassis Details Tab pane-->
                             <div class="tab-pane fade active show" id="tms_chassis_details_tab" role="tabpanel">
-                                @include('vehicleManagement.onboarding.tabs.chassis_tab')
+                                @include('modules.vehicleManagement.onboarding.tabs.chassis_tab')
                             </div>
                             <!--End:::Chassis Details Tab pane-->
 
                             <!--Begin:::Engine Details Tab pane-->
                             <div class="tab-pane fade" id="tms_engine_details_tab" role="tabpanel">
-                                @include('vehicleManagement.onboarding.tabs.engine_details_tab')
+                                @include('modules.vehicleManagement.onboarding.tabs.engine_details_tab')
                             </div>
                             <!--End:::Engine Details Tab pane-->
 
                             <!--Begin::: Costing And Valuation Tab pane-->
                             <div class="tab-pane fade" id="tms_costing_valuation_tab" role="tabpanel">
-                                @include('vehicleManagement.onboarding.tabs.cost_details_tab')
+                                @include('modules.vehicleManagement.onboarding.tabs.cost_details_tab')
                             </div>
                             <!--End:::Tab pane-->
 
                             <!--Begin:::Body Weight Tab pane-->
                             <div class="tab-pane fade" id="tms_body_weight_tab" role="tabpanel">
-                                @include('vehicleManagement.onboarding.tabs.weight_details_tab')
+                                @include('modules.vehicleManagement.onboarding.tabs.weight_details_tab')
                             </div>
                             <!--End::: Body WeightTab pane-->
 
                             <!--Begin:::Assignment Tab pane-->
                             <div class="tab-pane fade" id="tms_assignment_tab" role="tabpanel">
-                                @include('vehicleManagement.onboarding.tabs.assignment_details')
+                                @include('modules.vehicleManagement.onboarding.tabs.assignment_details')
                             </div>
                             <!--End::: Assignment Tab pane-->
 
@@ -129,7 +129,7 @@
             </div>
 
             <!--END:::DETAILS  -->
-            @include('vehicleManagement.partial.data_end_point')
+            @include('modules.vehicleManagement.partial.data_end_point')
         </div>
     </section>
     <x-employee-search-modal/>
@@ -145,7 +145,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center" id="diskArea">
-                    <img class="img-fluid" src="{{asset('assets/dist/img/disk.jpeg')}}" />
+                    <img class="img-fluid" src="{{asset('assets/dist/img/disk.jpeg')}}"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="print" class="btn btn-primary btn-sm">
@@ -169,7 +169,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <iframe id="documentView" src="" style="border: none;" width="100%" height="600px;" ></iframe>
+                    <iframe id="documentView" src="" style="border: none;" width="100%" height="600px;"></iframe>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-bs-dismiss="modal" class="btn btn-default">Close</button>
@@ -185,9 +185,9 @@
     </script>
     <script src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
     <script
-        src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js').'?v='.Carbon::now()->format('his')}}"></script>
+            src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js').'?v='.Carbon::now()->format('his')}}"></script>
     <script
-        src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
+            src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
     <script>
         $(document).ready(function () {
             let elements = document.querySelectorAll('.view_mode');

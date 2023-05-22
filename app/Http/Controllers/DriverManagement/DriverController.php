@@ -38,4 +38,8 @@ class DriverController extends Controller
         $users = []; //User::select('*')->get();
         return view('modules.driverManagement.driverList')->with(compact('users'));
     }
+
+    public function findDriver(){
+
+    }
 }

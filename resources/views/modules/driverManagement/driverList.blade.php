@@ -45,7 +45,7 @@
                             @can(config('rights.user_create'))
                             <a href="{{route('user.create')}}" class="btn btn-sm btn-success float-right">
                                 <i class="fas fa-user-plus"></i>
-                                Create Driver
+                                Onboard Driver
                             </a>
                             @endcan
                         </div>

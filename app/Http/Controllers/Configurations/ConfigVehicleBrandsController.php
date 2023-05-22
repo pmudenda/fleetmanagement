@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Configurations;
 
+use App\Constants\ErrorMessages;
 use App\Enums;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VehicleMake;
@@ -120,7 +121,7 @@ class ConfigVehicleBrandsController extends Controller
     {
         try {
             $configVehicleBrands = ConfigVehicleBrand::where('guid', $request->input('guid'))->first();
-            $configVehicleBrands->status = 'deactivated';
+            //$configVehicleBrands->status = 'deactivated';
             $configVehicleBrands->status = 'deactivated';
 
             return response()->json([
@@ -132,7 +133,7 @@ class ConfigVehicleBrandsController extends Controller
             Log::error($e);
             return response()->json([
                 'state' => 'failure',
-                'message' => 'Error Occurred while Processing request',
+                'message' => ErrorMessages::internalServerError,
                 'payload' => []
             ]);
         }

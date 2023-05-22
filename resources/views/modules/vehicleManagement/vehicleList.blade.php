@@ -177,7 +177,7 @@
                                             Actions
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            @can(config('edit_vehicle'))
+                                           {{-- @can(config('rights.edit_vehicle'))--}}
                                                 @if($vehicle->on_boarding_status == StatusHelper::onboardingComplete())
                                                     <li>
                                                         <a class="dropdown-item" data-kt-action="edit"
@@ -204,7 +204,7 @@
                                                         </a>
                                                     </li>
                                                 @endif
-                                            @endcan
+                                            {{--@endcan--}}
                                         </ul>
                                     </div>
                                 </td>

@@ -13,7 +13,7 @@
         <h1>ERROR</h1>
 
         <!--BEGIN:::VEHICLE HEADER -->
-        @include('vehicleManagement.onboarding.tabs.unsaved_header')
+        @include('modules.vehicleManagement.onboarding.tabs.unsaved_header')
         <!--END:::VEHICLE HEADER -->
 
         <!--BEGIN:::DETAILS  -->
@@ -184,7 +184,7 @@
         </div>
 
         <!--END:::DETAILS  -->
-      @include('vehicleManagement.partial.data_end_point')
+      @include('modules.vehicleManagement.partial.data_end_point')
     </div>
     <x-employee-search-modal/>
 @endsection

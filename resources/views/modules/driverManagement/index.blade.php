@@ -31,8 +31,8 @@
                         <div class="card-body p-2">
                             <div class="table-responsive mt-10 ">
 
-                                <div class="card-body py-4 min-h-600px">
-
+                                <div class="card-body py-4 min-h-600px pt-0">
+                                    <label class="app-required-marker"></label>
                                     <x-error-view/>
                                     <form name="tms_driver_definition" method="post">
                                         @csrf
@@ -53,7 +53,7 @@
                                                                                class="form-control form-control-sm"
                                                                                id="staff_number"
                                                                                placeholder="Enter staff number"
-                                                                               name="staff_number" required>
+                                                                               name="staff_number" required />
                                                                         <div class="input-group-addon">
                                                                             <button type="button" id="employeeSearchBtn"
                                                                                     name="userSearchBtn"
@@ -70,7 +70,12 @@
                                             </div>
                                         </div>
                                         <div class="card-body user-data pl-0">
-                                            <label class="app-required-marker"></label>
+                                            <div class="row">
+                                                <div class="card-title pl-2">
+                                                    <h4>Employee Details</h4>
+                                                    <hr/>
+                                                </div>
+                                            </div>
                                             <div class="container-fluid mt-5">
                                                 <div class="row">
                                                     <div class="col-xs-12 col-sm-6 col-md-5">
@@ -190,10 +195,13 @@
                                             </div>
                                         </div>
 
-                                        <div class="card-title">
-                                            <h4>Driver license</h4>
+                                        <div class="row">
+                                            <div class="card-title pl-2">
+                                                <h4>License Details</h4>
+                                                <hr/>
+                                            </div>
                                         </div>
-                                        <div class="card-body user-data pl-0">
+                                        <div class="card-body user-data pl-0 pt-0">
 
                                             <div class="container-fluid mt-5">
                                                 <div class="row">
@@ -202,7 +210,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
                                                                         for="staff_license">
                                                                         License No:
                                                                     </label>
@@ -243,7 +251,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
                                                                         for="staff_name">
                                                                         Expiry Date:
                                                                     </label>
@@ -281,10 +289,13 @@
                                             </div>
                                         </div>
 
-                                        <div class="card-title">
-                                            <h4>Permit</h4>
+                                        <div class="row">
+                                            <div class="card-title pl-2">
+                                                <h4>Permit Details</h4>
+                                                <hr/>
+                                            </div>
                                         </div>
-                                        <div class="card-body user-data pl-0">
+                                        <div class="card-body user-data pl-0 pt-0">
 
                                             <div class="container-fluid mt-5">
                                                 <div class="row">
@@ -349,22 +360,7 @@
                                                     </div>
 
                                                     <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                                        for="staff_name">
-                                                                        Permit:
-                                                                    </label>
-                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <input type="file"
-                                                                               class="custom-file-input"
-                                                                               id="customFile">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -391,7 +387,7 @@
     <script>
         (function (tmsApp, $) {
 
-            $('#staff_number').on('keyup paste enter', function () {
+            $('#staff_number').on('keyup paste enter change', function () {
                 if (!this.value || this.value.replace('_', '').length < 5) {
                     return;
                 }
@@ -399,6 +395,17 @@
                     findEmployee();
                 }, 300);
             });
+
+            $('#employeeSearchBtn').on('click', function () {
+                if (!this.value || this.value.length < 5) {
+                    toastr.warning('Invalid Staff Number Provided')
+                    return;
+                }
+                setTimeout(function () {
+                    findEmployee();
+                }, 300);
+            });
+
 
             function findEmployee() {
                 const staff_number = document.querySelector('#staff_number').value
@@ -426,11 +433,10 @@
                         return response.json();
                     })
                     .then(response => {
-                        //c
                         console.log(response);
 
-                        if (!response.success || response.payload.length == 0) {
-
+                        if (!response.success) {
+                            toastr.error(response.message);
                             return;
                         }
 

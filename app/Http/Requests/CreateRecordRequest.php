@@ -25,8 +25,9 @@ class CreateRecordRequest extends FormRequest
         return [
             'name' => 'required',
             'code' => 'required',
-            'status' => 'required',
+            'status' => 'nullable|string',
             'type' => 'required',
+            'recordId' => 'nullable|numeric',
         ];
     }
 }

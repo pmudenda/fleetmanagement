@@ -110,6 +110,9 @@
             },
             user_profile: {
                 required: true
+            },
+            business_area: {
+                required: true
             }
         },
         {
@@ -127,11 +130,36 @@
             },
             user_profile: {
                 required: "User profile must be assigned"
+            },
+            business_area: {
+                required: "Select business area user is attached to"
             }
         }
     );
 
+    function getBusinessAreas() {
+        fetch(document.querySelector('#businessAreaEndpoint').value)
+            .then(response => response.json())
+            .then(response => {
+                let selectElem = $('select[name="business_area"]');
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, business area data not found')
+                    return;
+                }
 
+                let locations = response['payload'];
+                tmsApp.populateDropDownList(selectElem, locations, "area", ["area","description"], " - ")
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Connection error. Could not retrieve data, some feature might not work.')
+            });
+    }
+
+    getBusinessAreas();
 })(window.tmsApp || {}, jQuery)
 
 /*let app = new Vue({

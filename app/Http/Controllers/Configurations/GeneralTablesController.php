@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Configurations;
 
+use App\Constants\ErrorMessages;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
+use App\Exceptions\GeneralTableRecordException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateRecordRequest;
 use App\Models\configurations\general\Status;
@@ -21,62 +23,72 @@ class GeneralTablesController extends Controller
 {
 
 
-    public static function findType($id): string
+    public static function findType($ref): array
     {
+
         $types = collect([
             [
+                'ref' => 'accidenttypes',
                 "id" => ConfigurationTypes::ACCIDENT_TYPES->value,
                 'title' => 'Accident Types',
             ],
             [
+                'ref' => 'insurancetypes',
                 "id" => ConfigurationTypes::INSURANCE_TYPE->value,
                 'title' => 'Insurance Types',
             ],
             [
+                'ref' => 'insurancecompany',
                 "id" => ConfigurationTypes::INSURANCE_COMPANY->value,
                 'title' => 'Insurance Companies',
             ],
             [
+                'ref' => 'accidentnature',
                 "id" => ConfigurationTypes::ACCIDENT_NATURE->value,
                 'title' => 'Accident Nature',
             ],
             [
-                "id" => ConfigurationTypes::BUSINESS_AREAS->value,
-                'title' => 'Business Areas',
-            ],
-            [
+                'ref' => 'vehiclestatus',
                 "id" => ConfigurationTypes::VEHICLE_STATUS->value,
                 'title' => 'Vehicle Status',
             ],
             [
+                'ref' => 'fuellevels',
                 "id" => ConfigurationTypes::FUEL_LEVELS->value,
                 'title' => 'Fuel Levels',
             ],
             [
+                'ref' => 'generalstatus',
                 "id" => ConfigurationTypes::STATUS_GENERAL->value,
                 'title' => 'Status General',
             ],
             [
+                'ref' => 'storemovementtype',
                 "id" => ConfigurationTypes::STORES_MOVEMENT_TYPES->value,
                 'title' => 'Movement Types',
             ],
             [
+                'ref' => 'insurancesubtypes',
                 "id" => ConfigurationTypes::INSURANCE_SUB_TYPES->value,
                 'title' => 'Insurance SubTypes',
-            ],
-            [
-                '' => ConfigurationTypes::WORKS_FLOW_SECTION->value,
-                'title' => 'Workshop Sections'
             ]
+            /*[
+                'ref' => 'workshopSections',
+                'id' => ConfigurationTypes::WORK_SHOP_SECTION->value,
+                'title' => 'Workshop Sections'
+            ]*/
         ]);
 
-        $match = $types->where('id', '=', strtolower($id));
+        $match = $types->where('ref', '=', strtolower($ref));
 
         if (empty($match)) {
             return 'nothing';
         }
 
-        return $match->pluck('title')->first() ?? 'nothing';
+        return [
+            'title' => $match->pluck('title')->first(),
+            'id' => $match->pluck('id')->first(),
+        ] ?? ['title' => 'nothing', 'id' => '0'];
     }
 
 
@@ -103,14 +115,14 @@ class GeneralTablesController extends Controller
         } elseif (strtolower($type) == ConfigurationTypes::STATUS_GENERAL) {
             $entries = Status::where(Constants::MODULE, '!=', Constants::VEHICLE_MODULE)->get();
         } else {
-            $entries = GeneralTableConfigurations::where(Constants::TYPE_KEY, $type)->get();
+            $entries = GeneralTableConfigurations::where(Constants::TYPE_KEY, $dbType['id'])->get();
         }
 
         return view('modules.configurations.generalTables.index')->with(
             [
-                'type' => $dbType,
+                'title' => $dbType['title'],
                 'entries' => $entries,
-                'typeStr' => $type,
+                'type' => $dbType['id'],
                 'statusList' => $statusList
             ]);
     }
@@ -121,31 +133,38 @@ class GeneralTablesController extends Controller
         try {
             //$savedData = null;
 
-            if (Constants::TYPE_KEY == ConfigurationTypes::VEHICLE_STATUS || Constants::TYPE_KEY == ConfigurationTypes::STATUS_GENERAL) {
-
+            /*if (Constants::TYPE_KEY == ConfigurationTypes::VEHICLE_STATUS || Constants::TYPE_KEY == ConfigurationTypes::STATUS_GENERAL) {
                 $savedData = Status::firstOrCreate(
                     [
                         'code' => $request->get('code'),
                     ],
                     [
-                        'active' => $request->get('status') ?? 1,
+                        'active' => 1,
                         'name' => $request->get('name'),
                         'module' => $request->get(Constants::VEHICLE_MODULE),
                         'created_by' => $user->id,
                     ]);
-            } else {
-                $savedData = GeneralTableConfigurations::firstOrCreate(
-                    [
-                        'code' => $request->get('code'),
-                        'type' => $request->get(Constants::TYPE_KEY)
-                    ],
-                    [
-                        'active' => $request->get('status'),
-                        'name' => $request->get('name'),
-                        'module' => $request->get(Constants::ALL_MODULES),
-                        'created_by' => $user->id
-                    ]);
+            } */
+
+            $dbRecord = GeneralTableConfigurations::where('code', '=', $request->get('code'))
+                ->where('type', '=', $request->get(Constants::TYPE_KEY))->first();
+
+            if (!empty($dbRecord)) {
+                throw new GeneralTableRecordException('Record with Code '
+                    . $request->get('code') . ' already Exists');
             }
+
+            $savedData = GeneralTableConfigurations::firstOrCreate(
+                [
+                    'code' => $request->get('code'),
+                    'type' => $request->get(Constants::TYPE_KEY)
+                ],
+                [
+                    'active' => 1,
+                    'name' => $request->get('name'),
+                    'module' => $request->get(Constants::ALL_MODULES),
+                    'created_by' => $user->id
+                ]);
 
             return [
                 'success' => true,
@@ -155,9 +174,14 @@ class GeneralTablesController extends Controller
 
         } catch (\Throwable|Exception $exception) {
             Log::error($exception);
+            $message = ErrorMessages::internalServerError;
+            if ($exception instanceof GeneralTableRecordException) {
+                $message = $exception->getMessage();
+            }
+
             return response()->json([
                 'success' => false,
-                'message' => "Your submission had an error",
+                'message' => $message,
             ]);
         }
 
@@ -175,7 +199,7 @@ class GeneralTablesController extends Controller
             $entry = GeneralTableConfigurations::find($id);
             $entry->name = $formData['name'];
             $entry->code = $formData['code'];
-            $entry->status = $formData['status'];
+            $entry->status = 1;//$formData['status'];
             $entry->save();
             return response()->json([]);
 

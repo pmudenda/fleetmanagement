@@ -336,30 +336,7 @@
                                 </div>
 
                                 <div class="col-xs-12 col-sm-6 col-md-5">
-                                    {{-- <div class="container-fluid pl-0">
-                                         <div class="row">
-                                             <div class="form-group row">
-                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
-                                                        for="user_profile">Profile :</label>
-                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                     <select name="user_profile" id="user_profile"
-                                                             class="form-control form-select-sm"
-                                                             required>
-                                                         <option value="">--Choose Profile--</option>
-                                                         @foreach ($roles as $groupName)
-                                                             @if($groupName == 'default')
-                                                                 <option selected
-                                                                         value="{{$groupName->id}}">{{$groupName->description}}</option>
-                                                             @else
-                                                                 <option
-                                                                     value="{{$groupName->id}}">{{$groupName->description}}</option>
-                                                             @endif
-                                                         @endforeach
-                                                     </select>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>--}}
+
                                 </div>
                             </div>
 
@@ -420,7 +397,7 @@
                                                     <select name="user_profile" id="user_profile"
                                                             class="form-control form-select-sm"
                                                             required>
-                                                        <option value="">--Choose Profile--</option>
+                                                        <option value>--Choose Profile--</option>
                                                         @foreach ($roles as $groupName)
                                                             @if($groupName == 'default')
                                                                 <option selected
@@ -437,6 +414,26 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-5">
+                                    <div class="container-fluid pl-0">
+                                        <div class="row">
+                                            <div class="form-group row">
+                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                       for="user_profile">Business Area:</label>
+                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                    <select name="business_area" id="business_area"
+                                                            class="form-control form-select-sm"
+                                                            required>
+                                                        <option value>--Choose Business Area--</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -446,6 +443,10 @@
         </div>
     </section>
     <x-employee-search-modal/>
+    <input type="hidden"
+           id="businessAreaEndpoint"
+           name="businessAreaEndpoint"
+           value="{{ route('business.areas') }}">
 @endsection
 @push('scripts')
     <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>

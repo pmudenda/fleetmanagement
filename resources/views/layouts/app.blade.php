@@ -84,9 +84,25 @@
     </div>
     <!--Footer-->
     <aside class="control-sidebar control-sidebar-dark"></aside>
-    <input type="hidden" id="sessionStatusUrl" name="sessionStatusUrl" value="{{route('session.status')}}" />
+    <input type="hidden" id="sessionStatusUrl" name="sessionStatusUrl" value="{{route('session.status')}}"/>
 
     <x-approval-modal/>
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+
+            <div id="liveToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                {{--<div class="toast-header">
+                    <strong class="me-auto">System Message</strong>
+                    <small>now</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>--}}
+                <div class="toast-body bg-white">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <audio preload="auto" id="sound-email" volume=0.1>
     <source src="{{asset('assets/sounds/email.mp3')}}"/>
@@ -124,7 +140,6 @@
 
     if (!tmsApp) tmsApp = {};
     tmsApp.boot = {'messages': {}};
-
     tmsApp.messages = tmsApp?.boot['messages'];
     tmsApp.csrf_token = document.querySelector('meta[name="csrf-token"]').content;
 </script>
@@ -137,6 +152,24 @@
 <script src="{{asset('themes/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>
 <script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
+<script>
+    $(document).ready(function () {
+        toastr.options = {
+            "preventDuplicates": true,
+            "preventOpenDuplicates": true
+        };
+
+        const toastTrigger = document.getElementById('liveToastBtn')
+        const toastLiveExample = document.getElementById('liveToast')
+        if (toastTrigger) {
+            toastTrigger.addEventListener('click', () => {
+
+            })
+        }
+
+        tmsApp.toast = new bootstrap.Toast(toastLiveExample)
+    })
+</script>
 <script src="{{asset('assets/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
 <script src="{{asset('assets/plugins/jquery.filer/js/jquery.filer.min.js')}}"></script>
@@ -162,10 +195,6 @@
 {{--<script src="{{ asset('libs/session.timeout/session.timeout.js').'?v='.Carbon::now()->format('his')}}"></script>--}}
 
 <script>
-    toastr.options = {
-        "preventDuplicates": true,
-        "preventOpenDuplicates": true
-    };
     (function (tmsApp, $) {
         $(document).on('keypress', '.number_input', function (event) {
             //tmsApp.numberOnly(event);

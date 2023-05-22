@@ -5,7 +5,7 @@
         <img class="h-45px app-sidebar-logo-default brand-image img-circle elevation-3"
              style="opacity: .8"
              src="{{ asset('assets/dist/img/icons/zesco_logo.png') }}"
-             alt="" />
+             alt=""/>
         <span class="brand-text font-weight-light">
             {{ config('app.sys_name', 'Fleet Master') }}</span>
     </a>
@@ -19,11 +19,15 @@
         </div>
 
         <div class="form-inline">
-            <div class="input-group" data-widget="sidebar-search">
-                <input class="form-control form-control-sidebar" type="search" placeholder="Search"
+            <div class="input-group"
+                 data-widget="sidebar-search">
+                <input class="form-control form-control-sidebar"
+                       type="search"
+                       placeholder="Search"
                        aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-sidebar">
+                <div class="input-group-addon">
+                    <button
+                        class="btn btn-sm btn-sidebar border-radius-0">
                         <i class="fas fa-search fa-fw"></i>
                     </button>
                 </div>
@@ -96,26 +100,14 @@
                     <ul class="nav nav-treeview">
 
                         <li class="nav-item">
-                            <a href="{{ route('workshop.sections') }}" class="nav-link">
+                            <a href="{{ URL::signedRoute('workshop.sections') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p></p>
+                                <p>Sections</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link"
-                               href="{{ route('configuration.general.table',['ref'=>'wkshp_section']) }}">
-                                           {{-- <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span></span>
-                                <span class="menu-title"> </span>--}}
-                                <i class="far fa-circle nav-icon"></i>
-                                <p> Workshop Sections</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('workshop.list') }}" class="nav-link">
+                            <a href="{{ URL::signedRoute('workshop.list') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Workshops</p>
                             </a>
@@ -244,19 +236,19 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-shield-alt " style="font-size: 20px;"></i>
-                         {{--<span class="menu-icon">
-                            <span class="svg-icon svg-icon-2">
-                                <svg width="24" height="24" viewBox="0 0 24 24"
-                                     fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M20 14H18V10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21 16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21 19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8 21 7.6 21 7Z"
-                                        fill="currentColor"></path>
-                                    <path opacity="0.3"
-                                          d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3 2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17 22ZM10 7C8.9 7 8 7.9 8 9C8 10.1 8.9 11 10 11C11.1 11 12 10.1 12 9C12 7.9 11.1 7 10 7ZM13.3 16C14 16 14.5 15.3 14.3 14.7C13.7 13.2 12 12 10.1 12C8.10001 12 6.49999 13.1 5.89999 14.7C5.59999 15.3 6.19999 16 7.39999 16H13.3Z"
-                                          fill="currentColor"></path>
-                                </svg>
-                            </span>
-                        </span>--}}
+                        {{--<span class="menu-icon">
+                           <span class="svg-icon svg-icon-2">
+                               <svg width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                   <path
+                                       d="M20 14H18V10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21 16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21 19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8 21 7.6 21 7Z"
+                                       fill="currentColor"></path>
+                                   <path opacity="0.3"
+                                         d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3 2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17 22ZM10 7C8.9 7 8 7.9 8 9C8 10.1 8.9 11 10 11C11.1 11 12 10.1 12 9C12 7.9 11.1 7 10 7ZM13.3 16C14 16 14.5 15.3 14.3 14.7C13.7 13.2 12 12 10.1 12C8.10001 12 6.49999 13.1 5.89999 14.7C5.59999 15.3 6.19999 16 7.39999 16H13.3Z"
+                                         fill="currentColor"></path>
+                               </svg>
+                           </span>
+                       </span>--}}
                         <p>
                             Security
                             <i class="right fas fa-angle-left"></i>
@@ -354,7 +346,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('vehicle.models') }}">
+                                    <a class="nav-link" href="{{ URL::signedRoute('vehicle.models') }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span>
@@ -366,35 +358,44 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('vehicle.body.types') }}">
+                                    <a class="nav-link" href="{{ URL::signedRoute('vehicle.body.types') }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
-                                        <span class="menu-title">
-                                                Body Types
-                                            </span>
+                                        <p class="menu-title">
+                                            Body Types
+                                        </p>
                                     </a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('vehicle.fuel.allocation') }}">
+                                    <a class="nav-link" href="{{ URL::signedRoute('vehicle.fuel.allocation') }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
-                                        <span class="menu-title">
-                                                Fuel Allocation
-                                            </span>
+                                        <p class="menu-title">
+                                            Fuel Allocation
+                                        </p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ URL::signedRoute('vehicle.accessories') }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p class="menu-title">
+                                    Accessories
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link"
-                               href="{{ route('charge.out.rate') }}">
+                               href="{{ URL::signedRoute('charge.out.rate') }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>
-                                      Charge Out Rates
+                                    Charge Out Rates
                                 </p>
                             </a>
                         </li>
@@ -408,39 +409,66 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview pl-3">
+
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ route('configuration.general.table',['ref'=>'accidentTypes']) }}">
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'accidentTypes']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
-                                        <span class="menu-title">
-                                                Accident Types
-                                            </span>
+
+                                        <p class="menu-title">
+                                            Accident Types
+                                        </p>
                                     </a>
                                 </li>
 
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ route('configuration.general.table',['ref'=>'accidentNature']) }}">
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'accidentNature']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span>
                                             </span>
+                                        <p class="menu-title">
+                                            Accident Natures
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insuranceCompany']) }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot">
+                                                </span>
+                                            </span>
+                                        <p class="menu-title">
+                                            Insurance Company
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insuranceTypes']) }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot">
+                                                </span></span>
                                         <span class="menu-title">
-                                                Accident Natures
+                                                Insurance Types
                                         </span>
                                     </a>
                                 </li>
 
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ route('configuration.general.table',['ref'=>'insuranceType']) }}">
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insuranceSubTypes']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
                                         <span class="menu-title">
-                                                Insurance Types
+                                                Insurance Sub Types
                                         </span>
                                     </a>
                                 </li>
@@ -451,79 +479,54 @@
 
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ route('configuration.general.table',['ref'=>'insuranceCompany']) }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span>
-                                            </span>
-                                        <span class="menu-title">
-                                                Insurance Company
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       href="{{ route('configuration.general.table',['ref'=>'vehicleStatus']) }}">
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'vehicleStatus']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
-                                        <span class="menu-title">
-                                               Vehicle Status
-                                        </span>
+                                        <p class="menu-title">
+                                            Vehicle Status
+                                        </p>
                                     </a>
                                 </li>
 
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ route('configuration.general.table',['ref'=>'statusGeneral']) }}">
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'generalStatus']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
-                                        <span class="menu-title">
-                                               General Statuses
-                                        </span>
+                                        <p class="menu-title">
+                                            General Statuses
+                                        </p>
                                     </a>
                                 </li>
 
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ route('configuration.general.table',['ref'=>'fuelType']) }}">
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'fuelLevels']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span>
                                             </span>
-                                        <span class="menu-title">
-                                                Fuel Types
-                                        </span>
+                                        <p class="menu-title">
+                                           Fuel Level
+                                        </p>
                                     </a>
                                 </li>
+
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ route('configuration.general.table',['ref'=>'businessAreas']) }}">
+                                       href="{{URL::signedRoute('configuration.general.table',['ref'=>'storeMovementType']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span>
                                             </span>
-                                        <span class="menu-title">
-                                               Business Areas
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       href="{{ route('configuration.general.table',['ref'=>'movementType']) }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span>
-                                            </span>
-                                        <span class="menu-title">
+
+                                        <p class="menu-title">
                                                Stores Movement Types
-                                        </span>
+                                        </p>
                                     </a>
                                 </li>
-
-
                             </ul>
                         </li>
 
