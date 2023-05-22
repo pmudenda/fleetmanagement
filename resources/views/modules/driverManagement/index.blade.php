@@ -16,7 +16,6 @@
     <!-- Main content -->
     <section class="content">
         <x-error-view/>
-
         <div class="container-fluid">
             <!-- Main row -->
             <div class="row">
@@ -28,7 +27,8 @@
                                 <h4>Driver Management</h4>
                             </div>
                             <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                                <button type="button" id="submitRequisitionBtn" class="btn btn-success btn-sm mr-3 when_odo_valid"
+                                <button type="button" id="submitRequisitionBtn"
+                                        class="btn btn-success btn-sm mr-3 when_odo_valid"
                                         disabled>
                                     <i class="fas fa-save"></i> Submit
                                 </button>
@@ -244,7 +244,8 @@
                                                                         <input type="date"
                                                                                max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
                                                                                class="form-control form-control-sm"
-                                                                               id="license_date_issued" name="license_date_issued" required>
+                                                                               id="license_date_issued"
+                                                                               name="license_date_issued" required>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -265,7 +266,8 @@
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="date"
                                                                                class="form-control form-control-sm"
-                                                                               id="license_date_expiry" name="license_date_expiry" required>
+                                                                               id="license_date_expiry"
+                                                                               name="license_date_expiry" required>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -306,7 +308,7 @@
                                                                     <label
                                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-3"
                                                                         for="staff_name">
-                                                                         Copy Of License:
+                                                                        Copy Of License:
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -330,12 +332,14 @@
                                                                     <label
                                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
                                                                         for="staff_name">
-                                                                        Copy Of License (Front):
+                                                                        Front View:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="file"
                                                                                class="form-control form-control-sm"
-                                                                               id="license_date_expiry" name="license_date_expiry" required>
+                                                                               id="license_date_expiry"
+                                                                               name="license_date_expiry"
+                                                                               required>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -349,12 +353,13 @@
                                                                     <label
                                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
                                                                         for="staff_name">
-                                                                        Copy Of License (Back):
+                                                                        Back View:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="file"
                                                                                class="form-control form-control-sm"
-                                                                               id="license_date_expiry" name="license_date_expiry" required>
+                                                                               id="license_date_expiry"
+                                                                               name="license_date_expiry" required>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -479,9 +484,9 @@
             </div>
 
         </div>
-
     </section>
 
+    <input type="hidden" value="{{route('license.details.verification')}}" id="rtsaLicenseVerificationEndPoint">
 @endsection
 
 @push('scripts')
@@ -499,6 +504,40 @@
             Inputmask({
                 "mask": "99999999"
             }).mask("#license_number");
+
+            function verifyingDriverLicense() {
+                window.loaderMessage = "Verifying License Number with RTSA, Please wait";
+                setTimeout(function(){
+                    tmsApp.asyncPostJson(
+                        document.querySelector("#rtsaLicenseVerificationEndPoint").value,
+                        {
+                            licenseNumber: $('[name="license_number"]').val(),
+                        },
+                        function (response) {
+                            window.loaderMessage = "Please wait...";
+                            if (!response.success) {
+                                toastr.error(response.message);
+                                return;
+                            }
+
+                            toastr.success(response.message);
+                        }, function (xhr, settings, error) {
+                            window.loaderMessage = "Please wait...";
+                            tmsApp.showErrorMessages(xhr, 'License Verification');
+                        }
+                    )
+                }, 1000);
+            }
+
+            $('#license_number').on('keyup paste enter change', function () {
+                if (!this.value || this.value.replaceAll("_",'').length < 8) {
+                    return;
+                }
+
+                setTimeout(function () {
+                    verifyingDriverLicense();
+                }, 300);
+            });
 
             $('#staff_number').on('keyup paste enter change', function () {
                 if (!this.value || this.value.length < 5) {
