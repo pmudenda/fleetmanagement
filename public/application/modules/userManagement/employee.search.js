@@ -3,6 +3,10 @@
     function populateEmployeeDetails(response) {
         let data = response;//.data.employee;
         //let data = response;
+        if(!data.con_per_no){
+            tmsApp.showToast('User Not Found', 'error')
+            return;
+        }
         document.querySelector('[name="name"]').value = data?.name;
         document.querySelector('[name="staff_email"]').value = data?.staff_email;
         document.querySelector('[name="staff_number"]').value = data?.con_per_no;
