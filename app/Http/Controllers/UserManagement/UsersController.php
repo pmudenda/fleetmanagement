@@ -279,9 +279,7 @@ class UsersController extends Controller
 
             return response()->json([
                 'success' => true,
-                'payload' => response()->json(
-                    $dataset
-                )
+                'payload' => $dataset
             ]);
         } catch (\Exception $e) {
             Log::error($e);
