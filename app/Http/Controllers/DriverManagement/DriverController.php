@@ -14,8 +14,11 @@ class DriverController extends Controller
 
     public function index(): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        $licenseClasses = GeneralTableConfigurations::where('type', '=', ConfigurationTypes::LICENSE_CLASS->value)->get();
-        return view('modules.driverManagement.index')->with(compact('licenseClasses'));
+        $licenseClasses = GeneralTableConfigurations::where('type', '=', ConfigurationTypes::LICENSE_CLASS->value)
+            ->get();
+
+        return view('modules.driverManagement.index')
+            ->with(compact('licenseClasses'));
     }
 
     public function driverList(): View|\Illuminate\Foundation\Application|Factory|Application
