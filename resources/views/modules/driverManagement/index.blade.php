@@ -265,7 +265,6 @@
                                                         <div class="container-fluid pl-0">
                                                             <div class="row">
                                                                 <div class="form-group row">
-                                                                    {{$licenseClasses}}
                                                                     <label
                                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="staff_name">
