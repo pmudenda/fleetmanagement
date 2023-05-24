@@ -796,7 +796,7 @@
                 }, 300);
             });
 
-            $('#driver_staff_number').on('keyup paste enter', function () {
+            $('#driver_staff_number').on('keyup change paste enter', function () {
                 if (!this.value || this.value.length < 5) {
                     return;
                 }
@@ -838,9 +838,9 @@
                     'requisition_type': {
                         required: true,
                     },
-                    driver_staff_number: {
-                        required: true
-                    },
+                    // driver_staff_number: {
+                    //     required: true
+                    // },
                     fuel_allocation: {
                         required: true
                     },
@@ -889,9 +889,9 @@
                     odometer_reading: {
                         required: 'You must declare the odometer reading'
                     },
-                    driver_staff_number: {
+                   /* driver_staff_number: {
                         required: "You need to provide driver details"
-                    },
+                    },*/
                 }
             );
 
