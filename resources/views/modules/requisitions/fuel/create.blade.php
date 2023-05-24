@@ -247,7 +247,7 @@
                                                                        autocapitalize="characters"
                                                                        id="driver_staff_number"
                                                                        placeholder=""
-                                                                       name="driver_staff_number" required>
+                                                                       name="driver_staff_number" />
                                                                 <div class="input-group-addon">
                                                                     <button type="button" id="employeeSearchBtn"
                                                                             name="employeeSearchBtn"
@@ -273,7 +273,7 @@
                                                                    class="form-control form-control-sm"
                                                                    id="driver_name"
                                                                    name="driver_name"
-                                                                   required readonly/>
+                                                                   readonly/>
                                                         </div>
                                                     </div>
                                                 </div>
