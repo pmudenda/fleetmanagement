@@ -42,7 +42,7 @@ class UsersController extends Controller
         ));
     }
 
-    public function get(Request $request): JsonResponse
+    public function get(      $request): JsonResponse
     {
         $sortField = $request->input('sortField');
         $sortOrder = $request->input('sortOrder');
@@ -260,14 +260,16 @@ class UsersController extends Controller
     public function search(Request $request): JsonResponse
     {
         try {
-
-            $searchParam = trim($request->searchCriteria);
             //$apiURL = 'http://dev.zesco.co.zm/ezesco_forms/public/api/users';
             //$apiURL = 'http://127.0.0.1:3001/ezesco_forms/public/api/users';
             $headers = [
                 'Content-Type' => 'application/json',
             ];
+            /*$response = Http::withHeaders($headers)->get($apiURL, [
+                'staff_number' => $searchParam,
+            ]);*/
 
+            $searchParam = trim($request->searchCriteria);
             $dataset = PHCMSEmployee::select('*')
                 ->where('con_per_no', $searchParam)
                 ->first();
@@ -275,10 +277,6 @@ class UsersController extends Controller
             if (empty($dataset)) {
                 $dataset = [];
             }
-
-            /*$response = Http::withHeaders($headers)->get($apiURL, [
-                'staff_number' => $searchParam,
-            ]);*/
 
             return response()->json([
                 'success' => true,

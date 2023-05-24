@@ -116,7 +116,6 @@
                                         <input type="text"
                                                class="input-with-feedback form-control view_mode"
                                                maxlength="140"
-                                               v-model="chassisDetails.stickerRegistrationNumber"
                                                name="stickerRegistrationNumber"
                                                id="stickerRegistrationNumber"
                                                placeholder=""
@@ -584,7 +583,7 @@
 
     <div class="row mt-5 mb-10 create_mode">
         <div class="col-md-3">
-            <div class="card text-center py-5 my-2">
+            <div class="card text-center py-5 my-2 pt-0">
                 <h2 class="fs-2x fw-bold mb-5">Front View</h2>
                 <small class="text-danger">JPG, JPEG, PNG, BMP</small>
                 <div class="form-group">
@@ -594,7 +593,7 @@
                                 data-select="file"
                                 data-input="selectFrontViewFile"
                                 class="upload-file btn btn-sm btn-primary me-2">
-                            <i class="fas fa-cloud-arrow-up"></i> Select file
+                            <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
                                style="display: none;"
@@ -614,7 +613,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card-px text-center py-5 my-2">
+            <div class="card-px text-center py-5 my-2 pt-0">
                 <h2 class="fs-2x fw-bold mb-5">Rear View</h2>
                 <small class="text-danger">JPG, JPEG, PNG, BMP</small>
                 <div class="form-group">
@@ -623,7 +622,7 @@
                         <button type="button"
                                 data-select="file"
                                 class="upload-file btn btn-sm btn-primary me-2">
-                            <i class="fas fa-cloud-arrow-up"></i> Select file
+                            <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
                                style="display: none;"
@@ -645,7 +644,7 @@
         </div>
 
         <div class="col-md-3">
-            <div class="card text-center py-5 my-2">
+            <div class="card text-center py-5 my-2 pt-0">
                 <h2 class="fs-2x fw-bold mb-5">Right View</h2>
                 <small class="text-danger">JPG, JPEG, PNG, BMP</small>
                 <div class="form-group">
@@ -655,7 +654,7 @@
                                 data-select="file"
                                 data-input="selectFrontViewFile"
                                 class="upload-file btn btn-sm btn-primary me-2">
-                            <i class="fas fa-cloud-arrow-up"></i> Select file
+                            <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
                                style="display: none;"
@@ -675,7 +674,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-center py-5 my-2">
+            <div class="card text-center py-5 my-2 pt-0">
                 <h2 class="fs-2x fw-bold mb-5">Left View</h2>
                 <small class="text-danger">JPG, JPEG, PNG, BMP</small>
                 <div class="form-group">
@@ -685,7 +684,7 @@
                                 data-select="file"
                                 data-input="selectFrontViewFile"
                                 class="upload-file btn btn-sm btn-primary me-2">
-                            <i class="fas fa-cloud-arrow-up"></i> Select file
+                            <i class="fas fa-cloud-arrow-up"></i> Select Image
                         </button>
                         <input type="file" accept="image/*"
                                style="display: none;"

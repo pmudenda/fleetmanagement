@@ -6,6 +6,7 @@ use App\Enums\ConfigurationTypes;
 use App\Http\Controllers\Controller;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\Driver;
+use App\Models\reference\PHCMSEmployee;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -32,9 +33,19 @@ class DriverController extends Controller
 
     public function findDriver(Request $request): JsonResponse
     {
-        $drivers = Driver::where('staff_number', '=', $request->get('searchCriteria'))
+        /*$drivers = Driver::where('staff_number', '=', $request->get('searchCriteria'))
             ->orWhere('name', $request->get('searchCriteria'))
-            ->get();
+            ->get();*/
+
+        $searchParam = trim($request->searchCriteria);
+        $drivers = PHCMSEmployee::select('*')
+            ->where('con_per_no', $searchParam)
+            ->first();
+
+        if (empty($drivers)) {
+            $drivers = [];
+        }
+
 
         if (empty($drivers)) {
             return response()->json([

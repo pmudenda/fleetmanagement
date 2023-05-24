@@ -50,7 +50,10 @@ class FuelRequisitionService
      */
     public function processRequest(FuelRequisitionPostRequest $requisitionPostRequest): JsonResponse
     {
-        $isOutOfTownRequisition = $requisitionPostRequest->get('requisition_type') == '011';
+        $isOutOfTownRequisition =
+            $requisitionPostRequest->get('requisition_type') == '011';
+
+        $isLocalRequisition = $requisitionPostRequest->get('requisition_type') == '010';
 
         $registrationNumber = $requisitionPostRequest->get('vehicle_registration');
 
@@ -99,14 +102,22 @@ class FuelRequisitionService
         $openRequisitionStatusList = [StatusHelper::new(), StatusHelper::partiallyReleased()];
 
         if (!empty($previousRequisition)) {
-            if (in_array($previousRequisition->status, $openRequisitionStatusList))
-                return response()->json([
-                    'success' => false,
-                    'message' => str_replace(
-                        '@re_no',
-                        $previousRequisition->req_no,
-                        ErrorMessages::vehicleHasActiveRequisition())
-                ]);
+
+            if (in_array($previousRequisition->status, $openRequisitionStatusList)) {
+                if ($isOutOfTownRequisition || $isLocalRequisition) {
+
+                } else {
+                    return response()->json([
+                        'success' => false,
+                        'message' => str_replace(
+                            '@re_no',
+                            $previousRequisition->req_no,
+                            ErrorMessages::vehicleHasActiveRequisition())
+                    ]);
+                }
+
+
+            }
 
             $this->checkIfPreviousRequisitionPeriodElapsed($previousRequisition, $valid_from);
 
@@ -123,21 +134,21 @@ class FuelRequisitionService
 
         $areaCode = $user->area_code ?? 'LR';
         $requisitionType = 'seq_store_req';
-        $procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
-        //$procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
+        //$procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
+        $procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
         if (empty($procurementRef)) {
             throw new FuelRequisitionException(ErrorMessages::storesRequisitionFailed());
         }
 
         Log::info('Stores Requisition ' . $procurementRef);
 
-        $processDetails = $this->workflowService->startWorkflowProcess(
+        /*$processDetails = $this->workflowService->startWorkflowProcess(
             $documentRef,
             WorkflowProcessCodes::FuelRequisition->value,
             WorkflowActions::submit(),
             $requisitionPostRequest->get('justification'),
             $user
-        );
+        );*/
 
         $message = !empty($documentRef) ?
             ' With Approval Reference ' . $documentRef : '';

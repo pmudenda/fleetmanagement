@@ -26,7 +26,7 @@ class ErrorMessages
 
     public static function vehicleHasActiveRequisition(): string
     {
-        return 'Request failed validation, Vehicle has an open requisition Number @re_no';
+        return 'Request failed validation, Vehicle has an open requisition number @re_no';
     }
 
     public static function storesRequisitionFailed(): string

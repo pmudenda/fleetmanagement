@@ -207,7 +207,6 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['prefix' => 'driver-management'], function () {
-
         Route::get('users/driver', [DriverController::class, 'index'])->name('users.driver');
         Route::get('users/driverList', [DriverController::class, 'driverList'])->name('users.driverList');
         Route::post('driver', [DriverController::class, 'findDriver'])->name('driver.search');
