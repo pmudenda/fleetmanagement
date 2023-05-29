@@ -103,8 +103,8 @@ class WorkflowService
         //'date_acted'
         WorkflowTaskHeader::Create([
             'assigned_user' => $assignToUser->con_per_no,
-            'subject' => "Fuel Requisition -" . $taskReference,
-            'message' => 'You have received an approval task',
+            'subject' => "You have received a fuel requisition approval task -" . $taskReference,
+            //'message' => ,
             'status' => StatusHelper::new(),
             'url' => $actionPage,
             'reference' => $taskReference,
