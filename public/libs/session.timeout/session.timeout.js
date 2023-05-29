@@ -1,7 +1,7 @@
 ﻿/**
- * Author Mwape Daka
- * Editor Lovemore Daka
- * Version: 0.0.1
+ * Authored by Mwape Daka
+ * Edited By Lovemore Daka
+ * Version: 1.0.0
  * */
 $(document).ready(function () {
     let context = "/";
@@ -55,10 +55,10 @@ $(document).ready(function () {
     $body.append(sessionModal);
 
     // Inactivity pop-up
-    window.COUNT_DOWN_TIME_MINUTES = 20 * 60; // 5 minutes
-    window.POP_UP_TIME_MILLISECONDS = 20 * 60 * 1000; // 8 minutes
+    window.COUNT_DOWN_TIME_MINUTES = 5 * 60; // 5 minutes
+    window.POP_UP_TIME_MILLISECONDS = 8 * 60 * 1000; // 8 minutes
     window.sessionInactiveSeconds = window.POP_UP_TIME_MILLISECONDS;
-    window.POLLING_INTERVAL_MILLISECONDS = 60 * 1000; // 30 seconds
+    window.POLLING_INTERVAL_MILLISECONDS = 60 * 60 * 1000; // 1 minute
     window.refreshSession = false;
     window.isTimerVisible = false;
 
@@ -94,7 +94,7 @@ $(document).ready(function () {
 
     window.showInactivityPopUp = function () {
         if (!window.isTimerVisible) {
-            $("#inactivity-modal").modal();
+            $("#inactivity-modal").modal('show');
             window.timer(window.COUNT_DOWN_TIME_MINUTES, window.logoutUser);
             window.isTimerVisible = true;
         }
