@@ -11,14 +11,14 @@ class WorkflowLog extends Model
 
     protected $table = 'WFL_WORKFLOW_LOGS';
     protected $fillable = [
-        'Reference',
-        'Step_Id',
-        'Actioning_Officer',
-        'Action',
-        'Status',
-        'Action_Date',
-        'Next_Step',
-        'Previous_Step',
-        'Remarks'
+        'reference',
+        'step_id',
+        'actioning_officer',
+        'action',
+        'status',
+        'action_date',
+        'next_step',
+        'previous_step',
+        'remarks'
     ];
 }

@@ -3,6 +3,7 @@
 namespace App\Services\Requisitions;
 
 use App\Constants\ErrorMessages;
+use App\Enums\RequisitionTypes;
 use App\Enums\VehicleStatusEnum;
 use App\Enums\WorkflowProcessCodes;
 use App\Exceptions\FuelRequisitionException;
@@ -11,8 +12,6 @@ use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Models\Security\User;
-use App\Models\vehiclemanagement\Assignment;
-use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
 use App\Models\Workflow\WorkflowActions;
 use App\Models\Workflow\WorkflowModules;
@@ -52,9 +51,11 @@ class FuelRequisitionService
     public function processRequest(FuelRequisitionPostRequest $requisitionPostRequest): JsonResponse
     {
         $isOutOfTownRequisition =
-            $requisitionPostRequest->get('requisition_type') == '011';
+            $requisitionPostRequest->get('requisition_type') == RequisitionTypes::OutOfTown;
 
-        $isLocalRequisition = $requisitionPostRequest->get('requisition_type') == '010';
+        $isLocalRequisition = $requisitionPostRequest->get('requisition_type') == RequisitionTypes::Normal;
+
+        $isOverrideRequisition = $requisitionPostRequest->get('requisition_type') == RequisitionTypes::Override;
 
         $registrationNumber = $requisitionPostRequest->get('vehicle_registration');
 
@@ -62,25 +63,117 @@ class FuelRequisitionService
 
         //$this->validateVehicleResponsibleUserStatus($registrationNumber);
 
-        if ($requisitionPostRequest->get('fuel_allocation') < $requisitionPostRequest->get('material_quantity')) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Quantity requested can not be more than allocation'
-            ]);
-        }
-
+        // validate odometer reading
         self::validateCurrentOdometerAgainstInitial($registrationNumber, $requisitionPostRequest->get('odometer_reading'));
 
-        $valid_to = null;
-        $valid_from = null;
+        DB::beginTransaction();
 
-        if ($isOutOfTownRequisition) {
-            $valid_to = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->get('return_date'));
+        // pick last requisition if any
+        $openRequisitionStatusList = [StatusHelper::new(), StatusHelper::partiallyReleased(), StatusHelper::authorised(), StatusHelper::partiallyAuthorised(),];
+
+        $latestPreviousRequisition = MaterialHeader::where('veh_reg_no', $registrationNumber)
+            ->orderBy('date_created', 'desc')
+            ->first();
+
+        $valid_to = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('next_fuel_date'));
+        $valid_from = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('request_date'));
+
+        if ($isLocalRequisition) {
+
+            if (!empty($latestPreviousRequisition)) {
+                if (in_array($latestPreviousRequisition->status, $openRequisitionStatusList)) {
+                    // requisition is open/pending
+
+                    if (RequisitionTypes::Normal == $latestPreviousRequisition->requisition_type
+                        || RequisitionTypes::Override == $latestPreviousRequisition->requisition_type) {
+
+                        return response()->json([
+                            'success' => false,
+                            'message' => str_replace(
+                                '@re_no',
+                                $latestPreviousRequisition->req_no,
+                                ErrorMessages::vehicleHasActiveRequisition())
+                        ]);
+                    } elseif ($latestPreviousRequisition->requisition_type == RequisitionTypes::OutOfTown) {
+                        // cancel requisition
+                        $latestPreviousRequisition->status = StatusHelper::cancelled();
+                        $latestPreviousRequisition->save();
+
+                        //cancel associated task
+                        $this->workflowService->cancelProcessTask($latestPreviousRequisition->req_no);
+                    }
+                } else {
+
+                    // fully issued
+                    if(RequisitionTypes::Normal == $latestPreviousRequisition->requisition_type
+                        || RequisitionTypes::Override == $latestPreviousRequisition->requisition_type
+                    ){
+                        $this->checkIfPreviousRequisitionPeriodElapsed($latestPreviousRequisition, $valid_from);
+                    }
+
+                    // validate odometer against last issue
+                    $this->validateOdometerAgainstLastIssue($latestPreviousRequisition, $requisitionPostRequest);
+
+                }
+            }
+
+            // quantity requested can not be more than allocated
+            if ($requisitionPostRequest->get('fuel_allocation') < $requisitionPostRequest->get('material_quantity')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Quantity requested can not be more than allocation'
+                ]);
+            }
+
+        } elseif ($isOutOfTownRequisition) {
+            // out of town requisition can be more than allocated
             $valid_from = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->get('departure_date'));
+            $valid_to = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->get('return_date'));
 
-        } else {
-            $valid_to = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('next_fuel_date'));
-            $valid_from = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('request_date'));
+            if (!empty($latestPreviousRequisition)) {
+                if (in_array($latestPreviousRequisition->status, $openRequisitionStatusList)) {
+
+                    // cancel requisition
+                    $latestPreviousRequisition->status = StatusHelper::cancelled();
+                    $latestPreviousRequisition->save();
+
+                    //cancel associated task
+                    $this->workflowService->cancelProcessTask($latestPreviousRequisition->req_no);
+                }else{
+                    // validate odometer against last issue
+                    $this->validateOdometerAgainstLastIssue($latestPreviousRequisition, $requisitionPostRequest);
+                }
+            }
+
+        } elseif ($isOverrideRequisition) {
+
+            // if there is no previous requisition, throw error
+            if (empty($latestPreviousRequisition)) {
+                throw new FuelRequisitionException(ErrorMessages::overrideRequisitionWithoutPriorRequisition);
+            }
+
+            if (in_array($latestPreviousRequisition->status, $openRequisitionStatusList)) {
+                // requisition is open/pending
+
+                return response()->json([
+                    'success' => false,
+                    'message' => str_replace(
+                        '@re_no',
+                        $latestPreviousRequisition->req_no,
+                        ErrorMessages::vehicleHasActiveRequisition())
+                ]);
+            }
+
+            // quantity requested can not be more than allocated
+            if ($requisitionPostRequest->get('fuel_allocation') < $requisitionPostRequest->get('material_quantity')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Quantity requested can not be more than allocation'
+                ]);
+            }
+
+            // validate odometer against last issue
+            $this->validateOdometerAgainstLastIssue($latestPreviousRequisition, $requisitionPostRequest);
         }
 
         //$maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption) + $requisitionPostRequest->odometer_reading;
@@ -88,46 +181,8 @@ class FuelRequisitionService
         //Log::info($maximumDistance . ' distance is');
 
         Log::info($registrationNumber);
-        // pick last requisition
-        $previousRequisition = MaterialHeader::where('veh_reg_no', $registrationNumber)
-            ->whereIn('status', [
-                StatusHelper::new(),
-                StatusHelper::approved(),
-                StatusHelper::partiallyReleased()
-            ])
-            ->orderBy('date_created', 'desc')
-            ->first();
-
-
-        // if there is an open requisition
-        $openRequisitionStatusList = [StatusHelper::new(), StatusHelper::partiallyReleased()];
-
-        if (!empty($previousRequisition)) {
-
-            if (in_array($previousRequisition->status, $openRequisitionStatusList)) {
-                if ($isOutOfTownRequisition || $isLocalRequisition) {
-
-                } else {
-                    return response()->json([
-                        'success' => false,
-                        'message' => str_replace(
-                            '@re_no',
-                            $previousRequisition->req_no,
-                            ErrorMessages::vehicleHasActiveRequisition())
-                    ]);
-                }
-
-
-            }
-
-            $this->checkIfPreviousRequisitionPeriodElapsed($previousRequisition, $valid_from);
-
-            $this->validateOdometerStateValidation($previousRequisition, $requisitionPostRequest);
-
-        }
 
         /********************** Save Data **************************/
-        DB::beginTransaction();
 
         $user = Auth()->user();
 
@@ -136,6 +191,7 @@ class FuelRequisitionService
         $areaCode = $user->area_code ?? 'LR';
         $requisitionType = 'seq_store_req';
         $procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
+
         //$procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
         if (empty($procurementRef)) {
             throw new FuelRequisitionException(ErrorMessages::storesRequisitionFailed());
@@ -225,12 +281,6 @@ class FuelRequisitionService
      */
     public function validateCurrentOdometerAgainstInitial($registration_number, $currentOdometer): bool
     {
-        /*
-         * $vehicle = VehicleHeader::
-        where('registration_number', trim($registration_number))->first();
-        $chassisDetail = ChassisDetail::where('vehicle_header_id', '=', $vehicle->id)->first();
-        */
-
         $vehicleDetail = DB::table('VM_VEHICLE_HEADER')
             ->join('VM_CHASSIS_DETAILS',
                 'VM_VEHICLE_HEADER.id',
@@ -274,15 +324,16 @@ class FuelRequisitionService
     }
 
     /**
+     * Validates the odometer reading on request is greater than the previous issue
      * @param $previousRequisition
      * @param FuelRequisitionPostRequest $requisitionPostRequest
      * @return void
      * @throws FuelRequisitionException
      */
-    public function validateOdometerStateValidation($previousRequisition, FuelRequisitionPostRequest $requisitionPostRequest): void
+    public function validateOdometerAgainstLastIssue($previousRequisition, FuelRequisitionPostRequest $requisitionPostRequest): void
     {
         // verify that odometer reading is not the same as previous requisition
-        if (!empty($previousRequisition) && ($requisitionPostRequest->odometer_reading <= $previousRequisition->odometer)) {
+        if ($requisitionPostRequest->odometer_reading <= $previousRequisition->odometer) {
             throw new FuelRequisitionException(ErrorMessages::invalidCurrentOdometerReading(), 0);
         }
     }
@@ -296,7 +347,7 @@ class FuelRequisitionService
     public function checkIfPreviousRequisitionPeriodElapsed($previousRequisition, bool|Carbon $valid_from): void
     {
         // check if previous requisition period elapsed
-        if (!empty($previousRequisition) && Carbon::parse($previousRequisition->valid_date_to)->lessThan($valid_from)) {
+        if (Carbon::parse($previousRequisition->valid_date_to)->lessThan($valid_from)) {
             throw new FuelRequisitionException(str_replace('@date_valid_to', $previousRequisition->valid_date_to,
                 str_replace('@req_no', $previousRequisition->req_no, ErrorMessages::requisitionStillActive)), 0);
         }

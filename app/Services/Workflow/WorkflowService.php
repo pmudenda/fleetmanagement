@@ -3,6 +3,7 @@
 namespace App\Services\Workflow;
 
 
+use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\Priority;
 use App\Helpers\StatusHelper;
 use App\Models\Security\User;
@@ -24,25 +25,26 @@ class WorkflowService
      * @param string $comment
      * @param $currentUser
      * @return WorkflowTaskDetail
+     * @throws WorkflowTaskCreationFailedException
      */
     public function startWorkflowProcess(string $taskReference, int $processCode, int $action, string $comment, $currentUser): WorkflowTaskDetail
     {
-        return $taskReference;
 
         $process = WorkflowProcess::where('ProcessCode', $processCode)->first();
 
-        if ($process == null) return new WorkflowTaskDetail();
+        if ($process == null) throw new WorkflowTaskCreationFailedException("Process not Found");
 
         //get the first step in this process
         $firstStep = WorkflowStep::where('ProcessId', '=', $processCode)
-            ->where('is_initial_step', true)->first();
+            ->where('is_initial_step', true)
+            ->where('is_initial_step', '=', 1)
+            ->first();
 
-        if ($firstStep == null) return new WorkflowTaskDetail();
+        if ($firstStep == null) throw new WorkflowTaskCreationFailedException("Could not Determine Initial Step");
 
-        if ($firstStep->NextStep == null) return new WorkflowTaskDetail();
+        if ($firstStep->NextStep == null) throw new WorkflowTaskCreationFailedException("Could not Determine Next Step");
 
-        $stepAfterSubmission = WorkflowStep::
-        where('process_id', '=', $processCode)
+        $stepAfterSubmission = WorkflowStep::where('process_id', '=', $processCode)
             ->where('step_id', '=', $firstStep->NextStep)->first();
 
         if ($stepAfterSubmission == null) return new WorkflowTaskDetail(['id' => 0]);
@@ -121,6 +123,10 @@ class WorkflowService
             'description' => '',
             'DateReceived' => date('Y/m/d')
         ]);
+    }
+
+    public function cancelProcessTask($req_no)
+    {
     }
 
 

@@ -4,5 +4,5 @@ namespace App\Enums;
 
 enum WorkflowProcessCodes: string
 {
-    case FuelRequisition = "202301";
+    case FuelRequisition = "2000";
 }

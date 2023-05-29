@@ -14,7 +14,6 @@ class StatusHelper
         return "021";
     }
 
-
     public static function PendingGeneralDataEntry(): string
     {
         return "100";
@@ -40,9 +39,6 @@ class StatusHelper
         return "104";
     }
 
-
-
-
     public static function active(): string
     {
         return "01";
@@ -58,14 +54,24 @@ class StatusHelper
         return "021";
     }
 
-    public static function onboardingComplete(): string
+    public static function authorised(): string
     {
-        return "030";
+        return "022";
+    }
+
+    public static function partiallyAuthorised(): string
+    {
+        return "023";
     }
 
     public static function partiallyReleased(): string
     {
         return "024";
+    }
+
+    public static function onboardingComplete(): string
+    {
+        return "030";
     }
 
     public static function organizationStructureActive(): string
@@ -78,5 +84,9 @@ class StatusHelper
         return '01';
     }
 
+    public static function cancelled(): string
+    {
+        return "027";
+    }
 
 }

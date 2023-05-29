@@ -128,11 +128,11 @@ class DriverController extends Controller
     {
         $searchParam = strtoupper(trim($request->searchCriteria));
 
-        $drivers = Driver::where('staff_number', '=', $searchParam)
+        $driver = Driver::where('staff_number', '=', $searchParam)
             ->orWhere('name', 'LIKE', "%{$searchParam}%")
             ->first();
 
-        if (empty($drivers)) {
+        if (empty($driver)) {
             return response()->json([
                 'success' => 'false',
                 'payload' => [],
@@ -140,9 +140,27 @@ class DriverController extends Controller
             ]);
         }
 
+        $nowDate = Carbon::now();
+
+        if($nowDate->gt($driver->license_date_expiry)){
+            return response()->json([
+                'success' => 'false',
+                'payload' => [],
+                'message' => str_replace('@input', $searchParam, ErrorMessages::driversLicenceExpired)
+            ]);
+        }
+
+        if($nowDate->gt($driver->permit_date_expiry)){
+            return response()->json([
+                'success' => 'false',
+                'payload' => [],
+                'message' => str_replace('@input', $searchParam, ErrorMessages::driverPermitExpired)
+            ]);
+        }
+
         return response()->json([
             'success' => true,
-            'payload' => $drivers
+            'payload' => $driver
         ]);
 
     }
