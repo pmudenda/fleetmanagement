@@ -867,7 +867,7 @@
                                 if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                                     setTimeout(function () {
                                         tmsApp.showSystemMessage(
-                                            'Fuel Requisition',
+                                            'Driver onboarding',
                                             asyncResponse['message'],
                                             function () {
                                                 window.location.href = asyncResponse["redirectUrl"]
@@ -883,7 +883,7 @@
                                     }
                                     setTimeout(function () {
                                         tmsApp.systemError(
-                                            'Fuel Requisition',
+                                            'Driver onboarding',
                                             asyncResponse['message'],
                                             function () {
                                             }, 'error');
@@ -899,7 +899,7 @@
                                         }
                                         if (xhr.responseJSON.hasOwnProperty('message')) {
                                             tmsApp.systemError(
-                                                'Fuel Requisition',
+                                                'Driver onboarding',
                                                 xhr.responseJSON['message']
                                             );
                                         }
@@ -907,7 +907,7 @@
                                     }
 
                                     tmsApp.systemError(
-                                        'Fuel Requisition',
+                                        'Driver onboarding',
                                         'We could not complete processing your request, please try again later');
                                 }, 300)
                             }

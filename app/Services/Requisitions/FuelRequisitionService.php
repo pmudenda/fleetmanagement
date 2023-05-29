@@ -225,10 +225,11 @@ class FuelRequisitionService
      */
     public function validateCurrentOdometerAgainstInitial($registration_number, $currentOdometer): bool
     {
-
-        /*$vehicle = VehicleHeader::
+        /*
+         * $vehicle = VehicleHeader::
         where('registration_number', trim($registration_number))->first();
-        $chassisDetail = ChassisDetail::where('vehicle_header_id', '=', $vehicle->id)->first();*/
+        $chassisDetail = ChassisDetail::where('vehicle_header_id', '=', $vehicle->id)->first();
+        */
 
         $vehicleDetail = DB::table('VM_VEHICLE_HEADER')
             ->join('VM_CHASSIS_DETAILS',
@@ -281,7 +282,6 @@ class FuelRequisitionService
     public function validateOdometerStateValidation($previousRequisition, FuelRequisitionPostRequest $requisitionPostRequest): void
     {
         // verify that odometer reading is not the same as previous requisition
-
         if (!empty($previousRequisition) && ($requisitionPostRequest->odometer_reading <= $previousRequisition->odometer)) {
             throw new FuelRequisitionException(ErrorMessages::invalidCurrentOdometerReading(), 0);
         }
@@ -296,7 +296,6 @@ class FuelRequisitionService
     public function checkIfPreviousRequisitionPeriodElapsed($previousRequisition, bool|Carbon $valid_from): void
     {
         // check if previous requisition period elapsed
-
         if (!empty($previousRequisition) && Carbon::parse($previousRequisition->valid_date_to)->lessThan($valid_from)) {
             throw new FuelRequisitionException(str_replace('@date_valid_to', $previousRequisition->valid_date_to,
                 str_replace('@req_no', $previousRequisition->req_no, ErrorMessages::requisitionStillActive)), 0);
