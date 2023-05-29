@@ -104,7 +104,6 @@ class WorkflowService
         WorkflowTaskHeader::Create([
             'assigned_user' => $assignToUser->con_per_no,
             'subject' => "Approval Task -" . $taskReference,
-            //'message' => ,
             'status' => StatusHelper::new(),
             'url' => $actionPage,
             'reference' => $taskReference,
@@ -112,7 +111,8 @@ class WorkflowService
             'description' => 'You have received a fuel requisition approval task ',
             'sender' => 'SYSTEM',
             'created_by' => $currentUser->id,
-            'date_acted' => Carbon::now()
+            'date_acted' => Carbon::now(),
+            'process_code'=> $processCode
         ]);
 
         $newProcess = WorkflowTaskDetail::create([
