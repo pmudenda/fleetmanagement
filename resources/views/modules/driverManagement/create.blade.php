@@ -53,7 +53,7 @@
                                                         <div class="row">
                                                             <div class="form-group row">
                                                                 <label
-                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-3 app-field-label"
+                                                                    class="pl-0 col-xs-12 col-sm-6 col-md-5 col-lg-3 app-field-label"
                                                                     for="staff_no">Find By:
                                                                 </label>
                                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -101,7 +101,8 @@
                                                                         <input type="text"
                                                                                class="form-control form-control-sm"
                                                                                id="nane"
-                                                                               name="name" required readonly>
+                                                                               name="name"
+                                                                               required readonly />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -119,7 +120,8 @@
                                                                         <input type="text"
                                                                                class="form-control form-control-sm"
                                                                                id="grade"
-                                                                               readonly name="grade" autocomplete="off">
+                                                                               readonly name="grade"
+                                                                               autocomplete="off" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -332,8 +334,10 @@
                                                                     <label
                                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
                                                                         for="staff_name">
-                                                                        Front View:<small class="text-danger">JPG, JPEG,
-                                                                            PNG, BMP</small>
+                                                                        Front View:
+                                                                        <small class="text-danger">
+                                                                            JPG, JPEG,PNG, BMP
+                                                                        </small>
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <div class="card text-center py-5 my-2 pt-0">
@@ -379,8 +383,10 @@
                                                                     <label
                                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
                                                                         for="staff_name">
-                                                                        Back View:<small class="text-danger">JPG, JPEG,
-                                                                            PNG, BMP</small>
+                                                                        Back View:
+                                                                        <small class="text-danger">
+                                                                            JPG, JPEG,PNG, BMP
+                                                                        </small>
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <div class="card text-center py-5 my-2 pt-0">
@@ -397,8 +403,8 @@
                                                                                     <input type="file" accept="image/*"
                                                                                            style="display: none;"
                                                                                            class="fileElem"
-                                                                                           id="license_front_view"
-                                                                                           name="license_front_view"/>
+                                                                                           id="license_back_view"
+                                                                                           name="license_back_view"/>
                                                                                 </p>
                                                                                 <div class="imagePreview"
                                                                                      style="display: none;">
@@ -408,7 +414,9 @@
                                             position: relative;
                                             right: 1px;
                                             float: right;
-                                            padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                            padding: 2px;">
+                                                                                        <i class="fa fa-window-close"
+                                                                                           style="font-size: 20px;"></i>
                                                                                     </button>
                                                                                 </div>
                                                                             </div>

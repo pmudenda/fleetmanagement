@@ -90,7 +90,20 @@ EXCEPTION
         dbms_output.put_line('Error!');
 END;
 ```
-
+```php
+$list = User::select('id', 'user_unit_id', 'con_st_code', 'positions_id', 'staff_no', 'user_unit_code', 'job_code', 'email', 'name', 'created_at', 'phone')
+            ->where('email', 'LIKE', "%{$search}%")
+            ->orWhere('name', 'LIKE', "%{$search}%")
+            ->orWhere('nrc', 'LIKE', "%{$search}%")
+            ->orWhere('staff_no', 'LIKE', "%{$search}%")
+            ->orWhere('staff_no_alt', 'LIKE', "%{$search}%")
+            ->orWhere('user_unit_code', 'LIKE', "%{$search}%")
+            ->orWhere('contract_type', 'LIKE', "%{$search}%")
+            ->orWhere('con_st_code', 'LIKE', "%{$search}%")
+            ->orWhere('job_code', 'LIKE', "%{$search}%")
+            ->orWhere('phone', 'LIKE', "%{$search}%")
+            ->get();
+```
 In order to ensure that the system remains stable at all times, all features, bugs and enhance will be done using issue first approach. A pull request will then be merged by repository administrator.
 ## Security Vulnerabilities
 

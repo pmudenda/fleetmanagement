@@ -21,7 +21,7 @@ class ChargeOutRateController extends Controller
     public function index(): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $chargeOutRateList = ChargeOutRate::get();
-        return view('configurations.chargeoutrate')
+        return view('modules.configurations.chargeoutrate')
             ->with(compact(
                 'chargeOutRateList'
             ));

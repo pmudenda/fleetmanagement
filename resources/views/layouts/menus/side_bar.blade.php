@@ -67,11 +67,32 @@
                                 <p>Vehicle List</p>
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a href="{{ route('vehicle.data.cleanup') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Data Clean Up</p>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-circle"></i>
+                                <p>
+                                    Data Clean Up
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview pl-3">
+                                <li class="nav-item">
+                                    <a href="{{route('vehicle.data.cleanup')}}" class="nav-link">
+                                        <i class="fas fa-circle nav-icon"></i>
+                                        <p>
+                                            By Vehicle Reg.
+                                        </p>
+                                    </a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('vehicle.migration.list') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>By Cost Centre</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </li>
@@ -200,36 +221,62 @@
                     </a>
                     <ul class="nav nav-treeview pl-3">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('users.new') }}">
-                                <i class="fas fa-user-plus nav-icon"></i>
-                                <p class="menu-title">Add User</p>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-circle"></i>
+                                <p>
+                                    Users
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview pl-3">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('users.new') }}">
+                                        <i class="fas fa-user-plus nav-icon"></i>
+                                        <p class="menu-title">Add User</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('users.list') }}">
+                                        <i class="fas fa-users nav-icon"></i>
+                                        <p>
+                                            Users List
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('users.list') }}">
-                                <i class="fas fa-users nav-icon"></i>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-circle"></i>
                                 <p>
-                                    Users List
+                                    Drivers
+                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
+                            <ul class="nav nav-treeview pl-3">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('driver.list') }}">
+                                        <i class="fas fa-users nav-icon"></i>
+                                        <p>
+                                            Drivers List
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('driver.create') }}">
+                                        <i class="fas fa-users nav-icon"></i>
+                                        <p>
+                                            Drivers OnBoarding
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('users.driverList') }}">
-                                <i class="fas fa-users nav-icon"></i>
-                                <p>
-                                    Drivers List
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('users.driver') }}">
-                                <i class="fas fa-users nav-icon"></i>
-                                <p>
-                                    Drivers OnBoarding
-                                </p>
-                            </a>
-                        </li>
+
+
+
+
                     </ul>
                 </li>
 

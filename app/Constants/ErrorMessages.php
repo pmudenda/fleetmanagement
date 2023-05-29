@@ -12,7 +12,7 @@ class ErrorMessages
                             System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.zm";
     const vehicleNotActive = "Requisition not accepted while vehicle is not in active state Your requisition can not be processed, Please Contact Fleet Master
                             System Administrator on " . self::contact . ", " . self::email . " for technical assistance";
-    const requisitionStillActive = "Request failed validation, Previous requisition number @req_no is still Active. Next Request Date Is @date_valid_to, Please Contact Fleet Master
+    const requisitionStillActive = "Request could not be processed,An existing requisition number @req_no is Active. Next Request Date Is @date_valid_to, Please Contact Fleet Master
                             System Administrator on " . self::contact . ", " . self::email . " for technical assistance";
     public final const internalServerError = 'We could not complete processing your request due to an error. Please Contact Fleet Master
                             System Administrator on ' . self::contact . ', ' . self::email . ', '. self::extension . " for technical assistance";

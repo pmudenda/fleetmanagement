@@ -830,7 +830,7 @@
             })
 
             Inputmask({
-                "mask": "AAA 9999"
+                "mask": "AAA 9{1,4}"
             }).mask("#vehicle_registration");
 
             tmsApp.appFormValidator('form[name="fuelRequisitionForm"]',
@@ -838,9 +838,9 @@
                     'requisition_type': {
                         required: true,
                     },
-                    // driver_staff_number: {
-                    //     required: true
-                    // },
+                    driver_staff_number: {
+                        required: true
+                    },
                     fuel_allocation: {
                         required: true
                     },

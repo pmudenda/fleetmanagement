@@ -145,4 +145,9 @@ class VehicleController extends Controller
     {
         return view('modules.vehicleManagement.vehicleList');
     }
+
+    public function cleanUpList(Request $request): View
+    {
+        return view('modules.vehicleManagement.migration.list');
+    }
 }

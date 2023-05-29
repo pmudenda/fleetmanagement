@@ -188,6 +188,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/cleanup', [VehicleController::class, 'cleanUpWindow'])->name('vehicle.data.cleanup');
 
         Route::get('/accessories', [VehicleController::class, 'accessories'])->name('vehicle.accessories');
+
+        Route::get('/cleanup/assignation/list', [VehicleController::class, 'cleanUpList'])->name('vehicle.migration.list');
     });
 
     Route::post('/workflow/approve', [WorkflowController::class, 'approve'])->name('workflow.approve');
@@ -207,9 +209,13 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['prefix' => 'driver-management'], function () {
-        Route::get('users/driver', [DriverController::class, 'index'])->name('users.driver');
-        Route::get('users/driverList', [DriverController::class, 'driverList'])->name('users.driverList');
-        Route::post('driver', [DriverController::class, 'findDriver'])->name('driver.search');
+        Route::get('driver/driver', [DriverController::class, 'create'])->name('driver.create');
+
+        Route::post('driver/save', [DriverController::class, 'store'])->name('save.driver');
+
+        Route::get('driver/list', [DriverController::class, 'driverList'])->name('driver.list');
+
+        Route::post('driver/find', [DriverController::class, 'findDriver'])->name('driver.search');
     });
 
 

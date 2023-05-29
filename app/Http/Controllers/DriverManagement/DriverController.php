@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\Driver;
 use App\Models\reference\PHCMSEmployee;
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -16,35 +17,35 @@ use Illuminate\Support\Facades\Request;
 class DriverController extends Controller
 {
 
-    public function index(): View|\Illuminate\Foundation\Application|Factory|Application
+    public function create(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         $licenseClasses = GeneralTableConfigurations::where('type', '=', ConfigurationTypes::LICENSE_CLASS->value)
             ->get();
 
-        return view('modules.driverManagement.index')
+        return view('modules.driverManagement.create')
             ->with(compact('licenseClasses'));
     }
 
     public function driverList(): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        $users = []; //User::select('*')->get();
+        $users = Driver::get();
         return view('modules.driverManagement.driverList')->with(compact('users'));
     }
 
     public function findDriver(Request $request): JsonResponse
     {
-        /*$drivers = Driver::where('staff_number', '=', $request->get('searchCriteria'))
-            ->orWhere('name', $request->get('searchCriteria'))
-            ->get();*/
+        $searchParam = strtoupper(trim($request->searchCriteria));
+        $drivers = Driver::where('staff_number', '=', $searchParam)
+            ->orWhere('name', 'LIKE', "%{$searchParam}%")
+            ->get();
 
-        $searchParam = trim($request->searchCriteria);
-        $drivers = PHCMSEmployee::select('*')
+        /*$drivers = PHCMSEmployee::select('*')
             ->where('con_per_no', $searchParam)
             ->first();
 
         if (empty($drivers)) {
             $drivers = [];
-        }
+        }*/
 
 
         if (empty($drivers)) {

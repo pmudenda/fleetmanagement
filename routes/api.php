@@ -25,7 +25,6 @@ Route::middleware('auth=>sanctum')->get('/user', function (Request $request) {
 Route::post('license-verification', [RoadTransportSafetyAgencyIntegrationController::class, 'verifyLicenseDetails'])->name('license.details.verification');
 
 Route::post('find/vehicle', function (Request $request) {
-
     try {
         $vehicle = GtaVehicle::where('matricula', $request->get('reg_num'))->get();
         return response()->json([

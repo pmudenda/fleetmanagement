@@ -256,22 +256,14 @@ class UsersController extends Controller
     {
     }
 
-
     public function search(Request $request): JsonResponse
     {
         try {
-            //$apiURL = 'http://dev.zesco.co.zm/ezesco_forms/public/api/users';
-            //$apiURL = 'http://127.0.0.1:3001/ezesco_forms/public/api/users';
-            $headers = [
-                'Content-Type' => 'application/json',
-            ];
-            /*$response = Http::withHeaders($headers)->get($apiURL, [
-                'staff_number' => $searchParam,
-            ]);*/
 
             $searchParam = trim($request->searchCriteria);
             $dataset = PHCMSEmployee::select('*')
                 ->where('con_per_no', $searchParam)
+                ->orWhere('name', 'LIKE', "%{$searchParam}%")
                 ->first();
 
             if (empty($dataset)) {
@@ -282,6 +274,7 @@ class UsersController extends Controller
                 'success' => true,
                 'payload' => $dataset
             ]);
+
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json([
