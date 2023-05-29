@@ -43,7 +43,7 @@
                                 Filter
                             </button>
                             @can(config('rights.user_create'))
-                            <a href="{{route('users.driver')}}" class="btn btn-sm btn-success float-right">
+                            <a href="{{route('driver.create')}}" class="btn btn-sm btn-success float-right">
                                 <i class="fas fa-user-plus"></i>
                                 Onboard Driver
                             </a>

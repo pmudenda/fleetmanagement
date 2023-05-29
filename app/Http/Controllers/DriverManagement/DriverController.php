@@ -101,6 +101,7 @@ class DriverController extends Controller
         DB::commit();
 
         return response()->json([
+            'success' => !empty($model),
             'payload' => $model,
             'message' => 'Driver Onboarded Successfully'
         ]);
