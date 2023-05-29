@@ -3,6 +3,7 @@
 namespace App\Services\Requisitions;
 
 use App\Constants\ErrorMessages;
+use App\Enums\ItemTypes;
 use App\Enums\RequisitionTypes;
 use App\Enums\VehicleStatusEnum;
 use App\Enums\WorkflowProcessCodes;
@@ -215,6 +216,7 @@ class FuelRequisitionService
                 'proc_ref' => $procurementRef,
                 'st_pur' => $procurementRef,
                 'req_no' => $documentRef,
+                'item_type' => ItemTypes::StockItem,
                 'veh_reg_no' => $registrationNumber,
                 'cost_centre' => $requisitionPostRequest->get('cost_centre_code'),
                 'valid_date_from' => $valid_from,
@@ -288,7 +290,7 @@ class FuelRequisitionService
                 'VM_CHASSIS_DETAILS.vehicle_header_id')
             ->where('VM_VEHICLE_HEADER.registration_number', trim($registration_number))
             ->select('VM_VEHICLE_HEADER.*', 'VM_CHASSIS_DETAILS.initial_odometer_reading')
-            ->get();
+            ->first();
 
         if ($vehicleDetail->initial_odometer_reading > $currentOdometer) {
             throw new FuelRequisitionException(ErrorMessages::invalidCurrentOdometerreading(), 0);
