@@ -24,7 +24,7 @@ class DriverOnboardingRequest extends FormRequest
     {
         return [
             'employee_number' => 'required|string|max:255',
-            'name' => 'required|string|max:255',
+            'driver_name' => 'required|string|max:255',
             'grade' => 'required|string|max:3',
             'job_title' => 'required|string|max:255',
             'location' => 'required|string|max:255',
