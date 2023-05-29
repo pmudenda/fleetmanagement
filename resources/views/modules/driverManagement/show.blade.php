@@ -130,7 +130,7 @@
                                     </b>
                                     <a class="float-right">
                                         <span class="badge badge-success">
-                                        {{$user->roles->count()}}
+
                                         </span>
                                     </a>
                                 </li>
