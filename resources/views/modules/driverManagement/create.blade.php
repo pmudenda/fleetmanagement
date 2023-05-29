@@ -44,7 +44,9 @@
                                 <div class="card-body py-4 min-h-600px pt-0">
                                     <label class="app-required-marker"></label>
                                     <x-error-view/>
-                                    <form name="tms_driver_definition" method="post">
+                                    <form name="tms_driver_definition"
+                                          action="{{route('save.driver')}}"
+                                          id="tms_driver_definition" method="post">
                                         @csrf
                                         <div class="card-header">
                                             <div class="row">
@@ -53,7 +55,7 @@
                                                         <div class="row">
                                                             <div class="form-group row">
                                                                 <label
-                                                                    class="pl-0 col-xs-12 col-sm-6 col-md-5 col-lg-3 app-field-label"
+                                                                    class="pl-0 col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
                                                                     for="staff_no">Find By:
                                                                 </label>
                                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -93,16 +95,44 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                        for="staff_name">
+                                                                        Staff Number:
+                                                                    </label>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                        <input type="text"
+                                                                               class="form-control form-control-sm"
+                                                                               id="employee_number"
+                                                                               name="employee_number"
+                                                                               required readonly/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-6 col-md-5">
+                                                        <div class="container-fluid pl-0">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-5">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="staff_name">
                                                                         Name:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="text"
                                                                                class="form-control form-control-sm"
-                                                                               id="nane"
-                                                                               name="name"
-                                                                               required readonly />
+                                                                               id="driver_name"
+                                                                               name="driver_name"
+                                                                               required readonly/>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -114,14 +144,14 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="mobile_no">Grade:</label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="text"
                                                                                class="form-control form-control-sm"
                                                                                id="grade"
                                                                                readonly name="grade"
-                                                                               autocomplete="off" />
+                                                                               autocomplete="off"/>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -135,7 +165,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="staff_name">
                                                                         Position:
                                                                     </label>
@@ -159,7 +189,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="department">
                                                                         Department :
                                                                     </label>
@@ -183,7 +213,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="staff_name">
                                                                         Location:
                                                                     </label>
@@ -194,6 +224,44 @@
                                                                                class="form-select form-control-sm"
                                                                                id="location"
                                                                                name="location" required readonly/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-5">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                        for="staff_name">
+                                                                        Is Driver by designation ?:
+                                                                    </label>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                        <label class="inline-check">
+                                                                            <div class="form-check form-check-inline">
+                                                                                <input id="designated-driver-yes"
+                                                                                       type="radio"
+                                                                                       name="isDesignatedDriver"
+                                                                                       value="yes">
+                                                                                <label
+                                                                                    for="designated-driver-yes">Yes</label>
+                                                                            </div>
+                                                                            <div class="form-check form-check-inline">
+                                                                                <input id="designated-driver-no"
+                                                                                       type="radio"
+                                                                                       checked
+                                                                                       name="isDesignatedDriver"
+                                                                                       value="no">
+                                                                                <label
+                                                                                    for="designated-driver-no">No</label>
+                                                                            </div>
+                                                                        </label>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -218,7 +286,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="staff_license">
                                                                         License No:
                                                                     </label>
@@ -261,7 +329,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="staff_name">
                                                                         Expiry Date:
                                                                     </label>
@@ -308,7 +376,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
                                                                         for="staff_name">
                                                                         Copy Of License:
                                                                     </label>
@@ -332,7 +400,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="staff_name">
                                                                         Front View:
                                                                         <small class="text-danger">
@@ -381,7 +449,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="staff_name">
                                                                         Back View:
                                                                         <small class="text-danger">
@@ -445,7 +513,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="staff_license">
                                                                         Permit No:
                                                                     </label>
@@ -466,7 +534,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="staff_name">
                                                                         Date Issued:
                                                                     </label>
@@ -490,7 +558,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="staff_name">
                                                                         Expiry Date:
                                                                     </label>
@@ -517,7 +585,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                         for="staff_name">
                                                                         Copy Of Permit:
                                                                     </label>
@@ -628,6 +696,112 @@
             }
         }
 
+        function verifyingDriverLicense() {
+            window.loaderMessage = "Verifying License Number with RTSA, Please wait";
+            setTimeout(function () {
+                tmsApp.asyncPostJson(
+                    document.querySelector("#rtsaLicenseVerificationEndPoint").value,
+                    {
+                        licenseNumber: $('[name="license_number"]').val(),
+                    },
+                    function (response) {
+                        window.loaderMessage = "Please wait...";
+                        if (!response.success) {
+                            toastr.error(response.message);
+                            return;
+                        }
+
+                        toastr.success(response.message);
+                    }, function (xhr, settings, error) {
+                        window.loaderMessage = "Please wait...";
+                        tmsApp.showErrorMessages(xhr, 'License Verification');
+                    }
+                )
+            }, 1000);
+        }
+
+        function populateEmployeeDetails(response) {
+            let data = response;
+
+            if (!data.con_per_no) {
+                tmsApp.showToast('User Not Found', 'error')
+                return;
+            }
+            document.querySelector('[name="driver_name"]').value = data?.name;
+            document.querySelector('[name="grade"]').value = data?.grade;
+            document.querySelector('[name="job_title"]').value = data?.job_title;
+            document.querySelector('[name="location"]').value = data?.location;
+            document.querySelector('[name="department"]').value = data?.functional_section;
+            document.querySelector('[name="employee_number"]').value = data?.con_per_no;
+
+            //document.querySelector('[name="staff_email"]').value = data?.staff_email;
+
+
+            //document.querySelector('[name="cc_code"]').value = data?.cc_code;
+            //document.querySelector('[name="bu_code"]').value = data?.bu_code;
+            //document.querySelector('[name="cost_center_code"]').value = data?.cc_code;
+            //document.querySelector('[name="business_unit_code"]').value = data?.bu_code;
+            //document.querySelector('[name="login_name"]').value = data?.con_per_no;
+            //document.querySelector('[name="directorate"]').value = data?.directorate;
+            //document.querySelector('[name="mobile_no"]').value = data?.mobile_no;
+
+            document.querySelector('[name="nrc"]').value = data?.nrc;
+            document.querySelector('#actionButtonsContainer').style.display = null;
+        }
+
+        function findEmployee() {
+            const staff_number = document.querySelector('#staff_number').value
+            let formData = new FormData();
+            formData.append('searchCriteria', staff_number);
+
+            fetch(
+                document.querySelector("#staff_number").getAttribute('data-action'),
+                {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    body: formData,
+                    referrer: window.baseUrl,
+                    mode: 'cors',
+                    credentials: 'same-origin',
+                }
+            )
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    return response.json();
+                })
+                .then(response => {
+                    console.log(response);
+
+                    if (!response.success) {
+                        toastr.error(response.message);
+                        return;
+                    }
+
+                    document.querySelector("#submitRequisitionBtn").removeAttribute('disabled');
+
+                    let optionListStr = '';
+                    if (Array.isArray(response.payload)) {
+                        response.payload.forEach(function (item) {
+                            optionListStr += `<option value="${item['con_per_no']}">${item['con_per_no']} =>${item.name}</option>`;
+                        })
+
+                        $('#employee_list').html(optionListStr);
+                        return;
+                    }
+
+                    populateEmployeeDetails(response.payload);
+                })
+                .catch(function (error) {
+                    tmsApp.showErrorMessages('', '');
+                });
+        }
+
+
         (function (tmsApp, $) {
             new ImageUpload().init();
             Inputmask({
@@ -637,30 +811,6 @@
             Inputmask({
                 "mask": "99999999"
             }).mask("#license_number");
-
-            function verifyingDriverLicense() {
-                window.loaderMessage = "Verifying License Number with RTSA, Please wait";
-                setTimeout(function () {
-                    tmsApp.asyncPostJson(
-                        document.querySelector("#rtsaLicenseVerificationEndPoint").value,
-                        {
-                            licenseNumber: $('[name="license_number"]').val(),
-                        },
-                        function (response) {
-                            window.loaderMessage = "Please wait...";
-                            if (!response.success) {
-                                toastr.error(response.message);
-                                return;
-                            }
-
-                            toastr.success(response.message);
-                        }, function (xhr, settings, error) {
-                            window.loaderMessage = "Please wait...";
-                            tmsApp.showErrorMessages(xhr, 'License Verification');
-                        }
-                    )
-                }, 1000);
-            }
 
             $('#license_number').on('keyup paste enter change', function () {
                 if (!this.value || this.value.replaceAll("_", '').length < 8) {
@@ -692,99 +842,138 @@
                 }, 300);
             });
 
-            function populateEmployeeDetails(response) {
-                let data = response;
 
-                if (!data.con_per_no) {
-                    tmsApp.showToast('User Not Found', 'error')
+            $("#submitRequisitionBtn").on('click', function () {
+                let $form = document.forms['tms_driver_definition'];
+                if (!$($form).valid()) {
                     return;
                 }
-                document.querySelector('[name="name"]').value = data?.name;
-                document.querySelector('[name="grade"]').value = data?.grade;
-                document.querySelector('[name="job_title"]').value = data?.job_title;
-                document.querySelector('[name="location"]').value = data?.location;
-                document.querySelector('[name="department"]').value = data?.functional_section;
 
+                $('.print-error-msg').css('display', 'none');
+                let formData = new FormData($form);
+                tmsApp.confirm(
+                    'Driver onboarding',
+                    'Are you sure you want to onboard this driver ?',
+                    'Yes',
+                    'No',
+                    function () {
+                        window.top.tmsApp.asyncPostFormData(
+                            $form.action,
+                            formData,
+                            function (asyncResponse) {
 
-                //document.querySelector('[name="staff_email"]').value = data?.staff_email;
-                //document.querySelector('[name="staff_number"]').value = data?.con_per_no;
+                                if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
+                                    setTimeout(function () {
+                                        tmsApp.showSystemMessage(
+                                            'Fuel Requisition',
+                                            asyncResponse['message'],
+                                            function () {
+                                                window.location.href = asyncResponse["redirectUrl"]
+                                                //window.location.reload();
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+                                    setTimeout(function () {
+                                        tmsApp.systemError(
+                                            'Fuel Requisition',
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
+                                }
+                            },
+                            function (xhr, settings, errorThrown) {
+                                console.log(errorThrown)
+                                setTimeout(function () {
+                                    if ('responseJSON' in xhr) {
+                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                        }
+                                        if (xhr.responseJSON.hasOwnProperty('message')) {
+                                            tmsApp.systemError(
+                                                'Fuel Requisition',
+                                                xhr.responseJSON['message']
+                                            );
+                                        }
+                                        return;
+                                    }
 
-                //document.querySelector('[name="cc_code"]').value = data?.cc_code;
-                //document.querySelector('[name="bu_code"]').value = data?.bu_code;
-                //document.querySelector('[name="cost_center_code"]').value = data?.cc_code;
-                //document.querySelector('[name="business_unit_code"]').value = data?.bu_code;
-                //document.querySelector('[name="login_name"]').value = data?.con_per_no;
-                //document.querySelector('[name="directorate"]').value = data?.directorate;
-                //document.querySelector('[name="mobile_no"]').value = data?.mobile_no;
-
-                document.querySelector('[name="nrc"]').value = data?.nrc;
-                document.querySelector('#actionButtonsContainer').style.display = null;
-            }
-
-
-            function findEmployee() {
-                const staff_number = document.querySelector('#staff_number').value
-                let formData = new FormData();
-                formData.append('searchCriteria', staff_number);
-
-                fetch(
-                    document.querySelector("#staff_number").getAttribute('data-action'),
-                    {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        body: formData,
-                        referrer: window.baseUrl,
-                        mode: 'cors',
-                        credentials: 'same-origin',
+                                    tmsApp.systemError(
+                                        'Fuel Requisition',
+                                        'We could not complete processing your request, please try again later');
+                                }, 300)
+                            }
+                        )
+                    },
+                    function () {
                     }
-                )
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-
-                        return response.json();
-                    })
-                    .then(response => {
-                        console.log(response);
-
-                        if (!response.success) {
-                            toastr.error(response.message);
-                            return;
-                        }
-
-                        let optionListStr = '';
-                        if (Array.isArray(response.payload)) {
-                            response.payload.forEach(function (item) {
-                                optionListStr += `<option value="${item['con_per_no']}">${item['con_per_no']} =>${item.name}</option>`;
-                            })
-
-                            $('#employee_list').html(optionListStr);
-                            return;
-                        }
-
-                        populateEmployeeDetails(response.payload);
-                    })
-                    .catch(function (error) {
-                        tmsApp.showErrorMessages('', '');
-                    });
-            }
-
+                );
+            });
 
             tmsApp.appFormValidator('form[name="tms_driver_definition"]',
                 {
-                    staff_number: {
+                    employee_number: {
                         required: true,
                         maxlength: 10,
                         minlength: 5
+                    },
+                    name: {
+                        required: true
+                    },
+                    grade: {
+                        required: true
+                    },
+                    job_title: {
+                        required: true
+                    },
+                    location: {
+                        required: true
+                    },
+                    department: {
+                        required: true
+                    },
+                    license_number: {
+                        required: true
+                    },
+                    license_date_issued: {
+                        required: true
+                    },
+                    license_date_expiry: {
+                        required: true
+                    },
+                    license_class: {
+                        required: true
+                    },
+                    license_front_view: {
+                        required: true
+                    },
+                    license_back_view: {
+                        required: true
+                    },
+                    permit_number: {
+                        required: true
+                    },
+                    permit_date_issued: {
+                        required: true
+                    },
+                    permit_date_expiry: {
+                        required: true
+                    },
+                    permit_copy: {
+                        required: true
                     }
                 },
                 {
-                    'staff_number': {
+                    'employee_number': {
                         required: "You have not provided employee staff number",
-                        maxlength: 'Staff number can not be more than 10 characters'
+                        maxlength: 'Staff number can not be more than 10 characters',
+                        minlength: 'Staff number can not be less than 5 characters'
                     },
                 }
             );

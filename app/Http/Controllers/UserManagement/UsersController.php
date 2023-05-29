@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -258,7 +259,24 @@ class UsersController extends Controller
 
     public function search(Request $request): JsonResponse
     {
+        $development = true;
         try {
+
+            if($development){
+                $searchParam = $request->searchCriteria;
+                $apiURL = 'http://dev.zesco.co.zm/ezesco_forms/public/api/users';
+                $headers = [
+                    'Content-Type' => 'application/json',
+                ];
+                $response = Http::withHeaders($headers)->get($apiURL, [
+                    'staff_number' => $searchParam,
+                ]);
+
+                return response()->json([
+                    'success' => true,
+                    'payload' => $response->json()
+                ]);
+            }
 
             $searchParam = trim($request->searchCriteria);
             $dataset = PHCMSEmployee::select('*')

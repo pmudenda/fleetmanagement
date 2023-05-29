@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('DM_DRIVER', function (Blueprint $table) {
-            $table->string('license_front', 255);
-            $table->string('license_back', 255);
-            $table->string('permit', 255);
-        });
+        /*Schema::table('DM_DRIVER', function (Blueprint $table) {
+            $table->string('license_front', 255)->nullable();
+            $table->string('license_back', 255)->nullable();
+            $table->string('permit', 255)->nullable();
+        });*/
     }
 
     /**

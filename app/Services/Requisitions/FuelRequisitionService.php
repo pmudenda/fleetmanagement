@@ -15,6 +15,7 @@ use App\Models\vehiclemanagement\Assignment;
 use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
 use App\Models\Workflow\WorkflowActions;
+use App\Models\Workflow\WorkflowModules;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\ReferenceNumberGeneratorService;
@@ -30,7 +31,7 @@ use Illuminate\Support\Facades\URL;
 class FuelRequisitionService
 {
 
-    const FUEL_REQUISITION = "FUEL_REQ";
+
     private VehicleDetailsService $vehicleDetailsService;
     private WorkflowService $workflowService;
     private ProcurementSystemIntegrationService $procurementService;
@@ -130,25 +131,25 @@ class FuelRequisitionService
 
         $user = Auth()->user();
 
-        $documentRef = ReferenceNumberGeneratorService::generateReferenceNumber(self::FUEL_REQUISITION,);
+        $documentRef = ReferenceNumberGeneratorService::generateReferenceNumber(WorkflowModules::FUEL_REQUISITION);
 
         $areaCode = $user->area_code ?? 'LR';
         $requisitionType = 'seq_store_req';
-        //$procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
-        $procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
+        $procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
+        //$procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
         if (empty($procurementRef)) {
             throw new FuelRequisitionException(ErrorMessages::storesRequisitionFailed());
         }
 
         Log::info('Stores Requisition ' . $procurementRef);
 
-        /*$processDetails = $this->workflowService->startWorkflowProcess(
+        $processDetails = $this->workflowService->startWorkflowProcess(
             $documentRef,
             WorkflowProcessCodes::FuelRequisition->value,
             WorkflowActions::submit(),
             $requisitionPostRequest->get('justification'),
             $user
-        );*/
+        );
 
         $message = !empty($documentRef) ?
             ' With Approval Reference ' . $documentRef : '';
@@ -222,13 +223,23 @@ class FuelRequisitionService
     /**
      * @throws FuelRequisitionException
      */
-    public function validateCurrentOdometerAgainstInitial($registration_number, $currentOdometer)
+    public function validateCurrentOdometerAgainstInitial($registration_number, $currentOdometer): bool
     {
 
-        $vehicle = VehicleHeader::where('registration_number', trim($registration_number))->first();
-        $chassisDetail = ChassisDetail::where('vehicle_header_id', '=', $vehicle->id)->first();
+        /*$vehicle = VehicleHeader::
+        where('registration_number', trim($registration_number))->first();
+        $chassisDetail = ChassisDetail::where('vehicle_header_id', '=', $vehicle->id)->first();*/
 
-        if ($chassisDetail->initial_odometer_reading > $currentOdometer) {
+        $vehicleDetail = DB::table('VM_VEHICLE_HEADER')
+            ->join('VM_CHASSIS_DETAILS',
+                'VM_VEHICLE_HEADER.id',
+                '=',
+                'VM_CHASSIS_DETAILS.vehicle_header_id')
+            ->where('VM_VEHICLE_HEADER.registration_number', trim($registration_number))
+            ->select('VM_VEHICLE_HEADER.*', 'VM_CHASSIS_DETAILS.initial_odometer_reading')
+            ->get();
+
+        if ($vehicleDetail->initial_odometer_reading > $currentOdometer) {
             throw new FuelRequisitionException(ErrorMessages::invalidCurrentOdometerreading(), 0);
         }
 
@@ -242,11 +253,19 @@ class FuelRequisitionService
      */
     public function validateVehicleResponsibleUserStatus($vehicleReference): void
     {
-        $vehicle = VehicleHeader::where('registration_number', '=', $vehicleReference)->first();
+        $vehicleDetail = DB::table('VM_VEHICLE_HEADER')
+            ->join('VM_ASSIGNMENTS',
+                'VM_VEHICLE_HEADER.id',
+                '=',
+                'VM_ASSIGNMENTS.vehicle_header_id')
+            ->where('VM_VEHICLE_HEADER.registration_number', trim($vehicleReference))
+            ->select('VM_VEHICLE_HEADER.*', 'VM_ASSIGNMENTS.responsible_head_id')
+            ->get();
 
-        $assignment = Assignment::where('vehicle_header_id', '=', $vehicle->id)->first();
+        //$vehicle = VehicleHeader::where('registration_number', '=', $vehicleReference)->first();
+        //$assignment = Assignment::where('vehicle_header_id', '=', $vehicle->id)->first();
 
-        $responsibleHead = User::where('staff_no', '=', $assignment->responsible_head_id)->first();
+        $responsibleHead = User::where('staff_no', '=', $vehicleDetail->responsible_head_id)->first();
 
         if (empty($responsibleHead) || $responsibleHead->con_st_code != StatusHelper::activeUser()) {
             throw new FuelRequisitionException(ErrorMessages::responsibleUserNotActive, 0);

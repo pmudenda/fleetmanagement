@@ -23,7 +23,23 @@ class DriverOnboardingRequest extends FormRequest
     public function rules(): array
     {
         return [
-
+            'employee_number' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'grade' => 'required|string|max:3',
+            'job_title' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'department' => 'required|string|max:255',
+            'license_number' => 'required|string|max:255',
+            'license_date_issued' => 'required|date_format:Y-m-d',
+            'license_date_expiry' => 'required|date_format:Y-m-d',
+            'license_class' => 'required|string|max:255',
+            'license_front_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff',
+            'license_back_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff',
+            'isDesignatedDriver' => 'required|string',
+            'permit_number' => 'required|string',
+            'permit_date_issued' => 'required|dateformat|d-m-Y',
+            'permit_date_expiry' => 'required|dateformat|d-m-Y',
+            'permit_copy' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf',
         ];
     }
 }
