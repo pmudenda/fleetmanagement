@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Workflow;
 
 use App\Http\Controllers\Controller;
-use App\Models\Workflow\WorkflowTask;
+use App\Models\Workflow\WorkflowTaskHeader;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -15,7 +15,7 @@ class WorkflowController extends Controller
 {
     public function showWorkTask(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $workTask = WorkflowTask:: orderBy('created_at', 'ASC')->get();
+        $workTask = WorkflowTaskHeader:: orderBy('created_at', 'ASC')->get();
         return view('modules.workflow.approvals', compact(['workTask']))
             ->with('i', (request()->input('page', 1) - 1) * 10);
     }

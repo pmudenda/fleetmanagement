@@ -5,7 +5,7 @@ namespace App\Models\Workflow;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WorkflowTask extends Model
+class WorkflowTaskHeader extends Model
 {
     use HasFactory;
 

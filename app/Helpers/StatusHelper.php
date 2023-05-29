@@ -89,4 +89,13 @@ class StatusHelper
         return "027";
     }
 
+    public static function PendingApproval()
+    {
+    }
+
+    public static function closed(): string
+    {
+        return "022";
+    }
+
 }
