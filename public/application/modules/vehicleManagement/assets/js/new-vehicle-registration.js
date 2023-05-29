@@ -508,7 +508,7 @@ let app = new Vue({
         });*/
 
         Inputmask({
-            "mask": "AAA 9999"
+            "mask": "AAA 9{1,4}"
         }).mask("#registrationNumber");
 
         Inputmask({
@@ -591,7 +591,6 @@ let app = new Vue({
                         // Fetch the first page
                         var pageNumber = 1;
                         pdf.getPage(pageNumber).then(function (page) {
-                            console.log('Page loaded');
 
                             var scale = 1.5;
                             var viewport = page.getViewport({scale: scale});
@@ -2605,5 +2604,5 @@ function checkOnboardingHeaderStatus() {
     if (window.reference) {
         window.getRegistrationDetails(window.reference);
     }
-})(window.tmsApp || {}, jQuery);
+})  (window.tmsApp || {}, jQuery);
 

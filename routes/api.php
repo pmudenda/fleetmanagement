@@ -1,16 +1,7 @@
 <?php
 
-use App\Http\Controllers\API\BusinessUnitsController;
-use App\Http\Controllers\API\CostCenterController;
-use App\Http\Controllers\API\OrganizationalUnitsController;
-use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\API\RoadTransportSafetyAgencyIntegrationController;
-use App\Http\Controllers\Configurations\ConfigVehicleBrandsController;
-use App\Http\Controllers\Configurations\VehicleBodyTypesController;
-use App\Http\Controllers\OrganizationStructure\BusinessAreasController;
-use App\Http\Controllers\OrganizationStructure\DirectoratesController;
-use App\Http\Controllers\VehicleManagement\VehicleModelsController;
-use App\Models\Security\User;
+use App\Models\reference\GtaVehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -32,3 +23,23 @@ Route::middleware('auth=>sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('license-verification', [RoadTransportSafetyAgencyIntegrationController::class, 'verifyLicenseDetails'])->name('license.details.verification');
+
+Route::post('find/vehicle', function (Request $request) {
+
+    try {
+        $vehicle = GtaVehicle::where('matricula', $request->get('reg_num'))->get();
+        return response()->json([
+            'success' => !empty($vehicle),
+            'payload' => $vehicle
+        ]);
+    } catch (Exception $e) {
+        Log::error($e);
+        return response()->json([
+            'success' => false,
+            'payload' => [],
+            'message' => 'We could not complete processing your request, please try again later'
+        ]);
+    }
+})->name('cleanup.vehicle.find');
+
+
