@@ -103,13 +103,13 @@ class WorkflowService
         //'date_acted'
         WorkflowTaskHeader::Create([
             'assigned_user' => $assignToUser->con_per_no,
-            'subject' => "You have received a fuel requisition approval task -" . $taskReference,
+            'subject' => "Approval Task -" . $taskReference,
             //'message' => ,
             'status' => StatusHelper::new(),
             'url' => $actionPage,
             'reference' => $taskReference,
             'priority' => Priority::high(),
-            'description' => '',
+            'description' => 'You have received a fuel requisition approval task ',
             'sender' => 'SYSTEM',
             'created_by' => $currentUser->id,
             'date_acted' => Carbon::now()
