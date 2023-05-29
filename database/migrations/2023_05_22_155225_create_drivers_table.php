@@ -24,7 +24,6 @@ return new class extends Migration {
             $table->string('permit_number', 25);
             $table->date('permit_date_issued');
             $table->date('permit_date_expiry');
-            $table->date('id_designated');
             $table->timestamps();
         });
     }

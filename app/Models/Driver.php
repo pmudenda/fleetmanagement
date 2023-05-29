@@ -25,7 +25,6 @@ class Driver extends Model
         'permit_number',
         'permit_date_issued',
         'permit_date_expiry',
-        'id_designated',
         //'license_front',
         //'license_back',
         //'permit',

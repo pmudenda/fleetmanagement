@@ -360,7 +360,7 @@
                                                                             name="license_class"
                                                                             class="form-select">
                                                                             @foreach($licenseClasses as $licenseClass)
-                                                                                <option {{$licenseClass->code}}>{{$licenseClass->name}}</option>
+                                                                                <option value="{{$licenseClass->code}}">{{$licenseClass->name}}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>

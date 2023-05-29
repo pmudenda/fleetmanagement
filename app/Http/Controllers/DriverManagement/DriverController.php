@@ -49,12 +49,12 @@ class DriverController extends Controller
         );
 
         $model = Driver::create([
-            'name' => $request->get("name"),
+            'name' => $request->get("driver_name"),
             'staff_number' => $request->get("employee_number"),
             'grade' => $request->get("grade"),
             'position' => $request->get("job_title"),
             'location' => $request->get("location"),
-            'id_designated' => $request->get("isDesignatedDriver"),
+            'is_designated_driver' => $request->get("isDesignatedDriver"),
 
             'license_number' => $request->get("license_number"),
             'license_date_issued' => Carbon::parse($request->get("license_date_issued")),
