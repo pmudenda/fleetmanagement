@@ -639,7 +639,9 @@
                     let perWeekAllocation = vehicle.fuel_allocation * 7;
                     document.querySelector('[name="fuel_allocation"]').value = perWeekAllocation ?? 0;
                     document.querySelector('[name="material_quantity"]').value = perWeekAllocation ?? 0;
+
                     document.querySelector('[name="material_quantity"]').setAttribute('max', perWeekAllocation?.toString());
+                    document.querySelector('[name="material_quantity"]').setAttribute('data-max', perWeekAllocation?.toString());
                     document.querySelector('[name="material_quantity"]').setAttribute('min', vehicle.fuel_allocation);
 
                     $('#totalQty').text(tmsApp.numberFormat(perWeekAllocation));
@@ -976,8 +978,12 @@
             $('select[name="requisition_type"]').on('change', function () {
                 if (this.value === '011') {
                     $(".outOfTown").removeClass('d-none');
+                    document.querySelector('[name="material_quantity"]').removeAttribute('max');
                 } else {
                     $(".outOfTown").addClass('d-none');
+                    //data-max
+                    document.querySelector('[name="material_quantity"]')
+                        .setAttribute('max', document.querySelector('[name="material_quantity"]').getAttribute('data-max') );
                 }
             });
 

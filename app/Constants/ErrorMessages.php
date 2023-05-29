@@ -17,7 +17,7 @@ class ErrorMessages
     public final const internalServerError = 'We could not complete processing your request due to an error. Please Contact Fleet Master
                             System Administrator on ' . self::contact . ', ' . self::email . ', '. self::extension . " for technical assistance";
     const employeeNotFound = "Employee Not Found, Please check the Staff Number and try again";
-    const driverNotFound = 'No driver Found. Verify the input and ensure the employee was registered as an authorised driver.';
+    const driverNotFound = 'Driver with staff number @input was not found. Verify the input and ensure the employee was registered as an authorised driver.';
 
 
     public static function invalidCurrentOdometerReading(): string
