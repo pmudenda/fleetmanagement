@@ -129,7 +129,7 @@ class UsersController extends Controller
                         'location' => $employee_phcms->location ?? $employee_phcms->functional_section,
                         'pay_point' => $employee_phcms->pay_point,
                         'job_code' => $employee_phcms->job_code ?? "--",
-                        'station' => $employee_phcms->station ?? "--",
+                        //'station' => $employee_phcms->station ?? "--",
                         'affiliated_union' => $employee_phcms->affiliated_union ?? "--",
                         'area_code' => $request->get('business_area'),
                         //'extension' => '',
