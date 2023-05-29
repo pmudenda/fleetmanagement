@@ -128,7 +128,7 @@ class DriverController extends Controller
 
         $drivers = Driver::where('staff_number', '=', $searchParam)
             ->orWhere('name', 'LIKE', "%{$searchParam}%")
-            ->get();
+            ->first();
 
         if (empty($drivers)) {
             return response()->json([
