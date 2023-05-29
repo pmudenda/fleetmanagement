@@ -64,8 +64,10 @@ class WorkflowService
             'status' => StatusHelper::Submitted(),
             'action_date' => Carbon::now(),
             'next_step' => $stepAfterSubmission->step_id,
+            'previous_step' => '00',
             'remarks' => $comment
         ]);
+
 
         /****************************** Determine User to assign task ******************************************/
         //find user role required on step after submission
