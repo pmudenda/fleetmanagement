@@ -43,7 +43,7 @@ class UsersController extends Controller
         ));
     }
 
-    public function get(      $request): JsonResponse
+    public function get(Request $request): JsonResponse
     {
         $sortField = $request->input('sortField');
         $sortOrder = $request->input('sortOrder');

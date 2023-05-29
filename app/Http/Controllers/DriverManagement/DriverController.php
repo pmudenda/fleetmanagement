@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DriverOnboardingRequest;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\Driver;
+use App\Models\Security\Role;
+use App\Models\Security\User;
 use App\Models\Workflow\WorkflowModules;
 use App\Services\FileUploads\FileUploadService;
 use App\Services\Workflow\ReferenceNumberGeneratorService;
@@ -105,6 +107,13 @@ class DriverController extends Controller
             'payload' => $model,
             'message' => 'Driver Onboarded Successfully'
         ]);
+    }
+
+    public function show(Driver $user): Factory|View|Application
+    {
+        //$roles = Role::all();
+        return view('modules.driverManagement.show')
+            ->with(compact('user'));
     }
 
     public function driverList(): View|\Illuminate\Foundation\Application|Factory|Application

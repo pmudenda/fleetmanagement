@@ -213,6 +213,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('driver/save', [DriverController::class, 'store'])->name('save.driver');
 
+        Route::post('driver/save', [DriverController::class, 'show'])->name('driver.show');
+
         Route::get('driver/list', [DriverController::class, 'driverList'])->name('driver.list');
 
         Route::post('driver/find', [DriverController::class, 'findDriver'])->name('driver.search');
