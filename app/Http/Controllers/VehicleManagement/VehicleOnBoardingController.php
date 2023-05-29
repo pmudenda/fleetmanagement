@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\VehicleManagement;
 
 use App\Constants\ErrorMessages;
+use App\Constants\SystemMessages;
 use App\Exceptions\VehicleOnBoardingException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
@@ -170,13 +171,13 @@ class VehicleOnBoardingController extends Controller
                 'request' => $request->all(),
                 'payload' => $model,
                 'redirectUrl' => route('vehicles.list', ['onboarding-complete' => 'yes']),
-                'message' => 'Vehicle Onboarded Successfully. You will now be redirected to vehicle Register'
+                'message' => SystemMessages::onboardingComplete
             ]);
 
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::internalServerError;
-            //'Sorry, some errors were detected while processing your vehicle onboarding request, please try again later.';
+
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -232,12 +233,11 @@ class VehicleOnBoardingController extends Controller
                     'step' => 3,
                     'reference' => $model->vehicle_header_id
                 ]),
-                'message' => 'Vehicle General Data Processed Successfully'
+                'message' => SystemMessages::generalDataProcessed
             ]);
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::internalServerError;
-            //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }

@@ -335,6 +335,7 @@
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="date"
+                                                                               min="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
                                                                                class="form-control form-control-sm"
                                                                                id="license_date_expiry"
                                                                                name="license_date_expiry" required>
@@ -564,6 +565,7 @@
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="date"
+                                                                               min="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
                                                                                class="form-control form-control-sm"
                                                                                id="permit_date_expiry"
                                                                                name="permit_date_expiry"
@@ -697,7 +699,7 @@
         }
 
         function verifyingDriverLicense() {
-            window.loaderMessage = "Verifying License Number with RTSA, Please wait";
+
             setTimeout(function () {
                 tmsApp.asyncPostJson(
                     document.querySelector("#rtsaLicenseVerificationEndPoint").value,
@@ -816,7 +818,7 @@
                 if (!this.value || this.value.replaceAll("_", '').length < 8) {
                     return;
                 }
-
+                window.loaderMessage = "Verifying License Number with RTSA, Please wait";
                 setTimeout(function () {
                     verifyingDriverLicense();
                 }, 300);

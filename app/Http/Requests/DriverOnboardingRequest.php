@@ -37,8 +37,8 @@ class DriverOnboardingRequest extends FormRequest
             'license_back_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff',
             'isDesignatedDriver' => 'required|string',
             'permit_number' => 'required|string',
-            'permit_date_issued' => 'required|dateformat|d-m-Y',
-            'permit_date_expiry' => 'required|dateformat|d-m-Y',
+            'permit_date_issued' => 'required|dateformat|Y-m-d',
+            'permit_date_expiry' => 'required|dateformat|Y-m-d',
             'permit_copy' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf',
         ];
     }

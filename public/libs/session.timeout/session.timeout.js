@@ -205,7 +205,7 @@ $(document).ready(function () {
         }, 1000);
     };
     window.displayTimeLeft = function (timeLeft) {
-        console.log("Calling Display Time Left");
+        //console.log("Calling Display Time Left");
         let minutes = Math.floor(timeLeft / 60);
         let seconds = timeLeft % 60;
         window.displayOutput.textContent = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;

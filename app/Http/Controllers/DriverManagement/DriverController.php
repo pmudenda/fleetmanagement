@@ -12,6 +12,7 @@ use App\Models\Driver;
 use App\Models\Workflow\WorkflowModules;
 use App\Services\FileUploads\FileUploadService;
 use App\Services\Workflow\ReferenceNumberGeneratorService;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -56,13 +57,14 @@ class DriverController extends Controller
             'id_designated' => $request->get("isDesignatedDriver"),
 
             'license_number' => $request->get("license_number"),
-            'license_date_issued' => $request->get("license_date_issued"),
-            'license_date_expiry' => $request->get("license_date_expiry"),
+            'license_date_issued' => Carbon::parse($request->get("license_date_issued")),
+            'license_date_expiry' => Carbon::parse($request->get("license_date_expiry")),
             'license_category' => $request->get("license_class"),
             'on_boarding_reference' => $on_boarding_reference,
             'permit_number' => $request->get("permit_number"),
-            'permit_date_issued' => $request->get("permit_date_issued"),
-            'permit_date_expiry' => $request->get("permit_date_expiry"),
+
+            'permit_date_issued' => Carbon::parse($request->get("permit_date_issued")),
+            'permit_date_expiry' => Carbon::parse($request->get("permit_date_expiry")),
 
             'status' => StatusHelper::active(),
             'created_by' => $user->id,
