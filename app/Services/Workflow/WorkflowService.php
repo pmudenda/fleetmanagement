@@ -8,6 +8,7 @@ use App\Helpers\Priority;
 use App\Helpers\StatusHelper;
 use App\Models\reference\PHCMSEmployee;
 use App\Models\Security\User;
+use App\Models\Workflow\WorkflowActions;
 use App\Models\Workflow\WorkflowLog;
 use App\Models\Workflow\WorkflowProcess;
 use App\Models\Workflow\WorkflowStep;
@@ -58,8 +59,8 @@ class WorkflowService
             'reference' => $taskReference,
             'step_id' => $process_first_step->step_id,
             'actioning_officer' => $currentUser->staff_no,
-            //'action' => WorkflowActions::Submit(),
-            'action' => "Create Document",
+            'action' => WorkflowActions::Submit(),
+            //'action' => "Create Document",
             'status' => StatusHelper::Submitted(),
             'action_date' => Carbon::now(),
             'next_step' => $stepAfterSubmission->step_id,
