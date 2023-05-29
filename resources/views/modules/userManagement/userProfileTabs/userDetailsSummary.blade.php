@@ -63,10 +63,10 @@
                 <strong>Grade:</strong>
                 {{ $user->grade ?? '' }}
             </p>
-            <p class="text-muted">
+            {{--<p class="text-muted">
                 <strong>Category:</strong>
                 {{ $user->grade->category->name ?? '' }}
-            </p>
+            </p>--}}
             <p class="text-muted">
                 <strong>User Position:</strong>
                 {{ $user->job_title ?? '' }}

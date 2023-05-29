@@ -110,10 +110,14 @@
                                             {{$user->license_date_expiry}}
                                         </td>
                                         <td>
-                                            @if($user->con_st_code == '01')
-                                                Active
+                                            @if($user->status == '01')
+                                                <span class="badge badge-success">
+                                                    Active
+                                                </span>
                                             @else
-                                                {{$user->con_st_code ?? '--'}}
+                                                <span class="badge badge-success">
+                                                    Inactive
+                                                </span>
                                             @endif
                                         </td>
                                         {{--@can(config('rights.user_show'))--}}
