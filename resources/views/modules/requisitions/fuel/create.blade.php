@@ -796,7 +796,7 @@
                 }, 300);
             });
 
-            $('#driver_staff_number').on('keyup change paste enter', function () {
+            $('#driver_staff_number').on('keyup paste enter', function () {
                 if (!this.value || this.value.length < 5) {
                     return;
                 }
@@ -806,12 +806,12 @@
             });
 
             $('#employeeSearchBtn').on('click', function () {
-                if (!this.value || this.value.length < 5) {
+                if (!document.querySelector("#driver_staff_number").value
+                    || document.querySelector("#driver_staff_number").value.length < 5) {
+                    toastr.warning('Invalid Employee Id Number')
                     return;
                 }
-                if (!document.querySelector('#driver_staff_number').value || document.querySelector('#driver_staff_number') < 8) {
-                    return;
-                }
+
                 setTimeout(function () {
                     findEmployee();
                 }, 300);

@@ -21,7 +21,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class DriverController extends Controller
 {
@@ -125,6 +125,7 @@ class DriverController extends Controller
     public function findDriver(Request $request): JsonResponse
     {
         $searchParam = strtoupper(trim($request->searchCriteria));
+
         $drivers = Driver::where('staff_number', '=', $searchParam)
             ->orWhere('name', 'LIKE', "%{$searchParam}%")
             ->get();
