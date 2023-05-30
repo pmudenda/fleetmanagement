@@ -19,7 +19,7 @@
     <table id="dataTable" class="table table-hover table">
         <thead class="">
         <tr class="bg-dark">
-            <th>Profile</th>
+            <th class="pl-2">Profile</th>
             <th>User</th>
             <th>Signature</th>
             <th>Activity</th>
@@ -33,7 +33,7 @@
         @if(!empty($approvals))
             @foreach($approvals as $key => $item)
                 <tr>
-                    <td>
+                    <td class="pl-2">
                         @if(!empty($item->name) && $item->name === 'System')
                             <i class="fas fa-cog" style="font-size: 35px;"></i>
                         @else

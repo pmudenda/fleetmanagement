@@ -82,11 +82,15 @@
         const action = settings.options['action'];
 
         if (action === 'approve') {
-            document.querySelector("#approveSelectedPass").setAttribute('checked', 'checked');
-            document.querySelector("#approveSelectedFail").removeAttribute('checked');
+            document.querySelector("#approveSelectedPass").checked = true;
+            document.querySelector("#approveSelectedFail").checked = false;
+            $("#approvalModalTitle").html('<i class="fa fa-pencil-square-o"></i> Approve Requisition');
+            $("#remarksTitle").text('Approve Remarks');
         } else {
-            document.querySelector("#approveSelectedFail").setAttribute('checked', 'checked');
-            document.querySelector("#approveSelectedPass").removeAttribute('checked');
+            document.querySelector("#approveSelectedFail").checked = true;
+            document.querySelector("#approveSelectedPass").checked = false;
+            $("#approvalModalTitle").html('<i class="fa fa-pencil-square-o"></i>Reject Requisition');
+            $("#remarksTitle").text('Rejection Remarks');
         }
 
         if (settings['approvals']) {

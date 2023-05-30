@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-md modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title">
+                <div class="modal-title" id="approvalModalTitle">
                     <i class="fa fa-pencil-square-o"></i> Approval
                 </div>
             </div>
@@ -18,7 +18,7 @@
                             Sign As Different User...
                         </div>
                         <div style="clear:both;">
-                            <label class="app-label">Comments</label>
+                            <label class="app-label" id="remarksTitle">Comments</label>
                             <div>
                             <textarea id="newApproval_Remarks"
                                       class="form-control" cols="35"
