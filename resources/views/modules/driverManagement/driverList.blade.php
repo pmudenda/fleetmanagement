@@ -66,7 +66,7 @@
                                         <th>Permit Expiry</th>
                                         <th>Status</th>
                                         {{--@can(config('rights.user_show'))--}}
-                                        <th>Action</th>
+                                        {{--<th>Action</th>--}}
                                         {{--@endcan--}}
                                     </tr>
                                     </thead>
@@ -124,12 +124,12 @@
                                                 @endif
                                             </td>
                                             {{--@can(config('rights.user_show'))--}}
-                                            <td>
+                                            {{--<td>
                                                 <a href="{{route('driver.show', $user->id)}}"
                                                    class="btn btn-sm btn-success m-1">
                                                     <i class="fas fa-eye">Details</i>
                                                 </a>
-                                            </td>
+                                            </td>--}}
                                             {{-- @endcan--}}
                                         </tr>
                                     @endforeach
