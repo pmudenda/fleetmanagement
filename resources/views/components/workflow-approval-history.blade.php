@@ -98,7 +98,7 @@
                     <td>{{$item->created_at}}</td>
                     <td>
                         {{
-                         $approvals->created_at->diffAsCarbonInterval($item->action_date)
+                         $item->created_at->diffAsCarbonInterval($item->action_date)
                         }}
                     </td>
                 </tr>
