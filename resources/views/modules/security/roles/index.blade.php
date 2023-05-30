@@ -1,5 +1,5 @@
 @php use Carbon\Carbon; @endphp
-@extends('layouts.tasks.layout')
+@extends('layouts.app')
 
 
 @push('styles')

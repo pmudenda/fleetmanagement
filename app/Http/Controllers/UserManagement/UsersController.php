@@ -262,7 +262,7 @@ class UsersController extends Controller
         $development = false;
         try {
 
-            if($development){
+            if ($development) {
                 $searchParam = $request->searchCriteria;
                 $apiURL = 'http://dev.zesco.co.zm/ezesco_forms/public/api/users';
                 $headers = [
@@ -278,7 +278,7 @@ class UsersController extends Controller
                 ]);
             }
 
-            $searchParam = trim($request->searchCriteria);
+            $searchParam = strtoupper(trim($request->searchCriteria));
             $dataset = PHCMSEmployee::select('*')
                 ->where('con_per_no', $searchParam)
                 ->orWhere('name', 'LIKE', "%{$searchParam}%")

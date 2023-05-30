@@ -1,4 +1,4 @@
-@extends('layouts.tasks.layout')
+@extends('layouts.app')
 
 
 @push('styles')
