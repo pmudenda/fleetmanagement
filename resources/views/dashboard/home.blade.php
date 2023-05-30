@@ -1,4 +1,4 @@
-@php use App\Models\MaterialHeader;use Carbon\Carbon; @endphp
+@php use App\Models\MaterialHeader;use App\Models\Workflow\WorkflowTaskHeader;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
 @push('styles')
@@ -9,7 +9,7 @@
 @endpush
 
 @section('content')
-    <x-content-header :pageTitle="'Dashboard'" />
+    <x-content-header :pageTitle="'Dashboard'"/>
     <section class="content">
         <div class="container-fluid">
 
@@ -203,7 +203,8 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="listTable" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
+                                <table id="listTable"
+                                       class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
                                     <thead>
                                     <tr>
                                         <th>Reference</th>
@@ -215,7 +216,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach(\App\Models\Workflow\WorkflowTaskHeader::get() as $rec)
+                                    @foreach(WorkflowTaskHeader::where('assigned_user','=', auth()->user()->staff_no)->get() as $rec)
                                         <tr>
                                             <td>
                                                 <a href="{{URL::signedRoute('show.fuel.requisition', ['ref'=>  $rec->reference])}}">

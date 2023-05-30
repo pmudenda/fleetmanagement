@@ -8,6 +8,7 @@ use App\Enums\RequisitionTypes;
 use App\Enums\VehicleStatusEnum;
 use App\Enums\WorkflowProcessCodes;
 use App\Exceptions\FuelRequisitionException;
+use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Models\MaterialDetail;
@@ -47,7 +48,7 @@ class FuelRequisitionService
 
 
     /**
-     * @throws FuelRequisitionException
+     * @throws FuelRequisitionException|WorkflowTaskCreationFailedException
      */
     public function processRequest(FuelRequisitionPostRequest $requisitionPostRequest): JsonResponse
     {
@@ -106,9 +107,9 @@ class FuelRequisitionService
                 } else {
 
                     // fully issued
-                    if(RequisitionTypes::Normal == $latestPreviousRequisition->requisition_type
+                    if (RequisitionTypes::Normal == $latestPreviousRequisition->requisition_type
                         || RequisitionTypes::Override == $latestPreviousRequisition->requisition_type
-                    ){
+                    ) {
                         $this->checkIfPreviousRequisitionPeriodElapsed($latestPreviousRequisition, $valid_from);
                     }
 
@@ -140,7 +141,7 @@ class FuelRequisitionService
 
                     //cancel associated task
                     $this->workflowService->cancelProcessTask($latestPreviousRequisition->req_no);
-                }else{
+                } else {
                     // validate odometer against last issue
                     $this->validateOdometerAgainstLastIssue($latestPreviousRequisition, $requisitionPostRequest);
                 }
@@ -369,6 +370,27 @@ class FuelRequisitionService
             ->get();
 
         return $results->first();
+
+    }
+
+    public function processFuelRequisitionApproval(string $reference, $isApproved, $remarks)
+    {
+        $requisitionDetail = self::getRequisitionDetail($reference);
+
+        $stockRequisitionNumber = ReferenceNumberGeneratorService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
+
+        $results = $this->procurementService->createStoresRequisition(
+            $reference,
+            $requisitionDetail->veh_reg_no,
+            $stockRequisitionNumber,
+            '6120301',
+            '01',
+            '',
+            '',
+            ''
+        );
+
+        Log::info("JNumber Generated with document" . $results);
 
     }
 }

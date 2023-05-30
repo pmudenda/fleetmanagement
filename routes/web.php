@@ -192,7 +192,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/cleanup/assignation/list', [VehicleController::class, 'cleanUpList'])->name('vehicle.migration.list');
     });
 
-    Route::post('/workflow/approve', [WorkflowController::class, 'approve'])->name('workflow.approve');
+    Route::post('/workflow/approve', [WorkflowController::class, 'processFuelRequsitionApproval'])->name('workflow.approve');
 
     Route::group(['prefix' => 'workshop-management'], function () {
 
