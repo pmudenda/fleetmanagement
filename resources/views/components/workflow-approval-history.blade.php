@@ -14,7 +14,7 @@
         </button>
     </div>
 </div>
-<div class="card-body pt-0">
+<div class="card-body pt-0 px-0">
 
     <table id="dataTable" class="table table-hover table">
         <thead class="">
