@@ -85,7 +85,7 @@
             document.querySelector("#approveSelectedPass").checked = true;
             document.querySelector("#approveSelectedFail").checked = false;
             $("#approvalModalTitle").html('<i class="fa fa-pencil-square-o"></i> Approve Requisition');
-            $("#remarksTitle").text('Approve Remarks');
+            $("#remarksTitle").text('Approval Remarks');
         } else {
             document.querySelector("#approveSelectedFail").checked = true;
             document.querySelector("#approveSelectedPass").checked = false;

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('GEN_MATERIAL_HEADERS', function (Blueprint $table) {
             $table->id();
-            $table->string('proc_ref');
+            $table->string('proc_ref')->nullable();
             $table->string('req_no');
             $table->string('veh_reg_no')->nullable();
             $table->timestamp('valid_date_from')->nullable();

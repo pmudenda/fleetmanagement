@@ -12,8 +12,8 @@ class ProcurementSystemIntegrationService
         $doc_no,
         $veh_reg_no,
         $stores_requisition_number,
-        $account = '6120301',
-        $transactionType = '01',
+        $account,
+        $transactionType,
         $stores_code = '',
         $job_card_no = '',
         $delivery_site = ''
@@ -25,7 +25,7 @@ class ProcurementSystemIntegrationService
                 'select fn_create_stores_req (:p_ref_no,:p_reg_no,:p_store_code,:p_user_requesting,
                     :p_job_card,:p_system_origin,:p_fleet_req_code,
                     :p_req_acc_number,:p_delivery_site,
-                    :p_transaction_type,:p_current_user,
+                    :p_transaction_type,:p_current_user
                     ) as value from dual',
                 [
                     'p_ref_no' => $doc_no,

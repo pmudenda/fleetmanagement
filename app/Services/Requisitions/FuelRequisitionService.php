@@ -179,7 +179,6 @@ class FuelRequisitionService
         }
 
         //$maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption) + $requisitionPostRequest->odometer_reading;
-
         //Log::info($maximumDistance . ' distance is');
 
         Log::info($registrationNumber);
@@ -188,35 +187,27 @@ class FuelRequisitionService
 
         $user = Auth()->user();
 
-        $documentRef = ReferenceNumberGeneratorService::generateReferenceNumber(WorkflowModules::FUEL_REQUISITION);
+        $requisition_reference_number = ReferenceNumberGeneratorService::generateReferenceNumber(WorkflowModules::FUEL_REQUISITION);
 
-        $areaCode = $user->area_code ?? 'LR';
-        $requisitionType = 'seq_store_req';
-        $procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
+        $form_order_number = ReferenceNumberGeneratorService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
 
-        //$procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
-        if (empty($procurementRef)) {
-            throw new FuelRequisitionException(ErrorMessages::storesRequisitionFailed());
-        }
-
-        Log::info('Stores Requisition ' . $procurementRef);
+        //Log::info('Stores Requisition ' . $procurementRef);
 
         $processDetails = $this->workflowService->startWorkflowProcess(
-            $documentRef,
+            $requisition_reference_number,
             WorkflowProcessCodes::FuelRequisition->value,
             WorkflowActions::submit(),
             $requisitionPostRequest->get('justification'),
             $user
         );
 
-        $message = !empty($documentRef) ?
-            ' With Approval Reference ' . $documentRef : '';
+        //$message = !empty($requisition_reference_number) ? ' With Approval Reference ' . $requisition_reference_number : '';
 
         MaterialHeader::create(
             [
-                'proc_ref' => $procurementRef,
-                'st_pur' => $procurementRef,
-                'req_no' => $documentRef,
+                'req_no' => $requisition_reference_number,
+                'form_order' => $form_order_number,
+                'status' => StatusHelper::new(),
                 'item_type' => ItemTypes::StockItem,
                 'veh_reg_no' => $registrationNumber,
                 'cost_centre' => $requisitionPostRequest->get('cost_centre_code'),
@@ -229,7 +220,6 @@ class FuelRequisitionService
                 'created_by' => $user->id,
                 'requested_by' => $user->name,
                 'comments' => $requisitionPostRequest->justification,
-                'status' => '021',
                 'requisition_type' => $requisitionPostRequest->requisition_type,
                 'cost_assigned_to' => $requisitionPostRequest->CostAssignedTo == 'CostCenterBasedRequisition' ? 'CostCenter' : 'Project'
             ]
@@ -238,7 +228,7 @@ class FuelRequisitionService
         MaterialDetail::create([
             'created_by' => $user->id,
             'date_created' => Carbon::now(),
-            'req_no' => $documentRef,
+            'req_no' => $requisition_reference_number,
             'material_code' => $requisitionPostRequest->material_article_code,
             'quantity' => $requisitionPostRequest->material_quantity,
             'unit_of_measure' => $requisitionPostRequest->unit_of_measure,
@@ -258,8 +248,8 @@ class FuelRequisitionService
 
         return response()->json([
             'success' => true,
-            'message' => 'Requisition Submitted Successfully. Requisition Number ' . $documentRef,
-            'redirectUrl' => URL::signedRoute('show.fuel.requisition', ['ref' => $documentRef])
+            'message' => 'Requisition Submitted Successfully. Requisition Number ' . $requisition_reference_number,
+            'redirectUrl' => URL::signedRoute('show.fuel.requisition', ['ref' => $requisition_reference_number])
         ]);
     }
 
@@ -377,18 +367,33 @@ class FuelRequisitionService
     {
         $requisitionDetail = self::getRequisitionDetail($reference);
 
-        $stockRequisitionNumber = ReferenceNumberGeneratorService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
+        //$areaCode = auth()->user()->area_code ?? 'LR';
+        //$requisitionType = 'seq_store_req';
+
+        //generate j number
+        //$procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
+
+        //$procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
+        /*if (empty($procurementRef)) {
+            throw new FuelRequisitionException(ErrorMessages::storesRequisitionFailed());
+        }*/
+
 
         $results = $this->procurementService->createStoresRequisition(
             $reference,
             $requisitionDetail->veh_reg_no,
-            $stockRequisitionNumber,
+            $requisitionDetail->document_no,
             '6120301',
             '01',
             '',
             '',
             ''
         );
+
+        MaterialHeader::where('req_no', $reference)->update([
+                'proc_ref' => '',
+                'st_pur' => ''
+            ]);
 
         Log::info("JNumber Generated with document" . $results);
 
