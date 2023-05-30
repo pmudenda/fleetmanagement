@@ -627,184 +627,185 @@
     @include('layouts.partials.dataTableScripts')
     <!-- page script -->
     <script>
+        (function (tmsApp, $) {
+            function ImageUpload() {
+                const selector = '.fileElem';
 
-        function ImageUpload() {
-            const selector = '.fileElem';
-
-            this.init = function () {
-                $(document).on('click', '[data-select="file"]', function () {
-                    let fileInput = $(this).closest('p').find('input[type="file"]');
-                    $(fileInput).trigger('click');
-                });
-
-                let fileSelects = [].slice.call(document.querySelectorAll(selector));
-                fileSelects.map(function (fileSelect) {
-                    fileSelect.addEventListener("change", (e) => {
-                        preview(e);
-                    }, false);
-                });
-
-                function preview(event) {
-                    //$('#frame').src = URL.createObjectURL(event.target.files[0]);
-                    let uploadFile = $(event.target);
-                    let self = event.target;
-                    let files = !!self.files ? self.files : [];
-                    if (!files.length || !window.FileReader) return;
-                    // no file selected, or no FileReader support
-
-                    if (/^image/.test(files[0].type)) {
-                        // only image file
-                        let reader = new FileReader();
-                        // instance of the FileReader
-                        reader.readAsDataURL(files[0]);
-                        // read the local file
-
-                        reader.onloadend = function () {
-                            // set image data as background of div
-                            uploadFile.closest("div").find('.imagePreview').css({
-                                "background-image": "url(" + this.result + ")", 'display': 'block'
-                            });
-                        }
-
-                        $(uploadFile).closest('div').find('p').addClass('d-none');
-                    } else {
-                        toastr.error('only image (.jpg, .jpeg, .png, .bmp) file types are allowed', 'Invalid File Format Selected')
-                    }
-                }
-
-                $(document).on('click', '.clearImage', function (event) {
-                    let btn = this;
-                    Swal.fire({
-                        text: "Are you sure you would like to remove the image?",
-                        icon: "warning",
-                        showCancelButton: true,
-                        buttonsStyling: false,
-                        confirmButtonText: "Yes, remove it!",
-                        cancelButtonText: "No, return",
-                        customClass: {
-                            confirmButton: "btn btn-primary", cancelButton: "btn btn-active-light"
-                        }
-                    }).then(function (result) {
-                        if (result.value) {
-                            $(btn).parent().css({
-                                "background-image": "", 'display': 'none'
-                            });
-                            // find the upload btn and make visible
-                            $(btn).parent().parent().find('p').removeClass('d-none');
-                        }
+                this.init = function () {
+                    $(document).on('click', '[data-select="file"]', function () {
+                        let fileInput = $(this).closest('p').find('input[type="file"]');
+                        $(fileInput).trigger('click');
                     });
 
-                });
+                    let fileSelects = [].slice.call(document.querySelectorAll(selector));
+                    fileSelects.map(function (fileSelect) {
+                        fileSelect.addEventListener("change", (e) => {
+                            preview(e);
+                        }, false);
+                    });
+
+                    function preview(event) {
+                        //$('#frame').src = URL.createObjectURL(event.target.files[0]);
+                        let uploadFile = $(event.target);
+                        let self = event.target;
+                        let files = !!self.files ? self.files : [];
+                        if (!files.length || !window.FileReader) return;
+                        // no file selected, or no FileReader support
+
+                        if (/^image/.test(files[0].type)) {
+                            // only image file
+                            let reader = new FileReader();
+                            // instance of the FileReader
+                            reader.readAsDataURL(files[0]);
+                            // read the local file
+
+                            reader.onloadend = function () {
+                                // set image data as background of div
+                                uploadFile.closest("div").find('.imagePreview').css({
+                                    "background-image": "url(" + this.result + ")", 'display': 'block'
+                                });
+                            }
+
+                            $(uploadFile).closest('div').find('p').addClass('d-none');
+                        } else {
+                            toastr.error('only image (.jpg, .jpeg, .png, .bmp) file types are allowed', 'Invalid File Format Selected')
+                        }
+                    }
+
+                    $(document).on('click', '.clearImage', function (event) {
+                        let btn = this;
+                        Swal.fire({
+                            text: "Are you sure you would like to remove the image?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            buttonsStyling: false,
+                            confirmButtonText: "Yes, remove it!",
+                            cancelButtonText: "No, return",
+                            customClass: {
+                                confirmButton: "btn btn-primary", cancelButton: "btn btn-active-light"
+                            }
+                        }).then(function (result) {
+                            if (result.value) {
+                                $(btn).parent().css({
+                                    "background-image": "", 'display': 'none'
+                                });
+                                // find the upload btn and make visible
+                                $(btn).parent().parent().find('p').removeClass('d-none');
+                            }
+                        });
+
+                    });
+                }
             }
-        }
 
-        function verifyingDriverLicense() {
+            function verifyingDriverLicense() {
 
-            setTimeout(function () {
-                tmsApp.asyncPostJson(
-                    document.querySelector("#rtsaLicenseVerificationEndPoint").value,
+                setTimeout(function () {
+                    tmsApp.asyncPostJson(
+                        document.querySelector("#rtsaLicenseVerificationEndPoint").value,
+                        {
+                            licenseNumber: $('[name="license_number"]').val(),
+                        },
+                        function (response) {
+                            window.loaderMessage = "Please wait...";
+                            if (!response.success) {
+                                toastr.error(response.message);
+                                return;
+                            }
+
+                            toastr.success(response.message);
+                        }, function (xhr, settings, error) {
+                            window.loaderMessage = "Please wait...";
+                            tmsApp.showErrorMessages(xhr, 'License Verification');
+                        }
+                    )
+                }, 1000);
+            }
+
+            function populateEmployeeDetails(response) {
+                let data = response;
+
+                if (!data.con_per_no) {
+                    tmsApp.showToast('User Not Found', 'error')
+                    return;
+                }
+                document.querySelector('[name="driver_name"]').value = data?.name;
+                document.querySelector('[name="grade"]').value = data?.grade;
+                document.querySelector('[name="job_title"]').value = data?.job_title;
+                document.querySelector('[name="location"]').value = data?.location;
+                document.querySelector('[name="department"]').value = data?.functional_section;
+                document.querySelector('[name="employee_number"]').value = data?.con_per_no;
+
+                //document.querySelector('[name="staff_email"]').value = data?.staff_email;
+
+
+                //document.querySelector('[name="cc_code"]').value = data?.cc_code;
+                //document.querySelector('[name="bu_code"]').value = data?.bu_code;
+                //document.querySelector('[name="cost_center_code"]').value = data?.cc_code;
+                //document.querySelector('[name="business_unit_code"]').value = data?.bu_code;
+                //document.querySelector('[name="login_name"]').value = data?.con_per_no;
+                //document.querySelector('[name="directorate"]').value = data?.directorate;
+                //document.querySelector('[name="mobile_no"]').value = data?.mobile_no;
+
+                document.querySelector('[name="nrc"]').value = data?.nrc;
+                document.querySelector('#actionButtonsContainer').style.display = null;
+            }
+
+            function findEmployee() {
+                const staff_number = document.querySelector('#staff_number').value
+                let formData = new FormData();
+                formData.append('searchCriteria', staff_number);
+
+                fetch(
+                    document.querySelector("#staff_number").getAttribute('data-action'),
                     {
-                        licenseNumber: $('[name="license_number"]').val(),
-                    },
-                    function (response) {
-                        window.loaderMessage = "Please wait...";
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: formData,
+                        referrer: window.baseUrl,
+                        mode: 'cors',
+                        credentials: 'same-origin',
+                    }
+                )
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+
+                        return response.json();
+                    })
+                    .then(response => {
+                        console.log(response);
+
                         if (!response.success) {
                             toastr.error(response.message);
                             return;
                         }
 
-                        toastr.success(response.message);
-                    }, function (xhr, settings, error) {
-                        window.loaderMessage = "Please wait...";
-                        tmsApp.showErrorMessages(xhr, 'License Verification');
-                    }
-                )
-            }, 1000);
-        }
+                        document.querySelector("#submitRequisitionBtn").removeAttribute('disabled');
 
-        function populateEmployeeDetails(response) {
-            let data = response;
+                        let optionListStr = '';
+                        if (Array.isArray(response.payload)) {
+                            response.payload.forEach(function (item) {
+                                optionListStr += `<option value="${item['con_per_no']}">${item['con_per_no']} =>${item.name}</option>`;
+                            })
 
-            if (!data.con_per_no) {
-                tmsApp.showToast('User Not Found', 'error')
-                return;
+                            $('#employee_list').html(optionListStr);
+                            return;
+                        }
+
+                        populateEmployeeDetails(response.payload);
+                    })
+                    .catch(function (error) {
+                        tmsApp.showErrorMessages('', '');
+                    });
             }
-            document.querySelector('[name="driver_name"]').value = data?.name;
-            document.querySelector('[name="grade"]').value = data?.grade;
-            document.querySelector('[name="job_title"]').value = data?.job_title;
-            document.querySelector('[name="location"]').value = data?.location;
-            document.querySelector('[name="department"]').value = data?.functional_section;
-            document.querySelector('[name="employee_number"]').value = data?.con_per_no;
-
-            //document.querySelector('[name="staff_email"]').value = data?.staff_email;
 
 
-            //document.querySelector('[name="cc_code"]').value = data?.cc_code;
-            //document.querySelector('[name="bu_code"]').value = data?.bu_code;
-            //document.querySelector('[name="cost_center_code"]').value = data?.cc_code;
-            //document.querySelector('[name="business_unit_code"]').value = data?.bu_code;
-            //document.querySelector('[name="login_name"]').value = data?.con_per_no;
-            //document.querySelector('[name="directorate"]').value = data?.directorate;
-            //document.querySelector('[name="mobile_no"]').value = data?.mobile_no;
-
-            document.querySelector('[name="nrc"]').value = data?.nrc;
-            document.querySelector('#actionButtonsContainer').style.display = null;
-        }
-
-        function findEmployee() {
-            const staff_number = document.querySelector('#staff_number').value
-            let formData = new FormData();
-            formData.append('searchCriteria', staff_number);
-
-            fetch(
-                document.querySelector("#staff_number").getAttribute('data-action'),
-                {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    body: formData,
-                    referrer: window.baseUrl,
-                    mode: 'cors',
-                    credentials: 'same-origin',
-                }
-            )
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-
-                    return response.json();
-                })
-                .then(response => {
-                    console.log(response);
-
-                    if (!response.success) {
-                        toastr.error(response.message);
-                        return;
-                    }
-
-                    document.querySelector("#submitRequisitionBtn").removeAttribute('disabled');
-
-                    let optionListStr = '';
-                    if (Array.isArray(response.payload)) {
-                        response.payload.forEach(function (item) {
-                            optionListStr += `<option value="${item['con_per_no']}">${item['con_per_no']} =>${item.name}</option>`;
-                        })
-
-                        $('#employee_list').html(optionListStr);
-                        return;
-                    }
-
-                    populateEmployeeDetails(response.payload);
-                })
-                .catch(function (error) {
-                    tmsApp.showErrorMessages('', '');
-                });
-        }
 
 
-        (function (tmsApp, $) {
             new ImageUpload().init();
             Inputmask({
                 "mask": "99999999"
