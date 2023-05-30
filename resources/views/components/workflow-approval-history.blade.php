@@ -14,12 +14,12 @@
         </button>
     </div>
 </div>
-<div class="card-body">
+<div class="card-body pt-0">
 
     <table id="dataTable" class="table table-hover table">
         <thead class="">
-        <tr>
-            <th></th>
+        <tr class="bg-dark">
+            <th>Profile</th>
             <th>User</th>
             <th>Signature</th>
             <th>Activity</th>
@@ -37,23 +37,18 @@
                         @if(!empty($item->name) && $item->name === 'System')
                             <i class="fas fa-cog" style="font-size: 35px;"></i>
                         @else
-                            <img style="height:35px;"
-                                 src="{{asset('assets/media/avatars/avatar.png')}}"
-                                 class="img-circle elevation-2"
-                                 alt="User Image"/>
-                            {{--@if()
-                                 <img style="height:50px;"
-                                      src="{{asset('storage/user_avatar/'.Auth::user()->avatar)}}"
+                            @if(!empty($item->avatar))
+                                 <img style="height:35px;"
+                                      src="{{asset('storage/user_avatar/'.$item->avatar)}}"
                                       class="img-circle elevation-2"
                                       alt="User Image"
-                                      onerror="this.src='{{asset('dashboard/dist/img/avatar.png')}}';"
                                  >
                              @else
-                                 <img style="height:50px;"
-                                      src="{{asset('dashboard/dist/img/avatar.png')}}"
-                                      class="img-circle elevation-2"
-                                      alt="User Image"/>
-                             @endif--}}
+                                <img style="height:35px;"
+                                     src="{{asset('assets/media/avatars/avatar.png')}}"
+                                     class="img-circle elevation-2"
+                                     alt="User Image"/>
+                             @endif
                         @endif
                     </td>
                     <td style="text-transform: capitalize;">
