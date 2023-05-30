@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('created_by');
             $table->string('created_name');
             $table->timestamp('deleted_at')->nullable();
-
+            $table->string('barcode')->nullable();
             $table->timestamps();
         });
     }

@@ -104,7 +104,7 @@
                                                                                name="CostAssignedTo"
                                                                                value="CostCenterBasedRequisition"
                                                                                checked>
-                                                                        Cost Center
+                                                                        User Department
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -112,7 +112,7 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="cost_centre_code"
-                                                                   value="{{$costCenter->code_cost_center ?? ''}}"
+                                                                   value="{{$organizationalUnit->code_unit ?? ''}}"
                                                                    name="cost_centre_code"
                                                                    required readonly>
                                                         </div>
@@ -128,7 +128,7 @@
                                                         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="cost_center_name"
-                                                                   value="{{$costCenter->description ?? ''}}"
+                                                                   value="{{$organizationalUnit->description ?? ''}}"
                                                                    name="cost_center_name"
                                                                    required readonly>
                                                         </div>

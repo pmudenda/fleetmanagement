@@ -26,6 +26,9 @@ return new class extends Migration
             $table->string('ref_no')->nullable();
             $table->date('date_created');
             $table->string('created_by');
+            $table->string('cost_centre', 15)->nullable();
+            $table->string('stores_code', 15)->nullable();
+            $table->string('movt_no', 15)->nullable();
             $table->timestamps();
         });
     }

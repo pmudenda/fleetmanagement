@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('transaction_type');
             $table->string('veh_reg_no');
             $table->date('movement_date');
-            $table->string('store_code', 20);
+            $table->string('store_code', 20)->nullable();
             $table->string('business_area', 255);
             $table->string('cost_centre', 255);
             $table->string('work_order_no', 255);

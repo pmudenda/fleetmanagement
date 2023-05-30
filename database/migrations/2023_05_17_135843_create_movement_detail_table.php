@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('created_by', 20);
             $table->timestamp('created_date');
-            $table->string('document_number');
+            $table->string('document_number',20);
             $table->string('material_code', 30);
             $table->Integer('quantity');
             $table->decimal('price', 18, 2);
@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('article_type', 255);
             $table->string('transaction_type', 255);
             $table->string('stf_number', 255)->nullable();
-            $table->string('veh_reg_no');
-            $table->string('authorised_by');
+            $table->string('veh_reg_no', 10)->nullable();
+            $table->string('authorised_by', 255);
             $table->timestamps();
         });
     }

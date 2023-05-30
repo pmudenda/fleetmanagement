@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Requisitions;
 
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
+use App\Enums\Modules;
 use App\Exceptions\VehicleOnBoardingException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Http\Requests\OdometerValidationRequest;
-use App\Models\general\CostCenters;
+use App\Models\general\OrganizationalUnits;
 use App\Models\MaterialHeader;
 use App\Models\RequisitionTypes;
 use App\Models\vehiclemanagement\ChassisDetail;
@@ -65,12 +66,24 @@ class FuelRequisitionController extends Controller
     public function create(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $user = Auth::user();
-        $costCenter = CostCenters::where('code_cost_center', $user->cc_code)->first();
-        $requisitionTypes = RequisitionTypes::where('status', '01')->where('module', 'FR')->get();
+
+        $organizationalUnit = OrganizationalUnits::where('cc_code', $user->cc_code)
+            ->where('bu_code', $user->bu_code)
+            ->first();
+
+        $requisitionTypes = RequisitionTypes::where('status', '01')->where('module', Modules::FuelReq)->get();
+
         $daysToNextRefuel = config('settings.fuel_requisition_validity');
 
         return view('modules.requisitions.fuel.create')
-            ->with(compact('user', 'requisitionTypes', 'costCenter', 'daysToNextRefuel'));
+            ->with(
+                compact(
+                    'user',
+                    'requisitionTypes',
+                    'organizationalUnit',
+                    'daysToNextRefuel'
+                )
+            );
     }
 
     public function store(FuelRequisitionPostRequest $request): JsonResponse
@@ -103,7 +116,9 @@ class FuelRequisitionController extends Controller
 
         $requestDetails = $this->requisitionService->getRequisitionDetail($req_no);
 
-        $costCenter = CostCenters::where('code_cost_center', $user->cc_code)->first();
+        //$costCenter = CostCenters::where('code_cost_center', $user->cc_code)->first();
+        /*$organizationalUnit = OrganizationalUnits::where('code_unit', $requestDetails->cc_code)
+            ->first();*/
 
         $requisitionTypes = RequisitionTypes::where('status', '01')->where('module', 'FR')->get();
 
@@ -115,7 +130,7 @@ class FuelRequisitionController extends Controller
             ->with(compact(
                 'user',
                 'requisitionTypes',
-                'costCenter',
+                //'organizationalUnit',
                 'requestDetails',
                 'daysToNextRefuel',
                 'approvalHistory'

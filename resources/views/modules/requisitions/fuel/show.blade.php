@@ -115,6 +115,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     @if($requestDetails->cost_assigned_to =='CostCenter')
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-6 col-md-6">
@@ -134,7 +135,8 @@
                                                                                    value="CostCenterBasedRequisition"
                                                                                    @if($requestDetails->cost_assigned_to =='CostCenter')
                                                                                        checked
-                                                                                @endif/>
+                                                                                @endif
+                                                                            />
                                                                             Cost Center
                                                                         </label>
                                                                     </div>
@@ -264,7 +266,7 @@
                                         </div>
                                     </div>
 
-                                    @if($requestDetails->requisition_type == '011')
+                                    @if($requestDetails->requisition_type == \App\Enums\RequisitionTypes::OutOfTown)
                                         <div class="row" id="outOfTown">
                                             <div class="col-xs-12 col-sm-6 col-md-6">
                                                 <div class="container-fluid pl-0">
