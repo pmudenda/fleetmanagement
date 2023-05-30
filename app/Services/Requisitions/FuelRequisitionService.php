@@ -182,9 +182,7 @@ class FuelRequisitionService
         //Log::info($maximumDistance . ' distance is');
 
         Log::info($registrationNumber);
-
-        /********************** Save Data **************************/
-
+        /********************************************** Save Data **************************************/
         $user = Auth()->user();
 
         $requisition_reference_number = ReferenceNumberGeneratorService::generateReferenceNumber(WorkflowModules::FUEL_REQUISITION);
