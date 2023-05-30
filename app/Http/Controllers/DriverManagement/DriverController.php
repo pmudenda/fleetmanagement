@@ -4,33 +4,30 @@ namespace App\Http\Controllers\DriverManagement;
 
 use App\Constants\ErrorMessages;
 use App\Enums\ConfigurationTypes;
-use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DriverOnboardingRequest;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\Driver;
-use App\Models\Security\Role;
-use App\Models\Security\User;
-use App\Models\Workflow\WorkflowModules;
+use App\Services\DriverManagement\DriverManagementService;
 use App\Services\FileUploads\FileUploadService;
-use App\Services\Workflow\ReferenceNumberGeneratorService;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class DriverController extends Controller
 {
     private FileUploadService $fileUploadService;
+    private DriverManagementService $driverManagementService;
 
-    public function __construct(FileUploadService $fileUploadService)
+    public function __construct(FileUploadService $fileUploadService, DriverManagementService $driverManagementService)
     {
         $this->fileUploadService = $fileUploadService;
+        $this->driverManagementService = $driverManagementService;
     }
 
     public function create(): View|\Illuminate\Foundation\Application|Factory|Application
@@ -44,71 +41,23 @@ class DriverController extends Controller
 
     public function store(DriverOnboardingRequest $request): JsonResponse
     {
-        DB::beginTransaction();
-        $user = Auth::user();
-
-        $on_boarding_reference = ReferenceNumberGeneratorService::generateReferenceNumber(
-            WorkflowModules::DRIVER_ONBOARDING
-        );
-
-        $model = Driver::create([
-            'name' => $request->get("driver_name"),
-            'staff_number' => $request->get("employee_number"),
-            'grade' => $request->get("grade"),
-            'position' => $request->get("job_title"),
-            'location' => $request->get("location"),
-            'is_designated_driver' => $request->get("isDesignatedDriver"),
-
-            'license_number' => $request->get("license_number"),
-            'license_date_issued' => Carbon::parse($request->get("license_date_issued")),
-            'license_date_expiry' => Carbon::parse($request->get("license_date_expiry")),
-            'license_category' => $request->get("license_class"),
-            'on_boarding_reference' => $on_boarding_reference,
-            'permit_number' => $request->get("permit_number"),
-
-            'permit_date_issued' => Carbon::parse($request->get("permit_date_issued")),
-            'permit_date_expiry' => Carbon::parse($request->get("permit_date_expiry")),
-
-            'status' => StatusHelper::active(),
-            'created_by' => $user->id,
-        ]);
-
-
-        $this->fileUploadService->uploadFile($request,
-            'license_front_view',
-            'DriverDocuments',
-            $on_boarding_reference,
-            'Driver Onboarding',
-            'License Front View',
-            $user
-        );
-
-        $this->fileUploadService->uploadFile($request,
-            'license_back_view',
-            'DriverDocuments',
-            $on_boarding_reference,
-            'Driver Onboarding',
-            'License Back View',
-            $user
-        );
-
-        $this->fileUploadService->uploadFile($request,
-            'permit_copy',
-            'DriverDocuments',
-            $on_boarding_reference,
-            'Driver Onboarding',
-            'Permit',
-            $user
-        );
-
-        DB::commit();
-
-        return response()->json([
-            'success' => !empty($model),
-            'payload' => $model,
-            'redirectUrl' => URL::signedRoute('driver.list'),
-            'message' => 'Driver Onboarded Successfully'
-        ]);
+        try {
+            $model = $this->driverManagementService->onboardDriver($request);
+            return response()->json([
+                'success' => !empty($model),
+                'payload' => $model,
+                'redirectUrl' => URL::signedRoute('driver.list'),
+                'message' => 'Driver Onboarded Successfully'
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'success' => false,
+                'description' => $e,
+                'payload' => [],
+                'message' => ErrorMessages::internalServerError
+            ]);
+        }
     }
 
     public function show(Driver $user): Factory|View|Application
@@ -142,7 +91,7 @@ class DriverController extends Controller
 
         $nowDate = Carbon::now();
 
-        if($nowDate->gt($driver->license_date_expiry)){
+        if ($nowDate->gt($driver->license_date_expiry)) {
             return response()->json([
                 'success' => 'false',
                 'payload' => [],
@@ -150,7 +99,7 @@ class DriverController extends Controller
             ]);
         }
 
-        if($nowDate->gt($driver->permit_date_expiry)){
+        if ($nowDate->gt($driver->permit_date_expiry)) {
             return response()->json([
                 'success' => 'false',
                 'payload' => [],

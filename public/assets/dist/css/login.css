@@ -7574,7 +7574,8 @@ svg {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: top center;
-    background-image: url('../img/fleetmaster.png')
+    /*background-image: url('../img/fleetmaster.png')*/
+    background-image: url('../img/slide1.jpg')
 }
 
 .form-card {
