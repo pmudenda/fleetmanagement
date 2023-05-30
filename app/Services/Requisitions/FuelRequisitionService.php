@@ -361,7 +361,10 @@ class FuelRequisitionService
 
     }
 
-    public function processFuelRequisitionApproval(string $reference, $isApproved, $remarks)
+    /**
+     * @throws FuelRequisitionException
+     */
+    public function processFuelRequisitionApproval(string $reference, $isApproved, $remarks): void
     {
         $requisitionDetail = self::getRequisitionDetail($reference);
 
@@ -387,6 +390,10 @@ class FuelRequisitionService
             '',
             ''
         );
+
+        if(empty($results)){
+            throw new FuelRequisitionException("Could not Approve Requisition");
+        }
 
         MaterialHeader::where('req_no', $reference)->update([
                 'proc_ref' => '',
