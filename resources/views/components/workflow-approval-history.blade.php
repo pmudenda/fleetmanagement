@@ -23,7 +23,6 @@
             <th>Signature</th>
             <th>Activity</th>
             <th>Status</th>
-            <th style="display: none;">Status To</th>
             <th>Comments</th>
             <th>Date</th>
             <th>SLA</th>
@@ -85,26 +84,22 @@
                         @if($key == 0)
                             New Application
                         @else
-                            {{strtolower($item->to_status->name) ?? ""}}
+                            {{strtolower($item->status) ?? ""}}
                         @endif
                     </td>
                     <td style="text-transform: capitalize; display: none;">
-                        @if($key == 0)
-                            {{strtolower($item->to_status->name) ?? ""}}
-                        @else
-                            {{strtolower($item->to_status->name) ?? ""}}
-                        @endif
+                        {{--                        @if($key == 0)--}}
+                        {{strtolower($item->status) ?? ""}}
+                        {{--                        @else--}}
+                        {{--                            {{strtolower($item->to_status->name) ?? ""}}--}}
+                        {{--                        @endif--}}
                     </td>
                     <td>{{$item->reason}}</td>
                     <td>{{$item->created_at}}</td>
                     <td>
-                        @if($key == 0)
-                            {{$request->created_at->diffAsCarbonInterval($item->created_at)}}
-                        @else
-                            {{
-                             $approvals[$key-1]->created_at->diffAsCarbonInterval($item->created_at)
-                            }}
-                        @endif
+                        {{
+                         $approvals->created_at->diffAsCarbonInterval($item->action_date)
+                        }}
                     </td>
                 </tr>
             @endforeach
