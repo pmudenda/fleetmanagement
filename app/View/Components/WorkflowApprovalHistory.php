@@ -2,6 +2,8 @@
 
 namespace App\View\Components;
 
+use App\Models\Workflow\WorkflowLog;
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class WorkflowApprovalHistory extends Component
@@ -23,10 +25,11 @@ class WorkflowApprovalHistory extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
+     * @return View|\Closure|string
      */
-    public function render()
+    public function render(): View|string|\Closure
     {
+        $this->approvals = WorkflowLog::where('reference', '=', $this->request->req_no)->get();
         return view('components.workflow-approval-history');
     }
 }

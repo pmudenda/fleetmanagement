@@ -126,6 +126,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/fuel/save', [FuelRequisitionController::class, 'store'])->name('save.fuel.requisition');
         Route::get('/fuel/list', [FuelRequisitionController::class, 'index'])->name('list.fuel.requisition');
         Route::post('/fuel/odometer/validation', [FuelRequisitionController::class, 'validateOdometer'])->name('fuel.odometer.validation');
+
+        Route::post('/workflow/fuel/approve', [WorkflowController::class, 'processFuelRequisitionApproval'])->name('workflow.approve');
     });
 
     Route::get('searchProjects', [ProjectsController::class, 'findProjectByCode'])->name('search.project');
@@ -191,8 +193,6 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/cleanup/assignation/list', [VehicleController::class, 'cleanUpList'])->name('vehicle.migration.list');
     });
-
-    Route::post('/workflow/approve', [WorkflowController::class, 'processFuelRequsitionApproval'])->name('workflow.approve');
 
     Route::group(['prefix' => 'workshop-management'], function () {
 

@@ -79,6 +79,16 @@
         let description = "Sign";
         let canFail = false;
 
+        const action = settings.options['action'];
+
+        if (action === 'approve') {
+            document.querySelector("#approveSelectedPass").setAttribute('checked', 'checked');
+            document.querySelector("#approveSelectedFail").removeAttribute('checked');
+        } else {
+            document.querySelector("#approveSelectedFail").setAttribute('checked', 'checked');
+            document.querySelector("#approveSelectedPass").removeAttribute('checked');
+        }
+
         if (settings['approvals']) {
             description = settings.approvals.approvalName(approvalType);
             canFail = settings.approvals.canFail(approvalType);
@@ -186,7 +196,6 @@
     }
 
     appInstance.approval = {
-
         dialog: function (options, approvalType, postUrl, successCallBack) {
             let defaultOptions = {
                 approvals: {
@@ -207,6 +216,7 @@
                 ...defaultOptions
             }
 
+            // if no approval function provided
             if (!successCallBack || typeof successCallBack != 'function') {
                 // assign call back function if non has been specified
                 successCallBack = function (ajaxResponse, modal) {

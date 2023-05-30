@@ -502,19 +502,19 @@
                         </div>
                     </div>
 
-                    @if(auth()->user() != $requestDetails->created_by)
+                    {{--@if(auth()->user()->id != $requestDetails->created_by)--}}
                         <div class="card-footer">
                             <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
                                 <button type="button" id="approveRequisitionBtn" class="btn btn-success btn-sm mr-3">
-                                    <i class="fas fa-paper-plane"></i> Assent
+                                    <i class="fas fa-thumbs-up"></i> Approve
                                 </button>
-                                <button style="display: none;" type="button" id="cancelRequisitionBtn"
+                                <button type="button" id="declineRequisitionBtn"
                                         class="btn btn-danger btn-sm mr-3">
                                     <i class="fas fa-thumbs-down"></i> Reject
                                 </button>
                             </div>
                         </div>
-                    @endif
+                   {{-- @endif--}}
                 </form>
 
                 <input type="hidden" value="{{ route('workflow.approve') }}" id="approvalUrl">
@@ -531,7 +531,8 @@
                 appInstance.approval.dialog({
                         options: {
                             'recordId': document.querySelector("#taskReference").value,
-                            'documentType': 'FuelRequisition'
+                            'documentType': 'FuelRequisition',
+                            'action': 'approve'
                         }
                     },
                     'fuelRequisition',
@@ -559,7 +560,39 @@
                 );
             });
 
-            $('#submitRequisitionBtn').on('click', function () {
+            $('#declineRequisitionBtn').on('click', function () {
+                appInstance.approval.dialog({
+                        options: {
+                            'recordId': document.querySelector("#taskReference").value,
+                            'documentType': 'FuelRequisition',
+                            'action': 'reject'
+                        }
+                    },
+                    'fuelRequisition',
+                    document.querySelector('#approvalUrl').value,
+                    function (ajaxResponse, ...args) {
+                        if (ajaxResponse.success) {
+                            setTimeout(function () {
+                                appInstance.showSystemMessage(
+                                    'Rejection',
+                                    ajaxResponse.message,
+                                    function () {
+                                        setTimeout(function () {
+                                            window.location.href = ajaxResponse['redirectUrl'];
+                                        }, 300);
+                                    },
+                                    'success');
+                            }, 300);
+                        } else {
+                            setTimeout(function () {
+                                appInstance.systemError('Requisition Approval', ajaxResponse.message);
+                            }, 300);
+                        }
+                    },
+                );
+            });
+
+            /*$('#submitRequisitionBtn').on('click', function () {
                 let $form = document.forms['fuelRequisitionForm'];
                 if (!$($form).valid()) {
                     return;
@@ -626,7 +659,7 @@
                     function () {
                     }
                 );
-            })
+            })*/
 
         })(window.tmsApp || {}, jQuery)
     </script>

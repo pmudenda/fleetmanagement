@@ -30,15 +30,13 @@ class WorkflowController extends Controller
 
     public function processFuelRequisitionApproval(Request $request): JsonResponse
     {
-        if ($request->get('docType') == 'FuelRequisition') {
-            //$request->get('Comments')
-            //$request->get('reference')
-            //$request->get('Approved')
-            $this->requisitionService->processFuelRequisitionApproval(
-                $request->get('reference'),
-                $request->get('Approved'),
-                $request->get('Comments'));
-        }
+        //$request->get('Comments')
+        //$request->get('reference')
+        //$request->get('Approved')
+        $this->requisitionService->processFuelRequisitionApproval(
+            $request->get('reference'),
+            $request->get('Approved'),
+            $request->get('Comments'));
 
         return response()->json([
             'requestPayload' => $request->all(),

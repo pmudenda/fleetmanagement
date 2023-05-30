@@ -18,7 +18,7 @@
                             Sign As Different User...
                         </div>
                         <div style="clear:both;">
-                            <label class="app-label">Approval Comments</label>
+                            <label class="app-label">Comments</label>
                             <div>
                             <textarea id="newApproval_Remarks"
                                       class="form-control" cols="35"
@@ -27,7 +27,7 @@
                                 <br/>
                             </div>
                         </div>
-                        <div id="approveAanDisapprove" style="">
+                        <div id="approveAanDisapprove" style="display: none">
                             <label class="app-label">Approve / Disapprove</label>
                             <div>
                                 <span id="spanApproveBtn" class="mr-3">
