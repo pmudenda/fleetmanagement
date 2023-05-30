@@ -368,18 +368,6 @@ class FuelRequisitionService
     {
         $requisitionDetail = self::getRequisitionDetail($reference);
 
-        //$areaCode = auth()->user()->area_code ?? 'LR';
-        //$requisitionType = 'seq_store_req';
-
-        //generate j number
-        //$procurementRef = $this->procurementService->generateDocumentNumber($requisitionType, $areaCode);
-
-        //$procurementRef = 'J01' . $areaCode . mt_rand(100000, 999999);
-        /*if (empty($procurementRef)) {
-            throw new FuelRequisitionException(ErrorMessages::storesRequisitionFailed());
-        }*/
-
-
         $results = $this->procurementService->createStoresRequisition(
             $reference,
             $requisitionDetail->veh_reg_no,
@@ -395,7 +383,7 @@ class FuelRequisitionService
             throw new FuelRequisitionException("Could not Approve Requisition");
         }
 
-        if (!$results . startsWith('J')) {
+        if (!str_contains($results, 'J01')) {
             throw new FuelRequisitionException($results);
         }
 

@@ -299,29 +299,23 @@
 @push('scripts')
 
     <!-- DataTables  & Plugins -->
-    <script src="{{ asset('dashboard/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/jszip/jszip.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/pdfmake/pdfmake.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/pdfmake/vfs_fonts.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
-
+    @include('layouts.partials.dataTableScripts')
     <!-- page script -->
     <script>
+        (function (appInstance) {
+            appInstance.initDatatable("#groupsTable", true);
+        })(window.tmsApp ||{});
+    </script>
+    <!-- page script -->
+{{--    <script>
         $(function () {
-            $("#groupsTable").DataTable({
+            $("#").DataTable({
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print"]
             }).buttons().container().appendTo('#groupsTable_wrapper .col-md-6:eq(0)');
         });
-    </script>
+    </script>--}}
 
 @endpush

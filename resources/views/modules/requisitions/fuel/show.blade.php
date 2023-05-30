@@ -490,8 +490,12 @@
                                     <tfoot>
                                     <tr>
                                         <td></td>
-                                        <td class="text-right"><strong>Total Quantity</strong></td>
-                                        <td><span class="text-bold" id="totalQty"></span></td>
+                                        @if($requestDetails->cost_assigned_to !='CostCenter')
+                                            <td></td>
+                                        @endif
+                                        <td class="text-right"><strong>Total Quantity</strong> <span class="text-bold"
+                                                                                                     id="totalQty"></span>
+                                        </td>
                                         <td></td>
                                         <td class="text-right"><strong>Total Amount</strong></td>
                                         <td><span class="text-bold" id="totalAmount"></span></td>
