@@ -23,7 +23,7 @@ class DriverOnboardingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'employee_number' => 'required|string|max:255',
+            'employee_number' => 'required|string|max:255|unique:App\Models\Driver,staff_number',
             'driver_name' => 'required|string|max:255',
             'grade' => 'required|string|max:3',
             'job_title' => 'required|string|max:255',
