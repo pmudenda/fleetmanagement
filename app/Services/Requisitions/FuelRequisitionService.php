@@ -391,14 +391,18 @@ class FuelRequisitionService
             ''
         );
 
-        if(empty($results)){
+        if (empty($results)) {
             throw new FuelRequisitionException("Could not Approve Requisition");
         }
 
+        if (!$results . startsWith('J')) {
+            throw new FuelRequisitionException($results);
+        }
+
         MaterialHeader::where('req_no', $reference)->update([
-                'proc_ref' => '',
-                'st_pur' => ''
-            ]);
+            'proc_ref' => '',
+            'st_pur' => ''
+        ]);
 
         Log::info("JNumber Generated with document" . $results);
 

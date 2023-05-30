@@ -504,7 +504,7 @@
                         </div>
                     </div>
 
-                    {{--@if(auth()->user()->id != $requestDetails->created_by)--}}
+                    @if(auth()->user()->id != $requestDetails->created_by)
                         <div class="card-footer">
                             <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
                                 <button type="button" id="approveRequisitionBtn" class="btn btn-success btn-sm mr-3">
@@ -516,7 +516,7 @@
                                 </button>
                             </div>
                         </div>
-                   {{-- @endif--}}
+                    @endif
                 </form>
 
                 <input type="hidden" value="{{ route('workflow.approve') }}" id="approvalUrl">

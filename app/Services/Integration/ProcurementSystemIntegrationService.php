@@ -2,6 +2,7 @@
 
 namespace App\Services\Integration;
 
+use App\Constants\SystemOfOrigin;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -33,7 +34,7 @@ class ProcurementSystemIntegrationService
                     'p_store_code' => $stores_code,
                     'p_user_requesting' => auth()->user()->staff_no,
                     'p_job_card' => $job_card_no,
-                    'p_system_origin' => '04',
+                    'p_system_origin' => SystemOfOrigin::ZESCOFleetMaster,
                     'p_fleet_req_code' => $stores_requisition_number,
                     'p_req_acc_number' => $account,
                     'p_delivery_site' => $delivery_site,
