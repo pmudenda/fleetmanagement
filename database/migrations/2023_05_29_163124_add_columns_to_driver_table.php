@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->timestamp('deleted_at')->nullable();
             $table->timestamp('modified_by')->nullable();
             $table->string('status')->default(StatusHelper::active());
-            $table->string('is_designated_driver', 2);
+            $table->string('is_designated_driver', 3);
             $table->string('on_boarding_reference', 15);
         });
     }

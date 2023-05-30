@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
 
@@ -220,8 +221,9 @@
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="hidden" name="cost_center_code">
                                                                         <input type="hidden" name="nrc">
+
                                                                         <input type="text"
-                                                                               class="form-select form-control-sm"
+                                                                               class="form-control form-control-sm"
                                                                                id="location"
                                                                                name="location" required readonly/>
                                                                     </div>
@@ -312,7 +314,7 @@
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="date"
-                                                                               max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
+                                                                               max="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
                                                                                class="form-control form-control-sm"
                                                                                id="license_date_issued"
                                                                                name="license_date_issued" required>
@@ -335,10 +337,11 @@
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="date"
-                                                                               min="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
+                                                                               min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
                                                                                class="form-control form-control-sm"
                                                                                id="license_date_expiry"
-                                                                               name="license_date_expiry" required>
+                                                                               name="license_date_expiry"
+                                                                               required/>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -542,7 +545,7 @@
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="date"
-                                                                               max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
+                                                                               max="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
                                                                                class="form-control form-control-sm"
                                                                                id="permit_date_issued"
                                                                                name="permit_date_issued"
@@ -566,10 +569,11 @@
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="date"
-                                                                               min="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
+                                                                               min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
                                                                                class="form-control form-control-sm"
                                                                                id="permit_date_expiry"
                                                                                name="permit_date_expiry"
+                                                                               readonly
                                                                                required>
                                                                     </div>
                                                                 </div>
@@ -577,9 +581,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-
-                                                    </div>
+                                                    <div class="col-xs-12 col-sm-6 col-md-5"></div>
                                                 </div>
 
                                                 <div class="row">
@@ -605,7 +607,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </form>
@@ -738,8 +739,6 @@
                 document.querySelector('[name="employee_number"]').value = data?.con_per_no;
 
                 //document.querySelector('[name="staff_email"]').value = data?.staff_email;
-
-
                 //document.querySelector('[name="cc_code"]').value = data?.cc_code;
                 //document.querySelector('[name="bu_code"]').value = data?.bu_code;
                 //document.querySelector('[name="cost_center_code"]').value = data?.cc_code;
@@ -750,6 +749,13 @@
 
                 document.querySelector('[name="nrc"]').value = data?.nrc;
                 document.querySelector('#actionButtonsContainer').style.display = null;
+
+                if (data?.job_title.toLowerCase().indexOf("driver")) {
+                    document.querySelector('#designated-driver-yes').checked = true;
+                    //$('[name="isDesignatedDriver"]').attr('readonly', 'readonly');
+                } else {
+                    document.querySelector('#designated-driver-no').checked = true;
+                }
             }
 
             function findEmployee() {
@@ -804,7 +810,6 @@
                     });
             }
 
-
             new ImageUpload().init();
             Inputmask({
                 "mask": "99999999"
@@ -813,6 +818,36 @@
             Inputmask({
                 "mask": "99999999"
             }).mask("#license_number");
+
+            function addYears(date, years) {
+                date.setFullYear(date.getFullYear() + years);
+                return date;
+            }
+
+            function reformatDate(date, format) {
+
+                let data = '';
+                if (format === 'ISO') {
+                    let datePart = date.toLocaleDateString().split(' ')[0];
+                    let dateParts = datePart.split('/');
+                    data = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+                }
+
+                return data
+
+            }
+
+            $('[name="license_date_issued"]').on('change', function () {
+                let date = new Date(this.value);
+                console.log();
+                let expiryDate = addYears(date, 5);
+                document.querySelector('[name="license_date_expiry"]').setAttribute('max', reformatDate(expiryDate, "ISO"));
+            });
+
+            $('[name="license_date_expiry"]').on('change', function () {
+                let date = new Date(this.value);
+                document.querySelector('[name="permit_date_expiry"]').value = reformatDate(date, "ISO");
+            });
 
             $('#license_number').on('keyup paste enter', function () {
                 if (!this.value || this.value.replaceAll("_", '').length < 8) {
