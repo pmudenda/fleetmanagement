@@ -98,7 +98,7 @@
                     <td>{{$item->remarks}}</td>
                     <td>{{Carbon::parse($item->created_at)->format('d/m/Y')}}</td>
                     <td>
-                        {{$item->created_at->diffAsCarbonInterval($item->action_date)}}
+                        {{Carbon::parse($item->created_at)->diffAsCarbonInterval($item->action_date)}}
                     </td>
                 </tr>
             @endforeach
