@@ -360,7 +360,8 @@
                                                                             name="license_class"
                                                                             class="form-select">
                                                                             @foreach($licenseClasses as $licenseClass)
-                                                                                <option value="{{$licenseClass->code}}">{{$licenseClass->name}}</option>
+                                                                                <option
+                                                                                    value="{{$licenseClass->code}}">{{$licenseClass->name}}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
@@ -798,12 +799,10 @@
 
                         populateEmployeeDetails(response.payload);
                     })
-                    .catch(function (error) {
-                        tmsApp.showErrorMessages('', '');
+                    .catch(function (xhr, settings, error) {
+                        tmsApp.showErrorMessages(xhr, 'Driver Onboarding');
                     });
             }
-
-
 
 
             new ImageUpload().init();
