@@ -206,42 +206,38 @@
                                 <table id="listTable" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
                                     <thead>
                                     <tr>
-                                        <th>Reference #</th>
-                                        <th>Registration</th>
-                                        <th>Valid From</th>
-                                        <th>Valid To</th>
+                                        <th>Reference</th>
+                                        <th>Subject</th>
+                                        <th>Description</th>
                                         <th>Originator</th>
-                                        <th>Remarks</th>
                                         <th>Action</th>
 
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach(MaterialHeader::get() as $rec)
+                                    @foreach(\App\Models\Workflow\WorkflowTaskHeader::get() as $rec)
                                         <tr>
                                             <td>
-                                                <a href="{{URL::signedRoute('show.fuel.requisition', ['ref'=>  $rec->req_no])}}">
-                                                    {{$rec->req_no}}
+                                                <a href="{{URL::signedRoute('show.fuel.requisition', ['ref'=>  $rec->reference])}}">
+                                                    {{$rec->reference}}
                                                 </a>
 
                                             </td>
                                             <td>
-                                                {{$rec->reg_no}}
+                                                {{$rec->subject ?? '--'}}
                                             </td>
                                             <td>
-                                                {{Carbon::parse($rec->valid_date_from)->format('d/m/Y')}}
+                                                {{$rec->description}}
+                                            </td>
+
+                                            <td>
+                                                {{$rec->created_by}}
                                             </td>
                                             <td>
-                                                {{Carbon::parse($rec->valid_date_to)->format('d/m/Y')}}
+                                                {{Carbon::parse($rec->dated_acted)->format('d/m/Y')}}
                                             </td>
                                             <td>
-                                                {{$rec->requested_by}}
-                                            </td>
-                                            <td>
-                                                {{$rec->comments}}
-                                            </td>
-                                            <td>
-                                                <a href="{{URL::signedRoute('show.fuel.requisition',['ref'=> $rec->req_no])}}"
+                                                <a href="{{URL::signedRoute('show.fuel.requisition',['ref'=> $rec->reference])}}"
                                                    class="btn btn-sm btn-success">
                                                     <i class="fas fa-eye"></i> Open
                                                 </a>

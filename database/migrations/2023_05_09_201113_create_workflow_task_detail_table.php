@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('actioning_officer');
             $table->string('status');
             $table->string('date_started');
-            $table->string('date_ended');
+            $table->string('date_ended')->nullable();
             $table->timestamps();
         });
     }
