@@ -31,16 +31,17 @@
         <tbody>
         @if(!empty($approvals))
             @foreach($approvals as $key =>  $item)
+                {{$item}}
                 <tr>
                     <td>
                         @if(!empty($item->name) && $item->name === 'System')
                             <i class="fas fa-cog" style="font-size: 35px;"></i>
                         @else
                             <img style="height:35px;"
-                                 src="{{asset('dashboard/dist/img/avatar.png')}}"
+                                 src="{{asset('assets/media/avatars/avatar.png')}}"
                                  class="img-circle elevation-2"
                                  alt="User Image"/>
-                            {{-- @if()
+                            {{--@if()
                                  <img style="height:50px;"
                                       src="{{asset('storage/user_avatar/'.Auth::user()->avatar)}}"
                                       class="img-circle elevation-2"
@@ -94,7 +95,7 @@
                         {{--                            {{strtolower($item->to_status->name) ?? ""}}--}}
                         {{--                        @endif--}}
                     </td>
-                    <td>{{$item->reason}}</td>
+                    <td>{{$item->remarks}}</td>
                     <td>{{$item->created_at}}</td>
                     <td>
                         {{
