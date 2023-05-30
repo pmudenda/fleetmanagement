@@ -31,6 +31,8 @@ return new class extends Migration {
             $table->integer('created_by');
             $table->string('created_name');
             $table->timestamps();
+
+            //$table->dropColumn('businessunit');
         });
     }
 
