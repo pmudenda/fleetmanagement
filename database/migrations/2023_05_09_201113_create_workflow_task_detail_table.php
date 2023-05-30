@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('reference');
             $table->string('process_code');
             $table->string('user_id');
-            $table->string('current_stepId');
+            $table->string('current_step_id');
             $table->string('actioning_officer');
             $table->string('status');
             $table->string('date_started');

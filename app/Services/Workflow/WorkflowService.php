@@ -116,14 +116,15 @@ class WorkflowService
         ]);
 
         $newProcess = WorkflowTaskDetail::create([
-            'user_id'=> $currentUser->staff_no,
-            'actioning_officer' => $assignToUser->con_per_no,
-            'current_step_id' => $stepAfterSubmission->step_id,
-            'status' => StatusHelper::new(),
-            'step_after_submission' => $actionPage,
             'reference' => $taskReference,
             'process_code' => $processCode,
+            'user_id'=> $currentUser->staff_no,
+            'current_step_id' => $stepAfterSubmission->step_id,
+            'actioning_officer' => $assignToUser->con_per_no,
+            'status' => StatusHelper::new(),
+            'step_after_submission' => $actionPage,
             'date_started' => Carbon::now(),
+            'created_by'=> $currentUser->id
             /*'date_ended'*/
         ]);
 
