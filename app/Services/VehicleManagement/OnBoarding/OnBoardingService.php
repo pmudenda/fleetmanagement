@@ -416,7 +416,8 @@ class OnBoardingService
             'cost_center_name' => $code_center_name,
             'business_unit' => $bu_code,
             'business_unit_name' => $bu_name,
-            'business_area_name' => $businessArea->description
+            'business_area_name' => $businessArea->description,
+            'assignment_state' => StatusHelper::active()
         ];
 
         $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::assignment);

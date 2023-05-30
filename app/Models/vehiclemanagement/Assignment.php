@@ -42,6 +42,8 @@ class Assignment extends Model
         'responsible_head_name',
 
         'business_area_code',
-        'business_area_name'
+        'business_area_name',
+
+        'assignment_state'
     ];
 }
