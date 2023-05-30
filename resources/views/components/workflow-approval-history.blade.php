@@ -31,8 +31,7 @@
         </thead>
         <tbody>
         @if(!empty($approvals))
-            @foreach($approvals as $key =>  $item)
-                {{$item}}
+            @foreach($approvals as $key => $item)
                 <tr>
                     <td>
                         @if(!empty($item->name) && $item->name === 'System')
