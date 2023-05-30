@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; @endphp
 <div class="card-header bg-success">
     <h4 class="card-title text-white">Approval Routing History</h4>
     <span class="badge badge-secondary right ml-2">
@@ -59,7 +60,7 @@
                     <td style="text-transform: capitalize;">
                         {{strtolower($item->name)}}
                     </td>
-                    <td>{{$item->staff_no}}</td>
+                    <td>{{$item->actioning_officer}}</td>
                     <td style="text-transform: capitalize;">
                         @if($key == 0)
                             Create Document
@@ -96,11 +97,9 @@
                         {{--                        @endif--}}
                     </td>
                     <td>{{$item->remarks}}</td>
-                    <td>{{$item->created_at}}</td>
+                    <td>{{Carbon::parse($item->created_at)->format('d/m/Y')}}</td>
                     <td>
-                        {{
-                         $item->created_at->diffAsCarbonInterval($item->action_date)
-                        }}
+                        {{$item->created_at->diffAsCarbonInterval($item->action_date)}}
                     </td>
                 </tr>
             @endforeach
