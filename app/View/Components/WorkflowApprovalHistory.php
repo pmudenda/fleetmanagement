@@ -35,7 +35,7 @@ class WorkflowApprovalHistory extends Component
             ->join('SEC_USERS', 'WFL_WORKFLOW_LOGS.actioning_officer', '=', 'SEC_USERS.staff_no')
             ->select('WFL_WORKFLOW_LOGS.*', 'SEC_USERS.name','SEC_USERS.avatar')
             ->get();
-        Log::info($this->approvals);
+        //Log::info($this->approvals);
         return view('components.workflow-approval-history');
     }
 }
