@@ -41,6 +41,8 @@ class DriverController extends Controller
 
     public function store(DriverOnboardingRequest $request): JsonResponse
     {
+        Log::info('Posting Driver Data');
+
         try {
             $model = $this->driverManagementService->onboardDriver($request);
             return response()->json([

@@ -814,7 +814,7 @@
                 "mask": "99999999"
             }).mask("#license_number");
 
-            $('#license_number').on('keyup paste enter change', function () {
+            $('#license_number').on('keyup paste enter', function () {
                 if (!this.value || this.value.replaceAll("_", '').length < 8) {
                     return;
                 }
