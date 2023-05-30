@@ -29,16 +29,17 @@ class DriverOnboardingRequest extends FormRequest
             'job_title' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'department' => 'required|string|max:255',
-            'license_number' => 'required|string|max:255',
-            'license_date_issued' => 'required|date_format:Y-m-d',
-            'license_date_expiry' => 'required|date_format:Y-m-d',
+            'license_number' => 'required|string|max:255|unique:App\Models\Driver,license_number',
+
+            'license_date_issued' => 'required|lt:license_date_expiry|date_format:Y-m-d',
+            'license_date_expiry' => 'required|gt:license_date_issued|date_format:Y-m-d',
             'license_class' => 'required|string|max:255',
             'license_front_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff',
             'license_back_view' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff',
             'isDesignatedDriver' => 'required|string',
-            'permit_number' => 'required|string',
-            'permit_date_issued' => 'required|date_format:Y-m-d',
-            'permit_date_expiry' => 'required|date_format:Y-m-d',
+            'permit_number' => 'required|string|unique:App\Models\Driver,permit_number',
+            'permit_date_issued' => 'required|lt:permit_date_expiry|date_format:Y-m-d',
+            'permit_date_expiry' => 'required|gt:permit_date_issued|date_format:Y-m-d',
             'permit_copy' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf',
         ];
     }

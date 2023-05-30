@@ -2,6 +2,7 @@
 
 namespace App\Services\DriverManagement;
 
+use App\Exceptions\DriverOnBoardingException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\DriverOnboardingRequest;
 use App\Models\Driver;
@@ -23,6 +24,12 @@ class DriverManagementService
 
     public function onboardDriver(DriverOnboardingRequest $request)
     {
+        $driver = Driver::where('staff_number', $request->get("employee_number"))->first();
+
+        if(!empty($driver)){
+            throw new DriverOnBoardingException("Driver with Staff Number already exists");
+        }
+
         DB::beginTransaction();
         $user = Auth::user();
 
