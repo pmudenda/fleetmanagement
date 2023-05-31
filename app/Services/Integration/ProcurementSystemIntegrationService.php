@@ -46,7 +46,7 @@ class ProcurementSystemIntegrationService
 
             $user = auth()->user()->staff_no;
             $stmt = $pdo->prepare("begin :result := fn_create_stores_req(:p_ref_no, :p_reg_no, :p_store_code, :p_user_requesting, :p_job_card, :p_system_origin, :p_fleet_req_code, :p_req_acc_number, :p_delivery_site, :p_transaction_type, :p_current_user); end;");
-            $stmt->bindParam(':result', $results);
+            $stmt->bindParam(':result', $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(':p_ref_no', $doc_no);
             $stmt->bindParam(':p_reg_no', $veh_reg_no);
             $stmt->bindParam(':p_store_code', $stores_code);
