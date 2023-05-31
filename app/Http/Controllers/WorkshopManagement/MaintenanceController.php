@@ -10,6 +10,7 @@ use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\RepairTypes;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class MaintenanceController extends Controller
@@ -30,6 +31,19 @@ class MaintenanceController extends Controller
     }
 
     public function getFuelLevels(): JsonResponse
+    {
+        $fuel_levels = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::FUEL_LEVELS->value)
+            ->get();
+
+        return response()->json(
+            [
+                'state' => 'success',
+                'payload' => $fuel_levels
+            ]
+        );
+    }
+
+    public function processJobCard(Request $request): JsonResponse
     {
         $fuel_levels = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::FUEL_LEVELS->value)
             ->get();

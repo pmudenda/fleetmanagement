@@ -16,9 +16,9 @@ class ProcurementSystemIntegrationService
         $stores_requisition_number,
         $account,
         $transactionType,
-        $stores_code = '',
-        $job_card_no = '',
-        $delivery_site = ''
+        $stores_code = null,
+        $job_card_no = null,
+        $delivery_site = null
     ): string
     {
         try {

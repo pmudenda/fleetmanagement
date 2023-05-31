@@ -372,9 +372,6 @@ class FuelRequisitionService
             $requisitionDetail->form_order,
             '6120301',
             '01',
-            '',
-            '',
-            ''
         );
 
         if (empty($results)) {

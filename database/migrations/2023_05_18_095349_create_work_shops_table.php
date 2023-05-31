@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string('cost_center', 10)->nullable();
             $table->string('created_by', 10)->nullable();
             $table->string('modified_by', 10)->nullable();
-            $table->string('store_code', 2);
+            $table->string('store_code', 10);
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

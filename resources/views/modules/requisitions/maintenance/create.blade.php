@@ -38,386 +38,12 @@
                     @csrf
                     <h1>Job Card Details</h1>
                     <div>
-                        <div class="container-fluid mt-2">
-                            <div class="row">
-                                <div class="col-9">
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Registration #:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <div class="input-group">
-                                                                <input type="text"
-                                                                       data-action="{{route('requisition.vehicle.details')}}"
-                                                                       class="form-control form-control-sm"
-                                                                       autocapitalize="characters"
-                                                                       id="vehicle_registration"
-                                                                       placeholder="Vehicle Reg e.g AAB 6757"
-                                                                       name="vehicle_registration" required>
-                                                                <div class="input-group-addon">
-                                                                    <button type="button" id="vehicleSearchBtn"
-                                                                            name="vehicleSearchBtn"
-                                                                            class="btn btn-success btn-sm border-radius-0">
-                                                                        <i class="fas fa-search"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {{--<div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                            <input type="text"
-                                                                   class="form-control form-control-sm"
-                                                                   id="vehicle_description"
-                                                                   name="vehicle_description"
-                                                                   required readonly>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>--}}
-
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Date In :
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                            <input type="text"
-                                                                   class="form-control form-control-sm"
-                                                                   id="date_of_req"
-                                                                   readonly
-                                                                   value="{{ Carbon::now()->format('d/m/Y') }}"
-                                                                   name="date_of_req"
-                                                                   required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <div
-                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <label class="form-check-inline field-required">
-                                                                        Workshop
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select
-                                                                required
-                                                                class="form-select form-select-sm"
-                                                                name="workshop"
-                                                                autocomplete="off"
-                                                                id="workshop">
-                                                                <option></option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                                            for="job_card_no">
-                                                            Time In:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <input type="text"
-                                                                   min="1"
-                                                                   readonly
-                                                                   value="{{ Carbon::now()->format('H:i:s') }}"
-                                                                   class="form-control form-control-sm when_valid number_input"
-                                                                   id="timeIn"
-                                                                   name="timeIn"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
-                                                            Repair Type:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select name="repairType"
-                                                                    id="repairTypeDropdownList"
-                                                                    class="form-select form-select-sm when_valid"
-                                                                    required>
-                                                                <option value=""> --Select--</option>
-                                                                @foreach ($repairTypes as $repairType)
-                                                                    <option
-                                                                        value="{{$repairType->code}}">{{$repairType->code}}-{{$repairType->name}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
-                                                            Service Advisor:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <input type="text"
-                                                                   readonly
-                                                                   data-url="{{route('fuel.odometer.validation')}}"
-                                                                   data-validation-method="fuelRequisitionOdometerReading"
-                                                                   data-params="[odometerNumber, vehicleRegistration]"
-                                                                   class="form-control form-control-sm when_valid number_input"
-                                                                   id="odometer_reading"
-                                                                   value="{{ auth()->user()->name }} | RECEPTION"
-                                                                   disabled
-                                                                   required
-                                                                   readonly
-                                                                   name="service_advisor"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div id="accidentRecordNo" class="row d-none">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
-                                                            Accident No:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select name="requisition_type" id="requisition_type"
-                                                                    class="form-control form-select-sm when_valid"
-                                                                    required>
-                                                                <option value=""> --Select--</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Odometer:</label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <input type="text" class="form-control form-control-sm"
-                                                                   id="request_date" name="request_date">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                                            for="next_fuel_date">
-                                                            Fuel Level :
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select name="fuel_level"
-                                                                    id="fuel_level"
-                                                                    class="form-control form-select-sm when_valid"
-                                                                    required>
-                                                                <option value=""> --Select--</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div id="vehicleDetailsContainer" style="display: none;"
-                                         class="col-xs-12 col-sm-12 col-md-12 pl-0">
-                                        <h1>Vehicle Details</h1>
-                                        <table class="table table-striped">
-                                            <tbody id="vehicleDetails" class="vehicleDetails">
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <div id="image_view" class="card text-center py-5 my-2" style="display: none;">
-                                        <div class="form-group">
-                                            <div class="imagePreview"></div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
+                        @include('modules.requisitions.maintenance.tabs.job_card_header')
                     </div>
 
                     <h1>Accessories Checkin & Movement</h1>
                     <div>
-                        <div class="container-fluid mt-5">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-9 col-md-8">
-                                    {{--     <form id="tms_accessories_form"
-                                               name="tms_accessories_form"
-                                               class="form fv-plugins-bootstrap5 fv-plugins-framework"
-                                               action="{{route('vehicle.accessories.save')}}">--}}
-                                    {{--<div class="d-flex justify-content-end">
-                                        {{-- class="create_mode">
-                                            <button type="submit" id="saveVehicleAccessories"
-                                                    class="btn btn-success btn-sm">
-                                                <i class="fas fa-paper-plane"></i>
-                                                <span class="indicator-label">
-                                                    Save
-                                                </span>
-                                                span class="indicator-progress">
-                                                    Please wait...
-                                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                                </span>
-                                            </button>
-                                        </div>
-                                    </div>--}}
-                                    <div class="container-fluid mt-5">
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                                <div class="row">
-
-                                                    <div class="col">
-                                                        <table
-                                                            class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                            <thead>
-                                                            <tr class="bg-dark">
-                                                                <th class="pl-2">Item</th>
-                                                                <th>Present</th>
-                                                                <th class="pr-2">Not Present</th>
-                                                                <th class="pr-2">Remarks</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            @foreach($accessories as $key => $accessory)
-                                                                @if(($key%2) == 0)
-                                                                    <tr>
-                                                                        <td class="pl-2"
-                                                                            style="width: 35%;">{{$accessory->name}}</td>
-                                                                        <td><input type="radio" value="YES" required
-                                                                                   name="{{str_replace(' ','', $accessory->code)}}">
-                                                                        </td>
-                                                                        <td><input type="radio" value="NO" required
-                                                                                   name="{{str_replace(' ','', $accessory->code)}}">
-                                                                        </td>
-                                                                        <td style="width: 45%;">
-                                                                            <input typeof="text"
-                                                                                   name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
-                                                                                   class="form-control form-control-sm"/>
-                                                                        </td>
-                                                                    </tr>
-                                                                @endif
-                                                            @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <div class="col">
-                                                        <table
-                                                            class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                            <thead>
-                                                            <tr class="bg-dark">
-                                                                <th class="pl-2">Item</th>
-                                                                <th>Present</th>
-                                                                <th class="pr-2">Not Present</th>
-                                                                <th class="pr-2">Remarks</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            @foreach($accessories as $key => $accessory)
-                                                                @if(($key%2) != 0)
-                                                                    <tr>
-                                                                        <td class="pl-2" style="width: 35%;">
-                                                                            {{$accessory->name}}
-                                                                        </td>
-                                                                        <td><input type="radio" required value="YES"
-                                                                                   name="{{str_replace(' ','', $accessory->code)}}">
-                                                                        </td>
-                                                                        <td><input type="radio" required value="NO"
-                                                                                   name="{{str_replace(' ','', $accessory->code)}}">
-                                                                        </td>
-                                                                        <td style="width: 45%;">
-                                                                            <input typeof="text"
-                                                                                   name="COMMENT_{{str_replace(' ','', $accessory->code)}}"
-                                                                                   class="form-control form-control-sm">
-                                                                        </td>
-                                                                    </tr>
-                                                                @endif
-                                                            @endforeach
-
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @include('modules.requisitions.maintenance.tabs.accessories')
                     </div>
 
                     <h1>Defects</h1>
@@ -514,84 +140,177 @@
     <script src="{{asset("libs/steps/jquery.steps.js")}}"></script>
     <script>
         (function (tmsApp, $) {
+            let form = $('#jobCardForm').show();
+            window.goToNext = false;
+            //window.formWizard = form;
+            let bodyTag = "fieldset";
 
             function initializeFormWizard() {
-                let form = $('#jobCardForm');
-                // formWizard.on("click", function (e) {
-                //     e.stopPropagation();
-                //     $(this).remove();
+                /*formWizard.on("click", function (e) {
+                    e.stopPropagation();
+                    $(this).remove();
+               let jobCardForm = formWizard.show();*/
 
-                //let jobCardForm = formWizard.show();
+                /* function postData() {
+                     let form = $(this);
 
-                function postData() {
-                    let form = $(this);
+                     let formData = {
+                         accidentNature: document.getElementById("accidentNature").value,
+                         accidentType: document.getElementById("accidentType").value,
+                         peopleInvolved: document.getElementById("peopleInvolved").value,
+                         date: document.getElementById("date").value,
+                         time: document.getElementById("time").value,
+                         description: document.getElementById("description").value,
+                         policeNotified: $('input[name="policeNotified"]:checked').val(),
+                         staffNumber: document.getElementById("staffNo").value,
+                         driverName: document.getElementById("driverName").value,
+                         driverEmail: document.getElementById("driverEmail").value,
+                         phoneNo: document.getElementById("phoneNo").value,
+                         age: document.getElementById("driverAge").value,
+                         driverPosition: document.getElementById("driverPosition").value,
+                         registrationNo: document.getElementById("registrationNo").value,
+                         modelNo: document.getElementById("modelNo").value,
+                         vehicleMake: document.getElementById("vehicleMake").value,
+                         chassisNo: document.getElementById("chassisNo").value
+                     }
+
+
+                     $.ajax({
+                         url: form.attr('action'),
+                         type: 'POST',
+                         data: formData,
+                         headers: {
+                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                         },
+                         success: function (response) {
+                             console.log(response)
+
+
+                             if (response.status === 'success') {
+                                 console.log(response)
+                                 launchErrorModal(response.message, "errorDisplay", true)
+
+                             } else {
+                                 launchErrorModal(response.message, "errorDisplay")
+                             }
+
+                         },
+                         error: function () {
+
+                         },
+
+                     })
+
+
+                     function launchErrorModal(message, id, done) {
+                         var modalElement = document.getElementById(id);
+                         var modal = new bootstrap.Modal(modalElement);
+                         modal.show();
+
+                         var modalBody = modalElement.querySelector(".modal-body");
+                         modalBody.innerHTML = message;
+
+                         var modalButton = modalElement.querySelector(".btn-danger");
+                         modalButton.addEventListener("click", function () {
+
+                             if (done) {
+                                 location.reload()
+                             }
+
+                             modal.hide();
+                         });
+                     }
+                 }*/
+
+                function postData(formElements, submitForm) {
+                    window.loaderMessage = "Posting Data... please wait";
+                    let $table = $(formElements);
+
+                    let formSel = $(formElements);
 
                     let formData = {
-                        accidentNature: document.getElementById("accidentNature").value,
-                        accidentType: document.getElementById("accidentType").value,
-                        peopleInvolved: document.getElementById("peopleInvolved").value,
-                        date: document.getElementById("date").value,
-                        time: document.getElementById("time").value,
-                        description: document.getElementById("description").value,
-                        policeNotified: $('input[name="policeNotified"]:checked').val(),
-                        staffNumber: document.getElementById("staffNo").value,
-                        driverName: document.getElementById("driverName").value,
-                        driverEmail: document.getElementById("driverEmail").value,
-                        phoneNo: document.getElementById("phoneNo").value,
-                        age: document.getElementById("driverAge").value,
-                        driverPosition: document.getElementById("driverPosition").value,
-                        registrationNo: document.getElementById("registrationNo").value,
-                        modelNo: document.getElementById("modelNo").value,
-                        vehicleMake: document.getElementById("vehicleMake").value,
-                        chassisNo: document.getElementById("chassisNo").value
+                        modelName: formSel.data('modelName'),
+                        submitForm: submitForm
+                    };
+
+                    //.find("tbody").children().map(function (index, row) {});
+                    let obj = {};
+                    $($table).find('input[name], select[name]').each(function (i, item) {
+                        let val = item.value.replace(/,/g, '');
+
+                        if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
+                            let dateField = val;
+                            //if (item.name !== 'invoiceDate') {
+                            //dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
+                            //}
+                            obj[item.name] = dateField;
+                        } else {
+                            /*if (item.name === 'unitPrice') {
+                                obj[item.name] = tmsApp.getFloat("0.00")
+                            }*/
+
+                            /*if ($.isNumeric(parseFloat(val))) {
+                                obj[item.name] = tmsApp.getFloat(item.value)
+                            }*/
+                            obj[item.name] = item.value || 0;
+
+                        }
+                    });
+
+                    //arr.push(obj);
+
+                    formData = {
+                        ...obj,
+                        ...formData
                     }
 
+                    formSel.find('input[name], select[name]').each(function (i, item) {
+                        //let map = csvUploader.getMapperValue(item.name, item.value);
+                        formData[item.name] = item.value;
+                    });
+
+                    //formData['sales'] = arr;
 
                     $.ajax({
-                        url: form.attr('action'),
-                        type: 'POST',
-                        data: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function (response) {
-                            console.log(response)
-
-
-                            if (response.status === 'success') {
-                                console.log(response)
-                                launchErrorModal(response.message, "errorDisplay", true)
-
+                        type: "POST",
+                        url: formSel.data('formUrl'),
+                        data: JSON.stringify(formData),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                    }).done(function (response) {
+                        window.loaderMessage = "Loading... please wait";
+                        if (response.hasOwnProperty("referenceNumber")) {
+                            swal({
+                                title: "Return Submitted",
+                                text: "The Return filed successfully with reference number: " + response.referenceNumber,
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonClass: "btn-primary",
+                                confirmButtonText: "View Receipt",
+                                cancelButtonText: "Close",
+                                closeOnConfirm: true,
+                                closeOnCancel: true
+                            }, function (isConfirm) {
+                                if (isConfirm) {
+                                    //getNotice(response);
+                                } else {
+                                    window.location.href = $("#context-path").val() + 'Returns/acknowledgeReturn';
+                                }
+                            });
+                        } else if (!Util.isEmpty(response.errors)) {
+                            if (response.errors) {
+                                //csvUploader.showErrors(response.errors);
                             } else {
-                                launchErrorModal(response.message, "errorDisplay")
+                                swal('Error', response.message, 'error');
                             }
-
-                        },
-                        error: function () {
-
-                        },
-
+                        } else if (!Util.isEmpty(response.message)) {
+                            swal('Return Submission', response.message, 'error');
+                        } else {
+                            window.oneScheduleSubmitted = true;
+                            goToNext = true;
+                            form.steps("next");
+                        }
                     })
-
-
-                    function launchErrorModal(message, id, done) {
-                        var modalElement = document.getElementById(id);
-                        var modal = new bootstrap.Modal(modalElement);
-                        modal.show();
-
-                        var modalBody = modalElement.querySelector(".modal-body");
-                        modalBody.innerHTML = message;
-
-                        var modalButton = modalElement.querySelector(".btn-danger");
-                        modalButton.addEventListener("click", function () {
-
-                            if (done) {
-                                location.reload()
-                            }
-
-                            modal.hide();
-                        });
-                    }
                 }
 
                 form.steps({
@@ -606,13 +325,28 @@
                     },
                     onStepChanging: function (event, currentIndex, newIndex) {
                         // Allways allow previous action even if the current form is not valid!
+                        /*  if (currentIndex > newIndex) {
+                              return true;
+                          }
+
+                          // Forbid next action on "Warning" step if the user is to young
+                          if (newIndex === 3 && Number($("#age-2").val()) < 18) {
+                              return false;
+                          }
+
+                          // Needed in some cases if the user went back (clean up)
+                          if (currentIndex < newIndex) {
+                              // To remove error styles
+                              form.find(".body:eq(" + newIndex + ") label.error").remove();
+                              form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+                          }
+
+                          form.validate().settings.ignore = ":disabled,:hidden";
+                          return true;//form.valid();*/
+
+                        // Always allow previous action even if the current form is not valid!
                         if (currentIndex > newIndex) {
                             return true;
-                        }
-
-                        // Forbid next action on "Warning" step if the user is to young
-                        if (newIndex === 3 && Number($("#age-2").val()) < 18) {
-                            return false;
                         }
 
                         // Needed in some cases if the user went back (clean up)
@@ -623,7 +357,16 @@
                         }
 
                         form.validate().settings.ignore = ":disabled,:hidden";
-                        return true;//form.valid();
+                        //make inputs required
+
+                        if (form.valid() && !window.goToNext) {
+                            postData(form.find('[data-model-name]').get(currentIndex), false);
+                        }
+
+                        let tmp = window.goToNext;
+                        window.goToNext = false;
+                        return tmp;
+
                     },
                     onStepChanged: function (event, currentIndex, priorIndex) {
                         // Used to skip the "Warning" step if the user is old enough.
@@ -635,19 +378,74 @@
                         if (currentIndex === 2 && priorIndex === 3) {
                             form.steps("previous");
                         }
+
+                        window.global_currentIndex = currentIndex;
+                        window.goToNext = false;
+
                     },
                     onFinishing: function (event, currentIndex) {
                         form.validate().settings.ignore = ":disabled";
                         return form.valid();
+
                     },
                     onFinished: function () {
-                        postData.call(this);
+                        //postData.call(this);
+                        //$('a[role="#finish"]').disableBtn();
+
+                        if (form.valid()) {
+
+                            let returnTotal = $(document).find('input[name="returnTotal"]');
+                            if (returnTotal) {
+                                if (parseFloat(returnTotal.val()) === parseFloat("0.00")) {
+                                    swal("Error !", "You have not provided any data for the return", "error");
+                                    return;
+                                }
+                            }
+                            if (!window['oneScheduleSubmitted']) {
+                                swal({
+                                    title: "Return Submission",
+                                    text: "At least one schedule must be submitted, Kindly review your data",
+                                    type: "success",
+                                    showCancelButton: false,
+                                    confirmButtonClass: "btn-primary",
+                                    confirmButtonText: "View Receipt",
+                                    cancelButtonText: "Close",
+                                    closeOnConfirm: true,
+                                    closeOnCancel: true
+                                }, function (isConfirm) {
+                                    if (isConfirm) {
+                                        return false;
+                                    }
+                                });
+                            } else {
+                                postData($(form.find(bodyTag).get(currentIndex)).find('[data-model-name]').get(0), true);
+                            }
+                        } else {
+                            $('a[role="#finish"]').enableBtn();
+                            swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
+                        }
+
                     },
 
                 }).validate({
-                    errorPlacement: function errorPlacement(error, element) {
-                        error.insertAfter(element);
+                    errorClass: "error-class",
+                    validClass: "valid-class",
+                    errorElement: 'div',
+                    errorPlacement: function (error, element) {
+                        if (element.parent('.input-group').length) {
+                            error.insertAfter(element.parent());
+                        } else {
+                            error.insertAfter(element);
+                        }
                     },
+                    onError: function () {
+                        $('.input-group.error-class').find('.help-block.form-error').each(function () {
+                            $(this).closest('.form-group').addClass('error-class').append($(this));
+                        });
+                    },
+                    /*errorPlacement: function errorPlacement(error, element) {
+                        error.insertAfter(element);
+                    },*/
                     rules: {},
                     messages: {
                         accidentType: {
