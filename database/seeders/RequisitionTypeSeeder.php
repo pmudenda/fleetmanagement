@@ -15,20 +15,20 @@ class RequisitionTypeSeeder extends Seeder
     {
         DB::table('CONFIG_REQUISITION_TYPES')->insert([
             'name' => 'Normal',
-            'code' => '010',
+            'code' => '10',
             'status' => '01',
             'module' => 'FR'
         ]);
 
         DB::table('CONFIG_REQUISITION_TYPES')->insert([
             'name' => 'Out 0f Town',
-            'code' => '011',
+            'code' => '20',
             'status' => '01',
             'module' => 'FR',
         ]);
         DB::table('CONFIG_REQUISITION_TYPES')->insert([
             'name' => 'Override',
-            'code' => '012',
+            'code' => '30',
             'status' => '01',
             'module' => 'FR',
         ]);

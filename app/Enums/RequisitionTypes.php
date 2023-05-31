@@ -4,9 +4,9 @@ namespace App\Enums;
 
 enum RequisitionTypes: string
 {
-    case Normal = "010";
-    case OutOfTown = "011"; //'011'
+    case Normal = "10";
+    case OutOfTown = "20";
 
-    case Override = "012";
+    case Override = "30";
 
 }

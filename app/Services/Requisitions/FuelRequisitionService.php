@@ -301,11 +301,9 @@ class FuelRequisitionService
                 '=',
                 'VM_ASSIGNMENTS.vehicle_header_id')
             ->where('VM_VEHICLE_HEADER.registration_number', trim($vehicleReference))
+            ->where('VM_ASSIGNMENTS.assignment_state', StatusHelper::active())
             ->select('VM_VEHICLE_HEADER.*', 'VM_ASSIGNMENTS.responsible_head_id')
-            ->get();
-
-        //$vehicle = VehicleHeader::where('registration_number', '=', $vehicleReference)->first();
-        //$assignment = Assignment::where('vehicle_header_id', '=', $vehicle->id)->first();
+            ->first();
 
         $responsibleHead = User::where('staff_no', '=', $vehicleDetail->responsible_head_id)->first();
 
@@ -364,7 +362,7 @@ class FuelRequisitionService
     /**
      * @throws FuelRequisitionException
      */
-    public function processFuelRequisitionApproval(string $reference, $isApproved, $remarks): void
+    public function processFuelRequisitionApproval(string $reference): void
     {
         $requisitionDetail = self::getRequisitionDetail($reference);
 

@@ -493,12 +493,12 @@
                                         @if($requestDetails->cost_assigned_to !='CostCenter')
                                             <td></td>
                                         @endif
-                                        <td class="text-right"><strong>Total Quantity</strong> <span class="text-bold"
-                                                                                                     id="totalQty"></span>
+                                        <td class="text-right"><strong>Total Quantity</strong>
+                                            <span class="text-bold" id="totalQty">{{number_format($requestDetails->price, 2)}}</span>
                                         </td>
                                         <td></td>
                                         <td class="text-right"><strong>Total Amount</strong></td>
-                                        <td><span class="text-bold" id="totalAmount"></span></td>
+                                        <td><span class="text-bold" id="totalAmount">{{number_format($requestDetails->amount, 2)}}</span></td>
                                     </tr>
                                     </tfoot>
                                 </table>
@@ -534,7 +534,8 @@
     <script>
         (function (appInstance, $) {
             $('#approveRequisitionBtn').on('click', function () {
-                appInstance.approval.dialog({
+                appInstance.approval.dialog(
+                    {
                         options: {
                             'recordId': document.querySelector("#taskReference").value,
                             'documentType': 'FuelRequisition',
@@ -543,7 +544,7 @@
                     },
                     'fuelRequisition',
                     document.querySelector('#approvalUrl').value,
-                    function (ajaxResponse, ...args) {
+                    function (ajaxResponse) {
                         if (ajaxResponse.success) {
                             // window.top.toastr.success(response.message);
                             setTimeout(function () {

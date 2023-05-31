@@ -84,14 +84,23 @@
         if (action === 'approve') {
             document.querySelector("#approveSelectedPass").checked = true;
             document.querySelector("#approveSelectedFail").checked = false;
+            document.querySelector("#approveSendBack").checked = false;
             $("#approvalModalTitle").html('<i class="fa fa-pencil-square-o"></i> Approve Requisition');
             $("#remarksTitle").text('Approval Remarks');
-        } else {
+        } else if (action === 'reject') {
             document.querySelector("#approveSelectedFail").checked = true;
             document.querySelector("#approveSelectedPass").checked = false;
+            document.querySelector("#approveSendBack").checked = false;
             $("#approvalModalTitle").html('<i class="fa fa-pencil-square-o"></i>Reject Requisition');
             $("#remarksTitle").text('Rejection Remarks');
+        } else if (action === 'send_back') {
+            document.querySelector("#approveSendBack").checked = true;
+            document.querySelector("#approveSelectedFail").checked = false;
+            document.querySelector("#approveSelectedPass").checked = false;
+            $("#approvalModalTitle").html('<i class="fa fa-pencil-square-o"></i>Send Requisition Back To Originator');
+            $("#remarksTitle").text('Remarks to Originator');
         }
+
 
         if (settings['approvals']) {
             description = settings.approvals.approvalName(approvalType);
@@ -139,13 +148,16 @@
                 return;
             }
 
-            if (requestApproved === 'false') {
+            if (requestApproved === 'reject') {
                 if (remarks.trim() === "") {
                     $approvalMessage.empty().append("You must supply comments when declining.");
                 }
                 return false;
-            } else if (requestApproved === 'true' && requireRemarks && remarks.trim() === "") {
-                $approvalMessage.empty().append("You must supply comments when signing this item.");
+            } else if (requestApproved === 'approve' && requireRemarks && remarks.trim() === "") {
+                $approvalMessage.empty().append("You must supply comments when approving this item.");
+                return false;
+            } else if (requestApproved === 'send_back' && requireRemarks && remarks.trim() === "") {
+                $approvalMessage.empty().append("You must supply comments when sending back this item.");
                 return false;
             }
 
@@ -242,8 +254,9 @@
             openApprovalDialog(
                 settings,
                 approvalType,
-                (...args) => {
+                (args) => {
                     console.log(args);
+                    toastr.error('We encountered a problem while processing your request');
                 },
                 successCallBack,
                 "",
@@ -254,5 +267,3 @@
     }
 
 })(window.tmsApp || {}, jQuery);
-
-//<img src="assets/gif/Eclipse_loading.gif" width="201" height="22">

@@ -33,7 +33,7 @@
                                 <span id="spanApproveBtn" class="mr-3">
                                     <input type="radio"
                                            name="optApprove"
-                                           value="true"
+                                           value="approve"
                                            checked="checked"
                                            id="approveSelectedPass"/>
                                     Approve
@@ -41,9 +41,16 @@
                                 <span id="spanDisapproveBtn">
                                     <input type="radio"
                                            name="optApprove"
-                                           value="false"
+                                           value="reject"
                                            id="approveSelectedFail"/>
                                     Disapprove
+                                </span>
+                                <span id="spanSendBackBtn">
+                                    <input type="radio"
+                                           name="optApprove"
+                                           value="send_back"
+                                           id="approveSendBack"/>
+                                    Send Back
                                 </span>
                                 <br/>
                                 <br/>

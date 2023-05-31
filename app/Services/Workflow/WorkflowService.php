@@ -112,19 +112,19 @@ class WorkflowService
             'sender' => 'SYSTEM',
             'created_by' => $currentUser->id,
             'date_acted' => Carbon::now(),
-            'process_code'=> $processCode
+            'process_code' => $processCode
         ]);
 
         $newProcess = WorkflowTaskDetail::create([
             'reference' => $taskReference,
             'process_code' => $processCode,
-            'user_id'=> $currentUser->staff_no,
+            'user_id' => $currentUser->staff_no,
             'current_step_id' => $stepAfterSubmission->step_id,
             'actioning_officer' => $assignToUser->con_per_no,
             'status' => StatusHelper::new(),
             'step_after_submission' => $actionPage,
             'date_started' => Carbon::now(),
-            'created_by'=> $currentUser->id
+            'created_by' => $currentUser->id
             /*'date_ended'*/
         ]);
 
@@ -207,15 +207,22 @@ class WorkflowService
     /**
      * @throws WorkflowTaskCreationFailedException
      */
-    public function moveWorkflowProcess(string $reference, int $action, string $actionTaken, string $comment, string $processStatus): WorkflowTaskDetail
+    public function moveWorkflowProcess(string $reference,
+                                        $process_id,
+                                        int    $action,
+                                        string $actionTaken,
+                                        string $comment
+    ): WorkflowTaskDetail
     {
+        $processStatus = '';
         // get workflow process
+        $task_detail = WorkflowTaskDetail::where('reference', '=', $reference)
+            ->where('process_code', '=', $process_id)
+            ->first();
 
-        $task_detail = WorkflowTaskDetail::where('reference', '=', $reference)->first();
+        if (empty($task_detail)) throw new WorkflowTaskCreationFailedException("Data Not Found", 999);
 
-        if (empty($task_detail)) return new WorkflowTaskDetail();
-
-        if (empty($task_detail->current_step_id)) {
+        /*if (empty($task_detail->current_step_id)) {
             $task_detail->current_step_id = null;
             $task_detail->actioning_officer = null;
             $task_detail->save();
@@ -223,12 +230,14 @@ class WorkflowService
             self::closePreviousTasks($task_detail);
 
             return $task_detail;
-        }
+        }*/
 
         // get step process is at
-        $stepId = (int)($task_detail->current_step_id);
+        $stepId = (int)$task_detail->current_step_id;
 
-        $current_step = WorkflowStep::where('step_id', '=', $stepId)->first();
+        $current_step = WorkflowStep::where('step_id', '=', $stepId)
+            ->where('process_id', '=', $process_id)
+            ->first();
 
         //update workflow log
         /*if (empty($task_detail->current_step_id)) {

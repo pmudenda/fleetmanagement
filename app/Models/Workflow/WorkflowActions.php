@@ -10,6 +10,16 @@ class WorkflowActions
 
     public static function approve(): int
     {
-        return 5;
+        return 3;
+    }
+
+    public static function rejected(): int
+    {
+        return 2;
+    }
+
+    public static function sendBack(): int
+    {
+        return 0;
     }
 }
