@@ -23,7 +23,8 @@ class ProcurementSystemIntegrationService
     {
         try {
             Log::info('Generating Stores Requisition For Request ' . $doc_no . ' and Area ' . $stores_requisition_number);
-            $results = DB::executeFunction('fn_create_stores_req', [
+
+            $bindings = [
                 'p_ref_no' => $doc_no,
                 'p_reg_no' => $veh_reg_no,
                 'p_store_code' => $stores_code,
@@ -35,7 +36,9 @@ class ProcurementSystemIntegrationService
                 'p_delivery_site' => $delivery_site,
                 'p_transaction_type' => $transactionType,
                 'p_current_user' => auth()->user()->staff_no,
-            ], PDO::PARAM_LOB);
+            ];
+
+            $results = DB::executeFunction('fn_create_stores_req', $bindings, PDO::PARAM_STR);
 
             /*$results = DB::select(
                 'select fn_create_stores_req (:p_ref_no,:p_reg_no,:p_store_code,:p_user_requesting,
@@ -56,7 +59,6 @@ class ProcurementSystemIntegrationService
                     'p_transaction_type' => $transactionType,
                     'p_current_user' => auth()->user()->staff_no,
                 ]);*/
-
 
             $result = null;
             if (is_array($results) && !empty($results)) {
