@@ -1,4 +1,4 @@
-@php use Carbon\Carbon; @endphp
+@php use App\Enums\RequisitionTypes;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 @push('styles')
     <link href="{{asset("assets/plugins/select2/css/select2.min.css")}}" rel="stylesheet" type="text/css"/>
@@ -247,7 +247,7 @@
                                                                        autocapitalize="characters"
                                                                        id="driver_staff_number"
                                                                        placeholder=""
-                                                                       name="driver_staff_number" />
+                                                                       name="driver_staff_number"/>
                                                                 <div class="input-group-addon">
                                                                     <button type="button" id="employeeSearchBtn"
                                                                             name="employeeSearchBtn"
@@ -554,6 +554,7 @@
 
                 <input type="hidden" value="{{ route('user.search') }}" id="newUserSearchUrl">
                 <input type="hidden" value="{{route('search.project')}}" id="projects_url">
+                <input type="hidden" value="{{RequisitionTypes::OutOfTown}}" id="outOfTownReqCode">
             </div>
         </div>
     </section>
@@ -891,9 +892,9 @@
                     odometer_reading: {
                         required: 'You must declare the odometer reading'
                     },
-                   /* driver_staff_number: {
-                        required: "You need to provide driver details"
-                    },*/
+                    /* driver_staff_number: {
+                         required: "You need to provide driver details"
+                     },*/
                 }
             );
 
@@ -976,14 +977,14 @@
             });
 
             $('select[name="requisition_type"]').on('change', function () {
-                if (this.value === '011') {
+                if (this.value === document.querySelector("#outOfTownReqCode").value) {
                     $(".outOfTown").removeClass('d-none');
                     document.querySelector('[name="material_quantity"]').removeAttribute('max');
                 } else {
                     $(".outOfTown").addClass('d-none');
                     //data-max
                     document.querySelector('[name="material_quantity"]')
-                        .setAttribute('max', document.querySelector('[name="material_quantity"]').getAttribute('data-max') );
+                        .setAttribute('max', document.querySelector('[name="material_quantity"]').getAttribute('data-max'));
                 }
             });
 

@@ -6,6 +6,7 @@ use App\Constants\SystemOfOrigin;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use PDO;
 
 class ProcurementSystemIntegrationService
 {
@@ -22,7 +23,21 @@ class ProcurementSystemIntegrationService
     {
         try {
             Log::info('Generating Stores Requisition For Request ' . $doc_no . ' and Area ' . $stores_requisition_number);
-            $results = DB::select(
+            $results = DB::executeFunction('fn_create_stores_req', [
+                'p_ref_no' => $doc_no,
+                'p_reg_no' => $veh_reg_no,
+                'p_store_code' => $stores_code,
+                'p_user_requesting' => auth()->user()->staff_no,
+                'p_job_card' => $job_card_no,
+                'p_system_origin' => SystemOfOrigin::ZESCOFleetMaster,
+                'p_fleet_req_code' => $stores_requisition_number,
+                'p_req_acc_number' => $account,
+                'p_delivery_site' => $delivery_site,
+                'p_transaction_type' => $transactionType,
+                'p_current_user' => auth()->user()->staff_no,
+            ], PDO::PARAM_LOB);
+
+            /*$results = DB::select(
                 'select fn_create_stores_req (:p_ref_no,:p_reg_no,:p_store_code,:p_user_requesting,
                     :p_job_card,:p_system_origin,:p_fleet_req_code,
                     :p_req_acc_number,:p_delivery_site,
@@ -40,7 +55,7 @@ class ProcurementSystemIntegrationService
                     'p_delivery_site' => $delivery_site,
                     'p_transaction_type' => $transactionType,
                     'p_current_user' => auth()->user()->staff_no,
-                ]);
+                ]);*/
 
 
             $result = null;
