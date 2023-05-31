@@ -369,7 +369,7 @@ class FuelRequisitionService
         $results = $this->procurementService->createStoresRequisition(
             $reference,
             $requisitionDetail->veh_reg_no,
-            $requisitionDetail->document_no,
+            $requisitionDetail->form_order,
             '6120301',
             '01',
             '',
@@ -386,8 +386,8 @@ class FuelRequisitionService
         }
 
         MaterialHeader::where('req_no', $reference)->update([
-            'proc_ref' => '',
-            'st_pur' => ''
+            'proc_ref' => $results,
+            'st_pur' => $results
         ]);
 
         Log::info("JNumber Generated with document" . $results);

@@ -22,25 +22,9 @@ class ProcurementSystemIntegrationService
     ): string
     {
         try {
-            Log::info('Generating Stores Requisition For Request ' . $doc_no . ' and Area ' . $stores_requisition_number);
+            Log::info('Generating Stores Requisition For Request ' . $doc_no);
 
             $ZESCOFleetMaster = SystemOfOrigin::ZESCOFleetMaster;
-            /*$bindings = [
-                'p_ref_no' => $doc_no,
-                'p_reg_no' => $veh_reg_no,
-                'p_store_code' => $stores_code,
-                'p_user_requesting' => auth()->user()->staff_no,
-                'p_job_card' => $job_card_no,
-                'p_system_origin' => $ZESCOFleetMaster,
-                'p_fleet_req_code' => $stores_requisition_number,
-                'p_req_acc_number' => $account,
-                'p_delivery_site' => $delivery_site,
-                'p_transaction_type' => $transactionType,
-                'p_current_user' => auth()->user()->staff_no,
-            ];
-
-            $results = DB::executeFunction('fn_create_stores_req', $bindings, PDO::PARAM_STR);
-            */
 
             $pdo = DB::getPdo();
 
@@ -60,40 +44,22 @@ class ProcurementSystemIntegrationService
             $stmt->bindParam(':p_current_user', $user);
             $stmt->execute();
 
-            /*$results = DB::select(
-                'select fn_create_stores_req (:p_ref_no,:p_reg_no,:p_store_code,:p_user_requesting,
-                    :p_job_card,:p_system_origin,:p_fleet_req_code,
-                    :p_req_acc_number,:p_delivery_site,
-                    :p_transaction_type,:p_current_user
-                    ) as value from dual',
-                [
-                    'p_ref_no' => $doc_no,
-                    'p_reg_no' => $veh_reg_no,
-                    'p_store_code' => $stores_code,
-                    'p_user_requesting' => auth()->user()->staff_no,
-                    'p_job_card' => $job_card_no,
-                    'p_system_origin' => SystemOfOrigin::ZESCOFleetMaster,
-                    'p_fleet_req_code' => $stores_requisition_number,
-                    'p_req_acc_number' => $account,
-                    'p_delivery_site' => $delivery_site,
-                    'p_transaction_type' => $transactionType,
-                    'p_current_user' => auth()->user()->staff_no,
-                ]);*/
-
-            $result = null;
+            //$result = null;
             if (is_array($results) && !empty($results)) {
                 $result = $results[0];
-            }else{
+            } else {
                 $result = $results;
             }
 
             Log::info($result);
 
             $rawJNumber = $result;
-            if (str_starts_with('0', $rawJNumber)) {
+
+            if (str_starts_with($rawJNumber, '0')) {
                 return substr($rawJNumber, 1);
             }
             return $rawJNumber;
+
         } catch (\Exception $e) {
             Log::error($e);
             return "";
@@ -111,7 +77,7 @@ class ProcurementSystemIntegrationService
             $result = null;
             if (is_array($results) && !empty($results)) {
                 $result = $results[0];
-            }else{
+            } else {
                 $result = $results;
             }
 
