@@ -87,9 +87,9 @@ class ProcurementSystemIntegrationService
                 $result = $results;
             }
 
-            Log::info($result->value);
+            Log::info($result);
 
-            $rawJNumber = $result->value;
+            $rawJNumber = $result;
             if (str_starts_with('0', $rawJNumber)) {
                 return substr($rawJNumber, 1);
             }
