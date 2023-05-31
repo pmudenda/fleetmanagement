@@ -16,11 +16,12 @@ return new class extends Migration {
             $table->string('workshop_name', 255);
             $table->string('area_code', 2);
             $table->string('status', 2);
-            $table->string('cost_center', 10);
-            $table->string('user_unit', 10)->nullable();
+            $table->string('user_unit', 10);
             $table->string('business_unit', 10)->nullable();
+            $table->string('cost_center', 10)->nullable();
             $table->string('created_by', 10)->nullable();
             $table->string('modified_by', 10)->nullable();
+            $table->string('store_code', 2);
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
