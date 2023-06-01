@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Requisitions;
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
 use App\Enums\Modules;
+use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\VehicleOnBoardingException;
+use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Http\Requests\OdometerValidationRequest;
@@ -94,7 +96,7 @@ class FuelRequisitionController extends Controller
             Log::error($e);
             $message = ErrorMessages::internalServerError;
 
-            if ($e instanceof VehicleOnBoardingException) {
+            if ($e instanceof FuelRequisitionException || $e instanceof WorkflowTaskCreationFailedException) {
                 $message = $e->getMessage();
             }
             return response()->json([
