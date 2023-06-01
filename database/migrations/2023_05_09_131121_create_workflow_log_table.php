@@ -12,15 +12,16 @@ return new class extends Migration {
     {
         Schema::create('WFL_WORKFLOW_LOGS', function (Blueprint $table) {
             $table->id();
-            $table->string('Reference', 255);
-            $table->string('Step_Id', 255);
-            $table->string('Actioning_Officer', 255);
-            $table->string('Action', 255);
-            $table->string('Status', 255);
-            $table->string('Action_Date', 255);
-            $table->string('Next_Step', 255);
-            $table->string('Previous_Step', 255);
-            $table->string('Remarks', 255);
+            $table->string('reference', 255);
+            $table->string('step_id', 255);
+            $table->string('actioning_officer', 255);
+            $table->string('action', 255);
+            $table->string('activity', 255);
+            $table->string('status', 255);
+            $table->string('action_date', 255);
+            $table->string('next_step', 255);
+            $table->string('previous_step', 255);
+            $table->string('remarks', 255);
             $table->timestamps();
         });
     }

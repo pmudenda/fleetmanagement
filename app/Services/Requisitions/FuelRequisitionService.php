@@ -80,8 +80,10 @@ class FuelRequisitionService
         $valid_to = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('next_fuel_date'));
         $valid_from = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('request_date'));
 
+        $workflowProcess = '';
         if ($isLocalRequisition) {
 
+            $workflowProcess = WorkflowProcessCodes::NormalFuelRequisition->value;
             if (!empty($latestPreviousRequisition)) {
                 if (in_array($latestPreviousRequisition->status, $openRequisitionStatusList)) {
                     // requisition is open/pending
@@ -189,17 +191,14 @@ class FuelRequisitionService
 
         $form_order_number = ReferenceNumberGeneratorService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
 
-        //Log::info('Stores Requisition ' . $procurementRef);
-
-        $processDetails = $this->workflowService->startWorkflowProcess(
+        $this->workflowService->initiateWorkflowProcess(
             $requisition_reference_number,
-            WorkflowProcessCodes::FuelRequisition->value,
+            $workflowProcess,
             WorkflowActions::submit(),
             $requisitionPostRequest->get('justification'),
-            $user
+            $user,
+            $requisitionPostRequest->material_amount
         );
-
-        //$message = !empty($requisition_reference_number) ? ' With Approval Reference ' . $requisition_reference_number : '';
 
         MaterialHeader::create(
             [
@@ -216,7 +215,7 @@ class FuelRequisitionService
                 'town_to' => $requisitionPostRequest->get('town_to'),
                 'date_created' => Carbon::now(),
                 'created_by' => $user->id,
-                'requested_by' => $user->name,
+                'requested_by' => $user->staff_no,
                 'comments' => $requisitionPostRequest->justification,
                 'requisition_type' => $requisitionPostRequest->requisition_type,
                 'cost_assigned_to' => $requisitionPostRequest->CostAssignedTo == 'CostCenterBasedRequisition' ? 'CostCenter' : 'Project'
@@ -224,7 +223,7 @@ class FuelRequisitionService
         );
 
         MaterialDetail::create([
-            'created_by' => $user->id,
+            'created_by' => $user->staff_no,
             'date_created' => Carbon::now(),
             'req_no' => $requisition_reference_number,
             'material_code' => $requisitionPostRequest->material_article_code,
@@ -244,9 +243,11 @@ class FuelRequisitionService
 
         DB::commit();
 
+        //$message = !empty($requisition_reference_number) ? ' With Approval Reference ' . $requisition_reference_number : '';
+
         return response()->json([
             'success' => true,
-            'message' => 'Requisition Submitted Successfully. Requisition Number ' . $requisition_reference_number,
+            'message' => 'Requisition Submitted For Approval. Requisition Number ' . $requisition_reference_number,
             'redirectUrl' => URL::signedRoute('show.fuel.requisition', ['ref' => $requisition_reference_number])
         ]);
     }
@@ -382,10 +383,10 @@ class FuelRequisitionService
             throw new FuelRequisitionException($results);
         }
 
-        MaterialHeader::where('req_no', $reference)->update([
+        /*MaterialHeader::where('req_no', $reference)->update([
             'proc_ref' => $results,
             'st_pur' => $results
-        ]);
+        ]);*/
 
         Log::info("JNumber Generated with document" . $results);
 

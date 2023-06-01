@@ -130,7 +130,7 @@ class StatusSeeder extends Seeder
         DB::table('CONFIG_STATUSES')->insert([
             'description'=> '',
             'name'=>'NEW',
-            'code' => '021',
+            'code' => '01',
             'active'=>1,
             'module' => 'MAT',
         ]);
@@ -138,7 +138,7 @@ class StatusSeeder extends Seeder
         DB::table('CONFIG_STATUSES')->insert([
             'description'=> '',
             'name'=>'AUTHORISED',
-            'code' => '022',
+            'code' => '02',
             'active'=>1,
             'module' => 'MAT',
         ]);
@@ -154,7 +154,7 @@ class StatusSeeder extends Seeder
         DB::table('CONFIG_STATUSES')->insert([
             'description'=> '',
             'name'=>'PARTIALLY AUTHORIZED',
-            'code' => '023',
+            'code' => '21',
             'active'=>1,
             'module' => 'MAT',
         ]);

@@ -51,17 +51,17 @@ class StatusHelper
 
     public static function new(): string
     {
-        return "021";
+        return "01";
     }
 
     public static function authorised(): string
     {
-        return "022";
+        return "02";
     }
 
     public static function partiallyAuthorised(): string
     {
-        return "023";
+        return "21";
     }
 
     public static function partiallyReleased(): string

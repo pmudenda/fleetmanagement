@@ -8,7 +8,6 @@ use App\Helpers\Priority;
 use App\Helpers\StatusHelper;
 use App\Models\reference\PHCMSEmployee;
 use App\Models\Security\User;
-use App\Models\Workflow\WorkflowActions;
 use App\Models\Workflow\WorkflowLog;
 use App\Models\Workflow\WorkflowProcess;
 use App\Models\Workflow\WorkflowStep;
@@ -28,11 +27,13 @@ class WorkflowService
      * @return WorkflowTaskDetail
      * @throws WorkflowTaskCreationFailedException
      */
-    public function startWorkflowProcess(string $taskReference,
-                                         int    $processCode,
-                                         int    $action,
-                                         string $comment,
-                                         User   $currentUser): WorkflowTaskDetail
+    public function initiateWorkflowProcess(string $taskReference,
+                                            int    $processCode,
+                                            int    $action,
+                                            string $comment,
+                                            User   $currentUser,
+                                                   $amount
+    ): WorkflowTaskDetail
     {
 
         $process = WorkflowProcess::where('process_code', $processCode)->first();
@@ -59,8 +60,8 @@ class WorkflowService
             'reference' => $taskReference,
             'step_id' => $process_first_step->step_id,
             'actioning_officer' => $currentUser->staff_no,
-            'action' => WorkflowActions::Submit(),
-            //'action' => "Create Document",
+            'action' => $action,
+            'activity' => "Create Document",
             'status' => StatusHelper::Submitted(),
             'action_date' => Carbon::now(),
             'next_step' => $stepAfterSubmission->step_id,
@@ -112,7 +113,8 @@ class WorkflowService
             'sender' => 'SYSTEM',
             'created_by' => $currentUser->id,
             'date_acted' => Carbon::now(),
-            'process_code' => $processCode
+            'process_code' => $processCode,
+            'amount' => $amount
         ]);
 
         $newProcess = WorkflowTaskDetail::create([
@@ -207,42 +209,42 @@ class WorkflowService
     /**
      * @throws WorkflowTaskCreationFailedException
      */
-    public function moveWorkflowProcess(string $reference,
-                                        $process_id,
-                                        int    $action,
-                                        string $actionTaken,
-                                        string $comment
+    public function invokeWorkFlow(string $reference,
+                                          $process_id,
+                                   int    $action,
+                                   string $actionTaken,
+                                   string $comment
     ): WorkflowTaskDetail
     {
-        $processStatus = '';
         // get workflow process
-        $task_detail = WorkflowTaskDetail::where('reference', '=', $reference)
+        $task_header = WorkflowTaskHeader::where('reference', '=', $reference)
             ->where('process_code', '=', $process_id)
             ->first();
 
-        if (empty($task_detail)) throw new WorkflowTaskCreationFailedException("Data Not Found", 999);
+        // get the latest detail leg
+        $task_detail = WorkflowTaskDetail::where('reference', '=', $reference)
+            ->where('process_code', '=', $process_id)
+            ->orderBy('id', 'desc')
+            ->first();
 
-        /*if (empty($task_detail->current_step_id)) {
-            $task_detail->current_step_id = null;
-            $task_detail->actioning_officer = null;
-            $task_detail->save();
+        if (empty($task_detail) || empty($task_header)) throw new WorkflowTaskCreationFailedException("Workflow Data Not Found", 100);
 
-            self::closePreviousTasks($task_detail);
+        if (empty($task_detail->current_step_id)) {
+            throw new WorkflowTaskCreationFailedException("Workflow Detail Record Not Found", 101);
+        }
 
-            return $task_detail;
-        }*/
+        $processStatus = '';
+        // get the current step the process is at
+        //$current_step_id = ;
 
-        // get step process is at
-        $stepId = (int)$task_detail->current_step_id;
-
-        $current_step = WorkflowStep::where('step_id', '=', $stepId)
+        $current_step = WorkflowStep::where('step_id', '=', $task_detail->current_step_id)
             ->where('process_id', '=', $process_id)
             ->first();
 
         //update workflow log
-        /*if (empty($task_detail->current_step_id)) {
-            throw new WorkflowTaskCreationFailedException("Could not determine next step");
-        }*/
+        if (empty($current_step)) {
+            throw new WorkflowTaskCreationFailedException("Could not determine current step", );
+        }
 
         WorkflowLog::create([
             'remarks' => $comment,
@@ -332,7 +334,6 @@ class WorkflowService
                              userId = (int)userRole . UserId;
                          }
                      }*/
-
 
                 $assign_to_user->UserId = $userId;
 

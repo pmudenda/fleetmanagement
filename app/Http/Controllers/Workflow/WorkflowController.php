@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Workflow;
 
 use App\Constants\ErrorMessages;
 use App\Enums\RequisitionTypes;
+use App\Enums\WorkflowProcessCodes;
 use App\Exceptions\FuelRequisitionException;
-use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Workflow\WorkflowActions;
 use App\Models\Workflow\WorkflowTaskHeader;
@@ -44,9 +44,13 @@ class WorkflowController extends Controller
 
             $requisitionDetail = $this->requisitionService->getRequisitionDetail($reference);
 
+            $process_code = '';
             if ($requisitionDetail->requisition_type == RequisitionTypes::OutOfTown) {
+                $process_code = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
             } elseif ($requisitionDetail->requisition_type == RequisitionTypes::Normal) {
+                $process_code = WorkflowProcessCodes::NormalFuelRequisition->value;
             } elseif ($requisitionDetail->requisition_type == RequisitionTypes::Override) {
+                $process_code = WorkflowProcessCodes::OverrideFuelRequisition->value;
             }
 
             $action = '';
@@ -62,16 +66,18 @@ class WorkflowController extends Controller
                 $actionTaken = "SendBack";
             }
 
-            /*$this->workflowService->moveWorkflowProcess(
+           $nextStepId = $this->workflowService->invokeWorkFlow(
                 $reference,
                 $action,
                 $actionTaken,
-                $request->get('Comments')
-            );*/
+                $request->get('Comments'),
+                $process_code
+            );
 
-
-            $this->requisitionService->processFuelRequisitionApproval(
-                $request->get('reference'));
+            if($nextStepId == 100){
+                $this->requisitionService->processFuelRequisitionApproval(
+                    $request->get('reference'));
+            }
 
             return response()->json([
                 'requestPayload' => $request->all(),

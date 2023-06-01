@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->string('description');
             $table->Integer('created_by');
             $table->Integer('modified_by');
+            $table->decimal('amount', 18, 2);
             $table->timestamps();
         });
     }
