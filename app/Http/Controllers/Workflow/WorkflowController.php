@@ -53,7 +53,7 @@ class WorkflowController extends Controller
                 $process_code = WorkflowProcessCodes::OverrideFuelRequisition->value;
             }
 
-            $action = '';
+            $action = 0;
             $actionTaken = '';
             if ($request->get('Approved') === 'approve') {
                 $action = WorkflowActions::approve();
@@ -66,7 +66,7 @@ class WorkflowController extends Controller
                 $actionTaken = "SendBack";
             }
 
-           $nextStepId = $this->workflowService->invokeWorkFlow(
+            $nextStepId = $this->workflowService->invokeWorkFlow(
                 $reference,
                 $action,
                 $actionTaken,
@@ -74,7 +74,7 @@ class WorkflowController extends Controller
                 $process_code
             );
 
-            if($nextStepId == 100){
+            if ($nextStepId == 100) {
                 $this->requisitionService->processFuelRequisitionApproval(
                     $request->get('reference'));
             }

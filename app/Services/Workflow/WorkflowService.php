@@ -138,74 +138,6 @@ class WorkflowService
     }
 
 
-    private function createUserNotification(string $taskReference, int $actioningOfficer, string $title, string $actionPage): void
-    {
-        $currentUser = auth()->user();
-
-        WorkflowTaskHeader::Create([
-            'assigned_user' => $actioningOfficer->con_per_no,
-            'subject' => $title . $taskReference,
-            'message' => 'You have received an approval task',
-            'status' => StatusHelper::new(),
-            'url' => $actionPage,
-            'reference' => $taskReference,
-            'priority' => Priority::high(),
-            'description' => '',
-            'sender' => 'SYSTEM',
-            'created_by' => $currentUser->id,
-            'date_acted' => Carbon::now()
-        ]);
-    }
-
-    public function cancelProcessTask($req_no)
-    {
-    }
-
-
-    private function create_UserNotification(WorkflowTaskDetail $workflowTask, $title, $actionPage): void
-    {
-        if ($workflowTask->ActioningOfficer == null) return;
-
-        $notification = WorkflowTaskHeader::create
-        ([
-            /*Sender = "System",
-            AssignedUser = (int)workflowTask . ActioningOfficer,
-            Subject = $"{title} - " + workflowTask . Reference,
-            Message = " You have received a workflow task  &nbsp; &nbsp;<a style='padding-top: 0.1em;padding-bottom: 0.1em;' class='btn btn-primary btn-md' href='" + actionPage + "?refNo=" +
-             workflowTask . Reference +
-             "'> <i class='fa fa-folder-open-o' aria-hidden='true'></i> Open Task</a>",
-            Status = "SENT",
-            DateReceived = Carbon::now()*/
-        ]);
-    }
-
-    private function closePreviousTasks(WorkflowTaskDetail $process): void
-    {
-        $existingNotifications = WorkflowTaskHeader::where('subject', 'LIKE', "%{$process->reference}%")->get();
-
-        foreach ($existingNotifications as $existingNotification) {
-            $existingNotification->status = StatusHelper::closed();
-            $existingNotification->save();
-        }
-
-    }
-
-
-    public function endProcess($reference): bool
-    {
-        //get workflow process
-        $process = WorkflowTaskDetail::where('reference', '=', $reference);
-
-        if ($process == null) return false;
-
-        $process->current_step_id = null;
-        $process->actioning_officer = null;
-        $process->save();
-
-        return true;
-    }
-
-
     /**
      * @throws WorkflowTaskCreationFailedException
      */
@@ -456,8 +388,76 @@ class WorkflowService
             'step_id' => $current_step->step_id,
             'reference' => $task_detail->reference
         ]);
+
+        return $next_step->step_id;
     }
 
+
+    private function createUserNotification(string $taskReference, int $actioningOfficer, string $title, string $actionPage): void
+    {
+        $currentUser = auth()->user();
+
+        WorkflowTaskHeader::Create([
+            'assigned_user' => $actioningOfficer->con_per_no,
+            'subject' => $title . $taskReference,
+            'message' => 'You have received an approval task',
+            'status' => StatusHelper::new(),
+            'url' => $actionPage,
+            'reference' => $taskReference,
+            'priority' => Priority::high(),
+            'description' => '',
+            'sender' => 'SYSTEM',
+            'created_by' => $currentUser->id,
+            'date_acted' => Carbon::now()
+        ]);
+    }
+
+    public function cancelProcessTask($req_no)
+    {
+    }
+
+
+    private function create_UserNotification(WorkflowTaskDetail $workflowTask, $title, $actionPage): void
+    {
+        if ($workflowTask->ActioningOfficer == null) return;
+
+        $notification = WorkflowTaskHeader::create
+        ([
+            /*Sender = "System",
+            AssignedUser = (int)workflowTask . ActioningOfficer,
+            Subject = $"{title} - " + workflowTask . Reference,
+            Message = " You have received a workflow task  &nbsp; &nbsp;<a style='padding-top: 0.1em;padding-bottom: 0.1em;' class='btn btn-primary btn-md' href='" + actionPage + "?refNo=" +
+             workflowTask . Reference +
+             "'> <i class='fa fa-folder-open-o' aria-hidden='true'></i> Open Task</a>",
+            Status = "SENT",
+            DateReceived = Carbon::now()*/
+        ]);
+    }
+
+    private function closePreviousTasks(WorkflowTaskDetail $process): void
+    {
+        $existingNotifications = WorkflowTaskHeader::where('subject', 'LIKE', "%{$process->reference}%")->get();
+
+        foreach ($existingNotifications as $existingNotification) {
+            $existingNotification->status = StatusHelper::closed();
+            $existingNotification->save();
+        }
+
+    }
+
+    public function endProcess($reference): bool
+    {
+        //get workflow process
+        $process = WorkflowTaskDetail::where('reference', '=', $reference);
+
+        if ($process == null) return false;
+
+        $process->current_step_id = null;
+        $process->actioning_officer = null;
+        $process->save();
+
+        return true;
+    }
 
     public
     function writeDocumentCreationWorkflowLogEntry

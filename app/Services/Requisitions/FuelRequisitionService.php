@@ -2,11 +2,14 @@
 
 namespace App\Services\Requisitions;
 
+use App\Constants\Accounts;
 use App\Constants\ErrorMessages;
+use App\Constants\TransactionType;
 use App\Enums\ItemTypes;
 use App\Enums\RequisitionTypes;
 use App\Enums\VehicleStatusEnum;
 use App\Enums\WorkflowProcessCodes;
+use App\Events\RequisitionRaised;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
@@ -187,9 +190,8 @@ class FuelRequisitionService
 
         $form_order_number = ReferenceNumberGeneratorService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
 
-
         $workflowProcess = '';
-        Log::info('Requisition Type '. $requisitionPostRequest->get('requisition_type'));
+        Log::info('Requisition Type ' . $requisitionPostRequest->get('requisition_type'));
         if ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::OutOfTown->value) {
             $workflowProcess = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
         } elseif ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::Normal->value) {
@@ -250,7 +252,8 @@ class FuelRequisitionService
 
         DB::commit();
 
-        //$message = !empty($requisition_reference_number) ? ' With Approval Reference ' . $requisition_reference_number : '';
+        //RequisitionRaised::dispatch();
+        Log::info('Requisition ' . $requisition_reference_number . ' raised successfully');
 
         return response()->json([
             'success' => true,
@@ -378,24 +381,19 @@ class FuelRequisitionService
             $reference,
             $requisitionDetail->veh_reg_no,
             $requisitionDetail->form_order,
-            '6120301',
-            '01',
+            Accounts::DefaultMotorVehicleAccount,
+            TransactionType::FuelRequisition,
         );
 
         if (empty($results)) {
-            throw new FuelRequisitionException("Could not Approve Requisition");
+            throw new FuelRequisitionException("Requisition could not approved ");
         }
 
         if (!str_contains($results, 'J01')) {
             throw new FuelRequisitionException($results);
         }
 
-        /*MaterialHeader::where('req_no', $reference)->update([
-            'proc_ref' => $results,
-            'st_pur' => $results
-        ]);*/
-
-        Log::info("JNumber Generated with document" . $results);
+        Log::info("Stores Requisition Generated with document" . $results);
 
     }
 }
