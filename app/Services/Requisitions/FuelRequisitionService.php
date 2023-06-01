@@ -53,11 +53,11 @@ class FuelRequisitionService
     public function processRequest(FuelRequisitionPostRequest $requisitionPostRequest): JsonResponse
     {
         $isOutOfTownRequisition =
-            $requisitionPostRequest->get('requisition_type') == RequisitionTypes::OutOfTown;
+            $requisitionPostRequest->get('requisition_type') == RequisitionTypes::OutOfTown->value;
 
-        $isLocalRequisition = $requisitionPostRequest->get('requisition_type') == RequisitionTypes::Normal;
+        $isLocalRequisition = $requisitionPostRequest->get('requisition_type') == RequisitionTypes::Normal->value;
 
-        $isOverrideRequisition = $requisitionPostRequest->get('requisition_type') == RequisitionTypes::Override;
+        $isOverrideRequisition = $requisitionPostRequest->get('requisition_type') == RequisitionTypes::Override->value;
 
         $registrationNumber = $requisitionPostRequest->get('vehicle_registration');
 
@@ -85,8 +85,8 @@ class FuelRequisitionService
                 if (in_array($latestPreviousRequisition->status, $openRequisitionStatusList)) {
                     // requisition is open/pending
 
-                    if (RequisitionTypes::Normal == $latestPreviousRequisition->requisition_type
-                        || RequisitionTypes::Override == $latestPreviousRequisition->requisition_type) {
+                    if (RequisitionTypes::Normal->value == $latestPreviousRequisition->requisition_type
+                        || RequisitionTypes::Override->value == $latestPreviousRequisition->requisition_type) {
 
                         return response()->json([
                             'success' => false,
@@ -95,7 +95,7 @@ class FuelRequisitionService
                                 $latestPreviousRequisition->req_no,
                                 ErrorMessages::vehicleHasActiveRequisition())
                         ]);
-                    } elseif ($latestPreviousRequisition->requisition_type == RequisitionTypes::OutOfTown) {
+                    } elseif ($latestPreviousRequisition->requisition_type == RequisitionTypes::OutOfTown->value) {
                         // cancel requisition
                         $latestPreviousRequisition->status = StatusHelper::cancelled();
                         $latestPreviousRequisition->save();
@@ -106,8 +106,8 @@ class FuelRequisitionService
                 } else {
 
                     // fully issued
-                    if (RequisitionTypes::Normal == $latestPreviousRequisition->requisition_type
-                        || RequisitionTypes::Override == $latestPreviousRequisition->requisition_type
+                    if (RequisitionTypes::Normal->value == $latestPreviousRequisition->requisition_type
+                        || RequisitionTypes::Override->value == $latestPreviousRequisition->requisition_type
                     ) {
                         $this->checkIfPreviousRequisitionPeriodElapsed($latestPreviousRequisition, $valid_from);
                     }
@@ -190,11 +190,11 @@ class FuelRequisitionService
 
         $workflowProcess = '';
         Log::info('Requisition Type '. $requisitionPostRequest->get('requisition_type'));
-        if ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::OutOfTown) {
+        if ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::OutOfTown->value) {
             $workflowProcess = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
-        } elseif ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::Normal) {
+        } elseif ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::Normal->value) {
             $workflowProcess = WorkflowProcessCodes::NormalFuelRequisition->value;
-        } elseif ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::Override) {
+        } elseif ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::Override->value) {
             $workflowProcess = WorkflowProcessCodes::OverrideFuelRequisition->value;
         }
 
