@@ -14,6 +14,7 @@ use App\Models\Workflow\WorkflowStep;
 use App\Models\Workflow\WorkflowTaskDetail;
 use App\Models\Workflow\WorkflowTaskHeader;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class WorkflowService
 {
@@ -35,6 +36,8 @@ class WorkflowService
                                                    $amount
     ): WorkflowTaskDetail
     {
+
+        Log::info('Reference '.$taskReference .' Process Code '. $processCode .' Action '. $action .' Comment '. $comment .' Amount '. $amount);
 
         $process = WorkflowProcess::where('process_code', $processCode)->first();
 
