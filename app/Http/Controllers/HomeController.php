@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ConfigHelper;
+use App\Helpers\StatusHelper;
+use App\Models\Workflow\WorkflowTaskHeader;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -23,6 +25,11 @@ class HomeController extends Controller
 
     public function dashboard(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        return view('dashboard.home');
+        $user = auth()->user();
+
+        $approvalTasks = WorkflowTaskHeader::where('assigned_user', '=', $user->staff_no)
+            ->where('status', '=', StatusHelper::pendingApproval())
+            ->get();
+        return view('dashboard.home')->with(compact('approvalTasks'));
     }
 }

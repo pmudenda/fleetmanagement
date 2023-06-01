@@ -13,7 +13,6 @@
     <section class="content">
         <div class="container-fluid">
 
-
             <div class="row">
                 <div class="col-lg-3 col-6">
 
@@ -216,7 +215,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach(WorkflowTaskHeader::where('assigned_user','=', auth()->user()->staff_no)->get() as $rec)
+                                    @foreach($approvalTasks as $rec)
                                         <tr>
                                             <td>
                                                 <a href="{{URL::signedRoute('show.fuel.requisition', ['ref'=>  $rec->reference])}}">

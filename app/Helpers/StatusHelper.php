@@ -54,6 +54,11 @@ class StatusHelper
         return "01";
     }
 
+    public static function pendingApproval(): string
+    {
+        return "01";
+    }
+
     public static function authorised(): string
     {
         return "02";
@@ -87,10 +92,6 @@ class StatusHelper
     public static function cancelled(): string
     {
         return "027";
-    }
-
-    public static function PendingApproval()
-    {
     }
 
     public static function closed(): string
