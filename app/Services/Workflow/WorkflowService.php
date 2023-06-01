@@ -214,8 +214,10 @@ class WorkflowService
                                    int    $action,
                                    string $actionTaken,
                                    string $comment
-    ): WorkflowTaskDetail
+    ): int
     {
+        return 100;
+        $user = auth()->user();
         // get workflow process
         $task_header = WorkflowTaskHeader::where('reference', '=', $reference)
             ->where('process_code', '=', $process_id)
@@ -245,18 +247,6 @@ class WorkflowService
         if (empty($current_step)) {
             throw new WorkflowTaskCreationFailedException("Could not determine current step", );
         }
-
-        WorkflowLog::create([
-            'remarks' => $comment,
-            'action_date' => Carbon::now(),
-            'actioning_officer' => auth()->user()->staff_no,
-            'action' => $actionTaken,
-            'status' => $processStatus,
-            'next_step' => $current_step->next_step,
-            'previous_step' => $current_step->previous_step,
-            'step_id' => $current_step->step_id,
-            'reference' => $task_detail->reference
-        ]);
 
         switch ($action) {
 
@@ -449,6 +439,19 @@ class WorkflowService
                 //process is finished
                 return $task_detail;
         }
+
+
+        WorkflowLog::create([
+            'remarks' => $comment,
+            'action_date' => Carbon::now(),
+            'actioning_officer' => $user->staff_no,
+            'action' => $actionTaken,
+            'status' => $processStatus,
+            'next_step' => $current_step->next_step,
+            'previous_step' => $current_step->previous_step,
+            'step_id' => $current_step->step_id,
+            'reference' => $task_detail->reference
+        ]);
     }
 
 
