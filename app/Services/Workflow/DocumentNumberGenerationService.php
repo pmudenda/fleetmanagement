@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class ReferenceNumberGeneratorService
+class DocumentNumberGenerationService
 {
     public static function generateReferenceNumber($module): string
     {

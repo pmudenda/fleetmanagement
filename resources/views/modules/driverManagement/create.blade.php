@@ -142,7 +142,7 @@
 
                                                     <div class="col-xs-12 col-sm-6 col-md-5">
                                                         <div class="container-fluid pl-0">
-                                                            <div class="row">
+                                                            <div class="row" style="display: none;">
                                                                 <div class="form-group row">
                                                                     <label
                                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
@@ -337,7 +337,7 @@
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="date"
-                                                                               min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
+                                                                               {{--min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"--}}
                                                                                class="form-control form-control-sm"
                                                                                id="license_date_expiry"
                                                                                name="license_date_expiry"
@@ -842,6 +842,7 @@
                 console.log();
                 let expiryDate = addYears(date, 5);
                 document.querySelector('[name="license_date_expiry"]').setAttribute('max', reformatDate(expiryDate, "ISO"));
+                document.querySelector('[name="license_date_expiry"]').setAttribute('min', reformatDate(date, "ISO"));
             });
 
             $('[name="license_date_expiry"]').on('change', function () {

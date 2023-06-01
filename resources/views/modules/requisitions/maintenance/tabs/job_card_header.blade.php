@@ -155,7 +155,7 @@
                                            data-validation-method="fuelRequisitionOdometerReading"
                                            data-params="[odometerNumber, vehicleRegistration]"
                                            class="form-control form-control-sm when_valid number_input"
-                                           id="odometer_reading"
+                                           id="service_advisor"
                                            value="{{ auth()->user()->name }} | RECEPTION"
                                            required
                                            readonly
@@ -179,7 +179,7 @@
                                     Accident No:
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    <select name="requisition_type" id="requisition_type"
+                                    <select name="accident_number" id="accident_number"
                                             class="form-control form-select-sm when_valid"
                                             required>
                                         <option value=""> --Select--</option>
@@ -198,10 +198,12 @@
                             <div class="form-group row">
                                 <label
                                     class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                    for="request_date">Odometer:</label>
+                                    for="current_odometer">Odometer:</label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    <input type="number" class="form-control form-control-sm"
-                                           id="request_date" name="request_date" required />
+                                    <input type="number"
+                                           class="form-control form-control-sm"
+                                           id="current_odometer"
+                                           name="current_odometer" required />
                                 </div>
                             </div>
                         </div>

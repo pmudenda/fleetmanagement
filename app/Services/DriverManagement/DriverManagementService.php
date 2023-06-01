@@ -8,7 +8,7 @@ use App\Http\Requests\DriverOnboardingRequest;
 use App\Models\Driver;
 use App\Models\Workflow\WorkflowModules;
 use App\Services\FileUploads\FileUploadService;
-use App\Services\Workflow\ReferenceNumberGeneratorService;
+use App\Services\Workflow\DocumentNumberGenerationService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +33,7 @@ class DriverManagementService
         DB::beginTransaction();
         $user = Auth::user();
 
-        $on_boarding_reference = ReferenceNumberGeneratorService::generateReferenceNumber(
+        $on_boarding_reference = DocumentNumberGenerationService::generateReferenceNumber(
             WorkflowModules::DRIVER_ONBOARDING
         );
 

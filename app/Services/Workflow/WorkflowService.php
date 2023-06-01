@@ -198,23 +198,20 @@ class WorkflowService
                         'action' => $action,
                         'activity' => $actionTaken,
                         'status' => StatusHelper::authorised(),
-                        //'next_step' => $current_step->next_step,
                         'previous_step' => $current_step->previous_step,
                         'step_id' => $current_step->step_id,
                         'reference' => $reference
                     ]);
 
-                    //$this->endProcess($reference);
                     $task_header->date_ended = Carbon::now();
                     $task_header->status = StatusHelper::approved();
                     $task_header->save();
+
                     $task_detail->date_ended = Carbon::now();
-                    /*$task_detail->actioning_officer = null;*/
+                    $task_detail->save();
 
-                    //PreviousTasks($task_detail);
-                    //process is finished
-
-                    WorkflowTaskDetail::create([
+                    /*
+                     WorkflowTaskDetail::create([
                         'reference' => $reference,
                         'process_code' => $process_id,
                         'user_id' => $current_user->id,
@@ -226,6 +223,7 @@ class WorkflowService
                         'created_by' => $current_user->staff_no,
                         'date_ended' => Carbon::now(),
                     ]);
+                    */
 
                     return 100;
                 }

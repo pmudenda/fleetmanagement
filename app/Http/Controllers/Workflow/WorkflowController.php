@@ -76,8 +76,7 @@ class WorkflowController extends Controller
             );
 
             if ($nextStepId == 100) {
-                $this->requisitionService->processFuelRequisitionApproval(
-                    $request->get('reference'));
+                $this->requisitionService->createStoresRequisition($request->get('reference'));
             }
 
             return response()->json([

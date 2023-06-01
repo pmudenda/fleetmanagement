@@ -22,7 +22,7 @@ use App\Models\Workflow\WorkflowActions;
 use App\Models\Workflow\WorkflowModules;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
-use App\Services\Workflow\ReferenceNumberGeneratorService;
+use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\Workflow\WorkflowService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -186,9 +186,9 @@ class FuelRequisitionService
         /********************************************** Save Data **************************************/
         $user = Auth()->user();
 
-        $requisition_reference_number = ReferenceNumberGeneratorService::generateReferenceNumber(WorkflowModules::FUEL_REQUISITION);
+        $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::FUEL_REQUISITION);
 
-        $form_order_number = ReferenceNumberGeneratorService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
+        $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
 
         $workflowProcess = '';
         Log::info('Requisition Type ' . $requisitionPostRequest->get('requisition_type'));
@@ -357,7 +357,7 @@ class FuelRequisitionService
      * @param $req_no
      * @return Model|Builder|object|null
      */
-    public function getRequisitionDetail($req_no)
+    public function getRequisitionDetail($req_no): mixed
     {
         $results = DB::table('GEN_MATERIAL_HEADERS')
             ->where('GEN_MATERIAL_HEADERS.req_no', $req_no)
@@ -373,7 +373,7 @@ class FuelRequisitionService
     /**
      * @throws FuelRequisitionException
      */
-    public function processFuelRequisitionApproval(string $reference): void
+    public function createStoresRequisition(string $reference): void
     {
         $requisitionDetail = self::getRequisitionDetail($reference);
 
@@ -393,7 +393,7 @@ class FuelRequisitionService
             throw new FuelRequisitionException($results);
         }
 
-        Log::info("Stores Requisition Generated with document" . $results);
+        Log::info("Stores Requisition Generated with document " . $results);
 
     }
 }
