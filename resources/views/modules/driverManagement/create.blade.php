@@ -7,6 +7,24 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+    <style>
+        label {
+            display: flex;
+            align-items: center;
+        }
+
+        span::after {
+            padding-left: 5px;
+        }
+
+        input:invalid + span::after {
+            content: "✖";
+        }
+
+        input:valid + span::after {
+            content: "✓";
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -61,7 +79,7 @@
                                                                 </label>
                                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                     <div class="input-group">
-                                                                        <input type="text"
+                                                                        <input type="search"
                                                                                data-action="{{route('user.search')}}"
                                                                                class="form-control form-control-sm"
                                                                                id="staff_number"
@@ -249,7 +267,7 @@
                                                                                 <input id="designated-driver-yes"
                                                                                        type="radio"
                                                                                        name="isDesignatedDriver"
-                                                                                       value="yes">
+                                                                                       value="yes" disabled />
                                                                                 <label
                                                                                     for="designated-driver-yes">Yes</label>
                                                                             </div>
@@ -258,7 +276,7 @@
                                                                                        type="radio"
                                                                                        checked
                                                                                        name="isDesignatedDriver"
-                                                                                       value="no">
+                                                                                       value="no" disabled />
                                                                                 <label
                                                                                     for="designated-driver-no">No</label>
                                                                             </div>
@@ -752,9 +770,10 @@
 
                 if (data?.job_title.toLowerCase().indexOf("driver")) {
                     document.querySelector('#designated-driver-yes').checked = true;
-                    //$('[name="isDesignatedDriver"]').attr('readonly', 'readonly');
+                    document.querySelector('#designated-driver-yes').removeAttribute('disabled');
                 } else {
                     document.querySelector('#designated-driver-no').checked = true;
+                    document.querySelector('#designated-driver-no').removeAttribute('disabled');
                 }
             }
 
@@ -828,7 +847,8 @@
 
                 let data = '';
                 if (format === 'ISO') {
-                    let datePart = date.toLocaleDateString().split(' ')[0];
+                    let datePart = new Intl.DateTimeFormat('en-GB').format(date);// .toDateString().split(' ')[0];
+                    console.log(datePart);
                     let dateParts = datePart.split('/');
                     data = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
                 }
@@ -839,15 +859,16 @@
 
             $('[name="license_date_issued"]').on('change', function () {
                 let date = new Date(this.value);
-                console.log();
+                //reformatDate(date, "ISO")
+                document.querySelector('[name="license_date_expiry"]').setAttribute('min', this.value);
                 let expiryDate = addYears(date, 5);
                 document.querySelector('[name="license_date_expiry"]').setAttribute('max', reformatDate(expiryDate, "ISO"));
-                document.querySelector('[name="license_date_expiry"]').setAttribute('min', reformatDate(date, "ISO"));
+
             });
 
             $('[name="license_date_expiry"]').on('change', function () {
-                let date = new Date(this.value);
-                document.querySelector('[name="permit_date_expiry"]').value = reformatDate(date, "ISO");
+                //let date = new Date(this.value);
+                //document.querySelector('[name="permit_date_expiry"]').value = reformatDate(date, "ISO");
             });
 
             $('#license_number').on('keyup paste enter', function () {
