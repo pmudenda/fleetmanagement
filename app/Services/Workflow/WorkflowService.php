@@ -173,9 +173,20 @@ class WorkflowService
             ->where('process_id', '=', $process_id)
             ->first();
 
+
         //update workflow log
         if (empty($current_step)) {
             throw new WorkflowTaskCreationFailedException("Approval Process Current State Record Not Found", 102);
+        }
+
+
+        $next_step = WorkflowStep::where('step_id', '=', $current_step->next_step)
+            ->where('process_id', '=', $process_id)
+            ->first();
+
+
+        if (empty($next_step)) {
+            throw new WorkflowTaskCreationFailedException("Approval Process Next State Record Not Found", 102);
         }
 
         switch ($action) {
@@ -186,7 +197,7 @@ class WorkflowService
                 break;
             case 3: // approved
                 //check if the current step is final step .CurrentStep.IsFinalStep == 1
-                if ($current_step->is_final_step || $current_step->is_final_step == '1' || $current_step->is_final_step == 1) {
+                if ($next_step->is_final_step || $next_step->is_final_step == '1' || $next_step->is_final_step == 1) {
                     Log::info("Approving and Ending Process");
 
                     WorkflowLog::create([
@@ -230,9 +241,7 @@ class WorkflowService
 
                 //get next step
 
-                $next_step = WorkflowStep::where('step_id', '=', $current_step->next_step);
-
-                if ($next_step == null) {
+                /*if ($next_step == null) {
                     $task_detail->current_step_id = null;
                     $task_detail->actionong_officer = null;
                     $task_detail->save();
@@ -240,9 +249,9 @@ class WorkflowService
                     self::closePreviousTasks($task_detail);
 
                     return $task_detail;
-                }
+                }*/
 
-                $task_detail->current_step_id = $next_step->step_id;
+                //$task_detail->current_step_id = $next_step->step_id;
 
                 //send notification to actioning officer
 
@@ -250,18 +259,18 @@ class WorkflowService
 
                 $userRoles = [];
 
-                if ($next_step->privilege != null) {
-                    /*userRoles = _context . UserRoles
+                /*if ($next_step->privilege != null) {
+                    userRoles = _context . UserRoles
                         . include(usr => usr . User)
                     .Where(ur => ur . RoleId == nextStep . Role)
-                    .ToList();*/
-                }
+                    .ToList();
+                    }*/
 
-                $assign_to_user = new User([0]);
+                //$assign_to_user = new User([0]);
 
                 $smalletNumberOfTasks = 0;
                 //find current_user with the least number of tasks and assign this task
-                $userId = 0;
+                //$userId = 0;
                 /*foreach ($userRoles as $userRole) {
                     //
                      $actioningTasks = WorkflowTaskDetail::where(
@@ -281,7 +290,7 @@ class WorkflowService
                          }
                      }*/
 
-                $assign_to_user->UserId = $userId;
+              /*  $assign_to_user->UserId = $userId;
 
                 if ($assign_to_user->user_id != 0) {
                     $task_detail->actioning_officer = $assign_to_user->user_id;
@@ -306,7 +315,7 @@ class WorkflowService
                         $task_detail, "New Connection Request Work Task",
                         $next_step->action_page
                     );
-                }
+                }*/
 
                 return 00;
             case 5:

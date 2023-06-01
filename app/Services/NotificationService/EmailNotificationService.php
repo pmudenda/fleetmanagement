@@ -216,47 +216,4 @@ class EmailNotificationService
         }
         return true;
     }
-
-    /**
-     * @param $recipient
-     * @param $sender
-     * @param $task
-     * @param string $action
-     * @return bool
-     * @deprecated use sendNotification instead
-     */
-    public static function sendWorkDoneNotification($recipient, $sender, $task, string $action): bool
-    {
-        try {
-
-            if ($action === 'approved') {
-                //ignored
-            } else {
-            }
-            $to[] = ['email' => $recipient->email, 'name' => $recipient->name];
-            $names = $recipient->name;
-
-            $details = [
-                'name' => $names,
-                'systemLink' => 'task.show',
-                'identity' => $task->taskNumber,
-                'subject' => "Task Needs Your Approval",
-                'title' => "Task Needs Your Approval",
-                'body' => "Please be informed that the Task with reference number <strong>{$task->taskNumber}</strong>,
-                               assigned to {$sender->name}  has been completed and
-                               needs your attention.
-                               <br>Kindly click on the button below to login to ZQMS
-                               and take action.<br> Regards. "
-            ];
-
-
-            Mail::to($to)->send(new SendMail($details));
-            Log::info('Email Sent ');
-        } catch (Exception $e) {
-            Log::error($e);
-            return false;
-        }
-        return true;
-    }
-
 }
