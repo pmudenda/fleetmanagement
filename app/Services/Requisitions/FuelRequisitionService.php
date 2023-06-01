@@ -209,7 +209,7 @@ class FuelRequisitionService
             $requisitionPostRequest->material_amount
         );
 
-        MaterialHeader::create(
+        $matHeader = MaterialHeader::create(
             [
                 'req_no' => $requisition_reference_number,
                 'form_order' => $form_order_number,
@@ -252,7 +252,7 @@ class FuelRequisitionService
 
         DB::commit();
 
-        //RequisitionRaised::dispatch();
+        RequisitionRaised::dispatch($matHeader);
         Log::info('Requisition ' . $requisition_reference_number . ' raised successfully');
 
         return response()->json([
