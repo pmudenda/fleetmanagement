@@ -944,6 +944,8 @@ CREATE SEQUENCE "FLEETMASTER"."VEH_ONBOARDING_REQ_SEQ" MINVALUE 1 MAXVALUE 99999
 CREATE SEQUENCE "FLEETMASTER"."WKSH_JOBCARD_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
     20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
 
+CREATE SEQUENCE "FLEETMASTER"."ZFM_ACC_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
+    20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
 
         CREATE OR REPLACE FUNCTION fn_generate_reference_number (
             p_module VARCHAR2,
@@ -974,10 +976,12 @@ CREATE SEQUENCE "FLEETMASTER"."WKSH_JOBCARD_SEQ" MINVALUE 1 MAXVALUE 99999999999
             ELSIF p_module = 'VEH_ONBOARD' THEN
                 v_prefix := 'VEHONB';
                 v_next_num := "FLEETMASTER"."VEH_ONBOARDING_REQ_SEQ".nextval;
-        
             ELSIF p_module = 'JOB_CAR' THEN
-                v_prefix := 'JB';
+                v_prefix := 'ZFMJC';
                 v_next_num := "FLEETMASTER"."WKSH_JOBCARD_SEQ".nextval;
+            ELSIF p_module = 'ACC_RPT' THEN
+                v_prefix := 'ZFMACC';
+                v_next_num := "FLEETMASTER"."ZFM_ACC_SEQ".nextval;
             END IF;
         
             v_reference := v_prefix

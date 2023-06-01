@@ -81,8 +81,7 @@ class UsersController extends Controller
                 } catch (\Exception $ex) {
                     Log::error($ex);
                     throw new UserOnBoardingException(
-                        "User Failed to be created because the Staff number ("
-                        . $request->staff_number . ") could not be verified with PHCMS.");
+                        "User Failed to be created because the Staff number (" . $request->staff_number . ") could not be verified with PHCMS.");
                 }
                 $employee = User::firstOrCreate(
                     [
@@ -213,6 +212,9 @@ class UsersController extends Controller
 
     public function show(User $user): Factory|View|Application
     {
+        $user = User::where('id', '=', $user->id)
+
+            ->first();
         $roles = Role::all();
         return view('modules.userManagement.show')
             ->with(compact('user', 'roles'));
