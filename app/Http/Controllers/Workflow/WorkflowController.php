@@ -6,6 +6,7 @@ use App\Constants\ErrorMessages;
 use App\Enums\RequisitionTypes;
 use App\Enums\WorkflowProcessCodes;
 use App\Exceptions\FuelRequisitionException;
+use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Http\Controllers\Controller;
 use App\Models\Workflow\WorkflowActions;
 use App\Models\Workflow\WorkflowTaskHeader;
@@ -45,11 +46,11 @@ class WorkflowController extends Controller
             $requisitionDetail = $this->requisitionService->getRequisitionDetail($reference);
 
             $process_code = '';
-            if ($requisitionDetail->requisition_type == RequisitionTypes::OutOfTown) {
+            if ($requisitionDetail->requisition_type == RequisitionTypes::OutOfTown->value) {
                 $process_code = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
-            } elseif ($requisitionDetail->requisition_type == RequisitionTypes::Normal) {
+            } elseif ($requisitionDetail->requisition_type == RequisitionTypes::Normal->value) {
                 $process_code = WorkflowProcessCodes::NormalFuelRequisition->value;
-            } elseif ($requisitionDetail->requisition_type == RequisitionTypes::Override) {
+            } elseif ($requisitionDetail->requisition_type == RequisitionTypes::Override->value) {
                 $process_code = WorkflowProcessCodes::OverrideFuelRequisition->value;
             }
 
@@ -68,10 +69,10 @@ class WorkflowController extends Controller
 
             $nextStepId = $this->workflowService->invokeWorkFlow(
                 $reference,
+                $process_code,
                 $action,
                 $actionTaken,
-                $request->get('Comments'),
-                $process_code
+                $request->get('Comments')
             );
 
             if ($nextStepId == 100) {
@@ -88,7 +89,7 @@ class WorkflowController extends Controller
         } catch (\Exception $e) {
             Log::error($e);
             $message = ErrorMessages::internalServerError;
-            if ($e instanceof FuelRequisitionException) {
+            if ($e instanceof FuelRequisitionException || $e instanceof WorkflowTaskCreationFailedException) {
                 $message = $e->getMessage();
             }
 

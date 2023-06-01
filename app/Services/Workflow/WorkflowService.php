@@ -142,34 +142,32 @@ class WorkflowService
      * @throws WorkflowTaskCreationFailedException
      */
     public function invokeWorkFlow(string $reference,
-                                          $process_id,
+                                   string $process_id,
                                    int    $action,
                                    string $actionTaken,
                                    string $comment
     ): int
     {
-        return 100;
-        $user = auth()->user();
-        // get workflow process
+        $current_user = auth()->user();
+        // get workflow process header
         $task_header = WorkflowTaskHeader::where('reference', '=', $reference)
             ->where('process_code', '=', $process_id)
             ->first();
 
-        // get the latest detail leg
+        // get workflow process detail
         $task_detail = WorkflowTaskDetail::where('reference', '=', $reference)
             ->where('process_code', '=', $process_id)
             ->orderBy('id', 'desc')
             ->first();
 
-        if (empty($task_detail) || empty($task_header)) throw new WorkflowTaskCreationFailedException("Workflow Data Not Found", 100);
+        if (empty($task_detail) || empty($task_header)) throw new WorkflowTaskCreationFailedException("Approval Process Data Not Found", 100);
 
         if (empty($task_detail->current_step_id)) {
-            throw new WorkflowTaskCreationFailedException("Workflow Detail Record Not Found", 101);
+            throw new WorkflowTaskCreationFailedException("Approval Process Current State Data Is Missing", 101);
         }
 
         $processStatus = '';
-        // get the current step the process is at
-        //$current_step_id = ;
+
 
         $current_step = WorkflowStep::where('step_id', '=', $task_detail->current_step_id)
             ->where('process_id', '=', $process_id)
@@ -177,35 +175,55 @@ class WorkflowService
 
         //update workflow log
         if (empty($current_step)) {
-            throw new WorkflowTaskCreationFailedException("Could not determine current step",);
+            throw new WorkflowTaskCreationFailedException("Approval Process Current State Record Not Found", 102);
         }
 
         switch ($action) {
             case 1:
+                // resubmission
+                break;
             case 2:
                 break;
-            case 3:
+            case 3: // approved
                 //check if the current step is final step .CurrentStep.IsFinalStep == 1
-                if ((bool)$current_step->is_final_step) {
+                if ($current_step->is_final_step || $current_step->is_final_step == '1' || $current_step->is_final_step == 1) {
+                    Log::info("Approving and Ending Process");
+
                     WorkflowLog::create([
                         'remarks' => $comment,
                         'action_date' => Carbon::now(),
-                        'actioning_officer' => $user->staff_no,
+                        'actioning_officer' => $current_user->staff_no,
                         'action' => $action,
                         'activity' => $actionTaken,
-                        'status' => $processStatus,
-                        'next_step' => $current_step->next_step,
+                        'status' => StatusHelper::authorised(),
+                        //'next_step' => $current_step->next_step,
                         'previous_step' => $current_step->previous_step,
                         'step_id' => $current_step->step_id,
                         'reference' => $reference
                     ]);
 
-                    $this->endProcess($reference);
+                    //$this->endProcess($reference);
+                    $task_header->date_ended = Carbon::now();
+                    //$task_header->status = StatusHelper::approved();
+                    $task_header->save();
                     /* $task_detail->current_step_id = null;
-                    $task_detail->actioning_officer = null;
-                    $task_detail->save();*/
+                    $task_detail->actioning_officer = null;*/
+
                     //PreviousTasks($task_detail);
                     //process is finished
+
+                    WorkflowTaskDetail::create([
+                        'reference' => $reference,
+                        'process_code' => $process_id,
+                        'user_id' => $current_user->id,
+                        'current_step_id' => $current_step->step_id,
+                        'actioning_officer' => $current_user->staff_no,
+                        'status' => StatusHelper::new(),
+                        'step_after_submission' => $current_step->action_page,
+                        'date_started' => Carbon::now(),
+                        'created_by' => $current_user->staff_no,
+                        'date_ended' => Carbon::now(),
+                    ]);
 
                     return 100;
                 }
@@ -228,7 +246,7 @@ class WorkflowService
 
                 //send notification to actioning officer
 
-                //find user with role
+                //find current_user with role
 
                 $userRoles = [];
 
@@ -242,7 +260,7 @@ class WorkflowService
                 $assign_to_user = new User([0]);
 
                 $smalletNumberOfTasks = 0;
-                //find user with the least number of tasks and assign this task
+                //find current_user with the least number of tasks and assign this task
                 $userId = 0;
                 /*foreach ($userRoles as $userRole) {
                     //
@@ -380,7 +398,7 @@ class WorkflowService
         WorkflowLog::create([
             'remarks' => $comment,
             'action_date' => Carbon::now(),
-            'actioning_officer' => $user->staff_no,
+            'actioning_officer' => $current_user->staff_no,
             'action' => $actionTaken,
             'status' => $processStatus,
             'next_step' => $current_step->next_step,
