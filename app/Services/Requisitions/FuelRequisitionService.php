@@ -189,6 +189,7 @@ class FuelRequisitionService
 
 
         $workflowProcess = '';
+        Log::info('Requisition Type '. $requisitionPostRequest->get('requisition_type'));
         if ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::OutOfTown) {
             $workflowProcess = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
         } elseif ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::Normal) {
