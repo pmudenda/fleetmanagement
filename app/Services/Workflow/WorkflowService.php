@@ -169,6 +169,7 @@ class WorkflowService
         $processStatus = '';
 
 
+        // always start at current position
         $current_step = WorkflowStep::where('step_id', '=', $task_detail->current_step_id)
             ->where('process_id', '=', $process_id)
             ->first();
@@ -179,16 +180,6 @@ class WorkflowService
             throw new WorkflowTaskCreationFailedException("Approval Process Current State Record Not Found", 102);
         }
 
-
-        $next_step = WorkflowStep::where('step_id', '=', $current_step->next_step)
-            ->where('process_id', '=', $process_id)
-            ->first();
-
-
-        if (empty($next_step)) {
-            throw new WorkflowTaskCreationFailedException("Approval Process Next State Record Not Found", 102);
-        }
-
         switch ($action) {
             case 1:
                 // resubmission
@@ -197,7 +188,7 @@ class WorkflowService
                 break;
             case 3: // approved
                 //check if the current step is final step .CurrentStep.IsFinalStep == 1
-                if ($next_step->is_final_step || $next_step->is_final_step == '1' || $next_step->is_final_step == 1) {
+                if ($current_step->is_final_step || $current_step->is_final_step == '1' || $current_step->is_final_step == 1) {
                     Log::info("Approving and Ending Process");
 
                     WorkflowLog::create([
@@ -239,6 +230,14 @@ class WorkflowService
                     return 100;
                 }
 
+                $next_step = WorkflowStep::where('step_id', '=', $current_step->next_step)
+                    ->where('process_id', '=', $process_id)
+                    ->first();
+
+
+                if (empty($next_step)) {
+                    throw new WorkflowTaskCreationFailedException("Approval Process Next State Record Not Found", 102);
+                }
                 //get next step
 
                 /*if ($next_step == null) {
