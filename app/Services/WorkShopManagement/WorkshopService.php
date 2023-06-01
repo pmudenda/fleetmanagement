@@ -2,8 +2,10 @@
 
 namespace App\Services\WorkShopManagement;
 
+use App\Enums\Modules;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\WorkShopManagement\JobCardHeader;
+use App\Services\Workflow\DocumentNumberGenerationService;
 use Illuminate\Http\Request;
 
 class WorkshopService
@@ -11,6 +13,10 @@ class WorkshopService
 
     public function createJobCard(Request $request)
     {
+        $doc_number = DocumentNumberGenerationService::generateReferenceNumber(Modules::JOB_CARD);
+
+        $doc_number = DocumentNumberGenerationService::generateReferenceNumber(Modules::JOB_CARD);
+
         $user = auth()->user();
         $data = [
             'veh_reg' => $request->get('vehicle_registration'),
@@ -23,7 +29,9 @@ class WorkshopService
             'accident_ref' => $request->get('accident_number'),
             'millage_in' => $request->get('current_odometer'),
             'fuel_level_in' => $request->get('fuel_level'),
-            'driver_in' => $request->get('driver_staff_number')
+            'driver_in' => $request->get('driver_staff_number'),
+            'job_card_no' => $doc_number,
+            'workshop_doc_no' => $doc_number
         ];
 
         JobCardHeader::create($data);
