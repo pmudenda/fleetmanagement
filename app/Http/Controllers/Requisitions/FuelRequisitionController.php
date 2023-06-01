@@ -36,7 +36,8 @@ class FuelRequisitionController extends Controller
 
     public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $requisitions = MaterialHeader::get();
+        $requisitions = MaterialHeader::orderBy('date_created', 'desc')->get();
+
         return view("modules.requisitions.fuel.list")
             ->with(compact('requisitions'));
     }

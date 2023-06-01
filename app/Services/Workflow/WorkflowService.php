@@ -37,11 +37,11 @@ class WorkflowService
     ): WorkflowTaskDetail
     {
 
-        Log::info('Reference '.$taskReference .' Process Code '. $processCode .' Action '. $action .' Comment '. $comment .' Amount '. $amount);
+        Log::info('Reference ' . $taskReference . ' Process Code ' . $processCode . ' Action ' . $action . ' Comment ' . $comment . ' Amount ' . $amount);
 
         $process = WorkflowProcess::where('process_code', $processCode)->first();
 
-        if ($process == null) throw new WorkflowTaskCreationFailedException("Process not Found");
+        if (empty($process)) throw new WorkflowTaskCreationFailedException("Process not Found");
 
         //get the first step in this process
         $process_first_step = WorkflowStep::where('process_id', '=', $processCode)
@@ -71,7 +71,6 @@ class WorkflowService
             'previous_step' => '00',
             'remarks' => $comment
         ]);
-
 
         /****************************** Determine User to assign task ******************************************/
         //find user role required on step after submission
@@ -120,7 +119,11 @@ class WorkflowService
             'amount' => $amount
         ]);
 
-        $newProcess = WorkflowTaskDetail::create([
+        /*self::createUserNotification($taskReference,
+                    $newProcess->ActioningOfficer ?? 0,
+                    "New Incident Request Task", $actionPage);*/
+
+        return WorkflowTaskDetail::create([
             'reference' => $taskReference,
             'process_code' => $processCode,
             'user_id' => $currentUser->staff_no,
@@ -129,15 +132,9 @@ class WorkflowService
             'status' => StatusHelper::new(),
             'step_after_submission' => $actionPage,
             'date_started' => Carbon::now(),
-            'created_by' => $currentUser->id
+            'created_by' => $currentUser->staff_no
             /*'date_ended'*/
         ]);
-
-        /*self::createUserNotification($taskReference,
-            $newProcess->ActioningOfficer ?? 0,
-            "New Incident Request Task", $actionPage);*/
-
-        return $newProcess;
     }
 
 

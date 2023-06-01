@@ -80,10 +80,7 @@ class FuelRequisitionService
         $valid_to = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('next_fuel_date'));
         $valid_from = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('request_date'));
 
-        $workflowProcess = '';
         if ($isLocalRequisition) {
-
-            $workflowProcess = WorkflowProcessCodes::NormalFuelRequisition->value;
             if (!empty($latestPreviousRequisition)) {
                 if (in_array($latestPreviousRequisition->status, $openRequisitionStatusList)) {
                     // requisition is open/pending
@@ -130,7 +127,6 @@ class FuelRequisitionService
             }
 
         } elseif ($isOutOfTownRequisition) {
-            $workflowProcess = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
             // out of town requisition can be more than allocated
             $valid_from = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->get('departure_date'));
             $valid_to = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->get('return_date'));
@@ -151,7 +147,6 @@ class FuelRequisitionService
             }
 
         } elseif ($isOverrideRequisition) {
-            $workflowProcess = WorkflowProcessCodes::OverrideFuelRequisition->value;
             // if there is no previous requisition, throw error
             if (empty($latestPreviousRequisition)) {
                 throw new FuelRequisitionException(ErrorMessages::overrideRequisitionWithoutPriorRequisition);
@@ -191,6 +186,16 @@ class FuelRequisitionService
         $requisition_reference_number = ReferenceNumberGeneratorService::generateReferenceNumber(WorkflowModules::FUEL_REQUISITION);
 
         $form_order_number = ReferenceNumberGeneratorService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
+
+
+        $workflowProcess = '';
+        if ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::OutOfTown) {
+            $workflowProcess = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
+        } elseif ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::Normal) {
+            $workflowProcess = WorkflowProcessCodes::NormalFuelRequisition->value;
+        } elseif ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::Override) {
+            $workflowProcess = WorkflowProcessCodes::OverrideFuelRequisition->value;
+        }
 
         $this->workflowService->initiateWorkflowProcess(
             $requisition_reference_number,
