@@ -914,6 +914,64 @@ END;
     /
 ```
 
+```oracle
+CREATE OR REPLACE FUNCTION fn_generate_reference_number (
+    p_module VARCHAR2,
+    p_user   VARCHAR2
+) RETURN STRING IS
+    v_prefix    VARCHAR2(7);
+    v_next_num  INTEGER;
+    v_reference VARCHAR2(20);
+BEGIN
+    IF p_module = 'FUEL_REQ' THEN
+        v_prefix := 'ZFMFUE';
+        v_next_num := "FLEETMASTER"."FUEL_REQ_SEQ".nextval;
+    ELSIF p_module = 'SPARES_REQ' THEN
+        v_prefix := 'ZFMREF';
+        v_next_num := "FLEETMASTER"."SPARES_REQ_SEQ".nextval;
+    ELSIF p_module = 'PUR' THEN
+        v_prefix := 'ZFMPUR';
+        v_next_num := "FLEETMASTER"."PURCHASE_REQ_SEQ".nextval;
+    ELSIF p_module = 'STR' THEN
+        v_prefix := 'ZFMSTR';
+        v_next_num := "FLEETMASTER"."STORES_REQ_SEQ".nextval;
+    ELSIF p_module = 'REQ' THEN
+        v_prefix := 'ZFMREQ';
+        v_next_num := "FLEETMASTER"."GENERAL_REQ_SEQ".nextval;
+    ELSIF p_module = 'DRV_ONBOARD' THEN
+        v_prefix := 'DRVONB';
+        v_next_num := "FLEETMASTER"."DRV_ONBOARDING_REQ_SEQ".nextval;
+    ELSIF p_module = 'VEH_ONBOARD' THEN
+        v_prefix := 'VEHONB';
+        v_next_num := "FLEETMASTER"."VEH_ONBOARDING_REQ_SEQ".nextval;
+    ELSIF p_module = 'JOB_CAR' THEN
+        v_prefix := 'ZFMJC';
+        v_next_num := "FLEETMASTER"."WKSH_JOBCARD_SEQ".nextval;
+    ELSIF p_module = 'ACC_RPT' THEN
+        v_prefix := 'ZFMACC';
+        v_next_num := "FLEETMASTER"."ZFM_ACC_SEQ".nextval;
+    END IF;
+
+    v_reference := v_prefix
+                   || lpad(to_char(v_next_num), 7, '0');
+    INSERT INTO gen_system_references (
+        reference,
+        module,
+        created_by
+    ) VALUES (
+        v_reference,
+        p_module,
+        p_user
+    );
+
+    RETURN v_reference;
+EXCEPTION
+    WHEN OTHERS THEN
+        dbms_output.put_line('Error encountered during Execution' || sqlerrm);
+        v_reference := 'Error encountered during Execution ' || sqlerrm;
+        RETURN ( v_reference );
+END;
+```
 
 
 ```oracle
@@ -946,58 +1004,43 @@ CREATE SEQUENCE "FLEETMASTER"."WKSH_JOBCARD_SEQ" MINVALUE 1 MAXVALUE 99999999999
 
 CREATE SEQUENCE "FLEETMASTER"."ZFM_ACC_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
     20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
-
-        CREATE OR REPLACE FUNCTION fn_generate_reference_number (
-            p_module VARCHAR2,
-            p_user VARCHAR2
-        ) RETURN STRING IS
-            v_prefix    VARCHAR2(7);
-            v_next_num  INTEGER;
-            v_reference VARCHAR2(20);
-        BEGIN
-            IF p_module = 'FUEL_REQ' THEN
-                v_prefix := 'ZFMFUE';
-                v_next_num := "FLEETMASTER"."FUEL_REQ_SEQ".nextval;
-            ELSIF p_module = 'SPARES_REQ' THEN
-                v_prefix := 'ZFMREF';
-                v_next_num := "FLEETMASTER"."SPARES_REQ_SEQ".nextval;
-            ELSIF p_module = 'PUR' THEN
-                v_prefix := 'ZFMPUR';
-                v_next_num := "FLEETMASTER"."PURCHASE_REQ_SEQ".nextval;
-            ELSIF p_module = 'STR' THEN
-                v_prefix := 'ZFMSTR';
-                v_next_num := "FLEETMASTER"."STORES_REQ_SEQ".nextval;
-            ELSIF p_module = 'REQ' THEN
-                v_prefix := 'ZFMREQ';
-                v_next_num := "FLEETMASTER"."GENERAL_REQ_SEQ".nextval;
-            ELSIF p_module = 'DRV_ONBOARD' THEN
-                v_prefix := 'DRVONB';
-                v_next_num := "FLEETMASTER"."DRV_ONBOARDING_REQ_SEQ".nextval;
-            ELSIF p_module = 'VEH_ONBOARD' THEN
-                v_prefix := 'VEHONB';
-                v_next_num := "FLEETMASTER"."VEH_ONBOARDING_REQ_SEQ".nextval;
-            ELSIF p_module = 'JOB_CAR' THEN
-                v_prefix := 'ZFMJC';
-                v_next_num := "FLEETMASTER"."WKSH_JOBCARD_SEQ".nextval;
-            ELSIF p_module = 'ACC_RPT' THEN
-                v_prefix := 'ZFMACC';
-                v_next_num := "FLEETMASTER"."ZFM_ACC_SEQ".nextval;
-            END IF;
-        
-            v_reference := v_prefix
-                || lpad(to_char(v_next_num), 7, '0');
-            
-            INSERT  INTO GEN_SYSTEM_REFERENCES(
-                                               reference, module, created_by
-                                               ) 
-            VALUES (v_reference, p_module, p_user);
-            COMMIT;
-            RETURN v_reference;
-        EXCEPTION
-            WHEN OTHERS THEN
-                dbms_output.put_line('Error!');
-        END;
 ```
+```oracle
+create or replace FUNCTION fn_syncRequisitions (
+    p IN VARCHAR2
+) RETURN PLS_INTEGER IS
+
+    ls_return VARCHAR2(255);
+    CURSOR cur_requisitions IS
+    SELECT
+        h.st_pur,
+        srh.status
+    FROM
+        gen_material_headers      h,
+        store_requisitions_header srh
+    WHERE
+            h.st_pur = srh.document_no
+        AND srh.system_origin = '04'
+        AND h.status <> srh.status
+        AND h.status IN ( '02', '26' );
+
+BEGIN
+    FOR item IN cur_requisitions LOOP
+        UPDATE gen_material_headers
+        SET
+            status = item.status
+        WHERE
+            st_pur = item.st_pur;
+
+        COMMIT;
+    END LOOP;
+
+    RETURN 1;
+END;
+
+```
+
+
 ```php
 $list = User::select('id', 'user_unit_id', 'con_st_code', 'positions_id', 'staff_no', 'user_unit_code', 'job_code', 'email', 'name', 'created_at', 'phone')
             ->where('email', 'LIKE', "%{$search}%")

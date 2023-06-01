@@ -233,6 +233,59 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6">
+                    <div class="container-fluid pl-0">
+                        <div class="row">
+                            <div class="form-group row">
+                                <label
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                    for="staff_name">
+                                    Driver:
+                                </label>
+                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                    <div class="input-group">
+                                        <input type="text"
+                                               list="employee_list"
+                                               data-action="{{route('driver.search')}}"
+                                               class="form-control form-control-sm"
+                                               autocapitalize="characters"
+                                               id="driver_staff_number"
+                                               placeholder=""
+                                               name="driver_staff_number"/>
+                                        <div class="input-group-addon">
+                                            <button type="button" id="employeeSearchBtn"
+                                                    name="employeeSearchBtn"
+                                                    class="btn btn-success btn-sm border-radius-0">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                        <datalist id="employee_list">
+                                        </datalist>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6">
+                    <div class="container-fluid pl-0">
+                        <div class="row">
+                            <div class="form-group row">
+                                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-11">
+                                    <input type="text"
+                                           class="form-control form-control-sm"
+                                           id="driver_name"
+                                           name="driver_name"
+                                           readonly/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-3">
             <div id="vehicleDetailsContainer" style="display: none;"

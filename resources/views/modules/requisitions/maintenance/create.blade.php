@@ -654,6 +654,57 @@
                 )
             }
 
+            function findDriver() {
+                const staff_number = document.querySelector('#driver_staff_number').value
+                let formData = new FormData();
+                formData.append('searchCriteria', staff_number);
+
+                fetch(
+                    document.querySelector("#driver_staff_number").getAttribute('data-action'),
+                    {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: formData,
+                        referrer: window.baseUrl,
+                        mode: 'cors',
+                        credentials: 'same-origin',
+                    }
+                )
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+
+                        return response.json();
+                    })
+                    .then(response => {
+                        //c
+                        console.log(response);
+
+                        if (!response.success || response.payload.length == 0) {
+                            tmsApp.systemError('Driver Verification', response['message']);
+                            return;
+                        }
+
+                        let optionListStr = '';
+                        if (Array.isArray(response.payload)) {
+                            response.payload.forEach(function (item) {
+                                optionListStr += `<option value="${item['con_per_no']}">${item['con_per_no']} =>${item.name}</option>`;
+                            })
+
+                            $('#employee_list').html(optionListStr);
+                            return;
+                        }
+
+                        document.querySelector('#driver_name').value = response.payload.name;
+                    })
+                    .catch(function (xhr, settings, error) {
+                        tmsApp.showErrorMessages(xhr, 'Driver Validation');
+                    });
+            }
+
             function eventHandler(element, e) {
                 let $table = $('#materialDetailsTable');
 
@@ -705,6 +756,26 @@
                 }
                 removeSubmissionAndDetailsOptions();
                 findVehicle();
+            });
+
+            $('#driver_staff_number').on('keyup paste enter', function () {
+                if (!this.value || this.value.length < 5) {
+                    return;
+                }
+                setTimeout(function () {
+                    findDriver();
+                }, 300);
+            });
+
+            $('#employeeSearchBtn').on('click', function () {
+                if (!document.querySelector("#driver_staff_number").value
+                    || document.querySelector("#driver_staff_number").value.length < 5) {
+                    toastr.warning('Invalid Employee Id Number')
+                    return;
+                }
+                setTimeout(function () {
+                    findDriver();
+                }, 300);
             });
 
             $(document).on('keypress', '.number_input', function (event) {

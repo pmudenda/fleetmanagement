@@ -281,9 +281,7 @@
                                         </div>
 
                                         <div class="col-xs-12 col-sm-12 col-md-6"></div>
-                                        <div class="col-xs-12 col-sm-12 col-md-6">
-
-                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-6"></div>
                                     </div>
 
                                     <div class="row d-none outOfTown">

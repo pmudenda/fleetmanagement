@@ -10,6 +10,11 @@ use PDO;
 
 class ProcurementSystemIntegrationService
 {
+    public static function updateRequisitions(): void
+    {
+        DB::executeFunction('syncRequisitions', ['p' => 3], PDO::PARAM_INT);
+    }
+
     public function createStoresRequisition(
         $doc_no,
         $veh_reg_no,
