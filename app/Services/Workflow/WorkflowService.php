@@ -206,10 +206,10 @@ class WorkflowService
 
                     //$this->endProcess($reference);
                     $task_header->date_ended = Carbon::now();
-                    //$task_header->status = StatusHelper::approved();
+                    $task_header->status = StatusHelper::approved();
                     $task_header->save();
-                    /* $task_detail->current_step_id = null;
-                    $task_detail->actioning_officer = null;*/
+                    $task_detail->date_ended = Carbon::now();
+                    /*$task_detail->actioning_officer = null;*/
 
                     //PreviousTasks($task_detail);
                     //process is finished
@@ -289,32 +289,32 @@ class WorkflowService
                          }
                      }*/
 
-              /*  $assign_to_user->UserId = $userId;
+                /*  $assign_to_user->UserId = $userId;
 
-                if ($assign_to_user->user_id != 0) {
-                    $task_detail->actioning_officer = $assign_to_user->user_id;
-                }
+                  if ($assign_to_user->user_id != 0) {
+                      $task_detail->actioning_officer = $assign_to_user->user_id;
+                  }
 
-                // save process and send notification
-                $task_detail->save();
-                // new notification
+                  // save process and send notification
+                  $task_detail->save();
+                  // new notification
 
-                self::closePreviousTasks($task_detail);
+                  self::closePreviousTasks($task_detail);
 
-                // next step is present
-                $finalApproval = (bool)$next_step->is_final_step;
+                  // next step is present
+                  $finalApproval = (bool)$next_step->is_final_step;
 
-                if ($finalApproval) {
-                    // final approval
-                    //_newConnectionService . Close($task_detail->reference);
+                  if ($finalApproval) {
+                      // final approval
+                      //_newConnectionService . Close($task_detail->reference);
 
-                    //CreateUserNotification(taskDetail, "New Connection Request Work Task", nextStep?.ActionPage);
-                } else {
-                    self::createUserNotification(
-                        $task_detail, "New Connection Request Work Task",
-                        $next_step->action_page
-                    );
-                }*/
+                      //CreateUserNotification(taskDetail, "New Connection Request Work Task", nextStep?.ActionPage);
+                  } else {
+                      self::createUserNotification(
+                          $task_detail, "New Connection Request Work Task",
+                          $next_step->action_page
+                      );
+                  }*/
 
                 return 00;
             case 5:

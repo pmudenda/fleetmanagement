@@ -29,6 +29,7 @@ class HomeController extends Controller
 
         $approvalTasks = WorkflowTaskHeader::where('assigned_user', '=', $user->staff_no)
             ->where('status', '=', StatusHelper::pendingApproval())
+            ->whereNull('date_ended')
             ->get();
         return view('dashboard.home')->with(compact('approvalTasks'));
     }
