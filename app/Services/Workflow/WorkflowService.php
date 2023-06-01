@@ -245,30 +245,37 @@ class WorkflowService
 
         //update workflow log
         if (empty($current_step)) {
-            throw new WorkflowTaskCreationFailedException("Could not determine current step", );
+            throw new WorkflowTaskCreationFailedException("Could not determine current step",);
         }
 
         switch ($action) {
-
-            // Verify = 2,
-            case 2:
-                //   Recommend=3,
-            case 3:
-                // Approve = 4,
-            case 4:
-                // Submit = 1,
             case 1:
-            {
+            case 2:
+                break;
+            case 3:
                 //check if the current step is final step .CurrentStep.IsFinalStep == 1
-                if ((bool)$current_step == $task_detail->is_final_step) {
-                    $task_detail->current_step_id = null;
+                if ((bool)$current_step->is_final_step) {
+                    WorkflowLog::create([
+                        'remarks' => $comment,
+                        'action_date' => Carbon::now(),
+                        'actioning_officer' => $user->staff_no,
+                        'action' => $action,
+                        'activity' => $actionTaken,
+                        'status' => $processStatus,
+                        'next_step' => $current_step->next_step,
+                        'previous_step' => $current_step->previous_step,
+                        'step_id' => $current_step->step_id,
+                        'reference' => $reference
+                    ]);
+
+                    $this->endProcess($reference);
+                    /* $task_detail->current_step_id = null;
                     $task_detail->actioning_officer = null;
-                    $task_detail->save();
-
-                    closePreviousTasks($task_detail);
-
+                    $task_detail->save();*/
+                    //PreviousTasks($task_detail);
                     //process is finished
-                    return $task_detail;
+
+                    return 100;
                 }
 
                 //get next step
@@ -299,7 +306,6 @@ class WorkflowService
                     .Where(ur => ur . RoleId == nextStep . Role)
                     .ToList();*/
                 }
-
 
                 $assign_to_user = new User([0]);
 
@@ -352,9 +358,7 @@ class WorkflowService
                     );
                 }
 
-                return $task_detail;
-            }
-            // SendBack = 5,
+                return 00;
             case 5:
             {
                 //send back

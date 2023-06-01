@@ -130,6 +130,7 @@ class FuelRequisitionService
             }
 
         } elseif ($isOutOfTownRequisition) {
+            $workflowProcess = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
             // out of town requisition can be more than allocated
             $valid_from = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->get('departure_date'));
             $valid_to = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->get('return_date'));
@@ -150,7 +151,7 @@ class FuelRequisitionService
             }
 
         } elseif ($isOverrideRequisition) {
-
+            $workflowProcess = WorkflowProcessCodes::OverrideFuelRequisition->value;
             // if there is no previous requisition, throw error
             if (empty($latestPreviousRequisition)) {
                 throw new FuelRequisitionException(ErrorMessages::overrideRequisitionWithoutPriorRequisition);
@@ -193,7 +194,7 @@ class FuelRequisitionService
 
         $this->workflowService->initiateWorkflowProcess(
             $requisition_reference_number,
-            $workflowProcess,
+            (int)$workflowProcess,
             WorkflowActions::submit(),
             $requisitionPostRequest->get('justification'),
             $user,

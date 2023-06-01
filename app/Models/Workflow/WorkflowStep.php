@@ -10,17 +10,17 @@ class WorkflowStep extends Model
     use HasFactory;
     protected $table = 'WFL_WORKFLOW_STEP';
     protected $fillable = [
-        'Process_Id',
-        'Step_Id',
-        'Name',
-        'IsInitial_Step',
-        'Is_Final_Step',
-        'Previous_Step',
-        'Next_Step',
-        'Next_Process',
-        'Action_Page',
-        'Created_By',
-        'Modified_By',
-        'Privilege'
+        'process_id',
+        'step_id',
+        'name',
+        'is_initial_step',
+        'is_final_step',
+        'previous_step',
+        'next_step',
+        'next_process',
+        'action_page',
+        'created_by',
+        'modified_by',
+        'privilege'
     ];
 }
