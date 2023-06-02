@@ -99,7 +99,7 @@ class FuelRequisitionService
                                         $latestPreviousRequisition->valid_date_to,
                                         str_replace('@req_no',
                                             $latestPreviousRequisition->req_no,
-                                            ErrorMessages::getMessage(001)
+                                            ErrorMessages::getMessage('err_001')
                                         )
                                     )
                                 ),
