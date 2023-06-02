@@ -232,14 +232,14 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('users.new') }}">
                                         <i class="fas fa-user-plus nav-icon"></i>
-                                        <p class="menu-title">Add User</p>
+                                        <p class="menu-title">Add</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('users.list') }}">
                                         <i class="fas fa-users nav-icon"></i>
                                         <p>
-                                            Users List
+                                            List
                                         </p>
                                     </a>
                                 </li>
@@ -259,7 +259,7 @@
                                     <a class="nav-link" href="{{ route('driver.list') }}">
                                         <i class="fas fa-users nav-icon"></i>
                                         <p>
-                                            Drivers List
+                                            List
                                         </p>
                                     </a>
                                 </li>
@@ -267,7 +267,7 @@
                                     <a class="nav-link" href="{{ route('driver.create') }}">
                                         <i class="fas fa-users nav-icon"></i>
                                         <p>
-                                            Drivers OnBoarding
+                                            OnBoarding
                                         </p>
                                     </a>
                                 </li>

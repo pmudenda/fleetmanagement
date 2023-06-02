@@ -12,10 +12,9 @@ class ErrorMessages
                             System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.zm";
     const vehicleNotActive = "Requisition not accepted while vehicle is not in active state Your requisition can not be processed, Please Contact Fleet Master
                             System Administrator on " . self::contact . ", " . self::email . " for technical assistance";
-    const requisitionStillActive = "Request could not be processed, An existing requisition number @req_no is Active. Next Request Date Is @date_valid_to, Please Contact Fleet Master
-                            System Administrator on " . self::contact . ", " . self::email . " for technical assistance";
+
     public final const internalServerError = 'We could not complete processing your request due to an error. Please Contact Fleet Master
-                            System Administrator on ' . self::contact . ', ' . self::email . ', '. self::extension . " for technical assistance";
+                            System Administrator on ' . self::contact . ', ' . self::email . ', ' . self::extension . " for technical assistance";
     const employeeNotFound = "Employee Not Found, Please check the Staff Number and try again";
     const driverNotFound = 'Driver with staff number @input was not found. Verify the input and ensure the employee was registered as an authorised driver.';
     const driversLicenceExpired = "Driver with staff number @input has expired Driver's License Number";
@@ -38,5 +37,17 @@ class ErrorMessages
     public static function storesRequisitionFailed(): string
     {
         return 'We could not generate stores requisition';
+    }
+
+    public static function requisitionPeriodHasNotElapsed(): string
+    {
+        return "Request could not be processed, Vehicle has An existing requisition number @req_no is whose validity period has not elapsed. Next Request Date Is @date_valid_to, Please Contact Fleet Master
+                            System Administrator on " . self::contact . ", " . self::email . " for technical assistance";
+    }
+
+    public static function getMessage(string $errorCode): string
+    {
+        //vehicleHasActiveRequisition
+        return config('error_message.'.$errorCode);
     }
 }

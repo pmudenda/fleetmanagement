@@ -101,7 +101,61 @@
             </div>
         @endif
     </div>
+</div>
 
+<div class="post">
+    <div class="user-block">
+        <span class="username ml-1"><a href="#">LINE SUPERVISOR</a> </span>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-6 col-sm-12">
+            <p class="text-muted">
+                <strong>Contract Type:</strong>
+                {{ $user->contract_type ?? '' }}
+            </p>
+            <p class="text-muted">
+                <strong>Grade:</strong>
+                {{ $user->grade ?? '' }}
+            </p>
+            {{--<p class="text-muted">
+                <strong>Category:</strong>
+                {{ $user->grade->category->name ?? '' }}
+            </p>--}}
+            <p class="text-muted">
+                <strong>User Position:</strong>
+                {{ $user->job_title ?? '' }}
+            </p>
+            <p class="text-muted ">
+                <strong class="text-orange ">
+                    Job Code:
+                </strong>
+                {{ $user->job_code ?? '' }}
+            </p>
+        </div>
+
+        @if(!empty($user_acting->acting_date_from))
+            <div class="col-lg-6 col-sm-12">
+                <p class="text-muted">
+                    <strong>Acting Period :</strong>
+                    {{ Carbon\Carbon::parse($user_acting->acting_date_from ?? '0')->format('d-M-Y') ?? '' }}
+                    To
+                    {{ Carbon\Carbon::parse($user_acting->acting_date_to ?? '0')->format('d-M-Y') ?? ('' ?? '') }}
+                </p>
+                <p class="text-muted"><b>Acting Grade:</b>
+                    {{ $user_acting->grade->name ?? '' }}
+                </p>
+                <p class="text-muted">
+                    <b>Acting Category:</b>
+                    {{ $user_acting->grade->category->name ?? '' }}
+                </p>
+                <p class="text-muted"><b>
+                        Acting
+                        Position:</b> {{ $user_acting->acting_position ?? '' }}
+                </p>
+            </div>
+        @endif
+    </div>
 </div>
 
 {{--@include('UserManagement/userProfileTabs/details')--}}

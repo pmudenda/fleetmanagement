@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\Security\Permission;
-use App\Models\Security\Role;
+use App\Models\general\SystemError;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class SystemSettingsServiceProvider extends ServiceProvider
@@ -18,6 +18,12 @@ class SystemSettingsServiceProvider extends ServiceProvider
                 config(['settings.' . $setting->slug => $setting->slug]);
             }*/
 
+            // load application error messages
+            $systemErrorMessages = SystemError::all();
+            foreach ($systemErrorMessages as $setting) {
+                config(['error_message.' . $setting->error_code => $setting->error_message]);
+            }
+
             // load application settings
             config([
                 'settings' => [
@@ -25,7 +31,7 @@ class SystemSettingsServiceProvider extends ServiceProvider
                 ]
             ]);
         } catch (\Exception $e) {
-            //ignored
+           Log::error('Loading System Config and Error Messages');
         }
     }
 
