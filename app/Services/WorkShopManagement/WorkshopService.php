@@ -17,8 +17,8 @@ class WorkshopService
     public function createJobCard(Request $request)
     {
         //$doc_number = DocumentNumberGenerationService::generateReferenceNumber(Modules::JOB_CARD);
-        //$doc_number = DocumentNumberGenerationService::generateReferenceNumber(Modules::JOB_CARD);
-        $doc_number = '983738378363';
+        $doc_number = DocumentNumberGenerationService::generateReferenceNumber(Modules::JOB_CARD);
+        //$doc_number = '983738378363';
         $user = auth()->user();
 
         $section = GeneralTableConfigurations::where('name', '=', 'RECEPTION')
