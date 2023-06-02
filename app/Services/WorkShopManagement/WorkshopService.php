@@ -18,7 +18,8 @@ class WorkshopService
     {
         $user = auth()->user();
 
-        if ($request->has('job_card_number') && empty($request->get('job_card_number'))) {
+        ///$receiverParts = explode('|', $request->get('service_advisor'));
+        if ($request->has('job_card_number') && !empty($request->get('job_card_number') )  && $request->get('job_card_number') != 0) {
             // update the information
             $details = JobCardHeader::where('job_card_no', '=', $request->get('job_card_number'))->orderBy('id', 'desc')->first();
 

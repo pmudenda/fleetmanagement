@@ -80,7 +80,12 @@ class FuelRequisitionService
             ->orderBy('created_at', 'desc')
             ->first();
 
-        Log::info('Status of Previous Requisition' . $latestPreviousRequisition->status);
+        if (!empty($latestPreviousRequisition)) {
+            Log::info('Status of Previous Requisition for ' .
+                $registrationNumber . ' has ' . $latestPreviousRequisition->status . ' status');
+        } else {
+            Log::info('Status of Previous Requisition for' . $registrationNumber . ' Is Empty');
+        }
 
         $valid_to = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('next_fuel_date'));
         $valid_from = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('request_date'));
@@ -111,8 +116,11 @@ class FuelRequisitionService
                         $latestPreviousRequisition->status = StatusHelper::cancelled();
                         $latestPreviousRequisition->save();
 
+                        $this->procurementService->cancelStoresRequisition($latestPreviousRequisition->st_pur);
+
                         //cancel associated task
-                        $this->workflowService->cancelProcessTask($latestPreviousRequisition->req_no);
+                        $this->workflowService->cancelProcessTask(
+                            $latestPreviousRequisition->req_no, WorkflowProcessCodes::NormalFuelRequisition->value);
                     }
                 } else {
 
@@ -149,8 +157,10 @@ class FuelRequisitionService
                     $latestPreviousRequisition->status = StatusHelper::cancelled();
                     $latestPreviousRequisition->save();
 
+                    $this->procurementService->cancelStoresRequisition($latestPreviousRequisition->st_pur);
+
                     //cancel associated task
-                    $this->workflowService->cancelProcessTask($latestPreviousRequisition->req_no);
+                    $this->workflowService->cancelProcessTask($latestPreviousRequisition->req_no, WorkflowProcessCodes::OutOfTownFuelRequisition->value);
                 } else {
                     // validate odometer against last issue
                     $this->validateOdometerAgainstLastIssue($latestPreviousRequisition, $requisitionPostRequest);

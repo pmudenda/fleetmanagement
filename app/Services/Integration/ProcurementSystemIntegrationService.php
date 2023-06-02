@@ -71,6 +71,12 @@ class ProcurementSystemIntegrationService
         }
     }
 
+    /**
+     * @param string $doc_type
+     * @param string $area_code
+     * @return string
+     * @deprecated
+     */
     public function generateDocumentNumber(string $doc_type, string $area_code): string
     {
         try {
@@ -119,5 +125,42 @@ class ProcurementSystemIntegrationService
             ->get();
 
         return $results->first();
+    }
+
+
+    public function cancelStoresRequisition(
+        $doc_no
+    ): string
+    {
+        try {
+            Log::info('Cancelling Stores Requisition For Request ' . $doc_no);
+
+            $ZESCOFleetMaster = SystemOfOrigin::ZESCOFleetMaster;
+
+            $pdo = DB::getPdo();
+            $user_staff = auth()->user()->staff_no;
+
+            $stmt = $pdo->prepare("begin :result := fn_cancel_stores_req(:p_ref_no, :p_current_user); end;");
+            $stmt->bindParam(':result', $results, PDO::PARAM_STR, 2000);
+            $stmt->bindParam(':p_ref_no', $doc_no);
+            $stmt->bindParam(':p_current_user', $user_staff);
+            $stmt->execute();
+
+            //$result = null;
+            if (is_array($results) && !empty($results)) {
+                $result = $results[0];
+            } else {
+                $result = $results;
+            }
+
+            Log::info($result);
+
+            return $results;
+            return "1";
+
+        } catch (\Exception $e) {
+            Log::error($e);
+            return "";
+        }
     }
 }

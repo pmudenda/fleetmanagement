@@ -436,8 +436,27 @@ class WorkflowService
         ]);
     }
 
-    public function cancelProcessTask($req_no)
+    public function cancelProcessTask($req_no, $process_id)
     {
+
+        // get workflow process header
+        $task_header = WorkflowTaskHeader::where('reference', '=', $req_no)
+            ->where('process_code', '=', $process_id)
+            ->first();
+
+        // get workflow process detail
+        $task_detail = WorkflowTaskDetail::where('reference', '=', $req_no)
+            ->where('process_code', '=', $process_id)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $task_header->date_ended = Carbon::now();
+        $task_header->status = StatusHelper::cancelled();
+        $task_header->save();
+
+        $task_detail->date_ended = Carbon::now();
+        $task_detail->save();
+
     }
 
 

@@ -91,12 +91,12 @@ class StatusHelper
 
     public static function cancelled(): string
     {
-        return "027";
+        return "45";
     }
 
     public static function closed(): string
     {
-        return "022";
+        return "08";
     }
 
 }
