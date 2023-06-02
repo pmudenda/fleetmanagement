@@ -116,7 +116,7 @@ class VehicleController extends Controller
             Log::error($e);
             return response()->json([
                 'success' => 'false',
-                'message' => ErrorMessages::internalServerError
+                'message' => ErrorMessages::getMessage('err_005')
             ]);
         }
     }

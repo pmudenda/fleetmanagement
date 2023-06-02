@@ -55,7 +55,7 @@ class ChargeOutRateController extends Controller
             Log::error($e);
             return response()->json(
                 [
-                    'message' => ErrorMessages::internalServerError,
+                    'message' => ErrorMessages::getMessage('err_005'),
                     'success' => false,
                     'payload' => $request->all()
                 ]

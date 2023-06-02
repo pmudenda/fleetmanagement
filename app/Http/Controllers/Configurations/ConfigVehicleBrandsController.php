@@ -133,7 +133,7 @@ class ConfigVehicleBrandsController extends Controller
             Log::error($e);
             return response()->json([
                 'state' => 'failure',
-                'message' => ErrorMessages::internalServerError,
+                'message' => ErrorMessages::getMessage('err_005'),
                 'payload' => []
             ]);
         }

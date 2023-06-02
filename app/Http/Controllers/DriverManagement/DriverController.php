@@ -57,7 +57,7 @@ class DriverController extends Controller
                 'success' => false,
                 'description' => $e,
                 'payload' => [],
-                'message' => ErrorMessages::internalServerError
+                'message' => ErrorMessages::getMessage('err_005')
             ]);
         }
     }

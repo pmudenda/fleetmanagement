@@ -162,7 +162,6 @@ class FuelRequisitionService
             }
 
             if (in_array($latestPreviousRequisition->status, $openRequisitionStatusList)) {
-                // requisition is open/pending
 
                 return response()->json([
                     'success' => false,

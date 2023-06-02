@@ -41,7 +41,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
             return response()->json([
                 'state' => 'false',
                 'payload' => [],
-                'message' => ErrorMessages::internalServerError
+                'message' => ErrorMessages::getMessage('err_005')
             ]);
         }
     }
@@ -59,7 +59,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
             return response()->json([
                 'state' => 'failure',
                 'payload' => [],
-                'message' => ErrorMessages::internalServerError
+                'message' => ErrorMessages::getMessage('err_005')
             ]);
         }
     }

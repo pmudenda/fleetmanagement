@@ -95,7 +95,7 @@ class FuelRequisitionController extends Controller
             return $this->requisitionService->processRequest($request);
         } catch (\Exception $e) {
             Log::error($e);
-            $message = ErrorMessages::internalServerError;
+            $message = ErrorMessages::getMessage('err_005');
 
             if ($e instanceof FuelRequisitionException || $e instanceof WorkflowTaskCreationFailedException) {
                 $message = $e->getMessage();

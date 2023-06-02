@@ -4,12 +4,6 @@ namespace App\Constants;
 
 class ErrorMessages
 {
-    //const contact = '3309,3350,3351,3306,3307';
-    //const email = 'fleetmaster@zesco.co.zm';
-    const responsibleUserNotActive = "";
-    const vehicleNotActive = "";
-
-    public final const internalServerError = "";
     const employeeNotFound = "Employee Not Found, Please check the Staff Number and try again";
     const driverNotFound = 'Driver with staff number @input was not found. Verify the input and ensure the employee was registered as an authorised driver.';
     const driversLicenceExpired = "Driver with staff number @input has expired Driver's License Number";
@@ -30,10 +24,9 @@ class ErrorMessages
     }
 
 
-
     public static function getMessage(string $errorCode): string
     {
         //vehicleHasActiveRequisition
-        return config('error_message.'.$errorCode);
+        return config('error_message.' . $errorCode);
     }
 }
