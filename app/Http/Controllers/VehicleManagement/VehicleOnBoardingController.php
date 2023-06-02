@@ -139,7 +139,6 @@ class VehicleOnBoardingController extends Controller
             $viewName = "modules.vehicleManagement.onboarding.start";
 
             $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
-
             $enteredAccessories = VehicleAccessories::where('vehicle_header_id', '=', (int)$reference)->get();
 
             return view($viewName)

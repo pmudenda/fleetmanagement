@@ -200,16 +200,16 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('workshop/section',[WorkshopController::class, 'sections'])->name('workshop.sections');
 
-        Route::get('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('maintenance.requisition');
-
-        Route::post('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
-
         Route::get('workshops/list/json', [WorkshopController::class, 'getActiveWorkShops'])->name('all.workshop.list');
 
         Route::get('fuel-levels/list/json', [MaintenanceController::class, 'getFuelLevels'])->name('fuels.levels');
 
-        // Job Card
+        /** Job Card Processing **/
+        Route::get('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('maintenance.requisition');
+
         Route::post('save/job/card', [MaintenanceController::class, 'processJobCard'])->name('process.job_card');
+
+        Route::post('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
     });
 
     Route::group(['prefix' => 'driver-management'], function () {

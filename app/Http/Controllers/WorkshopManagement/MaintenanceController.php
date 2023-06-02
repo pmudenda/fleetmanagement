@@ -26,10 +26,14 @@ class MaintenanceController extends Controller
         $this->numberGeneratorService = $numberGeneratorService;
     }
 
-    public function create(): View
+    public function create(Request $request): View
     {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
         $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)->get();
-        /*RepairTypes::get();*/
+
         $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
 
         return view('modules.requisitions.maintenance.create')

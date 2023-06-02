@@ -144,7 +144,8 @@
                             </a>
                             <ul class="nav nav-treeview pl-3">
                                 <li class="nav-item">
-                                    <a href="{{route('maintenance.requisition')}}" class="nav-link">
+                                    <a href="{{URL::signedRoute('maintenance.requisition',['step'=> 1])}}"
+                                       class="nav-link">
                                         <i class="fas fa-plus nav-icon"></i>
                                         <p>
                                             Job Card
@@ -203,7 +204,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{route('maintenance.requisition')}}" class="nav-link">
+                            <a href="{{URL::signedRoute('maintenance.requisition', ['step'=> 1])}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Maintenance Requisition</p>
                             </a>
@@ -273,8 +274,6 @@
                                 </li>
                             </ul>
                         </li>
-
-
 
 
                     </ul>
@@ -582,7 +581,7 @@
                                             </span>
 
                                         <p class="menu-title">
-                                               Stores Movement Types
+                                            Stores Movement Types
                                         </p>
                                     </a>
                                 </li>

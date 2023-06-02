@@ -170,7 +170,7 @@ class FuelRequisitionService
                             str_replace('@date_valid_to',
                                 $latestPreviousRequisition->valid_date_to,
                                 str_replace('@req_no',
-                                    $latestPreviousRequisition->req_no,
+                                    $latestPreviousRequisition->st_pur,
                                     ErrorMessages::vehicleHasActiveRequisition())
                             )
                         ),
