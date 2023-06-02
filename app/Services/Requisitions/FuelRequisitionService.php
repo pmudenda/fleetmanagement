@@ -162,7 +162,7 @@ class FuelRequisitionService
                     'success' => false,
                     'message' => str_replace(
                         '@re_no',
-                        $latestPreviousRequisition->req_no,
+                        $latestPreviousRequisition->st_pur,
                         ErrorMessages::vehicleHasActiveRequisition())
                 ]);
             }
