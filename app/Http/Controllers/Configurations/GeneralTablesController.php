@@ -27,54 +27,59 @@ class GeneralTablesController extends Controller
 
         $types = collect([
             [
-                'ref' => 'accidenttypes',
+                'ref' => 'accident-types',
                 "id" => ConfigurationTypes::ACCIDENT_TYPES->value,
                 'title' => 'Accident Types',
             ],
             [
-                'ref' => 'insurancetypes',
+                'ref' => 'insurance-types',
                 "id" => ConfigurationTypes::INSURANCE_TYPE->value,
                 'title' => 'Insurance Types',
             ],
             [
-                'ref' => 'insurancecompany',
+                'ref' => 'insurance-company',
                 "id" => ConfigurationTypes::INSURANCE_COMPANY->value,
                 'title' => 'Insurance Companies',
             ],
             [
-                'ref' => 'accidentnature',
+                'ref' => 'accident-nature',
                 "id" => ConfigurationTypes::ACCIDENT_NATURE->value,
                 'title' => 'Accident Nature',
             ],
             [
-                'ref' => 'vehiclestatus',
+                'ref' => 'vehicle-status',
                 "id" => ConfigurationTypes::VEHICLE_STATUS->value,
                 'title' => 'Vehicle Status',
             ],
             [
-                'ref' => 'fuellevels',
+                'ref' => 'fuel-levels',
                 "id" => ConfigurationTypes::FUEL_LEVELS->value,
                 'title' => 'Fuel Levels',
             ],
             [
-                'ref' => 'generalstatus',
+                'ref' => 'general-status',
                 "id" => ConfigurationTypes::STATUS_GENERAL->value,
                 'title' => 'Status General',
             ],
             [
-                'ref' => 'storemovementtype',
+                'ref' => 'store-movement-type',
                 "id" => ConfigurationTypes::STORES_MOVEMENT_TYPES->value,
                 'title' => 'Movement Types',
             ],
             [
-                'ref' => 'insurancesubtypes',
+                'ref' => 'insurance-sub-types',
                 "id" => ConfigurationTypes::INSURANCE_SUB_TYPES->value,
                 'title' => 'Insurance SubTypes',
             ],
             [
-                'ref' => 'driverlicenseclass',
+                'ref' => 'driver-license-class',
                 'id' => ConfigurationTypes::LICENSE_CLASS->value,
                 'title' => 'Driver License Class'
+            ],
+            [
+                'ref' => 'repair-category',
+                'id' => ConfigurationTypes::REPAIR_TYPE->value,
+                'title' => 'Vehicle Repair Types'
             ]
         ]);
 

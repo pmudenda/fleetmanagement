@@ -62,7 +62,7 @@
                                         <th>Name</th>
                                         <th>Workshop Code</th>
                                         <th>Area Code</th>
-                                        <th>Cost Center</th>
+                                        <th>User Unit</th>
                                         <th>Store</th>
                                         <th>Status</th>
                                         {{--@can(config('rights.user_show'))--}}
@@ -87,7 +87,7 @@
                                                 {{$workshop->area_code ?? '--'}}
                                             </td>
                                             <td>
-                                                {{$workshop->cost_center ?? '--'}}
+                                                {{$workshop->user_unit ?? '--'}}
                                             </td>
                                             <td>
                                                 {{$workshop->store_code ?? '--'}}

@@ -1,3 +1,309 @@
+"use strict";
+// DateFormatter
+window.DateFormatter = {
+    ISO: "YYYY-MM-DD",
+    STANDARD: "DD/MM/YYYY",
+    format: function (date, format) {
+        let retDate = [];
+        if (!!date && typeof date == "object") {
+            if (date instanceof Date) {
+                retDate.push(this._prefixZero(date.getDate()));
+                retDate.push(this._prefixZero(date.getMonth() + 1));
+                retDate.push(date.getFullYear());
+            } else {
+                retDate.push((!!date.dayOfMonth) ? date.dayOfMonth : "00");
+                retDate.push((!!date.monthValue) ? this._prefixZero(date.monthValue) : "00");
+                retDate.push((!!date.year) ? date.year : "0000");
+            }
+            return this._format(retDate, format);
+        } else {
+            //throw new Error("Invalid date");
+            let dateParts = date.split('-');
+            return dateParts[2] +'/'+ dateParts[1] +'/'+dateParts[0];
+        }
+    },
+    _format: function (dateArray, format) {
+        let retValue = "";
+        switch (format) {
+            case this.ISO:
+                retValue = dateArray.reverse().join("-");
+                break;
+            case this.STANDARD:
+                retValue = dateArray.join("/");
+                break;
+            default:
+                retValue = dateArray.join("/");
+        }
+        return retValue;
+    },
+    _prefixZero: function (month) {
+        return (month < 10) ? "0" + month : month;
+    }
+};
+
+// Table Util
+window.Table = {
+    addRow: function (tableSelector, rowCount, skipBottom) {
+        rowCount = rowCount || 1;
+        skipBottom = skipBottom || 0;
+        let tableLastRow = tableSelector.find('tbody tr').eq((skipBottom + 1) * -1);
+
+        if (!tableLastRow.get(0)) {
+            return null;
+        }
+        let rowText = tableLastRow.get(0).outerHTML;
+        let rows = [];
+        for (let a = 0; a < rowCount; a++) {
+            rows.push(rowText);
+        }
+        tableLastRow.after(rows.join(','));
+        return tableSelector.find('tbody tr').eq((skipBottom + 1) * -1);
+    },
+    deleteRow: function (tableRow, skipBottom) {
+        let hasDeleted = false;
+        skipBottom = skipBottom || 0;
+        if (!!tableRow && !!tableRow.find('input,select')) {
+            tableRow.find('input,select').val('');
+        }
+        let rowParent = $(tableRow).parent();
+        if (rowParent.children().length > (1 + skipBottom)) {
+            $(tableRow).remove();
+            hasDeleted = true;
+        }
+        return hasDeleted;
+    },
+    clearRows: function (tableSelector, skipBottom) {
+        skipBottom = skipBottom || 0;
+        let rowCount = tableSelector.find('tbody tr').length;
+        tableSelector.find('tbody tr').slice(1, (rowCount - skipBottom)).remove();
+        if (!!tableSelector && !!tableSelector.find('tbody tr').find('input,select')) {
+            tableSelector.find('tbody tr').find('input,select').val('');
+        }
+        return tableSelector.find('tbody tr').eq((skipBottom + 1) * -1);
+    },
+
+    addRequiredAttClass: function (tableElement) {
+        //":disabled,:hidden"
+        // make all field mandatory
+        $(tableElement).find("tbody").children().map(function (index, row) {
+            $(row).find('input[name], select[name]').each(function (i, item) {
+                let val = item.value.replace(/,/g, '');
+                $(item).addClass('required');
+                $(item).attr('required', true);
+            });
+        });
+
+        return false;
+    },
+
+    removeRequiredAttClass: function (tableId, tableElement) {
+        tableElement.find("tbody").children().map(function (index, row) {
+            $(row).find('input[name], select[name]').each(function (i, item) {
+                let val = item.value.replace(/,/g, '');
+                $(item).removeClass('required error');
+                $(item).closest('label.error').remove();
+                $(item).removeAttr('required');
+            });
+        });
+
+        return false;
+    }
+};
+
+// Util
+window.Util = {
+    DECIMAL_PLACES: 2,
+    numberFormat: function (num) {
+        let x = Util.getFloat(num);
+        let numString = x.toFixed(this.DECIMAL_PLACES);
+        let numberParts = numString.split('.');
+        numberParts[0] = numberParts[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+        return numberParts.join('.');
+    },
+    getRawNumber: function (numString) {
+        let num = numString + "";
+        return Util.getFloat(num.replace(/,/g, ""));
+    },
+    getProperty: function (obj, key) {
+        if (!!obj && !!obj[key]) {
+            return obj[key];
+        }
+        let keys = key.split(".");
+        let tmp = obj;
+        for (let i in keys) {
+            if (keys.hasOwnProperty(i) && !!tmp) {
+                tmp = tmp[keys[i]];
+            } else {
+                return tmp;
+            }
+        }
+        return tmp;
+    },
+    setProperty: function (obj, key, value) {
+        if (!obj)
+            return undefined;
+        let keys = key.split(".");
+        let lastKey = keys.pop();
+        let currentObj = obj;
+        for (let index in keys) {
+            if (keys.hasOwnProperty(index) && !!currentObj) {
+                let selectedKey = keys[index];
+                if (!currentObj[selectedKey]) {
+                    currentObj[selectedKey] = {};
+                }
+                currentObj = currentObj[selectedKey];
+            }
+        }
+        currentObj[lastKey] = value;
+        return obj;
+    },
+    getPropertyInArray: function (array, key, needle) {
+        if (Array.isArray(array)) {
+            for (let i in array) {
+                if (array.hasOwnProperty(i) && this.getProperty(array[i], key) === needle) {
+                    return array[i];
+                }
+            }
+        }
+        return undefined;
+    },
+    getFloat: function (val) {
+        let num = val + "";
+        val = num.replace(/,/g, "");
+        if (isNaN(parseFloat(val))) {
+            return 0.00;
+        } else {
+            return parseFloat(val);
+        }
+    },
+    inArray: function (array, key) {
+        for (let i in array) {
+            if (key === array[i])
+                return true;
+        }
+        return false;
+    },
+    makeId: function makeid(length) {
+        let result = '';
+        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    },
+    isEmpty: function (obj) {
+        if (!obj)
+            return true;
+        for (let key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                return false;
+            }
+        }
+        return true;
+    },
+    populateDropDownList: function (selectEl, data, idKey, textKeys, textKeySeparator, defaultMessage) {
+        let defaultValue = (!!defaultMessage) ? defaultMessage : "";
+
+        let records = [];
+
+        for (let i in data) {
+            let textArray = [];
+            for (let j in textKeys) {
+                textArray.push(Util.getProperty(data[i], textKeys[j]));
+            }
+            records.push({
+                id: Util.getProperty(data[i], idKey),
+                text: textArray.join(textKeySeparator)
+            });
+        }
+
+        if (records.length === 1) {
+            let onlyOption = new Option(records[0].text, records[0].id, true, true);
+            selectEl.empty().select2({
+                theme: "classic",
+                width: "resolve"
+            }).append(onlyOption).trigger('change');
+
+            return;
+        }
+
+        let newOption = new Option(defaultValue, "", true, true);
+        selectEl.empty().select2({
+            theme: "classic",
+            width: "resolve",
+            data: records
+        }).append(newOption).trigger('change');
+    },
+    makeReference : function(length) {
+        let result = '';
+        let characters = '0123456789';
+        let charactersLength = characters.length;
+        for ( let i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    },
+    /**
+     * Return Index Of Object in Array
+     * @param array
+     * @param key
+     * @param needle
+     * @returns {undefined|*}
+     */
+    getIndexInArray: function (array, key, needle) {
+        if (Array.isArray(array)) {
+            for (let i in array) {
+                if (array.hasOwnProperty(i) && this.getProperty(array[i], key) === needle) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+};
+
+$(document).ready(function () {
+    let $window = $(window);
+
+    window.urlParams = {};
+
+    (function () {
+        let match,
+            pl = /\+/g,  // Regex for replacing addition symbol with a space
+            search = /([^&=]+)=?([^&]*)/g,
+            decode = function (s) {
+                return decodeURIComponent(s.replace(pl, " "));
+            },
+            query = window.location.search.substring(1);
+
+        window.urlParams = {};
+        while (match = search.exec(query))
+            window.urlParams[decode(match[1])] = decode(match[2]);
+    })();
+
+    //add id to main menu for mobile menu start
+    let getBody = $("body");
+    let bodyClass = getBody[0].className;
+    $(".main-menu").attr('id', bodyClass);
+    //add id to main menu for mobile menu end
+
+    //loader start
+    window.onload = function () {
+        $('.theme-loader').fadeOut(1000);
+    }
+    //loader end
+
+    String.prototype.capitalize = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+    };
+});
+
+$(document).on('click', '[data-toggle="lightbox"]', function (event) {
+    event.preventDefault();
+    $(this).ekkoLightbox();
+});
+
 'use strict';
 /**
  *

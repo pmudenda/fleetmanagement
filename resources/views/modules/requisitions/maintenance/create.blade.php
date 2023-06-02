@@ -22,8 +22,20 @@
             <div class="card-header">
                 <div class="card-title">
                     <h4>Workshop Job Card</h4>
-                    <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
+                    @if(!empty($document_reference))
+                        <span class="ml-2 indicator-pill whitespace-nowrap green">
+                            <span>Saved</span>
+                        </span>
+                    @else
+                        <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
+                    @endif
                 </div>
+                @if(!empty($document_reference))
+                    <div class="card-toolbar justify-content-end">
+                        JOB CARD NUMBER: <span class="text-orange">{{ $document_reference ?? '' }}</span>
+                    </div>
+                @endif
+
             </div>
 
             <div class="card-body pb-4 min-h-600px pt-0">
@@ -314,6 +326,7 @@
                 }
 
                 form.steps({
+                    showStepURLhash: true,
                     headerTag: "h1",
                     bodyTag: "div",
                     transitionEffect: "slideLeft",
@@ -443,27 +456,30 @@
                             $(this).closest('.form-group').addClass('error-class').append($(this));
                         });
                     },
-                    /*errorPlacement: function errorPlacement(error, element) {
-                        error.insertAfter(element);
-                    },*/
-                    rules: {},
-                    messages: {
-                        accidentType: {
-                            required: "Accident Type is required when reporting"
+                    rules: {
+                        vehicle_registration: {
+                            required: true
                         },
-                        registrationNo: {
+                        workshop: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        workshop: {
+                            required: "Select the workshop vehicle is being checked-into"
+                        },
+                        vehicle_registration: {
                             required: "Vehicle Registration is required"
                         },
-                        vehicleMake: {
-                            required: "Vehicle Make is required"
+
+                        current_odometer: {
+                            required: "Enter current odometer reading"
                         },
-                        vehicleModel: {
-                            required: "Vehicle Model is required"
+                        repairType: {
+                            required: "Select type of repair"
                         }
                     }
                 });
-                //});
-                // })
             }
 
             initializeFormWizard();
@@ -550,7 +566,7 @@
 
             function populateVehicleDetails(payload) {
                 let vehicle = payload['vehicle'];
-                let article = payload['article'];
+                //let article = payload['article'];
                 let images = payload['images'];
                 let vehicle_state = payload['vehicle_state'];
 

@@ -209,7 +209,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('fuel-levels/list/json', [MaintenanceController::class, 'getFuelLevels'])->name('fuels.levels');
 
         // Job Card
-        Route::get('save/job/card', [MaintenanceController::class, 'processJobCard'])->name('process.job_card');
+        Route::post('save/job/card', [MaintenanceController::class, 'processJobCard'])->name('process.job_card');
     });
 
     Route::group(['prefix' => 'driver-management'], function () {

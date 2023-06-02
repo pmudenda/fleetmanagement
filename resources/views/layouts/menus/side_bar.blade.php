@@ -458,7 +458,7 @@
                             <ul class="nav nav-treeview pl-3">
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'driverLicenseClass']) }}">
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'driver-license-class']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
@@ -471,20 +471,7 @@
 
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'accidentTypes']) }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span></span>
-
-                                        <p class="menu-title">
-                                            Accident Types
-                                        </p>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'accidentNature']) }}">
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'accident-nature']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span>
@@ -497,7 +484,45 @@
 
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insuranceCompany']) }}">
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'accident_types']) }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot">
+                                                </span></span>
+
+                                        <p class="menu-title">
+                                            Accident Types
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'fuel-levels']) }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot">
+                                                </span>
+                                            </span>
+                                        <p class="menu-title">
+                                            Fuel Level
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'general-status']) }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot">
+                                                </span></span>
+                                        <p class="menu-title">
+                                            General Statuses
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insurance-company']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span>
@@ -510,7 +535,7 @@
 
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insuranceTypes']) }}">
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insurance-types']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
@@ -522,7 +547,7 @@
 
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insuranceSubTypes']) }}">
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insurance-sub-types']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
@@ -535,47 +560,22 @@
                                 {{-- <li class="nav-item myNavItems">
                                      <a onclick="testChange('insuranceSubtypes')" class="nav-link" href="/types/insurancesubtypes">Insurance Subtypes</a>
                                  </li>--}}
-
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'vehicleStatus']) }}">
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'repair-category']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
+
                                         <p class="menu-title">
-                                            Vehicle Status
+                                            Repair Types
                                         </p>
                                     </a>
                                 </li>
 
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'generalStatus']) }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span></span>
-                                        <p class="menu-title">
-                                            General Statuses
-                                        </p>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'fuelLevels']) }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span>
-                                            </span>
-                                        <p class="menu-title">
-                                           Fuel Level
-                                        </p>
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       href="{{URL::signedRoute('configuration.general.table',['ref'=>'storeMovementType']) }}">
+                                       href="{{URL::signedRoute('configuration.general.table',['ref'=>'store-movement-type']) }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span>
@@ -583,6 +583,18 @@
 
                                         <p class="menu-title">
                                                Stores Movement Types
+                                        </p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'vehicle-status']) }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot">
+                                                </span></span>
+                                        <p class="menu-title">
+                                            Vehicle Status
                                         </p>
                                     </a>
                                 </li>

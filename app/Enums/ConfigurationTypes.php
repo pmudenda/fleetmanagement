@@ -15,4 +15,5 @@ enum ConfigurationTypes : string
     case INSURANCE_SUB_TYPES = "INSUR_SUB_TYPE";
     case WORK_SHOP_SECTION = "WORK_SHOP_SEC";
     case LICENSE_CLASS = 'LICE_CLS';
+    case REPAIR_TYPE = 'REPAIR_TYPE';
 }

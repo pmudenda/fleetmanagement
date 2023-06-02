@@ -127,10 +127,10 @@
                                             id="repairTypeDropdownList"
                                             class="form-select form-select-sm when_valid"
                                             required>
-                                        <option value=""> --Select--</option>
+                                        <option value="">--Select--</option>
                                         @foreach ($repairTypes as $repairType)
                                             <option
-                                                value="{{$repairType->code}}">{{$repairType->code}}-{{$repairType->name}}</option>
+                                                value="{{$repairType->code}}">{{$repairType->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>

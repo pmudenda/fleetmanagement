@@ -137,7 +137,7 @@
                                                                                        checked
                                                                                 @endif
                                                                             />
-                                                                            Cost Center
+                                                                            User Department
                                                                         </label>
                                                                     </div>
                                                                 </div>

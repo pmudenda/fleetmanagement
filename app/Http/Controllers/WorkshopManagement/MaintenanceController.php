@@ -28,8 +28,8 @@ class MaintenanceController extends Controller
 
     public function create(): View
     {
-        $daysToNextRefuel = 0;
-        $repairTypes = RepairTypes::get();
+        $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)->get();
+        /*RepairTypes::get();*/
         $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
 
         return view('modules.requisitions.maintenance.create')
