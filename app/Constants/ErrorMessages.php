@@ -31,7 +31,8 @@ class ErrorMessages
 
     public static function vehicleHasActiveRequisition(): string
     {
-        return 'Request not not accepted for processing, Vehicle has an open requisition number with @re_no';
+        return 'An active requisition @req_no exists for this vehicle @veh_reg. Next Request Date Is @date_valid_to, Please Contact Fleet Master
+                            System Administrator on " . self::contact . ", " . self::email . " for technical assistance';
     }
 
     public static function storesRequisitionFailed(): string

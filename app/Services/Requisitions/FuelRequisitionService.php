@@ -96,7 +96,7 @@ class FuelRequisitionService
                             'message' => str_replace(
                                 '@re_no',
                                 $latestPreviousRequisition->req_no,
-                                ErrorMessages::vehicleHasActiveRequisition())
+                                ErrorMessages::requisitionStillActive)
                         ]);
                     } elseif ($latestPreviousRequisition->requisition_type == RequisitionTypes::OutOfTown->value) {
                         // cancel requisition
@@ -160,10 +160,14 @@ class FuelRequisitionService
 
                 return response()->json([
                     'success' => false,
-                    'message' => str_replace(
-                        '@re_no',
-                        $latestPreviousRequisition->st_pur,
-                        ErrorMessages::vehicleHasActiveRequisition())
+                    'message' =>
+                        str_replace('@veh_reg', $registrationNumber,
+                            str_replace('@date_valid_to', $latestPreviousRequisition->valid_date_to,
+                                str_replace('@req_no', $latestPreviousRequisition->req_no, ErrorMessages::vehicleHasActiveRequisition()))),
+                    /*str_replace(
+                    '@re_no',
+                    $latestPreviousRequisition->st_pur,
+                    ErrorMessages::vehicleHasActiveRequisition())*/
                 ]);
             }
 
@@ -348,8 +352,10 @@ class FuelRequisitionService
     {
         // check if previous requisition period elapsed
         if (Carbon::parse($previousRequisition->valid_date_to)->lessThan($valid_from)) {
-            throw new FuelRequisitionException(str_replace('@date_valid_to', $previousRequisition->valid_date_to,
-                str_replace('@req_no', $previousRequisition->req_no, ErrorMessages::requisitionStillActive)), 0);
+            throw new FuelRequisitionException(
+                str_replace('@date_valid_to', $previousRequisition->valid_date_to,
+                    str_replace('@req_no', $previousRequisition->req_no, ErrorMessages::requisitionStillActive)),
+                999);
         }
     }
 
