@@ -38,11 +38,13 @@ class MaintenanceController extends Controller
         $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)->get();
 
         //$accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
+        $details = null;//JobCardHeader::where('job_card_no', '=', $reference)->orderBy('id', 'desc')->first();
 
         return view('modules.requisitions.maintenance.create')
             ->with(
                 compact(
-                    'repairTypes'
+                    'repairTypes',
+                    'details'
                 )
             );
     }

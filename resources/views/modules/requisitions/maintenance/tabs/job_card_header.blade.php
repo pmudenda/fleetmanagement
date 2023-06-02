@@ -51,7 +51,7 @@
                                            class="form-control form-control-sm"
                                            id="date_of_req"
                                            readonly
-                                           value="{{ Carbon::parse($details->date_in)->format('d/m/Y') ?? date('Y-m-d', strtotime(Carbon::now()))}}"
+                                           value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
                                            name="date_of_req"
                                            required>
                                 </div>
@@ -104,7 +104,7 @@
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <input type="text"
                                            readonly
-                                           value="{{ str_split($details->time_in,8)[0] ??  Carbon::now()->format('H:i:s')}}"
+                                           value="@if($details) {{ str_split($details->time_in,8)[0]}} @else {{Carbon::now()->format('H:i:s')}} @endif"
                                            class="form-control form-control-sm when_valid number_input"
                                            id="timeIn"
                                            name="timeIn"
@@ -234,9 +234,9 @@
                                     <input type="text"
                                            class="form-control form-control-sm"
                                            id="date_expected_out"
-                                           value="{{ Carbon::parse($details->date_in)->format('d/m/Y') ?? date('Y-m-d', strtotime(Carbon::now()))}}"
+                                           value="@if($details){{ Carbon::parse($details->date_in)->format('d/m/Y')}} @else  {{date('Y-m-d', strtotime(Carbon::now()))}} @endif"
                                            name="date_of_req"
-                                           >
+                                    >
                                 </div>
                             </div>
                         </div>
