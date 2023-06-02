@@ -46,7 +46,7 @@ class StatusHelper
 
     public static function approved(): string
     {
-        return "022";
+        return "02";
     }
 
     public static function new(): string
@@ -71,7 +71,7 @@ class StatusHelper
 
     public static function partiallyReleased(): string
     {
-        return "024";
+        return "26";
     }
 
     public static function onboardingComplete(): string

@@ -21,8 +21,9 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
+
                     <h4>Workshop Job Card</h4>
-                    @if(!empty($document_reference))
+                    @if(!empty($details) && !empty($details->job_card_no))
                         <span class="ml-2 indicator-pill whitespace-nowrap green">
                             <span>Saved</span>
                         </span>
@@ -30,9 +31,9 @@
                         <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
                     @endif
                 </div>
-                @if(!empty($document_reference))
+                @if(!empty($details) && !empty($details->job_card_no))
                     <div class="card-toolbar justify-content-end">
-                        JOB CARD NUMBER: <span class="text-orange">{{ $document_reference ?? '' }}</span>
+                        JOB CARD NUMBER: <span class="text-orange">{{ $details->job_card_no ?? '' }}</span>
                     </div>
                 @endif
 
@@ -60,89 +61,18 @@
 
                     <h1>Defects</h1>
                     <div> 3
-                        {{-- <h2>Driver Details</h2>--}}
-                        {{--<div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="staffNo">Staff Number:</label>
-                                    <div class="regInput">
-                                        <input name="staffNumber" type="text" class="form-control required" id="staffNo" placeholder="Enter Staff Number" required>
-                                        --}}{{--                                <button id="staffQuery" class="btn btn-outline-success">Query</button>--}}{{--
-                                        --}}{{--                                <button id="staffClear" class="btn btn-outline-success">Clear</button>--}}{{--
-                                    </div>
-                                </div>
-                                @error('staffNumber')
-                                <p>{{$message}}</p>
 
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group ">
-                                    <label for="driverName">Name:</label>
-                                    <input name="driverName" type="text" class="form-control required" id="driverName" placeholder="Enter Driver Name" >
-                                </div>
-                                @error('driverName')
-                                <p>{{$message}}</p>
-
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="driverEmail">Email</label>
-                                    <input name="driverEmail" type="text" class="form-control required" id="driverEmail" placeholder="Enter Driver Email" required>
-                                </div>
-                                @error('driverEmail')
-                                <p>{{$message}}</p>
-
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group ">
-                                    <label for="phoneNo">Phone No:</label>
-                                    <input name="phoneNo" type="text" class="form-control required" id="phoneNo" placeholder="Enter Phone No" required>
-                                </div>
-                                @error('phoneNo')
-                                <p>{{$message}}</p>
-
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="driverAge">Age*:</label>
-                                    <input name="age" type="text" class="form-control required" id="driverAge" placeholder="Enter Driver Age" required>
-                                </div>
-                                @error('driverAge')
-                                <p>{{$message}}</p>
-
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="driverPosition">Position*:</label>
-                                    <input name="driverPosition" type="text" class="form-control required" id="driverPosition" placeholder="Enter Driver Position" required>
-                                </div>
-                            </div>
-                            @error('driverPosition')
-                            <p>{{$message}}</p>
-
-                            @enderror
-
-                        </div>--}}
                     </div>
                     <h1>Parts Selection</h1>
                     <div>Test</div>
 
                 </form>
 
-                <input type="hidden" value="{{ route('user.search') }}" id="newUserSearchUrl">
-                <input type="hidden" value="{{route('search.project')}}" id="projects_url">
-                <input type="hidden" value="{{route('all.workshop.list')}}" id="workshopsUrl">
-                <input type="hidden" value="{{route('fuels.levels')}}" id="fuelLevelsUrl">
+                <input type="hidden" value="{{ route('user.search') }}" id="newUserSearchUrl"/>
+                <input type="hidden" value="{{route('search.project')}}" id="projects_url"/>
+                <input type="hidden" value="{{route('all.workshop.list')}}" id="workshopsUrl"/>
+                <input type="hidden" value="{{route('fuels.levels')}}" id="fuelLevelsUrl"/>
+                <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
             </div>
         </div>
     </section>
@@ -152,6 +82,13 @@
     <script src="{{asset("libs/steps/jquery.steps.js")}}"></script>
     <script>
         (function (tmsApp, $) {
+
+            $(document).ready(function () {
+                //
+                let job_card_number = $('[name="job_card_number"]').val();
+
+            });
+
             let form = $('#jobCardForm').show();
             window.goToNext = false;
             //window.formWizard = form;
@@ -429,12 +366,12 @@
                         let workshops = response['payload'];
                         tmsApp.populateDropDownList(selectElem, workshops, "workshop_code", ["workshop_name", "area_code"], "=>");
 
-                        /*let location = selectElem.attr('data-value');
+                        let location = selectElem.attr('data-value');
                         console.log(location);
                         if (location) {
                             selectElem.val(location);
                             selectElem.trigger('change');
-                        }*/
+                        }
 
                     })
                     .catch(function (error) {
@@ -459,6 +396,12 @@
                         let fuelLevels = response['payload'];
                         tmsApp.populateDropDownList(selectElem, fuelLevels, "code", ["name"], "");
 
+                        let location = selectElem.attr('data-value');
+                        console.log(location);
+                        if (location) {
+                            selectElem.val(location);
+                            selectElem.trigger('change');
+                        }
                     })
                     .catch(function (error) {
                         // notify of error
@@ -731,62 +674,6 @@
             Inputmask({
                 "mask": "AAA 9999"
             }).mask("#vehicle_registration");
-
-            /* tmsApp.appFormValidator('form[name="fuelRequisitionForm"]',
-                 {
-                     'requisition_type': {
-                         required: true,
-                     },
-                     fuel_allocation: {
-                         required: true
-                     },
-                     project_code: {
-                         required: '#projectInput:checked'
-                     },
-                     'cost_centre_code': {
-                         required: '#costOnCostCentre:checked'
-                     },
-                     justification: {
-                         required: true,
-                         minlength: 15,
-                         maxlength: 255
-                     },
-                     projectCode: {
-                         required: true
-                     },
-                     material_quantity: {
-                         required: true
-                     }
-                 },
-                 {
-                     'requisition_type': {
-                         required: "You have not declared the type of requisition"
-                     },
-                     'fuel_allocation': {
-                         required: "The vehicle does not have a valida fuel allocation"
-                     },
-                     'dateOpened': {
-                         required: "You must specify date task was opened"
-                     },
-                     'justification': {
-                         required: "Purpose for requisition is mandatory",
-                         minlength: "The reason needs to be at least {0} characters!",
-                         maxlength: "The reason must not be more than 255 characters"
-                     },
-                     projectCode: {
-                         required: 'Missing Project Code'
-                     },
-                     material_quantity: {
-                         required: 'You have not declared the quantity being requested for'
-                     },
-                     project_code: {
-                         required: 'Project Code is missing'
-                     },
-                     odometer_reading: {
-                         required: 'You must declare the odometer reading'
-                     }
-                 }
-             );*/
 
             $('#submitRequisitionBtn').on('click', function () {
                 let $form = document.forms['fuelRequisitionForm'];

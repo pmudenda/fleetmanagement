@@ -77,8 +77,10 @@ class FuelRequisitionService
         $openRequisitionStatusList = [StatusHelper::new(), StatusHelper::partiallyReleased(), StatusHelper::authorised(), StatusHelper::partiallyAuthorised(),];
 
         $latestPreviousRequisition = MaterialHeader::where('veh_reg_no', $registrationNumber)
-            ->orderBy('date_created', 'desc')
+            ->orderBy('created_at', 'desc')
             ->first();
+
+        Log::info('Status of Previous Requisition' . $latestPreviousRequisition->status);
 
         $valid_to = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('next_fuel_date'));
         $valid_from = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('request_date'));
@@ -158,23 +160,38 @@ class FuelRequisitionService
         } elseif ($isOverrideRequisition) {
             // if there is no previous requisition, throw error
             if (empty($latestPreviousRequisition)) {
-                throw new FuelRequisitionException(ErrorMessages::overrideRequisitionWithoutPriorRequisition);
+                throw new FuelRequisitionException(ErrorMessages::getMessage('err_008'));
             }
 
             if (in_array($latestPreviousRequisition->status, $openRequisitionStatusList)) {
 
-                return response()->json([
-                    'success' => false,
-                    'message' =>
-                        str_replace('@veh_reg', $registrationNumber,
-                            str_replace('@date_valid_to',
-                                $latestPreviousRequisition->valid_date_to,
-                                str_replace('@req_no',
-                                    $latestPreviousRequisition->st_pur,
-                                    ErrorMessages::vehicleHasActiveRequisition())
-                            )
-                        ),
-                ]);
+                if (RequisitionTypes::Override->value == $latestPreviousRequisition->requisition_type) {
+                    return response()->json([
+                        'success' => false,
+                        'message' =>
+                            str_replace('@veh_reg', $registrationNumber,
+                                str_replace('@date_valid_to',
+                                    $latestPreviousRequisition->valid_date_to,
+                                    str_replace('@req_no',
+                                        $latestPreviousRequisition->st_pur,
+                                        ErrorMessages::getMessage('err_006'))
+                                )
+                            ),
+                    ]);
+                } elseif (RequisitionTypes::Normal->value == $latestPreviousRequisition->requisition_type) {
+                    return response()->json([
+                        'success' => false,
+                        'message' =>
+                            str_replace('@veh_reg', $registrationNumber,
+                                str_replace('@date_valid_to',
+                                    $latestPreviousRequisition->valid_date_to,
+                                    str_replace('@req_no',
+                                        $latestPreviousRequisition->st_pur,
+                                        ErrorMessages::getMessage('err_007'))
+                                )
+                            ),
+                    ]);
+                }
             }
 
             // quantity requested can not be more than allocated
@@ -303,7 +320,7 @@ class FuelRequisitionService
             ->first();
 
         if ($vehicleDetail->initial_odometer_reading > $currentOdometer) {
-            throw new FuelRequisitionException(ErrorMessages::invalidCurrentOdometerreading(), 0);
+            throw new FuelRequisitionException(ErrorMessages::getMessage('err_013'), 1000);
         }
 
         return true;
@@ -344,7 +361,7 @@ class FuelRequisitionService
     {
         // verify that odometer reading is not the same as previous requisition
         if ($requisitionPostRequest->odometer_reading <= $previousRequisition->odometer) {
-            throw new FuelRequisitionException(ErrorMessages::invalidCurrentOdometerReading(), 0);
+            throw new FuelRequisitionException(ErrorMessages::getMessage('err_013'), 1000);
         }
     }
 

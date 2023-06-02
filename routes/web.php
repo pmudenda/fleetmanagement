@@ -209,6 +209,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('save/job/card', [MaintenanceController::class, 'processJobCard'])->name('process.job_card');
 
+        Route::get('requisitions/maintenance/jobcard', [MaintenanceController::class, 'step2'])->name('continue.job.card');
+
         Route::post('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
     });
 

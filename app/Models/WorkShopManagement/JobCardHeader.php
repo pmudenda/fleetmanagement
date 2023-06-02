@@ -43,6 +43,7 @@ class JobCardHeader extends Model
 
         'odo_next_service',
         'service_due_after',
-        'created_by'
+        'created_by',
+        'modified_by'
     ];
 }

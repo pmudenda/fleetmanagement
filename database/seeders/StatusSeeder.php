@@ -146,7 +146,21 @@ class StatusSeeder extends Seeder
         DB::table('CONFIG_STATUSES')->insert([
             'description'=> '',
             'name'=>'REJECTED',
-            'code' => '023',
+            'code' => '03',
+            'active'=>1,
+            'module' => 'MAT',
+        ]);
+
+        DB::table('CONFIG_STATUSES')->insert([
+            'description'=> '',
+            'name'=>'ISSUED',
+            'code' => '04',
+            'active'=>1,
+            'module' => 'MAT',
+        ]);  DB::table('CONFIG_STATUSES')->insert([
+            'description'=> '',
+            'name'=>'VERIFIED',
+            'code' => '05',
             'active'=>1,
             'module' => 'MAT',
         ]);
@@ -162,7 +176,7 @@ class StatusSeeder extends Seeder
         DB::table('CONFIG_STATUSES')->insert([
             'description'=> '',
             'name'=>'PARTIALLY RELEASED',
-            'code' => '024',
+            'code' => '26',
             'active'=>1,
             'module' => 'MAT',
         ]);
@@ -196,6 +210,14 @@ class StatusSeeder extends Seeder
             'description'=> '',
             'name'=>'CANCELLED',
             'code' => '027',
+            'active'=>1,
+            'module' => 'MAT',
+        ]);
+
+        DB::table('CONFIG_STATUSES')->insert([
+            'description'=> '',
+            'name'=>'AUTHORIZED',
+            'code' => '02',
             'active'=>1,
             'module' => 'MAT',
         ]);

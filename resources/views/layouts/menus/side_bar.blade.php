@@ -203,12 +203,12 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
+                        {{--<li class="nav-item">
                             <a href="{{URL::signedRoute('maintenance.requisition', ['step'=> 1])}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Maintenance Requisition</p>
                             </a>
-                        </li>
+                        </li>--}}
                     </ul>
                 </li>
 

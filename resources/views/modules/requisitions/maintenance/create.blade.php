@@ -55,84 +55,11 @@
 
                     <h1>Accessories Checkin & Movement</h1>
                     <div>
-                        @include('modules.requisitions.maintenance.tabs.accessories')
+
                     </div>
 
                     <h1>Defects</h1>
                     <div> 3
-                        {{-- <h2>Driver Details</h2>--}}
-                        {{--<div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="staffNo">Staff Number:</label>
-                                    <div class="regInput">
-                                        <input name="staffNumber" type="text" class="form-control required" id="staffNo" placeholder="Enter Staff Number" required>
-                                        --}}{{--                                <button id="staffQuery" class="btn btn-outline-success">Query</button>--}}{{--
-                                        --}}{{--                                <button id="staffClear" class="btn btn-outline-success">Clear</button>--}}{{--
-                                    </div>
-                                </div>
-                                @error('staffNumber')
-                                <p>{{$message}}</p>
-
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group ">
-                                    <label for="driverName">Name:</label>
-                                    <input name="driverName" type="text" class="form-control required" id="driverName" placeholder="Enter Driver Name" >
-                                </div>
-                                @error('driverName')
-                                <p>{{$message}}</p>
-
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="driverEmail">Email</label>
-                                    <input name="driverEmail" type="text" class="form-control required" id="driverEmail" placeholder="Enter Driver Email" required>
-                                </div>
-                                @error('driverEmail')
-                                <p>{{$message}}</p>
-
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group ">
-                                    <label for="phoneNo">Phone No:</label>
-                                    <input name="phoneNo" type="text" class="form-control required" id="phoneNo" placeholder="Enter Phone No" required>
-                                </div>
-                                @error('phoneNo')
-                                <p>{{$message}}</p>
-
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="driverAge">Age*:</label>
-                                    <input name="age" type="text" class="form-control required" id="driverAge" placeholder="Enter Driver Age" required>
-                                </div>
-                                @error('driverAge')
-                                <p>{{$message}}</p>
-
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="driverPosition">Position*:</label>
-                                    <input name="driverPosition" type="text" class="form-control required" id="driverPosition" placeholder="Enter Driver Position" required>
-                                </div>
-                            </div>
-                            @error('driverPosition')
-                            <p>{{$message}}</p>
-
-                            @enderror
-
-                        </div>--}}
                     </div>
                     <h1>Parts Selection</h1>
                     <div>Test</div>
@@ -154,89 +81,12 @@
         (function (tmsApp, $) {
             let form = $('#jobCardForm').show();
             window.goToNext = false;
-            //window.formWizard = form;
             let bodyTag = "fieldset";
 
             function initializeFormWizard() {
-                /*formWizard.on("click", function (e) {
-                    e.stopPropagation();
-                    $(this).remove();
-               let jobCardForm = formWizard.show();*/
-
-                /* function postData() {
-                     let form = $(this);
-
-                     let formData = {
-                         accidentNature: document.getElementById("accidentNature").value,
-                         accidentType: document.getElementById("accidentType").value,
-                         peopleInvolved: document.getElementById("peopleInvolved").value,
-                         date: document.getElementById("date").value,
-                         time: document.getElementById("time").value,
-                         description: document.getElementById("description").value,
-                         policeNotified: $('input[name="policeNotified"]:checked').val(),
-                         staffNumber: document.getElementById("staffNo").value,
-                         driverName: document.getElementById("driverName").value,
-                         driverEmail: document.getElementById("driverEmail").value,
-                         phoneNo: document.getElementById("phoneNo").value,
-                         age: document.getElementById("driverAge").value,
-                         driverPosition: document.getElementById("driverPosition").value,
-                         registrationNo: document.getElementById("registrationNo").value,
-                         modelNo: document.getElementById("modelNo").value,
-                         vehicleMake: document.getElementById("vehicleMake").value,
-                         chassisNo: document.getElementById("chassisNo").value
-                     }
-
-
-                     $.ajax({
-                         url: form.attr('action'),
-                         type: 'POST',
-                         data: formData,
-                         headers: {
-                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                         },
-                         success: function (response) {
-                             console.log(response)
-
-
-                             if (response.status === 'success') {
-                                 console.log(response)
-                                 launchErrorModal(response.message, "errorDisplay", true)
-
-                             } else {
-                                 launchErrorModal(response.message, "errorDisplay")
-                             }
-
-                         },
-                         error: function () {
-
-                         },
-
-                     })
-
-
-                     function launchErrorModal(message, id, done) {
-                         var modalElement = document.getElementById(id);
-                         var modal = new bootstrap.Modal(modalElement);
-                         modal.show();
-
-                         var modalBody = modalElement.querySelector(".modal-body");
-                         modalBody.innerHTML = message;
-
-                         var modalButton = modalElement.querySelector(".btn-danger");
-                         modalButton.addEventListener("click", function () {
-
-                             if (done) {
-                                 location.reload()
-                             }
-
-                             modal.hide();
-                         });
-                     }
-                 }*/
-
                 function postData(formElements, submitForm) {
                     window.loaderMessage = "Posting Data... please wait";
-                    let $table = $(formElements);
+                    let $container = $(formElements);
 
                     let formSel = $(formElements);
 
@@ -245,31 +95,17 @@
                         submitForm: submitForm
                     };
 
-                    //.find("tbody").children().map(function (index, row) {});
                     let obj = {};
-                    $($table).find('input[name], select[name]').each(function (i, item) {
+                    $($container).find('input[name], select[name]').each(function (i, item) {
                         let val = item.value.replace(/,/g, '');
 
                         if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
                             let dateField = val;
-                            //if (item.name !== 'invoiceDate') {
-                            //dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
-                            //}
                             obj[item.name] = dateField;
                         } else {
-                            /*if (item.name === 'unitPrice') {
-                                obj[item.name] = tmsApp.getFloat("0.00")
-                            }*/
-
-                            /*if ($.isNumeric(parseFloat(val))) {
-                                obj[item.name] = tmsApp.getFloat(item.value)
-                            }*/
                             obj[item.name] = item.value || 0;
-
                         }
                     });
-
-                    //arr.push(obj);
 
                     formData = {
                         ...obj,
@@ -277,11 +113,8 @@
                     }
 
                     formSel.find('input[name], select[name]').each(function (i, item) {
-                        //let map = csvUploader.getMapperValue(item.name, item.value);
                         formData[item.name] = item.value;
                     });
-
-                    //formData['sales'] = arr;
 
                     $.ajax({
                         type: "POST",
@@ -291,37 +124,26 @@
                         contentType: "application/json; charset=utf-8",
                     }).done(function (response) {
                         window.loaderMessage = "Loading... please wait";
-                        if (response.hasOwnProperty("referenceNumber")) {
-                            swal({
-                                title: "Return Submitted",
-                                text: "The Return filed successfully with reference number: " + response.referenceNumber,
-                                type: "success",
-                                showCancelButton: false,
-                                confirmButtonClass: "btn-primary",
-                                confirmButtonText: "View Receipt",
-                                cancelButtonText: "Close",
-                                closeOnConfirm: true,
-                                closeOnCancel: true
-                            }, function (isConfirm) {
-                                if (isConfirm) {
-                                    //getNotice(response);
-                                } else {
-                                    window.location.href = $("#context-path").val() + 'Returns/acknowledgeReturn';
-                                }
-                            });
-                        } else if (!Util.isEmpty(response.errors)) {
-                            if (response.errors) {
-                                //csvUploader.showErrors(response.errors);
-                            } else {
-                                swal('Error', response.message, 'error');
-                            }
-                        } else if (!Util.isEmpty(response.message)) {
-                            swal('Return Submission', response.message, 'error');
+                        if (response.hasOwnProperty("success") && response.success) {
+                            tmsApp.showSystemMessage(
+                                "Job Card Details Submitted",
+                                "Request submitted successfully, Click 'Ok' proceed to provide information for other sections",
+                                function () {
+                                    window.location.href = response['redirectUrl'];
+                                },
+                                "success"
+                            );
                         } else {
-                            window.oneScheduleSubmitted = true;
-                            goToNext = true;
-                            form.steps("next");
+                            if (!Util.isEmpty(response.errors)) {
+                                if (response.errors) {
+                                    tmsApp.printErrorMsg(response.errors);
+                                }
+                            } else if (!Util.isEmpty(response.message)) {
+                                tmsApp.systemError("Job Card Details Submitted", response.message);
+                            }
                         }
+                    }).fail(function (xhr) {
+                        tmsApp.showErrorMessages(response,  "Job Card Details Submitted");
                     })
                 }
 
@@ -337,26 +159,6 @@
                         finish: 'Submit'
                     },
                     onStepChanging: function (event, currentIndex, newIndex) {
-                        // Allways allow previous action even if the current form is not valid!
-                        /*  if (currentIndex > newIndex) {
-                              return true;
-                          }
-
-                          // Forbid next action on "Warning" step if the user is to young
-                          if (newIndex === 3 && Number($("#age-2").val()) < 18) {
-                              return false;
-                          }
-
-                          // Needed in some cases if the user went back (clean up)
-                          if (currentIndex < newIndex) {
-                              // To remove error styles
-                              form.find(".body:eq(" + newIndex + ") label.error").remove();
-                              form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
-                          }
-
-                          form.validate().settings.ignore = ":disabled,:hidden";
-                          return true;//form.valid();*/
-
                         // Always allow previous action even if the current form is not valid!
                         if (currentIndex > newIndex) {
                             return true;
@@ -406,35 +208,10 @@
                         //$('a[role="#finish"]').disableBtn();
 
                         if (form.valid()) {
+                            postData($(form.find(bodyTag).get(currentIndex)).find('[data-model-name]').get(0), true);
 
-                            let returnTotal = $(document).find('input[name="returnTotal"]');
-                            if (returnTotal) {
-                                if (parseFloat(returnTotal.val()) === parseFloat("0.00")) {
-                                    swal("Error !", "You have not provided any data for the return", "error");
-                                    return;
-                                }
-                            }
-                            if (!window['oneScheduleSubmitted']) {
-                                swal({
-                                    title: "Return Submission",
-                                    text: "At least one schedule must be submitted, Kindly review your data",
-                                    type: "success",
-                                    showCancelButton: false,
-                                    confirmButtonClass: "btn-primary",
-                                    confirmButtonText: "View Receipt",
-                                    cancelButtonText: "Close",
-                                    closeOnConfirm: true,
-                                    closeOnCancel: true
-                                }, function (isConfirm) {
-                                    if (isConfirm) {
-                                        return false;
-                                    }
-                                });
-                            } else {
-                                postData($(form.find(bodyTag).get(currentIndex)).find('[data-model-name]').get(0), true);
-                            }
                         } else {
-                            $('a[role="#finish"]').enableBtn();
+                            //$('a[role="#finish"]').enableBtn();
                             swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
                         }
 
@@ -498,14 +275,6 @@
 
                         let workshops = response['payload'];
                         tmsApp.populateDropDownList(selectElem, workshops, "workshop_code", ["workshop_name", "area_code"], "=>");
-
-                        /*let location = selectElem.attr('data-value');
-                        console.log(location);
-                        if (location) {
-                            selectElem.val(location);
-                            selectElem.trigger('change');
-                        }*/
-
                     })
                     .catch(function (error) {
                         // notify of error
@@ -938,7 +707,6 @@
                     document.querySelector("#accidentRecordNo").classList.add('d-none');
                 }
             });
-
 
             $('#materialDetailsTable').on('change', 'select,input', function (e) {
                 eventHandler(this, e);

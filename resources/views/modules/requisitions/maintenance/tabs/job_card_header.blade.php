@@ -17,6 +17,7 @@
                                                data-action="{{route('requisition.vehicle.details')}}"
                                                class="form-control form-control-sm"
                                                autocapitalize="characters"
+                                               value="{{$details->veh_reg ?? ''}}"
                                                id="vehicle_registration"
                                                placeholder="Vehicle Reg e.g AAB 6757"
                                                name="vehicle_registration" required>
@@ -28,6 +29,9 @@
                                             </button>
                                         </div>
                                     </div>
+
+                                    <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
+
                                 </div>
                             </div>
                         </div>
@@ -47,7 +51,7 @@
                                            class="form-control form-control-sm"
                                            id="date_of_req"
                                            readonly
-                                           value="{{ Carbon::now()->format('d/m/Y') }}"
+                                           value="{{ Carbon::parse($details->date_in)->format('d/m/Y') ?? date('Y-m-d', strtotime(Carbon::now()))}}"
                                            name="date_of_req"
                                            required>
                                 </div>
@@ -75,12 +79,12 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <select
+                                        data-value="{{$details->workshop_code ?? ''}}"
                                         required
                                         class="form-select form-select-sm"
                                         name="workshop"
                                         autocomplete="off"
                                         id="workshop">
-                                        <option></option>
                                     </select>
                                 </div>
                             </div>
@@ -100,7 +104,7 @@
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <input type="text"
                                            readonly
-                                           value="{{ Carbon::now()->format('H:i:s') }}"
+                                           value="{{ str_split($details->time_in,8)[0] ??  Carbon::now()->format('H:i:s')}}"
                                            class="form-control form-control-sm when_valid number_input"
                                            id="timeIn"
                                            name="timeIn"
@@ -125,9 +129,9 @@
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <select name="repairType"
                                             id="repairTypeDropdownList"
+                                            data-value=value="{{$details->repair_type ?? ''}}"
                                             class="form-select form-select-sm when_valid"
                                             required>
-                                        <option value="">--Select--</option>
                                         @foreach ($repairTypes as $repairType)
                                             <option
                                                 value="{{$repairType->code}}">{{$repairType->name}}</option>
@@ -156,9 +160,9 @@
                                            data-params="[odometerNumber, vehicleRegistration]"
                                            class="form-control form-control-sm when_valid number_input"
                                            id="service_advisor"
-                                           value="{{ auth()->user()->name }} | RECEPTION"
+
+                                           value="{{ $details->service_advisor .'| '. $details->section_in_name ?? auth()->user()->name . '| RECEPTION' }}"
                                            required
-                                           readonly
                                            name="service_advisor"
                                     />
                                 </div>
@@ -182,7 +186,6 @@
                                     <select name="accident_number" id="accident_number"
                                             class="form-control form-select-sm when_valid"
                                             required>
-                                        <option value=""> --Select--</option>
                                     </select>
                                 </div>
                             </div>
@@ -203,7 +206,8 @@
                                     <input type="number"
                                            class="form-control form-control-sm"
                                            id="current_odometer"
-                                           name="current_odometer" required />
+                                           value="{{$details->millage_in ?? ''}}"
+                                           name="current_odometer" required/>
                                 </div>
                             </div>
                         </div>
@@ -223,6 +227,7 @@
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <select name="fuel_level"
+                                            data-value="{{$details->fuel_level_in ?? ''}}"
                                             id="fuel_level"
                                             class="form-select form-select-sm when_valid"
                                             required>
@@ -252,6 +257,7 @@
                                                class="form-control form-control-sm"
                                                autocapitalize="characters"
                                                id="driver_staff_number"
+                                               value="{{$details->driver_in ?? ''}}"
                                                placeholder=""
                                                name="driver_staff_number"/>
                                         <div class="input-group-addon">

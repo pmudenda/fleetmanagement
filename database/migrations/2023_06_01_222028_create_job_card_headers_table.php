@@ -44,6 +44,7 @@ return new class extends Migration {
             $table->string('odo_next_service', 15)->nullable();
             $table->string('service_due_after', 15)->nullable();
             $table->string('created_by', 15)->nullable();
+            $table->string('modified_by', 15)->nullable();
 
             $table->timestamps();
         });

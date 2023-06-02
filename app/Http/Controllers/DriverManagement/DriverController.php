@@ -87,7 +87,7 @@ class DriverController extends Controller
             return response()->json([
                 'success' => 'false',
                 'payload' => [],
-                'message' => str_replace('@input', $searchParam, ErrorMessages::driverNotFound)
+                'message' => str_replace('@input', $searchParam, ErrorMessages::getMessage('err_011'))
             ]);
         }
 
@@ -97,7 +97,10 @@ class DriverController extends Controller
             return response()->json([
                 'success' => 'false',
                 'payload' => [],
-                'message' => str_replace('@input', $searchParam, ErrorMessages::driversLicenceExpired)
+                'message' => str_replace('@input',
+                    $searchParam,
+                    ErrorMessages::getMessage('err_010')
+                )
             ]);
         }
 
@@ -105,7 +108,10 @@ class DriverController extends Controller
             return response()->json([
                 'success' => 'false',
                 'payload' => [],
-                'message' => str_replace('@input', $searchParam, ErrorMessages::driverPermitExpired)
+                'message' => str_replace('@input',
+                    $searchParam,
+                    ErrorMessages::getMessage('err_009')
+                )
             ]);
         }
 
