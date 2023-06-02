@@ -4,17 +4,12 @@ namespace App\Constants;
 
 class ErrorMessages
 {
-    const contact = '3309,3350,3351,3306';
-    const extension = "3307";
-    const email = 'fleetmaster@zesco.co.zm';
-    const responsibleUserNotActive = "User Responsible for the vehicle @reg_no is not active .
-     Your requisition can not be processed, Please Contact Fleet Master
-                            System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.zm";
-    const vehicleNotActive = "Requisition not accepted while vehicle is not in active state Your requisition can not be processed, Please Contact Fleet Master
-                            System Administrator on " . self::contact . ", " . self::email . " for technical assistance";
+    //const contact = '3309,3350,3351,3306,3307';
+    //const email = 'fleetmaster@zesco.co.zm';
+    const responsibleUserNotActive = "";
+    const vehicleNotActive = "";
 
-    public final const internalServerError = 'We could not complete processing your request due to an error. Please Contact Fleet Master
-                            System Administrator on ' . self::contact . ', ' . self::email . ', ' . self::extension . " for technical assistance";
+    public final const internalServerError = "";
     const employeeNotFound = "Employee Not Found, Please check the Staff Number and try again";
     const driverNotFound = 'Driver with staff number @input was not found. Verify the input and ensure the employee was registered as an authorised driver.';
     const driversLicenceExpired = "Driver with staff number @input has expired Driver's License Number";
@@ -31,19 +26,10 @@ class ErrorMessages
     public static function vehicleHasActiveRequisition(): string
     {
         return 'An active requisition @req_no exists for this vehicle @veh_reg. Next Request Date Is @date_valid_to, Please Contact Fleet Master
-                            System Administrator on " . self::contact . ", " . self::email . " for technical assistance';
+                            System Administrator on 3309,3350,3351,3306,3307, fleetmaster@zesco.co.zm.  for technical assistance';
     }
 
-    public static function storesRequisitionFailed(): string
-    {
-        return 'We could not generate stores requisition';
-    }
 
-    public static function requisitionPeriodHasNotElapsed(): string
-    {
-        return "Request could not be processed, Vehicle has An existing requisition number @req_no is whose validity period has not elapsed. Next Request Date Is @date_valid_to, Please Contact Fleet Master
-                            System Administrator on " . self::contact . ", " . self::email . " for technical assistance";
-    }
 
     public static function getMessage(string $errorCode): string
     {

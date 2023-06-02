@@ -285,7 +285,7 @@ class FuelRequisitionService
         $vehicle = VehicleHeader::where('registration_number', '=', $reference)->first();
 
         if (!in_array($vehicle->status, $allowedStatus)) {
-            throw new FuelRequisitionException(ErrorMessages::vehicleNotActive, 0);
+            throw new FuelRequisitionException(ErrorMessages::getMessage('err_004'), 0);
         }
     }
 
@@ -330,7 +330,7 @@ class FuelRequisitionService
         $responsibleHead = User::where('staff_no', '=', $vehicleDetail->responsible_head_id)->first();
 
         if (empty($responsibleHead) || $responsibleHead->con_st_code != StatusHelper::activeUser()) {
-            throw new FuelRequisitionException(ErrorMessages::responsibleUserNotActive, 0);
+            throw new FuelRequisitionException(ErrorMessages::getMessage('err_003'), 300);
         }
     }
 
@@ -361,7 +361,7 @@ class FuelRequisitionService
         if (Carbon::parse($previousRequisition->valid_date_to)->lessThan($valid_from)) {
             throw new FuelRequisitionException(
                 str_replace('@date_valid_to', $previousRequisition->valid_date_to,
-                    str_replace('@req_no', $previousRequisition->st_pur, ErrorMessages::requisitionPeriodHasNotElapsed())),
+                    str_replace('@req_no', $previousRequisition->st_pur, ErrorMessages::getMessage('err_002'))),
                 999);
         }
     }
