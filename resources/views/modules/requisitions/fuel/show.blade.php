@@ -1,4 +1,4 @@
-@php use App\Models\general\CostCenters;use Carbon\Carbon; @endphp
+@php use Carbon\Carbon; @endphp
 @extends('layouts.app')
 @push('styles')
     <link href="{{asset("assets/plugins/select2/css/select2.min.css")}}" rel="stylesheet" type="text/css"/>
@@ -15,9 +15,11 @@
                     <h4>Approve Fuel Requisition</h4>
                 </div>
                 <div class="card-toolbar justify-content-end">
-                   <span class="badge pl-2 {{$requestDetails->color_code ?? ''}}">
+                    @if(!empty($requestDetails))
+                        <span class="badge pl-2 {{$requestDetails->color_code ?? ''}}">
                        {{$requestDetails->status_name ?? ''}}
                    </span>
+                    @endif
                 </div>
             </div>
 
@@ -36,7 +38,7 @@
                             <thead>
                             <tr class="border-0">
                                 <th width="33%" colspan="4" style="border:none;" class="text-left">
-                                    @if(!empty($requestDetails->proc_ref))
+                                    @if(!empty($requestDetails)  && !empty($requestDetails->proc_ref))
                                         REQUISITION NUMBER: <span
                                             class="text-orange">{{ $requestDetails->proc_ref }}</span>
                                     @endif
@@ -496,11 +498,14 @@
                                             <td></td>
                                         @endif
                                         <td class="text-right"><strong>Total Quantity</strong>
-                                            <span class="text-bold" id="totalQty">{{number_format($requestDetails->price, 2)}}</span>
+                                            <span class="text-bold"
+                                                  id="totalQty">{{number_format($requestDetails->price, 2)}}</span>
                                         </td>
                                         <td></td>
                                         <td class="text-right"><strong>Total Amount</strong></td>
-                                        <td><span class="text-bold" id="totalAmount">{{number_format($requestDetails->amount, 2)}}</span></td>
+                                        <td><span class="text-bold"
+                                                  id="totalAmount">{{number_format($requestDetails->amount, 2)}}</span>
+                                        </td>
                                     </tr>
                                     </tfoot>
                                 </table>

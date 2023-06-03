@@ -119,6 +119,10 @@ class FuelRequisitionController extends Controller
 
         $requestDetails = $this->requisitionService->getRequisitionDetail($req_no);
 
+        if($requestDetails == null){
+            abort(404);
+        }
+
         //$costCenter = CostCenters::where('code_cost_center', $user->cc_code)->first();
         /*$organizationalUnit = OrganizationalUnits::where('code_unit', $requestDetails->cc_code)
             ->first();*/
