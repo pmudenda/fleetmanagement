@@ -12,7 +12,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Http\Requests\OdometerValidationRequest;
 use App\Models\general\OrganizationalUnits;
-use App\Models\MaterialHeader;
 use App\Models\RequisitionTypes;
 use App\Models\vehiclemanagement\ChassisDetail;
 use App\Models\vehiclemanagement\VehicleHeader;
@@ -153,18 +152,20 @@ class FuelRequisitionController extends Controller
 
     public function latestRequisition(Request $request): JsonResponse
     {
-        $latestPreviousRequisition = DB::table('GEN_MATERIAL_HEADERS')
-            ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
-            ->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
-            ->where('GEN_MATERIAL_HEADERS.veh_reg_no', $request->registrationNumber)
-            ->select('GEN_MATERIAL_HEADERS.*', 'CONFIG_STATUSES.name as status_name', 'CONFIG_REQUISITION_TYPES.name as requisition_type')
-            ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
-            ->first();
+        if (!$request->has('vehicle_registration')) {
+            return response()->json([
+                'success' => false,
+                'payload' => (object)[],
+                'message' => 'Not found'
+            ]);
+        }
+
+        $payload = $this->requisitionService->getLatestRequisition($request->vehicle_registration);
 
         return response()->json([
-            'success' => true,
-            'payload' => $latestPreviousRequisition,
-            'message' => 'Found'
+            'success' => !empty($payload),
+            'payload' => $payload,
+            'message' => !empty($payload) ? 'Found' : 'Not Found'
         ]);
     }
 }

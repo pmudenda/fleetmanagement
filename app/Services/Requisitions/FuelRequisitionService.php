@@ -436,4 +436,17 @@ class FuelRequisitionService
         Log::info("Stores Requisition Generated with document " . $results);
 
     }
+
+    public function getLatestRequisition($vehicle_registration)
+    {
+        $queryResult = DB::table('GEN_MATERIAL_HEADERS')
+            ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
+            ->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
+            ->where('GEN_MATERIAL_HEADERS.veh_reg_no', '=', $vehicle_registration)
+            ->select('GEN_MATERIAL_HEADERS.*', 'CONFIG_STATUSES.name as status_name', 'CONFIG_REQUISITION_TYPES.name as requisition_type')
+            ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
+            ->get();
+
+        return empty($queryResult) ? [] : $queryResult->first();
+    }
 }

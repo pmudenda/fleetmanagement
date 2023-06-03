@@ -544,6 +544,7 @@
 
                 <input type="hidden" value="{{ route('user.search') }}" id="newUserSearchUrl">
                 <input type="hidden" value="{{route('search.project')}}" id="projects_url">
+                <input type="hidden" value="{{route('fuel.last.requisition')}}" id="previousRequisitionUrl">
                 <input type="hidden" value="{{RequisitionTypes::OutOfTown}}" id="outOfTownReqCode">
             </div>
         </div>
@@ -553,6 +554,8 @@
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script>
         (function (tmsApp, $) {
+            let hasOpenRequisition = false;
+
             function removeSubmissionAndDetailsOptions() {
                 let elements = document.querySelectorAll('.when_valid');
                 elements.forEach(function (element) {
@@ -668,6 +671,7 @@
                     document.querySelector(".imagePreview").style.backgroundImage = "url(/storage" + imagePath + ")";
                 }
 
+                findLatestRequisition();
             }
 
             function findEmployee() {
@@ -742,6 +746,47 @@
                         tmsApp.systemError('System Message', 'We could not complete processing your request, please try again later');
                     }
                 )
+            }
+
+            function findLatestRequisition() {
+                const numberPlate = document.querySelector('#previousRequisitionUrl').value
+                let formData = new FormData();
+                formData.append('vehicle_registration', numberPlate)
+
+                fetch(
+                    document.querySelector("#driver_staff_number").getAttribute('data-action'),
+                    {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: formData,
+                        referrer: window.baseUrl,
+                        mode: 'cors',
+                        credentials: 'same-origin',
+                    }
+                )
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+
+                        return response.json();
+                    })
+                    .then(response => {
+
+                        console.log(response);
+
+                        if (!response.success || response.payload.length == 0) {
+                            //tmsApp.systemError('Driver Verification', response['message']);
+                            return;
+                        }
+
+                        //hasOpenRequisition
+                    })
+                    .catch(function (xhr, settings, error) {
+                        tmsApp.showErrorMessages(xhr, 'Driver Validation');
+                    });
             }
 
             function eventHandler(element, e) {
