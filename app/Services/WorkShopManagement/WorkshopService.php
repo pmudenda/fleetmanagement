@@ -99,7 +99,7 @@ class WorkshopService
         foreach ($accessoryNames as $accessoryName) {
             $accessoryCode = $accessoryName->code;
 
-            $response = $request->get($accessoryCode);
+            $response = $request->input($accessoryCode);
             $remarks = $request->get('COMMENT_' . $accessoryCode);
 
             return WorkShopVehicleAccessories::create(
