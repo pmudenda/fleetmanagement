@@ -4,6 +4,7 @@ namespace App\Services\WorkShopManagement;
 
 use App\Enums\ConfigurationTypes;
 use App\Enums\Modules;
+use App\Http\Requests\JobCardRequest;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Services\Workflow\DocumentNumberGenerationService;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 class WorkshopService
 {
 
-    public function createJobCard(Request $request)
+    public function createJobCard(JobCardRequest $request)
     {
         $user = auth()->user();
 
@@ -53,7 +54,7 @@ class WorkshopService
 
         $data = [
             'veh_reg' => $request->get('vehicle_registration'),
-            'date_in' => Carbon::parse($request->get('date_of_req')),
+            'date_in' => Carbon::parse($request->get('date_of_req'))->format('Y-m-d'),
             'workshop_code' => $request->get('workshop'),
             'time_in' => Carbon::parse($request->get('timeIn'))->format('H:i:s'),
             'repair_type' => $request->get('repairType'),
