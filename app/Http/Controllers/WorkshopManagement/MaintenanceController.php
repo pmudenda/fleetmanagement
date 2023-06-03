@@ -98,7 +98,8 @@ class MaintenanceController extends Controller
                     'repairTypes',
                     'accessories',
                     'details',
-                    'accessories_checked_in'
+                    'accessories_checked_in',
+                    'step'
                 )
             );
     }
@@ -125,7 +126,7 @@ class MaintenanceController extends Controller
                 [
                     'success' => true,
                     'payload' => $response,
-                    'redirectUrl' => URL::signedRoute('continue.job.card', ['step' => 2, 'reference' => $response->job_card_no]),
+                    'redirectUrl' => URL::signedRoute('accessories.job.card', ['step' => 2, 'reference' => $response->job_card_no]),
                 ]
             );
         } catch (\Exception $e) {
@@ -148,7 +149,7 @@ class MaintenanceController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => SystemMessages::accessoriesCheckedIn(),
-                'redirectUrl' => URL::signedRoute('continue.job.card',
+                'redirectUrl' => URL::signedRoute('defects.job.card',
                     ['step' => 3, 'reference' => $request->get('job_card_voucher')]),
             ]);
         } catch (\Exception $e) {

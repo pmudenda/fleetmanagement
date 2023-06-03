@@ -207,12 +207,12 @@ Route::group(['middleware' => 'auth'], function () {
 
         /** Job Card Processing **/
         Route::get('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('maintenance.requisition');
+        Route::get('requisitions/maintenance/job-card/accessories', [MaintenanceController::class, 'step2'])->name('accessories.job.card');
+        Route::get('requisitions/maintenance/job-card/defects', [MaintenanceController::class, 'step2'])->name('defects.job.card');
+
 
         Route::post('save/job/card', [MaintenanceController::class, 'processJobCard'])->name('process.job_card');
-
         Route::post('save/job/card/accessories', [MaintenanceController::class, 'processJobCardAccessories'])->name('job_card.accessories.checkin');
-
-        Route::get('requisitions/maintenance/jobcard', [MaintenanceController::class, 'step2'])->name('continue.job.card');
 
         // supporting
         Route::get('requisitions/maintenance/list', [MaintenanceController::class, 'list'])->name('maintenance.list');

@@ -80,6 +80,7 @@
 @push('scripts')
     <script>
         let selectedAccessories = {!! json_encode($accessories_checked_in) !!};
+        let step_id = {!! $step !!};
     </script>
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script src="{{asset("libs/steps/jquery.steps.js")}}"></script>
@@ -97,7 +98,7 @@
                     }
                 }
 
-                if(selectedAccessories){
+                if (selectedAccessories) {
                     setSelectedAccessories();
                 }
 
@@ -151,7 +152,7 @@
                         window.loaderMessage = "Loading... please wait";
                         if (response.hasOwnProperty("success") && response.success) {
                             tmsApp.showSystemMessage(
-                                "Job Card Details Submitted",
+                                "Request Submission",
                                 "Request submitted successfully, Click 'Ok' proceed to provide information for other sections",
                                 function () {
                                     window.location.href = response['redirectUrl'];
@@ -164,14 +165,15 @@
                                     tmsApp.printErrorMsg(response.errors);
                                 }
                             } else if (!Util.isEmpty(response.message)) {
-                                tmsApp.systemError("Job Card Details Submitted", response.message);
+                                tmsApp.systemError("Request Submission", response.message);
                             }
                         }
                     }).fail(function (xhr) {
-                        tmsApp.showErrorMessages(xhr, "Job Card Details Submitted");
+                        tmsApp.showErrorMessages(xhr, "Request Submission");
                     })
                 }
 
+                let stepId = step_id || 1;
                 form.steps({
                     showStepURLhash: true,
                     headerTag: "h1",
@@ -179,7 +181,7 @@
                     transitionEffect: "slideLeft",
                     autoFocus: true,
                     saveState: true,
-                    startIndex: 1,
+                    startIndex: stepId,
                     labels: {
                         finish: 'Submit'
                     },
@@ -569,12 +571,12 @@
 
             function setSelectedAccessories() {
 
-                $.each(selectedAccessories, function(index, element){
+                $.each(selectedAccessories, function (index, element) {
                     console.log(element.code);
                     console.log(element?.is_present);
                     console.log(element?.remarks);
-                    $("input[name=field_"+element?.code+"][value=" + element?.is_present + "]").prop('checked', true);
-                    $("input[name=comment_"+element.code+"]").val(element?.remarks);
+                    $("input[name=field_" + element?.code + "][value=" + element?.is_present + "]").prop('checked', true);
+                    $("input[name=comment_" + element.code + "]").val(element?.remarks);
                 });
             }
 
