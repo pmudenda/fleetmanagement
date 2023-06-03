@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->string('repair_type', 7)->nullable();
 
             $table->date('date_in')->nullable();
-            $table->time('time_in', 6)->nullable();
+            $table->timestamp('time_in', 6)->nullable();
             $table->string('fuel_level_in', 10)->nullable();
             $table->integer('millage_in')->nullable();
 
@@ -30,7 +30,7 @@ return new class extends Migration {
             $table->string('section_mid_code', 10)->nullable();
 
             $table->date('date_out')->nullable();
-            $table->time('time_out', 6)->nullable();
+            $table->timestamp('time_out', 6)->nullable();
             $table->string('fuel_level_out', 10)->nullable();
             $table->integer('millage_out')->nullable();
             $table->string('dispatching_section', 10)->nullable();
