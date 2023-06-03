@@ -296,7 +296,7 @@
             let dialogContainer = $('<div class="tms_alertdialog tms_alertdialog_error"><p>' + message + "<\/p><p>" + error + "<\/p><\/div>");
             dialogContainer.dialog({
                 modal: true,
-                title: title !== "" && title !== i && title !== null ? title : "ZFM Error",
+                title:  title !== "" && title !== undefined && title !== null ? title : "ZFM Error",
                 height: 300,
                 width: 600,
                 close: function () {

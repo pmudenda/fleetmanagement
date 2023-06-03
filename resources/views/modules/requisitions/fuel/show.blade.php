@@ -397,7 +397,7 @@
                                     </div>
 
                                     <div class="row">
-                                        @if($requestDetails->requisition_type == RequisitionTypes::OutOfTown)
+                                        @if($requestDetails->requisition_type != RequisitionTypes::OutOfTown)
                                             <div class="col-xs-12 col-sm-6 col-md-6">
                                                 <div class="container-fluid pl-0">
                                                     <div class="row">
