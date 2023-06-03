@@ -96,6 +96,11 @@
                         elem.trigger('change');
                     }
                 }
+
+                if(selectedAccessories){
+                    setSelectedAccessories();
+                }
+
             }, 600);
 
             let form = $('#jobCardForm').show();
@@ -562,6 +567,17 @@
                 }
             }
 
+            function setSelectedAccessories() {
+
+                $.each(selectedAccessories, function(index, element){
+                    console.log(element.code);
+                    console.log(element?.is_present);
+                    console.log(element?.remarks);
+                    $("input[name=field_"+code+"][value=" + element?.is_present + "]").prop('checked', true);
+                    $("input[name=comment_"+element.code+"]").val(element?.remarks);
+                });
+            }
+
             $('#vehicle_registration').on('keyup paste enter', function () {
                 if (!this.value || this.value.replace('_', '').length < 8) {
                     return;
@@ -573,7 +589,8 @@
             });
 
             $('#vehicleSearchBtn').on('click', function () {
-                if (document.querySelector('#vehicle_registration').value && document.querySelector('#vehicle_registration') < 8) {
+                if (document.querySelector('#vehicle_registration').value
+                    && document.querySelector('#vehicle_registration') < 8) {
                     return;
                 }
                 removeSubmissionAndDetailsOptions();
