@@ -9,7 +9,6 @@ use App\Enums\Constants;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCardRequest;
-use App\Http\Requests\OnboardingVehicleAccessoryRequest;
 use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\WorkShopManagement\JobCardHeader;
@@ -85,7 +84,7 @@ class MaintenanceController extends Controller
         $reference = $request->get('reference');
 
         $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)->get();
-
+        $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)->get();
         $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
 
         $details = $this->workshopService->getJobCardDetails($reference);
@@ -95,7 +94,8 @@ class MaintenanceController extends Controller
                 compact(
                     'repairTypes',
                     'accessories',
-                    'details'
+                    'details',
+                    'accessories_checked_in'
                 )
             );
     }
@@ -144,7 +144,9 @@ class MaintenanceController extends Controller
             $this->workshopService->createJobCardAccessories($request);
             return response()->json([
                 'success' => true,
-                'message' => SystemMessages::accessoriesCheckedIn()
+                'message' => SystemMessages::accessoriesCheckedIn(),
+                'redirectUrl' => URL::signedRoute('continue.job.card',
+                    ['step' => 3, 'reference' => $request->get('job_card_voucher')]),
             ]);
         } catch (\Exception $e) {
             Log::error($e);
