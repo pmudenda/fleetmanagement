@@ -15,6 +15,6 @@ class VehicleAccessories extends Model
         'name',
         'code',
         'remarks',
-        'response'
+        'is_present'
     ];
 }

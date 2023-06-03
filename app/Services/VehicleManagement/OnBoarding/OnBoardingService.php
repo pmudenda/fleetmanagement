@@ -521,7 +521,7 @@ class OnBoardingService
                     'name' => $accessoryName->name,
                     'code' =>$accessoryCode,
                     'remarks' => $remarks,
-                    'response' => $response
+                    'is_present' => $response
                 ]
             );
         }

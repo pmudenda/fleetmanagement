@@ -84,7 +84,7 @@
         (function (tmsApp, $) {
 
             let job_card_number = $('[name="job_card_number"]').val();
-            if (job_card_number > 0) {
+            if (job_card_number) {
                 const elem = $("#repairTypeDropdownList");
                 let val = elem.attr('data-value');
                 if (val) {
