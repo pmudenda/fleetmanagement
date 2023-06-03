@@ -49,7 +49,7 @@ class FuelRequisitionService
         $this->procurementService = $procurementService;
     }
 
-    private static function getRequisitionDetailByVehicleReqistration(mixed $registrationNumber)
+    private static function getRequisitionDetailByVehicleRegistration(mixed $registrationNumber)
     {
         return MaterialHeader::where('veh_reg_no', $registrationNumber)
             ->orderBy('created_at', 'desc')
@@ -83,7 +83,7 @@ class FuelRequisitionService
         // pick last requisition if any
         $openRequisitionStatusList = [StatusHelper::new(), StatusHelper::partiallyReleased(), StatusHelper::authorised(), StatusHelper::partiallyAuthorised(),];
 
-        $latestPreviousRequisition = self::getRequisitionDetailByVehicleReqistration($registrationNumber);
+        $latestPreviousRequisition = self::getRequisitionDetailByVehicleRegistration($registrationNumber);
 
         if (!empty($latestPreviousRequisition)) {
             Log::info('Status of Previous Requisition for ' .

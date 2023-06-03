@@ -73,9 +73,29 @@ class MaintenanceController extends Controller
 
     public function step3(Request $request): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
-        $step = $request->get('step') ?? 0;
-        $reference = $request->get('reference');
-        return redirect(URL::signedRoute('accessories.job.card', ['step' => $step, 'reference' => $reference]));
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
+        if ($request->has('step') && $request->get('step') != "2") {
+            abort(401);
+        }
+        if (!$request->has('step')) {
+            return redirect(URL::signedRoute('maintenance.requisition', ['step' => 1]));
+        }
+
+        list($step, $repairTypes, $accessories_checked_in, $accessories, $details) = $this->extracted($request);
+
+        return view('modules.requisitions.maintenance.step2')
+            ->with(
+                compact(
+                    'repairTypes',
+                    'accessories',
+                    'details',
+                    'accessories_checked_in',
+                    'step'
+                )
+            );
     }
 
     public function step2(Request $request): View
@@ -91,17 +111,7 @@ class MaintenanceController extends Controller
             return redirect(URL::signedRoute('maintenance.requisition', ['step' => 1]));
         }
 
-        $step = $request->get('step') ?? 0;
-        $reference = $request->get('reference');
-
-        $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)->get();
-
-        $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)->get();
-
-        // all active accessories
-        $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
-
-        $details = $this->workshopService->getJobCardDetails($reference);
+        list($step, $repairTypes, $accessories_checked_in, $accessories, $details) = $this->extracted($request);
 
         return view('modules.requisitions.maintenance.step2')
             ->with(
@@ -172,5 +182,26 @@ class MaintenanceController extends Controller
                 ]
             );
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function extracted(Request $request): array
+    {
+        $step = $request->get('step') ?? 0;
+        $reference = $request->get('reference');
+
+        $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)->get();
+
+        $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)->get();
+
+        // all active accessories
+        $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
+
+        $details = $this->workshopService->getJobCardDetails($reference);
+
+        return array($step, $repairTypes, $accessories_checked_in, $accessories, $details);
     }
 }
