@@ -573,7 +573,7 @@
                     console.log(element.code);
                     console.log(element?.is_present);
                     console.log(element?.remarks);
-                    $("input[name=field_"+code+"][value=" + element?.is_present + "]").prop('checked', true);
+                    $("input[name=field_"+element?.code+"][value=" + element?.is_present + "]").prop('checked', true);
                     $("input[name=comment_"+element.code+"]").val(element?.remarks);
                 });
             }
