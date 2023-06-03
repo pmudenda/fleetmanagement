@@ -103,7 +103,7 @@ class WorkshopService
 
             Log::info($accessoryCode . ' '. $response . ' '. $remarks );
 
-            /*return WorkShopVehicleAccessories::create(
+            return WorkShopVehicleAccessories::create(
                 [
                     'job_card_no' => $job_card_voucher,
                     'name' => $accessoryName->name,
@@ -111,7 +111,7 @@ class WorkshopService
                     'remarks' => $remarks,
                     'is_present' => $response
                 ]
-            );*/
+            );
         }
     }
 }
