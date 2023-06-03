@@ -15,6 +15,7 @@ use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\WorkShopManagement\WorkshopService;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -71,11 +72,11 @@ class MaintenanceController extends Controller
             );
     }
 
-    public function step3(Request $request): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    public function step3(Request $request): Application|\Illuminate\Contracts\View\View|Factory|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
-        if (!$request->hasValidSignature()) {
+        /*if (!$request->hasValidSignature()) {
             abort(401);
-        }
+        }*/
 
         if ($request->has('step') && $request->get('step') != "2") {
             abort(401);
