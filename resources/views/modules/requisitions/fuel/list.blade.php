@@ -9,7 +9,7 @@
 
 @section('content')
 
-    <x-content-header :pageTitle="'Fuel Requisitions'" />
+    <x-content-header :pageTitle="'Fuel Requisitions'"/>
     <div class="container-fluid">
         <!-- Main row -->
         <div class="row">
@@ -54,7 +54,7 @@
                                             {{Carbon::parse($rec->valid_date_to)->format('d/m/Y')}}
                                         </td>
                                         <td>
-                                            {{$rec->requested_by}}
+                                            {{$rec->originator->name ?? '--'}}
                                         </td>
                                         <td>
                                             {{$rec->comments}}
