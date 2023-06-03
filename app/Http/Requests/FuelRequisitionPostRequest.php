@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\RequisitionTypes;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -40,8 +41,10 @@ class FuelRequisitionPostRequest extends FormRequest
             'cost_center_name' => 'exclude_unless:CostAssignedTo,CostCenterBasedRequisition|required|string',
             'cost_centre_code' => 'exclude_unless:CostAssignedTo,CostCenterBasedRequisition|required|string',
             'project_code' => 'exclude_unless:CostAssignedTo,ProjectBasedRequisition|required|string',
-            'departure_date' => 'exclude_unless:requisition_type,011|required|date_format:Y-m-d',
-            'return_date' => 'exclude_unless:requisition_type,011|required|date_format:Y-m-d',
+            'departure_date' => 'exclude_unless:requisition_type,'.RequisitionTypes::OutOfTown->value.'|required|date_format:Y-m-d',
+            'return_date' => 'exclude_unless:requisition_type,'.RequisitionTypes::OutOfTown->value.'|required|date_format:Y-m-d',
+            'destinationTown' => 'exclude_unless:requisition_type,'.RequisitionTypes::OutOfTown->value.'|required|string',
+            'departureTown' => 'exclude_unless:requisition_type,'.RequisitionTypes::OutOfTown->value.'|required|string',
         ];
     }
 }

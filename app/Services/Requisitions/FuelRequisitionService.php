@@ -257,8 +257,8 @@ class FuelRequisitionService
                 'valid_date_from' => $valid_from,
                 'valid_date_to' => $valid_to,
                 'odometer' => $requisitionPostRequest->get('odometer_reading'),
-                'town_from' => $requisitionPostRequest->get('town_from'),
-                'town_to' => $requisitionPostRequest->get('town_to'),
+                'town_from' => $requisitionPostRequest->has('departureTown') ? $requisitionPostRequest->get('departureTown') : null,
+                'town_to' => $requisitionPostRequest->has('destinationTown') ? $requisitionPostRequest->get('destinationTown') : null,
                 'date_created' => Carbon::now(),
                 'created_by' => $user->id,
                 'requested_by' => $user->staff_no,
@@ -326,7 +326,7 @@ class FuelRequisitionService
                 '=',
                 'VM_CHASSIS_DETAILS.vehicle_header_id')
             ->where('VM_VEHICLE_HEADER.registration_number', trim($registration_number))
-            ->where('VM_VEHICLE_HEADER.status', '!=' ,StatusHelper::cancelled())
+            ->where('VM_VEHICLE_HEADER.status', '!=', StatusHelper::cancelled())
             ->select('VM_VEHICLE_HEADER.*', 'VM_CHASSIS_DETAILS.initial_odometer_reading')
             ->first();
 
