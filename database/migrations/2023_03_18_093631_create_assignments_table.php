@@ -34,6 +34,32 @@ return new class extends Migration {
 
             //$table->dropColumn('businessunit');
         });
+
+        Schema::table('VM_ASSIGNMENTS', function (Blueprint $table) {
+
+            $table->dropColumn([
+                'casualStaffNumber',
+                'casualStaffName',
+                'operatorName',
+                'superVisorStaffNumber',
+                'superVisorName',
+                'businessArea',
+                'costCenter'
+            ]);
+
+            $table->string('cost_center', 15)->add();
+            $table->string('isTeamAssigned')->nullable()->change();
+
+            $table->string('business_unit')->nullable()->add();
+            $table->string('cost_center_name', 255)->add();
+            $table->string('business_unit_name', 255)->nullable()->add();
+            $table->string('directorate_name', 255)->nullable()->add();
+
+            $table->string('responsible_head_id', 15)->nullable()->add();
+            $table->string('responsible_head_name', 255)->nullable()->add();
+            $table->string('business_area_code', 15)->add();
+            $table->string('business_area_name', 255)->add();
+        });
     }
 
     /**

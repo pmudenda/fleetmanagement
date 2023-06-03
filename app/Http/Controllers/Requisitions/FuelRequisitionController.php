@@ -42,7 +42,7 @@ class FuelRequisitionController extends Controller
             ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
             ->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
             ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
-            ->where('GEN_MATERIAL_HEADERS.status', '!=', StatusHelper::cancelled())
+            //->where('GEN_MATERIAL_HEADERS.status', '!=', StatusHelper::cancelled())
             ->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
             ->select('GEN_MATERIAL_HEADERS.*', 'SEC_USERS.name as originator', 'CONFIG_STATUSES.name as status_name', 'CONFIG_REQUISITION_TYPES.name as requisition_type')
             ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')

@@ -149,7 +149,7 @@ class MaintenanceController extends Controller
             $response = $request->get($accessoryCode);
             $remarks = $request->get('COMMENT_'.$accessoryCode);
 
-            VehicleAccessories::create(
+            /*VehicleAccessories::create(
                 [
                     'vehicle_header_id' => $headerId,
                     'name' => $accessoryName->name,
@@ -157,7 +157,7 @@ class MaintenanceController extends Controller
                     'remarks' => $remarks,
                     'response' => $response
                 ]
-            );
+            );*/
         }
 
 
