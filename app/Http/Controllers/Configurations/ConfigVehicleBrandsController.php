@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Configurations;
 
 use App\Constants\ErrorMessages;
 use App\Enums;
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VehicleMake;
 use App\Models\configurations\vehicle\ConfigVehicleBrand;
@@ -23,7 +24,7 @@ class ConfigVehicleBrandsController extends Controller
     public function index(Request $request): JsonResponse
     {
         try {
-            $statusList = [Enums\VehicleStatusEnum::active, Enums\VehicleStatusEnum::Active];
+            $statusList = [StatusHelper::active()];
             $data = ConfigVehicleBrand::whereIn('status', $statusList)->get();
             return response()->json([
                 'state' => 'success',
@@ -70,7 +71,7 @@ class ConfigVehicleBrandsController extends Controller
                 ],
                 [
                     'name' => trim(strtoupper($request->input('brand_name'))),
-                    'status' => Enums\VehicleStatusEnum::active,
+                    'status' => StatusHelper::active(),
                     'guid' => Str::uuid(),
                     'dateCreated' => Carbon::now()
                 ]);

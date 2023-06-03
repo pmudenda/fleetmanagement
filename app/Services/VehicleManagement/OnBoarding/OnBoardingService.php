@@ -2,7 +2,6 @@
 
 namespace App\Services\VehicleManagement\OnBoarding;
 
-use App\Enums\VehicleStatusEnum;
 use App\Exceptions\VehicleOnBoardingException;
 use App\Helpers\OnboardingStateHelper;
 use App\Helpers\StatusHelper;
@@ -97,7 +96,7 @@ class OnBoardingService
                 'odometer_reset' => false,
                 'registration_date' => Carbon::parse($request->input('registrationDate')),
                 'min_req_driving_license' => $request->input('requiredMinimumDrivingLicense'),
-                'status' => VehicleStatusEnum::active,
+                'status' => StatusHelper::active(),
                 'sticker_registration_number' => $request->input('stickerRegistrationNumber') ?? "N/A",
                 'vehicle_charge_out_rate' => $request->input('chargeOutRate'),
                 'white_book_serial' => trim(strtoupper($request->input('whiteBookSerial'))),

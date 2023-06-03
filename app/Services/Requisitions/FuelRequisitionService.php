@@ -5,9 +5,8 @@ namespace App\Services\Requisitions;
 use App\Constants\Accounts;
 use App\Constants\ErrorMessages;
 use App\Constants\TransactionType;
-use App\Enums\ItemTypes;
+use App\Enums\RequisitionItemTypes;
 use App\Enums\RequisitionTypes;
-use App\Enums\VehicleStatusEnum;
 use App\Enums\WorkflowProcessCodes;
 use App\Events\RequisitionRaised;
 use App\Exceptions\FuelRequisitionException;
@@ -251,7 +250,7 @@ class FuelRequisitionService
                 'req_no' => $requisition_reference_number,
                 'form_order' => $form_order_number,
                 'status' => StatusHelper::new(),
-                'item_type' => ItemTypes::StockItem,
+                'item_type' => RequisitionItemTypes::StockItem,
                 'veh_reg_no' => $registrationNumber,
                 'cost_centre' => $requisitionPostRequest->get('cost_centre_code'),
                 'valid_date_from' => $valid_from,
@@ -306,7 +305,7 @@ class FuelRequisitionService
      */
     public function validateVehicleStatus($reference): void
     {
-        $allowedStatus = [VehicleStatusEnum::active->value];
+        $allowedStatus = [StatusHelper::active()];
 
         $vehicle = VehicleHeader::where('registration_number', '=', $reference)->first();
 

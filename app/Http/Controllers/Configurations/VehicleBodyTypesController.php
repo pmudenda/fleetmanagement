@@ -22,7 +22,7 @@ class VehicleBodyTypesController extends Controller
     public function index(Request $request): JsonResponse
     {
         try {
-            $statusList = [Enums\VehicleStatusEnum::Active, Enums\VehicleStatusEnum::active];
+            $statusList = [StatusHelper::active()];
             $data = ConfigVehicleBodyType::whereIn('status', $statusList)->get();
             return response()->json([
                 'state' => 'success',

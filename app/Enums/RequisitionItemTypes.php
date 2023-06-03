@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum ItemTypes: string
+enum RequisitionItemTypes: string
 {
     const StockItem = "SI";
     const NonStockItem = "NS";

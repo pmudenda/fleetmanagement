@@ -2,11 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\VehicleStatusEnum;
-use Carbon\Carbon;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class VehicleModelsSeeder extends Seeder
 {

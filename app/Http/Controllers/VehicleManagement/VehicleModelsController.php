@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\VehicleManagement;
 
-use App\Enums\VehicleStatusEnum;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\configurations\vehicle\ConfigVehicleModel;
@@ -80,7 +79,7 @@ class VehicleModelsController extends Controller
     public function delete(Request $request): JsonResponse
     {
         try {
-            $statusList = [VehicleStatusEnum::Active];
+            $statusList = [StatusHelper::active()];
             $data = ConfigVehicleModel::whereIn('status', $statusList)
                 ->get();
             return response()->json([
