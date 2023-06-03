@@ -5,11 +5,14 @@ namespace App\Http\Controllers\WorkshopManagement;
 use App\Constants\ErrorMessages;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
+use App\Helpers\OnboardingStateHelper;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCardRequest;
+use App\Http\Requests\OnboardingVehicleAccessoryRequest;
 use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
+use App\Models\configurations\VehicleAccessories;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\WorkShopManagement\WorkshopService;
@@ -132,5 +135,34 @@ class MaintenanceController extends Controller
                 ]
             );
         }
+    }
+
+    public function processJobCardAccessories(OnboardingVehicleAccessoryRequest $request): array
+    {
+        //$headerId = $request->get('headerId');
+
+        $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
+            ->get();
+        foreach ($accessoryNames as $accessoryName) {
+            $accessoryCode= $accessoryName->code;
+
+            $response = $request->get($accessoryCode);
+            $remarks = $request->get('COMMENT_'.$accessoryCode);
+
+            VehicleAccessories::create(
+                [
+                    'vehicle_header_id' => $headerId,
+                    'name' => $accessoryName->name,
+                    'code' =>$accessoryCode,
+                    'remarks' => $remarks,
+                    'response' => $response
+                ]
+            );
+        }
+
+
+        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::accessoriesCheckin);
+
+        return $request->all();
     }
 }

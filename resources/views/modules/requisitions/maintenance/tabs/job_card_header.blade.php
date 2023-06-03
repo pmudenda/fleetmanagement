@@ -1,5 +1,5 @@
 @php use Carbon\Carbon; @endphp
-<div class="container-fluid mt-2">
+<div class="container-fluid">
     <div class="row" data-form-url="{{route("process.job_card")}}" data-model-name="JobCardHeader">
         <div class="col-9">
             <div class="row">
@@ -210,13 +210,18 @@
                             <div class="form-group row">
                                 <label
                                     class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                    for="current_odometer">Odometer:</label>
+                                    for="current_odometer">Odometer value:</label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    <input type="number"
-                                           class="form-control form-control-sm"
-                                           id="current_odometer"
-                                           value="{{$details->millage_in ?? ''}}"
-                                           name="current_odometer" required/>
+                                   <div class="input-group">
+                                       <input type="number"
+                                              class="form-control form-control-sm"
+                                              id="current_odometer"
+                                              value="{{$details->millage_in ?? ''}}"
+                                              name="current_odometer" required/>
+                                       <div class="input-group-text">
+                                           Km
+                                       </div>
+                                   </div>
                                 </div>
                             </div>
                         </div>
