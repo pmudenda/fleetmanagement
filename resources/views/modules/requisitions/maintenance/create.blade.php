@@ -1,4 +1,4 @@
-@php use Carbon\Carbon; @endphp
+@php use App\Enums\RepairTypes;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 @push('styles')
     <link href="{{asset("assets/plugins/select2/css/select2.min.css")}}" rel="stylesheet" type="text/css"/>
@@ -70,6 +70,7 @@
                 <input type="hidden" value="{{route('search.project')}}" id="projects_url">
                 <input type="hidden" value="{{route('all.workshop.list')}}" id="workshopsUrl">
                 <input type="hidden" value="{{route('fuels.levels')}}" id="fuelLevelsUrl">
+                <input type="hidden" value="{{RepairTypes::AccidentRepair}}" id="accidentRepairType">
             </div>
         </div>
     </section>
@@ -143,7 +144,7 @@
                             }
                         }
                     }).fail(function (xhr) {
-                        tmsApp.showErrorMessages(xhr,  "Job Card Details Submitted");
+                        tmsApp.showErrorMessages(xhr, "Job Card Details Submitted");
                     })
                 }
 
@@ -254,6 +255,9 @@
                         },
                         repairType: {
                             required: "Select type of repair"
+                        },
+                        driver_staff_number: {
+                            required: "Driver details are required"
                         }
                     }
                 });
@@ -384,20 +388,6 @@
                 }*/
 
                 enableWebUIControls();
-
-                /*if (article) {
-
-                    $("#material_description").text(article['name']);
-                    $('input[name="material_description"]').val(article['name']);
-                    $('input[name="material_article_code"]').val(article['code']);
-
-                    $("#unit_of_measure").text(article['short_name']);
-                    $('input[name="unit_of_measure"]').val(article['short_name']);
-
-                    $("#material_price").text(tmsApp.formatMoney(article['price'], 2));
-                    $('input[name="material_price"]').val(article['price']).change();
-                }*/
-
                 if (images && images.length > 0) {
                     let frontViewImages = images.filter((image) => {
                         return image['file_type'] === 'Front View';
@@ -469,6 +459,7 @@
                         console.log(response);
 
                         if (!response.success || response.payload.length == 0) {
+                            //document.querySelector('#driver_name').value = null;
                             tmsApp.systemError('Driver Verification', response['message']);
                             return;
                         }
@@ -545,6 +536,7 @@
 
             $('#driver_staff_number').on('keyup paste enter', function () {
                 if (!this.value || this.value.length < 5) {
+                    document.querySelector('#driver_name').value = null;
                     return;
                 }
                 setTimeout(function () {
@@ -553,6 +545,7 @@
             });
 
             $('#employeeSearchBtn').on('click', function () {
+                document.querySelector('#driver_name').value = null;
                 if (!document.querySelector("#driver_staff_number").value
                     || document.querySelector("#driver_staff_number").value.length < 5) {
                     toastr.warning('Invalid Employee Id Number')
@@ -701,7 +694,7 @@
             })
 
             $('#repairTypeDropdownList').on('change', function () {
-                if (this.value === '001') {
+                if (this.value === document.querySelector('#accidentRepairType').value) {
                     document.querySelector("#accidentRecordNo").classList.remove('d-none');
                 } else {
                     document.querySelector("#accidentRecordNo").classList.add('d-none');

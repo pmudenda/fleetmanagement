@@ -137,18 +137,19 @@
                                         </p>
                                     </a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a href="{{URL::signedRoute('maintenance.list',['step'=> 1])}}"
+                                       class="nav-link">
+                                        <i class="fas fa-plus nav-icon"></i>
+                                        <p>
+                                            In Workshop
+                                        </p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="{{URL::signedRoute('maintenance.list',['step'=> 1])}}"
-                               class="nav-link">
-                                <i class="fas fa-plus nav-icon"></i>
-                                <p>
-                                    Vehicle In Workshop
-                                </p>
-                            </a>
-                        </li>
 
                     </ul>
 
