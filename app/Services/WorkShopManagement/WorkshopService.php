@@ -4,9 +4,12 @@ namespace App\Services\WorkShopManagement;
 
 use App\Enums\ConfigurationTypes;
 use App\Enums\Modules;
+use App\Helpers\StatusHelper;
 use App\Http\Requests\JobCardRequest;
+use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\WorkShopManagement\JobCardHeader;
+use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -21,7 +24,7 @@ class WorkshopService
         $user = auth()->user();
 
         ///$receiverParts = explode('|', $request->get('service_advisor'));
-        if ($request->has('job_card_number') && !empty($request->get('job_card_number') )  && $request->get('job_card_number') != 0) {
+        if ($request->has('job_card_number') && !empty($request->get('job_card_number')) && $request->get('job_card_number') != 0) {
             // update the information
             $details = JobCardHeader::where('job_card_no', '=', $request->get('job_card_number'))->orderBy('id', 'desc')->first();
 
@@ -55,7 +58,7 @@ class WorkshopService
 
         $data = [
             'veh_reg' => $request->get('vehicle_registration'),
-            'date_in' => Carbon::now(),  Carbon::createFromFormat('Y-m-d', trim($request->get('date_of_req'))),
+            'date_in' => Carbon::now(), Carbon::createFromFormat('Y-m-d', trim($request->get('date_of_req'))),
             'workshop_code' => $request->get('workshop'),
             'time_in' => Carbon::now(),//(trim($request->get('timeIn')))->format('H:i:s'),
             'repair_type' => $request->get('repairType'),
@@ -85,5 +88,28 @@ class WorkshopService
             ->get();
 
         return $query->first();
+    }
+
+    public function createJobCardAccessories(Request $request)
+    {
+        $job_card_voucher = $request->get('job_card_voucher');
+        $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
+            ->get();
+        foreach ($accessoryNames as $accessoryName) {
+            $accessoryCode = $accessoryName->code;
+
+            $response = $request->get($accessoryCode);
+            $remarks = $request->get('COMMENT_' . $accessoryCode);
+
+            return WorkShopVehicleAccessories::create(
+                [
+                    'job_card_no' => $job_card_voucher,
+                    'name' => $accessoryName->name,
+                    'code' => $accessoryCode,
+                    'remarks' => $remarks,
+                    'is_present' => $response
+                ]
+            );
+        }
     }
 }

@@ -139,30 +139,22 @@ class MaintenanceController extends Controller
 
     public function processJobCardAccessories(Request $request): JsonResponse
     {
-        $job_card_voucher = $request->get('job_card_voucher');
 
-        $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
-            ->get();
-        foreach ($accessoryNames as $accessoryName) {
-            $accessoryCode = $accessoryName->code;
-
-            $response = $request->get($accessoryCode);
-            $remarks = $request->get('COMMENT_' . $accessoryCode);
-
-            WorkShopVehicleAccessories::create(
+        try {
+            $this->workshopService->createJobCardAccessories($request);
+            return response()->json([
+                'success' => true,
+                'message' => SystemMessages::accessoriesCheckedIn()
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return response()->json(
                 [
-                    'job_card_no' => $job_card_voucher,
-                    'name' => $accessoryName->name,
-                    'code' => $accessoryCode,
-                    'remarks' => $remarks,
-                    'response' => $response
+                    'success' => false,
+                    'payload' => [],
+                    'message' => ErrorMessages::getMessage('err_005')
                 ]
             );
         }
-
-        return response()->json([
-            'success' => true,
-            'message' => SystemMessages::accessoriesCheckedIn()
-        ]);
     }
 }
