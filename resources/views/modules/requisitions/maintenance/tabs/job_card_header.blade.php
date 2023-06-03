@@ -132,6 +132,7 @@
                                             data-value="{{$details->repair_type ?? ''}}"
                                             class="form-select form-select-sm when_valid"
                                             required>
+                                        <option></option>
                                         @foreach ($repairTypes as $repairType)
                                             <option
                                                 value="{{$repairType->code}}">{{$repairType->name}}</option>
@@ -260,7 +261,6 @@
                                             id="fuel_level"
                                             class="form-select form-select-sm when_valid"
                                             required>
-                                        <option></option>
                                     </select>
                                 </div>
                             </div>
