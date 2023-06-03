@@ -25,10 +25,12 @@
                                 <tr>
                                     <th>Reference #</th>
                                     <th>Document No.</th>
+                                    <th>Requisition Type</th>
                                     <th>Registration</th>
                                     <th>Valid From</th>
                                     <th>Valid To</th>
                                     <th>Originator</th>
+                                    <th>Status</th>
                                     <th>Remarks</th>
                                     <th>Action</th>
                                 </tr>
@@ -41,9 +43,15 @@
                                                 {{$rec->req_no}}
                                             </a>
                                         </td>
+
                                         <td>
                                             {{$rec->st_pur}}
                                         </td>
+
+                                        <td>
+                                            {{$rec->requisition_type}}
+                                        </td>
+
                                         <td>
                                             {{$rec->veh_reg_no}}
                                         </td>
@@ -54,11 +62,15 @@
                                             {{Carbon::parse($rec->valid_date_to)->format('d/m/Y')}}
                                         </td>
                                         <td>
-                                            {{$rec->originator->name ?? '--'}}
+                                            {{$rec->originator?? '--'}}
+                                        </td>
+                                        <td>
+                                            {{$rec->status_name}}
                                         </td>
                                         <td>
                                             {{$rec->comments}}
                                         </td>
+
                                         <td>
                                             <a href="{{URL::signedRoute('show.fuel.requisition',['ref'=> $rec->req_no])}}"
                                                class="btn btn-sm btn-success">

@@ -6,8 +6,8 @@ use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
 use App\Enums\Modules;
 use App\Exceptions\FuelRequisitionException;
-use App\Exceptions\VehicleOnBoardingException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Http\Requests\OdometerValidationRequest;
@@ -23,6 +23,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class FuelRequisitionController extends Controller
@@ -36,7 +37,16 @@ class FuelRequisitionController extends Controller
 
     public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $requisitions = MaterialHeader::orderBy('date_created', 'desc')->get();
+        //$requisitions = MaterialHeader::orderBy('date_created', 'desc')->get();
+
+        $requisitions = DB::table('GEN_MATERIAL_HEADERS')
+            ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
+            ->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
+            ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
+            ->where('GEN_MATERIAL_HEADERS.status', '!=', StatusHelper::cancelled())
+            ->select('GEN_MATERIAL_HEADERS.*', 'SEC_USERS.name as originator', 'CONFIG_STATUSES.name as status_name', 'CONFIG_REQUISITION_TYPES.name as requisition_type')
+            ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
+            ->first();
 
         return view("modules.requisitions.fuel.list")
             ->with(compact('requisitions'));
@@ -138,5 +148,22 @@ class FuelRequisitionController extends Controller
                 'daysToNextRefuel',
                 'approvalHistory'
             ));
+    }
+
+    public function latestRequisition(Request $request): JsonResponse
+    {
+        $latestPreviousRequisition = DB::table('GEN_MATERIAL_HEADERS')
+            ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
+            ->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
+            ->where('GEN_MATERIAL_HEADERS.veh_reg_no', $request->registrationNumber)
+            ->select('GEN_MATERIAL_HEADERS.*', 'CONFIG_STATUSES.name as status_name', 'CONFIG_REQUISITION_TYPES.name as requisition_type')
+            ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
+            ->first();
+
+        return response()->json([
+            'success' => true,
+            'payload' => $latestPreviousRequisition,
+            'message' => 'Found'
+        ]);
     }
 }

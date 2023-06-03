@@ -326,6 +326,7 @@ class FuelRequisitionService
                 '=',
                 'VM_CHASSIS_DETAILS.vehicle_header_id')
             ->where('VM_VEHICLE_HEADER.registration_number', trim($registration_number))
+            ->where('VM_VEHICLE_HEADER.status', '!=' ,StatusHelper::cancelled())
             ->select('VM_VEHICLE_HEADER.*', 'VM_CHASSIS_DETAILS.initial_odometer_reading')
             ->first();
 
