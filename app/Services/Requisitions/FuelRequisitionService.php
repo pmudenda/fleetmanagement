@@ -145,6 +145,7 @@ class FuelRequisitionService
             }
 
         } elseif ($isOutOfTownRequisition) {
+
             // out of town requisition can be more than allocated
             $valid_from = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->get('departure_date'));
             $valid_to = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->get('return_date'));
@@ -201,6 +202,21 @@ class FuelRequisitionService
                             ),
                     ]);
                 }
+                elseif (RequisitionTypes::OutOfTown->value == $latestPreviousRequisition->requisition_type) {
+                    return response()->json([
+                        'success' => false,
+                        'message' =>
+                            str_replace('@veh_reg', $registrationNumber,
+                                str_replace('@date_valid_to',
+                                    $latestPreviousRequisition->valid_date_to,
+                                    str_replace('@req_no',
+                                        $latestPreviousRequisition->st_pur,
+                                        ErrorMessages::getMessage('err_007'))
+                                )
+                            ),
+                    ]);
+                }
+
             }
 
             // quantity requested can not be more than allocated

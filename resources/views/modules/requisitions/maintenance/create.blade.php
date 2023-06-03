@@ -63,7 +63,6 @@
                     </div>
                     <h1>Parts Selection</h1>
                     <div>Test</div>
-
                 </form>
 
                 <input type="hidden" value="{{ route('user.search') }}" id="newUserSearchUrl">
