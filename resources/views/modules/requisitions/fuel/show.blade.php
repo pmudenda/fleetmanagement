@@ -1,4 +1,4 @@
-@php use Carbon\Carbon; @endphp
+@php use App\Enums\RequisitionTypes;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 @push('styles')
     <link href="{{asset("assets/plugins/select2/css/select2.min.css")}}" rel="stylesheet" type="text/css"/>
@@ -270,7 +270,7 @@
                                         </div>
                                     </div>
 
-                                    @if($requestDetails->requisition_type == \App\Enums\RequisitionTypes::OutOfTown)
+                                    @if($requestDetails->requisition_type == RequisitionTypes::OutOfTown)
                                         <div class="row" id="outOfTown">
                                             <div class="col-xs-12 col-sm-6 col-md-6">
                                                 <div class="container-fluid pl-0">
@@ -282,13 +282,14 @@
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                 <input type="date" class="form-control form-control-sm"
                                                                        id="departure_date"
-                                                                       max="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
+                                                                       value="{{Carbon::parse($requestDetails->valid_date_from)->format('d/m/Y')}}"
                                                                        name="departure_date"/>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                           {{-- max="{{ date('Y-m-d', strtotime(Carbon::now())) }}"--}}
                                             <div class="col-xs-12 col-sm-6 col-md-6">
                                                 <div class="container-fluid pl-0">
                                                     <div class="row">
@@ -302,6 +303,44 @@
                                                                        id="return_date"
                                                                        value="{{Carbon::parse($requestDetails->valid_date_to)->format('d/m/Y')}}"
                                                                        name="return_date">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row outOfTown">
+                                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                                <div class="container-fluid pl-0">
+                                                    <div class="row">
+                                                        <div class="form-group row">
+                                                            <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="mobile_no">Departure Town:</label>
+                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                <input id="departureTown" name="departureTown"
+                                                                       readonly
+                                                                       value="{{$requestDetails->town_from}}"
+                                                                       class="form-control"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                                <div class="container-fluid pl-0">
+                                                    <div class="row">
+                                                        <div class="form-group row">
+                                                            <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="request_date">Destination Town:</label>
+                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                <input id="destinationTown"
+                                                                       readonly
+                                                                       value="{{$requestDetails->town_to}}"
+                                                                       name="destinationTown"
+                                                                       class="form-control" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -358,26 +397,28 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                                            for="next_fuel_date">
-                                                            Next Refueling Date :
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
-                                                            <input type="text" class="form-control form-control-sm"
-                                                                   id="next_fuel_date"
-                                                                   value="{{Carbon::parse($requestDetails->valid_date_to)->format('d/m/Y')}}"
-                                                                   name="next_fuel_date"
-                                                                   readonly required>
+                                        @if($requestDetails->requisition_type == RequisitionTypes::OutOfTown)
+                                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                                <div class="container-fluid pl-0">
+                                                    <div class="row">
+                                                        <div class="form-group row">
+                                                            <label
+                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
+                                                                for="next_fuel_date">
+                                                                Next Refueling Date :
+                                                            </label>
+                                                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                       id="next_fuel_date"
+                                                                       value="{{Carbon::parse($requestDetails->valid_date_to)->format('d/m/Y')}}"
+                                                                       name="next_fuel_date"
+                                                                       readonly required>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endif
 
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
