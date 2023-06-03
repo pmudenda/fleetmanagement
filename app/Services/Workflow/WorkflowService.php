@@ -14,6 +14,7 @@ use App\Models\Workflow\WorkflowStep;
 use App\Models\Workflow\WorkflowTaskDetail;
 use App\Models\Workflow\WorkflowTaskHeader;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class WorkflowService
@@ -438,6 +439,7 @@ class WorkflowService
 
     public function cancelProcessTask($req_no, $process_id)
     {
+        DB::beginTransaction();
 
         // get workflow process header
         $task_header = WorkflowTaskHeader::where('reference', '=', $req_no)
@@ -450,13 +452,20 @@ class WorkflowService
             ->orderBy('id', 'desc')
             ->first();
 
-        $task_header->date_ended = Carbon::now();
-        $task_header->status = StatusHelper::cancelled();
-        $task_header->save();
+        if($task_header){
+            $task_header->date_ended = Carbon::now();
+            $task_header->status = StatusHelper::cancelled();
+            $task_header->save();
+        }
 
-        $task_detail->date_ended = Carbon::now();
-        $task_detail->save();
+        if($task_detail){
+            $task_detail->date_ended = Carbon::now();
+            $task_detail->save();
+        }
 
+
+
+        DB::commit();
     }
 
 

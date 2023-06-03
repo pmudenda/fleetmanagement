@@ -240,7 +240,7 @@
                                     <input type="text"
                                            class="form-control form-control-sm"
                                            id="date_expected_out"
-                                           value="@if($details){{ Carbon::parse($details->date_in)->format('d/m/Y')}}@else{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
+                                           value="@if($details){{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}@else{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
                                            name="date_of_req"
                                     >
                                 </div>

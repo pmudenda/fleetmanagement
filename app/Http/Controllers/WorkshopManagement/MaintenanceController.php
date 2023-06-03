@@ -143,7 +143,6 @@ class MaintenanceController extends Controller
 
     public function processJobCardAccessories(Request $request): JsonResponse
     {
-
         try {
             $this->workshopService->createJobCardAccessories($request);
             return response()->json([

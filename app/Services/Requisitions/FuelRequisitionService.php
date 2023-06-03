@@ -119,8 +119,7 @@ class FuelRequisitionService
                         $this->procurementService->cancelStoresRequisition($latestPreviousRequisition->st_pur);
 
                         //cancel associated task
-                        $this->workflowService->cancelProcessTask(
-                            $latestPreviousRequisition->req_no, WorkflowProcessCodes::NormalFuelRequisition->value);
+                        $this->cancelAssociatedTask($latestPreviousRequisition);
                     }
                 } else {
 
@@ -160,7 +159,7 @@ class FuelRequisitionService
                     $this->procurementService->cancelStoresRequisition($latestPreviousRequisition->st_pur);
 
                     //cancel associated task
-                    $this->workflowService->cancelProcessTask($latestPreviousRequisition->req_no, WorkflowProcessCodes::OutOfTownFuelRequisition->value);
+                    $this->cancelAssociatedTask($latestPreviousRequisition);
                 } else {
                     // validate odometer against last issue
                     $this->validateOdometerAgainstLastIssue($latestPreviousRequisition, $requisitionPostRequest);
@@ -474,5 +473,26 @@ class FuelRequisitionService
                 ->get();
         }
 
+    }
+
+    /**
+     * @param $latestPreviousRequisition
+     * @return void
+     */
+    public function cancelAssociatedTask($latestPreviousRequisition): void
+    {
+        if (RequisitionTypes::Normal->value == $latestPreviousRequisition->requisition_type) {
+            $this->workflowService->cancelProcessTask(
+                $latestPreviousRequisition->req_no,
+                WorkflowProcessCodes::NormalFuelRequisition->value);
+        } elseif (RequisitionTypes::OutOfTown->value == $latestPreviousRequisition->requisition_type) {
+            $this->workflowService->cancelProcessTask(
+                $latestPreviousRequisition->req_no,
+                WorkflowProcessCodes::OutOfTownFuelRequisition->value);
+        } elseif (RequisitionTypes::Override->value == $latestPreviousRequisition->requisition_type) {
+            $this->workflowService->cancelProcessTask(
+                $latestPreviousRequisition->req_no,
+                WorkflowProcessCodes::OverrideFuelRequisition->value);
+        }
     }
 }

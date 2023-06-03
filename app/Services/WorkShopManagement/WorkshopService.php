@@ -90,7 +90,7 @@ class WorkshopService
         return $query->first();
     }
 
-    public function createJobCardAccessories(Request $request)
+    public function createJobCardAccessories(Request $request): void
     {
         $job_card_voucher = $request->get('job_card_voucher');
         $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
@@ -104,7 +104,7 @@ class WorkshopService
 
             Log::info($accessoryCode . ' ' . $response . ' ' . $remarks);
 
-            return WorkShopVehicleAccessories::firstOrCreate(
+            WorkShopVehicleAccessories::firstOrCreate(
                 [
                     'job_card_no' => $job_card_voucher,
                     'code' => $accessoryCode,
