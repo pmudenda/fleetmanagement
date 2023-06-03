@@ -123,7 +123,7 @@
         appInstance.systemError = function (title, content, closeCallback) {
             Swal.fire({
                 title: (title == null || title === "") ? 'Message' : title,
-                text: (content == null || content === "") ? 'Content!' : content,
+                html: (content == null || content === "") ? 'Content!' : content,
                 icon: 'error',
                 showDenyButton: false,
                 showCancelButton: false,
@@ -150,7 +150,7 @@
             }
             Swal.fire({
                 title: title,
-                text: content,
+                html: content,
                 icon: type,
                 showCancelButton: false,
                 confirmButtonColor: '#3085d6',
@@ -283,6 +283,33 @@
                     '<br>' +
                     error
             });
+        };
+
+        /**
+         *
+         * @param title
+         * @param message
+         * @param error
+         * @param closeCallback
+         */
+        appInstance.errorDialog = function (title, message, error, closeCallback) {
+            let dialogContainer = $('<div class="tms_alertdialog tms_alertdialog_error"><p>' + message + "<\/p><p>" + error + "<\/p><\/div>");
+            dialogContainer.dialog({
+                modal: true,
+                title: title !== "" && title !== i && title !== null ? title : "ZFM Error",
+                height: 300,
+                width: 600,
+                close: function () {
+                    $(this).dialog("destroy").remove();
+                    typeof closeCallback == "function" && closeCallback.call()
+                },
+                buttons: [{
+                    text: "Close",
+                    click: function () {
+                        $(this).dialog("close")
+                    }
+                }]
+            })
         }
     }
 )
