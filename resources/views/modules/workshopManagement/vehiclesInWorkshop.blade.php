@@ -60,11 +60,12 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Name</th>
+                                        <th>Reg. No.</th>
+                                        <th>Workshop Document No.</th>
+                                        <th>Job Card Voucher</th>
                                         <th>Workshop Code</th>
-                                        <th>Area Code</th>
-                                        <th>User Unit</th>
-                                        <th>Store</th>
+                                        <th>Date</th>
+                                        <th>Repair Type</th>
                                         <th>Status</th>
                                         {{--@can(config('rights.user_show'))--}}
                                         <th>Action</th>
@@ -78,27 +79,31 @@
                                                 {{++$key}}
                                             </td>
                                             <td>
-                                                {{$workshop->workshop_name}}
+                                                {{$workshop->veh_reg ?? '--'}}
+                                            </td>
+                                            <td>
+                                                {{$workshop->workshop_doc_no ?? ''}}
+                                            </td>
+                                            <td>
+                                                {{$workshop->job_card_no ?? ''}}
                                             </td>
                                             <td>
                                                 {{$workshop->workshop_code}}
                                             </td>
 
                                             <td>
-                                                {{$workshop->area_code ?? '--'}}
+                                                {{$workshop->date_in ?? '--'}}
+                                            </td>
+
+                                            <td>
+                                                {{'--'}}
                                             </td>
                                             <td>
-                                                {{$workshop->user_unit ?? '--'}}
-                                            </td>
-                                            <td>
-                                                {{$workshop->store_code ?? '--'}}
-                                            </td>
-                                            <td>
-                                                @if($workshop->status == '01')
+                                                {{--@if($workshop->status == '01')
                                                     Active
                                                 @else
                                                     Inactive
-                                                @endif
+                                                @endif--}}
                                             </td>
                                             {{--@can(config('rights.user_show'))--}}
                                             <td>
@@ -114,10 +119,9 @@
                                                         {{--@can(config('rights.edit_vehicle'))--}}
                                                         <li>
                                                             <a class="dropdown-item"
-                                                               data-model="{{json_encode($workshop)}}"
                                                                data-kt-action="edit"
-                                                               href="#">
-                                                                Edit
+                                                               href="{{URL::signedRoute('accessories.job.card',['step'=> '2', 'reference'=>$workshop->job_card_no])}}">
+                                                                Open
                                                             </a>
                                                         </li>
                                                         {{--@endcan--}}
@@ -190,7 +194,8 @@
                                             id="area"
                                             name="area" required>
                                         @foreach($businessAreas as $businessArea)
-                                            <option value="{{$businessArea->area}}">{{$businessArea->description}} => {{$businessArea->area}}</option>
+                                            <option value="{{$businessArea->area}}">{{$businessArea->description}}
+                                                => {{$businessArea->area}}</option>
                                         @endforeach
                                     </select>
                                     @error('code')
