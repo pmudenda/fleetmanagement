@@ -98,10 +98,8 @@ class WorkshopService
         foreach ($accessoryNames as $accessoryName) {
             $accessoryCode = $accessoryName->code;
 
-            $response = $request->input($accessoryCode);
-            $remarks = $request->get('COMMENT_' . $accessoryCode);
-
-            dd([$accessoryCode, $request->input($accessoryCode), $request->get('COMMENT_' . $accessoryCode)]);
+            $response = $request->get('field_' . $accessoryCode);
+            $remarks = $request->get('comment_' . $accessoryCode);
 
             return WorkShopVehicleAccessories::create(
                 [
