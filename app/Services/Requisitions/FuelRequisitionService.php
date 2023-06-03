@@ -49,6 +49,13 @@ class FuelRequisitionService
         $this->procurementService = $procurementService;
     }
 
+    private static function getRequisitionDetailByVehicleReqistration(mixed $registrationNumber)
+    {
+        return MaterialHeader::where('veh_reg_no', $registrationNumber)
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
+
 
     /**
      * @throws FuelRequisitionException|WorkflowTaskCreationFailedException
@@ -76,9 +83,7 @@ class FuelRequisitionService
         // pick last requisition if any
         $openRequisitionStatusList = [StatusHelper::new(), StatusHelper::partiallyReleased(), StatusHelper::authorised(), StatusHelper::partiallyAuthorised(),];
 
-        $latestPreviousRequisition = MaterialHeader::where('veh_reg_no', $registrationNumber)
-            ->orderBy('created_at', 'desc')
-            ->first();
+        $latestPreviousRequisition = self::getRequisitionDetailByVehicleReqistration($registrationNumber);
 
         if (!empty($latestPreviousRequisition)) {
             Log::info('Status of Previous Requisition for ' .
@@ -105,7 +110,7 @@ class FuelRequisitionService
                                     str_replace('@date_valid_to',
                                         $latestPreviousRequisition->valid_date_to,
                                         str_replace('@req_no',
-                                            $latestPreviousRequisition->st_pur,
+                                            $latestPreviousRequisition->st_pur ?? $latestPreviousRequisition->req_no,
                                             ErrorMessages::getMessage('err_001')
                                         )
                                     )
@@ -183,7 +188,7 @@ class FuelRequisitionService
                                 str_replace('@date_valid_to',
                                     $latestPreviousRequisition->valid_date_to,
                                     str_replace('@req_no',
-                                        $latestPreviousRequisition->st_pur,
+                                        $latestPreviousRequisition->st_pur ?? $latestPreviousRequisition->req_no,
                                         ErrorMessages::getMessage('err_006'))
                                 )
                             ),
@@ -196,7 +201,7 @@ class FuelRequisitionService
                                 str_replace('@date_valid_to',
                                     $latestPreviousRequisition->valid_date_to,
                                     str_replace('@req_no',
-                                        $latestPreviousRequisition->st_pur,
+                                        $latestPreviousRequisition->st_pur ?? $latestPreviousRequisition->req_no,
                                         ErrorMessages::getMessage('err_007'))
                                 )
                             ),
@@ -210,7 +215,7 @@ class FuelRequisitionService
                                 str_replace('@date_valid_to',
                                     $latestPreviousRequisition->valid_date_to,
                                     str_replace('@req_no',
-                                        $latestPreviousRequisition->st_pur,
+                                        $latestPreviousRequisition->st_pur ?? $latestPreviousRequisition->req_no,
                                         ErrorMessages::getMessage('err_0014'))
                                 )
                             ),
@@ -403,7 +408,9 @@ class FuelRequisitionService
         if (Carbon::parse($previousRequisition->valid_date_to)->lessThan($valid_from)) {
             throw new FuelRequisitionException(
                 str_replace('@date_valid_to', $previousRequisition->valid_date_to,
-                    str_replace('@req_no', $previousRequisition->st_pur, ErrorMessages::getMessage('err_002'))),
+                    str_replace('@req_no',
+                        $previousRequisition->st_pur ?? $previousRequisition->req_no,
+                        ErrorMessages::getMessage('err_002'))),
                 999);
         }
     }

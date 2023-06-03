@@ -125,9 +125,9 @@
                     $($container).find('input[name], select[name]').each(function (i, item) {
                         let val = item.value.replace(/,/g, '');
 
-                        if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
-                            let dateField = val;
-                            obj[item.name] = dateField;
+                        if (item.type === 'radio') {
+                            let value = $('[name="'+item.name+'"]:checked').val();
+                            obj[item.name] = value;
                         } else {
                             obj[item.name] = item.value || 0;
                         }
