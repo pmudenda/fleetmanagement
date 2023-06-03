@@ -92,7 +92,6 @@ class WorkshopService
 
     public function createJobCardAccessories(Request $request)
     {
-        dd($request->all());
         $job_card_voucher = $request->get('job_card_voucher');
         $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
             ->get();
@@ -101,6 +100,8 @@ class WorkshopService
 
             $response = $request->input($accessoryCode);
             $remarks = $request->get('COMMENT_' . $accessoryCode);
+
+            dd([$accessoryCode, $request->input($accessoryCode), $request->get('COMMENT_' . $accessoryCode)]);
 
             return WorkShopVehicleAccessories::create(
                 [
