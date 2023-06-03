@@ -46,7 +46,7 @@ class FuelRequisitionController extends Controller
             ->where('GEN_MATERIAL_HEADERS.status', '!=', StatusHelper::cancelled())
             ->select('GEN_MATERIAL_HEADERS.*', 'SEC_USERS.name as originator', 'CONFIG_STATUSES.name as status_name', 'CONFIG_REQUISITION_TYPES.name as requisition_type')
             ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
-            ->first();
+            ->get();
 
         return view("modules.requisitions.fuel.list")
             ->with(compact('requisitions'));
