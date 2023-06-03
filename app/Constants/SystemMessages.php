@@ -14,4 +14,9 @@ class SystemMessages
     {
         return "Record Added Successfully";
     }
+
+    public static function accessoriesCheckedIn(): string
+    {
+        return "Vehicle Accessories Processed Successfully";
+    }
 }

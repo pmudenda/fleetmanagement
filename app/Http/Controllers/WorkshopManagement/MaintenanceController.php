@@ -3,22 +3,21 @@
 namespace App\Http\Controllers\WorkshopManagement;
 
 use App\Constants\ErrorMessages;
+use App\Constants\SystemMessages;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
-use App\Helpers\OnboardingStateHelper;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCardRequest;
 use App\Http\Requests\OnboardingVehicleAccessoryRequest;
 use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
-use App\Models\configurations\VehicleAccessories;
 use App\Models\WorkShopManagement\JobCardHeader;
+use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\WorkShopManagement\WorkshopService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
@@ -52,6 +51,7 @@ class MaintenanceController extends Controller
                 )
             );
     }
+
     public function list(Request $request): View
     {
         if (!$request->hasValidSignature()) {
@@ -88,7 +88,7 @@ class MaintenanceController extends Controller
 
         $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
 
-        $details =  $this->workshopService->getJobCardDetails($reference);
+        $details = $this->workshopService->getJobCardDetails($reference);
 
         return view('modules.requisitions.maintenance.step2')
             ->with(
@@ -137,32 +137,32 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function processJobCardAccessories(OnboardingVehicleAccessoryRequest $request): array
+    public function processJobCardAccessories(Request $request): JsonResponse
     {
-        //$headerId = $request->get('headerId');
+        $job_card_voucher = $request->get('job_card_voucher');
 
         $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
             ->get();
         foreach ($accessoryNames as $accessoryName) {
-            $accessoryCode= $accessoryName->code;
+            $accessoryCode = $accessoryName->code;
 
             $response = $request->get($accessoryCode);
-            $remarks = $request->get('COMMENT_'.$accessoryCode);
+            $remarks = $request->get('COMMENT_' . $accessoryCode);
 
-            /*VehicleAccessories::create(
+            WorkShopVehicleAccessories::create(
                 [
-                    'vehicle_header_id' => $headerId,
+                    'job_card_no' => $job_card_voucher,
                     'name' => $accessoryName->name,
-                    'code' =>$accessoryCode,
+                    'code' => $accessoryCode,
                     'remarks' => $remarks,
                     'response' => $response
                 ]
-            );*/
+            );
         }
 
-
-        $this->updateVehicleOnBoardingState($request->input('headerId'), OnboardingStateHelper::accessoriesCheckin);
-
-        return $request->all();
+        return response()->json([
+            'success' => true,
+            'message' => SystemMessages::accessoriesCheckedIn()
+        ]);
     }
 }

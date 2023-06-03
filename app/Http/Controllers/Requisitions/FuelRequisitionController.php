@@ -13,8 +13,8 @@ use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Http\Requests\OdometerValidationRequest;
 use App\Models\general\OrganizationalUnits;
 use App\Models\RequisitionTypes;
-use App\Models\vehiclemanagement\ChassisDetail;
-use App\Models\vehiclemanagement\VehicleHeader;
+use App\Models\VehicleManagement\ChassisDetail;
+use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\Requisitions\FuelRequisitionService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -36,18 +36,8 @@ class FuelRequisitionController extends Controller
 
     public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        //$requisitions = MaterialHeader::orderBy('date_created', 'desc')->get();
-
-        $requisitions = DB::table('GEN_MATERIAL_HEADERS')
-            ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
-            ->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
-            ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
-            //->where('GEN_MATERIAL_HEADERS.status', '!=', StatusHelper::cancelled())
-            ->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
-            ->select('GEN_MATERIAL_HEADERS.*', 'SEC_USERS.name as originator', 'CONFIG_STATUSES.name as status_name', 'CONFIG_REQUISITION_TYPES.name as requisition_type')
-            ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
-            ->get();
-
+        $staff_no = auth()->user()->staff_no;
+        $requisitions = $this->requisitionService->getMyRequisitions($staff_no);
         return view("modules.requisitions.fuel.list")
             ->with(compact('requisitions'));
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\vehiclemanagement\VehicleHeader;
+use App\Models\VehicleManagement\VehicleHeader;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 

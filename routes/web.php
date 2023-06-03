@@ -16,7 +16,7 @@ use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
 use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkshopManagement\MaintenanceController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
-use App\Models\vehiclemanagement\VehicleHeader;
+use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -207,14 +207,16 @@ Route::group(['middleware' => 'auth'], function () {
 
         /** Job Card Processing **/
         Route::get('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('maintenance.requisition');
+
         Route::post('save/job/card', [MaintenanceController::class, 'processJobCard'])->name('process.job_card');
+
         Route::post('save/job/card/accessories', [MaintenanceController::class, 'processJobCardAccessories'])->name('job_card.accessories.checkin');
 
         Route::get('requisitions/maintenance/jobcard', [MaintenanceController::class, 'step2'])->name('continue.job.card');
 
-
         // supporting
         Route::get('requisitions/maintenance/list', [MaintenanceController::class, 'list'])->name('maintenance.list');
+
         Route::post('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
     });
 

@@ -7,7 +7,7 @@ use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\general\Status;
-use App\Models\vehiclemanagement\VehicleHeader;
+use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\WorkflowService;

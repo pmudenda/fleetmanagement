@@ -16,7 +16,7 @@ use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Models\Security\User;
-use App\Models\vehiclemanagement\VehicleHeader;
+use App\Models\VehicleManagement\VehicleHeader;
 use App\Models\Workflow\WorkflowActions;
 use App\Models\Workflow\WorkflowModules;
 use App\Services\Integration\ProcurementSystemIntegrationService;
@@ -27,6 +27,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
@@ -402,6 +403,7 @@ class FuelRequisitionService
             ->where('GEN_MATERIAL_HEADERS.req_no', $req_no)
             ->join('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
             ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
+            ->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
             ->select('GEN_MATERIAL_HEADERS.*', 'GEN_MATERIAL_DETAILS.*', 'CONFIG_STATUSES.name as status_name', 'CONFIG_STATUSES.color_code')
             ->get();
 
@@ -447,5 +449,30 @@ class FuelRequisitionService
             ->get();
 
         return empty($queryResult) ? [] : $queryResult->first();
+    }
+
+    public function getMyRequisitions($staff_no): Collection
+    {
+        if ($staff_no) {
+            return DB::table('GEN_MATERIAL_HEADERS')
+                ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
+                ->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
+                ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
+                ->where('GEN_MATERIAL_HEADERS.requested_by', '=', $staff_no)
+                ->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
+                ->select('GEN_MATERIAL_HEADERS.*', 'SEC_USERS.name as originator', 'CONFIG_STATUSES.name as status_name', 'CONFIG_REQUISITION_TYPES.name as requisition_type')
+                ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
+                ->get();
+        } else {
+            return DB::table('GEN_MATERIAL_HEADERS')
+                ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
+                ->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
+                ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
+                ->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
+                ->select('GEN_MATERIAL_HEADERS.*', 'SEC_USERS.name as originator', 'CONFIG_STATUSES.name as status_name', 'CONFIG_REQUISITION_TYPES.name as requisition_type')
+                ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
+                ->get();
+        }
+
     }
 }
