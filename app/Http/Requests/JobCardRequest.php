@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\RepairTypes;
+use App\Enums\RequisitionTypes;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -29,7 +31,7 @@ class JobCardRequest extends FormRequest
             'timeIn'=>'required:date_format',
             'repairType' => 'required:string',
             'service_advisor' => 'required:string',
-            'accident_number' => 'required:string',
+            'accident_number' => 'exclude_unless:repairType,'.RepairTypes::AccidentRepair->value.'|required|string',
             'current_odometer' => 'required:numeric',
             'fuel_level' => 'required:string',
             'driver_staff_number' => 'required:string',
