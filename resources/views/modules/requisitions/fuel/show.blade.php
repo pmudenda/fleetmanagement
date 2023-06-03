@@ -15,8 +15,8 @@
                     <h4>Approve Fuel Requisition</h4>
                 </div>
                 <div class="card-toolbar justify-content-end">
-                   <span class="badge pl-2 {{$requestDetails->color_code}}">
-                       {{$requestDetails->status_name}}
+                   <span class="badge pl-2 {{$requestDetails->color_code ?? ''}}">
+                       {{$requestDetails->status_name ?? ''}}
                    </span>
                 </div>
             </div>
