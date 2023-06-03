@@ -101,7 +101,9 @@ class WorkshopService
             $response = $request->get('field_' . trim($accessoryCode));
             $remarks = $request->get('comment_' . trim($accessoryCode));
 
-            return WorkShopVehicleAccessories::create(
+            Log::info($accessoryCode . ' '. $response . ' '. $remarks );
+
+            /*return WorkShopVehicleAccessories::create(
                 [
                     'job_card_no' => $job_card_voucher,
                     'name' => $accessoryName->name,
@@ -109,7 +111,7 @@ class WorkshopService
                     'remarks' => $remarks,
                     'is_present' => $response
                 ]
-            );
+            );*/
         }
     }
 }
