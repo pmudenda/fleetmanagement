@@ -18,6 +18,7 @@ use App\Services\WorkShopManagement\WorkshopService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
 
@@ -65,6 +66,13 @@ class MaintenanceController extends Controller
                     'workshopsVehicleList'
                 )
             );
+    }
+
+    public function step3(Request $request): Redirect
+    {
+        $step = $request->get('step') ?? 0;
+        $reference = $request->get('reference');
+        return redirect(URL::signedRoute('accessories.job.card', ['step' => $step, 'reference' => $reference]));
     }
 
     public function step2(Request $request): View
