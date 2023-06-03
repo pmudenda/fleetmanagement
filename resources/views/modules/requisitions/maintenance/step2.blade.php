@@ -126,10 +126,9 @@
                         let val = item.value.replace(/,/g, '');
 
                         if (item.type === 'radio') {
-                            let value = $('[name="'+item.name+'"]:checked').val();
-                            obj[item.name] = value;
+                            obj[item.name] = $('[name="' + item.name + '"]:checked').val();
                         } else {
-                            obj[item.name] = item.value || 0;
+                            obj[item.name] = item.value;
                         }
                     });
 
