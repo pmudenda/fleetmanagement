@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Security\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class MaterialHeader extends Model
 {
@@ -35,4 +38,9 @@ class MaterialHeader extends Model
         'document_no',
         'form_order'
     ];
+
+    public function originator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'staff_no', 'requested_by');
+    }
 }

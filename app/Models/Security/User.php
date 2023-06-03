@@ -3,8 +3,10 @@
 namespace App\Models\Security;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\MaterialHeader;
 use App\Models\Security\Permissions\HasPermissionsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -89,4 +91,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function requisitions(): HasMany
+    {
+        return $this->hasMany(MaterialHeader::class, 'requested_by', 'staff_no');
+    }
 }

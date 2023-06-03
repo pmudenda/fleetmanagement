@@ -119,21 +119,6 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-
-                        <li class="nav-item">
-                            <a href="{{ URL::signedRoute('workshop.sections') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Sections</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ URL::signedRoute('workshop.list') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Workshops</p>
-                            </a>
-                        </li>
-
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-circle"></i>
@@ -443,6 +428,20 @@
                                 <p>
                                     Charge Out Rates
                                 </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ URL::signedRoute('workshop.sections') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Workshop Sections</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ URL::signedRoute('workshop.list') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Workshops</p>
                             </a>
                         </li>
 

@@ -24,6 +24,7 @@
                                 <thead>
                                 <tr>
                                     <th>Reference #</th>
+                                    <th>Document No.</th>
                                     <th>Registration</th>
                                     <th>Valid From</th>
                                     <th>Valid To</th>
@@ -39,10 +40,12 @@
                                             <a href="{{URL::signedRoute('show.fuel.requisition', ['ref'=>  $rec->req_no])}}">
                                                 {{$rec->req_no}}
                                             </a>
-
                                         </td>
                                         <td>
-                                            {{$rec->reg_no}}
+                                            {{$rec->st_pur}}
+                                        </td>
+                                        <td>
+                                            {{$rec->veh_reg_no}}
                                         </td>
                                         <td>
                                             {{Carbon::parse($rec->valid_date_from)->format('d/m/Y')}}
