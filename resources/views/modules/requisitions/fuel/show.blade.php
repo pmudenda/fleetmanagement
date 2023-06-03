@@ -15,7 +15,7 @@
                     <h4>Approve Fuel Requisition</h4>
                 </div>
                 <div class="card-toolbar justify-content-end">
-                   <span class="badge pl-2 badge-success {{$requestDetails->color_code}}">
+                   <span class="badge pl-2 {{$requestDetails->color_code}}">
                        {{$requestDetails->status_name}}
                    </span>
                 </div>
@@ -36,8 +36,10 @@
                             <thead>
                             <tr class="border-0">
                                 <th width="33%" colspan="4" style="border:none;" class="text-left">
-                                    REQUISITION NUMBER: <span
-                                        class="text-orange">{{ $requestDetails->proc_ref }}</span>
+                                    @if(!empty($requestDetails->proc_ref))
+                                        REQUISITION NUMBER: <span
+                                            class="text-orange">{{ $requestDetails->proc_ref }}</span>
+                                    @endif
                                 </th>
                                 <th width="33%" colspan="4" style="border:none;" class="text-center"></th>
                                 <th width="34%" colspan="1" style="border:none; text-align:right;"
