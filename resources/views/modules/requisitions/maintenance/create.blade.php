@@ -143,7 +143,7 @@
                             }
                         }
                     }).fail(function (xhr) {
-                        tmsApp.showErrorMessages(response,  "Job Card Details Submitted");
+                        tmsApp.showErrorMessages(xhr,  "Job Card Details Submitted");
                     })
                 }
 
