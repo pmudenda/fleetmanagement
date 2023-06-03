@@ -260,6 +260,7 @@
                                             id="fuel_level"
                                             class="form-select form-select-sm when_valid"
                                             required>
+                                        <option></option>
                                     </select>
                                 </div>
                             </div>
