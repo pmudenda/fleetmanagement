@@ -138,9 +138,9 @@
                         ...formData
                     }
 
-                    formSel.find('input[name], select[name]').each(function (i, item) {
+                    /*formSel.find('input[name], select[name]').each(function (i, item) {
                         formData[item.name] = item.value;
-                    });
+                    });*/
 
                     $.ajax({
                         type: "POST",
