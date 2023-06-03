@@ -55,7 +55,7 @@ class WorkshopService
 
         $data = [
             'veh_reg' => $request->get('vehicle_registration'),
-            'date_in' => Carbon::now(), //Carbon::createFromFormat('Y-m-d', trim($request->get('date_of_req'))),
+            //'date_in' => Carbon::now(), //Carbon::createFromFormat('Y-m-d', trim($request->get('date_of_req'))),
             'workshop_code' => $request->get('workshop'),
             'time_in' => Carbon::parse(trim($request->get('timeIn')))->format('H:i:s'),
             'repair_type' => $request->get('repairType'),
