@@ -564,62 +564,6 @@
                 "mask": "AAA 9999"
             }).mask("#vehicle_registration");
 
-            /* tmsApp.appFormValidator('form[name="fuelRequisitionForm"]',
-                 {
-                     'requisition_type': {
-                         required: true,
-                     },
-                     fuel_allocation: {
-                         required: true
-                     },
-                     project_code: {
-                         required: '#projectInput:checked'
-                     },
-                     'cost_centre_code': {
-                         required: '#costOnCostCentre:checked'
-                     },
-                     justification: {
-                         required: true,
-                         minlength: 15,
-                         maxlength: 255
-                     },
-                     projectCode: {
-                         required: true
-                     },
-                     material_quantity: {
-                         required: true
-                     }
-                 },
-                 {
-                     'requisition_type': {
-                         required: "You have not declared the type of requisition"
-                     },
-                     'fuel_allocation': {
-                         required: "The vehicle does not have a valida fuel allocation"
-                     },
-                     'dateOpened': {
-                         required: "You must specify date task was opened"
-                     },
-                     'justification': {
-                         required: "Purpose for requisition is mandatory",
-                         minlength: "The reason needs to be at least {0} characters!",
-                         maxlength: "The reason must not be more than 255 characters"
-                     },
-                     projectCode: {
-                         required: 'Missing Project Code'
-                     },
-                     material_quantity: {
-                         required: 'You have not declared the quantity being requested for'
-                     },
-                     project_code: {
-                         required: 'Project Code is missing'
-                     },
-                     odometer_reading: {
-                         required: 'You must declare the odometer reading'
-                     }
-                 }
-             );*/
-
             $('#submitRequisitionBtn').on('click', function () {
                 let $form = document.forms['fuelRequisitionForm'];
                 if (!$($form).valid()) {
@@ -709,7 +653,6 @@
                 if (this.name === 'quantity') {
                     $(this).val(tmsApp.numberFormat(this.value));
                 }
-
             });
 
             getWorkshops();

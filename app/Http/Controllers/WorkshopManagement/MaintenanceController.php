@@ -84,7 +84,10 @@ class MaintenanceController extends Controller
         $reference = $request->get('reference');
 
         $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)->get();
+
         $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)->get();
+
+        // all active accessories
         $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
 
         $details = $this->workshopService->getJobCardDetails($reference);

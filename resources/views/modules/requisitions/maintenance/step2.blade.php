@@ -104,15 +104,9 @@
             let bodyTag = "fieldset";
 
             function initializeFormWizard() {
-                /*formWizard.on("click", function (e) {
-                    e.stopPropagation();
-                    $(this).remove();
-               let jobCardForm = formWizard.show();*/
-
-
                 function postData(formElements, submitForm) {
                     window.loaderMessage = "Posting Data... please wait";
-                    let $table = $(formElements);
+                    let $container = $(formElements);
 
                     let formSel = $(formElements);
 
@@ -121,31 +115,17 @@
                         submitForm: submitForm
                     };
 
-                    //.find("tbody").children().map(function (index, row) {});
                     let obj = {};
-                    $($table).find('input[name], select[name]').each(function (i, item) {
+                    $($container).find('input[name], select[name]').each(function (i, item) {
                         let val = item.value.replace(/,/g, '');
 
                         if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
                             let dateField = val;
-                            //if (item.name !== 'invoiceDate') {
-                            //dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
-                            //}
                             obj[item.name] = dateField;
                         } else {
-                            /*if (item.name === 'unitPrice') {
-                                obj[item.name] = tmsApp.getFloat("0.00")
-                            }*/
-
-                            /*if ($.isNumeric(parseFloat(val))) {
-                                obj[item.name] = tmsApp.getFloat(item.value)
-                            }*/
                             obj[item.name] = item.value || 0;
-
                         }
                     });
-
-                    //arr.push(obj);
 
                     formData = {
                         ...obj,
@@ -153,11 +133,8 @@
                     }
 
                     formSel.find('input[name], select[name]').each(function (i, item) {
-                        //let map = csvUploader.getMapperValue(item.name, item.value);
                         formData[item.name] = item.value;
                     });
-
-                    //formData['sales'] = arr;
 
                     $.ajax({
                         type: "POST",
@@ -167,37 +144,26 @@
                         contentType: "application/json; charset=utf-8",
                     }).done(function (response) {
                         window.loaderMessage = "Loading... please wait";
-                        if (response.hasOwnProperty("referenceNumber")) {
-                            swal({
-                                title: "Return Submitted",
-                                text: "The Return filed successfully with reference number: " + response.referenceNumber,
-                                type: "success",
-                                showCancelButton: false,
-                                confirmButtonClass: "btn-primary",
-                                confirmButtonText: "View Receipt",
-                                cancelButtonText: "Close",
-                                closeOnConfirm: true,
-                                closeOnCancel: true
-                            }, function (isConfirm) {
-                                if (isConfirm) {
-                                    //getNotice(response);
-                                } else {
-                                    window.location.href = $("#context-path").val() + 'Returns/acknowledgeReturn';
-                                }
-                            });
-                        } else if (!Util.isEmpty(response.errors)) {
-                            if (response.errors) {
-                                //csvUploader.showErrors(response.errors);
-                            } else {
-                                swal('Error', response.message, 'error');
-                            }
-                        } else if (!Util.isEmpty(response.message)) {
-                            swal('Return Submission', response.message, 'error');
+                        if (response.hasOwnProperty("success") && response.success) {
+                            tmsApp.showSystemMessage(
+                                "Job Card Details Submitted",
+                                "Request submitted successfully, Click 'Ok' proceed to provide information for other sections",
+                                function () {
+                                    window.location.href = response['redirectUrl'];
+                                },
+                                "success"
+                            );
                         } else {
-                            window.oneScheduleSubmitted = true;
-                            goToNext = true;
-                            form.steps("next");
+                            if (!Util.isEmpty(response.errors)) {
+                                if (response.errors) {
+                                    tmsApp.printErrorMsg(response.errors);
+                                }
+                            } else if (!Util.isEmpty(response.message)) {
+                                tmsApp.systemError("Job Card Details Submitted", response.message);
+                            }
                         }
+                    }).fail(function (xhr) {
+                        tmsApp.showErrorMessages(xhr, "Job Card Details Submitted");
                     })
                 }
 
@@ -213,26 +179,6 @@
                         finish: 'Submit'
                     },
                     onStepChanging: function (event, currentIndex, newIndex) {
-                        // Allways allow previous action even if the current form is not valid!
-                        /*  if (currentIndex > newIndex) {
-                              return true;
-                          }
-
-                          // Forbid next action on "Warning" step if the user is to young
-                          if (newIndex === 3 && Number($("#age-2").val()) < 18) {
-                              return false;
-                          }
-
-                          // Needed in some cases if the user went back (clean up)
-                          if (currentIndex < newIndex) {
-                              // To remove error styles
-                              form.find(".body:eq(" + newIndex + ") label.error").remove();
-                              form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
-                          }
-
-                          form.validate().settings.ignore = ":disabled,:hidden";
-                          return true;//form.valid();*/
-
                         // Always allow previous action even if the current form is not valid!
                         if (currentIndex > newIndex) {
                             return true;
@@ -282,35 +228,10 @@
                         //$('a[role="#finish"]').disableBtn();
 
                         if (form.valid()) {
+                            postData($(form.find(bodyTag).get(currentIndex)).find('[data-model-name]').get(0), true);
 
-                            let returnTotal = $(document).find('input[name="returnTotal"]');
-                            if (returnTotal) {
-                                if (parseFloat(returnTotal.val()) === parseFloat("0.00")) {
-                                    swal("Error !", "You have not provided any data for the return", "error");
-                                    return;
-                                }
-                            }
-                            if (!window['oneScheduleSubmitted']) {
-                                swal({
-                                    title: "Return Submission",
-                                    text: "At least one schedule must be submitted, Kindly review your data",
-                                    type: "success",
-                                    showCancelButton: false,
-                                    confirmButtonClass: "btn-primary",
-                                    confirmButtonText: "View Receipt",
-                                    cancelButtonText: "Close",
-                                    closeOnConfirm: true,
-                                    closeOnCancel: true
-                                }, function (isConfirm) {
-                                    if (isConfirm) {
-                                        return false;
-                                    }
-                                });
-                            } else {
-                                postData($(form.find(bodyTag).get(currentIndex)).find('[data-model-name]').get(0), true);
-                            }
                         } else {
-                            $('a[role="#finish"]').enableBtn();
+                            //$('a[role="#finish"]').enableBtn();
                             swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
                         }
 
@@ -353,6 +274,9 @@
                         },
                         repairType: {
                             required: "Select type of repair"
+                        },
+                        driver_staff_number: {
+                            required: "Driver details are required"
                         }
                     }
                 });

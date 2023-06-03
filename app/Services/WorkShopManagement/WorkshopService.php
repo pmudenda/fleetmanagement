@@ -95,19 +95,24 @@ class WorkshopService
         $job_card_voucher = $request->get('job_card_voucher');
         $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
             ->get();
+
         foreach ($accessoryNames as $accessoryName) {
             $accessoryCode = $accessoryName->code;
 
             $response = $request->get('field_' . trim($accessoryCode));
             $remarks = $request->get('comment_' . trim($accessoryCode));
 
-            Log::info($accessoryCode . ' '. $response . ' '. $remarks );
+            Log::info($accessoryCode . ' ' . $response . ' ' . $remarks);
 
-            return WorkShopVehicleAccessories::create(
+            return WorkShopVehicleAccessories::firstOrCreate(
                 [
                     'job_card_no' => $job_card_voucher,
-                    'name' => $accessoryName->name,
                     'code' => $accessoryCode,
+                ],
+                [
+                    //'job_card_no' => $job_card_voucher,
+                    //'code' => $accessoryCode,
+                    'name' => $accessoryName->name,
                     'remarks' => $remarks,
                     'is_present' => $response
                 ]
