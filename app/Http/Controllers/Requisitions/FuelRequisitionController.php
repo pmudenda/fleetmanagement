@@ -37,7 +37,7 @@ class FuelRequisitionController extends Controller
     public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $staff_no = auth()->user()->staff_no;
-        $requisitions = $this->requisitionService->getMyRequisitions();
+        $requisitions = $this->requisitionService->getMyRequisitions(null);
         return view("modules.requisitions.fuel.list")
             ->with(compact('requisitions'));
     }
