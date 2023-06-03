@@ -270,7 +270,7 @@
                                         </div>
                                     </div>
 
-                                    @if($requestDetails->requisition_type == RequisitionTypes::OutOfTown)
+                                    @if($requestDetails->requisition_type == RequisitionTypes::OutOfTown->value)
                                         <div class="row" id="outOfTown">
                                             <div class="col-xs-12 col-sm-6 col-md-6">
                                                 <div class="container-fluid pl-0">
@@ -397,7 +397,7 @@
                                     </div>
 
                                     <div class="row">
-                                        @if($requestDetails->requisition_type != RequisitionTypes::OutOfTown)
+                                        @if($requestDetails->requisition_type != RequisitionTypes::OutOfTown->value)
                                             <div class="col-xs-12 col-sm-6 col-md-6">
                                                 <div class="container-fluid pl-0">
                                                     <div class="row">
@@ -556,7 +556,7 @@
                         </div>
                     </div>
 
-                    @if(auth()->user()->id != $requestDetails->created_by)
+                    @if(auth()->user()->staff_no != $requestDetails->requested_by)
                         <div class="card-footer">
                             <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
                                 <button type="button" id="approveRequisitionBtn" class="btn btn-success btn-sm mr-3">
