@@ -78,9 +78,9 @@ class MaintenanceController extends Controller
             abort(401);
         }*/
 
-        if ($request->has('step') && $request->get('step') != "2") {
-            abort(401);
-        }
+        //if ($request->has('step') && $request->get('step') != "2") {
+        //            abort(401);
+        //}
         if (!$request->has('step')) {
             return redirect(URL::signedRoute('maintenance.requisition', ['step' => 1]));
         }
@@ -105,9 +105,9 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        if ($request->has('step') && $request->get('step') != "2") {
+        /*if ($request->has('step') && $request->get('step') != "2") {
             abort(401);
-        }
+        }*/
         if (!$request->has('step')) {
             return redirect(URL::signedRoute('maintenance.requisition', ['step' => 1]));
         }

@@ -104,10 +104,10 @@ class WorkshopService
 
             Log::info($accessoryCode . ' ' . $response . ' ' . $remarks);
 
-            WorkShopVehicleAccessories::firstOrCreate(
+            WorkShopVehicleAccessories::updateOrCreate(
                 [
-                    'job_card_no' => $job_card_voucher,
-                    'code' => $accessoryCode,
+                    'job_card_no' => trim($job_card_voucher),
+                    'code' => trim($accessoryCode),
                 ],
                 [
                     //'job_card_no' => $job_card_voucher,
