@@ -144,7 +144,7 @@
     </section>
 
 
-    <div class="modal fade" id="createRecordModal" tabindex="-1" aria-labelledby="createRecordModalLabel"
+    {{--<div class="modal fade" id="createRecordModal" tabindex="-1" aria-labelledby="createRecordModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -244,7 +244,6 @@
         </div>
     </div>
 
-    {{--Edit modal--}}
     <div class="modal fade" id="editRecordModal" tabindex="-1" aria-labelledby="editRecordModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -267,12 +266,12 @@
                                 class="btn btn-secondary" data-bs-dismiss="modal">
                             Close
                         </button>
-                        {{--<button type="submit" class="btn btn-success">Edit</button>--}}
+                        --}}{{--<button type="submit" class="btn btn-success">Edit</button>--}}{{--
                     </div>
                 </form>
             </div>
         </div>
-    </div>
+    </div>--}}
 @endsection
 
 @push('scripts')
