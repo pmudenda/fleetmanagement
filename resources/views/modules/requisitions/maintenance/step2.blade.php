@@ -83,15 +83,17 @@
     <script>
         (function (tmsApp, $) {
 
-            let job_card_number = $('[name="job_card_number"]').val();
-            if (job_card_number) {
-                const elem = $("#repairTypeDropdownList");
-                let val = elem.attr('data-value');
-                if (val) {
-                    elem.val(val);
-                    elem.trigger('change');
+            setTimeout(function () {
+                let job_card_number = $('[name="job_card_number"]').val();
+                if (job_card_number) {
+                    const elem = $("#repairTypeDropdownList");
+                    let val = elem.attr('data-value');
+                    if (val) {
+                        elem.val(val);
+                        elem.trigger('change');
+                    }
                 }
-            }
+            }, 600);
 
             let form = $('#jobCardForm').show();
             window.goToNext = false;
