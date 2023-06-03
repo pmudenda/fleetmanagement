@@ -10,6 +10,7 @@ use App\Models\WorkShopManagement\JobCardHeader;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class WorkshopService
@@ -70,5 +71,19 @@ class WorkshopService
         ];
 
         return JobCardHeader::create($data);
+    }
+
+    public function getJobCardDetails(mixed $reference)
+    {
+        //        //$details = JobCardHeader::where('job_card_no', '=', $reference)->orderBy('id', 'desc')->first();
+        $query = DB::table('WKS_JOB_CARD_HEADER')
+            ->leftJoin('SEC_USERS', 'WKS_JOB_CARD_HEADER.received_by', '=', 'SEC_USERS.staff_no')
+            ->leftJoin('CONFIG_GENERAL_TABLES', 'WKS_JOB_CARD_HEADER.receiving_section', '=', 'CONFIG_GENERAL_TABLES.code')
+            ->where('CONFIG_GENERAL_TABLES.type', '=', ConfigurationTypes::WORK_SHOP_SECTION)
+            ->where('WKS_JOB_CARD_HEADER.job_card_no', '=', $reference)
+            ->select('WKS_JOB_CARD_HEADER.*', 'CONFIG_GENERAL_TABLES.name as section_in_name', 'SEC_USERS.name as service_advisor')
+            ->get();
+
+        return $query->first();
     }
 }

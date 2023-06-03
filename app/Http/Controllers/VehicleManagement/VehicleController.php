@@ -68,7 +68,7 @@ class VehicleController extends Controller
             Log::error($e);
             return response()->json([
                 'success' => 'false',
-                'message' => 'We could not complete processing your request, Please contact System Administrator'
+                'message' => ErrorMessages::getMessage('err_005')
             ]);
         }
     }
@@ -98,7 +98,7 @@ class VehicleController extends Controller
 
             $article = $this->procurementService->getArticleByCode($vehicle->fuel_types);
             $vehicle_state = '';
-            // StatusHelper::onboardingComplete()
+
             if ($vehicle->on_boarding_status != StatusHelper::onboardingComplete()) {
                 $vehicle_state = str_replace("@", $vehicle->on_boarding_status, "Pending @ detail processing");
             }
@@ -135,7 +135,8 @@ class VehicleController extends Controller
 
     public function accessories(Request $request): View
     {
-        $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
+        $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())
+            ->get();
 
         return view('modules.vehicleManagement.general.accessories')
             ->with(compact('accessories'));

@@ -7,8 +7,10 @@ use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\JobCardRequest;
 use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
+use App\Models\WorkShopManagement\JobCardHeader;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\WorkShopManagement\WorkshopService;
 use Illuminate\Http\JsonResponse;
@@ -35,16 +37,30 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)->get();
-
-        //$accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
-        $details = null;//JobCardHeader::where('job_card_no', '=', $reference)->orderBy('id', 'desc')->first();
+        $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
+            ->get();
+        $details = null;
 
         return view('modules.requisitions.maintenance.create')
             ->with(
                 compact(
                     'repairTypes',
                     'details'
+                )
+            );
+    }
+    public function list(Request $request): View
+    {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
+        $workshopsVehicleList = JobCardHeader::get();
+
+        return view('modules.workshopManagement.vehiclesInWorkshop')
+            ->with(
+                compact(
+                    'workshopsVehicleList'
                 )
             );
     }
@@ -69,16 +85,7 @@ class MaintenanceController extends Controller
 
         $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
 
-        //$details = JobCardHeader::where('job_card_no', '=', $reference)->orderBy('id', 'desc')->first();
-
-        $query = DB::table('WKS_JOB_CARD_HEADER')
-            ->leftJoin('SEC_USERS', 'WKS_JOB_CARD_HEADER.received_by', '=', 'SEC_USERS.staff_no')
-            ->leftJoin('CONFIG_GENERAL_TABLES', 'WKS_JOB_CARD_HEADER.receiving_section', '=', 'CONFIG_GENERAL_TABLES.code')
-            ->where('CONFIG_GENERAL_TABLES.type', '=', ConfigurationTypes::WORK_SHOP_SECTION)
-            ->where('WKS_JOB_CARD_HEADER.job_card_no', '=', $reference)
-            ->select('WKS_JOB_CARD_HEADER.*', 'CONFIG_GENERAL_TABLES.name as section_in_name', 'SEC_USERS.name as service_advisor')
-            ->get();
-        $details = $query->first();
+        $details =  $this->workshopService->getJobCardDetails($reference);
 
         return view('modules.requisitions.maintenance.step2')
             ->with(
@@ -103,7 +110,7 @@ class MaintenanceController extends Controller
         );
     }
 
-    public function processJobCard(Request $request): JsonResponse
+    public function processJobCard(JobCardRequest $request): JsonResponse
     {
         try {
             //if ($request->get('modelName') == 'JobCardHeader') {

@@ -207,6 +207,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         /** Job Card Processing **/
         Route::get('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('maintenance.requisition');
+        Route::get('requisitions/maintenance/list', [MaintenanceController::class, 'list'])->name('maintenance.list');
 
         Route::post('save/job/card', [MaintenanceController::class, 'processJobCard'])->name('process.job_card');
 
