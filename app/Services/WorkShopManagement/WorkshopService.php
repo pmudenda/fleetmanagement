@@ -26,16 +26,19 @@ class WorkshopService
         ///$receiverParts = explode('|', $request->get('service_advisor'));
         if ($request->has('job_card_number') && !empty($request->get('job_card_number')) && $request->get('job_card_number') != 0) {
             // update the information
-            $details = JobCardHeader::where('job_card_no', '=', $request->get('job_card_number'))->orderBy('id', 'desc')->first();
+            $details = JobCardHeader::where('job_card_no', '=', $request->get('job_card_number'))->orderBy('id', 'desc')
+                ->first();
 
             $details->veh_reg = $request->get('vehicle_registration');
-            $details->date_in = Carbon::parse(trim($request->get('date_of_req')));
-            $details->time_in = Carbon::parse(trim($request->get('timeIn')))->format('H:i:s');
             $details->workshop_code = $request->get('workshop');
             $details->repair_type = $request->get('repairType');
+
+            //$details->date_in = Carbon::parse(trim($request->get('date_of_req')));
+            //$details->time_in = Carbon::parse(trim($request->get('timeIn')))->format('H:i:s');
             //$details->received_by = $user->staff_no;
             //$details->receiving_section = $section->code;
-            $details->accident_ref = $request->get('accident_number');
+
+            $details->accident_ref = $request->get('accident_number') ?? 'N/A';
             $details->millage_in = $request->get('current_odometer');
             $details->fuel_level_in = $request->get('fuel_level');
             $details->driver_in = $request->get('driver_staff_number');
