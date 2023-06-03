@@ -2,9 +2,9 @@
 
 namespace App\Enums;
 
-enum RepairTypes
+enum RepairTypes: string
 {
-    const GeneralRepair = "002";
-    const GeneralService = "003";
-    const AccidentRepair = "001";
+    case GeneralRepair = "002";
+    case GeneralService = "003";
+    case AccidentRepair = "001";
 }
