@@ -33,7 +33,8 @@ return new class extends Migration {
             $table->string('vehicle_header_id');
             $table->string('created_by', 100)->nullable();
             $table->string('created_name', 100)->nullable();
-
+            $table->timestamp('deleted_at')->nullable();
+            //$table->dropColumn('deleted_at');
 
             $table->timestamps();
         });

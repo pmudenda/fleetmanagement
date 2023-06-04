@@ -68,7 +68,7 @@ class VehicleController extends Controller
             Log::error($e);
             return response()->json([
                 'success' => 'false',
-                'message' => ErrorMessages::getMessage('err_005')
+                'message' => ErrorMessages::getMessage('err_0005')
             ]);
         }
     }
@@ -116,7 +116,7 @@ class VehicleController extends Controller
             Log::error($e);
             return response()->json([
                 'success' => 'false',
-                'message' => ErrorMessages::getMessage('err_005')
+                'message' => ErrorMessages::getMessage('err_0005')
             ]);
         }
     }

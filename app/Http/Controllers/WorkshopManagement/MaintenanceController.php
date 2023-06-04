@@ -160,7 +160,7 @@ class MaintenanceController extends Controller
                 [
                     'success' => false,
                     'payload' => [],
-                    'message' => ErrorMessages::getMessage('err_005')
+                    'message' => ErrorMessages::getMessage('err_0005')
                 ]
             );
         }
@@ -182,7 +182,7 @@ class MaintenanceController extends Controller
                 [
                     'success' => false,
                     'payload' => [],
-                    'message' => ErrorMessages::getMessage('err_005')
+                    'message' => ErrorMessages::getMessage('err_0005')
                 ]
             );
         }
@@ -204,7 +204,7 @@ class MaintenanceController extends Controller
                 [
                     'success' => false,
                     'payload' => [],
-                    'message' => ErrorMessages::getMessage('err_005')
+                    'message' => ErrorMessages::getMessage('err_0005')
                 ]
             );
         }

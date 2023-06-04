@@ -178,7 +178,7 @@ class GeneralTablesController extends Controller
 
         } catch (\Throwable|Exception $exception) {
             Log::error($exception);
-            $message = ErrorMessages::getMessage('err_005');
+            $message = ErrorMessages::getMessage('err_0005');
             if ($exception instanceof GeneralTableRecordException) {
                 $message = $exception->getMessage();
             }

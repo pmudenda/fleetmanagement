@@ -57,7 +57,7 @@ class DriverController extends Controller
                 'success' => false,
                 'description' => $e,
                 'payload' => [],
-                'message' => ErrorMessages::getMessage('err_005')
+                'message' => ErrorMessages::getMessage('err_0005')
             ]);
         }
     }
@@ -87,7 +87,7 @@ class DriverController extends Controller
             return response()->json([
                 'success' => 'false',
                 'payload' => [],
-                'message' => str_replace('@input', $searchParam, ErrorMessages::getMessage('err_011'))
+                'message' => str_replace('@input', $searchParam, ErrorMessages::getMessage('err_0011'))
             ]);
         }
 
@@ -99,7 +99,7 @@ class DriverController extends Controller
                 'payload' => [],
                 'message' => str_replace('@input',
                     $searchParam,
-                    ErrorMessages::getMessage('err_010')
+                    ErrorMessages::getMessage('err_0010')
                 )
             ]);
         }

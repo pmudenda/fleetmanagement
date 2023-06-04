@@ -300,7 +300,7 @@ class UsersController extends Controller
             return response()->json([
                 'success' => false,
                 'payload' => [],
-                'message' => ErrorMessages::getMessage('err_012')
+                'message' => ErrorMessages::getMessage('err_0012')
             ]);
         }
     }

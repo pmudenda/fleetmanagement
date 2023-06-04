@@ -12,53 +12,41 @@ return new class extends Migration {
     {
         Schema::create('VM_ASSIGNMENTS', function (Blueprint $table) {
             $table->id();
-
-            $table->string('businessArea');
-            $table->string('casualStaffNumber');
-            $table->string('casualStaffName');
-            $table->string('costCenter');
             $table->string('directorate');
             $table->string('isPoolVehicle');
-            $table->string('isTeamAssigned');
+            $table->string('isTeamAssigned')->nullable();
             $table->string('mileageExempt');
-            $table->string('operatorName');
-            $table->string('operatorStaffNumber');
-            $table->string('superVisorName');
-            $table->string('superVisorStaffNumber');
-
+            $table->string('operatorStaffNumber')->nullable();
 
             $table->string('vehicle_header_id');
             $table->integer('created_by');
             $table->string('created_name');
+            $table->string('vehicleHolderName')->nullable();
+            $table->string('vehicleHolder')->nullable();
+
+            $table->string('cost_center', 15);
+            $table->string('business_unit')->nullable();
+            $table->string('cost_center_name', 255);
+            $table->string('business_unit_name', 255)->nullable();
+            $table->string('directorate_name', 255)->nullable();
+            $table->string('responsible_head_id', 15)->nullable();
+            $table->string('responsible_head_name', 255)->nullable();
+            $table->string('business_area_code', 15);
+            $table->string('business_area_name', 255);
+            $table->string('assignment_state')->nullable();
             $table->timestamps();
 
-            //$table->dropColumn('businessunit');
-        });
-
-        Schema::table('VM_ASSIGNMENTS', function (Blueprint $table) {
-
-            $table->dropColumn([
-                'casualStaffNumber',
-                'casualStaffName',
-                'operatorName',
-                'superVisorStaffNumber',
-                'superVisorName',
-                'businessArea',
-                'costCenter'
-            ]);
-
-            $table->string('cost_center', 15)->add();
-            $table->string('isTeamAssigned')->nullable()->change();
-
-            $table->string('business_unit')->nullable()->add();
-            $table->string('cost_center_name', 255)->add();
-            $table->string('business_unit_name', 255)->nullable()->add();
-            $table->string('directorate_name', 255)->nullable()->add();
-
-            $table->string('responsible_head_id', 15)->nullable()->add();
-            $table->string('responsible_head_name', 255)->nullable()->add();
-            $table->string('business_area_code', 15)->add();
-            $table->string('business_area_name', 255)->add();
+            //$table->string('businessArea');
+            //$table->string('casualStaffNumber');
+            //$table->string('casualStaffName');
+            //$table->string('casualStaffName')->nullable();
+            //$table->string('casualStaffNumber')->nullable()->change();
+            //$table->string('costCenter');
+            //$table->string('operatorName');
+            //$table->string('operatorStaffNumber');
+            //$table->string('operatorStaffNumber')->nullable()->change();
+            //$table->string('superVisorName');
+            //$table->string('superVisorStaffNumber');
         });
     }
 

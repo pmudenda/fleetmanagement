@@ -11,14 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('GEN_MATERIAL_HEADERS', function (Blueprint $table) {
+        Schema::create('WM_WORK_SHOP_MATERIALS', function (Blueprint $table) {
             $table->id();
+            $table->string('requested_by',255)->nullable();
+            $table->date('date_created');
+            $table->string('workshop_act_code')->nullable();
+            $table->string('workshop_code', 20);
+            $table->string('section', 10);
+            $table->date('date_created');
+
             $table->string('proc_ref')->nullable();
             $table->string('req_no');
             $table->string('veh_reg_no')->nullable();
             $table->timestamp('valid_date_from')->nullable();
             $table->timestamp('valid_date_to')->nullable();
-            $table->date('date_created');
+
             $table->string('created_by');
             $table->string('st_pur')->nullable();
             $table->Integer('odometer')->nullable();
@@ -27,17 +34,18 @@ return new class extends Migration
             $table->string('workshop_no', 255)->nullable();
             $table->string('document_no', 255)->nullable();
             $table->string('form_order')->nullable();
-            $table->string('requested_by',255)->nullable();
+
             $table->string('authorised_by',255)->nullable();
-            $table->string('town_from')->nullable();
+
             $table->string('town_to')->nullable();
             $table->string('comments')->nullable();
             $table->string('status')->nullable();
             $table->string('requisition_status', 20);
             $table->string('cost_assigned_to')->nullable();
             $table->string('requested_by_id',13)->nullable();
-            $table->string('requisition_type')->nullable()->add();
+            $table->string('requisition_type')->nullable();
             $table->string('cost_assigned_to', 20)->nullable()->change();
+
             $table->timestamps();
         });
     }
@@ -47,6 +55,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('GEN_MATERIAL_HEADERS');
+        Schema::dropIfExists('WM_WORK_SHOP_MATERIALS');
     }
 };

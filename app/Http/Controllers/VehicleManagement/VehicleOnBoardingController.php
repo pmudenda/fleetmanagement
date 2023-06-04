@@ -175,7 +175,7 @@ class VehicleOnBoardingController extends Controller
 
         } catch (Exception $e) {
             Log::error($e);
-            $message = ErrorMessages::getMessage('err_005');
+            $message = ErrorMessages::getMessage('err_0005');
 
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
@@ -203,7 +203,7 @@ class VehicleOnBoardingController extends Controller
 
         } catch (Exception $e) {
             Log::error($e);
-            $message = ErrorMessages::getMessage('err_005');
+            $message = ErrorMessages::getMessage('err_0005');
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -236,7 +236,7 @@ class VehicleOnBoardingController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error($e);
-            $message = ErrorMessages::getMessage('err_005');
+            $message = ErrorMessages::getMessage('err_0005');
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -262,7 +262,7 @@ class VehicleOnBoardingController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error($e);
-            $message = ErrorMessages::getMessage('err_005');
+            $message = ErrorMessages::getMessage('err_0005');
             //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
@@ -288,7 +288,7 @@ class VehicleOnBoardingController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error($e);
-            $message = ErrorMessages::getMessage('err_005');
+            $message = ErrorMessages::getMessage('err_0005');
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -317,7 +317,7 @@ class VehicleOnBoardingController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error($e);
-            $message = ErrorMessages::getMessage('err_005');
+            $message = ErrorMessages::getMessage('err_0005');
             //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
@@ -343,7 +343,7 @@ class VehicleOnBoardingController extends Controller
             ]);
         } catch (Exception $e) {
             Log::error($e);
-            $message = ErrorMessages::getMessage('err_005');
+            $message = ErrorMessages::getMessage('err_0005');
             //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();

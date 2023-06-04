@@ -21,14 +21,21 @@ return new class extends Migration
             $table->string('project_code')->nullable();
             $table->string('supplier_code')->nullable();
             $table->string('reg_no')->nullable();
-            $table->Integer('amount');
-            $table->decimal('price');
+            //$table->Integer('amount');
+           // $table->decimal('price');
+            $table->decimal('amount', 18, 2);
+            $table->decimal('price', 18, 2);
             $table->string('ref_no')->nullable();
             $table->date('date_created');
             $table->string('created_by');
             $table->string('cost_centre', 15)->nullable();
             $table->string('stores_code', 15)->nullable();
             $table->string('movt_no', 15)->nullable();
+            //$table->string('cost_centre_name', 15)->nullable()->add();
+            //$table->string('project_name', 15)->nullable()->add();
+            $table->string('cost_centre_name', 255)->nullable();
+            $table->string('project_name', 255)->nullable();
+            $table->string('max_allowed', 15)->nullable();
             $table->timestamps();
         });
     }

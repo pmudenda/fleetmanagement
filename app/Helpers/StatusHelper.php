@@ -74,6 +74,11 @@ class StatusHelper
         return "26";
     }
 
+    public static function partiallyReleasedExpired(): string
+    {
+        return "42";
+    }
+
     public static function onboardingComplete(): string
     {
         return "030";
@@ -97,6 +102,16 @@ class StatusHelper
     public static function closed(): string
     {
         return "08";
+    }
+
+    public static function rejected(): string
+    {
+        return "03";
+    }
+
+    public static function released(): string
+    {
+        return "39";
     }
 
 }
