@@ -1,79 +1,10 @@
 (function (tmsApp, $) {
-    function autosave(form) {
-        let time;
-        window.onload = resetTimer;
-        // DOM Events
-        document.onchange = resetTimer;
-        document.onkeyup = resetTimer;
-
-        function work() {
-            //validateFormElements(form);
-
-        }
-
-        function resetTimer() {
-            clearTimeout(time);
-            time = setTimeout(work, 120000); // save data every 2 minutes, (1000 milliseconds = 1 second)
-
-        }
-    }
-
-    $(document).off('click', 'button[value="addRow"][data-table-id]')
-        .on('click', 'button[value="addRow"][data-table-id]', function () {
-            let tableId = $(this).data('tableId');
-            Table.addRow($('table#' + tableId));
-            if (tableId === "part8") {
-                //initInvoiceDatePicker();
-            }
-        });
-
-    $(document).on('click', 'button[value="deleteRow"]', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        let btnEl = $(this);
-        let tableId = $(this).closest('table').attr('id');
-        let tableRow = btnEl.closest('tr');
-        let table = btnEl.closest('table');
-        tmsApp.confirm(
-            "Are you sure ?",
-            "The data entered on this line will be cleared out, if not saved already, you will not be able to recover it",
-            "Yes",
-            "No",
-            function () {
-                Table.deleteRow(tableRow);
-                e.preventDefault();
-                e.stopPropagation();
-                //scheduleUpdater(tableId, table);
-                // return false;
-            });
-
-        return false;
-    });
-
-
-    setTimeout(function () {
-        let job_card_number = $('[name="job_card_number"]').val();
-        if (job_card_number) {
-            const elem = $("#repairTypeDropdownList");
-            let val = elem.attr('data-value');
-            if (val) {
-                elem.val(val);
-                elem.trigger('change');
-            }
-        }
-
-        if (selectedAccessories) {
-            setSelectedAccessories();
-        }
-
-    }, 600);
 
     let form = $('#jobCardForm').show();
     window.goToNext = false;
-    //window.formWizard = form;
     let bodyTag = "fieldset";
 
+    /*****************************Function Handlers************************************/
     function initializeFormWizard() {
         function postData(formElements, submitForm) {
             window.loaderMessage = "Posting Data... please wait";
@@ -203,7 +134,7 @@
 
                 } else {
                     //$('a[role="#finish"]').enableBtn();
-                    swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
+                    //swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
                 }
 
             },
@@ -252,8 +183,6 @@
             }
         });
     }
-
-    initializeFormWizard();
 
     function getWorkshops() {
         fetch(document.querySelector('#workshopsUrl').value)
@@ -544,6 +473,25 @@
         });
     }
 
+    function autosave(form) {
+        let time;
+        window.onload = resetTimer;
+        // DOM Events
+        document.onchange = resetTimer;
+        document.onkeyup = resetTimer;
+
+        function work() {
+            //validateFormElements(form);
+
+        }
+
+        function resetTimer() {
+            clearTimeout(time);
+            time = setTimeout(work, 120000); // save data every 2 minutes, (1000 milliseconds = 1 second)
+
+        }
+    }
+
     $('#vehicle_registration').on('keyup paste enter', function () {
         if (!this.value || this.value.replace('_', '').length < 8) {
             return;
@@ -583,13 +531,11 @@
         }, 300);
     });
 
+    /*****************************Event Handlers*****************************************/
+
     $(document).on('keypress', '.number_input', function (event) {
         tmsApp.numberOnly(event);
     })
-
-    Inputmask({
-        "mask": "AAA 9999"
-    }).mask("#vehicle_registration");
 
     $('#submitRequisitionBtn').on('click', function () {
         let $form = document.forms['fuelRequisitionForm'];
@@ -672,17 +618,73 @@
         }
     });
 
-
     $('#materialDetailsTable').on('change', 'select,input', function (e) {
         eventHandler(this, e);
-    }).on('keyup', 'select,input,textarea', function (e) {
-        eventHandler(this, e);
-    }).on('blur', 'input', function (e) {
-        if (this.name === 'quantity') {
-            $(this).val(tmsApp.numberFormat(this.value));
+    })
+        .on('keyup', 'select,input,textarea', function (e) {
+            eventHandler(this, e);
+        })
+        .on('blur', 'input', function (e) {
+            if (this.name === 'quantity') {
+                $(this).val(tmsApp.numberFormat(this.value));
+            }
+        });
+
+    $(document).off('click', 'button[value="addRow"][data-table-id]')
+        .on('click', 'button[value="addRow"][data-table-id]', function () {
+            let tableId = $(this).data('tableId');
+            Table.addRow($('table#' + tableId));
+            if (tableId === "part8") {
+                //initInvoiceDatePicker();
+            }
+        });
+
+    $(document).on('click', 'button[value="deleteRow"]', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        let btnEl = $(this);
+        let tableId = $(this).closest('table').attr('id');
+        let tableRow = btnEl.closest('tr');
+        let table = btnEl.closest('table');
+        tmsApp.confirm(
+            "Are you sure ?",
+            "The data entered on this line will be cleared out, if not saved already, you will not be able to recover it",
+            "Yes",
+            "No",
+            function () {
+                Table.deleteRow(tableRow);
+                e.preventDefault();
+                e.stopPropagation();
+                //scheduleUpdater(tableId, table);
+                // return false;
+            });
+
+        return false;
+    });
+
+    setTimeout(function () {
+        let job_card_number = $('[name="job_card_number"]').val();
+        if (job_card_number) {
+            const elem = $("#repairTypeDropdownList");
+            let val = elem.attr('data-value');
+            if (val) {
+                elem.val(val);
+                elem.trigger('change');
+            }
         }
 
-    });
+        if (selectedAccessories) {
+            setSelectedAccessories();
+        }
+
+    }, 600);
+
+    initializeFormWizard();
+
+    Inputmask({
+        "mask": "AAA 9999"
+    }).mask("#vehicle_registration");
 
     getWorkshops();
 

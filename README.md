@@ -38,6 +38,8 @@ ZFM is a web based fleet & logistics management system built using laravel frame
 - [ php artisan db:seed --class= {SeederClassName}]() - replace {SeederClassName} with actual class name e.g UserSeeder
 
 ## System Scripts
+
+## Create Stores Requisition Function
 ```oracle
 CREATE OR REPLACE FUNCTION fn_create_stores_req (
     p_ref_no           IN VARCHAR2,
@@ -911,11 +913,12 @@ EXCEPTION
             || sqlerrm;
         RETURN ( ls_return );
 END;
-    /
+/
 ```
 
+## Function Generate Reference
 ```oracle
-CREATE OR REPLACE FUNCTION fn_generate_reference_number (
+create or replace FUNCTION fn_generate_reference_number (
     p_module VARCHAR2,
     p_user   VARCHAR2
 ) RETURN STRING IS
@@ -939,13 +942,13 @@ BEGIN
         v_prefix := 'ZFMREQ';
         v_next_num := "FLEETMASTER"."GENERAL_REQ_SEQ".nextval;
     ELSIF p_module = 'DRV_ONBOARD' THEN
-        v_prefix := 'DRVONB';
+        v_prefix := 'ZFMDOB';
         v_next_num := "FLEETMASTER"."DRV_ONBOARDING_REQ_SEQ".nextval;
     ELSIF p_module = 'VEH_ONBOARD' THEN
-        v_prefix := 'VEHONB';
+        v_prefix := 'ZFMVOB';
         v_next_num := "FLEETMASTER"."VEH_ONBOARDING_REQ_SEQ".nextval;
     ELSIF p_module = 'JOB_CAR' THEN
-        v_prefix := 'ZFMJC';
+        v_prefix := 'ZFMJBC';
         v_next_num := "FLEETMASTER"."WKSH_JOBCARD_SEQ".nextval;
     ELSIF p_module = 'ACC_RPT' THEN
         v_prefix := 'ZFMACC';
@@ -953,16 +956,16 @@ BEGIN
     END IF;
 
     v_reference := v_prefix
-                   || lpad(to_char(v_next_num), 7, '0');
+        || lpad(to_char(v_next_num), 10, '0');
     INSERT INTO gen_system_references (
         reference,
         module,
         created_by
     ) VALUES (
-        v_reference,
-        p_module,
-        p_user
-    );
+                 v_reference,
+                 p_module,
+                 p_user
+             );
 
     RETURN v_reference;
 EXCEPTION
@@ -973,7 +976,7 @@ EXCEPTION
 END;
 ```
 
-
+## Reference Number Sequences
 ```oracle
 CREATE SEQUENCE "FLEETMASTER"."FUEL_REQ_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
     20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
@@ -1005,6 +1008,7 @@ CREATE SEQUENCE "FLEETMASTER"."WKSH_JOBCARD_SEQ" MINVALUE 1 MAXVALUE 99999999999
 CREATE SEQUENCE "FLEETMASTER"."ZFM_ACC_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
     20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
 ```
+## Synchronize Requisitions
 ```oracle
 create or replace FUNCTION fn_syncRequisitions (
     p IN VARCHAR2
@@ -1040,7 +1044,50 @@ END;
 
 ```
 
+## Cancel Requisitions
+```oracle
+create or replace FUNCTION fn_cancel_stores_req (
+    p_ref_no       IN VARCHAR2,
+    p_current_user IN VARCHAR2
+) RETURN VARCHAR2 AS
+    v_return_message VARCHAR2(300);
+    v_count          PLS_INTEGER;
+BEGIN
 
+--set 45 as tms cancelled
+    SELECT
+        COUNT(document_no)
+    INTO v_count
+    FROM
+        store_requisitions_header
+        WHERE document_no = p_ref_no;
+
+    IF v_count = 0 THEN
+        v_return_message := 'Requistion with doc no. '
+                            || p_ref_no
+                            || ' not found';
+    ELSE
+        UPDATE store_requisitions_header
+        SET
+            status = '45'
+        WHERE
+            document_no = p_ref_no;
+
+        v_return_message := 'Requistion '
+                            || p_ref_no
+                            || ' cancelled';
+    END IF;
+
+    RETURN v_return_message;
+EXCEPTION
+    WHEN OTHERS THEN
+        dbms_output.put_line('Error encountered during Execution Of Routine' || sqlerrm);
+        v_return_message := 'Error encountered during Execution ' || sqlerrm;
+        RETURN ( v_return_message );
+END fn_cancel_stores_req;
+```
+
+## Example Search Query
 ```php
 $list = User::select('id', 'user_unit_id', 'con_st_code', 'positions_id', 'staff_no', 'user_unit_code', 'job_code', 'email', 'name', 'created_at', 'phone')
             ->where('email', 'LIKE', "%{$search}%")
@@ -1056,6 +1103,7 @@ $list = User::select('id', 'user_unit_id', 'con_st_code', 'positions_id', 'staff
             ->get();
 ```
 In order to ensure that the system remains stable at all times, all features, bugs and enhance will be done using issue first approach. A pull request will then be merged by repository administrator.
+
 ## Security Vulnerabilities
 
 To Be Advised By Cyber-Security
