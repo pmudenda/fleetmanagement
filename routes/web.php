@@ -4,6 +4,7 @@ use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ChargeOutRateController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\migration\VehicleDataCleaningController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\Requisitions\FuelRequisitionController;
 use App\Http\Controllers\Security\PasswordResetController;
@@ -192,7 +193,10 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/accessories', [VehicleController::class, 'accessories'])->name('vehicle.accessories');
 
-        Route::get('/cleanup/assignation/list', [VehicleController::class, 'cleanUpList'])->name('vehicle.migration.list');
+
+        Route::get('/cleanup/assignation/list', [VehicleDataCleaningController::class, 'cleanUpList'])->name('vehicle.migration.list');
+
+        Route::post('/cleanup/filter', [VehicleDataCleaningController::class, 'filter'])->name('data.migration.filter');
     });
 
     Route::group(['prefix' => 'workshop-management'], function () {
