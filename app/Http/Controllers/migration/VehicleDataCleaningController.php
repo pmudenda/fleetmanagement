@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\reference\GtaVehicle;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VehicleDataCleaningController extends Controller
 {
