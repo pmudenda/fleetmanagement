@@ -22,7 +22,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
 
@@ -35,25 +34,6 @@ class MaintenanceController extends Controller
     {
         $this->workshopService = $workshopService;
         $this->numberGeneratorService = $numberGeneratorService;
-    }
-
-    public function create(Request $request): View
-    {
-        if (!$request->hasValidSignature()) {
-            abort(401);
-        }
-
-        $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
-            ->get();
-        $details = null;
-
-        return view('modules.requisitions.maintenance.create')
-            ->with(
-                compact(
-                    'repairTypes',
-                    'details'
-                )
-            );
     }
 
     public function list(Request $request): View
@@ -72,20 +52,18 @@ class MaintenanceController extends Controller
             );
     }
 
-    public function step3(Request $request): Application|\Illuminate\Contracts\View\View|Factory|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
-    {
-        /*if (!$request->hasValidSignature()) {
-            abort(401);
-        }*/
 
-        //if ($request->has('step') && $request->get('step') != "2") {
-        //            abort(401);
-        //}
-        if (!$request->has('step')) {
-            return redirect(URL::signedRoute('maintenance.requisition', ['step' => 1]));
+    public function create(Request $request): View
+    {
+        if (!$request->hasValidSignature()) {
+            abort(401);
         }
 
-        list($step, $repairTypes, $accessories_checked_in, $accessories, $details) = $this->extracted($request);
+        $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
+            ->get();
+        $details = null;
+
+        list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections) = $this->jobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.step2')
             ->with(
@@ -94,7 +72,8 @@ class MaintenanceController extends Controller
                     'accessories',
                     'details',
                     'accessories_checked_in',
-                    'step'
+                    'step',
+                    'workshop_sections'
                 )
             );
     }
@@ -105,14 +84,11 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        /*if ($request->has('step') && $request->get('step') != "2") {
-            abort(401);
-        }*/
         if (!$request->has('step')) {
             return redirect(URL::signedRoute('maintenance.requisition', ['step' => 1]));
         }
 
-        list($step, $repairTypes, $accessories_checked_in, $accessories, $details) = $this->extracted($request);
+        list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections) = $this->jobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.step2')
             ->with(
@@ -121,10 +97,37 @@ class MaintenanceController extends Controller
                     'accessories',
                     'details',
                     'accessories_checked_in',
-                    'step'
+                    'step',
+                    'workshop_sections'
                 )
             );
     }
+
+    public function step3(Request $request): Application|\Illuminate\Contracts\View\View|Factory|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
+    {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
+        /*if (!$request->has('step')) {
+            return redirect(URL::signedRoute('maintenance.requisition', ['step' => 1]));
+        }*/
+
+        list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections) = $this->jobCardCreationData($request);
+
+        return view('modules.requisitions.maintenance.step2')
+            ->with(
+                compact(
+                    'repairTypes',
+                    'accessories',
+                    'details',
+                    'accessories_checked_in',
+                    'step',
+                    'workshop_sections'
+                )
+            );
+    }
+
 
     public function getFuelLevels(): JsonResponse
     {
@@ -185,24 +188,49 @@ class MaintenanceController extends Controller
         }
     }
 
+    public function processJobCardDefects(Request $request): JsonResponse
+    {
+        try {
+            $this->workshopService->createJobCardDefects($request);
+            return response()->json([
+                'success' => true,
+                'message' => SystemMessages::accessoriesCheckedIn(),
+                'redirectUrl' => URL::signedRoute('defects.job.card',
+                    ['step' => 3, 'reference' => $request->get('job_card_voucher')]),
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return response()->json(
+                [
+                    'success' => false,
+                    'payload' => [],
+                    'message' => ErrorMessages::getMessage('err_005')
+                ]
+            );
+        }
+    }
+
     /**
      * @param Request $request
      * @return array
      */
-    public function extracted(Request $request): array
+    public function jobCardCreationData(Request $request): array
     {
         $step = $request->get('step') ?? 0;
         $reference = $request->get('reference');
 
         $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)->get();
-
-        $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)->get();
-
-        // all active accessories
         $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
+        $workshop_sections = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::WORK_SHOP_SECTION)->get();
 
-        $details = $this->workshopService->getJobCardDetails($reference);
+        $accessories_checked_in = null;
+        $details = null;
 
-        return array($step, $repairTypes, $accessories_checked_in, $accessories, $details);
+        if($reference) {
+            $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)->get();
+            $details = $this->workshopService->getJobCardDetails($reference);
+        }
+
+        return array($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections);
     }
 }

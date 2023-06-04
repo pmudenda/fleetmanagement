@@ -211,9 +211,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('requisitions/maintenance/job-card/defects', [MaintenanceController::class, 'step3'])->name('defects.job.card');
 
 
+
         Route::post('save/job/card', [MaintenanceController::class, 'processJobCard'])->name('process.job_card');
         Route::post('save/job/card/accessories', [MaintenanceController::class, 'processJobCardAccessories'])->name('job_card.accessories.checkin');
-
+        Route::get('save/job-card/defects', [MaintenanceController::class, 'processJobCardDefects'])->name('defects.job_card');
         // supporting
         Route::get('requisitions/maintenance/list', [MaintenanceController::class, 'list'])->name('maintenance.list');
 

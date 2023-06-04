@@ -463,8 +463,6 @@ class WorkflowService
             $task_detail->save();
         }
 
-
-
         DB::commit();
     }
 
@@ -522,7 +520,6 @@ class WorkflowService
             $remarks = "Raise Request"
     ): void
     {
-
         /*switch ($formType) {
             case config('constants.eforms_id.kilometer_allowance'):
                 $remarks = 'Request for Kilometer Allowance';

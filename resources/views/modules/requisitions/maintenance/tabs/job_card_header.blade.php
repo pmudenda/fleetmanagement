@@ -133,15 +133,22 @@
                                             class="form-select form-select-sm when_valid"
                                             required>
                                         <option></option>
-                                       {{-- <option value="{{$repairType->code}}">{{$repairType->name}}</option>--}}
+                                        {{-- <option value="{{$repairType->code}}">{{$repairType->name}}</option>--}}
                                         @foreach ($repairTypes as $repairType)
-                                            @if($details->repair_type == $repairType->code)
-                                                <option selected
+                                            @if(!empty($details))
+                                                @if($details->repair_type == $repairType->code)
+                                                    <option selected
+                                                            value="{{$repairType->code}}">{{$repairType->name}}</option>
+                                                @else
+                                                    <option
                                                         value="{{$repairType->code}}">{{$repairType->name}}</option>
+                                                @endif
                                             @else
                                                 <option
                                                     value="{{$repairType->code}}">{{$repairType->name}}</option>
+
                                             @endif
+
                                         @endforeach
                                     </select>
                                 </div>
@@ -218,16 +225,16 @@
                                     class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                     for="current_odometer">Odometer value:</label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                   <div class="input-group">
-                                       <input type="number"
-                                              class="form-control form-control-sm"
-                                              id="current_odometer"
-                                              value="{{$details->millage_in ?? ''}}"
-                                              name="current_odometer" required/>
-                                       <div class="input-group-text">
-                                           Km
-                                       </div>
-                                   </div>
+                                    <div class="input-group">
+                                        <input type="number"
+                                               class="form-control form-control-sm"
+                                               id="current_odometer"
+                                               value="{{$details->millage_in ?? ''}}"
+                                               name="current_odometer" required/>
+                                        <div class="input-group-text">
+                                            Km
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

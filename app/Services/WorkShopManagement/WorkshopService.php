@@ -122,4 +122,8 @@ class WorkshopService
             );
         }
     }
+
+    public function createJobCardDefects(Request $request)
+    {
+    }
 }
