@@ -15,8 +15,9 @@ class VehicleDataCleaningController extends Controller
         if ($request->has('userUnit')) {
             $vehicleList = GtaVehicle::where('codigo_unidad', '=', $request->get('userUnit'))->get();
         }
+        $userUnits = GtaVehicle::get();
         return view('modules.vehicleManagement.migration.list')->with(compact(
-            'vehicleList'
+            'vehicleList', 'userUnits'
         ));
     }
 
@@ -26,8 +27,10 @@ class VehicleDataCleaningController extends Controller
         if ($request->has('userUnit')) {
             $vehicleList = GtaVehicle::where('codigo_unidad', '=', $request->get('userUnit'))->get();
         }
+
+        $userUnits = GtaVehicle::get();
         return view('modules.vehicleManagement.migration.list')->with(compact(
-            'vehicleList'
+            'vehicleList', 'userUnits'
         ));
     }
 

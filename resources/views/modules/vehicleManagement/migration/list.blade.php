@@ -37,7 +37,7 @@
                                    <div class="input-group">
                                        <select name="userUnit" class="form-select form-select-sm">
                                            <option></option>
-                                           @foreach(GtaVehicle::get() as $userUnit)
+                                           @foreach($userUnits as $userUnit)
                                                <option value="{{$userUnit->codigo_unidad}}">{{$userUnit->name_dec}}</option>
                                            @endforeach
                                        </select>
