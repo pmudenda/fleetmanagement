@@ -1,4 +1,4 @@
-@php use App\Helpers\StatusHelper;use App\Models\general\OrganizationalUnits; @endphp
+@php @endphp
 @extends('layouts.app')
 @push('styles')
     <!-- DataTables -->
@@ -29,28 +29,29 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-4">
-                       <form method="post" action="{{route('data.migration.filter')}}" >
-                           @csrf
-                           <div class="form-group">
-                               <label class="col-4 pl-0">Filter:</label>
-                               <div class="col-8 pl-0">
-                                   <div class="input-group">
-                                       <select name="userUnit" class="form-select form-select-sm">
-                                           <option></option>
-                                           @foreach($userUnits as $userUnit)
-                                               <option value="{{$userUnit->codigo_unidad}}">{{$userUnit->name_dec}}</option>
-                                           @endforeach
-                                       </select>
-                                       <div class="input-group-addon">
-                                           <button type="submit" class="btn btn-success btn-sm">
-                                               <i class="fas fa-filter"></i>
-                                               Filter
-                                           </button>
-                                       </div>
-                                   </div>
-                               </div>
-                           </div>
-                       </form>
+                        <form method="post" action="{{route('data.migration.filter')}}">
+                            @csrf
+                            <div class="form-group">
+                                <label class="col-4 pl-0">Filter:</label>
+                                <div class="col-8 pl-0">
+                                    <div class="input-group">
+                                        <select name="userUnit" class="form-select form-select-sm">
+                                            <option></option>
+                                            @foreach($userUnits as $userUnit)
+                                                <option
+                                                    value="{{$userUnit->codigo_unidad}}">{{$userUnit->name_dec}}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="input-group-addon">
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="fas fa-filter"></i>
+                                                Filter
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <!--begin::Table-->
@@ -71,11 +72,11 @@
                             </th>
 
                             <th>
-                                Model
+                                Chassis No.
                             </th>
 
                             <th>
-                                Type
+                                Engine No.
                             </th>
                             <th>
                                 Reg. Number
@@ -90,7 +91,7 @@
                             </th>
 
                             <th>
-                                Onboarding Status
+                                Location
                             </th>
 
                             <th>
@@ -106,94 +107,62 @@
 
                         <tbody class="text-gray-600 fw-semibold">
 
-                         @foreach($vehicleList as $vehicle)
-                             <tr>
-                                 <td>
-                                     <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                         <input class="list-row-checkbox" type="checkbox" value="item.guid"/>
-                                     </div>
-                                 </td>
+                        @foreach($vehicleList as $vehicle)
+                            <tr>
+                                <td>
+                                    <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                        <input class="list-row-checkbox" type="checkbox" value="item.guid"/>
+                                    </div>
+                                </td>
 
-                                 <td>
-                                     <a href="#" class="text-gray-800 text-hover-primary mb-1">
-                                         {{$vehicle->marca_motor}}
-                                     </a>
-                                 </td>
-                                 <td>
-                                    {{-- <a href="#" class="text-gray-800 text-hover-primary mb-1">
-                                         {{$vehicle->model_name}} : {{$vehicle->model_code}}
-                                     </a>--}}
-                                 </td>
+                                <td>
+                                    {{$vehicle->marca_motor}}
+                                </td>
+                                <td>
+                                    {{$vehicle->bastidor}}
+                                </td>
 
-                                 <td>
-                                    {{-- <a href="#" class="text-gray-800 text-hover-primary mb-1">
-                                         {{$vehicle->body_type_name}}
-                                     </a>--}}
-                                 </td>
+                                <td>
+                                    {{$vehicle->engine_no}}
+                                </td>
 
-                                 <td>
-                                     <a href="#" class="text-gray-800 text-hover-primary mb-1">
-                                         {{$vehicle->matricula}}
-                                     </a>
-                                 </td>
+                                <td>
+                                    <a href="{{URL::signedRoute('vehicle.data.cleanup', ['reg'=> trim($vehicle->matricula)])}}"
+                                       class="text-gray-800 text-hover-primary mb-1">
+                                        {{$vehicle->matricula}}
+                                    </a>
+                                </td>
 
-                                 <td>
-                                     <a href="#" class="text-gray-800 text-hover-primary mb-1">
-                                         {{$vehicle->user_unit}}
-                                     </a>
-                                 </td>
+                                <td>
+                                    <a href="#" class="text-gray-800 text-hover-primary mb-1">
+                                        {{$vehicle->user_unit}}
+                                    </a>
+                                </td>
 
-                                 <td>
-                                     {{--@if($vehicle->status == '01')
-                                         <div class="badge badge-light-success">
-                                             Active
-                                         </div>
-                                     @elseif($vehicle->status == '02')
-                                         <div class="badge badge-light-danger">
-                                             Inactive
-                                         </div>
-                                     @else
-                                         <div class="badge badge-light-warning">
-                                             Onboarding
-                                         </div>
-                                     @endif--}}
-                                 </td>
-                                 <td>
-                                     {{--@if($vehicle->on_boarding_status == '030')
-                                         <div class="badge badge-light-success">
-                                             Complete
-                                         </div>
-                                     @else
-                                         @if ($vehicle->on_boarding_status == '100')
-                                             <div class="badge badge-light-warning">
-                                                 Pending General Data Entry
-                                             </div>
-                                         @elseif ($vehicle->on_boarding_status == '101')
-                                             <div class="badge badge-light-warning">
-                                                 Pending Technical Data Entry
-                                             </div>
-                                         @elseif ($vehicle->on_boarding_status == "102")
-                                             <div class="badge badge-light-warning">
-                                                 Pending Accessories Checkin
-                                             </div>
-                                         @elseif ($vehicle->on_boarding_status == "103")
+                                <td>
+                                    {{--@if($vehicle->status == '01')
+                                        <div class="badge badge-light-success">
+                                            Active
+                                        </div>
+                                    @elseif($vehicle->status == '02')
+                                        <div class="badge badge-light-danger">
+                                            Inactive
+                                        </div>
+                                    @else
+                                        <div class="badge badge-light-warning">
+                                            Onboarding
+                                        </div>
+                                    @endif--}}
+                                </td>
+                                <td>
+                                    {{$vehicle->unidad_ads}}
+                                </td>
 
-                                             <div class="badge badge-light-warning">
-                                                 Pending Costing Data Entry
-                                             </div>
-                                         @elseif ($vehicle->on_boarding_status == "104")
-                                             <div class="badge badge-light-warning">
-                                                 Pending Assignment
-                                             </div>
-                                         @endif
-                                     @endif--}}
-                                 </td>
+                                <td>
+                                    {{--{{$vehicle->created_at }}--}}
+                                </td>
 
-                                 <td>
-                                     {{--{{$vehicle->created_at }}--}}
-                                 </td>
-
-                                 <td class="text-start">
+                                <td class="text-start">
                                     {{-- <div class="dropdown">
                                          <button class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
                                                  type="button"
@@ -232,10 +201,10 @@
                                              @endcan
                                          </ul>
                                      </div>--}}
-                                 </td>
+                                </td>
 
-                             </tr>
-                         @endforeach
+                            </tr>
+                        @endforeach
 
                         </tbody>
                     </table>

@@ -15,11 +15,24 @@ class VehicleDataCleaningController extends Controller
         if ($request->has('userUnit')) {
             $vehicleList = GtaVehicle::where('codigo_unidad', '=', $request->get('userUnit'))->get();
         }
-        $userUnits = GtaVehicle::get();
+        $userUnits = DB::raw('select distinct gta.codigo_unidad, ou.description as name_dec from
+                                                                  GTAVEHIC_VIEW gta
+                                                                      inner join
+                                                                      ref_organizational_units ou
+                                                                          on gta.codigo_unidad = ou.code_unit')
+            ->get();
         return view('modules.vehicleManagement.migration.list')->with(compact(
             'vehicleList', 'userUnits'
         ));
     }
+
+    public function cleanUpWindow(Request $request): View
+    {
+        $req = $request->get('reg');
+        return view('modules.vehicleManagement.migration.index')
+            ->with(compact('req'));
+    }
+
 
     public function filter(Request $request): View
     {
@@ -28,7 +41,12 @@ class VehicleDataCleaningController extends Controller
             $vehicleList = GtaVehicle::where('codigo_unidad', '=', $request->get('userUnit'))->get();
         }
 
-        $userUnits = GtaVehicle::get();
+        $userUnits = DB::raw('select distinct gta.codigo_unidad, ou.description as name_dec from
+                                                                  GTAVEHIC_VIEW gta
+                                                                      inner join
+                                                                      ref_organizational_units ou
+                                                                          on gta.codigo_unidad = ou.code_unit')
+            ->get();
         return view('modules.vehicleManagement.migration.list')->with(compact(
             'vehicleList', 'userUnits'
         ));

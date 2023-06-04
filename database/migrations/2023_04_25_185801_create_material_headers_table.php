@@ -36,7 +36,7 @@ return new class extends Migration
             $table->string('requisition_status', 20);
             $table->string('cost_assigned_to')->nullable();
             $table->string('requested_by_id',13)->nullable();
-            $table->string('requisition_type')->nullable()->add();
+            $table->string('requisition_type')->nullable();
             $table->string('cost_assigned_to', 20)->nullable()->change();
             $table->timestamps();
         });

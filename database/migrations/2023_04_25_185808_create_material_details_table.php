@@ -21,8 +21,6 @@ return new class extends Migration
             $table->string('project_code')->nullable();
             $table->string('supplier_code')->nullable();
             $table->string('reg_no')->nullable();
-            //$table->Integer('amount');
-           // $table->decimal('price');
             $table->decimal('amount', 18, 2);
             $table->decimal('price', 18, 2);
             $table->string('ref_no')->nullable();

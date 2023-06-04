@@ -128,11 +128,6 @@ class VehicleController extends Controller
             ->with(compact('vehicleList'));
     }
 
-    public function cleanUpWindow(Request $request): View
-    {
-        return view('modules.vehicleManagement.migration.index');
-    }
-
     public function accessories(Request $request): View
     {
         $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())

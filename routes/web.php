@@ -189,10 +189,10 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/vehicles', [VehicleController::class, 'register'])->name('vehicle.edit');
 
-        Route::get('/cleanup', [VehicleController::class, 'cleanUpWindow'])->name('vehicle.data.cleanup');
-
         Route::get('/accessories', [VehicleController::class, 'accessories'])->name('vehicle.accessories');
 
+
+        Route::get('/cleanup', [VehicleDataCleaningController::class, 'cleanUpWindow'])->name('vehicle.data.cleanup');
 
         Route::get('/cleanup/assignation/list', [VehicleDataCleaningController::class, 'cleanUpList'])->name('vehicle.migration.list');
 
