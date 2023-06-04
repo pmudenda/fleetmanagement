@@ -37,8 +37,8 @@
                                    <div class="input-group">
                                        <select name="userUnit" class="form-select form-select-sm">
                                            <option></option>
-                                           @foreach(OrganizationalUnits::where('status','=', StatusHelper::organizationStructureActive())->get() as $userUnit)
-                                               <option value="{{$userUnit->code_unit}}">{{$userUnit->description}}</option>
+                                           @foreach(GtaVehicle::get() as $userUnit)
+                                               <option value="{{$userUnit->codigo_unidad}}">{{$userUnit->name_dec}}</option>
                                            @endforeach
                                        </select>
                                        <div class="input-group-addon">
@@ -82,7 +82,7 @@
                             </th>
 
                             <th>
-                                Onboarded By
+                                Assigned To
                             </th>
 
                             <th>
@@ -116,9 +116,9 @@
                                  </td>
 
                                  <td>
-                                    {{-- <a href="#" class="text-gray-800 text-hover-primary mb-1">
-                                         {{$vehicle->brand_name}}
-                                     </a>--}}
+                                     <a href="#" class="text-gray-800 text-hover-primary mb-1">
+                                         {{$vehicle->marca_motor}}
+                                     </a>
                                  </td>
                                  <td>
                                     {{-- <a href="#" class="text-gray-800 text-hover-primary mb-1">
@@ -133,15 +133,15 @@
                                  </td>
 
                                  <td>
-                                    {{-- <a href="#" class="text-gray-800 text-hover-primary mb-1">
-                                         {{$vehicle->registration_number}}
-                                     </a>--}}
+                                     <a href="#" class="text-gray-800 text-hover-primary mb-1">
+                                         {{$vehicle->matricula}}
+                                     </a>
                                  </td>
 
                                  <td>
-                                    {{-- <a href="#" class="text-gray-800 text-hover-primary mb-1">
-                                         {{$vehicle->created_by_name}}
-                                     </a>--}}
+                                     <a href="#" class="text-gray-800 text-hover-primary mb-1">
+                                         {{$vehicle->user_unit}}
+                                     </a>
                                  </td>
 
                                  <td>
