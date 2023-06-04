@@ -282,14 +282,15 @@
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                 <input type="date" class="form-control form-control-sm"
                                                                        id="departure_date"
-                                                                       value="{{Carbon::parse($requestDetails->valid_date_from)->format('d/m/Y')}}"
+                                                                       readonly
+                                                                       value="{{ date('Y-m-d', strtotime(Carbon::parse($requestDetails->valid_date_from)->format('d/m/Y'))) }}"
                                                                        name="departure_date"/>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                           {{-- max="{{ date('Y-m-d', strtotime(Carbon::now())) }}"--}}
+                                            {{-- max="{{  }}"--}}
                                             <div class="col-xs-12 col-sm-6 col-md-6">
                                                 <div class="container-fluid pl-0">
                                                     <div class="row">
@@ -298,10 +299,11 @@
                                                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                 for="request_date">Return Date:</label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                {{--max="{{ date('Y-m-d', strtotime(Carbon::now())) }}"--}}
+                                                                {{--max="{{ }}"--}}
                                                                 <input type="date" class="form-control form-control-sm"
                                                                        id="return_date"
-                                                                       value="{{Carbon::parse($requestDetails->valid_date_to)->format('d/m/Y')}}"
+                                                                       readonly
+                                                                       value="{{date('Y-m-d', strtotime(Carbon::parse($requestDetails->valid_date_to)->format('d/m/Y')))  }}"
                                                                        name="return_date">
                                                             </div>
                                                         </div>
@@ -340,7 +342,7 @@
                                                                        readonly
                                                                        value="{{$requestDetails->town_to}}"
                                                                        name="destinationTown"
-                                                                       class="form-control" />
+                                                                       class="form-control"/>
                                                             </div>
                                                         </div>
                                                     </div>
