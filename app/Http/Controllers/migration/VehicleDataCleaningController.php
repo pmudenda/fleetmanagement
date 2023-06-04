@@ -19,4 +19,17 @@ class VehicleDataCleaningController extends Controller
             'vehicleList'
         ));
     }
+
+    public function filter(Request $request): View
+    {
+        $vehicleList = [];
+        if ($request->has('userUnit')) {
+            $vehicleList = GtaVehicle::where('codigo_unidad', '=', $request->get('userUnit'))->get();
+        }
+        return view('modules.vehicleManagement.migration.list')->with(compact(
+            'vehicleList'
+        ));
+    }
+
+
 }
