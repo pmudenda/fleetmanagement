@@ -16,11 +16,11 @@ class VehicleDataCleaningController extends Controller
         if ($request->has('userUnit')) {
             $vehicleList = GtaVehicle::where('codigo_unidad', '=', $request->get('userUnit'))->get();
         }
-        $userUnits = DB::raw('select distinct gta.codigo_unidad, ou.description as name_dec from
+        $userUnits = DB::select(raw('select distinct gta.codigo_unidad, ou.description as name_dec from
                                                                   GTAVEHIC_VIEW gta
                                                                       inner join
                                                                       ref_organizational_units ou
-                                                                          on gta.codigo_unidad = ou.code_unit')
+                                                                          on gta.codigo_unidad = ou.code_unit'))
             ->get();
         return view('modules.vehicleManagement.migration.list')->with(compact(
             'vehicleList', 'userUnits'
