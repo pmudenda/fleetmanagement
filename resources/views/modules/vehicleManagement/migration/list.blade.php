@@ -107,7 +107,6 @@
                         <tbody class="text-gray-600 fw-semibold">
 
                          @foreach($vehicleList as $vehicle)
-                             {{dd($vehicleList)}}
                              <tr>
                                  <td>
                                      <div class="form-check form-check-sm form-check-custom form-check-solid">
