@@ -42,7 +42,7 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        $workshopsVehicleList = JobCardHeader::get();
+        $workshopsVehicleList = $this->workshopService->getJobCardHeader();
 
         return view('modules.workshopManagement.vehiclesInWorkshop')
             ->with(
@@ -59,13 +59,13 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
+        /*$repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
             ->get();
-        $details = null;
+        $details = null;*/
 
         list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections) = $this->jobCardCreationData($request);
 
-        return view('modules.requisitions.maintenance.step2')
+        return view('modules.requisitions.maintenance.create')
             ->with(
                 compact(
                     'repairTypes',
@@ -78,7 +78,7 @@ class MaintenanceController extends Controller
             );
     }
 
-    public function step2(Request $request): View
+    public function accessoriesTab(Request $request): View
     {
         if (!$request->hasValidSignature()) {
             abort(401);
@@ -90,7 +90,7 @@ class MaintenanceController extends Controller
 
         list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections) = $this->jobCardCreationData($request);
 
-        return view('modules.requisitions.maintenance.step2')
+        return view('modules.requisitions.maintenance.create')
             ->with(
                 compact(
                     'repairTypes',
@@ -103,7 +103,7 @@ class MaintenanceController extends Controller
             );
     }
 
-    public function step3(Request $request): Application|\Illuminate\Contracts\View\View|Factory|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
+    public function defectsTab(Request $request): Application|\Illuminate\Contracts\View\View|Factory|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
         if (!$request->hasValidSignature()) {
             abort(401);
@@ -115,7 +115,7 @@ class MaintenanceController extends Controller
 
         list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections) = $this->jobCardCreationData($request);
 
-        return view('modules.requisitions.maintenance.step2')
+        return view('modules.requisitions.maintenance.create')
             ->with(
                 compact(
                     'repairTypes',

@@ -461,7 +461,7 @@
                 let formData = {
                     name: document.getElementById("data_edit_name").value,
                     code: document.getElementById("data_edit_code").value,
-                    status: document.getElementById("data_edit_status").value,
+                    //status: document.getElementById("data_edit_status").value,
                 }
 
                 tmsApp.asyncPostFormData(

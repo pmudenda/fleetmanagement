@@ -11,7 +11,7 @@
 
 @section('content')
 
-    <x-content-header :pageTitle="'In-Workshop Vehicles List'" :activeCrumb="'Vehicles'" :link="'home'"
+    <x-content-header :pageTitle="'Vehicles In Workshop'" :activeCrumb="'Vehicles'" :link="'home'"
                       :linkText="'Vehicles In Workshop'"/>
 
     <!-- Main content -->
@@ -44,9 +44,7 @@
                                     Filter
                                 </button>
                                 {{--@can(config('rights.create_workshop'))@endcan--}}
-                                <a href="{{route('maintenance.requisition')}}"
-                                   data-bs-toggle="modal"
-                                   data-bs-target="#createRecordModal"
+                                <a href="{{URL::signedRoute('maintenance.requisition')}}"
                                    class="btn btn-sm btn-success float-right">
                                     <i class="fas fa-user-plus"></i>
                                     Create Job Card
@@ -63,10 +61,10 @@
                                         <th>Reg. No.</th>
                                         <th>Workshop Document No.</th>
                                         <th>Job Card Voucher</th>
-                                        <th>Workshop Code</th>
-                                        <th>Date</th>
+                                        <th>Workshop</th>
+                                        <th>Date Raised</th>
                                         <th>Repair Type</th>
-                                        <th>Status</th>
+                                        {{--<th>Status</th>--}}
                                         {{--@can(config('rights.user_show'))--}}
                                         <th>Action</th>
                                         {{--@endcan--}}
@@ -88,7 +86,7 @@
                                                 {{$workshop->job_card_no ?? ''}}
                                             </td>
                                             <td>
-                                                {{$workshop->workshop_code}}
+                                                {{$workshop->workshop_name}}
                                             </td>
 
                                             <td>
@@ -96,15 +94,15 @@
                                             </td>
 
                                             <td>
-                                                {{'--'}}
+                                                {{$workshop->repair_type_name}}
                                             </td>
-                                            <td>
-                                                {{--@if($workshop->status == '01')
+                                            {{--<td>
+                                               @if($workshop->status == '01')
                                                     Active
                                                 @else
                                                     Inactive
-                                                @endif--}}
-                                            </td>
+                                                @endif
+                                            </td>--}}
                                             {{--@can(config('rights.user_show'))--}}
                                             <td>
                                                 <div class="dropdown">

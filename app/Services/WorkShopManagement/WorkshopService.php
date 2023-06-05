@@ -13,6 +13,7 @@ use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -125,5 +126,24 @@ class WorkshopService
 
     public function createJobCardDefects(Request $request)
     {
+    }
+
+    public function getJobCardHeader(): Collection
+    {
+        return DB::table('WKS_JOB_CARD_HEADER')
+            ->leftJoin('SEC_USERS', 'WKS_JOB_CARD_HEADER.received_by', '=', 'SEC_USERS.staff_no')
+            ->leftJoin('CONFIG_GENERAL_TABLES', 'WKS_JOB_CARD_HEADER.receiving_section', '=', 'CONFIG_GENERAL_TABLES.code')
+            ->leftJoin('CONFIG_GENERAL_TABLES as config', 'WKS_JOB_CARD_HEADER.repair_type', '=', 'config.code')
+            ->leftJoin('CONFIG_WORKSHOP', 'WKS_JOB_CARD_HEADER.receiving_section', '=', 'CONFIG_WORKSHOP.workshop_code')
+            ->where('CONFIG_GENERAL_TABLES.type', '=', ConfigurationTypes::WORK_SHOP_SECTION)
+            ->where('config.type', '=', ConfigurationTypes::REPAIR_TYPE)
+            //->where('config.code', '=', )
+            ->select('WKS_JOB_CARD_HEADER.*',
+                'CONFIG_WORKSHOP.workshop_name',
+                'config.name as repair_type_name',
+                'CONFIG_GENERAL_TABLES.name as section_in_name',
+                'SEC_USERS.name as service_advisor')
+            ->get();
+
     }
 }

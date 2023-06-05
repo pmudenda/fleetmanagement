@@ -22,9 +22,11 @@
                             <td class="showNumber">
                                 <select name="type" class="form-select form-select-sm">
                                     <option></option>
-                                    <option value="RETAIL">RETAIL</option>
-                                    <option value="COMMERCIAL">COMMERCIAL</option>
-                                    <option value="EXPORT">EXPORT</option>
+                                    <option value="01">Engine</option>
+                                    <option value="02">Drive Transmission And Steering</option>
+                                    <option value="03">Suspension And Brake Parts</option>
+                                    <option value="04">Electrical</option>
+                                    <option value="05">Body and chassis</option>
                                 </select>
                             </td>
                             <td>

@@ -211,7 +211,6 @@
                                         <th>Description</th>
                                         <th>Originator</th>
                                         <th>Action</th>
-
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -234,7 +233,8 @@
                                                 {{$rec->originator}}
                                             </td>
                                             <td>
-                                                {{Carbon::parse($rec->dated_acted)->format('d/m/Y')}}
+                                                {{$rec}}
+                                               {{-- {{Carbon::parse($rec->dated_acted)->format('d/m/Y')}}--}}
                                             </td>
                                             <td>
                                                 <a href="{{URL::signedRoute('show.fuel.requisition',['ref'=> $rec->reference])}}"
