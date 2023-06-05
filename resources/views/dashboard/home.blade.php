@@ -215,7 +215,6 @@
                                     </thead>
                                     <tbody>
                                     @foreach($approvalTasks as $rec)
-                                        {{dd($rec)}}
                                         <tr>
                                             <td>
                                                 <a href="{{URL::signedRoute('show.fuel.requisition', ['ref'=>  $rec->reference])}}">
