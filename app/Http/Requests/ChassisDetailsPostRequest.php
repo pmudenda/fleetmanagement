@@ -32,7 +32,7 @@ class ChassisDetailsPostRequest extends FormRequest
             'whiteBookSerial' => 'required',
             'whiteBookSerial' => 'exclude_unless:chassisDetailsId,0|unique:App\Models\VehicleManagement\ChassisDetail,white_book_serial',
             'yearOfManufacture' => 'required|numeric',
-            'chargeOutRate' => 'required|decimal:2',
+            'chargeOutRate' => 'required|numeric',
             'requiredMinimumDrivingLicense' => 'required',
             'initialOdometerReading' => 'required|numeric',
             //'currentOdometerReading' => 'required|numeric',
