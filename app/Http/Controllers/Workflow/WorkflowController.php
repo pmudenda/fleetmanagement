@@ -56,15 +56,19 @@ class WorkflowController extends Controller
 
             $action = 0;
             $actionTaken = '';
+            $message = '';
             if ($request->get('Approved') === 'approve') {
                 $action = WorkflowActions::approve();
                 $actionTaken = "Approved";
+                $message = 'Request Approved Successfully';
             } elseif ($request->get('Approved') === 'reject') {
                 $action = WorkflowActions::rejected();
                 $actionTaken = "Rejected";
+                $message = 'Request Rejected';
             } elseif ($request->get('Approved') === 'send_back') {
                 $action = WorkflowActions::sendBack();
                 $actionTaken = "SendBack";
+                $message = 'Request Sent Back To Originator';
             }
 
             $nextStepId = $this->workflowService->invokeWorkFlow(
@@ -83,7 +87,7 @@ class WorkflowController extends Controller
                 'requestPayload' => $request->all(),
                 'success' => true,
                 'redirectUrl' => route('home'),
-                'message' => 'Request Approved Successfully'
+                'message' => $message
             ]);
         } catch (\Exception $e) {
             Log::error($e);

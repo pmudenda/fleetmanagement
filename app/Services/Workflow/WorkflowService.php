@@ -182,6 +182,26 @@ class WorkflowService
                 // resubmission
                 break;
             case 2:
+                WorkflowLog::create([
+                    'remarks' => $comment,
+                    'action_date' => Carbon::now(),
+                    'actioning_officer' => $current_user->staff_no,
+                    'action' => $action,
+                    'activity' => $actionTaken,
+                    'status' => StatusHelper::authorised(),
+                    'previous_step' => $current_step->previous_step,
+                    'step_id' => $current_step->step_id,
+                    'reference' => $reference
+                ]);
+
+                $task_header->date_ended = Carbon::now();
+                $task_header->status = StatusHelper::rejected();
+                $task_header->save();
+
+                $task_detail->date_ended = Carbon::now();
+                $task_detail->save();
+
+                return 0;
                 break;
             case 3: // approved
                 //check if the current step is final step .CurrentStep.IsFinalStep == 1
