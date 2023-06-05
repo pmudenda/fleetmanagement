@@ -25,11 +25,14 @@
                                 <tr>
                                     <th>Reference #</th>
                                     <th>Document No.</th>
-                                    <th>Requisition Type</th>
+                                    <th>Req. Type</th>
                                     <th>Registration</th>
                                     <th>Valid From</th>
                                     <th>Valid To</th>
                                     <th>Originator</th>
+                                    <th>Odometer</th>
+                                    <th>Qty. Requested</th>
+                                    <th>Qty. Issued</th>
                                     <th>Status</th>
                                     <th>Remarks</th>
                                     <th>Action</th>
@@ -63,6 +66,14 @@
                                         </td>
                                         <td>
                                             {{$rec->originator?? '--'}}
+                                        </td>
+                                        <td>
+                                            {{$rec->odometer}}
+                                        </td>  <td>
+                                            {{$rec->quantity}}
+                                        </td>
+                                        <td>
+                                            {{$rec->quantity_issued}}
                                         </td>
                                         <td>
                                             {{$rec->status_name}}

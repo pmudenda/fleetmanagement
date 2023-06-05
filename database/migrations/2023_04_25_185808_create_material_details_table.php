@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('cost_centre_name', 255)->nullable();
             $table->string('project_name', 255)->nullable();
             $table->string('max_allowed', 15)->nullable();
+            $table->Integer('quantity_issued')->default(0)->nullable();
             $table->timestamps();
         });
     }
