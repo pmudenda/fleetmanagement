@@ -114,7 +114,7 @@ class FuelRequisitionService
                             'message' =>
                                 str_replace('@veh_reg', $registrationNumber,
                                     str_replace('@date_valid_to',
-                                        $latestPreviousRequisition->valid_date_to,
+                                        Carbon::parse($latestPreviousRequisition->valid_date_to)->format('d/m/Y'),
                                         str_replace('@req_no',
                                             $latestPreviousRequisition->st_pur ?? $latestPreviousRequisition->req_no,
                                             ErrorMessages::getMessage('err_0001')
@@ -200,7 +200,7 @@ class FuelRequisitionService
                     'message' =>
                         str_replace('@veh_reg', $registrationNumber,
                             str_replace('@date_valid_to',
-                                $latestPreviousRequisition->valid_date_to,
+                                Carbon::parse($latestPreviousRequisition->valid_date_to)->format('d/m/Y'),
                                 str_replace('@req_no',
                                     $latestPreviousRequisition->st_pur ?? $latestPreviousRequisition->req_no,
                                     $message)
@@ -219,7 +219,7 @@ class FuelRequisitionService
                     'message' =>
                         str_replace('@veh_reg', $registrationNumber,
                             str_replace('@date_valid_to',
-                                $latestPreviousRequisition->valid_date_to,
+                                Carbon::parse($latestPreviousRequisition->valid_date_to)->format('d/m/Y'),
                                 str_replace('@req_no',
                                     $latestPreviousRequisition->st_pur ?? $latestPreviousRequisition->req_no,
                                     ErrorMessages::getMessage('err_0006'))
@@ -239,7 +239,7 @@ class FuelRequisitionService
                     'message' =>
                         str_replace('@veh_reg', $registrationNumber,
                             str_replace('@date_valid_to',
-                                $latestPreviousRequisition->valid_date_to,
+                                Carbon::parse($latestPreviousRequisition->valid_date_to->valid_date_to)->format('d/m/Y'),
                                 str_replace('@req_no',
                                     $latestPreviousRequisition->st_pur ?? $latestPreviousRequisition->req_no,
                                     ErrorMessages::getMessage('err_0015'))
@@ -428,7 +428,8 @@ class FuelRequisitionService
         if ($requisitionPostRequest->odometer_reading <= $previousRequisition->odometer) {
             throw new FuelRequisitionException(
                 str_replace('@veh_reg', $previousRequisition->veh_reg_no,
-                    str_replace('@date_valid_to', $previousRequisition->valid_date_to,
+                    str_replace('@date_valid_to',
+                        Carbon::parse($previousRequisition->valid_date_to)->format('d/m/Y'),
                         str_replace('@req_no',
                             $previousRequisition->st_pur ?? $previousRequisition->req_no,
                             ErrorMessages::getMessage('err_0017')))),
@@ -448,7 +449,8 @@ class FuelRequisitionService
         if ($valid_from->lessThanOrEqualTo(Carbon::parse($previousRequisition->valid_date_to))) {
             throw new FuelRequisitionException(
                 str_replace('@veh_reg', $reg_num,
-                    str_replace('@date_valid_to', $previousRequisition->valid_date_to,
+                    str_replace('@date_valid_to',
+                        Carbon::parse($previousRequisition->valid_date_to)->format('d/m/Y'),
                         str_replace('@req_no',
                             $previousRequisition->st_pur ?? $previousRequisition->req_no,
                             ErrorMessages::getMessage('err_0002')))),
