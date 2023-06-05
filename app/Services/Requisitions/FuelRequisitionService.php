@@ -142,7 +142,7 @@ class FuelRequisitionService
                     if (RequisitionTypes::Normal->value == $latestPreviousRequisition->requisition_type
                         || RequisitionTypes::Override->value == $latestPreviousRequisition->requisition_type
                     ) {
-                        $this->checkIfPreviousRequisitionPeriodElapsed($latestPreviousRequisition, $valid_from);
+                        $this->checkIfPreviousRequisitionPeriodElapsed($latestPreviousRequisition, $valid_from, $registrationNumber);
                     }
                 }
             }
@@ -436,15 +436,16 @@ class FuelRequisitionService
      * @return void
      * @throws FuelRequisitionException
      */
-    public function checkIfPreviousRequisitionPeriodElapsed($previousRequisition, bool|Carbon $valid_from): void
+    public function checkIfPreviousRequisitionPeriodElapsed($previousRequisition, bool|Carbon $valid_from, $reg_num): void
     {
         // check if previous requisition period elapsed
         if ($valid_from->lessThanOrEqualTo(Carbon::parse($previousRequisition->valid_date_to))) {
             throw new FuelRequisitionException(
-                str_replace('@date_valid_to', $previousRequisition->valid_date_to,
-                    str_replace('@req_no',
-                        $previousRequisition->st_pur ?? $previousRequisition->req_no,
-                        ErrorMessages::getMessage('err_0002'))),
+                str_replace('@veh_reg', $reg_num,
+                    str_replace('@date_valid_to', $previousRequisition->valid_date_to,
+                        str_replace('@req_no',
+                            $previousRequisition->st_pur ?? $previousRequisition->req_no,
+                            ErrorMessages::getMessage('err_0002')))),
                 999);
         }
     }
