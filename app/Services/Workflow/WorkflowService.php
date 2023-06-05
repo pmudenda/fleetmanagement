@@ -34,7 +34,9 @@ class WorkflowService
                                             int    $action,
                                             string $comment,
                                             User   $currentUser,
-                                                   $amount
+                                                   $amount,
+    string $short_description,
+    string $long_description
     ): WorkflowTaskDetail
     {
 
@@ -79,7 +81,6 @@ class WorkflowService
 
         $assignToUser = PHCMSEmployee::where('con_per_no', '=', $currentUser->supervisor_code)->first();
         $smallestNumberOfTasks = 0;
-
         //find user with the least number of tasks and assign this task
         //$userId = $assignToUser->con_per_no ?? 0;
         /*foreach ($userRoles as $userRole) {
@@ -107,22 +108,18 @@ class WorkflowService
         //'date_acted'
         WorkflowTaskHeader::Create([
             'assigned_user' => $assignToUser->con_per_no,
-            'subject' => "Approval Task -" . $taskReference,
+            'subject' => $short_description,
             'status' => StatusHelper::new(),
             'url' => $actionPage,
             'reference' => $taskReference,
             'priority' => Priority::high(),
             'description' => $comment, //'You have received a fuel requisition approval task ',
-            'sender' => 'SYSTEM',
+            'sender' => $short_description,
             'created_by' => $currentUser->id,
             'date_acted' => Carbon::now(),
             'process_code' => $processCode,
             'amount' => $amount
         ]);
-
-        /*self::createUserNotification($taskReference,
-                    $newProcess->ActioningOfficer ?? 0,
-                    "New Incident Request Task", $actionPage);*/
 
         return WorkflowTaskDetail::create([
             'reference' => $taskReference,
@@ -134,7 +131,6 @@ class WorkflowService
             'step_after_submission' => $actionPage,
             'date_started' => Carbon::now(),
             'created_by' => $currentUser->staff_no
-            /*'date_ended'*/
         ]);
     }
 

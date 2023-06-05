@@ -283,13 +283,18 @@ class FuelRequisitionService
             $workflowProcess = WorkflowProcessCodes::OverrideFuelRequisition->value;
         }
 
+        $short_description = "Fuel Requisition For Vehicle Reg No. ".$registrationNumber;
+        $long_description = "Fuel Requisition Ref.No. ".$requisition_reference_number." For Vehicle Reg No. ".$registrationNumber;
+
         $this->workflowService->initiateWorkflowProcess(
             $requisition_reference_number,
             (int)$workflowProcess,
             WorkflowActions::submit(),
             $requisitionPostRequest->get('justification'),
             $user,
-            $requisitionPostRequest->material_amount
+            $requisitionPostRequest->material_amount,
+            $short_description,
+            $long_description
         );
 
         $matHeader = MaterialHeader::create(

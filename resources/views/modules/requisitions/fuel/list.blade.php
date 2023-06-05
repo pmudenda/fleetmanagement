@@ -73,9 +73,11 @@
                                         <td>
                                             {{$rec->quantity}}
                                         </td>
+
                                         <td>
-                                            {{$rec->quantity_issued}}
+                                            {{$rec->quantity_issued ?? 0}}
                                         </td>
+
                                         <td>
                                             {{$rec->status_name}}
                                         </td>

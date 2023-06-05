@@ -26,9 +26,9 @@ ZFM is a web based fleet & logistics management system built using laravel frame
 - [ php artisan adldap:import ]()
 - [chmod -R 755 storage]() 
 - sudo chown -R apache:apache /var/www/html/project_name
-  sudo chmod 2775 /var/www/html/project_name
-  find /var/www/html/project_name -type d -exec sudo chmod 2775 {} \;
-  find /var/www/html/project_name -type f -exec sudo chmod 0664 {} \;
+- sudo chmod 2775 /var/www/html/project_name
+- find /var/www/html/project_name -type d -exec sudo chmod 2775 {} \;
+- find /var/www/html/project_name -type f -exec sudo chmod 0664 {} \;
 - if above cmd doesnt not work use: sudo chmod -R ugo+rw storage
 - [ chmod -R 755 vendor]()
 - [ chmod -R 644 bootstrap/cache]()
