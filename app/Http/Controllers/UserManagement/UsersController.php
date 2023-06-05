@@ -217,7 +217,10 @@ class UsersController extends Controller
             ->first();
         $roles = Role::all();
         return view('modules.userManagement.show')
-            ->with(compact('user', 'roles'));
+            ->with(compact(
+                'user',
+                'roles'
+            ));
     }
 
 

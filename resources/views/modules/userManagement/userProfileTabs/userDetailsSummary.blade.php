@@ -8,11 +8,11 @@
     <div class="row">
         <div class="col-6">
             <p class="text-muted">
-                <b>Directorate:</b> {{ $user->directorate->name ?? '' }}
+                <b>Directorate:</b> {{ $user->directorate ?? '--' }}
             </p>
-            <p class="text-muted">
+           {{-- <p class="text-muted">
                 <b>PayPoint:</b> {{ $user->pay_point->name ?? '' }}
-            </p>
+            </p>--}}
             <p class="text-muted"><b>Location:</b> {{ $user->location->name ?? '' }}
             </p>
             <p class="text-muted"><b>Division:</b> {{ $user->division->name ?? '' }}
@@ -35,16 +35,16 @@
                         @csrf
                     </form>
                 @else
-                    {{$user->user_unit->user_unit_description  ?? '' }}
+                    {{$user->user_unit ?? '' }}
                 @endif
             </p>
             <p class="text-muted "><b class=" text-dark">User Unit
-                    Code:</b> {{ $user->user_unit->user_unit_code ?? '' }} </p>
+                    Code:</b> {{ $user->bu_code ?? '' }} </p>
             <p class="text-muted"><b>Business
-                    Unit:</b> {{ $user->user_unit->user_unit_bc_code ?? '' }}
+                    Unit:</b> {{ $user->user_unit ?? '' }}
             </p>
             <p class="text-muted"><b>Cost
-                    Center:</b> {{ $user->user_unit->user_unit_cc_code ?? '' }} </p>
+                    Center:</b> {{ $user->cc_code ?? '' }} </p>
         </div>
     </div>
 </div>
@@ -71,12 +71,12 @@
                 <strong>User Position:</strong>
                 {{ $user->job_title ?? '' }}
             </p>
-            <p class="text-muted ">
+           {{-- <p class="text-muted ">
                 <strong class="text-orange ">
                     Job Code:
                 </strong>
                 {{ $user->job_code ?? '' }}
-            </p>
+            </p>--}}
         </div>
 
         @if(!empty($user_acting->acting_date_from))
@@ -111,27 +111,27 @@
 
         <div class="col-lg-6 col-sm-12">
             <p class="text-muted">
-                <strong>Contract Type:</strong>
-                {{ $user->contract_type ?? '' }}
+                <strong>Name:</strong>
+                {{ $user->supervisor_name ?? '' }}
             </p>
             <p class="text-muted">
-                <strong>Grade:</strong>
-                {{ $user->grade ?? '' }}
+                <strong>Staff No.:</strong>
+                {{ $user->supervisor_code ?? '' }}
             </p>
             {{--<p class="text-muted">
                 <strong>Category:</strong>
                 {{ $user->grade->category->name ?? '' }}
             </p>--}}
-            <p class="text-muted">
+       {{--     <p class="text-muted">
                 <strong>User Position:</strong>
                 {{ $user->job_title ?? '' }}
-            </p>
-            <p class="text-muted ">
+            </p>--}}
+           {{-- <p class="text-muted ">
                 <strong class="text-orange ">
                     Job Code:
                 </strong>
                 {{ $user->job_code ?? '' }}
-            </p>
+            </p>--}}
         </div>
 
         @if(!empty($user_acting->acting_date_from))
