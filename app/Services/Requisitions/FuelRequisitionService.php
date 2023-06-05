@@ -178,7 +178,7 @@ class FuelRequisitionService
         } elseif ($isOverrideRequisition) {
             // if there is no previous requisition, throw error
             if (empty($latestPreviousRequisition)) {
-                throw new FuelRequisitionException(ErrorMessages::getMessage('err_008'));
+                throw new FuelRequisitionException(ErrorMessages::getMessage('err_0008'));
             }
 
             if (in_array($latestPreviousRequisition->status, $openRequisitionStatusList)) {

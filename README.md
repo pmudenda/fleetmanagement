@@ -1010,38 +1010,35 @@ CREATE SEQUENCE "FLEETMASTER"."ZFM_ACC_SEQ" MINVALUE 1 MAXVALUE 9999999999999999
 ```
 ## Synchronize Requisitions
 ```oracle
-create or replace FUNCTION fn_syncRequisitions (
-    p IN VARCHAR2
-) RETURN PLS_INTEGER IS
-
-    ls_return VARCHAR2(255);
+create or replace PROCEDURE proc_syncRequisitions IS
     CURSOR cur_requisitions IS
-    SELECT
-        h.st_pur,
-        srh.status
-    FROM
-        gen_material_headers      h,
-        store_requisitions_header srh
-    WHERE
+        SELECT
+            h.st_pur,
+            srh.status
+        FROM
+            gen_material_headers      h,
+            store_requisitions_header srh
+        WHERE
             h.st_pur = srh.document_no
-        AND srh.system_origin = '04'
-        AND h.status <> srh.status
-        AND h.status IN ( '02', '26' );
-
+          AND srh.system_origin = '04'
+          AND h.status <> srh.status
+          AND h.status IN ( '02', '26' );
 BEGIN
     FOR item IN cur_requisitions LOOP
-        UPDATE gen_material_headers
-        SET
-            status = item.status
-        WHERE
-            st_pur = item.st_pur;
+            UPDATE gen_material_headers
+            SET
+                status = item.status
+            WHERE
+                st_pur = item.st_pur;
 
-        COMMIT;
-    END LOOP;
-
-    RETURN 1;
+            COMMIT;
+        END LOOP;
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Handle exceptions, if needed
+        ROLLBACK;
+        RAISE;
 END;
-
 ```
 
 ## Cancel Requisitions

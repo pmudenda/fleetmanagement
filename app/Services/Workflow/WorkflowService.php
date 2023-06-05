@@ -114,7 +114,7 @@ class WorkflowService
             'reference' => $taskReference,
             'priority' => Priority::high(),
             'description' => $comment, //'You have received a fuel requisition approval task ',
-            'sender' => $short_description,
+            'long_description' => $long_description,
             'created_by' => $currentUser->id,
             'date_acted' => Carbon::now(),
             'process_code' => $processCode,
@@ -336,7 +336,7 @@ class WorkflowService
                 self::closePreviousTasks($task_detail);
 
                 //"Fuel Requisition -"
-                self::createUserNotification($task_detail, "Task Sent Back", $previousStep->action_page ?? "");
+                //self::createUserNotification($task_detail, "Task Sent Back", $previousStep->action_page ?? "");
 
                 $task_detail->save();
 
@@ -379,7 +379,7 @@ class WorkflowService
 
                 self::closePreviousTasks($task_detail);
 
-                self::createUserNotification($task_detail, "Task Rejected", $actionPage);
+                //self::createUserNotification($task_detail, "Task Rejected", $actionPage);
 
                 $task_detail->save();
 
@@ -414,20 +414,19 @@ class WorkflowService
     }
 
 
-    private function createUserNotification(string $taskReference, int $actioningOfficer, string $title, string $actionPage): void
+    private function createUserNotification(string $taskReference, int $actioningOfficer, string $title, string $actionPage, $long_description): void
     {
         $currentUser = auth()->user();
 
         WorkflowTaskHeader::Create([
             'assigned_user' => $actioningOfficer->con_per_no,
             'subject' => $title . $taskReference,
-            'message' => 'You have received an approval task',
             'status' => StatusHelper::new(),
             'url' => $actionPage,
             'reference' => $taskReference,
             'priority' => Priority::high(),
             'description' => '',
-            'sender' => 'SYSTEM',
+            'long_description' => $long_description,
             'created_by' => $currentUser->id,
             'date_acted' => Carbon::now()
         ]);

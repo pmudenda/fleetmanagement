@@ -11,13 +11,12 @@ class WorkflowTaskHeader extends Model
 
     protected $table = "WFL_WORKFLOW_TASK";
     protected $fillable = [
-        'message',
         'status',
-        'date_acted',
         'subject',
         'assigned_user',
-        'sender',
+        'long_description',
         'url',
+        'date_acted',
         'reference',
         'priority',
         'description',
