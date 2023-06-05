@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('type_code', 10)->nullable();
             $table->string('parent', 10)->nullable();
-            $table->string('parent', 4)->nullable();
+            $table->string('code', 4)->nullable();
             $table->string('description', 255)->nullable();
             $table->timestamps();
         });
