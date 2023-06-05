@@ -88,7 +88,7 @@
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
                                              data-target="#modal-edit-profile"
-                                                @endif
+                                            @endif
                                         />
                                     @else
                                         <img class="profile-user-img img-fluid img-circle" width="100%"
@@ -98,7 +98,7 @@
                                                  title="Click Here to Edit Image"
                                              data-toggle="modal"
                                              data-target="#modal-edit-profile"
-                                                @endif
+                                            @endif
                                         />
                                     @endif
                                 </a>
@@ -206,11 +206,13 @@
                                     </a>
                                 </li>
 
-                                {{--<li class="card-title">
-                                    <a class="nav-link" href="#userInfoUpdate" data-toggle="tab">
-                                        Settings
+                                <li class="card-title">
+                                    <a class="nav-link"
+                                       href="#userInfoUpdate"
+                                       data-toggle="tab">
+                                        Update Details
                                     </a>
-                                </li>--}}
+                                </li>
 
                                 {{--<li class="card-title">
                                     <a class="nav-link " href="#units" data-toggle="tab">
@@ -319,7 +321,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div
-                        class="modal-header ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle">
+                    class="modal-header ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle">
                     <h5 class="modal-title" id="addUserToGroupTitle">
                         Add Profile To User
                     </h5>

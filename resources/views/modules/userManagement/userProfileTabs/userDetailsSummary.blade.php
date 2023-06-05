@@ -10,13 +10,11 @@
             <p class="text-muted">
                 <b>Directorate:</b> {{ $user->directorate ?? '--' }}
             </p>
-           {{-- <p class="text-muted">
-                <b>PayPoint:</b> {{ $user->pay_point->name ?? '' }}
-            </p>--}}
-            <p class="text-muted"><b>Location:</b> {{ $user->location->name ?? '' }}
-            </p>
-            <p class="text-muted"><b>Division:</b> {{ $user->division->name ?? '' }}
-            </p>
+            {{-- <p class="text-muted">
+                 <b>PayPoint:</b> {{ $user->pay_point->name ?? '' }}
+             </p>--}}
+            <p class="text-muted"><b>Location:</b> {{ $user->functional_section ?? '' }}</p>
+            <p class="text-muted"><b>Area:</b> {{ $user->area_code ?? '' }}</p>
         </div>
         <div class="col-6">
             <p class="text-muted">
@@ -27,24 +25,20 @@
                     Auth::user()->type_id == config('constants.user_types.mgt'))
                     <a href="{{ route('logout') }}" class="text-dark"
                        onclick="event.preventDefault(); document.getElementById('search-form12').submit();">
-                        {{ $user->user_unit->user_unit_description ?? ''}}
+                        {{ $user->user_unit ?? ''}}
                     </a>
                     <form id="search-form12"
                           action="#"
                           method="post" class="d-none">
                         @csrf
                     </form>
-                @else
-                    {{$user->user_unit ?? '' }}
-                @endif
+            @else
+                {{$user->user_unit ?? '' }}
+            @endif
             </p>
-            <p class="text-muted "><b class=" text-dark">User Unit
-                    Code:</b> {{ $user->bu_code ?? '' }} </p>
-            <p class="text-muted"><b>Business
-                    Unit:</b> {{ $user->user_unit ?? '' }}
-            </p>
-            <p class="text-muted"><b>Cost
-                    Center:</b> {{ $user->cc_code ?? '' }} </p>
+            <p class="text-muted"><b class="text-dark">Business Unit Code:</b> {{ $user->bu_code ?? '' }}</p>
+            {{--<p class="text-muted"><b>Business Unit Code:</b> {{ $user->bu_code ?? '' }}</p>--}}
+            <p class="text-muted"><b>Cost Center:</b> {{ $user->cc_code ?? '' }} </p>
         </div>
     </div>
 </div>
@@ -71,12 +65,12 @@
                 <strong>User Position:</strong>
                 {{ $user->job_title ?? '' }}
             </p>
-           {{-- <p class="text-muted ">
-                <strong class="text-orange ">
-                    Job Code:
-                </strong>
-                {{ $user->job_code ?? '' }}
-            </p>--}}
+            {{-- <p class="text-muted ">
+                 <strong class="text-orange ">
+                     Job Code:
+                 </strong>
+                 {{ $user->job_code ?? '' }}
+             </p>--}}
         </div>
 
         @if(!empty($user_acting->acting_date_from))
@@ -122,16 +116,16 @@
                 <strong>Category:</strong>
                 {{ $user->grade->category->name ?? '' }}
             </p>--}}
-       {{--     <p class="text-muted">
-                <strong>User Position:</strong>
-                {{ $user->job_title ?? '' }}
-            </p>--}}
-           {{-- <p class="text-muted ">
-                <strong class="text-orange ">
-                    Job Code:
-                </strong>
-                {{ $user->job_code ?? '' }}
-            </p>--}}
+            {{--     <p class="text-muted">
+                     <strong>User Position:</strong>
+                     {{ $user->job_title ?? '' }}
+                 </p>--}}
+            {{-- <p class="text-muted ">
+                 <strong class="text-orange ">
+                     Job Code:
+                 </strong>
+                 {{ $user->job_code ?? '' }}
+             </p>--}}
         </div>
 
         @if(!empty($user_acting->acting_date_from))

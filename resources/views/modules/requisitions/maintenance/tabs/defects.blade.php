@@ -9,8 +9,8 @@
                            class="table table-row-dashed align-middle gs-0">
                         <thead>
                         <tr class="bg-dark">
-                            <th class="pl-2">Category</th>
-                            <th>Sub Category</th>
+                            <th class="pl-2">System</th>
+                            <th>Category</th>
                             <th class="pr-2">Defect</th>
                             <th class="pr-2">Service Section</th>
                             <th class="pr-2">Date/Time Detected</th>
@@ -22,11 +22,15 @@
                             <td class="showNumber">
                                 <select name="type" class="form-select form-select-sm">
                                     <option></option>
-                                    <option value="01">Engine</option>
-                                    <option value="02">Drive Transmission And Steering</option>
-                                    <option value="03">Suspension And Brake Parts</option>
-                                    <option value="04">Electrical</option>
-                                    <option value="05">Body and chassis</option>
+                                    <option value="01">ENGINE</option>
+                                    <option value="02">FUEL SYSTEM</option>
+                                    <option value="03">IGNITION SYSTEM</option>
+                                    <option value="03">ELECTRICAL SYSTEM</option>
+                                    <option value="03">EXHAUST SYSTEM</option>
+                                    <option value="02">DRIVE TRAIN (Drive Transmission And Steering)</option>
+                                    <option value="03">SUSPENSION AND STEERING SYSTEMS</option>
+                                    <option value="03">BRAKING SYSTEM</option>
+                                    <option value="05">FRAME AND BODY (Body and chassis)</option>
                                 </select>
                             </td>
                             <td>

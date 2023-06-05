@@ -15,29 +15,30 @@
                    placeholder="Email" value="{{ $user->email }}">
         </div>
     </div>
-    <div class="form-group row">
+    {{--<div class="form-group row">
         <label for="inputName2" class="col-sm-2 col-form-label">Extension</label>
         <div class="col-sm-10">
             <input type="text" class="form-control" name="phone" required
                    placeholder="extension" value="{{ $user->extension }}">
         </div>
-    </div>
+    </div>--}}
 
-    <div class="form-group row">
+    {{--<div class="form-group row">
         <label for="inputjob_code" class="col-sm-2 col-form-label">Job
             Code</label>
         <div class="col-sm-10">
             <input type="text" class="form-control" name="job_code"
                    placeholder="job_code" value="{{ $user->job_code }}">
         </div>
-    </div>
+    </div>--}}
 
-    <div class="form-group row">
-        <label for="inputExperience" class="col-sm-2 col-form-label">User
-            Type</label>
+  {{--  <div class="form-group row">
+        <label for="inputExperience" class="col-sm-2 col-form-label">
+            User Type
+        </label>
         <div class="col-sm-10">
             <select class="form-control" name="user_type_id" required>
-                {{--<option value="{{ $user->user_type->id ?? '' }} ">
+                <option value="{{ $user->user_type->id ?? '' }} ">
                     {{ $user->user_type->name ?? 'Please Select User Type' }}
                 </option>
 
@@ -48,10 +49,10 @@
                             </option>
                         @endforeach
                     @endif
-                @endif--}}
+                @endif
             </select>
         </div>
-    </div>
+    </div>--}}
     <div class="form-group row">
         <label for="inputName2" class="col-sm-2 col-form-label text-orange ">
             User Unit</label>
@@ -88,13 +89,17 @@
     </div>
 
     <div class="form-group row">
-        <label for="inputExperience" class="col-sm-2 col-form-label">User
-            Division</label>
+        <label for="inputExperience" class="col-sm-2 col-form-label">
+             Area
+        </label>
         <div class="col-sm-10">
             <select disabled class="form-control" id="division_select"
                     name="user_division_id">
-                <option value="{{ $user->division->id ?? '' }}  ">
-                    {{ $user->division->name ?? '' }} </option>
+                {{--<option value="{{ $user->division->id ?? '' }}  ">
+                    {{ $user->division->name ?? '' }} </option>--}}
+                @foreach(\App\Models\reference\Areas::get() as $area)
+                    <option value="{{$area->area}}">{{$area->}}</option>
+                @endforeach
             </select>
         </div>
     </div>

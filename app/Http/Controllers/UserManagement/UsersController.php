@@ -212,9 +212,7 @@ class UsersController extends Controller
 
     public function show(User $user): Factory|View|Application
     {
-        $user = User::where('id', '=', $user->id)
-
-            ->first();
+        $user = User::where('id', '=', $user->id)->first();
         $roles = Role::all();
         return view('modules.userManagement.show')
             ->with(compact(
