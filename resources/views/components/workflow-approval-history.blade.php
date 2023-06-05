@@ -56,30 +56,10 @@
                     </td>
                     <td>{{$item->actioning_officer}}</td>
                     <td style="text-transform: capitalize;">
-                        {{-- @if($key == 0)
-                         @else
-                             @if(str_contains(strtolower($item->action), 'approved'))
-                                 Approve
-                             @elseif(str_contains(strtolower($item->action), 'subscribe'))
-                                 Subscribe
-                             @elseif(str_contains(strtolower($item->action), 'rejected'))
-                                 Reject
-                             @elseif(str_contains(strtolower($item->action), 'cancelled'))
-                                 Cancel
-                             @elseif(str_contains(strtolower($item->action), 'queried'))
-                                 Query
-                             @elseif(str_contains(strtolower($item->action), 'resolve'))
-                                 Resolve
-                             @else
-                             @endif--}}
                         {{strtolower($item->action_description) ?? ""}}
                     </td>
                     <td style="text-transform: capitalize;">
-                        @if($key == 0)
-                            New Application
-                        @else
-                            {{strtolower($item->status) ?? ""}}
-                        @endif
+                        {{strtolower($item->status_name) ?? ""}}
                     </td>
                     <td style="text-transform: capitalize; display: none;">
                         {{strtolower($item->status_name) ?? ""}}
