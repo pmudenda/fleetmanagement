@@ -69,7 +69,8 @@
                                         </td>
                                         <td>
                                             {{$rec->odometer}}
-                                        </td>  <td>
+                                        </td>
+                                        <td>
                                             {{$rec->quantity}}
                                         </td>
                                         <td>

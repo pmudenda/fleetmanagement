@@ -125,7 +125,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/fuel', [FuelRequisitionController::class, 'create'])->name('new.fuel.requisition');
         Route::get('/fuel/approve', [FuelRequisitionController::class, 'show'])->name('show.fuel.requisition');
         Route::post('/fuel/save', [FuelRequisitionController::class, 'store'])->name('save.fuel.requisition');
-        Route::get('/fuel/list', [FuelRequisitionController::class, 'index'])->name('list.fuel.requisition');
+        Route::get('/fuel-requisitions/list', [FuelRequisitionController::class, 'index'])->name('list.fuel.requisition');
         Route::post('/fuel/odometer/validation', [FuelRequisitionController::class, 'validateOdometer'])->name('fuel.odometer.validation');
         Route::post('/fuel/last/requisition', [FuelRequisitionController::class, 'latestRequisition'])->name('fuel.last.requisition');
 
