@@ -148,10 +148,8 @@
                 return;
             }
 
-            if (requestApproved === 'reject') {
-                if (remarks.trim() === "") {
-                    $approvalMessage.empty().append("You must supply comments when declining.");
-                }
+            if (requestApproved === 'reject' && remarks.trim() === "") {
+                $approvalMessage.empty().append("You must supply comments when declining.");
                 return false;
             } else if (requestApproved === 'approve' && requireRemarks && remarks.trim() === "") {
                 $approvalMessage.empty().append("You must supply comments when approving this item.");
