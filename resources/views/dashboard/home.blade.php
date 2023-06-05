@@ -231,7 +231,7 @@
                                             </td>
 
                                             <td>
-                                                {{$rec->created_by}}
+                                                {{$rec->originator}}
                                             </td>
                                             <td>
                                                 {{Carbon::parse($rec->dated_acted)->format('d/m/Y')}}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ConfigHelper;
 use App\Helpers\StatusHelper;
 use App\Models\Workflow\WorkflowTaskHeader;
+use App\Services\Workflow\WorkflowService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -14,6 +15,13 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+    private WorkflowService $workflowService;
+
+    public function __construct(WorkflowService $workflowService)
+    {
+        $this->workflowService = $workflowService;
+    }
+
     public function logout(): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         $user = auth()->user();
@@ -27,10 +35,8 @@ class HomeController extends Controller
     {
         $user = auth()->user();
 
-        $approvalTasks = WorkflowTaskHeader::where('assigned_user', '=', $user->staff_no)
-            ->where('status', '=', StatusHelper::pendingApproval())
-            ->whereNull('date_ended')
-            ->get();
+        $approvalTasks = $this->workflowService->getMyApprovalTasks($user->staff_no);
+
         return view('dashboard.home')->with(compact('approvalTasks'));
     }
 }

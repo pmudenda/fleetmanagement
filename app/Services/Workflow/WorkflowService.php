@@ -413,6 +413,19 @@ class WorkflowService
         return $next_step->step_id;
     }
 
+    public function getMyApprovalTasks($staff_no)
+    {
+        /*return WorkflowTaskHeader::where()
+            ->where('status', '=', StatusHelper::pendingApproval())
+            ->whereNull('date_ended')
+            ->get();*/
+        return DB::table('WFL_WORKFLOW_TASK')
+            ->leftJoin('SEC_USERS', 'WFL_WORKFLOW_TASK.created_by', '=', 'SEC_USERS.id')
+            ->where('WFL_WORKFLOW_TASK.assigned_user', '=', $staff_no)
+            ->select('WFL_WORKFLOW_TASK.*', 'SEC_USERS.name as originator')
+            ->first();
+    }
+
 
     private function createUserNotification(string $taskReference, int $actioningOfficer, string $title, string $actionPage, $long_description): void
     {
