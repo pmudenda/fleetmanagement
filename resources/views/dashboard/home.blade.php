@@ -210,6 +210,7 @@
                                         <th>Subject</th>
                                         <th>Description</th>
                                         <th>Originator</th>
+                                        <th>Date Requested</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
