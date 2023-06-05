@@ -5,6 +5,7 @@ namespace App\Services\Requisitions;
 use App\Constants\Accounts;
 use App\Constants\ErrorMessages;
 use App\Constants\TransactionType;
+use App\Enums\Modules;
 use App\Enums\RequisitionItemTypes;
 use App\Enums\RequisitionTypes;
 use App\Enums\WorkflowProcessCodes;
@@ -123,6 +124,7 @@ class FuelRequisitionService
                         ]);
                     }
 
+                    // cancel out of town
                     if ($latestPreviousRequisition->requisition_type == RequisitionTypes::OutOfTown->value) {
                         // cancel requisition
                         $latestPreviousRequisition->status = StatusHelper::cancelled();
@@ -255,7 +257,7 @@ class FuelRequisitionService
             }
         }
 
-        if(!empty($latestPreviousRequisition)){
+        if (!empty($latestPreviousRequisition)) {
             // validate odometer against last issue
             $this->validateOdometerAgainstLastNonCancelled($latestPreviousRequisition, $requisitionPostRequest);
         }
@@ -282,8 +284,8 @@ class FuelRequisitionService
             $workflowProcess = WorkflowProcessCodes::OverrideFuelRequisition->value;
         }
 
-        $short_description = "Fuel Requisition For Vehicle Reg No. ".$registrationNumber;
-        $long_description = "Fuel Requisition Ref.No. ".$requisition_reference_number." For Vehicle Reg No. ".$registrationNumber;
+        $short_description = "Fuel Requisition For Vehicle Reg No. " . $registrationNumber;
+        $long_description = "Fuel Requisition Ref.No. " . $requisition_reference_number . " For Vehicle Reg No. " . $registrationNumber;
 
         $this->workflowService->initiateWorkflowProcess(
             $requisition_reference_number,
@@ -437,7 +439,7 @@ class FuelRequisitionService
     public function checkIfPreviousRequisitionPeriodElapsed($previousRequisition, bool|Carbon $valid_from): void
     {
         // check if previous requisition period elapsed
-        if (Carbon::parse($previousRequisition->valid_date_to)->lessThan($valid_from)) {
+        if ($valid_from->lessThanOrEqualTo(Carbon::parse($previousRequisition->valid_date_to))) {
             throw new FuelRequisitionException(
                 str_replace('@date_valid_to', $previousRequisition->valid_date_to,
                     str_replace('@req_no',
@@ -514,7 +516,7 @@ class FuelRequisitionService
                 ->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
                 ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
                 ->where('GEN_MATERIAL_HEADERS.requested_by', '=', $staff_no)
-                ->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
+                ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
                 ->select(
                     'GEN_MATERIAL_HEADERS.*',
                     'GEN_MATERIAL_DETAILS.quantity',
@@ -530,7 +532,7 @@ class FuelRequisitionService
                 ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
                 ->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
                 ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
-                ->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
+                ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
                 ->select(
                     'GEN_MATERIAL_HEADERS.*',
                     'GEN_MATERIAL_DETAILS.quantity',

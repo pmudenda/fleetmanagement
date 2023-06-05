@@ -599,7 +599,7 @@
                     document.querySelector('#approvalUrl').value,
                     function (ajaxResponse) {
                         if (ajaxResponse.success) {
-                            // window.top.toastr.success(response.message);
+
                             setTimeout(function () {
                                 appInstance.showSystemMessage(
                                     'Approval',
@@ -607,7 +607,8 @@
                                     function () {
                                         setTimeout(function () {
                                             window.location.href = ajaxResponse['redirectUrl'];
-                                        }, 300);
+                                        },
+                                            300);
                                     },
                                     'success');
                             }, 300);
@@ -651,75 +652,6 @@
                     },
                 );
             });
-
-            /*$('#submitRequisitionBtn').on('click', function () {
-                let $form = document.forms['fuelRequisitionForm'];
-                if (!$($form).valid()) {
-                    return;
-                }
-                $('print-error-msg').css('display', 'none');
-                let formData = new FormData($form);
-                appInstance.confirm(
-                    'Fuel Requisition',
-                    'Are you sure you want to submit this request ?',
-                    'Yes',
-                    'No',
-                    function () {
-                        window.top.tmsApp.asyncPostFormData(
-                            $form.action,
-                            formData,
-                            function (asyncResponse) {
-                                if ('success' in asyncResponse && asyncResponse['success']) {
-                                    setTimeout(function () {
-                                        appInstance.showSystemMessage(
-                                            'Fuel Requisition',
-                                            asyncResponse['message'],
-                                            function () {
-                                            },
-                                            'success'
-                                        );
-                                    }, 300);
-                                } else {
-                                    if (asyncResponse.hasOwnProperty('errors')) {
-                                        appInstance.printErrorMsg(asyncResponse.errors);
-                                        return
-                                    }
-                                    setTimeout(function () {
-                                        appInstance.systemError(
-                                            'Fuel Requisition',
-                                            asyncResponse['message'],
-                                            function () {
-                                            }, 'error');
-                                    }, 300);
-                                }
-                            },
-                            function (xhr, settings, errorThrown) {
-                                console.log(errorThrown)
-                                setTimeout(function () {
-                                    if ('responseJSON' in xhr) {
-                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                            appInstance.printErrorMsg(xhr.responseJSON.errors);
-                                        }
-                                        if (xhr.responseJSON.hasOwnProperty('message')) {
-                                            appInstance.systemError(
-                                                'Fuel Requisition',
-                                                xhr.responseJSON.hasOwnProperty('message')
-                                            );
-                                        }
-                                        return;
-                                    }
-
-                                    appInstance.systemError(
-                                        'Fuel Requisition',
-                                        'We could not complete processing your request, please try again later');
-                                }, 300)
-                            }
-                        )
-                    },
-                    function () {
-                    }
-                );
-            })*/
 
         })(window.tmsApp || {}, jQuery)
     </script>
