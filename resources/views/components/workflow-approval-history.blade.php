@@ -38,17 +38,17 @@
                             <i class="fas fa-cog" style="font-size: 35px;"></i>
                         @else
                             @if(!empty($item->avatar))
-                                 <img style="height:35px;"
-                                      src="{{asset('storage/user_avatar/'.$item->avatar)}}"
-                                      class="img-circle elevation-2"
-                                      alt="User Image"
-                                 >
-                             @else
+                                <img style="height:35px;"
+                                     src="{{asset('storage/user_avatar/'.$item->avatar)}}"
+                                     class="img-circle elevation-2"
+                                     alt="User Image"
+                                >
+                            @else
                                 <img style="height:35px;"
                                      src="{{asset('assets/media/avatars/avatar.png')}}"
                                      class="img-circle elevation-2"
                                      alt="User Image"/>
-                             @endif
+                            @endif
                         @endif
                     </td>
                     <td style="text-transform: capitalize;">
@@ -56,25 +56,23 @@
                     </td>
                     <td>{{$item->actioning_officer}}</td>
                     <td style="text-transform: capitalize;">
-                        @if($key == 0)
-
-                        @else
-                            @if(str_contains(strtolower($item->action), 'approved'))
-                                Approve
-                            @elseif(str_contains(strtolower($item->action), 'subscribe'))
-                                Subscribe
-                            @elseif(str_contains(strtolower($item->action), 'rejected'))
-                                Reject
-                            @elseif(str_contains(strtolower($item->action), 'cancelled'))
-                                Cancel
-                            @elseif(str_contains(strtolower($item->action), 'queried'))
-                                Query
-                            @elseif(str_contains(strtolower($item->action), 'resolve'))
-                                Resolve
-                            @else
-                                {{strtolower($item->action) ?? ""}}
-                            @endif
-                        @endif
+                        {{-- @if($key == 0)
+                         @else
+                             @if(str_contains(strtolower($item->action), 'approved'))
+                                 Approve
+                             @elseif(str_contains(strtolower($item->action), 'subscribe'))
+                                 Subscribe
+                             @elseif(str_contains(strtolower($item->action), 'rejected'))
+                                 Reject
+                             @elseif(str_contains(strtolower($item->action), 'cancelled'))
+                                 Cancel
+                             @elseif(str_contains(strtolower($item->action), 'queried'))
+                                 Query
+                             @elseif(str_contains(strtolower($item->action), 'resolve'))
+                                 Resolve
+                             @else
+                             @endif--}}
+                        {{strtolower($item->action_description) ?? ""}}
                     </td>
                     <td style="text-transform: capitalize;">
                         @if($key == 0)
@@ -84,11 +82,7 @@
                         @endif
                     </td>
                     <td style="text-transform: capitalize; display: none;">
-                        {{--                        @if($key == 0)--}}
-                        {{strtolower($item->status) ?? ""}}
-                        {{--                        @else--}}
-                        {{--                            {{strtolower($item->to_status->name) ?? ""}}--}}
-                        {{--                        @endif--}}
+                        {{strtolower($item->status_name) ?? ""}}
                     </td>
                     <td>{{$item->remarks}}</td>
                     <td>{{Carbon::parse($item->created_at)->format('d/m/Y')}}</td>

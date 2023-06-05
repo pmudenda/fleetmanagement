@@ -82,7 +82,7 @@ class WorkflowController extends Controller
             return response()->json([
                 'requestPayload' => $request->all(),
                 'success' => true,
-                'redirectUrl' => route('list.fuel.requisition'),
+                'redirectUrl' => route('home'),
                 'message' => 'Request Approved Successfully'
             ]);
         } catch (\Exception $e) {

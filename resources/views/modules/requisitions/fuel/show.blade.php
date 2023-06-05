@@ -558,18 +558,21 @@
                         </div>
                     </div>
 
-                    @if(auth()->user()->staff_no != $requestDetails->requested_by)
-                        <div class="card-footer">
-                            <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                                <button type="button" id="approveRequisitionBtn" class="btn btn-success btn-sm mr-3">
-                                    <i class="fas fa-thumbs-up"></i> Approve
-                                </button>
-                                <button type="button" id="declineRequisitionBtn"
-                                        class="btn btn-danger btn-sm mr-3">
-                                    <i class="fas fa-thumbs-down"></i> Reject
-                                </button>
+                    @if(empty($requestDetails->proc_ref))
+                        @if(auth()->user()->staff_no != $requestDetails->requested_by)
+                            <div class="card-footer">
+                                <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
+                                    <button type="button" id="approveRequisitionBtn" class="btn btn-success btn-sm mr-3">
+                                        <i class="fas fa-thumbs-up"></i> Approve
+                                    </button>
+                                    <button type="button"
+                                            id="declineRequisitionBtn"
+                                            class="btn btn-danger btn-sm mr-3">
+                                        <i class="fas fa-thumbs-down"></i> Reject
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     @endif
                 </form>
 
@@ -627,7 +630,7 @@
                     },
                     'fuelRequisition',
                     document.querySelector('#approvalUrl').value,
-                    function (ajaxResponse, ...args) {
+                    function (ajaxResponse) {
                         if (ajaxResponse.success) {
                             setTimeout(function () {
                                 appInstance.showSystemMessage(
