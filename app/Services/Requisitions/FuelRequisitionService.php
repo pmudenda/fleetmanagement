@@ -426,7 +426,13 @@ class FuelRequisitionService
     {
         // verify that odometer reading is not the same as previous requisition
         if ($requisitionPostRequest->odometer_reading <= $previousRequisition->odometer) {
-            throw new FuelRequisitionException(ErrorMessages::getMessage('err_0017'), 1000);
+            throw new FuelRequisitionException(
+                str_replace('@veh_reg', $previousRequisition->veh_reg_no,
+                    str_replace('@date_valid_to', $previousRequisition->valid_date_to,
+                        str_replace('@req_no',
+                            $previousRequisition->st_pur ?? $previousRequisition->req_no,
+                            ErrorMessages::getMessage('err_0017')))),
+                1000);
         }
     }
 
