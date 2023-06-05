@@ -6,7 +6,7 @@ class StatusHelper
 {
     public static function Submitted(): string
     {
-        return '021';
+        return '99';
     }
 
     public static function PendingVerification(): string

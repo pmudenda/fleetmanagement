@@ -2,6 +2,8 @@
 
 namespace App\View\Components;
 
+use App\Enums\ConfigurationTypes;
+use App\Models\Workflow\WorkflowModules;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -35,6 +37,7 @@ class WorkflowApprovalHistory extends Component
             ->join('SEC_USERS', 'WFL_WORKFLOW_LOGS.actioning_officer', '=', 'SEC_USERS.staff_no')
             ->leftJoin('CONFIG_STATUSES', 'WFL_WORKFLOW_LOGS.status', '=', 'CONFIG_STATUSES.code')
             ->leftJoin('WFL_WORKFLOW_ACTIONS', 'WFL_WORKFLOW_LOGS.action', '=', 'WFL_WORKFLOW_ACTIONS.action_id')
+            ->where('CONFIG_STATUSES.module', '=', 'WFL')
             ->select(
                 'WFL_WORKFLOW_LOGS.*',
                 'WFL_WORKFLOW_ACTIONS.name as action_name',
