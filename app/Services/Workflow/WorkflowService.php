@@ -415,10 +415,6 @@ class WorkflowService
 
     public function getMyApprovalTasks($staff_no)
     {
-         /*return WorkflowTaskHeader::where()
-            ->where('status', '=', StatusHelper::pendingApproval())
-            ->whereNull('date_ended')
-            ->get();*/
         return DB::table('WFL_WORKFLOW_TASK')
             ->leftJoin('SEC_USERS', 'WFL_WORKFLOW_TASK.created_by', '=', 'SEC_USERS.id')
             ->where('WFL_WORKFLOW_TASK.assigned_user', '=', $staff_no)

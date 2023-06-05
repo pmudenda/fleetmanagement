@@ -145,7 +145,7 @@
 </script>
 <script src="{{asset('themes/plugins/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('themes/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
-
+<script src="{{asset('libs/echarts@5.4.2/dist/echarts.min.js')}}"></script>
 <script>
     $.widget.bridge('uibutton', $.ui.button)
 </script>

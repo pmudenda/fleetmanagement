@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ChargeOutRateController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
+use App\Http\Controllers\DriverManagement\DriverController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\migration\VehicleDataCleaningController;
 use App\Http\Controllers\ProjectsController;
@@ -11,14 +12,11 @@ use App\Http\Controllers\Security\PasswordResetController;
 use App\Http\Controllers\Security\PermissionsController;
 use App\Http\Controllers\Security\RolesController;
 use App\Http\Controllers\UserManagement\UsersController;
-use App\Http\Controllers\DriverManagement\DriverController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
 use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkshopManagement\MaintenanceController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
-use App\Models\VehicleManagement\VehicleHeader;
-use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -117,8 +115,8 @@ Route::group(['middleware' => 'auth'], function () {
             return view('modules.configurations.fuelallocation');
         })->name('vehicle.fuel.allocation');
 
-        Route::get('vehicle/charge-outrate',[ChargeOutRateController::class, 'index'])->name('charge.out.rate');
-        Route::post('save/charge-outrate',[ChargeOutRateController::class, 'store'])->name('save.charge.out.rate');
+        Route::get('vehicle/charge-outrate', [ChargeOutRateController::class, 'index'])->name('charge.out.rate');
+        Route::post('save/charge-outrate', [ChargeOutRateController::class, 'store'])->name('save.charge.out.rate');
     });
 
     Route::group(['prefix' => 'requisitions'], function () {
@@ -203,7 +201,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('workshops/list', [WorkshopController::class, 'index'])->name('workshop.list');
 
-        Route::get('workshop/section',[WorkshopController::class, 'sections'])->name('workshop.sections');
+        Route::get('workshop/section', [WorkshopController::class, 'sections'])->name('workshop.sections');
 
         Route::get('workshops/list/json', [WorkshopController::class, 'getActiveWorkShops'])->name('all.workshop.list');
 
@@ -235,19 +233,24 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('driver/find', [DriverController::class, 'findDriver'])->name('driver.search');
     });
 
+    Route::group(['prefix' => 'reports'], function () {
+        Route::get('fuel/requisitions', function (){
+            return view('modules.reports.index');
+        })->name('reports.fuel.requisitions');
+    });
 
 });
 
 Route::get('barcodes', function (Request $request) {
 
-   /* if (!$request->has('data')) {
-        return "No Data Supplied";
-    }
-    $service = new OnBoardingService();
-    $barCodeImagePath = $service->generateBarCode(
-        new VehicleHeader(
-            ['registration_number' => $request->get('data')]
-        )
-    );
-    return '<img alt="testing" src="' . asset('storage/' . $barCodeImagePath) . '"/>';*/
+    /* if (!$request->has('data')) {
+         return "No Data Supplied";
+     }
+     $service = new OnBoardingService();
+     $barCodeImagePath = $service->generateBarCode(
+         new VehicleHeader(
+             ['registration_number' => $request->get('data')]
+         )
+     );
+     return '<img alt="testing" src="' . asset('storage/' . $barCodeImagePath) . '"/>';*/
 })->name('barcode.generate');

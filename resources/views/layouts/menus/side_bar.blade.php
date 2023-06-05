@@ -611,6 +611,42 @@
 
                     </ul>
                 </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-chart-bar"></i>
+                        <p>
+                            Reports
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview pl-3">
+
+                        <li class="nav-item">
+                            <a href="{{route('reports.fuel.requisitions')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Fuel Requisitions
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Vehicle Requisition</p>
+                            </a>
+                        </li>
+
+                        {{--<li class="nav-item">
+                            <a href="{{URL::signedRoute('maintenance.requisition', ['step'=> 1])}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Maintenance Requisition</p>
+                            </a>
+                        </li>--}}
+                    </ul>
+                </li>
+
             </ul>
         </nav>
 

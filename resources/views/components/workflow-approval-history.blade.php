@@ -57,7 +57,7 @@
                     <td>{{$item->actioning_officer}}</td>
                     <td style="text-transform: capitalize;">
                         @if($key == 0)
-                            Create Document
+
                         @else
                             @if(str_contains(strtolower($item->action), 'approved'))
                                 Approve
