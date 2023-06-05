@@ -418,6 +418,7 @@ class WorkflowService
         return DB::table('WFL_WORKFLOW_TASK')
             ->leftJoin('SEC_USERS', 'WFL_WORKFLOW_TASK.created_by', '=', 'SEC_USERS.id')
             ->where('WFL_WORKFLOW_TASK.assigned_user', '=', $staff_no)
+            ->whereNull('WFL_WORKFLOW_TASK.date_ended')
             ->select('WFL_WORKFLOW_TASK.*', 'SEC_USERS.name as originator')
             ->get();
     }
