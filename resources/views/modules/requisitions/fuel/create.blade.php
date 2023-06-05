@@ -1014,10 +1014,20 @@
             $('select[name="requisition_type"]').on('change', function () {
                 if (this.value === document.querySelector("#outOfTownReqCode").value) {
                     $(".outOfTown").removeClass('d-none');
+                    document.querySelector('#departureTown').setAttribute('required', 'required');
+                    document.querySelector('#destinationTown').setAttribute('required', 'required');
+
+                    document.querySelector('#return_date').setAttribute('required', 'required');
+                    document.querySelector('#departure_date').setAttribute('required', 'required');
                     document.querySelector('[name="material_quantity"]').removeAttribute('max');
                 } else {
                     $(".outOfTown").addClass('d-none');
-                    //data-max
+
+                    document.querySelector('#departureTown').removeAttribute('required');
+                    document.querySelector('#destinationTown').removeAttribute('required');
+                    document.querySelector('#return_date').removeAttribute('required');
+                    document.querySelector('#departure_date').removeAttribute('required');
+
                     document.querySelector('[name="material_quantity"]')
                         .setAttribute('max', document.querySelector('[name="material_quantity"]').getAttribute('data-max'));
                 }

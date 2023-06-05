@@ -89,7 +89,7 @@
                                 <li class="nav-item">
                                     <a href="{{ route('vehicle.migration.list') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>By Cost Centre</p>
+                                        <p>By User Unit</p>
                                     </a>
                                 </li>
                             </ul>
@@ -623,21 +623,20 @@
                     <ul class="nav nav-treeview pl-3">
 
                         <li class="nav-item">
-                            <a href="{{route('reports.fuel.requisitions')}}" class="nav-link">
+                            <a href="{{route('reports.fuel.requisitions')}}"
+                               class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>
                                     Fuel Requisitions
                                 </p>
                             </a>
                         </li>
-
-                        <li class="nav-item">
+                        {{--<li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Vehicle Requisition</p>
                             </a>
-                        </li>
-
+                        </li>--}}
                         {{--<li class="nav-item">
                             <a href="{{URL::signedRoute('maintenance.requisition', ['step'=> 1])}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>

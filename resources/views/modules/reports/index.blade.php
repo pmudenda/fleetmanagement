@@ -45,6 +45,22 @@
                             </div>
                         </div>
                         <div class="card-body p-2">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div id="main" style="height:400px;"></div>
+                                </div>
+                                <div class="col-6">
+                                    <div id="pie" style="height:400px;"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div id="pie2" style="height:400px;"></div>
+                                </div>
+                                <div class="col-6">
+                                    <div id="bar_chart" style="height:400px;"></div>
+                                </div>
+                            </div>
                             <div class="table-responsive mt-10 ">
                                 <table id="listTable" class="table table-bordered">
                                     <thead>
@@ -141,8 +157,220 @@
     <!-- page script -->
     <script>
         (function (appInstance) {
-            appInstance.initDatatable("#listTable", true);
-        })(window.tmsApp ||{});
+            appInstance.initDatatable("#listTable", false);
+        })(window.tmsApp || {});
     </script>
+    <script type="text/javascript">
+        // Initialize the echarts instance based on the prepared dom
+        let myChart = echarts.init(document.getElementById('main'));
 
+        let option = {
+            title: {
+                text: 'ECharts'
+            },
+            tooltip: {},
+            legend: {
+                data: ['sales']
+            },
+            xAxis: {
+                data: ['Shirts', 'Cardigans', 'Chiffons', 'Pants', 'Heels', 'Socks']
+            },
+            yAxis: {},
+            series: [
+                {
+                    name: 'sales',
+                    type: 'bar',
+                    data: [5, 20, 36, 10, 10, 20]
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    </script>
+    <script>
+        let chartDom = document.getElementById('pie2');
+        let myPieChart = echarts.init(chartDom);
+
+        let pieOption = {
+            legend: {},
+            tooltip: {
+                trigger: 'axis',
+                showContent: false
+            },
+            dataset: {
+                source: [
+                    ['product', '2012', '2013', '2014', '2015', '2016', '2017'],
+                    ['Milk Tea', 56.5, 82.1, 88.7, 70.1, 53.4, 85.1],
+                    ['Matcha Latte', 51.1, 51.4, 55.1, 53.3, 73.8, 68.7],
+                    ['Cheese Cocoa', 40.1, 62.2, 69.5, 36.4, 45.2, 32.5],
+                    ['Walnut Brownie', 25.2, 37.1, 41.2, 18, 33.9, 49.1]
+                ]
+            },
+            xAxis: {type: 'category'},
+            yAxis: {gridIndex: 0},
+            grid: {top: '55%'},
+            series: [
+                {
+                    type: 'line',
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: {focus: 'series'}
+                },
+                {
+                    type: 'line',
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: {focus: 'series'}
+                },
+                {
+                    type: 'line',
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: {focus: 'series'}
+                },
+                {
+                    type: 'line',
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: {focus: 'series'}
+                },
+                {
+                    type: 'pie',
+                    id: 'pie',
+                    radius: '30%',
+                    center: ['50%', '25%'],
+                    emphasis: {
+                        focus: 'self'
+                    },
+                    label: {
+                        formatter: '{b}: {@2012} ({d}%)'
+                    },
+                    encode: {
+                        itemName: 'product',
+                        value: '2012',
+                        tooltip: '2012'
+                    }
+                }
+            ]
+        };
+        myPieChart.on('updateAxisPointer', function (event) {
+            const xAxisInfo = event.axesInfo[0];
+            if (xAxisInfo) {
+                const dimension = xAxisInfo.value + 1;
+                myChart.setOption({
+                    series: {
+                        id: 'pie',
+                        label: {
+                            formatter: '{b}: {@[' + dimension + ']} ({d}%)'
+                        },
+                        encode: {
+                            value: dimension,
+                            tooltip: dimension
+                        }
+                    }
+                });
+            }
+        });
+
+        myPieChart &&
+        myPieChart.setOption(pieOption);
+    </script>
+    <script>
+        let pieChartDom = document.getElementById('pie');
+        let myPieChart2 = echarts.init(pieChartDom);
+
+        const data = genData(5);
+        option2 = {
+            title: {
+                text: 'Chart',
+                subtext: 'Sub text',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b} : {c} ({d}%)'
+            },
+            legend: {
+                type: 'scroll',
+                orient: 'vertical',
+                right: 10,
+                top: 20,
+                bottom: 20,
+                data: data.legendData
+            },
+            series: [
+                {
+                    name: 'data',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['40%', '50%'],
+                    data: data.seriesData,
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+        function genData(count) {
+            // prettier-ignore
+            const nameList = [
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+                'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+            ];
+            const legendData = [];
+            const seriesData = [];
+            for (let i = 0; i < count; i++) {
+                let name = Math.random() > 0.65
+                        ? makeWord(4, 1) + '·' + makeWord(3, 0)
+                        : makeWord(2, 1);
+                legendData.push(name);
+                seriesData.push({
+                    name: name,
+                    value: Math.round(Math.random() * 100000)
+                });
+            }
+            return {
+                legendData: legendData,
+                seriesData: seriesData
+            };
+
+            function makeWord(max, min) {
+                const nameLen = Math.ceil(Math.random() * max + min);
+                const name = [];
+                for (let i = 0; i < nameLen; i++) {
+                    name.push(nameList[Math.round(Math.random() * nameList.length - 1)]);
+                }
+                return name.join('');
+            }
+        }
+
+        myPieChart2.setOption(option2);
+    </script>
+    <script>
+        let bar_chartDom = document.querySelector("#bar_chart");
+        let bar_chart = echarts.init(bar_chartDom);
+        let barCharOption = {
+            legend: {},
+            tooltip: {},
+            dataset: {
+                dimensions: ['product', '2015', '2016', '2017'],
+                source: [
+                    { product: 'Matcha Latte', 2015: 43.3, 2016: 85.8, 2017: 93.7 },
+                    { product: 'Milk Tea', 2015: 83.1, 2016: 73.4, 2017: 55.1 },
+                    { product: 'Cheese Cocoa', 2015: 86.4, 2016: 65.2, 2017: 82.5 },
+                    { product: 'Walnut Brownie', 2015: 72.4, 2016: 53.9, 2017: 39.1 }
+                ]
+            },
+            xAxis: { type: 'category' },
+            yAxis: {},
+            series: [{ type: 'bar' }, { type: 'bar' }, { type: 'bar' }]
+        };
+
+        bar_chart.setOption(barCharOption)
+    </script>
 @endpush
