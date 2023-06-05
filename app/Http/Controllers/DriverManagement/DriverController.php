@@ -110,7 +110,7 @@ class DriverController extends Controller
                 'payload' => [],
                 'message' => str_replace('@input',
                     $searchParam,
-                    ErrorMessages::getMessage('err_009')
+                    ErrorMessages::getMessage('err_0009')
                 )
             ]);
         }

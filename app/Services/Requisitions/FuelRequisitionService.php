@@ -49,6 +49,10 @@ class FuelRequisitionService
         $this->procurementService = $procurementService;
     }
 
+    /**
+     * @param mixed $registrationNumber
+     * @return mixed
+     */
     private static function getRequisitionDetailByVehicleRegistration(mixed $registrationNumber)
     {
         return MaterialHeader::where('veh_reg_no', $registrationNumber)
@@ -77,7 +81,7 @@ class FuelRequisitionService
         //$this->validateVehicleResponsibleUserStatus($registrationNumber);
 
         // validate odometer reading
-        self::validateCurrentOdometerAgainstInitial($registrationNumber, $requisitionPostRequest->get('odometer_reading'));
+        self::validateCurrentOdometerAgainstMileageReturn($registrationNumber, $requisitionPostRequest->get('odometer_reading'));
 
         DB::beginTransaction();
 
@@ -138,10 +142,6 @@ class FuelRequisitionService
                     ) {
                         $this->checkIfPreviousRequisitionPeriodElapsed($latestPreviousRequisition, $valid_from);
                     }
-
-                    // validate odometer against last issue
-                    $this->validateOdometerAgainstLastIssue($latestPreviousRequisition, $requisitionPostRequest);
-
                 }
             }
 
@@ -169,9 +169,6 @@ class FuelRequisitionService
 
                     //cancel associated task
                     $this->cancelAssociatedTask($latestPreviousRequisition);
-                } else {
-                    // validate odometer against last issue
-                    $this->validateOdometerAgainstLastIssue($latestPreviousRequisition, $requisitionPostRequest);
                 }
             }
 
@@ -249,7 +246,6 @@ class FuelRequisitionService
                 ]);
             }
 
-
             // quantity requested can not be more than allocated
             if ($requisitionPostRequest->get('fuel_allocation') < $requisitionPostRequest->get('material_quantity')) {
                 return response()->json([
@@ -257,10 +253,13 @@ class FuelRequisitionService
                     'message' => 'Quantity requested can not be more than allocation'
                 ]);
             }
-
-            // validate odometer against last issue
-            $this->validateOdometerAgainstLastIssue($latestPreviousRequisition, $requisitionPostRequest);
         }
+
+        if(!empty($latestPreviousRequisition)){
+            // validate odometer against last issue
+            $this->validateOdometerAgainstLastNonCancelled($latestPreviousRequisition, $requisitionPostRequest);
+        }
+
 
         //$maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption) + $requisitionPostRequest->odometer_reading;
         //Log::info($maximumDistance . ' distance is');
@@ -352,6 +351,7 @@ class FuelRequisitionService
     }
 
     /**
+     * Verifies Vehicle is Active otherwise throws exception
      * @param $reference
      * @return void
      * @throws FuelRequisitionException
@@ -370,9 +370,9 @@ class FuelRequisitionService
     /**
      * @throws FuelRequisitionException
      */
-    public function validateCurrentOdometerAgainstInitial($registration_number, $currentOdometer): bool
+    public function validateCurrentOdometerAgainstMileageReturn($registration_number, $currentOdometer): bool
     {
-        $vehicleDetail = DB::table('VM_VEHICLE_HEADER')
+        /*$vehicleDetail = DB::table('VM_VEHICLE_HEADER')
             ->join('VM_CHASSIS_DETAILS',
                 'VM_VEHICLE_HEADER.id',
                 '=',
@@ -384,7 +384,7 @@ class FuelRequisitionService
 
         if ($vehicleDetail->initial_odometer_reading > $currentOdometer) {
             throw new FuelRequisitionException(ErrorMessages::getMessage('err_0013'), 1000);
-        }
+        }*/
 
         return true;
     }
@@ -420,11 +420,11 @@ class FuelRequisitionService
      * @return void
      * @throws FuelRequisitionException
      */
-    public function validateOdometerAgainstLastIssue($previousRequisition, FuelRequisitionPostRequest $requisitionPostRequest): void
+    public function validateOdometerAgainstLastNonCancelled($previousRequisition, FuelRequisitionPostRequest $requisitionPostRequest): void
     {
         // verify that odometer reading is not the same as previous requisition
         if ($requisitionPostRequest->odometer_reading <= $previousRequisition->odometer) {
-            throw new FuelRequisitionException(ErrorMessages::getMessage('err_0013'), 1000);
+            throw new FuelRequisitionException(ErrorMessages::getMessage('err_0017'), 1000);
         }
     }
 

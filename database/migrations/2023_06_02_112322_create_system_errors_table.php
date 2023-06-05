@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('error_code', 10);
             $table->string('error_message', 2000);
+            $table->string('description', 300);
             $table->string('error_type', 2000)->nullable();
             $table->string('created_by', 10)->nullable();
             $table->timestamp('deleted_at')->nullable();
