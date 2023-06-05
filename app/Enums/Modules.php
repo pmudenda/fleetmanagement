@@ -12,4 +12,5 @@ enum Modules: string
     const FuelReq = 'FR';
 
     const JOB_CARD = 'JOB_CAR';
+    const Material = 'MAT';
 }
