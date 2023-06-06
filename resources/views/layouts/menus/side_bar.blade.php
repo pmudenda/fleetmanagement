@@ -103,7 +103,7 @@
                 @endcanany
 
                 @php
-                    $workshopPermissions = [[config('rights.define_section')]];
+                    $workshopPermissions = [config('rights.define_section')];
                 @endphp
                 @canany($workshopPermissions)
                     <li class="nav-item">
