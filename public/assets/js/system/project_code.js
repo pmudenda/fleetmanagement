@@ -29,9 +29,9 @@ $(document).ready(function () {
             },
             cache: true
         },
-        placeholder: 'Enter Project Code | Description',
+        placeholder: 'Enter Project name | Code',
         minimumInputLength: 4,
-        templateResult: formatRepo,
+        //templateResult: formatRepo,
         templateSelection: formatRepoSelection
     });
 
@@ -71,6 +71,6 @@ $(document).ready(function () {
     }
 });
 
-$('.select2-result-repository').on('click', function () {
+$('[name="project_code"]').on('change', function () {
     $('.project-code-ajax').select2('close');
 });

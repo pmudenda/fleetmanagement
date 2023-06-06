@@ -283,7 +283,7 @@
                                                                 <input type="date" class="form-control form-control-sm"
                                                                        id="departure_date"
                                                                        readonly
-                                                                       value="{{ date('Y-m-d', strtotime(Carbon::parse($requestDetails->valid_date_from)->format('d/m/Y'))) }}"
+                                                                       value="{{ date('Y-m-d', strtotime($requestDetails->valid_date_from)) }}"
                                                                        name="departure_date"/>
                                                             </div>
                                                         </div>
@@ -303,7 +303,7 @@
                                                                 <input type="date" class="form-control form-control-sm"
                                                                        id="return_date"
                                                                        readonly
-                                                                       value="{{date('Y-m-d', strtotime(Carbon::parse($requestDetails->valid_date_to)->format('d/m/Y')))  }}"
+                                                                       value="{{date('Y-m-d', strtotime($requestDetails->valid_date_to))  }}"
                                                                        name="return_date">
                                                             </div>
                                                         </div>
@@ -389,7 +389,7 @@
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="request_date"
                                                                    readonly
-                                                                   value="{{Carbon::parse($requestDetails->valid_date_from)->format('d/m/Y')}}"
+                                                                   value="{{date('Y-m-d', strtotime($requestDetails->valid_date_from))}}"
                                                                    name="request_date">
                                                         </div>
                                                     </div>
@@ -412,7 +412,7 @@
                                                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
                                                                 <input type="text" class="form-control form-control-sm"
                                                                        id="next_fuel_date"
-                                                                       value="{{Carbon::parse($requestDetails->valid_date_to)->format('d/m/Y')}}"
+                                                                       value="{{date('Y-m-d', strtotime($requestDetails->valid_date_to))}}"
                                                                        name="next_fuel_date"
                                                                        readonly required>
                                                             </div>
