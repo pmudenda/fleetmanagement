@@ -20,7 +20,8 @@
                         <tbody>
                         <tr class="increment">
                             <td class="showNumber">
-                                <select name="type" class="form-select form-select-sm">
+                                <select name="vehicleSystem"
+                                        class="form-select form-select-sm">
                                     <option></option>
                                     <option value="01">ENGINE</option>
                                     <option value="02">FUEL SYSTEM</option>

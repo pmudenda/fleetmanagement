@@ -13,16 +13,16 @@
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <div class="input-group">
-                                        <input type="search"
+                                        <input type="text"
                                                data-action="{{route('requisition.vehicle.details')}}"
                                                class="form-control form-control-sm"
-                                               autocapitalize="characters"
                                                value="{{$details->veh_reg ?? ''}}"
                                                id="vehicle_registration"
                                                placeholder="Vehicle Reg e.g AAB 6757"
-                                               name="vehicle_registration" required>
+                                               name="vehicle_registration" required />
                                         <div class="input-group-addon">
-                                            <button type="button" id="vehicleSearchBtn"
+                                            <button type="button"
+                                                    id="vehicleSearchBtn"
                                                     name="vehicleSearchBtn"
                                                     class="btn btn-success btn-sm border-radius-0">
                                                 <i class="fas fa-search"></i>
