@@ -330,11 +330,19 @@
                     });
             }
 
-            function getVehicleSystems() {
-                fetch(document.querySelector('#loadDataUrl').value +'?key=VEH_SYS')
+            function getVehicleSystems(key, filter) {
+                fetch(document.querySelector('#loadDataUrl').value + '?key=' + key +"&filter="+filter)
                     .then(response => response.json())
                     .then(response => {
-                        let selectElem = $('select[name="vehicleSystem"]');
+
+                        let selectElem = '';
+                        if (key === 'VEH_SYS') {
+                            selectElem = $('select[name="vehicleSystem"]');
+                        } else if (key === 'WCT') {
+                            selectElem = $('select[name="vehicleSystem"]');
+                        } else if (key === 'WDF') {
+                            selectElem = $('select[name="vehicleSystem"]');
+                        }
 
                         if (response.state === 'failure') {
                             toastr.error('Connection error, no data found')
@@ -342,7 +350,7 @@
                         }
 
                         let fuelLevels = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, fuelLevels, "code", ["name"], "");
+                        tmsApp.populateDropDownList(selectElem, fuelLevels, "code", ["description"], "");
 
                         let location = selectElem.attr('data-value');
                         console.log(location);
@@ -609,6 +617,10 @@
 
             function initEventHandlers() {
 
+                $('select[name="vehicleSystem"]').on('change', function () {
+                    getVehicleSystems('VEH_SYS', '');
+                })
+
                 /*setTimeout(function () {}, 300);*/
                 $(document).on('keyup paste', '[name="vehicle_registration"]', function () {
                     if (!this.value || this.value.replace('_', '').length < 4) {
@@ -748,8 +760,8 @@
                 $('#materialDetailsTable').on('change', 'select,input', function (e) {
                     eventHandler(this, e);
                 }).on('keyup', 'select,input,textarea', function (e) {
-                        eventHandler(this, e);
-                    })
+                    eventHandler(this, e);
+                })
                     .on('blur', 'input', function (e) {
                         if (this.name === 'quantity') {
                             $(this).val(tmsApp.numberFormat(this.value));
@@ -817,7 +829,7 @@
 
             getFuelLevels();
 
-            getVehicleSystems();
+            getVehicleSystems('VEH_SYS', '');
 
             initEventHandlers();
 
