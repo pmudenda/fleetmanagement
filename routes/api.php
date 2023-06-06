@@ -45,16 +45,19 @@ Route::post('find/vehicle', function (Request $request) {
 
 Route::get('load/data', function (Request $request) {
     try {
+        Log::info('Request filter' . $request->get('filter'));
+        $workShopTableData = [];
+        //$query = WorkShopTable::query();
 
-        $query = WorkShopTable::query();
-
-        if(!empty($request->get('filter'))){
-            $query->where('parent', $request->get('filter'));
+        if (!empty($request->get('filter'))) {
+            WorkShopTable::where('type_code', $request->get('key'))
+                ->where('parent', $request->get('filter'))->get();
+        } else {
+            $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))->get();
         }
 
-        $query = $query->where('type_code', $request->get('key'));
 
-        $workShopTableData = $query->get();
+        //$workShopTableData = $query->get();
         return response()->json([
             'success' => !empty($workShopTableData),
             'payload' => $workShopTableData
