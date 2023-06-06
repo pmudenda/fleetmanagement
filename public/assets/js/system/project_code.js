@@ -51,24 +51,7 @@ function initProjectSelector(selector) {
 function formatRepo(project) {
     if (project.loading)
         return project.text;
-    return $('<option value="' + project['code_project'] + '">' + project['description'] + '</option>');
-    /*if (project.loading) {
-        return project.text;
-    }
-
-    let $container = $(
-        `<div class='select2-result-repository clearfix'>
-                     <div class='select2-result-repository__meta'>
-                        <div class='select2-result-repository__title'></div>
-                        <div class='select2-result-repository__description'></div>
-                    </div>
-                </div>`
-    );
-
-    $container.find(".select2-result-repository__title").text(project.code_project);
-    $container.find(".select2-result-repository__description").text(project.description);
-
-    return $container;*/
+    return $('<option value="' + project['id'] + '">' + project['text'] + '</option>');
 }
 
 function formatRepoSelection(project) {
@@ -79,6 +62,11 @@ function formatRepoSelection(project) {
     return project.project_code + ":" + project.description;
 }
 
+/**
+ * prepares results
+ * @param items
+ * @returns {*}
+ */
 function formatResults(items) {
 
     return $.map(items, function (obj) {
