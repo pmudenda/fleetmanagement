@@ -154,4 +154,4 @@
     </div>
 </div>
 
-@include('UserManagement/userProfileTabs/profiles')
+@include('userManagement/userProfileTabs/profiles')
