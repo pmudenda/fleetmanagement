@@ -54,12 +54,17 @@ function formatRepo(project) {
     return $('<option value="' + project['id'] + '">' + project['text'] + '</option>');
 }
 
+/**
+ *
+ * @param project {id: iValue, text:labelVal}
+ * @returns {*|string}
+ */
 function formatRepoSelection(project) {
     if (!project['id']) {
         return project['text'];
     }
     $('[name="projectCode"]').val(project['id']);
-    return project.id + ":" + project.description;
+    return project['id'] + ":" + project['text'];
 }
 
 /**
@@ -72,12 +77,8 @@ function formatResults(items) {
     return $.map(items, function (obj) {
         return {
             "id": obj['code_project'],
-            "text": obj.description
+            "text": obj['code_project'] + ':' + obj.description
         };
     });
 
 }
-
-/*$('[name="project_code"]').on('change', function () {
-    $('.project-code-ajax').select2('close');
-});*/
