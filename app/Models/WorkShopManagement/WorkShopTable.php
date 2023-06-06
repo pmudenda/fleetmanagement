@@ -5,7 +5,7 @@ namespace App\Models\WorkShopManagement;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WorksShopTable extends Model
+class WorkShopTable extends Model
 {
     use HasFactory;
 

@@ -1,7 +1,9 @@
 <?php
 
+use App\Constants\ErrorMessages;
 use App\Http\Controllers\API\RoadTransportSafetyAgencyIntegrationController;
 use App\Models\reference\GtaVehicle;
+use App\Models\WorkShopManagement\WorkShopTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +39,23 @@ Route::post('find/vehicle', function (Request $request) {
             'success' => false,
             'payload' => [],
             'message' => 'We could not complete processing your request, please try again later'
+        ]);
+    }
+})->name('cleanup.vehicle.find');
+
+Route::post('load/data', function (Request $request) {
+    try {
+        $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))->get();
+        return response()->json([
+            'success' => !empty($workShopTableData),
+            'payload' => $workShopTableData
+        ]);
+    } catch (Exception $e) {
+        Log::error($e);
+        return response()->json([
+            'success' => false,
+            'payload' => [],
+            'message' => ErrorMessages::getMessage('')
         ]);
     }
 })->name('cleanup.vehicle.find');

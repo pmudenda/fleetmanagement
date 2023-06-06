@@ -293,10 +293,26 @@
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="mobile_no">Departure Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="date" class="form-control form-control-sm"
+                                                            <input type="date" class="form-control form-control-sm date_input"
                                                                    id="departure_date"
                                                                    min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
                                                                    name="departure_date"/>
+                                                        </div>
+
+
+                                                        <div class="input-group date" id="date_opened" data-target-input="nearest">
+                                                            <input type="text" name="dateOpened" required id="dateOpened"
+                                                                   autocomplete="off"
+                                                                   class="form-control datetimepicker-opened" data-target="#dateOpened"/>
+                                                            <div class="input-group-append" data-target="#dateOpened"
+                                                                 data-action="dateOpenedPicker">
+                                                            <div type="button" data-action="dateOpenedPicker" class="input-group-text">
+                                                                <i data-action="dateOpenedPicker" class="fa fa-calendar"></i>
+                                                            </div>
+                                                            </div>
+                                                            <div type="button" data-action="clearDate" class="input-group-text">
+                                                                <i data-action="clearDate" class="fa fa-eraser"></i>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -310,7 +326,7 @@
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="request_date">Return Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="date" class="form-control form-control-sm"
+                                                            <input type="date" class="form-control form-control-sm date_input"
                                                                    id="return_date"
                                                                    min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
                                                                    name="return_date">
@@ -1093,6 +1109,78 @@
 
                 //tmsApp.showToast('We could not complete processing your request, please try again later')
 
+            });
+
+            function determineAppropriateEndDate() {
+                const startDate = document.getElementById("departure_date").value;
+                const date = new Date(startDate);
+                // Add 7 Days
+                date.setDate(date.getDate() + 7);
+                let calculatedDate = (date.toLocaleString().split(',')[0]).split('/');
+                document.getElementById("return_date").value = calculatedDate[2]
+                    + '-' + calculatedDate[0] + '-' + calculatedDate[1];
+            }
+
+            $(".departure_date").datepicker({
+                maxDate: new Date(),
+                dateFormat: 'dd/mm/yy',
+            });
+
+            $(document).on('click', '[data-action="dateOpenedPicker"]', function () {
+                $(".datetimepicker-opened").datepicker("show");
+            });
+
+
+            $(".date_input").on('change', function (e) {
+                removeSubmissionAndDetailsOptions();
+
+                if ($(this).attr('name') === 'departure_date') {
+                    determineAppropriateEndDate();
+                }
+                // document.getElementById("prevBtn").style.display = "none";
+                const startDate = document.getElementById("departure_date").value;
+                const endDate = document.getElementById("return_date").value;
+
+                let diffInMs = new Date(endDate) - new Date(startDate)
+                let diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+                if (!startDate || !endDate) {
+                    return;
+                }
+
+                //document.getElementById("nights").textContent = diffInDays.toString();
+
+                if (diffInDays > 7) {
+                    new Swal('Day Limit',
+                        'You have selected more than the 7 Days Limit' +
+                        ' If your trip is more than 7 days, you will have to create a second trip ',
+                        'info');
+
+                    determineAppropriateEndDate();
+                } else if (diffInDays <= 0) {
+                    new Swal('Invalid Dates Selected',
+                        'Trip end date is before trip start date or ' +
+                        'the trip ends on the same date as the start',
+                        'info');
+                    //disableButtons();
+                }
+
+                document.getElementById("nights").textContent = diffInDays.toString();
+            });
+
+            $("#departureTown").on("keyup", function () {
+                let value = $(this).val().toUpperCase();
+                /*$("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });*/
+                $(this).val(value);
+            });
+
+            $("#destinationTown").on("keyup", function () {
+                let value = $(this).val().toUpperCase();
+                /*$("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });*/
+                $(this).val(value);
             });
 
             $('#materialDetailsTable').on('change', 'select,input', function (e) {
