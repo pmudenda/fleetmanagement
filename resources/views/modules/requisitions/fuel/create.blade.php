@@ -299,7 +299,6 @@
                                                                        min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
                                                                        name="departure_date"
                                                                        required
-                                                                       readonly
                                                                        id="departure_date"
                                                                        autocomplete="off"
                                                                        class="form-control form-control-sm date_input datetimepicker-opened"
@@ -444,7 +443,7 @@
 
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
+                                            <div id="returnDateContainer" class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
@@ -1054,6 +1053,7 @@
             });
 
             $('select[name="requisition_type"]').on('change', function () {
+
                 if (this.value === document.querySelector("#outOfTownReqCode").value) {
                     $(".outOfTown").removeClass('d-none');
                     document.querySelector('#departureTown').setAttribute('required', 'required');
@@ -1063,8 +1063,8 @@
                     document.querySelector('#departure_date').setAttribute('required', 'required');
                     document.querySelector('[name="material_quantity"]').removeAttribute('max');
 
-                    document.querySelector('[name="next_fuel_date"]').removeAttribute('required');
-                    document.querySelector('[name="next_fuel_date"]').style.display = 'none';
+                    document.querySelector('#returnDateContainer').style.display = "none";
+                    //document.querySelector('[name="next_fuel_date"]').style.display = 'none';
 
                 } else {
                     $(".outOfTown").addClass('d-none');
@@ -1077,6 +1077,8 @@
 
                     document.querySelector('[name="material_quantity"]')
                         .setAttribute('max', document.querySelector('[name="material_quantity"]').getAttribute('data-max'));
+
+                    document.querySelector('#returnDateContainer').style.display = null;
                 }
             });
 
@@ -1156,10 +1158,12 @@
                 return;
             }
 
-            $(document).on('click', '[data-action="open_picker"]', function () {
+            /*$(document).on('click', '[data-action="open_picker"]', function () {
                 const picker = this.getAttribute('data-target');
-                document.querySelector("#" + picker).showPicker();
-            });
+                let el = document.querySelector("#" + picker)
+                if (!el) return;
+                el.showPicker();
+            });*/
 
             $(document).on('focus', '.date_input', function () {
                 this.showPicker();
