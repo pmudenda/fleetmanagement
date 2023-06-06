@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
 
@@ -59,7 +60,7 @@
                                                 {{$item->name}}
                                             </td>
                                             <td>
-                                                {{\Carbon\Carbon::parse($item->created_at)->format('d/m/y')}}
+                                                {{Carbon::parse($item->created_at)->format('d/m/y')}}
                                             </td>
                                             <td>
                                                 <div class="dropdown">
@@ -74,10 +75,10 @@
                                                         @can(config('rights.permission_edit'))
                                                             <li>
                                                                 <a href="#"
-                                                                    class="dropdown-item"
-                                                                    data-sent_data="{{$permissions}}"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#editModal{{$item->id}}">
+                                                                   class="dropdown-item"
+                                                                   data-sent_data="{{$permissions}}"
+                                                                   data-bs-toggle="modal"
+                                                                   data-bs-target="#editModal{{$item->id}}">
                                                                     <i class="fas fa-edit"> Edit</i>
                                                                 </a>
                                                             </li>
@@ -88,10 +89,10 @@
                                                         @can(config('rights.permission_destroy'))
                                                             <li>
                                                                 <a href="#"
-                                                                    class="dropdown-item"
-                                                                    data-sent_data="{{$permissions}}"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#deleteModal{{$item->id}}">
+                                                                   class="dropdown-item"
+                                                                   data-sent_data="{{$permissions}}"
+                                                                   data-bs-toggle="modal"
+                                                                   data-bs-target="#deleteModal{{$item->id}}">
                                                                     <i class="fas fa-trash"> Remove</i>
                                                                 </a>
                                                             </li>
@@ -150,9 +151,11 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close
+                                </button>
                                 @can(config('rights.permission_edit'))
-                                    <button type="submit" title="Update System Permission" class="btn btn-sm btn-primary">
+                                    <button type="submit" title="Update System Permission"
+                                            class="btn btn-sm btn-primary">
                                         <i class="fas fa-paper-plane"></i>
                                         Update
                                     </button>
@@ -193,7 +196,8 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close
+                                </button>
                                 @can(config('rights.permission_destroy'))
                                     <button type="submit" class="btn btn-sm btn-danger">Yes</button>
                                 @endcan

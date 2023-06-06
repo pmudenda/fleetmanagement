@@ -295,7 +295,6 @@
     <!-- /.col -->
 </div>
 
-
 @push('scripts')
 
     <!-- DataTables  & Plugins -->
@@ -306,16 +305,4 @@
             appInstance.initDatatable("#groupsTable", true);
         })(window.tmsApp ||{});
     </script>
-    <!-- page script -->
-{{--    <script>
-        $(function () {
-            $("#").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print"]
-            }).buttons().container().appendTo('#groupsTable_wrapper .col-md-6:eq(0)');
-        });
-    </script>--}}
-
 @endpush
