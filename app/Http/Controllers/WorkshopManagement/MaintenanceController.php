@@ -225,7 +225,9 @@ class MaintenanceController extends Controller
         $reference = $request->get('reference');
 
         $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)->get();
+
         $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
+
         $workshop_sections = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::WORK_SHOP_SECTION)->get();
 
         $accessories_checked_in = null;

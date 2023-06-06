@@ -79,6 +79,7 @@
                 <input type="hidden" value="{{route('load.vehicle.systems')}}" id="systemsUrl"/>
                 <input type="hidden" value="{{route('load.defects.category')}}" id="defectCategoryUrl"/>
                 <input type="hidden" value="{{route('load.defects')}}" id="defectUrl"/>
+                <input type="hidden" value="{{route('load.workshop.section')}}" id="workShopSectionsUrl"/>
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
             </div>
         </div>
@@ -91,7 +92,6 @@
     </script>
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script src="{{asset("libs/steps/jquery.steps.js")}}"></script>
-    {{--<script src="{{asset("application/modules/maintenance/job.card.js")}}"></script>--}}
     <script>
         $(document).ready(function () {
             Inputmask({
@@ -291,6 +291,36 @@
 
                         let workshops = response['payload'];
                         tmsApp.populateDropDownList(selectElem, workshops, "workshop_code", ["workshop_name", "area_code"], "=>");
+
+                        let location = selectElem.attr('data-value');
+                        console.log(location);
+                        if (location) {
+                            selectElem.val(location);
+                            selectElem.trigger('change');
+                        }
+
+                    })
+                    .catch(function (error) {
+                        // notify of error
+                        toastr.error(
+                            'Connection error. Could not retrieve data, some feature might not work.')
+                    });
+            }
+
+            function getWorkshopSections() {
+                fetch(document.querySelector('#workShopSectionsUrl').value)
+                    .then(response => response.json())
+                    .then(response => {
+                        let selectElem = $('select[name="workshopSection"]');
+                        // Populate results
+                        if (response.state === 'failure') {
+                            //show errors
+                            toastr.error('Connection error, no data found')
+                            return;
+                        }
+
+                        let workshops = response['payload'];
+                        tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
 
                         let location = selectElem.attr('data-value');
                         console.log(location);
@@ -790,11 +820,37 @@
 
                 $(document).off('click', 'button[value="addRow"][data-table-id]')
                     .on('click', 'button[value="addRow"][data-table-id]', function () {
-                        let tableId = $(this).data('tableId');
-                        Table.addRow($('table#' + tableId));
-                        if (tableId === "part8") {
-                            //initInvoiceDatePicker();
-                        }
+
+                        $('[name="defect"]').select2('destroy');
+                        $('[name="defectCategory"]').select2('destroy');
+                        $('[name="vehicleSystem"]').select2({});
+
+                        setTimeout(function () {
+                            let tableId = $(this).data('tableId');
+                            Table.addRow($('table#' + tableId));
+                            if (tableId === "part8") {
+                                //initInvoiceDatePicker();
+                            }
+                        }, 300);
+
+                        setTimeout(function () {
+                            $('[name="defect"]').select2({
+                                theme: "bootstrap4",
+                                width: "resolve",
+                            });
+
+                            $('[name="defectCategory"]').select2({
+                                theme: "bootstrap4",
+                                width: "resolve",
+                            });
+
+                            $('[name="vehicleSystem"]').select2({
+                                theme: "bootstrap4",
+                                width: "resolve",
+                            });
+                        }, 600);
+
+
                     });
 
                 $(document).on('click', 'button[value="deleteRow"]', function (e) {

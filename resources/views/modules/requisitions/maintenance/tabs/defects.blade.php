@@ -36,7 +36,7 @@
                                 </select>
                             </td>
                             <td>
-                                <select name="type" class="form-select form-select-sm">
+                                <select name="workshopSection" class="form-select form-select-sm">
                                     <option></option>
                                     @foreach($workshop_sections as $workshop_section)
                                         <option value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
@@ -74,9 +74,6 @@
                 <div class="col-10"></div>
                 <div class="col-2">
                     <div class="row">
-                        {{--<button type="button" data-table-id="part8" class="btn btn-sm btn-danger waves-effect waves-light add" value="clearUpload">
-                            <i class="fa fa-trash"></i> Clear Rows
-                        </button>--}}
                     </div>
                 </div>
             </div>
