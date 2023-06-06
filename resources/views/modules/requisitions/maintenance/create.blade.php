@@ -618,7 +618,7 @@
             function initEventHandlers() {
 
                 $('select[name="vehicleSystem"]').on('change', function () {
-                    getVehicleSystems('VEH_SYS', '');
+                    //getVehicleSystems('VEH_SYS', '');
                 })
 
                 /*setTimeout(function () {}, 300);*/
