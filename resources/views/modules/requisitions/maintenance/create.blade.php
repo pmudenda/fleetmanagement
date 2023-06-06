@@ -9,7 +9,8 @@
         th {
             white-space: nowrap;
         }
-        .select2{
+
+        .select2 {
             width: 100% !important;
         }
     </style>
@@ -334,7 +335,7 @@
             }
 
             function getVehicleSystems(key, filter) {
-                fetch(document.querySelector('#loadDataUrl').value + '?key=' + key +"&filter="+filter)
+                fetch(document.querySelector('#loadDataUrl').value + '?key=' + key + "&filter=" + filter)
                     .then(response => response.json())
                     .then(response => {
 
@@ -618,10 +619,14 @@
                 }
             }
 
+            function getVehicleDefectCategory(selectedValue) {
+                getVehicleSystems('WCT', selectedValue);
+            }
+
             function initEventHandlers() {
 
                 $('select[name="vehicleSystem"]').on('change', function () {
-                    //getVehicleSystems('VEH_SYS', '');
+                    getVehicleDefectCategory(this.value);
                 })
 
                 /*setTimeout(function () {}, 300);*/

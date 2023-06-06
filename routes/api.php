@@ -45,11 +45,18 @@ Route::post('find/vehicle', function (Request $request) {
 
 Route::get('load/data', function (Request $request) {
     try {
-        $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))->get();
+        $query = WorkShopTable::query()->where('type_code', $request->get('key'));
+
+        if($request->has('filter')){
+            $query->where('parent', $request->get('filter'));
+        }
+
+        $workShopTableData = $query->get();
         return response()->json([
             'success' => !empty($workShopTableData),
             'payload' => $workShopTableData
         ]);
+
     } catch (Exception $e) {
         Log::error($e);
         return response()->json([
