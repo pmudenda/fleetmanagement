@@ -49,7 +49,7 @@
         </table>
     </div>
 @endif
-{{-- <div class="card-tools">
+ <div class="card-tools">
      @can(config('rights.role_attach'))
          <button type="button"
                  data-bs-toggle="modal"
@@ -60,7 +60,7 @@
              Profiles
          </button>
      @endcan
- </div>--}}
+ </div>
 
 <div class="post">
 
