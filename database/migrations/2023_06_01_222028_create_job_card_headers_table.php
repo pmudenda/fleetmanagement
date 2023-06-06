@@ -12,10 +12,10 @@ return new class extends Migration {
     {
         Schema::create('WKS_JOB_CARD_HEADER', function (Blueprint $table) {
             $table->id();
-            $table->string('workshop_doc_no', 255);
+            $table->string('workshop_doc_no', 20);
             $table->string('workshop_code', 7)->nullable();
             $table->string('veh_reg', 10)->nullable();
-            $table->string('job_card_no', 15)->nullable();
+            $table->string('job_card_no', 20)->nullable();
             $table->string('driver_in', 7)->nullable();
             $table->string('repair_type', 7)->nullable();
 

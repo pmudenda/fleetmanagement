@@ -805,6 +805,10 @@
                     setSelectedAccessories();
                 }
 
+                findDriver();
+
+                findVehicle();
+
             }, 600);
 
             initializeFormWizard();
