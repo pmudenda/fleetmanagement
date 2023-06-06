@@ -1141,15 +1141,30 @@
 
             });
 
+            function reformatDate(date, format ="ISO") {
+
+                let data = '';
+                if (format === 'ISO') {
+                    let datePart = new Intl.DateTimeFormat('en-GB').format(date);// .toDateString().split(' ')[0];
+                    console.log(datePart);
+                    let dateParts = datePart.split('/');
+                    data = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+                }
+
+                return data
+
+            }
+
             function determineAppropriateEndDate() {
                 const startDate = document.getElementById("departure_date").value;
                 let date = new Date(startDate);
                 // Add 7 Days
-                let newDate = date.setDate(date.getDate() + 7);
-                let calculatedDate = (newDate.toLocaleString().split(',')[0]).split('/');
-                let maxDate = calculatedDate[2]
+                let maxDate = reformatDate(date.setDate(date.getDate() + 7));
+
+                //let calculatedDate = (date.toLocaleString().split(',')[0]).split('/');
+                /*let maxDate = calculatedDate[2]
                     + '-' + calculatedDate[0]
-                    + '-' + calculatedDate[1];
+                    + '-' + calculatedDate[1];*/
 
                 console.log(maxDate);
 
