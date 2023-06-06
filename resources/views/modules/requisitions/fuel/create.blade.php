@@ -293,24 +293,30 @@
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="mobile_no">Departure Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="date" class="form-control form-control-sm date_input"
-                                                                   id="departure_date"
-                                                                   min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
-                                                                   name="departure_date"/>
-
-                                                            <div class="input-group date" id="date_opened" data-target-input="nearest">
-                                                                <input type="text" name="dateOpened" required id="dateOpened"
+                                                            <div class="input-group date" id="departure_date"
+                                                                 data-target-input="nearest">
+                                                                <input type="date"
+                                                                       min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
+                                                                       name="departure_date"
+                                                                       required
+                                                                       readonly
+                                                                       id="departure_date"
                                                                        autocomplete="off"
-                                                                       class="form-control datetimepicker-opened" data-target="#dateOpened"/>
+                                                                       class="form-control form-control-sm date_input datetimepicker-opened"
+                                                                       data-target="#dateOpened"/>
                                                                 <div class="input-group-append" data-target="#dateOpened"
                                                                      data-action="dateOpenedPicker">
-                                                                    <div type="button" data-action="dateOpenedPicker" class="input-group-text">
-                                                                        <i data-action="dateOpenedPicker" class="fa fa-calendar"></i>
+                                                                    <div type="button"
+                                                                         data-target="departure_date"
+                                                                         data-action="open_picker"
+                                                                         class="input-group-text">
+                                                                        <i data-action="dateOpenedPicker"
+                                                                           class="fa fa-calendar"></i>
                                                                     </div>
                                                                 </div>
-                                                                <div type="button" data-action="clearDate" class="input-group-text">
+                                                                {{--<div type="button" data-action="clearDate" class="input-group-text">
                                                                     <i data-action="clearDate" class="fa fa-eraser"></i>
-                                                                </div>
+                                                                </div>--}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -325,10 +331,31 @@
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="request_date">Return Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="date" class="form-control form-control-sm date_input"
-                                                                   id="return_date"
-                                                                   min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
-                                                                   name="return_date">
+                                                            <div class="input-group date" id="return_date"
+                                                                 data-target-input="nearest">
+                                                                <input type="date"
+                                                                       min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
+                                                                       name="return_date"
+                                                                       required
+                                                                       id="return_date"
+                                                                       autocomplete="off"
+                                                                       class="form-control form-control-sm date_input datetimepicker-opened"
+                                                                       data-target="#dateOpened"/>
+                                                                <div class="input-group-append"
+                                                                     data-target="#dateOpened"
+                                                                     data-action="dateOpenedPicker">
+                                                                    <div type="button"
+                                                                         data-target="return_date"
+                                                                         data-action="open_picker"
+                                                                         class="input-group-text">
+                                                                        <i data-action="dateOpenedPicker"
+                                                                           class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                </div>
+                                                                {{--<div type="button" data-action="clearDate" class="input-group-text">
+                                                                    <i data-action="clearDate" class="fa fa-eraser"></i>
+                                                                </div>--}}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1129,13 +1156,14 @@
                 return;
             }
 
-            $(".departure_date").datepicker({
-                maxDate: new Date(),
-                dateFormat: 'dd/mm/yy',
+            $(document).on('click', '[data-action="open_picker"]', function () {
+                //$(".datetimepicker-opened").datepicker("show");
+                document.querySelector("#departure_date").showPicker();
             });
 
-            $(document).on('click', '[data-action="dateOpenedPicker"]', function () {
-                $(".datetimepicker-opened").datepicker("show");
+            $(document).on('focus', '.date_input', function () {
+                //$(".datetimepicker-opened").datepicker("show");
+                this.showPicker();
             });
 
 
