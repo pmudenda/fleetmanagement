@@ -1224,6 +1224,11 @@
                 $(this).val(value);
             });
 
+            $(['name="justification"']).on("keyup", function () {
+                let value = $(this).val().toUpperCase();
+                $(this).text(value);
+            });
+
             $("#destinationTown").on("keyup", function () {
                 let value = $(this).val().toUpperCase();
                 $(this).val(value);

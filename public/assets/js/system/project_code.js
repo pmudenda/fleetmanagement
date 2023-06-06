@@ -49,7 +49,7 @@ $(document).ready(function () {
                     </div>`
         );
 
-        $container.find(".select2-result-repository__title").text(repo.project_code);
+        $container.find(".select2-result-repository__title").text(repo.code_project);
         $container.find(".select2-result-repository__description").text(repo.description);
 
         return $container;
