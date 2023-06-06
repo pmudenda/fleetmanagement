@@ -1,3 +1,4 @@
+@php use App\Models\reference\Areas; @endphp
 <form class="form-horizontal" method="post"
       action="#">
     @csrf
@@ -32,27 +33,27 @@
         </div>
     </div>--}}
 
-  {{--  <div class="form-group row">
-        <label for="inputExperience" class="col-sm-2 col-form-label">
-            User Type
-        </label>
-        <div class="col-sm-10">
-            <select class="form-control" name="user_type_id" required>
-                <option value="{{ $user->user_type->id ?? '' }} ">
-                    {{ $user->user_type->name ?? 'Please Select User Type' }}
-                </option>
+    {{--  <div class="form-group row">
+          <label for="inputExperience" class="col-sm-2 col-form-label">
+              User Type
+          </label>
+          <div class="col-sm-10">
+              <select class="form-control" name="user_type_id" required>
+                  <option value="{{ $user->user_type->id ?? '' }} ">
+                      {{ $user->user_type->name ?? 'Please Select User Type' }}
+                  </option>
 
-                @if (\Illuminate\Support\Facades\Auth::user()->id != $user->id)
-                    @if (Auth::user()->type_id == config('constants.user_types.developer'))
-                        @foreach ($user_types as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}
-                            </option>
-                        @endforeach
-                    @endif
-                @endif
-            </select>
-        </div>
-    </div>--}}
+                  @if (\Illuminate\Support\Facades\Auth::user()->id != $user->id)
+                      @if (Auth::user()->type_id == config('constants.user_types.developer'))
+                          @foreach ($user_types as $item)
+                              <option value="{{ $item->id }}">{{ $item->name }}
+                              </option>
+                          @endforeach
+                      @endif
+                  @endif
+              </select>
+          </div>
+      </div>--}}
     <div class="form-group row">
         <label for="inputName2" class="col-sm-2 col-form-label text-orange ">
             User Unit</label>
@@ -90,15 +91,15 @@
 
     <div class="form-group row">
         <label for="inputExperience" class="col-sm-2 col-form-label">
-             Area
+            Area
         </label>
         <div class="col-sm-10">
             <select disabled class="form-control" id="division_select"
                     name="user_division_id">
                 {{--<option value="{{ $user->division->id ?? '' }}  ">
                     {{ $user->division->name ?? '' }} </option>--}}
-                @foreach(\App\Models\reference\Areas::get() as $area)
-                    <option value="{{$area->area}}">{{$area->}}</option>
+                @foreach(Areas::get() as $area)
+                    <option value="{{$area->area}}">{{$area->description}}</option>
                 @endforeach
             </select>
         </div>

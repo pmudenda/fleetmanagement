@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             DefaultUserSeeder::class,
             DirectoratesSeeder::class,
             RequisitionTypeSeeder::class,
-            RolesAndPermissionsSeeder::class,
+            RolesSeeder::class,
             StatusSeeder::class,
             //UnitOfMeasureSeeder::class,
             VehicleBodyTypesSeeder::class,
@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             WorkShopSeeder::class,
             VehicleAccessoriesSeeder::class,
 
+            AssignPermissionsToRoleSeeder::class
         ]);
     }
 }
