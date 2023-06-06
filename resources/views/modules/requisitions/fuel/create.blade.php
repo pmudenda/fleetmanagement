@@ -1068,8 +1068,7 @@
 
                 } else {
                     $(".outOfTown").addClass('d-none');
-                    document.querySelector('[name="next_fuel_date"]').setAttribute('required', 'required');
-                    document.querySelector('[name="next_fuel_date"]').style.display = 'none';
+
                     document.querySelector('#departureTown').removeAttribute('required');
                     document.querySelector('#destinationTown').removeAttribute('required');
                     document.querySelector('#return_date').removeAttribute('required');
@@ -1166,14 +1165,14 @@
             });*/
 
             $(document).on('focus', '.date_input', function () {
-                this.showPicker();
+                //this.showPicker();
             });
 
 
             $(".date_input").on('change', function (e) {
                 //removeSubmissionAndDetailsOptions();
 
-                if ($(this).attr('name') === 'departure_date') {
+                if (this.name === 'departure_date') {
                     determineAppropriateEndDate();
                 }
                 // document.getElementById("prevBtn").style.display = "none";
