@@ -297,21 +297,20 @@
                                                                    id="departure_date"
                                                                    min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
                                                                    name="departure_date"/>
-                                                        </div>
 
-
-                                                        <div class="input-group date" id="date_opened" data-target-input="nearest">
-                                                            <input type="text" name="dateOpened" required id="dateOpened"
-                                                                   autocomplete="off"
-                                                                   class="form-control datetimepicker-opened" data-target="#dateOpened"/>
-                                                            <div class="input-group-append" data-target="#dateOpened"
-                                                                 data-action="dateOpenedPicker">
-                                                            <div type="button" data-action="dateOpenedPicker" class="input-group-text">
-                                                                <i data-action="dateOpenedPicker" class="fa fa-calendar"></i>
-                                                            </div>
-                                                            </div>
-                                                            <div type="button" data-action="clearDate" class="input-group-text">
-                                                                <i data-action="clearDate" class="fa fa-eraser"></i>
+                                                            <div class="input-group date" id="date_opened" data-target-input="nearest">
+                                                                <input type="text" name="dateOpened" required id="dateOpened"
+                                                                       autocomplete="off"
+                                                                       class="form-control datetimepicker-opened" data-target="#dateOpened"/>
+                                                                <div class="input-group-append" data-target="#dateOpened"
+                                                                     data-action="dateOpenedPicker">
+                                                                    <div type="button" data-action="dateOpenedPicker" class="input-group-text">
+                                                                        <i data-action="dateOpenedPicker" class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div type="button" data-action="clearDate" class="input-group-text">
+                                                                    <i data-action="clearDate" class="fa fa-eraser"></i>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1036,9 +1035,14 @@
                     document.querySelector('#return_date').setAttribute('required', 'required');
                     document.querySelector('#departure_date').setAttribute('required', 'required');
                     document.querySelector('[name="material_quantity"]').removeAttribute('max');
+
+                    document.querySelector('[name="next_fuel_date"]').removeAttribute('required');
+                    document.querySelector('[name="next_fuel_date"]').style.display ='none';
+
                 } else {
                     $(".outOfTown").addClass('d-none');
-
+                    document.querySelector('[name="next_fuel_date"]').setAttribute('required', 'required');
+                    document.querySelector('[name="next_fuel_date"]').style.display ='none';
                     document.querySelector('#departureTown').removeAttribute('required');
                     document.querySelector('#destinationTown').removeAttribute('required');
                     document.querySelector('#return_date').removeAttribute('required');
@@ -1117,8 +1121,12 @@
                 // Add 7 Days
                 date.setDate(date.getDate() + 7);
                 let calculatedDate = (date.toLocaleString().split(',')[0]).split('/');
-                document.getElementById("return_date").value = calculatedDate[2]
-                    + '-' + calculatedDate[0] + '-' + calculatedDate[1];
+                let maxDate = new Date(calculatedDate[2]
+                    + '-' + calculatedDate[0] + '-' + calculatedDate[1]);
+                $("return_date").val(maxDate);
+                $("return_date").attr('max', maxDate);
+
+                return;
             }
 
             $(".departure_date").datepicker({
@@ -1132,7 +1140,7 @@
 
 
             $(".date_input").on('change', function (e) {
-                removeSubmissionAndDetailsOptions();
+                //removeSubmissionAndDetailsOptions();
 
                 if ($(this).attr('name') === 'departure_date') {
                     determineAppropriateEndDate();
@@ -1152,34 +1160,27 @@
                 if (diffInDays > 7) {
                     new Swal('Day Limit',
                         'You have selected more than the 7 Days Limit' +
-                        ' If your trip is more than 7 days, you will have to create a second trip ',
+                        'If your trip is more than 7 days, you will have to create a second trip ',
                         'info');
 
                     determineAppropriateEndDate();
-                } else if (diffInDays <= 0) {
+                } else if (diffInDays < 0) {
                     new Swal('Invalid Dates Selected',
-                        'Trip end date is before trip start date or ' +
-                        'the trip ends on the same date as the start',
+                        'Departure date is before Return date or ',
                         'info');
                     //disableButtons();
                 }
 
-                document.getElementById("nights").textContent = diffInDays.toString();
+                //document.getElementById("nights").textContent = diffInDays.toString();
             });
 
             $("#departureTown").on("keyup", function () {
                 let value = $(this).val().toUpperCase();
-                /*$("#myTable tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });*/
                 $(this).val(value);
             });
 
             $("#destinationTown").on("keyup", function () {
                 let value = $(this).val().toUpperCase();
-                /*$("#myTable tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });*/
                 $(this).val(value);
             });
 
