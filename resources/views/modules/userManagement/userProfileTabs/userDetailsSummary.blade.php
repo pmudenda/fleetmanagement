@@ -27,11 +27,11 @@
                        onclick="event.preventDefault(); document.getElementById('search-form12').submit();">
                         {{ $user->user_unit ?? ''}}
                     </a>
-                    <form id="search-form12"
-                          action="#"
-                          method="post" class="d-none">
-                        @csrf
-                    </form>
+            <form id="search-form12"
+                  action="#"
+                  method="post" class="d-none">
+                @csrf
+            </form>
             @else
                 {{$user->user_unit ?? '' }}
             @endif
@@ -81,16 +81,18 @@
                     To
                     {{ Carbon\Carbon::parse($user_acting->acting_date_to ?? '0')->format('d-M-Y') ?? ('' ?? '') }}
                 </p>
-                <p class="text-muted"><b>Acting Grade:</b>
+                <p class="text-muted">
+                    <b>Acting Grade:</b>
                     {{ $user_acting->grade->name ?? '' }}
                 </p>
                 <p class="text-muted">
                     <b>Acting Category:</b>
                     {{ $user_acting->grade->category->name ?? '' }}
                 </p>
-                <p class="text-muted"><b>
-                        Acting
-                        Position:</b> {{ $user_acting->acting_position ?? '' }}
+                <p class="text-muted">
+                    <b>
+                        Acting Position:
+                    </b> {{ $user_acting->acting_position ?? '' }}
                 </p>
             </div>
         @endif
@@ -152,4 +154,4 @@
     </div>
 </div>
 
-{{--@include('UserManagement/userProfileTabs/details')--}}
+@include('UserManagement/userProfileTabs/profiles')

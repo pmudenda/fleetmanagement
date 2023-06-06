@@ -1180,7 +1180,6 @@
                     + '-' + calculatedDate[1];*/
 
                 console.log(maxDate);
-
                 //$("return_date").val(maxDate.toString());
                 document.querySelector('[name="return_date"]').setAttribute('max', maxDate);
                 return;
@@ -1214,7 +1213,6 @@
                 }
 
                 //document.getElementById("nights").textContent = diffInDays.toString();
-
                 if (diffInDays > 7) {
                     new Swal('Day Limit',
                         'You have selected more than the 7 Days Limit' +

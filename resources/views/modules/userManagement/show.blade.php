@@ -244,7 +244,7 @@
 
                                 @canany('rights.user_update')
                                     <div class="tab-pane" id="userInfoUpdate">
-                                        @include('modules.userManagement.userProfileTabs.details')
+                                        @include('modules.userManagement.userProfileTabs.updateDetails')
                                     </div>
                                 @endcanany
 
@@ -256,7 +256,6 @@
                                 <div class="tab-pane" id="units">
                                     @include('UserManagement/userProfileTabs/units')
                                 </div>
-
                                 <div class="tab-pane" id="workflow">
                                     @include('UserManagement/userProfileTabs/workflow')
                                 </div>

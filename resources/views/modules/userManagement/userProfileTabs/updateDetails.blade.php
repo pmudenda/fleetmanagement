@@ -55,8 +55,9 @@
           </div>
       </div>--}}
     <div class="form-group row">
-        <label for="inputName2" class="col-sm-2 col-form-label text-orange ">
-            User Unit</label>
+        <label for="inputName2" class="col-sm-2 col-form-label text-orange">
+            User Unit
+        </label>
         <div class="col-sm-10">
             <select id="user_unit_new" class="form-control user_unit_new"
                     name="user_unit_new">
@@ -84,8 +85,12 @@
     <div class="form-group row">
         <label for="inputName2" class="col-sm-2 col-form-label">Man No</label>
         <div class="col-sm-10">
-            <input disabled type="text" class="form-control" name="staff_no"
-                   required placeholder="Staff No" value="{{ $user->staff_no }}">
+            <input disabled type="text"
+                   class="form-control"
+                   name="staff_no"
+                   required
+                   placeholder="Staff No"
+                   value="{{ $user->staff_no }}">
         </div>
     </div>
 

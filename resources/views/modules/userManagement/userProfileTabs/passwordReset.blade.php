@@ -1,6 +1,5 @@
 @php use App\Services\Security\ParameterEncryption; @endphp
 <div>
-    <!-- form start -->
     <form method="POST" action="{{ route('user.reset.password') }}">
         @csrf
         <div class="">
