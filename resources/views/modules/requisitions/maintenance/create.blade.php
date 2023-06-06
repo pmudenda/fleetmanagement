@@ -623,7 +623,7 @@
 
             function getVehicleDefectCategory(selectedValue) {
                 if (!selectedValue) return;
-                loadData('WCT', document.querySelector('#defectCategoryUrl').value + '?key=WCT&filter=' + filter);
+                loadData('WCT', document.querySelector('#defectCategoryUrl').value + '?key=WCT&filter=' + selectedValue);
             }
 
             function getVehicleDefects(selectedValue) {
