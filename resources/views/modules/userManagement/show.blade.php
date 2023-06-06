@@ -205,14 +205,15 @@
                                         Details
                                     </a>
                                 </li>
-
-                                <li class="card-title">
-                                    <a class="nav-link"
-                                       href="#userInfoUpdate"
-                                       data-toggle="tab">
-                                        Update Details
-                                    </a>
-                                </li>
+                                @canany('rights.user_update')
+                                    <li class="card-title">
+                                        <a class="nav-link"
+                                           href="#userInfoUpdate"
+                                           data-toggle="tab">
+                                            Update Details
+                                        </a>
+                                    </li>
+                                @endcanany
 
                                 {{--<li class="card-title">
                                     <a class="nav-link " href="#units" data-toggle="tab">
@@ -241,11 +242,15 @@
                                     @include('modules.userManagement.userProfileTabs.userDetailsSummary')
                                 </div>
 
-                                @can('rights.user_update')
+                                @canany('rights.user_update')
                                     <div class="tab-pane" id="userInfoUpdate">
                                         @include('modules.userManagement.userProfileTabs.details')
                                     </div>
-                                @endcan
+                                @endcanany
+
+                                <div class="tab-pane" id="pass_reset">
+                                    @include('modules.userManagement.userProfileTabs.passwordReset')
+                                </div>
 
                                 {{--
                                 <div class="tab-pane" id="units">
@@ -256,9 +261,6 @@
                                     @include('UserManagement/userProfileTabs/workflow')
                                 </div>
                                 --}}
-                                <div class="tab-pane" id="pass_reset">
-                                    @include('modules.userManagement.userProfileTabs.passwordReset')
-                                </div>
                             </div>
                         </div>
                     </div>

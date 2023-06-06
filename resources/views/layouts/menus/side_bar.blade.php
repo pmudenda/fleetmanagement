@@ -103,7 +103,7 @@
                 @endcanany
 
                 @php
-                    $workshopPermissions = [config('rights.define_section')];
+                    $workshopPermissions = [];
                 @endphp
                 @canany($workshopPermissions)
                     <li class="nav-item">
@@ -136,6 +136,7 @@
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview pl-3">
+
                                     <li class="nav-item">
                                         <a href="{{URL::signedRoute('maintenance.requisition',['step'=> 1])}}"
                                            class="nav-link">
@@ -165,7 +166,11 @@
                 @endcanany
 
                 @php
-                    $requisitionsPermissions = [];
+                    $requisitionsPermissions = [
+                        config('rights.requisition_fuel'),
+                        config('rights.requisition_spares'),
+                        config('rights.approve_fuel_requisition')
+                    ];
                 @endphp
                 @canany($requisitionsPermissions)
                     <li class="nav-item">
@@ -203,12 +208,12 @@
                                 </ul>
                             </li>
 
-                            <li class="nav-item">
+                            {{--<li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Vehicle Requisition</p>
                                 </a>
-                            </li>
+                            </li>--}}
 
                             {{--<li class="nav-item">
                                 <a href="{{URL::signedRoute('maintenance.requisition', ['step'=> 1])}}" class="nav-link">
@@ -221,7 +226,12 @@
                 @endcanany
 
                 @php
-                    $userManagementPermissions = [];
+                    $userManagementPermissions = [
+                        config('rights.can_add_user'),
+                        config('rights.view_user_detail'),
+                        config('rights.view_user'),
+                        config('rights.user_attach'),
+                    ];
                 @endphp
                 @canany($userManagementPermissions)
                     <li class="nav-item">
@@ -291,25 +301,27 @@
                 @endcanany
 
                 @php
-                    $securityPermissions = [];
+                    $securityPermissions = [
+                        config('rights.permission_access'),
+                        config('rights.permission_show'),
+                        config('rights.permission_edit'),
+                        config('rights.permission_destroy'),
+                        config('rights.permission_create'),
+                        config('rights.permission_attach'),
+                        config('rights.permission_revoke'),
+                        config('rights.role_create'),
+                        config('rights.role_access'),
+                        config('rights.role_show'),
+                        config('rights.role_edit'),
+                        config('rights.role_destroy'),
+                        config('rights.role_attach'),
+                        config('rights.role_detach')
+                    ];
                 @endphp
                 @canany($securityPermissions)
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-shield-alt " style="font-size: 20px;"></i>
-                            {{--<span class="menu-icon">
-                               <span class="svg-icon svg-icon-2">
-                                   <svg width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                       <path
-                                           d="M20 14H18V10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21 16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21 19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8 21 7.6 21 7Z"
-                                           fill="currentColor"></path>
-                                       <path opacity="0.3"
-                                             d="M17 22H3C2.4 22 2 21.6 2 21V3C2 2.4 2.4 2 3 2H17C17.6 2 18 2.4 18 3V21C18 21.6 17.6 22 17 22ZM10 7C8.9 7 8 7.9 8 9C8 10.1 8.9 11 10 11C11.1 11 12 10.1 12 9C12 7.9 11.1 7 10 7ZM13.3 16C14 16 14.5 15.3 14.3 14.7C13.7 13.2 12 12 10.1 12C8.10001 12 6.49999 13.1 5.89999 14.7C5.59999 15.3 6.19999 16 7.39999 16H13.3Z"
-                                             fill="currentColor"></path>
-                                   </svg>
-                               </span>
-                           </span>--}}
                             <p>
                                 Security
                                 <i class="right fas fa-angle-left"></i>
@@ -325,12 +337,22 @@
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview pl-4">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('roles.index') }}">
-                                            <i class="fas fa-list nav-icon"></i>
-                                            <p>List</p>
-                                        </a>
-                                    </li>
+                                    @canany([
+                                        config('rights.role_create'),
+                                        config('rights.role_access'),
+                                        config('rights.role_show'),
+                                        config('rights.role_edit'),
+                                        config('rights.role_destroy'),
+                                        config('rights.role_attach'),
+                                        config('rights.role_detach')
+                                        ])
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('roles.index') }}">
+                                                <i class="fas fa-list nav-icon"></i>
+                                                <p>List</p>
+                                            </a>
+                                        </li>
+                                    @endcanany
                                     {{--  <li class="nav-item">
                                           <a class="nav-link" href="{{ route('roles.view') }}">
                                               <span class="menu-bullet">
@@ -342,25 +364,35 @@
                                 </ul>
                             </li>
 
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fas fa-user-secret nav-icon"></i>
-                                    <p>
-                                        Permissions
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview pl-4">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('permissions.index') }}">
-                                            <i class="fa fa-list nav-icon"></i>
-                                            <p class="menu-title">
-                                                Permission List
-                                            </p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                            @canany([
+                                    config('rights.permission_access'),
+                                    config('rights.permission_show'),
+                                    config('rights.permission_edit'),
+                                    config('rights.permission_destroy'),
+                                    config('rights.permission_create'),
+                                    config('rights.permission_attach'),
+                                    config('rights.permission_revoke')
+                                    ])
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-user-secret nav-icon"></i>
+                                        <p>
+                                            Permissions
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview pl-4">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('permissions.index') }}">
+                                                <i class="fa fa-list nav-icon"></i>
+                                                <p class="menu-title">
+                                                    Permission List
+                                                </p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endcanany
                         </ul>
                     </li>
                 @endcanany
@@ -399,86 +431,115 @@
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview pl-3">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('vehicle.make') }}">
+
+                                    <!--Define Vehicle Brands-->
+                                    @can(config('rights.add_vehicle_brand'))
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('vehicle.make') }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span>
                                             </span>
-                                            <span class="menu-title">
+                                                <span class="menu-title">
                                                 Make (Brand)
                                             </span>
-                                        </a>
-                                    </li>
+                                            </a>
+                                        </li>
+                                    @endcan
 
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ URL::signedRoute('vehicle.models') }}">
+
+                                    @can(config('rights.add_vehicle_model'))
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ URL::signedRoute('vehicle.models') }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span>
                                             </span>
-                                            <span class="menu-title">
+                                                <span class="menu-title">
                                                 Models
                                             </span>
-                                        </a>
-                                    </li>
+                                            </a>
+                                        </li>
+                                    @endcan
 
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ URL::signedRoute('vehicle.body.types') }}">
+
+                                    <!--Define Vehicle Body Types-->
+                                    @can(config('rights.add_vehicle_type'))
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ URL::signedRoute('vehicle.body.types') }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
-                                            <p class="menu-title">
-                                                Body Types
-                                            </p>
-                                        </a>
-                                    </li>
+                                                <p class="menu-title">
+                                                    Body Types
+                                                </p>
+                                            </a>
+                                        </li>
+                                    @endcan
 
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ URL::signedRoute('vehicle.fuel.allocation') }}">
+                                    @can(config('rights.set_vehicle_fuel_allocation'))
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                               href="{{ URL::signedRoute('vehicle.fuel.allocation') }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot">
                                                 </span></span>
-                                            <p class="menu-title">
-                                                Fuel Allocation
-                                            </p>
-                                        </a>
-                                    </li>
+                                                <p class="menu-title">
+                                                    Fuel Allocation
+                                                </p>
+                                            </a>
+                                        </li>
+                                    @endcan
                                 </ul>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ URL::signedRoute('vehicle.accessories') }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p class="menu-title">
-                                        Accessories
-                                    </p>
-                                </a>
-                            </li>
+                            @can(config('rights.create_veh_accessories'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ URL::signedRoute('vehicle.accessories') }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p class="menu-title">
+                                            Accessories
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
 
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                   href="{{ URL::signedRoute('charge.out.rate') }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>
-                                        Charge Out Rates
-                                    </p>
-                                </a>
-                            </li>
+                            @can(config('rights.create_veh_charge_out_rate'))
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       href="{{ URL::signedRoute('charge.out.rate') }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Charge Out Rates
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
 
-                            <li class="nav-item">
-                                <a href="{{ URL::signedRoute('workshop.sections') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Workshop Sections</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="{{ URL::signedRoute('workshop.list') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Workshops</p>
-                                </a>
-                            </li>
+                            @canany([
+                                config('rights.add_workshop_section'),
+                                config('rights.edit_workshop_section'),
+                                config('rights.view_workshop_section')
+                            ])
+                                <li class="nav-item">
+                                    <a href="{{ URL::signedRoute('workshop.sections') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Workshop Sections</p>
+                                    </a>
+                                </li>
+                            @endcanany
+                            @canany([
+                                        config('rights.add_workshop'),
+                                        config('rights.edit_workshop'),
+                                        config('rights.view_workshop')
+                                    ])
+                                <li class="nav-item">
+                                    <a href="{{ URL::signedRoute('workshop.list') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Workshops</p>
+                                    </a>
+                                </li>
+                            @endcanany
 
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
