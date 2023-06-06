@@ -1168,7 +1168,7 @@
 
                 console.log(maxDate);
 
-                $("return_date").val(maxDate);
+                $("return_date").val(maxDate.toString());
                 document.querySelector('[name="return_date"]').setAttribute('max', maxDate);
                 return;
             }
