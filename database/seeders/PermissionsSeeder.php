@@ -20,7 +20,15 @@ class PermissionsSeeder extends Seeder
         Permission::create(['description' => 'Allow User to View Vehicle Details', 'name' => 'view_vehicle_details', 'slug' => 'view_vehicle_details']);
         Permission::create(['description' => 'Allow User to View Vehicle Documents', 'name' => 'view_vehicle_docs', 'slug' => 'view_vehicle_docs']);
         Permission::create(['description' => 'Allow User to View Vehicle Details', 'name' => 'view_vehicle_details', 'slug' => 'view_vehicle_details']);
+
+
         // User Management
+        Permission::create(['description' => 'User Access', 'name' => 'user_access', 'slug' => 'user_access']);
+        Permission::create(['description' => 'User Create', 'name' => 'user_create', 'slug' => 'user_create']);
+        Permission::create(['description' => 'Allows User to update another users details', 'name' => 'user_update', 'slug' => 'user_update']);
+        Permission::create(['description' => 'User Destroy', 'name' => 'user_destroy', 'slug' => 'user_destroy']);
+        Permission::create(['description' => 'Can View User', 'name' => 'user_show', 'slug' => 'user_show']);
+
 
         // Fuel Requisitions
 
@@ -39,11 +47,7 @@ class PermissionsSeeder extends Seeder
         Permission::create(['description' => 'Assign Permission', 'name' => 'permission_attach', 'slug' => 'permission_attach']);
         Permission::create(['description' => 'Permission Detach', 'name' => 'permission_revoke', 'slug' => 'permission_revoke']);
 
-        Permission::create(['description' => 'User Access', 'name' => 'user_access', 'slug' => 'user_access']);
-        Permission::create(['description' => 'User Create', 'name' => 'user_create', 'slug' => 'user_create']);
-        Permission::create(['description' => 'User Update', 'name' => 'user_update', 'slug' => 'user_update']);
-        Permission::create(['description' => 'User Destroy', 'name' => 'user_destroy', 'slug' => 'user_destroy']);
-        Permission::create(['description' => 'Can View User', 'name' => 'user_show', 'slug' => 'user_show']);
+
         Permission::create(['description' => 'user_attach', 'name' => 'ser_attach', 'slug' => 'user_attach']);
         Permission::create(['description' => 'Can Detach Role To User ', 'name' => 'user_detach', 'slug' => 'user_detach']);
         Permission::create(['description' => 'Can Create Role', 'name' => 'role_create', 'slug' => 'role_create']);

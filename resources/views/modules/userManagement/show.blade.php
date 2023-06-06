@@ -241,9 +241,11 @@
                                     @include('modules.userManagement.userProfileTabs.userDetailsSummary')
                                 </div>
 
-                                <div class="tab-pane" id="userInfoUpdate">
-                                    @include('modules.userManagement.userProfileTabs.details')
-                                </div>
+                                @can('rights.user_update')
+                                    <div class="tab-pane" id="userInfoUpdate">
+                                        @include('modules.userManagement.userProfileTabs.details')
+                                    </div>
+                                @endcan
 
                                 {{--
                                 <div class="tab-pane" id="units">
