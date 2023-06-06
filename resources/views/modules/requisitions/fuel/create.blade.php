@@ -743,8 +743,7 @@
                         return response.json();
                     })
                     .then(response => {
-                        //c
-                        console.log(response);
+                        //console.log(response);
 
                         if (!response.success || response.payload.length == 0) {
                             tmsApp.systemError('Driver Verification', response['message']);
@@ -1158,7 +1157,7 @@
             }
 
             $(document).on('click', '[data-action="open_picker"]', function () {
-                const picker = this.attr('data-target')
+                const picker = this.getAttribute('data-target');
                 document.querySelector("#" + picker).showPicker();
             });
 
