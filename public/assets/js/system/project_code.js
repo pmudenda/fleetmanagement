@@ -41,7 +41,7 @@ $(document).ready(function () {
     function formatRepo(project) {
         if (project.loading)
             return project.text;
-        return '<option value="' + project['code_project'] + '">' + project['description'] + '</option>';
+        return $('<option value="' + project['code_project'] + '">' + project['description'] + '</option>');
         /*if (project.loading) {
             return project.text;
         }
