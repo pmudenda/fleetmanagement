@@ -162,10 +162,10 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <select disabled type="text" name="project_code"
+                                                            <input readonly type="text"
+                                                                    name="project_code"
                                                                     class="form-select mt-1 project-code-ajax"
-                                                                    id="project_code">
-                                                            </select>
+                                                                    id="project_code" />
                                                         </div>
                                                     </div>
                                                 </div>
