@@ -74,10 +74,9 @@ Route::get('load/vehicle/systems', function (Request $request) {
 Route::get('load/defectsCategory', function (Request $request) {
     try {
         Log::info('Request filter ' . $request->get('filter'));
-        $workShopTableData = [];
 
-        WorkShopTable::where('type_code', $request->get('key'))
-            ->where('parent', $request->get('filter'))->get();
+        $workShopTableData = WorkShopTable::where('type_code', 'WCT')
+            ->where('parent', $request->get('key'))->get();
 
         return response()->json([
             'success' => !empty($workShopTableData),
@@ -97,10 +96,9 @@ Route::get('load/defectsCategory', function (Request $request) {
 Route::get('load/defects', function (Request $request) {
     try {
         Log::info('Request filter ' . $request->get('filter'));
-        $workShopTableData = [];
 
-        WorkShopTable::where('type_code', $request->get('key'))
-            ->where('parent', $request->get('filter'))->get();
+        $workShopTableData = WorkShopTable::where('type_code', 'WDF')
+            ->where('parent', $request->get('key'))->get();
 
         return response()->json([
             'success' => !empty($workShopTableData),

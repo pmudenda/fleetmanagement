@@ -623,12 +623,12 @@
 
             function getVehicleDefectCategory(selectedValue) {
                 if (!selectedValue) return;
-                loadData('WCT', document.querySelector('#defectCategoryUrl').value + '?key=WCT&filter=' + selectedValue);
+                loadData('WCT', document.querySelector('#defectCategoryUrl').value + '?key=' + selectedValue);
             }
 
             function getVehicleDefects(selectedValue) {
                 if (!selectedValue) return;
-                loadData('WDF', document.querySelector('#defectUrl').value + '?key=WDF&filter=' + selectedValue);
+                loadData('WDF', document.querySelector('#defectUrl').value + '?key=' + selectedValue);
             }
 
             function initEventHandlers() {
