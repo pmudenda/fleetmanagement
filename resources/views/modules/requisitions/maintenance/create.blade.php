@@ -331,7 +331,7 @@
             }
 
             function getVehicleSystems() {
-                fetch(document.querySelector('#loadDataUrl').value)
+                fetch(document.querySelector('#loadDataUrl').value +'?key=VEH_SYS')
                     .then(response => response.json())
                     .then(response => {
                         let selectElem = $('select[name="vehicleSystem"]');
