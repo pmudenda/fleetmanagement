@@ -62,6 +62,10 @@ class PermissionsSeeder extends Seeder
         Permission::create(['description' => 'Assign Permission', 'name' => 'permission_attach', 'slug' => 'permission_attach']);
         Permission::create(['description' => 'Permission Detach', 'name' => 'permission_revoke', 'slug' => 'permission_revoke']);
 
+
+        Permission::create(['description' => 'Add General Tables Data', 'name' => 'add_general_table_data', 'slug' => 'add_general_table_data']);
+        Permission::create(['description' => 'Access Reports', 'name' => 'access_reports', 'slug' => 'access_reports']);
+
         // Roles | Profile -Security
         Permission::create(['description' => 'Can Detach Role To User ', 'name' => 'user_detach', 'slug' => 'user_detach']);
         Permission::create(['description' => 'Can Create Role', 'name' => 'role_create', 'slug' => 'role_create']);
