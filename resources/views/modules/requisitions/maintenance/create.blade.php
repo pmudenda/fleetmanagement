@@ -79,7 +79,7 @@
 @endsection
 @push('scripts')
     <script>
-        let selectedAccessories = {!! json_encode($accessories_checked_in) !!};
+        window.selectedAccessories = {!! json_encode($accessories_checked_in) !!};
         window.step_id = {!! $step !!};
     </script>
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
