@@ -847,7 +847,7 @@
 
             getFuelLevels();
 
-            getVehicleSystems('VEH_SYS', null);
+            getVehicleSystems('VEH_SYS', '');
 
             initEventHandlers();
 

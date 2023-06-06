@@ -45,7 +45,7 @@ Route::post('find/vehicle', function (Request $request) {
 
 Route::get('load/data', function (Request $request) {
     try {
-        Log::info('Request filter' . $request->get('filter'));
+        Log::info('Request filter ' . $request->get('filter'));
         $workShopTableData = [];
         //$query = WorkShopTable::query();
 
