@@ -293,12 +293,11 @@
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="mobile_no">Departure Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <div class="input-group date" id="departure_date"
+                                                            <div class="input-group date"
                                                                  data-target-input="nearest">
                                                                 <input type="date"
                                                                        min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
                                                                        name="departure_date"
-                                                                       required
                                                                        id="departure_date"
                                                                        autocomplete="off"
                                                                        class="form-control form-control-sm date_input datetimepicker-opened"
@@ -331,12 +330,11 @@
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="request_date">Return Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <div class="input-group date" id="return_date"
+                                                            <div class="input-group date"
                                                                  data-target-input="nearest">
                                                                 <input type="date"
                                                                        min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
                                                                        name="return_date"
-                                                                       required
                                                                        id="return_date"
                                                                        autocomplete="off"
                                                                        class="form-control form-control-sm date_input datetimepicker-opened"
@@ -1154,25 +1152,24 @@
                 console.log(maxDate);
 
                 $("return_date").val(date.toLocaleString());
-                document.getElementById("return_date").setAttribute('max', date.toLocaleString());
+                document.getElementById("return_date").setAttribute('max', date);
                 return;
             }
 
-            /*$(document).on('click', '[data-action="open_picker"]', function () {
+            $(document).on('click', '[data-action="open_picker"]', function () {
                 const picker = this.getAttribute('data-target');
                 let el = document.querySelector("#" + picker)
                 if (!el) return;
                 el.showPicker();
-            });*/
+            });
 
-            $(document).on('focus', '.date_input', function () {
-                //this.showPicker();
+            $(document).on('paste keydown', '.date_input', function () {
+                return false;
             });
 
 
             $(".date_input").on('change', function (e) {
                 //removeSubmissionAndDetailsOptions();
-
                 if (this.name === 'departure_date') {
                     determineAppropriateEndDate();
                 }
