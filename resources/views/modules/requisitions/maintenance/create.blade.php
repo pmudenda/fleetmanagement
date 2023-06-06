@@ -343,9 +343,9 @@
                         if (key === 'VEH_SYS') {
                             selectElem = $('select[name="vehicleSystem"]');
                         } else if (key === 'WCT') {
-                            selectElem = $('select[name="vehicleSystem"]');
+                            selectElem = $('select[name="defectCategory"]');
                         } else if (key === 'WDF') {
-                            selectElem = $('select[name="vehicleSystem"]');
+                            selectElem = $('select[name="defect"]');
                         }
 
                         if (response.state === 'failure') {
@@ -623,10 +623,18 @@
                 getVehicleSystems('WCT', selectedValue);
             }
 
+            function getVehicleDefects(selectedValue) {
+                getVehicleSystems('WDF', selectedValue);
+            }
+
             function initEventHandlers() {
 
                 $('select[name="vehicleSystem"]').on('change', function () {
                     getVehicleDefectCategory(this.value);
+                });
+
+                $('select[name="defectCategory"]').on('change', function () {
+                    getVehicleDefects(this.value);
                 })
 
                 /*setTimeout(function () {}, 300);*/
@@ -637,7 +645,6 @@
 
                     removeSubmissionAndDetailsOptions();
                     findVehicle();
-
                 });
 
 
@@ -676,7 +683,6 @@
 
                     });
                 }, 300);
-
 
                 /*****************************Event Handlers*****************************************/
 
@@ -837,7 +843,7 @@
 
             getFuelLevels();
 
-            getVehicleSystems('VEH_SYS', '');
+            getVehicleSystems('VEH_SYS', null);
 
             initEventHandlers();
 

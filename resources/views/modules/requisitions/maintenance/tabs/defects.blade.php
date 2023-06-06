@@ -26,12 +26,12 @@
                                 </select>
                             </td>
                             <td>
-                                <select name="type" class="form-select form-select-sm">
+                                <select name="defectCategory" class="form-select form-select-sm">
                                     <option></option>
                                 </select>
                             </td>
                             <td>
-                                <select name="type" class="form-select form-select-sm">
+                                <select name="defect" class="form-select form-select-sm">
                                     <option></option>
                                 </select>
                             </td>
