@@ -6,7 +6,7 @@ $(document).ready(function () {
         ajax: {
             delay: 250,
             beforeSend: function(){
-                //window.showLoaderModal(false);
+                window.showLoaderModal(false);
                 window.loaderVisible = false;
             },
             url: document.querySelector('#projects_url').value,
@@ -39,7 +39,6 @@ $(document).ready(function () {
         if (repo.loading) {
             return repo.text;
         }
-        console.log(repo);
 
         let $container = $(
             `<div class='select2-result-repository clearfix'>
@@ -72,6 +71,6 @@ $(document).ready(function () {
     }
 });
 
-$('.project-code-ajax').on('change', function () {
+$('.select2-result-repository').on('click', function () {
     $('.project-code-ajax').select2('close');
 });
