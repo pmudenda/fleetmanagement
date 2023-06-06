@@ -43,7 +43,35 @@ Route::post('find/vehicle', function (Request $request) {
     }
 })->name('cleanup.vehicle.find');
 
-Route::get('load/data', function (Request $request) {
+Route::get('load/vehicle/systems', function (Request $request) {
+    try {
+        Log::info('Request filter ' . $request->get('key'));
+        //$workShopTableData = [];
+        //$query = WorkShopTable::query();
+
+        /*if (!empty($request->get('filter'))) {
+            WorkShopTable::where('type_code', $request->get('key'))
+                ->where('parent', $request->get('filter'))->get();
+        }*/
+
+        $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))->get();
+        //$workShopTableData = $query->get();
+        return response()->json([
+            'success' => !empty($workShopTableData),
+            'payload' => $workShopTableData
+        ]);
+
+    } catch (Exception $e) {
+        Log::error($e);
+        return response()->json([
+            'success' => false,
+            'payload' => [],
+            'message' => ErrorMessages::getMessage('')
+        ]);
+    }
+})->name('load.vehicle.systems');
+
+Route::get('load/defectsCategory', function (Request $request) {
     try {
         Log::info('Request filter ' . $request->get('filter'));
         $workShopTableData = [];
@@ -55,7 +83,6 @@ Route::get('load/data', function (Request $request) {
         } else {
             $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))->get();
         }
-
 
         //$workShopTableData = $query->get();
         return response()->json([
@@ -71,6 +98,6 @@ Route::get('load/data', function (Request $request) {
             'message' => ErrorMessages::getMessage('')
         ]);
     }
-})->name('loadData');
+})->name('load.defects.category');
 
 
