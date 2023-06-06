@@ -18,7 +18,7 @@ class PermissionsSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Vehicle Management
-        Permission::create(['description' => 'Allow User to On-Board Vehicle', 'name' => 'on_board_vehicle', 'slug' => 'on_board_vehicle']);
+        //Permission::create(['description' => 'Allow User to On-Board Vehicle', 'name' => 'on_board_vehicle', 'slug' => 'on_board_vehicle']);
         Permission::create(['description' => 'Allow User to View Vehicle Details', 'name' => 'view_vehicle_details', 'slug' => 'view_vehicle_details']);
         Permission::create(['description' => 'Allow User to View Vehicle Documents', 'name' => 'view_vehicle_docs', 'slug' => 'view_vehicle_docs']);
         Permission::create(['description' => 'Allow User to View Vehicle Details', 'name' => 'view_vehicle_details', 'slug' => 'view_vehicle_details']);
