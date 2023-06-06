@@ -118,16 +118,49 @@
                         submitForm: submitForm
                     };
 
+                    let arr = [];
                     let obj = {};
-                    $($container).find('input[name], select[name]').each(function (i, item) {
-                        let val = item.value.replace(/,/g, '');
 
-                        if (item.type === 'radio') {
-                            obj[item.name] = $('[name="' + item.name + '"]:checked').val();
-                        } else {
-                            obj[item.name] = item.value;
-                        }
-                    });
+                    if (formSel.data('modelName') === 'Defects') {
+                        $(formElements).find("tbody").children().map(function (index, row) {
+                            let obj = {};
+                            $(row).find('input[name], select[name]').each(function (i, item) {
+                                let val = item.value.replace(/,/g, '');
+
+                                if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
+                                    let dateField = val;
+                                    dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
+
+                                    obj[item.name] = dateField;
+                                } else {
+                                    if(item.name ==='unitPrice'){
+                                        obj[item.name] = Util.getFloat("0.00")
+                                    }
+
+                                    if ($.isNumeric(parseFloat(val))) {
+                                        obj[item.name] = Util.getFloat(item.value)
+                                    } else {
+                                        obj[item.name] = item.value;
+                                    }
+                                }
+                            });
+
+                            arr.push(obj);
+                        });
+
+                    }else{
+                        $($container).find('input[name], select[name]').each(function (i, item) {
+                            let val = item.value.replace(/,/g, '');
+
+                            if (item.type === 'radio') {
+                                obj[item.name] = $('[name="' + item.name + '"]:checked').val();
+                            } else {
+                                obj[item.name] = item.value;
+                            }
+                        });
+                    }
+
+                    formData['defects'] = arr;
 
                     formData = {
                         ...obj,
@@ -673,7 +706,6 @@
                     getVehicleDefects(this.value);
                 })
 
-                /*setTimeout(function () {}, 300);*/
                 $(document).on('keyup paste', '[name="vehicle_registration"]', function () {
                     if (!this.value || this.value.replace('_', '').length < 4) {
                         return;
@@ -703,7 +735,6 @@
                         }
 
                         findDriver();
-
                     });
                 }, 300);
 
@@ -716,7 +747,6 @@
                         }
 
                         findDriver();
-
                     });
                 }, 300);
 
