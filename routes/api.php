@@ -100,4 +100,33 @@ Route::get('load/defectsCategory', function (Request $request) {
     }
 })->name('load.defects.category');
 
+Route::get('load/defects', function (Request $request) {
+    try {
+        Log::info('Request filter ' . $request->get('filter'));
+        $workShopTableData = [];
+        //$query = WorkShopTable::query();
+
+        if (!empty($request->get('filter'))) {
+            WorkShopTable::where('type_code', $request->get('key'))
+                ->where('parent', $request->get('filter'))->get();
+        } else {
+            $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))->get();
+        }
+
+        //$workShopTableData = $query->get();
+        return response()->json([
+            'success' => !empty($workShopTableData),
+            'payload' => $workShopTableData
+        ]);
+
+    } catch (Exception $e) {
+        Log::error($e);
+        return response()->json([
+            'success' => false,
+            'payload' => [],
+            'message' => ErrorMessages::getMessage('')
+        ]);
+    }
+})->name('load.defects');
+
 

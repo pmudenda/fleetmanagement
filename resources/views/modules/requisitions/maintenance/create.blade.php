@@ -76,8 +76,9 @@
                 <input type="hidden" value="{{route('search.project')}}" id="projects_url"/>
                 <input type="hidden" value="{{route('all.workshop.list')}}" id="workshopsUrl"/>
                 <input type="hidden" value="{{route('fuels.levels')}}" id="fuelLevelsUrl"/>
-                <input type="hidden" value="{{route('load.vehicle.systems')}}" id="loadDataUrl"/>
-                <input type="hidden" value="{{route('load.defects.category')}}" id="loadDataUrl"/>
+                <input type="hidden" value="{{route('load.vehicle.systems')}}" id="systemsUrl"/>
+                <input type="hidden" value="{{route('load.defects.category')}}" id="defectCategoryUrl"/>
+                <input type="hidden" value="{{route('load.defects')}}" id="defectUrl"/>
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
             </div>
         </div>
@@ -335,8 +336,8 @@
                     });
             }
 
-            function getVehicleSystems(key, filter) {
-                fetch(document.querySelector('#loadDataUrl').value + '?key=' + key + "&filter=" + filter)
+            function loadData(key, url) {
+                fetch(url)
                     .then(response => response.json())
                     .then(response => {
 
@@ -621,24 +622,24 @@
             }
 
             function getVehicleDefectCategory(selectedValue) {
-                if(!selectedValue) return;
-                getVehicleSystems('WCT', selectedValue);
+                if (!selectedValue) return;
+                loadData('WCT', document.querySelector('#defectCategoryUrl').value + '?key=WCT&filter=' + filter);
             }
 
             function getVehicleDefects(selectedValue) {
-                if(!selectedValue) return;
-                getVehicleSystems('WDF', selectedValue);
+                if (!selectedValue) return;
+                loadData('WDF', document.querySelector('#defectUrl').value + '?key=WDF&filter=' + selectedValue);
             }
 
             function initEventHandlers() {
 
                 $('select[name="vehicleSystem"]').on('change', function () {
-                    if(!this.value) return;
+                    if (!this.value) return;
                     getVehicleDefectCategory(this.value);
                 });
 
                 $('select[name="defectCategory"]').on('change', function () {
-                    if(!this.value) return;
+                    if (!this.value) return;
                     getVehicleDefects(this.value);
                 })
 
@@ -848,7 +849,7 @@
 
             getFuelLevels();
 
-            getVehicleSystems('VEH_SYS', '');
+            loadData('VEH_SYS', document.querySelector('#systemsUrl').value + '?key=VEH_SYS');
 
             initEventHandlers();
 
