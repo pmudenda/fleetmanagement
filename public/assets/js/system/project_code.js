@@ -2,10 +2,12 @@
 $(document).ready(function () {
     $('.project-code-ajax').select2({
         selectOnClose: true,
+        multiple: false,
+        quietMillis: 100,
         theme: 'bootstrap4',
         ajax: {
             delay: 250,
-            beforeSend: function(){
+            beforeSend: function () {
                 window.showLoaderModal(false);
                 window.loaderVisible = false;
             },
@@ -31,13 +33,17 @@ $(document).ready(function () {
         },
         placeholder: 'Enter Project name | Code',
         minimumInputLength: 4,
-        //templateResult: formatRepo,
+        templateResult: formatRepo,
+        //formatRepo,
         templateSelection: formatRepoSelection
     });
 
-    function formatRepo(repo) {
-        if (repo.loading) {
-            return repo.text;
+    function formatRepo(project) {
+        if (project.loading)
+            return project.text;
+        return '<option value="' + project['code_project'] + '">' + project['description'] + '</option>';
+        /*if (project.loading) {
+            return project.text;
         }
 
         let $container = $(
@@ -49,17 +55,18 @@ $(document).ready(function () {
                     </div>`
         );
 
-        $container.find(".select2-result-repository__title").text(repo.code_project);
-        $container.find(".select2-result-repository__description").text(repo.description);
+        $container.find(".select2-result-repository__title").text(project.code_project);
+        $container.find(".select2-result-repository__description").text(project.description);
 
-        return $container;
+        return $container;*/
     }
 
-    function formatRepoSelection(repo) {
-        if(!repo['id']){
-            return repo['text'];
+    function formatRepoSelection(project) {
+        if (!project['code_project']) {
+            return project['description'];
         }
-        return repo.project_code + ":" + repo.description;
+        $('[name="projectCode"]').val(project['code_project']);
+        return project.project_code + ":" + project.description;
     }
 
     function formatResults(items) {
