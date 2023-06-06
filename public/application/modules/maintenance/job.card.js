@@ -64,7 +64,7 @@
             })
         }
 
-        let stepId = step_id || 1;
+        let stepId = window.step_id || 1;
         form.steps({
             showStepURLhash: true,
             headerTag: "h1",
@@ -72,7 +72,7 @@
             transitionEffect: "slideLeft",
             autoFocus: true,
             saveState: true,
-            startIndex: 0, //stepId - 1,
+            startIndex: stepId - 1,
             labels: {
                 finish: 'Submit'
             },
