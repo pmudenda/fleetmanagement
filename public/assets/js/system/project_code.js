@@ -55,11 +55,11 @@ function formatRepo(project) {
 }
 
 function formatRepoSelection(project) {
-    if (!project['code_project']) {
-        return project['description'];
+    if (!project['id']) {
+        return project['text'];
     }
-    $('[name="projectCode"]').val(project['code_project']);
-    return project.project_code + ":" + project.description;
+    $('[name="projectCode"]').val(project['id']);
+    return project.id + ":" + project.description;
 }
 
 /**
@@ -78,6 +78,6 @@ function formatResults(items) {
 
 }
 
-$('[name="project_code"]').on('change', function () {
+/*$('[name="project_code"]').on('change', function () {
     $('.project-code-ajax').select2('close');
-});
+});*/
