@@ -182,6 +182,8 @@
                 }
             }
         });
+
+        initEventHandlers();
     }
 
     function getWorkshops() {
@@ -522,176 +524,192 @@
     }
 
 
+    function initEventHandlers() {
+        Inputmask({
+            "mask": "AAA 9{1,4}"
+        }).mask("#vehicle_registration");
 
-    $(document).on('keyup paste', '#vehicle_registration', function () {
-        if (!this.value || this.value.replace('_', '').length < 4) {
-            return;
-        }
         setTimeout(function () {
+            $(document).on('keyup paste', '#vehicle_registration', function () {
+                if (!this.value || this.value.replace('_', '').length < 4) {
+                    return;
+                }
+
+                removeSubmissionAndDetailsOptions();
+                findVehicle();
+
+            });
+        }, 300);
+
+        $(document).on('click', '#vehicleSearchBtn', function () {
+            if (!document.querySelector('[name="vehicle_registration"]').value) {
+                return;
+            }
             removeSubmissionAndDetailsOptions();
             findVehicle();
-        }, 300);
-    });
+        });
 
-    $(document).on('click', '#vehicleSearchBtn', function () {
-        if (document.querySelector('#vehicle_registration').value) {
-            return;
-        }
-        removeSubmissionAndDetailsOptions();
-        findVehicle();
-    });
 
-    $(document).on('keyup paste enter', '#driver_staff_number' ,function () {
-        if (!this.value || this.value.length < 5) {
-            return;
-        }
         setTimeout(function () {
-            findDriver();
-        }, 300);
-    });
+            $(document).on('keyup paste', '#driver_staff_number', function () {
+                if (!this.value) {
+                    return;
+                }
+                if (this.value.length < 5) {
+                    return;
+                }
 
-    $(document).on('click','#employeeSearchBtn', function () {
-        if (!document.querySelector("#driver_staff_number").value
-            || document.querySelector("#driver_staff_number").value.length < 5) {
-            toastr.warning('Invalid Employee Id Number')
-            return;
-        }
+                findDriver();
+
+            });
+        }, 300);
+
         setTimeout(function () {
-            findDriver();
+            $(document).on('click', '#employeeSearchBtn', function () {
+                if (!document.querySelector("#driver_staff_number").value
+                    || document.querySelector("#driver_staff_number").value.length < 5) {
+                    toastr.warning('Invalid Employee Id Number')
+                    return;
+                }
+
+                findDriver();
+
+            });
         }, 300);
-    });
 
-    /*****************************Event Handlers*****************************************/
 
-    $(document).on('keypress', '.number_input', function (event) {
-        tmsApp.numberOnly(event);
-    })
+        /*****************************Event Handlers*****************************************/
 
-    $(document).on('click', '#submitRequisitionBtn',function () {
-        let $form = document.forms['fuelRequisitionForm'];
-        if (!$($form).valid()) {
-            return;
-        }
+        $(document).on('keypress', '.number_input', function (event) {
+            tmsApp.numberOnly(event);
+        })
 
-        $('.print-error-msg').css('display', 'none');
-        let formData = new FormData($form);
-        tmsApp.confirm(
-            'Fuel Requisition',
-            'Are you sure you want to submit this request ?',
-            'Yes',
-            'No',
-            function () {
-                window.top.tmsApp.asyncPostFormData(
-                    $form.action,
-                    formData,
-                    function (asyncResponse) {
+        $(document).on('click', '#submitRequisitionBtn', function () {
+            let $form = document.forms['fuelRequisitionForm'];
+            if (!$($form).valid()) {
+                return;
+            }
 
-                        if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
-                            setTimeout(function () {
-                                tmsApp.showSystemMessage(
-                                    'Fuel Requisition',
-                                    asyncResponse['message'],
-                                    function () {
-                                        window.location.href = asyncResponse["redirectUrl"]
-                                        //window.location.reload();
-                                    },
-                                    'success'
-                                );
-                            }, 300);
-                        } else {
-                            if (asyncResponse.hasOwnProperty('errors')) {
-                                tmsApp.printErrorMsg(asyncResponse.errors);
-                                return
-                            }
-                            setTimeout(function () {
-                                tmsApp.systemError(
-                                    'Fuel Requisition',
-                                    asyncResponse['message'],
-                                    function () {
-                                    }, 'error');
-                            }, 300);
-                        }
-                    },
-                    function (xhr, settings, errorThrown) {
-                        console.log(errorThrown)
-                        setTimeout(function () {
-                            if ('responseJSON' in xhr) {
-                                if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                    tmsApp.printErrorMsg(xhr.responseJSON.errors);
+            $('.print-error-msg').css('display', 'none');
+            let formData = new FormData($form);
+            tmsApp.confirm(
+                'Fuel Requisition',
+                'Are you sure you want to submit this request ?',
+                'Yes',
+                'No',
+                function () {
+                    window.top.tmsApp.asyncPostFormData(
+                        $form.action,
+                        formData,
+                        function (asyncResponse) {
+
+                            if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
+                                setTimeout(function () {
+                                    tmsApp.showSystemMessage(
+                                        'Fuel Requisition',
+                                        asyncResponse['message'],
+                                        function () {
+                                            window.location.href = asyncResponse["redirectUrl"]
+                                            //window.location.reload();
+                                        },
+                                        'success'
+                                    );
+                                }, 300);
+                            } else {
+                                if (asyncResponse.hasOwnProperty('errors')) {
+                                    tmsApp.printErrorMsg(asyncResponse.errors);
+                                    return
                                 }
-                                if (xhr.responseJSON.hasOwnProperty('message')) {
+                                setTimeout(function () {
                                     tmsApp.systemError(
                                         'Fuel Requisition',
-                                        xhr.responseJSON['message']
-                                    );
-                                }
-                                return;
+                                        asyncResponse['message'],
+                                        function () {
+                                        }, 'error');
+                                }, 300);
                             }
+                        },
+                        function (xhr, settings, errorThrown) {
+                            console.log(errorThrown)
+                            setTimeout(function () {
+                                if ('responseJSON' in xhr) {
+                                    if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                    }
+                                    if (xhr.responseJSON.hasOwnProperty('message')) {
+                                        tmsApp.systemError(
+                                            'Fuel Requisition',
+                                            xhr.responseJSON['message']
+                                        );
+                                    }
+                                    return;
+                                }
 
-                            tmsApp.systemError(
-                                'Fuel Requisition',
-                                'We could not complete processing your request, please try again later');
-                        }, 300)
-                    }
-                )
-            },
-            function () {
+                                tmsApp.systemError(
+                                    'Fuel Requisition',
+                                    'We could not complete processing your request, please try again later');
+                            }, 300)
+                        }
+                    )
+                },
+                function () {
+                }
+            );
+        })
+
+        $(document).on('change', '#repairTypeDropdownList', function () {
+            if (this.value === '001') {
+                document.querySelector("#accidentRecordNo").classList.remove('d-none');
+            } else {
+                document.querySelector("#accidentRecordNo").classList.add('d-none');
             }
-        );
-    })
+        });
 
-    $(document).on('change','#repairTypeDropdownList', function () {
-        if (this.value === '001') {
-            document.querySelector("#accidentRecordNo").classList.remove('d-none');
-        } else {
-            document.querySelector("#accidentRecordNo").classList.add('d-none');
-        }
-    });
-
-    $('#materialDetailsTable').on('change', 'select,input', function (e) {
-        eventHandler(this, e);
-    })
-        .on('keyup', 'select,input,textarea', function (e) {
+        $('#materialDetailsTable').on('change', 'select,input', function (e) {
             eventHandler(this, e);
         })
-        .on('blur', 'input', function (e) {
-            if (this.name === 'quantity') {
-                $(this).val(tmsApp.numberFormat(this.value));
-            }
-        });
-
-    $(document).off('click', 'button[value="addRow"][data-table-id]')
-        .on('click', 'button[value="addRow"][data-table-id]', function () {
-            let tableId = $(this).data('tableId');
-            Table.addRow($('table#' + tableId));
-            if (tableId === "part8") {
-                //initInvoiceDatePicker();
-            }
-        });
-
-    $(document).on('click', 'button[value="deleteRow"]', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        let btnEl = $(this);
-        let tableId = $(this).closest('table').attr('id');
-        let tableRow = btnEl.closest('tr');
-        let table = btnEl.closest('table');
-        tmsApp.confirm(
-            "Are you sure ?",
-            "The data entered on this line will be cleared out, if not saved already, you will not be able to recover it",
-            "Yes",
-            "No",
-            function () {
-                Table.deleteRow(tableRow);
-                e.preventDefault();
-                e.stopPropagation();
-                //scheduleUpdater(tableId, table);
-                // return false;
+            .on('keyup', 'select,input,textarea', function (e) {
+                eventHandler(this, e);
+            })
+            .on('blur', 'input', function (e) {
+                if (this.name === 'quantity') {
+                    $(this).val(tmsApp.numberFormat(this.value));
+                }
             });
 
-        return false;
-    });
+        $(document).off('click', 'button[value="addRow"][data-table-id]')
+            .on('click', 'button[value="addRow"][data-table-id]', function () {
+                let tableId = $(this).data('tableId');
+                Table.addRow($('table#' + tableId));
+                if (tableId === "part8") {
+                    //initInvoiceDatePicker();
+                }
+            });
+
+        $(document).on('click', 'button[value="deleteRow"]', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            let btnEl = $(this);
+            let tableId = $(this).closest('table').attr('id');
+            let tableRow = btnEl.closest('tr');
+            let table = btnEl.closest('table');
+            tmsApp.confirm(
+                "Are you sure ?",
+                "The data entered on this line will be cleared out, if not saved already, you will not be able to recover it",
+                "Yes",
+                "No",
+                function () {
+                    Table.deleteRow(tableRow);
+                    e.preventDefault();
+                    e.stopPropagation();
+                    //scheduleUpdater(tableId, table);
+                    // return false;
+                });
+
+            return false;
+        });
+    }
 
     setTimeout(function () {
         let job_card_number = $('[name="job_card_number"]').val();
@@ -712,9 +730,6 @@
 
     initializeFormWizard();
 
-    Inputmask({
-        "mask": "AAA 9{1,4}"
-    }).mask("#vehicle_registration");
     getWorkshops();
 
     getFuelLevels();

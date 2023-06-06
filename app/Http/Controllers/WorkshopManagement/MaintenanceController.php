@@ -11,7 +11,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCardRequest;
 use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
-use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\WorkShopManagement\WorkshopService;
@@ -66,11 +65,10 @@ class MaintenanceController extends Controller
         list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections) = $this->jobCardCreationData($request);
 
         $view_name = "";
-        if($step == 1){
-            $view_name= 'modules.requisitions.maintenance.create_old';
-        }else{
-            $view_name= 'modules.requisitions.maintenance.create';
-        }
+        /* if($step == 1){
+             $view_name= 'modules.requisitions.maintenance.create_old';
+         }else{*/
+        $view_name = 'modules.requisitions.maintenance.create';
 
         return view($view_name)
             ->with(
@@ -233,7 +231,7 @@ class MaintenanceController extends Controller
         $accessories_checked_in = null;
         $details = null;
 
-        if($reference) {
+        if ($reference) {
             $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)->get();
             $details = $this->workshopService->getJobCardDetails($reference);
         }

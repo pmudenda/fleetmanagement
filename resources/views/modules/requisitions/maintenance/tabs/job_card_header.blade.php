@@ -13,7 +13,7 @@
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <div class="input-group">
-                                        <input type="text"
+                                        <input type="search"
                                                data-action="{{route('requisition.vehicle.details')}}"
                                                class="form-control form-control-sm"
                                                autocapitalize="characters"
