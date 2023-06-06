@@ -1168,7 +1168,7 @@
 
                 console.log(maxDate);
 
-                $("return_date").val(maxDate.toString());
+                //$("return_date").val(maxDate.toString());
                 document.querySelector('[name="return_date"]').setAttribute('max', maxDate);
                 return;
             }
@@ -1224,9 +1224,9 @@
                 $(this).val(value);
             });
 
-            $(['name="justification"']).on("keyup", function () {
-                let value = $(this).val().toUpperCase();
-                $(this).text(value);
+            $('[name="justification"]').on("keyup", function () {
+                let text = $(this).val().toUpperCase();
+                this.value = text;
             });
 
             $("#destinationTown").on("keyup", function () {
