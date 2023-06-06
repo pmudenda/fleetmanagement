@@ -162,10 +162,10 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input readonly type="text"
-                                                                    name="project_code"
+                                                            <select disabled type="text" name="project_code"
                                                                     class="form-select mt-1 project-code-ajax"
-                                                                    id="project_code" />
+                                                                    id="project_code">
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1087,20 +1087,30 @@
                 const $costCentreNameCtrl = document.querySelector('#cost_center_name');
 
                 if (this.value === 'CostCenterBasedRequisition') {
-                    $($projectCodeCtrl).prop('disabled', true);
-                    $($projectCodeCtrl).prop('required', false);
-                    $($costCentreCodeCtrl).prop('required', true);
+                    $projectCodeCtrl.setAttribute('disabled', 'disabled');
+                    $projectCodeCtrl.removeAttribute('required');
+
+                    // make cost center code visible and required
+                    $costCentreCodeCtrl.setAttribute('required', 'required');
                     $costCentreCodeCtrl.style.display = null;
-                    $($costCentreNameCtrl).prop('required', true);
+
+                    $costCentreNameCtrl.setAttribute('required', 'required');
                     $costCentreNameCtrl.style.display = null;
+
                     $('.project_view_item').addClass('d-none');
+
                 } else if (this.value === 'ProjectBasedRequisition') {
-                    $($projectCodeCtrl).prop('disabled', false);
-                    $($projectCodeCtrl).prop('required', true);
-                    $($costCentreCodeCtrl).prop('required', false);
+
+                    $projectCodeCtrl.removeAttribute('disabled');
+                    $projectCodeCtrl.setAttribute('required', 'required');
+
+
+                    $costCentreCodeCtrl.removeAttribute('required');
                     $costCentreCodeCtrl.style.display = 'none';
-                    $($costCentreNameCtrl).prop('required', false);
+
+                    $costCentreNameCtrl.removeAttribute('required');
                     $costCentreNameCtrl.style.display = 'none';
+
                     $('.project_view_item').removeClass('d-none');
                 }
             });
