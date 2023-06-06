@@ -9,12 +9,12 @@
                            class="table table-row-dashed align-middle gs-0">
                         <thead>
                         <tr class="bg-dark">
-                            <th class="pl-2">System</th>
-                            <th>Category</th>
-                            <th class="pr-2">Defect</th>
-                            <th class="pr-2">Service Section</th>
-                            <th class="pr-2">Date/Time Detected</th>
-                            <th class="pr-2">Action</th>
+                            <th style="width: 25%;" class="pl-2">System</th>
+                            <th style="width: 25%;">Category</th>
+                            <th style="width: 25%;" class="pr-2">Defect</th>
+                            <th style="width: 25%;" class="pr-2">Service Section</th>
+                            <th style="width: 25%;" class="pr-2">Date/Time Detected</th>
+                            <th style="width: 25%;" class="pr-2">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -23,31 +23,16 @@
                                 <select name="vehicleSystem"
                                         class="form-select form-select-sm">
                                     <option></option>
-                                    <option value="01">ENGINE</option>
-                                    <option value="02">FUEL SYSTEM</option>
-                                    <option value="03">IGNITION SYSTEM</option>
-                                    <option value="03">ELECTRICAL SYSTEM</option>
-                                    <option value="03">EXHAUST SYSTEM</option>
-                                    <option value="02">DRIVE TRAIN (Drive Transmission And Steering)</option>
-                                    <option value="03">SUSPENSION AND STEERING SYSTEMS</option>
-                                    <option value="03">BRAKING SYSTEM</option>
-                                    <option value="05">FRAME AND BODY (Body and chassis)</option>
                                 </select>
                             </td>
                             <td>
                                 <select name="type" class="form-select form-select-sm">
                                     <option></option>
-                                    <option value="RETAIL">RETAIL</option>
-                                    <option value="COMMERCIAL">COMMERCIAL</option>
-                                    <option value="EXPORT">EXPORT</option>
                                 </select>
                             </td>
                             <td>
                                 <select name="type" class="form-select form-select-sm">
                                     <option></option>
-                                    <option value="RETAIL">RETAIL</option>
-                                    <option value="COMMERCIAL">COMMERCIAL</option>
-                                    <option value="EXPORT">EXPORT</option>
                                 </select>
                             </td>
                             <td>
