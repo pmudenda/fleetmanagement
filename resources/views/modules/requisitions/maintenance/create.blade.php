@@ -620,10 +620,12 @@
             }
 
             function getVehicleDefectCategory(selectedValue) {
+                if(!selectedValue) return;
                 getVehicleSystems('WCT', selectedValue);
             }
 
             function getVehicleDefects(selectedValue) {
+                if(!selectedValue) return;
                 getVehicleSystems('WDF', selectedValue);
             }
 
