@@ -43582,9 +43582,9 @@ code:not([class*=language-]) {
     min-height: inherit;
 }
 
-.table:not(.table-bordered) tr:first-child, .table:not(.table-bordered) th:first-child, .table:not(.table-bordered) td:first-child {
+/*.table:not(.table-bordered) tr:first-child, .table:not(.table-bordered) th:first-child, .table:not(.table-bordered) td:first-child {
     padding-left: 0;
-}
+}*/
 
 .table:not(.table-bordered) tr:last-child, .table:not(.table-bordered) th:last-child, .table:not(.table-bordered) td:last-child {
     padding-right: 0;

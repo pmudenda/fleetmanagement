@@ -11,8 +11,8 @@
 
 @section('content')
 
-    <x-content-header :pageTitle="'System Groups'"
-                      :activeCrumb="'System Groups'"
+    <x-content-header :pageTitle="'System Profile'"
+                      :activeCrumb="'System Profile'"
                       :link="'home'"
                       :linkText="'Home'"/>
 
@@ -45,7 +45,7 @@
                                        class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
                                     <thead>
                                     <tr>
-                                        <th>Group Name</th>
+                                        <th>Profile Name</th>
                                         {{--@canany([config('rights.role_access'), config('rights.role_show')])--}}
                                         <th>Slug</th>
                                         <th>Rights</th>
@@ -106,39 +106,58 @@
                                                 {{Carbon::parse($item->created_at)->format('dd/m/y')}}
                                             </td>
                                             <td>
-                                                Actions
-                                                {{--<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                    <li>
-                                                        <button class="btn btn-sm btn-outline-dark-primary m-1 "
-                                                                data-sent_data="{{$roles}}"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#editModal{{$item->id}}">
-                                                            <i class="fas fa-pencil-alt"> Edit</i>
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <hr class="dropdown-divider">
-                                                    </li>
-                                                    <li>
-                                                        <button class="btn btn-sm btn-danger m-1"
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
+                                                        type="button"
+                                                        id="dropdownMenuButton1"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Actions
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                        {{--@can(config('rights.permission_edit'))--}}
+                                                        <li>
+                                                            <button class="btn btn-sm btn-outline-dark-primary m-1 "
+                                                                    data-sent_data="{{$item}}"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#editModal{{$item->id}}">
+                                                                <i class="fas fa-pencil-alt"> Edit</i>
+                                                            </button>
+                                                        </li>
+                                                        <li>
+                                                            <hr class="dropdown-divider">
+                                                        </li>
+                                                        {{-- @endcan
+                                                         @can(config('rights.permission_destroy'))--}}
+                                                        {{--<li><a href="#"
+                                                           class="dropdown-item"
+                                                           data-sent_data="{{$roles}}"
+                                                           data-bs-toggle="modal"
+                                                           data-bs-target="#deleteModal{{$item->id}}">
+                                                            <i class="fas fa-trash"> Remove</i>
+                                                        </a>--}}
+                                                        {{--<button class="btn btn-sm btn-danger m-1"
                                                                 data-sent_data="{{$roles}}"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#deleteModal{{$item->id}}">
                                                             <i class="fas fa-trash">&nbsp;Remove</i>
-                                                        </button>
-                                                    </li>
-                                                    <li>
-                                                        <hr class="dropdown-divider">
-                                                    </li>
-                                                    <li>
-                                                        <a href="{{route('roles.show', $item->id)}}"
-                                                           class="btn btn-sm btn-outline-success m-1">
-                                                            <i class="fas fa-eye">
-                                                                Details
-                                                            </i>
-                                                        </a>
-                                                    </li>
-                                                </ul>--}}
+                                                        </button></li>--}}
+
+                                                        <li>
+                                                            <hr class="dropdown-divider">
+                                                        </li>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{route('roles.show', $item->id)}}"
+                                                               class="btn btn-sm btn-outline-success m-1">
+                                                                <i class="fas fa-eye">
+                                                                    Details
+                                                                </i>
+                                                            </a>
+                                                        </li>
+                                                        {{-- @endcan--}}
+                                                    </ul>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach

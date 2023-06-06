@@ -48,7 +48,7 @@
                                         <th>Name</th>
                                         <th>Date Created</th>
                                         <th>Action</th>
-                                        @can(config('rights.permission_edit'))@endcan
+                                       {{-- @can(config('rights.permission_edit'))@endcan--}}
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -57,7 +57,7 @@
                                             <td>
                                                 {{$item->description}}
                                             </td>
-                                            @can(config('rights.permission_edit'))@endcan
+                                            {{--@can(config('rights.permission_edit'))@endcan--}}
                                             <td>
                                                 {{$item->name}}
                                             </td>
@@ -78,7 +78,7 @@
                                                             <li>
                                                                 <a href="#"
                                                                    class="dropdown-item"
-                                                                   data-sent_data="{{$permissions}}"
+                                                                   data-sent_data="{{$item}}"
                                                                    data-bs-toggle="modal"
                                                                    data-bs-target="#editModal{{$item->id}}">
                                                                     <i class="fas fa-edit"> Edit</i>
