@@ -148,6 +148,7 @@
                             arr.push(obj);
                         });
 
+                        obj['remarks']= $('#remarks').val();
                     }else{
                         $($container).find('input[name], select[name]').each(function (i, item) {
                             let val = item.value.replace(/,/g, '');
@@ -855,13 +856,11 @@
                         $('[name="defectCategory"]').select2('destroy');
                         $('[name="vehicleSystem"]').select2({});
 
-                        setTimeout(function () {
-                            let tableId = $(this).data('tableId');
-                            Table.addRow($('table#' + tableId));
-                            if (tableId === "part8") {
-                                //initInvoiceDatePicker();
-                            }
-                        }, 300);
+                        let tableId = $(this).data('tableId');
+                        Table.addRow($('table#' + tableId));
+                        if (tableId === "part8") {
+                            //initInvoiceDatePicker();
+                        }
 
                         setTimeout(function () {
                             $('[name="defect"]').select2({
