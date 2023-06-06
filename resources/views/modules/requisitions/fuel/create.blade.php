@@ -1143,22 +1143,24 @@
 
             function determineAppropriateEndDate() {
                 const startDate = document.getElementById("departure_date").value;
-                const date = new Date(startDate);
+                let date = new Date(startDate);
                 // Add 7 Days
-                date.setDate(date.getDate() + 7);
-                let calculatedDate = (date.toLocaleString().split(',')[0]).split('/');
-                let maxDate = new Date(calculatedDate[2]
-                    + '-' + calculatedDate[0] + '-' + calculatedDate[1]);
+                let newDate = date.setDate(date.getDate() + 7);
+                let calculatedDate = (newDate.toLocaleString().split(',')[0]).split('/');
+                let maxDate = calculatedDate[2]
+                    + '-' + calculatedDate[0]
+                    + '-' + calculatedDate[1];
+
                 console.log(maxDate);
 
                 $("return_date").val(maxDate);
-                document.getElementById("return_date").setAttribute('max', maxDate);
+                document.querySelector('[name="return_date"]').setAttribute('max', maxDate);
                 return;
             }
 
             $(document).on('click', '[data-action="open_picker"]', function () {
                 const picker = this.getAttribute('data-target');
-                let el = document.querySelector('[name="'+picker+'"]');
+                let el = document.querySelector('[name="' + picker + '"]');
                 if (!el) return;
                 el.showPicker()
             });
