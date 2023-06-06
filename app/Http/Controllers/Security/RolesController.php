@@ -17,7 +17,8 @@ class RolesController extends Controller
     public function index(): Factory|View|Application
     {
         $roles = Role::all();
-        return view('modules.security.roles.index')->with(compact('roles'));
+        return view('modules.security.roles.index')
+            ->with(compact('roles'));
     }
 
 
@@ -32,21 +33,23 @@ class RolesController extends Controller
         Role::updateOrCreate(
             [
                 'name' => $request->name,
-                'slug' => $request->slug
+                'slug' => $request->slug,
             ],
-        [
-            'name' => $request->name,
-            'slug' => $request->slug
-        ]
+            [
+                'slug' => $request->slug,
+                'description' => $request->name,
+                'guard_name' => 'web'
+            ]
         );
-        return redirect()->route('roles.index')->with('message','Role Successfully defined..');
+        return redirect()->route('roles.index')
+            ->with('message', 'Role Successfully defined..');
     }
 
 
     public function show(Role $role): Factory|View|Application
     {
         $permissions = Permission::all();
-        return view('modules.security.roles.show')->with(compact('role','permissions'));
+        return view('modules.security.roles.show')->with(compact('role', 'permissions'));
     }
 
 
@@ -60,28 +63,28 @@ class RolesController extends Controller
     {
         $role = Role::find($id);
         $role->permissions()->syncWithoutDetaching($request->permission_ids);
-        return redirect()->back()->with('message','Permissions Successfully attached..');
+        return redirect()->back()->with('message', 'Permissions Successfully attached..');
     }
 
     public function detach(Request $request, $id): RedirectResponse
     {
         $role = Role::find($id);
         $role->permissions()->detach($request->permission_id);
-        return redirect()->back()->with('message','Permissions Successfully detached..');
+        return redirect()->back()->with('message', 'Permissions Successfully detached..');
     }
 
     public function update(Request $request, Role $role): RedirectResponse
     {
-        $role->name = $request->name ;
-        $role->slug = $request->slug ;
+        $role->name = $request->name;
+        $role->slug = $request->slug;
         $role->save();
-        return redirect()->back()->with('message', 'Role '.$role->name .' updated Successfully') ;
+        return redirect()->back()->with('message', 'Role ' . $role->name . ' updated Successfully');
     }
 
 
     public function destroy(Role $role): RedirectResponse
     {
         Role::destroy($role->id);
-        return redirect()->back()->with('message', 'Role Deleted Successfully') ;
+        return redirect()->back()->with('message', 'Role Deleted Successfully');
     }
 }

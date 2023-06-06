@@ -1,7 +1,6 @@
 @php use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
-
 @push('styles')
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
@@ -12,7 +11,9 @@
 
 @section('content')
 
-    <x-content-header :pageTitle="'System Access Rights'" :activeCrumb="'System Rights'" :link="'home'"
+    <x-content-header :pageTitle="'System Access Rights'"
+                      :activeCrumb="'System Rights'"
+                      :link="'home'"
                       :linkText="'Home'"/>
 
     <!-- Main content -->
@@ -26,15 +27,16 @@
                     <!-- TABLE: LATEST ORDERS -->
                     <div class="card">
                         <div class="card-header">
-                            @can(config('rights.permission_create'))
-
-                                <a href="{{route('permissions.create')}}"
-                                   title="Create New System Permission"
-                                   class="btn btn-sm btn-success pull-right">
-                                    <i class="fas fa-user-plus"></i>
-                                    Add Access Right
-                                </a>
-                            @endcan
+                            <div class="card-tools">
+                                @can(config('rights.permission_create'))
+                                    <a href="{{route('permissions.create')}}"
+                                       title="Create New System Permission"
+                                       class="btn btn-sm btn-success pull-right">
+                                        <i class="fas fa-user-plus"></i>
+                                        Add Access Right
+                                    </a>
+                                @endcan
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

@@ -72,7 +72,7 @@
             transitionEffect: "slideLeft",
             autoFocus: true,
             saveState: true,
-            startIndex: 2, //stepId - 1,
+            startIndex: 0, //stepId - 1,
             labels: {
                 finish: 'Submit'
             },
@@ -674,7 +674,7 @@
             }
         }
 
-        if (selectedAccessories) {
+        if (window['selectedAccessories']) {
             setSelectedAccessories();
         }
 

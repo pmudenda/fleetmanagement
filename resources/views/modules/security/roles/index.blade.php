@@ -1,18 +1,21 @@
 @php use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
-
 @push('styles')
     <!-- DataTables -->
-    <link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-    <link rel="stylesheet"
-          href="{{ asset('dashboard/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endpush
 
 
 @section('content')
-    <x-content-header :pageTitle="'System Groups'" :activeCrumb="'System Groups'" :link="'home'" :linkText="'Home'"/>
+
+    <x-content-header :pageTitle="'System Groups'"
+                      :activeCrumb="'System Groups'"
+                      :link="'home'"
+                      :linkText="'Home'"/>
+
     <!-- Main content -->
     <section class="content">
         <x-error-view/>
@@ -30,24 +33,25 @@
                                             data-bs-toggle="modal" title="Create Group"
                                             data-bs-target="#create-Device">
                                         <i class="fas fa-user-shield "></i>
-                                        Create Group
+                                        Create Profile
                                     </button>
                                 @endcan
                             </div>
                         </div>
-                        <div class="card-body p-2">
+                        <div class="card-body">
 
-                            <div class="table-responsive mt-10 ">
-                                <table id="groupsTable" class="table table-hover ">
+                            <div class="table-responsive">
+                                <table id="groupsTable"
+                                       class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
                                     <thead>
                                     <tr>
                                         <th>Group Name</th>
-                                        @canany([config('rights.role_access'), config('rights.role_show')])
-                                            <th>Slug</th>
-                                            <th>Rights</th>
-                                            <th>Date Created</th>
-                                            <th>Action</th>
-                                        @endcanany
+                                        {{--@canany([config('rights.role_access'), config('rights.role_show')])--}}
+                                        <th>Slug</th>
+                                        <th>Rights</th>
+                                        <th>Date Created</th>
+                                        <th>Action</th>
+                                        {{--@endcanany--}}
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -56,93 +60,86 @@
                                             <td>
                                                 {{$item->description}}
                                             </td>
-                                            @canany([config('rights.role_access'), config('rights.role_show')])
-                                                <td>
-                                                    {{$item->name}}
-                                                </td>
-                                                <td>
-                                                    {{$item->permissions->count() }}
+                                            {{-- @canany([config('rights.role_access'), config('rights.role_show')])--}}
+                                            <td>
+                                                {{$item->name}}
+                                            </td>
+                                            <td>
+                                                {{$item->permissions->count() }}
 
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                {{-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 
-                                                        <li>
-                                                            <button class="btn btn-sm btn-outline-dark-primary m-1 "
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#editModal{{$item->id}}">
-                                                                <i class="fas fa-pencil-alt"> Edit</i>
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <hr class="dropdown-divider">
-                                                        </li>
+                                                     <li>
+                                                         <button class="btn btn-sm btn-outline-dark-primary m-1 "
+                                                                 data-bs-toggle="modal"
+                                                                 data-bs-target="#editModal{{$item->id}}">
+                                                             <i class="fas fa-pencil-alt"> Edit</i>
+                                                         </button>
+                                                     </li>
+                                                     <li>
+                                                         <hr class="dropdown-divider">
+                                                     </li>
 
-                                                        <li>
-                                                            <button class="btn btn-sm btn-danger m-1"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#deleteModal{{$item->id}}">
-                                                                <i class="fas fa-trash">&nbsp;Remove</i>
-                                                            </button>
-                                                        </li>
+                                                     <li>
+                                                         <button class="btn btn-sm btn-danger m-1"
+                                                                 data-bs-toggle="modal"
+                                                                 data-bs-target="#deleteModal{{$item->id}}">
+                                                             <i class="fas fa-trash">&nbsp;Remove</i>
+                                                         </button>
+                                                     </li>
 
-                                                        <li>
-                                                            <hr class="dropdown-divider">
-                                                        </li>
-                                                        <li>
-                                                            <a href="{{route('roles.show', $item->id)}}"
-                                                               class="btn btn-sm btn-outline-success m-1">
-                                                                <i class="fas fa-eye">
-                                                                    Details
-                                                                </i>
-                                                            </a>
-                                                        </li>
+                                                     <li>
+                                                         <hr class="dropdown-divider">
+                                                     </li>
+                                                     <li>
+                                                         <a href="{{route('roles.show', $item->id)}}"
+                                                            class="btn btn-sm btn-outline-success m-1">
+                                                             <i class="fas fa-eye">
+                                                                 Details
+                                                             </i>
+                                                         </a>
+                                                     </li>
 
-                                                    </ul>
-                                                </td>
-                                                <td>
-                                                    {{Carbon::parse($item->created_at)->format('dd/m/y')}}
-                                                </td>
-                                                <td>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        @can(config('rights.role_edit'))
-                                                            <li>
-                                                                <button class="btn btn-sm btn-outline-dark-primary m-1 "
-                                                                        data-sent_data="{{$roles}}"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#editModal{{$item->id}}">
-                                                                    <i class="fas fa-pencil-alt"> Edit</i>
-                                                                </button>
-                                                            </li>
-                                                            <li>
-                                                                <hr class="dropdown-divider">
-                                                            </li>
-                                                        @endcan
-                                                        @can(config('rights.role_destroy'))
-                                                            <li>
-                                                                <button class="btn btn-sm btn-danger m-1"
-                                                                        data-sent_data="{{$roles}}"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#deleteModal{{$item->id}}">
-                                                                    <i class="fas fa-trash">&nbsp;Remove</i>
-                                                                </button>
-                                                            </li>
-                                                        @endcan
-
-                                                        @can(config('rights.role_show'))
-                                                            <li>
-                                                                <hr class="dropdown-divider">
-                                                            </li>
-                                                            <li>
-                                                                <a href="{{route('roles.show', $item->id)}}"
-                                                                   class="btn btn-sm btn-outline-success m-1">
-                                                                    <i class="fas fa-eye">
-                                                                        Details
-                                                                    </i>
-                                                                </a>
-                                                            </li>
-                                                        @endcan
-                                                    </ul>
-                                                </td>
-                                            @endcanany
+                                                 </ul>--}}
+                                            </td>
+                                            <td>
+                                                {{Carbon::parse($item->created_at)->format('dd/m/y')}}
+                                            </td>
+                                            <td>
+                                                Actions
+                                                {{--<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                    <li>
+                                                        <button class="btn btn-sm btn-outline-dark-primary m-1 "
+                                                                data-sent_data="{{$roles}}"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#editModal{{$item->id}}">
+                                                            <i class="fas fa-pencil-alt"> Edit</i>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li>
+                                                        <button class="btn btn-sm btn-danger m-1"
+                                                                data-sent_data="{{$roles}}"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#deleteModal{{$item->id}}">
+                                                            <i class="fas fa-trash">&nbsp;Remove</i>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{route('roles.show', $item->id)}}"
+                                                           class="btn btn-sm btn-outline-success m-1">
+                                                            <i class="fas fa-eye">
+                                                                Details
+                                                            </i>
+                                                        </a>
+                                                    </li>
+                                                </ul>--}}
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -303,6 +300,6 @@
     <script>
         (function (appInstance) {
             appInstance.initDatatable("#groupsTable", true);
-        })(window.tmsApp ||{});
+        })(window.tmsApp || {});
     </script>
 @endpush
