@@ -133,23 +133,15 @@
 
                                     obj[item.name] = dateField;
                                 } else {
-                                    if(item.name ==='unitPrice'){
-                                        obj[item.name] = Util.getFloat("0.00")
-                                    }
-
-                                    if ($.isNumeric(parseFloat(val))) {
-                                        obj[item.name] = Util.getFloat(item.value)
-                                    } else {
-                                        obj[item.name] = item.value;
-                                    }
+                                    obj[item.name] = item.value;
                                 }
                             });
 
                             arr.push(obj);
                         });
 
-                        obj['remarks']= $('#remarks').val();
-                    }else{
+                        obj['remarks'] = $('#remarks').val();
+                    } else {
                         $($container).find('input[name], select[name]').each(function (i, item) {
                             let val = item.value.replace(/,/g, '');
 
@@ -854,7 +846,7 @@
 
                         $('[name="defect"]').select2('destroy');
                         $('[name="defectCategory"]').select2('destroy');
-                        $('[name="vehicleSystem"]').select2({});
+                        $('[name="vehicleSystem"]').select2('destroy');
 
                         let tableId = $(this).data('tableId');
                         Table.addRow($('table#' + tableId));
@@ -878,8 +870,6 @@
                                 width: "resolve",
                             });
                         }, 600);
-
-
                     });
 
                 $(document).on('click', 'button[value="deleteRow"]', function (e) {
