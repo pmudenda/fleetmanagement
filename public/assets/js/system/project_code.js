@@ -3,13 +3,15 @@ $(document).ready(function () {
 
 });
 
-function initProjectSelector(selector){
+function initProjectSelector(selector) {
 
     $(selector).select2({
         selectOnClose: true,
         multiple: false,
         quietMillis: 100,
-        id: function(project){ return project.code_project; },
+        id: function (project) {
+            return project.code_project;
+        },
         theme: 'bootstrap4',
         ajax: {
             delay: 250,
@@ -46,9 +48,6 @@ function initProjectSelector(selector){
 }
 
 
-
-
-
 function formatRepo(project) {
     if (project.loading)
         return project.text;
@@ -81,11 +80,14 @@ function formatRepoSelection(project) {
 }
 
 function formatResults(items) {
+
     return $.map(items, function (obj) {
-        obj.id = obj.id || obj.project_code; // replace pk with your identifier
-        obj.text = obj.text || obj.description;
-        return obj;
+        return {
+            "id": obj['code_project'],
+            "text": obj.description
+        };
     });
+
 }
 
 $('[name="project_code"]').on('change', function () {
