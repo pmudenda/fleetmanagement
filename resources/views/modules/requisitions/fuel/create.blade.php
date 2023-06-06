@@ -592,6 +592,7 @@
 @endsection
 @push('scripts')
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
+    <script src="{{asset('assets/js/system/project_code.js')}}"></script>
     <script>
         (function (tmsApp, $) {
             let hasOpenRequisition = false;
@@ -1111,6 +1112,8 @@
                     $costCentreNameCtrl.removeAttribute('required');
                     $costCentreNameCtrl.style.display = 'none';
 
+                    initProjectSelector('.project-code-ajax');
+
                     $('.project_view_item').removeClass('d-none');
                 }
             });
@@ -1151,7 +1154,7 @@
 
             });
 
-            function reformatDate(date, format ="ISO") {
+            function reformatDate(date, format = "ISO") {
 
                 let data = '';
                 if (format === 'ISO') {
@@ -1256,5 +1259,5 @@
             });
         })(window.tmsApp || {}, jQuery)
     </script>
-    <script src="{{asset('assets/js/system/project_code.js').'?v='.Carbon::now()->format('his')}}"></script>
+
 @endpush

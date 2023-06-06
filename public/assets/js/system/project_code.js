@@ -1,6 +1,11 @@
 'use strict';
 $(document).ready(function () {
-    $('.project-code-ajax').select2({
+
+});
+
+function initProjectSelector(selector){
+
+    $(selector).select2({
         selectOnClose: true,
         multiple: false,
         quietMillis: 100,
@@ -38,46 +43,50 @@ $(document).ready(function () {
         //formatRepo,
         templateSelection: formatRepoSelection
     });
+}
 
-    function formatRepo(project) {
-        if (project.loading)
-            return project.text;
-        return $('<option value="' + project['code_project'] + '">' + project['description'] + '</option>');
-        /*if (project.loading) {
-            return project.text;
-        }
 
-        let $container = $(
-            `<div class='select2-result-repository clearfix'>
-                         <div class='select2-result-repository__meta'>
-                            <div class='select2-result-repository__title'></div>
-                            <div class='select2-result-repository__description'></div>
-                        </div>
-                    </div>`
-        );
 
-        $container.find(".select2-result-repository__title").text(project.code_project);
-        $container.find(".select2-result-repository__description").text(project.description);
 
-        return $container;*/
+
+function formatRepo(project) {
+    if (project.loading)
+        return project.text;
+    return $('<option value="' + project['code_project'] + '">' + project['description'] + '</option>');
+    /*if (project.loading) {
+        return project.text;
     }
 
-    function formatRepoSelection(project) {
-        if (!project['code_project']) {
-            return project['description'];
-        }
-        $('[name="projectCode"]').val(project['code_project']);
-        return project.project_code + ":" + project.description;
-    }
+    let $container = $(
+        `<div class='select2-result-repository clearfix'>
+                     <div class='select2-result-repository__meta'>
+                        <div class='select2-result-repository__title'></div>
+                        <div class='select2-result-repository__description'></div>
+                    </div>
+                </div>`
+    );
 
-    function formatResults(items) {
-        return $.map(items, function (obj) {
-            obj.id = obj.id || obj.project_code; // replace pk with your identifier
-            obj.text = obj.text || obj.description;
-            return obj;
-        });
+    $container.find(".select2-result-repository__title").text(project.code_project);
+    $container.find(".select2-result-repository__description").text(project.description);
+
+    return $container;*/
+}
+
+function formatRepoSelection(project) {
+    if (!project['code_project']) {
+        return project['description'];
     }
-});
+    $('[name="projectCode"]').val(project['code_project']);
+    return project.project_code + ":" + project.description;
+}
+
+function formatResults(items) {
+    return $.map(items, function (obj) {
+        obj.id = obj.id || obj.project_code; // replace pk with your identifier
+        obj.text = obj.text || obj.description;
+        return obj;
+    });
+}
 
 $('[name="project_code"]').on('change', function () {
     $('.project-code-ajax').select2('close');
