@@ -43,7 +43,7 @@ Route::post('find/vehicle', function (Request $request) {
     }
 })->name('cleanup.vehicle.find');
 
-Route::post('load/data', function (Request $request) {
+Route::get('load/data', function (Request $request) {
     try {
         $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))->get();
         return response()->json([
@@ -58,6 +58,6 @@ Route::post('load/data', function (Request $request) {
             'message' => ErrorMessages::getMessage('')
         ]);
     }
-})->name('cleanup.vehicle.find');
+})->name('loadData');
 
 

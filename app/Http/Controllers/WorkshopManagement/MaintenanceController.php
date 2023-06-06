@@ -65,7 +65,14 @@ class MaintenanceController extends Controller
 
         list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections) = $this->jobCardCreationData($request);
 
-        return view('modules.requisitions.maintenance.create')
+        $view_name = "";
+        if($step == 1){
+            $view_name= 'modules.requisitions.maintenance.create_old';
+        }else{
+            $view_name= 'modules.requisitions.maintenance.create';
+        }
+
+        return view($view_name)
             ->with(
                 compact(
                     'repairTypes',

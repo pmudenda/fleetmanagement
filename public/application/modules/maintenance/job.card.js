@@ -243,6 +243,35 @@
             });
     }
 
+    function getVehicleSystems() {
+        fetch(document.querySelector('#loadDataUrl').value)
+            .then(response => response.json())
+            .then(response => {
+                let selectElem = $('select[name="fuel_level"]');
+                // Populate results
+                if (response.state === 'failure') {
+                    //show errors
+                    toastr.error('Connection error, no data found')
+                    return;
+                }
+
+                let fuelLevels = response['payload'];
+                tmsApp.populateDropDownList(selectElem, fuelLevels, "code", ["name"], "");
+
+                let location = selectElem.attr('data-value');
+                console.log(location);
+                if (location) {
+                    selectElem.val(location);
+                    selectElem.trigger('change');
+                }
+            })
+            .catch(function (error) {
+                // notify of error
+                toastr.error(
+                    'Connection error. Could not retrieve data, some feature might not work.')
+            });
+    }
+
     function removeSubmissionAndDetailsOptions() {
         let elements = document.querySelectorAll('.when_valid');
         elements.forEach(function (element) {
@@ -492,8 +521,10 @@
         }
     }
 
-    $('#vehicle_registration').on('keyup paste enter', function () {
-        if (!this.value || this.value.replace('_', '').length < 8) {
+
+
+    $(document).on('keyup paste', '#vehicle_registration', function () {
+        if (!this.value || this.value.replace('_', '').length < 4) {
             return;
         }
         setTimeout(function () {
@@ -502,16 +533,15 @@
         }, 300);
     });
 
-    $('#vehicleSearchBtn').on('click', function () {
-        if (document.querySelector('#vehicle_registration').value
-            && document.querySelector('#vehicle_registration') < 8) {
+    $(document).on('click', '#vehicleSearchBtn', function () {
+        if (document.querySelector('#vehicle_registration').value) {
             return;
         }
         removeSubmissionAndDetailsOptions();
         findVehicle();
     });
 
-    $('#driver_staff_number').on('keyup paste enter', function () {
+    $(document).on('keyup paste enter', '#driver_staff_number' ,function () {
         if (!this.value || this.value.length < 5) {
             return;
         }
@@ -520,7 +550,7 @@
         }, 300);
     });
 
-    $('#employeeSearchBtn').on('click', function () {
+    $(document).on('click','#employeeSearchBtn', function () {
         if (!document.querySelector("#driver_staff_number").value
             || document.querySelector("#driver_staff_number").value.length < 5) {
             toastr.warning('Invalid Employee Id Number')
@@ -537,7 +567,7 @@
         tmsApp.numberOnly(event);
     })
 
-    $('#submitRequisitionBtn').on('click', function () {
+    $(document).on('click', '#submitRequisitionBtn',function () {
         let $form = document.forms['fuelRequisitionForm'];
         if (!$($form).valid()) {
             return;
@@ -610,7 +640,7 @@
         );
     })
 
-    $('#repairTypeDropdownList').on('change', function () {
+    $(document).on('change','#repairTypeDropdownList', function () {
         if (this.value === '001') {
             document.querySelector("#accidentRecordNo").classList.remove('d-none');
         } else {
@@ -683,12 +713,14 @@
     initializeFormWizard();
 
     Inputmask({
-        "mask": "AAA 9999"
+        "mask": "AAA 9{1,4}"
     }).mask("#vehicle_registration");
-
     getWorkshops();
 
     getFuelLevels();
+
+    getVehicleSystems();
+
 })(window.tmsApp || {}, jQuery)
 
 /*

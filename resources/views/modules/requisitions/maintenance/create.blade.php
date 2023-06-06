@@ -72,6 +72,7 @@
                 <input type="hidden" value="{{route('search.project')}}" id="projects_url"/>
                 <input type="hidden" value="{{route('all.workshop.list')}}" id="workshopsUrl"/>
                 <input type="hidden" value="{{route('fuels.levels')}}" id="fuelLevelsUrl"/>
+                <input type="hidden" value="{{route('loadData')}}" id="fuelLevelsUrl"/>
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
             </div>
         </div>

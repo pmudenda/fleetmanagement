@@ -71,6 +71,8 @@
                 <input type="hidden" value="{{route('all.workshop.list')}}" id="workshopsUrl">
                 <input type="hidden" value="{{route('fuels.levels')}}" id="fuelLevelsUrl">
                 <input type="hidden" value="{{RepairTypes::AccidentRepair}}" id="accidentRepairType">
+                <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
+                <input type="hidden" value="{{route('loadData')}}" id="loadDataUrl"/>
             </div>
         </div>
     </section>
