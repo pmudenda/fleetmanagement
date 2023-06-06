@@ -4,6 +4,7 @@ $(document).ready(function () {
         selectOnClose: true,
         multiple: false,
         quietMillis: 100,
+        id: function(project){ return project.code_project; },
         theme: 'bootstrap4',
         ajax: {
             delay: 250,
