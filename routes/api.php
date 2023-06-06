@@ -47,7 +47,7 @@ Route::get('load/data', function (Request $request) {
     try {
         $query = WorkShopTable::query()->where('type_code', $request->get('key'));
 
-        if($request->has('filter')){
+        if($request->has('filter') && !empty($request->get('filter'))){
             $query->where('parent', $request->get('filter'));
         }
 
