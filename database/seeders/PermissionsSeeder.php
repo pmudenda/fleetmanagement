@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Permission\Models\Permission;
 
 class PermissionsSeeder extends Seeder
@@ -16,6 +17,8 @@ class PermissionsSeeder extends Seeder
     {
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        Cache::flush('spatie.permission.cache');
+        Cache::flush('spatie.role.cache');
 
         // Vehicle Management
         //Permission::create(['description' => 'Allow User to On-Board Vehicle', 'name' => 'on_board_vehicle', 'slug' => 'on_board_vehicle']);
