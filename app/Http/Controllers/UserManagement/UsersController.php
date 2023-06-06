@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\UserManagement;
 
+use _HumbugBoxbdf58a3ca165\Symfony\Component\Config\Definition\Exception\Exception;
 use App\Constants\ErrorMessages;
 use App\Exceptions\UserOnBoardingException;
 use App\Helpers\StatusHelper;
@@ -77,7 +78,12 @@ class UsersController extends Controller
             DB::beginTransaction();
             if ($validateWithHCMS) {
                 try {
-                    $employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_number)->first();
+                    $employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_number)
+                        ->where('con_st_code','=', 'ACT')
+                        ->first();
+                    if(empty($employee_phcms)){
+                        throw new Exception("User Not Found");
+                    }
                 } catch (\Exception $ex) {
                     Log::error($ex);
                     throw new UserOnBoardingException(
@@ -285,6 +291,7 @@ class UsersController extends Controller
             $dataset = PHCMSEmployee::select('*')
                 ->where('con_per_no', $searchParam)
                 ->orWhere('name', 'LIKE', "%{$searchParam}%")
+                ->where('con_st_code','=', 'ACT')
                 ->first();
 
             if (empty($dataset)) {
