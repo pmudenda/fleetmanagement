@@ -1151,9 +1151,10 @@
                 let calculatedDate = (date.toLocaleString().split(',')[0]).split('/');
                 let maxDate = new Date(calculatedDate[2]
                     + '-' + calculatedDate[0] + '-' + calculatedDate[1]);
-                $("return_date").val(maxDate);
-                $("return_date").attr('max', maxDate);
+                console.log(maxDate);
 
+                $("return_date").val(date.toLocaleString());
+                document.getElementById("return_date").setAttribute('max', date.toLocaleString());
                 return;
             }
 
