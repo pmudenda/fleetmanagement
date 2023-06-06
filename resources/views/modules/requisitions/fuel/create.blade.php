@@ -304,7 +304,8 @@
                                                                        autocomplete="off"
                                                                        class="form-control form-control-sm date_input datetimepicker-opened"
                                                                        data-target="#dateOpened"/>
-                                                                <div class="input-group-append" data-target="#dateOpened"
+                                                                <div class="input-group-append"
+                                                                     data-target="#dateOpened"
                                                                      data-action="dateOpenedPicker">
                                                                     <div type="button"
                                                                          data-target="departure_date"
@@ -373,7 +374,7 @@
                                                             for="mobile_no">Departure Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input id="departureTown" name="departureTown"
-                                                                    class="form-control"/>
+                                                                   class="form-control"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -388,7 +389,7 @@
                                                             for="request_date">Destination Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input id="destinationTown" name="destinationTown"
-                                                                    class="form-control" />
+                                                                   class="form-control"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1064,12 +1065,12 @@
                     document.querySelector('[name="material_quantity"]').removeAttribute('max');
 
                     document.querySelector('[name="next_fuel_date"]').removeAttribute('required');
-                    document.querySelector('[name="next_fuel_date"]').style.display ='none';
+                    document.querySelector('[name="next_fuel_date"]').style.display = 'none';
 
                 } else {
                     $(".outOfTown").addClass('d-none');
                     document.querySelector('[name="next_fuel_date"]').setAttribute('required', 'required');
-                    document.querySelector('[name="next_fuel_date"]').style.display ='none';
+                    document.querySelector('[name="next_fuel_date"]').style.display = 'none';
                     document.querySelector('#departureTown').removeAttribute('required');
                     document.querySelector('#destinationTown').removeAttribute('required');
                     document.querySelector('#return_date').removeAttribute('required');
@@ -1157,12 +1158,11 @@
             }
 
             $(document).on('click', '[data-action="open_picker"]', function () {
-                //$(".datetimepicker-opened").datepicker("show");
-                document.querySelector("#departure_date").showPicker();
+                const picker = this.attr('data-target')
+                document.querySelector("#" + picker).showPicker();
             });
 
             $(document).on('focus', '.date_input', function () {
-                //$(".datetimepicker-opened").datepicker("show");
                 this.showPicker();
             });
 
