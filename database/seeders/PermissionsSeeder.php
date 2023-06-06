@@ -21,10 +21,10 @@ class PermissionsSeeder extends Seeder
         Cache::flush('spatie.role.cache');
 
         // Vehicle Management
-        //Permission::firstOrCreate(['description' => 'Allow User to On-Board Vehicle', 'name' => 'on_board_vehicle', 'slug' => 'on_board_vehicle']);
+        Permission::firstOrCreate(['description' => 'Allow User to On-Board Vehicle', 'name' => 'on_board_vehicle', 'slug' => 'on_board_vehicle']);
         Permission::firstOrCreate(['description' => 'Allow User to View Vehicle Details', 'name' => 'view_vehicle_details', 'slug' => 'view_vehicle_details']);
         Permission::firstOrCreate(['description' => 'Allow User to View Vehicle Documents', 'name' => 'view_vehicle_docs', 'slug' => 'view_vehicle_docs']);
-        Permission::firstOrCreate(['description' => 'Allow User to View Vehicle Details', 'name' => 'view_vehicle_details', 'slug' => 'view_vehicle_details']);
+        Permission::firstOrCreate(['description' => 'Allow User to View Vehicle Details', 'name' => 'edit_vehicle_details', 'slug' => 'edit_vehicle_details']);
         Permission::firstOrCreate(['description' => 'Add Vehicle Accessories', 'name' => 'create_veh_accessories', 'slug' => 'create_veh_accessories']);
 
 

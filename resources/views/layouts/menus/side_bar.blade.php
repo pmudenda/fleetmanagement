@@ -39,7 +39,12 @@
                 data-accordion="false">
 
                 @php
-                    $vehicleManagementPermissions = [];
+                    $vehicleManagementPermissions = [
+                        config('rights.view_vehicle_details'),
+                        config('rights.view_vehicle_docs'),
+                        config('rights.on_board_vehicle'),
+                        config('rights.edit_vehicle_details'),
+                        ];
                 @endphp
                 @canany($vehicleManagementPermissions)
                     <li class="nav-item">
@@ -103,7 +108,11 @@
                 @endcanany
 
                 @php
-                    $workshopPermissions = [];
+                    $workshopPermissions = [
+                        config('rights.create_job_card'),
+                        config('rights.view_job_card'),
+                        config('rights.approve_fuel_requisition')
+                    ];
                 @endphp
                 @canany($workshopPermissions)
                     <li class="nav-item">
