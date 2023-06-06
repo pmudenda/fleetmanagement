@@ -689,12 +689,12 @@
 
             function initEventHandlers() {
 
-                $('select[name="vehicleSystem"]').on('change', function () {
+                $(document).on('change', 'select[name="vehicleSystem"]', function () {
                     if (!this.value) return;
                     getVehicleDefectCategory(this.value);
                 });
 
-                $('select[name="defectCategory"]').on('change', function () {
+                $(document).on('change', 'select[name="defectCategory"]', function () {
                     if (!this.value) return;
                     getVehicleDefects(this.value);
                 })
