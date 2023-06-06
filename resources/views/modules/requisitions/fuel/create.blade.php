@@ -1158,9 +1158,9 @@
 
             $(document).on('click', '[data-action="open_picker"]', function () {
                 const picker = this.getAttribute('data-target');
-                let el = document.querySelector("#" + picker)
+                let el = document.querySelector('[name="'+picker+'"]');
                 if (!el) return;
-                el.showPicker();
+                el.showPicker()
             });
 
             $(document).on('paste keydown', '.date_input', function () {
