@@ -632,10 +632,12 @@
             function initEventHandlers() {
 
                 $('select[name="vehicleSystem"]').on('change', function () {
+                    if(!this.value) return;
                     getVehicleDefectCategory(this.value);
                 });
 
                 $('select[name="defectCategory"]').on('change', function () {
+                    if(!this.value) return;
                     getVehicleDefects(this.value);
                 })
 
