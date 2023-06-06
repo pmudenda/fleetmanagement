@@ -75,16 +75,10 @@ Route::get('load/defectsCategory', function (Request $request) {
     try {
         Log::info('Request filter ' . $request->get('filter'));
         $workShopTableData = [];
-        //$query = WorkShopTable::query();
 
-        if (!empty($request->get('filter'))) {
-            WorkShopTable::where('type_code', $request->get('key'))
-                ->where('parent', $request->get('filter'))->get();
-        } else {
-            $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))->get();
-        }
+        WorkShopTable::where('type_code', $request->get('key'))
+            ->where('parent', $request->get('filter'))->get();
 
-        //$workShopTableData = $query->get();
         return response()->json([
             'success' => !empty($workShopTableData),
             'payload' => $workShopTableData
@@ -104,16 +98,10 @@ Route::get('load/defects', function (Request $request) {
     try {
         Log::info('Request filter ' . $request->get('filter'));
         $workShopTableData = [];
-        //$query = WorkShopTable::query();
 
-        if (!empty($request->get('filter'))) {
-            WorkShopTable::where('type_code', $request->get('key'))
-                ->where('parent', $request->get('filter'))->get();
-        } else {
-            $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))->get();
-        }
+        WorkShopTable::where('type_code', $request->get('key'))
+            ->where('parent', $request->get('filter'))->get();
 
-        //$workShopTableData = $query->get();
         return response()->json([
             'success' => !empty($workShopTableData),
             'payload' => $workShopTableData
