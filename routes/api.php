@@ -138,8 +138,7 @@ Route::get('load/workshop/section', function (Request $request) {
     }
 })->name('load.workshop.section');
 
-
-Route::get('vehicle/vehicle/vehicle', function (Request $request) {
+Route::get('vehicle/licence/classes', function (Request $request) {
     try {
 
         $licenseCategory = GeneralTableConfigurations::where('type', ConfigurationTypes::LICENSE_CLASS)->get();
@@ -157,6 +156,6 @@ Route::get('vehicle/vehicle/vehicle', function (Request $request) {
             'message' => ErrorMessages::getMessage('')
         ]);
     }
-})->name('vehicle.vehicle.vehicle');
+})->name('vehicle.licence.classes');
 
 
