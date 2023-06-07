@@ -223,7 +223,7 @@ class GeneralTablesController extends Controller
 
             $output = [
                 'success' => false,
-                'message' => "Your submission had an error",
+                'message' => "We could not complete processing your request to an error",
             ];
 
             return response()->json($output);
@@ -249,7 +249,7 @@ class GeneralTablesController extends Controller
             $entry->save();
             return response()->json([
                 'success' => true,
-                'message' => "Record Submitted Successfully",
+                'message' => "Record Removed Successfully",
             ]);
 
         } catch (\Throwable|Exception $exception) {
@@ -257,7 +257,7 @@ class GeneralTablesController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => "Your submission had an error",
+                'message' => "We could not complete processing your request to an error",
             ]);
         }
     }
