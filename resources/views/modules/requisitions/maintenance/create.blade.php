@@ -106,7 +106,7 @@
             window.goToNext = false;
             let bodyTag = "fieldset";
 
-            $(document).ready(function (){
+            $(document).ready(function () {
                 setTimeout(function () {
                     let job_card_number = $('[name="job_card_number"]').val();
                     if (job_card_number) {
@@ -122,10 +122,8 @@
                         setSelectedAccessories();
                     }
 
-                    if(window['defects']){
-                        $('table#part8').find('tbody').children().map(function(index , row){
-                            $(row).find('select[name="vehicleSystem"]').trigger('change');
-                        });
+                    if (window['defects']) {
+                        dataFiler();
                     }
 
                     findDriver();
@@ -437,7 +435,7 @@
                         tmsApp.populateDropDownList(selectElem, fuelLevels, "code", ["description"], "");
 
                         let location = selectElem.attr('data-value');
-                        console.log(location);
+                        console.log(selectElem.name);
                         if (location) {
                             selectElem.val(location);
                             selectElem.trigger('change');
@@ -551,7 +549,7 @@
 
             function findVehicle() {
                 const numberPlate = document.querySelector('#vehicle_registration').value;
-                if(!numberPlate){
+                if (!numberPlate) {
                     return;
                 }
 
@@ -586,7 +584,7 @@
 
             function findDriver() {
                 const staff_number = document.querySelector('#driver_staff_number').value;
-                if(!staff_number){
+                if (!staff_number) {
                     return;
                 }
 
@@ -614,8 +612,6 @@
                         return response.json();
                     })
                     .then(response => {
-                        //c
-                        console.log(response);
 
                         if (!response.success || response.payload.length == 0) {
                             tmsApp.systemError('Driver Verification', response['message']);
@@ -865,10 +861,10 @@
                 }).on('keyup', 'select,input,textarea', function (e) {
                     eventHandler(this, e);
                 }).on('blur', 'input', function (e) {
-                        if (this.name === 'quantity') {
-                            $(this).val(tmsApp.numberFormat(this.value));
-                        }
-                    });
+                    if (this.name === 'quantity') {
+                        $(this).val(tmsApp.numberFormat(this.value));
+                    }
+                });
 
                 $(document).off('click', 'button[value="addRow"][data-table-id]')
                     .on('click', 'button[value="addRow"][data-table-id]', function () {
@@ -935,6 +931,85 @@
             loadData('VEH_SYS', document.querySelector('#systemsUrl').value + '?key=VEH_SYS', $('select[name="vehicleSystem"]'));
 
             initEventHandlers();
+
+            function dataFiler() {
+
+                $('table#part8').find('tbody').children().map(function (index, row) {
+                    $(row).find('select[name="vehicleSystem"]').trigger('change');
+                });
+
+                /*for (let modelName in window['defects']) {
+
+                    let tableOrContainer = document.find('[data-model-name="Defects"]');
+
+                    let tableRow = null;
+                    tableRow = Table.clearRows(tableOrContainer);
+                    if (!tableRow.get(0)) {
+                        tableRow = tableOrContainer;
+                    }
+
+
+                    if (modelName && !!tableRow) {
+                        let arrayOfInput = tableRow.find('input[name],select[name]');
+                        arrayOfInput.each(function (i, item) {
+                            elementNames[item.name] = true;
+                            let propertyValue = Util.getProperty(returnData[modelName][rowNumber], item.name);
+
+                            if (propertyValue === undefined) {
+                                let columnName = Util.getProperty(self._mapper, item.name + ".column");
+                                if (!!columnName) {
+                                    columnName = columnName.split(".").reverse().pop();
+                                } else {
+                                    return;
+                                }
+                                propertyValue = self.getMapperValue(item.name, returnData[modelName][rowNumber][columnName]);
+                                if (propertyValue === undefined) {
+                                    propertyValue = returnData[modelName][rowNumber][columnName];
+                                }
+                            }
+
+                            if (propertyValue != null && typeof propertyValue === "object") {
+                                let tmp = Util.getProperty(self._mapper, item.name + ".returnKey");
+                                if (!!tmp) {
+                                    propertyValue = self.getMapperValue(item.name, propertyValue[tmp]);
+                                } else {
+                                    propertyValue = Util.getProperty(propertyValue, "id"); // TODO - Remove this quick fix
+                                }
+                            }
+
+                            if (propertyValue != null) {
+                                let fieldClass = "";
+                                if ((propertyValue + "").indexOf('_+') >= 0) {
+                                    fieldClass = "has-changed-added";
+                                    propertyValue = (propertyValue + "").replace('_+', '');
+                                }
+                                if ((propertyValue + "").indexOf('_*') >= 0) {
+                                    fieldClass = "has-changed";
+                                    propertyValue = (propertyValue + "").replace('_*', '');
+                                }
+                                $(item).val(propertyValue).addClass(fieldClass);
+                                $('option', $(item)).each(function (index, option) {
+                                    if (option.value && option.value.toLowerCase() === (propertyValue + "").toLowerCase()) {
+                                        $(item).val(option.value);
+                                    }
+                                });
+                            }
+
+                        });
+
+                        tableRow = Table.addRow(tableOrContainer);
+                    }
+
+                    Table.deleteRow(tableRow);
+
+                }*/
+
+              /*for (let i in elementNames) {
+                    if (elementNames.hasOwnProperty(i) && !preventChangeEvent[i]) {
+                        $('[name="' + i + '"]').trigger('change');
+                    }
+                }*/
+            }
 
         })(window.tmsApp || {}, jQuery)
     </script>
