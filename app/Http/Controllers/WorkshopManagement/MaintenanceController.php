@@ -195,6 +195,7 @@ class MaintenanceController extends Controller
 
     public function processJobCardDefects(Request $request): JsonResponse
     {
+        dd($request->all());
         try {
             $this->workshopService->createJobCardDefects($request);
             return response()->json([
