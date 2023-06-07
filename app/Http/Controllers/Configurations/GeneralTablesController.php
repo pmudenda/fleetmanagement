@@ -201,18 +201,24 @@ class GeneralTablesController extends Controller
                 'type' => 'required'
             ]);
 
-            $entry = GeneralTableConfigurations::where('code', '=', $request->code)->where('type', '=', $request->type);
+            $entry = GeneralTableConfigurations::where('code', '=', $request->code)
+                ->where('type', '=', $request->type)->get()->first();
+
             $entry->name = $formData['name'];
             $entry->code = $formData['code'];
             $entry->status = 1;
             $entry->save();
-            return response()->json([]);
+
+            return response()->json([
+                'success' => true,
+                'message' => "Record Submitted Successfully",
+            ]);
 
         } catch (\Throwable|Exception $exception) {
             Log::error($exception->getMessage());
 
             $output = [
-                'status' => 'failure',
+                'success' => false,
                 'message' => "Your submission had an error",
             ];
 
@@ -223,25 +229,24 @@ class GeneralTablesController extends Controller
     public function delete(Request $request): JsonResponse
     {
         try {
-            $formData = $request->validate([
-                //'name' => 'required|max:255',
-                'code' => 'required|max:4',
-                'type' => 'required'
+            $request->validate([
+                'id' => 'required'
             ]);
 
-            $entry = GeneralTableConfigurations::where('code', '=', $request->code)->where('type', '=', $request->type);
-            //$entry->name = $formData['name'];
-            //$entry->code = $formData['code'];
+            $entry = GeneralTableConfigurations::where('id', '=', $request->id)->get()->first();//where('type', '=', $request->type);
             $entry->status = 0;
             $entry->deleted_at = Carbon::now();
             $entry->save();
-            return response()->json([]);
+            return response()->json([
+                'success' => true,
+                'message' => "Record Submitted Successfully",
+            ]);
 
         } catch (\Throwable|Exception $exception) {
             Log::error($exception->getMessage());
 
             $output = [
-                'status' => 'failure',
+                'success' => false,
                 'message' => "Your submission had an error",
             ];
 

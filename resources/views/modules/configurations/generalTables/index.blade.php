@@ -83,38 +83,40 @@
                                                     </td>
                                                     <td>
                                                         <div class="dropdown">
-                                                            <button class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
-                                                                    type="button"
-                                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                                    aria-expanded="false">
+                                                            <button
+                                                                class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
+                                                                type="button"
+                                                                id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                                aria-expanded="false">
                                                                 Actions
                                                             </button>
-                                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                            <ul class="dropdown-menu"
+                                                                aria-labelledby="dropdownMenuButton1">
                                                                 {{-- @can(config('rights.edit_vehicle'))--}}
 
-                                                                    <li>
-                                                                        <a href="#"
-                                                                            id="editButton"
+                                                                <li>
+                                                                    <a href="#"
+                                                                       id="editButton"
+                                                                       data-id="{{$entry->id}}"
+                                                                       data-record_name="{{$entry->name}}"
+                                                                       data-record_status="{{$entry->active}}"
+                                                                       data-record_code="{{$entry->code}}"
+                                                                       class="dropdown-item"
+                                                                       data-bs-toggle="modal"
+                                                                       data-bs-target="#editRecordModal">
+                                                                        <i class="fa fa-edit"></i>
+                                                                        Edit
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <button type="submit"
+                                                                            id="deleteButton"
                                                                             data-id="{{$entry->id}}"
-                                                                            data-record_name="{{$entry->name}}"
-                                                                            data-record_status="{{$entry->active}}"
-                                                                            data-record_code="{{$entry->code}}"
-                                                                            class="dropdown-item"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#editRecordModal">
-                                                                            <i class="fa fa-edit"></i>
-                                                                            Edit
-                                                                        </a>
-                                                                    </li>
-
-                                                                  {{--  <li>
-                                                                        <button type="submit" id="deleteButton"
-                                                                                data-id="{{$entry->id}}"
-                                                                                class="delButton dropdown-item">
-                                                                            <i class="fa fa-trash"></i>
-                                                                            Delete
-                                                                        </button>
-                                                                    </li>--}}
+                                                                            class="deleteButton dropdown-item">
+                                                                        <i class="fa fa-trash"></i>
+                                                                        Delete
+                                                                    </button>
+                                                                </li>
                                                                 {{--@endcan--}}
                                                             </ul>
                                                         </div>
@@ -457,16 +459,62 @@
                 )
             })
 
-            $(document).on('click', '.delButton', function (e) {
-                let recordData = e.currentTarget.dataset;
+            $(document).on('click', '.deleteButton', function (e) {
+                let recordData = this.attr('data-id');
                 console.log(recordData)
+                let formData = new FormData();
+                formData.append('id', recordData);
                 tmsApp.confirm(
                     'Remove Record',
-                    "Are you sure you would like to delete  ?",
+                    "Are you sure you would like to delete this record?",
                     'Yes',
                     'No, Cancel',
                     function () {
-                        // deleteUrl
+                        //
+                        tmsApp.asyncPostFormData(
+                            document.querySelector('#deleteUrl').value,
+                            formData,
+                            function (asyncResponse) {
+                                if ('success' in asyncResponse && !asyncResponse.success) {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        toastr.error(
+                                            asyncResponse.message
+                                        );
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+
+                                    setTimeout(function () {
+                                        tmsApp.systemError(
+                                            'System Configuration',
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
+                                    return;
+                                }
+
+                                if (asyncResponse.success) {
+                                    const entry = asyncResponse.payload;
+                                    tmsApp.showSystemMessage(
+                                        'System Configuration',
+                                        asyncResponse['message'],
+                                        function () {
+                                            window.location.reload();
+                                        },
+                                        'success'
+                                    );
+                                }
+                            },
+                            function (xhr, settings, error) {
+                                setTimeout(
+                                    function () {
+                                        tmsApp.showErrorMessages(xhr, 'System Configuration');
+                                    },
+                                    300);
+                            },
+                            'DELETE',
+                        )
                     },
                     function () {
 
