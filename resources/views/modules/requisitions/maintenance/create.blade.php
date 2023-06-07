@@ -81,7 +81,7 @@
                 <input type="hidden" value="{{route('load.defects')}}" id="defectUrl"/>
                 <input type="hidden" value="{{route('load.workshop.section')}}" id="workShopSectionsUrl"/>
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
-                <input type="hidden" value="{{route('delete.defect.record')}}" id="deleteDefectUrl"/>
+                <input type="hidden" value="{{route('delete.defect.record')}}" name="deleteDefectUrl" id="deleteDefectUrl"/>
             </div>
         </div>
     </section>
