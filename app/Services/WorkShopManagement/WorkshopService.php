@@ -96,6 +96,7 @@ class WorkshopService
 
     public function createJobCardAccessories(Request $request): void
     {
+        DB::beginTransaction();
         $job_card_voucher = $request->get('job_card_voucher');
         $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
             ->get();
@@ -122,10 +123,20 @@ class WorkshopService
                 ]
             );
         }
+        DB::commit();
     }
 
     public function createJobCardDefects(Request $request)
     {
+        DB::beginTransaction();
+        $models = [];
+        foreach ($request->defect as $defect) {
+            $model = new VehicleDefects();
+            $model->
+            array_push($models, $model);
+        }
+
+        DB::commit();
     }
 
     public function getJobCardHeader(): Collection

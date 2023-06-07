@@ -768,7 +768,7 @@
                 document.querySelector('[name="nrc"]').value = data?.nrc;
                 document.querySelector('#actionButtonsContainer').style.display = null;
 
-                if (data?.job_title.toLowerCase().indexOf("driver")) {
+                if (data?.job_title.toLowerCase().indexOf("driver") > -1) {
                     document.querySelector('#designated-driver-yes').checked = true;
                     document.querySelector('#designated-driver-yes').removeAttribute('disabled');
                 } else {

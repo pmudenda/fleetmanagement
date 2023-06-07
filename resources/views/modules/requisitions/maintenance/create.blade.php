@@ -522,7 +522,11 @@
             }
 
             function findVehicle() {
-                const numberPlate = document.querySelector('#vehicle_registration').value
+                const numberPlate = document.querySelector('#vehicle_registration').value;
+                if(!numberPlate){
+                    return;
+                }
+
                 let formData = new FormData();
                 formData.append('vehicle_registration', numberPlate);
 
@@ -553,7 +557,11 @@
             }
 
             function findDriver() {
-                const staff_number = document.querySelector('#driver_staff_number').value
+                const staff_number = document.querySelector('#driver_staff_number').value;
+                if(!staff_number){
+                    return;
+                }
+
                 let formData = new FormData();
                 formData.append('searchCriteria', staff_number);
 
