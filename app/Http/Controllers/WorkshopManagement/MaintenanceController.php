@@ -11,6 +11,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCardRequest;
 use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
+use App\Models\WorkShopManagement\VehicleDefects;
+use App\Models\WorkShopManagement\WorkShopComments;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\WorkShopManagement\WorkshopService;
@@ -58,7 +60,7 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections) = $this->jobCardCreationData($request);
+        list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections, $defects, $comments) = $this->jobCardCreationData($request);
 
         $view_name = 'modules.requisitions.maintenance.create';
 
@@ -70,7 +72,9 @@ class MaintenanceController extends Controller
                     'details',
                     'accessories_checked_in',
                     'step',
-                    'workshop_sections'
+                    'workshop_sections',
+                    'defects',
+                    'comments'
                 )
             );
     }
@@ -85,7 +89,7 @@ class MaintenanceController extends Controller
             return redirect(URL::signedRoute('maintenance.requisition', ['step' => 1]));
         }
 
-        list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections) = $this->jobCardCreationData($request);
+        list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections, $defects, $comments) = $this->jobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.create')
             ->with(
@@ -95,7 +99,9 @@ class MaintenanceController extends Controller
                     'details',
                     'accessories_checked_in',
                     'step',
-                    'workshop_sections'
+                    'workshop_sections',
+                    'defects',
+                    'comments'
                 )
             );
     }
@@ -106,7 +112,15 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections) = $this->jobCardCreationData($request);
+        list(
+            $step,
+            $repairTypes,
+            $accessories_checked_in,
+            $accessories,
+            $details,
+            $workshop_sections,
+            $defects,
+            $comments) = $this->jobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.create')
             ->with(
@@ -116,7 +130,9 @@ class MaintenanceController extends Controller
                     'details',
                     'accessories_checked_in',
                     'step',
-                    'workshop_sections'
+                    'workshop_sections',
+                    'defects',
+                    'comments'
                 )
             );
     }
@@ -223,13 +239,18 @@ class MaintenanceController extends Controller
 
         $accessories_checked_in = null;
         $details = null;
+        $defects = null;
 
         if ($reference) {
             $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)
                 ->get();
             $details = $this->workshopService->getJobCardDetails($reference);
+
+            $defects = VehicleDefects::where('job_card_no', '=', $reference)->get();
+            $comments = WorkShopComments::where('job_card_no', '=', $reference)->get();
+
         }
 
-        return array($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections);
+        return array($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections, $defects, $comments);
     }
 }

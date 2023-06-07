@@ -85,11 +85,20 @@
                         for="remarks">Comments (optional):
                     </label>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
-                        <textarea type="text"
-                                  id="remarks"
-                                  name="remarks"
-                                  style="height: 129px;"
-                                  class="form-control form-control-sm">{{$details->comments??''}}</textarea>
+                        @if(!empty('comments'))
+                            <textarea type="text"
+                                      id="remarks"
+                                      name="remarks"
+                                      style="height: 129px;"
+                                      class="form-control form-control-sm">{{$comments->where('type=','=','DEF')->first()->remarks ??''}}</textarea>
+                        @else
+                            <textarea type="text"
+                                      id="remarks"
+                                      name="remarks"
+                                      style="height: 129px;"
+                                      class="form-control form-control-sm"></textarea>
+                        @endif
+
                     </div>
                 </div>
             </div>
