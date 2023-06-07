@@ -194,6 +194,7 @@ class GeneralTablesController extends Controller
 
     public function edit(Request $request): JsonResponse
     {
+        Log::info($request->json());
         try {
             /*$formData = $request->validate([
                 'name' => 'required|max:255',
@@ -201,8 +202,9 @@ class GeneralTablesController extends Controller
                 'type' => 'required'
             ]);*/
 
-            $entry = GeneralTableConfigurations::where('code', '=', $request->code)
-                ->where('type', '=', $request->type)->get()->first();
+            $entry = GeneralTableConfigurations::where('code', '=', $request->get('code'))
+                ->where('type', '=', $request->get('type'))
+                ->first();
 
             $entry->name = $request->name;
             $entry->code = $request->code;
@@ -233,7 +235,8 @@ class GeneralTablesController extends Controller
                 'id' => 'required'
             ]);
 
-            $entry = GeneralTableConfigurations::where('id', '=', $request->id)->get()->first();//where('type', '=', $request->type);
+            $entry = GeneralTableConfigurations::where('id', '=', $request->get('id'))
+                ->first();
             $entry->status = 0;
             $entry->deleted_at = Carbon::now();
             $entry->save();
