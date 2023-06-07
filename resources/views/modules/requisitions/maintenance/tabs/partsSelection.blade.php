@@ -1,6 +1,6 @@
-@php use Carbon\Carbon;
+@php use App\Enums\RequisitionItemTypes;use Carbon\Carbon;
  use App\Models\reference\PurchaseOffice;
- @endphp
+@endphp
 <div class="container-fluid">
     <input type="hidden"
            id="suppliersList"
@@ -29,7 +29,8 @@
                                         <option value="03">SERVICE</option>
                                     </select>
                                     <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
-                                    <input type="hidden" value="{{\App\Enums\RequisitionItemTypes::ServiceItemCode}}" id="stockItemCode" name="stockItemCode"/>
+                                    <input type="hidden" value="{{RequisitionItemTypes::NonStockItemCode}}"
+                                           id="nonStockItemCode" name="nonStockItemCode"/>
                                 </div>
                             </div>
                         </div>
@@ -99,19 +100,19 @@
                     <div class="container-fluid pl-0">
                         <div class="row">
                             <div class="form-group row">
-                                {{--<label
+                                <label
                                     class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
                                     for="job_card_no">
-
-                                </label>--}}
+                                    Request Date:
+                                </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    {{--<input type="text"
+                                    <input type="text"
+                                           class="form-control form-control-sm"
+                                           id="request_date"
                                            readonly
-                                           value="@if($details){{Carbon::parse($details->time_in)->format('H:i:s')}}@else{{Carbon::now()->format('H:i:s')}}@endif"
-                                           class="form-control form-control-sm when_valid number_input"
-                                           id="timeIn"
-                                           name="timeIn"
-                                    />--}}
+                                           value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
+                                           name="request_date"
+                                           required>
                                 </div>
                             </div>
                         </div>
@@ -320,22 +321,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
-            <div id="vehicleDetailsContainer" style="display: none;"
-                 class="col-xs-12 col-sm-12 col-md-12 pl-0">
-                <h1>Vehicle Details</h1>
-                <table class="table table-striped">
-                    <tbody id="vehicleDetails" class="vehicleDetails">
-                    </tbody>
-                </table>
-            </div>
-
-            <div id="image_view" class="card text-center py-5 my-2" style="display: none;">
-                <div class="form-group">
-                    <div class="imagePreview"></div>
-                </div>
-            </div>
-
+        <div class="col-2">
         </div>
     </div>
 </div>

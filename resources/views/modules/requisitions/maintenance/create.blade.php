@@ -742,7 +742,7 @@
 
                 $("#itemType").on('change', function () {
                     const selectedItemType = this.value
-                    if (document.querySelector('[name="stockItemCode"]').value === selectedItemType) {
+                    if (document.querySelector('[name="nonStockItemCode"]').value === selectedItemType) {
                         showAndRequireSupplierData();
                     } else {
                         hideAndRemoveRequireSupplierData();
