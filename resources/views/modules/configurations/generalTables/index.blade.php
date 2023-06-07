@@ -460,7 +460,7 @@
             })
 
             $(document).on('click', '.deleteButton', function (e) {
-                let recordData = this.attr('data-id');
+                let recordData = this.getAttribute('data-id');
                 console.log(recordData)
                 let formData = new FormData();
                 formData.append('id', recordData);
