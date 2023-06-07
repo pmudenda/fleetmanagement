@@ -236,7 +236,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['prefix' => 'reports'], function () {
-        Route::get('fuel/requisitions', function (){
+        Route::get('fuel/requisitions', function () {
             return view('modules.reports.index');
         })->name('reports.fuel.requisitions');
     });
@@ -256,3 +256,33 @@ Route::get('barcodes', function (Request $request) {
      );
      return '<img alt="testing" src="' . asset('storage/' . $barCodeImagePath) . '"/>';*/
 })->name('barcode.generate');
+
+Route::get('parts-selection', function (Request $request) {
+
+    $step = '1';
+    $repairTypes = [];
+    $accessories_checked_in = [];
+    $accessories = [];
+    $details = [];
+    $workshop_sections = [];
+    $defects = [];
+    $comments = [];
+
+
+    $view_name = 'modules.requisitions.maintenance.create_old';
+
+    return view($view_name)->with(
+        compact(
+            'repairTypes',
+            'accessories',
+            'details',
+            'accessories_checked_in',
+            'step',
+            'workshop_sections',
+            'defects',
+            'comments'
+        )
+    );
+})->name('parts.selection');
+
+

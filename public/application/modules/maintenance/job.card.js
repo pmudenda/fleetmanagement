@@ -1,6 +1,3 @@
-
-
-/*
 (function (tmsApp, $) {
             let form = $('#jobCardForm').show();
             window.goToNext = false;
@@ -77,7 +74,7 @@
                     transitionEffect: "slideLeft",
                     autoFocus: true,
                     saveState: true,
-                    startIndex: 2,
+                    startIndex: 0,
                     labels: {
                         finish: 'Submit'
                     },
@@ -569,6 +566,5 @@
 
             getFuelLevels();
         })(window.tmsApp || {}, jQuery)
-*/
 
 

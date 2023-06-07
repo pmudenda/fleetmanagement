@@ -4,6 +4,7 @@ namespace App\Http\Controllers\UserManagement;
 
 use _HumbugBoxbdf58a3ca165\Symfony\Component\Config\Definition\Exception\Exception;
 use App\Constants\ErrorMessages;
+use App\Exceptions\UserNotActiveException;
 use App\Exceptions\UserOnBoardingException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
@@ -79,9 +80,9 @@ class UsersController extends Controller
             if ($validateWithHCMS) {
                 try {
                     $employee_phcms = PHCMSEmployee::where('con_per_no', $request->staff_number)
-                        ->where('con_st_code','=', 'ACT')
+                        ->where('con_st_code', '=', 'ACT')
                         ->first();
-                    if(empty($employee_phcms)){
+                    if (empty($employee_phcms)) {
                         throw new Exception("User Not Found");
                     }
                 } catch (\Exception $ex) {
@@ -268,10 +269,10 @@ class UsersController extends Controller
 
     public function search(Request $request): JsonResponse
     {
-        $development = false;
+        //$development = false;
         try {
 
-            if ($development) {
+            /*if ($development) {
                 $searchParam = $request->searchCriteria;
                 $apiURL = 'http://dev.zesco.co.zm/ezesco_forms/public/api/users';
                 $headers = [
@@ -285,14 +286,18 @@ class UsersController extends Controller
                     'success' => true,
                     'payload' => $response->json()
                 ]);
-            }
+            }*/
 
             $searchParam = strtoupper(trim($request->searchCriteria));
             $dataset = PHCMSEmployee::select('*')
                 ->where('con_per_no', $searchParam)
                 ->orWhere('name', 'LIKE', "%{$searchParam}%")
-                ->where('con_st_code','=', 'ACT')
+                //->where('con_st_code','=', 'ACT')
                 ->first();
+
+            if ($dataset->con_st_code != 'ACT') {
+                throw new UserNotActiveException(ErrorMessages::getMessage('err_0019'));
+            }
 
             if (empty($dataset)) {
                 $dataset = [];
@@ -305,10 +310,16 @@ class UsersController extends Controller
 
         } catch (\Exception $e) {
             Log::error($e);
+            $message = ErrorMessages::getMessage('err_0012');
+
+            if ($e instanceof UserNotActiveException) {
+                $message = $e->getMessage();
+            }
+
             return response()->json([
                 'success' => false,
                 'payload' => [],
-                'message' => ErrorMessages::getMessage('err_0012')
+                'message' => $message
             ]);
         }
     }

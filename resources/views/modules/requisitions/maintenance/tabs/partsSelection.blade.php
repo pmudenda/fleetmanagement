@@ -9,29 +9,22 @@
                             <div class="form-group row">
                                 <label
                                     class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                    for="staff_no">Registration #:
+                                    for="staff_no">Item Type:
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    <div class="input-group">
-                                        <input type="text"
-                                               data-action="{{route('requisition.vehicle.details')}}"
-                                               class="form-control form-control-sm"
-                                               value="{{$details->veh_reg ?? ''}}"
-                                               id="vehicle_registration"
-                                               placeholder="Vehicle Reg e.g AAB 6757"
-                                               name="vehicle_registration" required />
-                                        <div class="input-group-addon">
-                                            <button type="button"
-                                                    id="vehicleSearchBtn"
-                                                    name="vehicleSearchBtn"
-                                                    class="btn btn-success btn-sm border-radius-0">
-                                                <i class="fas fa-search"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-
+                                    <select
+                                        data-value="{{$details->workshop_code ?? ''}}"
+                                        required
+                                        class="form-select form-select-sm"
+                                        name="itemType"
+                                        id="itemType">
+                                        <option></option>
+                                        <option value="01">STOCK ITEM</option>
+                                        <option value="02">NON STOCK ITEM</option>
+                                        <option value="03">SERVICE</option>
+                                    </select>
                                     <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
-
+                                    <input type="hidden" value="{{\App\Enums\RequisitionItemTypes::ServiceItemCode}}" id="stockItemCode" name="stockItemCode"/>
                                 </div>
                             </div>
                         </div>
@@ -44,16 +37,22 @@
                             <div class="form-group row">
                                 <label
                                     class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                    for="staff_no">Date In :
+                                    for="staff_no">Purchase Office:
                                 </label>
                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                    <input type="text"
-                                           class="form-control form-control-sm"
-                                           id="date_of_req"
-                                           readonly
-                                           value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
-                                           name="date_of_req"
-                                           required>
+                                    <select
+                                        data-value=""
+                                        required
+                                        class="form-select form-select-sm"
+                                        name="purchase_office"
+                                        id="purchase_office">
+                                        <option value=""></option>
+                                        @foreach(PurchaseOffice::get() as $purchaseOffice)
+                                            <option value="{{$purchaseOffice->code_office}}">
+                                                {{$purchaseOffice->description}}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -72,19 +71,18 @@
                                         <div class="link-field ui-front"
                                              style="position: relative;">
                                             <label class="form-check-inline field-required">
-                                                Workshop
+                                                Suppliers
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <select
-                                        data-value="{{$details->workshop_code ?? ''}}"
-                                        required
+                                        data-value=""
                                         class="form-select form-select-sm"
-                                        name="workshop"
+                                        name="supplier"
                                         autocomplete="off"
-                                        id="workshop">
+                                        id="supplier">
                                     </select>
                                 </div>
                             </div>
@@ -133,7 +131,6 @@
                                             class="form-select form-select-sm when_valid"
                                             required>
                                         <option></option>
-                                        {{-- <option value="{{$repairType->code}}">{{$repairType->name}}</option>--}}
                                         @foreach ($repairTypes as $repairType)
                                             @if(!empty($details))
                                                 @if($details->repair_type == $repairType->code)
@@ -146,7 +143,6 @@
                                             @else
                                                 <option
                                                     value="{{$repairType->code}}">{{$repairType->name}}</option>
-
                                             @endif
 
                                         @endforeach

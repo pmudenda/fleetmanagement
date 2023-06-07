@@ -1574,8 +1574,14 @@ function checkOnboardingHeaderStatus() {
                 }
 
                 supplierData = supplierData[0];
+
                 ///ocument_no "C01CR1000983"
-                if (['CLOSED', 'ISSUED'].indexOf(supplierData['po_status_description']) < 0) {
+
+                if(!supplierData){
+                    return;
+                }
+
+                if (['CLOSED', 'ISSUED'].indexOf(supplierData?.po_status_description) < 0) {
                     let message = 'The Purchase Order '
                         + supplierData['document_no']
                         + ' for supplier '
@@ -1595,8 +1601,10 @@ function checkOnboardingHeaderStatus() {
                 selectElem.attr('readonly', true).trigger('change');
 
                 let price = supplierData['price'];
+                console.log('Purchase Order Value', price)
                 let costPriceInput = document.querySelector('[name="costPrice"]');
-                costPriceInput.value = tmsApp.formatMoney(price, 2);
+                costPriceInput.value = Util.getFloat(price, 2);
+
                 costPriceInput.setAttribute('readonly', 'readonly');
 
                 let bookValueInput = document.querySelector('[name="bookValue"]');
