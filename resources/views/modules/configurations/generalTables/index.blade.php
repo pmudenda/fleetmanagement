@@ -248,7 +248,7 @@
                       action="{{route('edit.data')}}"
                       method="post">
                     @csrf
-                    @method('PUT')
+                    @method('POST')
                     @if($title != 'nothing')
                         <input type="text" value="{{$type}}" name="type" style="display: none" id="data_type"/>
                     @endif
@@ -285,7 +285,7 @@
         </div>
     </div>
 
-    <input type="hidden" name="deleteUrl" value="{{route('delete.data')}}">
+    <input type="hidden" name="deleteUrl" id="deleteUrl" value="{{route('delete.data')}}">
     {{--Delete Modal--}}
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

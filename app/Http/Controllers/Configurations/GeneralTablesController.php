@@ -24,10 +24,8 @@ use Illuminate\Support\Facades\Log;
 
 class GeneralTablesController extends Controller
 {
-
     public static function findType($ref): array
     {
-
         $types = collect([
             [
                 'ref' => 'accident-types',
@@ -194,7 +192,7 @@ class GeneralTablesController extends Controller
 
     }
 
-    public function edit(GeneralTableEditRequest $request): JsonResponse
+    public function editRecord(GeneralTableEditRequest $request): JsonResponse
     {
         Log::info($request->json());
         try {
@@ -225,7 +223,7 @@ class GeneralTablesController extends Controller
         }
     }
 
-    public function delete(GeneralTableDeleteRequest $request): JsonResponse
+    public function deleteRecord(GeneralTableDeleteRequest $request): JsonResponse
     {
         try {
 
