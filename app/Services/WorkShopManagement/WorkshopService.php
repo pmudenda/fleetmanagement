@@ -133,7 +133,7 @@ class WorkshopService
         DB::beginTransaction();
         $models = [];
 
-        foreach ($request->defect as $defect) {
+        foreach ($request->get('defects') as $defect) {
 
             $model = new VehicleDefects();
             $model->job_card_no = $request->job_card_no;
