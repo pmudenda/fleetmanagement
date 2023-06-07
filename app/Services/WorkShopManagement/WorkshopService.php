@@ -136,10 +136,10 @@ class WorkshopService
             $model = new VehicleDefects();
             $model->job_card_no = '';
 
-            $model->veh_sys = $request->vehicleSystem;
-            $model->defect_category_code = $request->defectCategory;
-            $model->defect_code = $request->defect;
-            $model->section_code = $request->workshopSection;
+            $model->veh_sys = $defect->vehicleSystem;
+            $model->defect_category_code = $defect->defectCategory;
+            $model->defect_code = $defect->defect;
+            $model->section_code = $defect->workshopSection;
 
             $model->created_by = auth()->user()->staff_no;
 
