@@ -116,7 +116,7 @@
 .wizard > .steps .current a:hover,
 .wizard > .steps .current a:active
 {
-    background: #2184be;
+    background: #1c9955;
     color: #fff;
     cursor: default;
 }
@@ -130,8 +130,8 @@
 }
 
 .wizard > .steps .error a,
-.wizard > .steps .error a:hover,
-.wizard > .steps .error a:active
+.wizard > .steps .error a:hover
+/*.wizard > .steps .error a:active*/
 {
     background: #ff3111;
     color: #fff;
