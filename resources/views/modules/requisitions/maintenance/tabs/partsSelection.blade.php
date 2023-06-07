@@ -128,7 +128,7 @@
                                 <label
                                     class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                     for="staff_name">
-                                    Repair Type:
+                                    Store:
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <select name="repairType"
@@ -243,7 +243,7 @@
                 </div>
             </div>
 
-            <div class="row">
+ {{--           <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="container-fluid pl-0">
                         <div class="row">
@@ -265,7 +265,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>--}}
 
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6">
