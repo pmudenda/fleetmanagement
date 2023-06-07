@@ -217,8 +217,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('save/job-card/defects', [MaintenanceController::class, 'processJobCardDefects'])->name('defects.job_card');
         // supporting
         Route::get('requisitions/maintenance/list', [MaintenanceController::class, 'list'])->name('maintenance.list');
-
         Route::post('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
+
+        //delete defect
+        Route::post('/deleteRecord', [MaintenanceController::class, "deleteRecord"])->name('delete.defect.record');
     });
 
     Route::group(['prefix' => 'driver-management'], function () {

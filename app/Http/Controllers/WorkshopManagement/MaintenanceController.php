@@ -16,12 +16,14 @@ use App\Models\WorkShopManagement\WorkShopComments;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\WorkShopManagement\WorkshopService;
+use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
@@ -252,5 +254,37 @@ class MaintenanceController extends Controller
         }
 
         return array($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections, $defects, $comments);
+    }
+
+
+    public function deleteRecord(Request $request)
+    {
+        try {
+
+            $entry = VehicleDefects::where('id', '=', $request->record_id)
+                ->first();
+
+            if (empty($entry)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Record Not Found",
+                ]);
+            }
+
+            $entry->deleted_at = Carbon::now();
+            $entry->save();
+            return response()->json([
+                'success' => true,
+                'message' => "Record Removed Successfully",
+            ]);
+
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => "We could not complete processing your request to an error",
+            ]);
+        }
     }
 }

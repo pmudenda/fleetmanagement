@@ -81,6 +81,7 @@
                 <input type="hidden" value="{{route('load.defects')}}" id="defectUrl"/>
                 <input type="hidden" value="{{route('load.workshop.section')}}" id="workShopSectionsUrl"/>
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
+                <input type="hidden" value="{{route('delete.defect.record')}}" id="deleteDefectUrl"/>
             </div>
         </div>
     </section>
@@ -903,6 +904,7 @@
 
                     let btnEl = $(this);
                     let tableId = $(this).closest('table').attr('id');
+                    let valueId = $(this).closest('table').attr('data-value');
                     let tableRow = btnEl.closest('tr');
                     let table = btnEl.closest('table');
                     tmsApp.confirm(
@@ -914,8 +916,59 @@
                             Table.deleteRow(tableRow);
                             e.preventDefault();
                             e.stopPropagation();
+                            if(!valueId || valueId == "0"){
+                                return;
+                            }
+
+                            let formData = new FormData();
+                            formData.append('record_id', valueId);
                             //scheduleUpdater(tableId, table);
                             // return false;
+                            //
+                            tmsApp.asyncPostFormData(
+                                document.querySelector('[name="deleteDefectUrl"]').value,
+                                formData,
+                                function (asyncResponse) {
+                                    if ('success' in asyncResponse && !asyncResponse.success) {
+                                        if (asyncResponse.hasOwnProperty('errors')) {
+                                            toastr.error(
+                                                asyncResponse.message
+                                            );
+                                            tmsApp.printErrorMsg(asyncResponse.errors);
+                                            return
+                                        }
+
+                                        setTimeout(function () {
+                                            tmsApp.systemError(
+                                                'System Configuration',
+                                                asyncResponse['message'],
+                                                function () {
+                                                }, 'error');
+                                        }, 300);
+                                        return;
+                                    }
+
+                                    if (asyncResponse.success) {
+                                        const entry = asyncResponse.payload;
+                                        tmsApp.showSystemMessage(
+                                            'System Configuration',
+                                            asyncResponse['message'],
+                                            function () {
+                                                window.location.reload();
+                                            },
+                                            'success'
+                                        );
+                                    }
+                                },
+                                function (xhr, settings, error) {
+                                    setTimeout(
+                                        function () {
+                                            tmsApp.showErrorMessages(xhr, 'System Configuration');
+                                        },
+                                        300);
+                                },
+                                'POST',
+                            )
                         });
 
                     return false;

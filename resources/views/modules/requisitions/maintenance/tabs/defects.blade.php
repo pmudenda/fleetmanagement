@@ -69,6 +69,7 @@
 
                                     <td class="view-mode">
                                         <button type="button"
+                                                data-value="{{$defect->date_def ?? '0'}}"
                                                 value="deleteRow"
                                                 class="btn btn-danger p-2">
                                             <i class="fas fa-trash m-0"></i>
@@ -117,6 +118,7 @@
                                 <td class="view-mode">
                                     <button type="button"
                                             value="deleteRow"
+                                            data-value="0"
                                             class="btn btn-danger p-2">
                                         <i class="fas fa-trash m-0"></i>
                                     </button>
