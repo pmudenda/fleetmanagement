@@ -409,7 +409,7 @@
                 e.stopPropagation();
 
                 const form = document.querySelector('form[name="configurationEditTableForm"]')
-                let formData = new FormData();
+                let formData = new FormData(form);
 
                 tmsApp.asyncPostFormData(
                     form.action,
@@ -455,8 +455,6 @@
                     },
                     'PUT',
                 )
-
-
             })
 
             $(document).on('click', '.delButton', function (e) {
@@ -468,7 +466,7 @@
                     'Yes',
                     'No, Cancel',
                     function () {
-// deleteUrl
+                        // deleteUrl
                     },
                     function () {
 
