@@ -206,7 +206,7 @@ class MaintenanceController extends Controller
                 'success' => true,
                 'message' => SystemMessages::defectRecorded(),
                 'redirectUrl' => URL::signedRoute('defects.job.card',
-                    ['step' => 4, 'reference' => $request->get('job_card_voucher')]),
+                    ['step' => 4, 'reference' => $request->get('job_card_no')]),
             ]);
         } catch (\Exception $e) {
             Log::error($e);
@@ -257,7 +257,7 @@ class MaintenanceController extends Controller
     }
 
 
-    public function deleteRecord(Request $request)
+    public function deleteRecord(Request $request): JsonResponse
     {
         try {
 

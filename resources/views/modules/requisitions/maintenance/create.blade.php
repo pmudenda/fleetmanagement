@@ -68,7 +68,9 @@
                         @include('modules.requisitions.maintenance.tabs.defects')
                     </div>
                     <h1>Parts Selection</h1>
-                    <div>Test</div>
+                    <div>
+                        @include('modules.requisitions.maintenance.tabs.partsSelection')
+                    </div>
 
                 </form>
 
@@ -99,6 +101,20 @@
             Inputmask({
                 "mask": "AAA 9{1,4}"
             }).mask('[name="vehicle_registration"]');
+
+            $.fn.disableBtn = function () {
+                return this.each(function () {
+                    $(this).addClass("disabled").attr("disabled", true)
+                })
+            }
+
+            $.fn.enableBtn = function () {
+                return this.each(function () {
+                    let $this = $(this);
+                    $this.removeClass("disabled").attr("disabled", false)
+                })
+            }
+
         });
 
         (function (tmsApp, $) {
@@ -265,6 +281,7 @@
                             form.steps("previous");
                         }
 
+                        $('ul[aria-label="Pagination"]').find('a[data-action="skip"]').removeClass('d-none');
                         window.global_currentIndex = currentIndex;
                         window.goToNext = false;
 
@@ -954,7 +971,7 @@
                                             'System Configuration',
                                             asyncResponse['message'],
                                             function () {
-                                                window.location.reload();
+                                                //window.location.reload();
                                             },
                                             'success'
                                         );
