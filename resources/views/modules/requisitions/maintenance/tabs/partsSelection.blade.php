@@ -131,28 +131,12 @@
                                     Store:
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    <select name="repairType"
-                                            id="repairTypeDropdownList"
-                                            data-value="{{$details->repair_type ?? ''}}"
-                                            class="form-select form-select-sm when_valid"
-                                            required>
-                                        <option></option>
-                                        @foreach ($repairTypes as $repairType)
-                                            @if(!empty($details))
-                                                @if($details->repair_type == $repairType->code)
-                                                    <option selected
-                                                            value="{{$repairType->code}}">{{$repairType->name}}</option>
-                                                @else
-                                                    <option
-                                                        value="{{$repairType->code}}">{{$repairType->name}}</option>
-                                                @endif
-                                            @else
-                                                <option
-                                                    value="{{$repairType->code}}">{{$repairType->name}}</option>
-                                            @endif
-
-                                        @endforeach
-                                    </select>
+                                    <input type="text"
+                                           class="form-control form-control-sm"
+                                           id="store_code"
+                                           value=""
+                                           placeholder=""
+                                           name="store_code"/>
                                 </div>
                             </div>
                         </div>
@@ -244,29 +228,29 @@
                 </div>
             </div>
 
- {{--           <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="container-fluid pl-0">
-                        <div class="row">
-                            <div class="form-group row">
-                                <label
-                                    class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                    for="next_fuel_date">
-                                    Fuel Level :
-                                </label>
-                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    <select name="fuel_level"
-                                            data-value="{{$details->fuel_level_in ?? ''}}"
-                                            id="fuel_level"
-                                            class="form-select form-select-sm when_valid"
-                                            required>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>--}}
+            {{--           <div class="row">
+                           <div class="col-xs-12 col-sm-6 col-md-6">
+                               <div class="container-fluid pl-0">
+                                   <div class="row">
+                                       <div class="form-group row">
+                                           <label
+                                               class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
+                                               for="next_fuel_date">
+                                               Fuel Level :
+                                           </label>
+                                           <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                               <select name="fuel_level"
+                                                       data-value="{{$details->fuel_level_in ?? ''}}"
+                                                       id="fuel_level"
+                                                       class="form-select form-select-sm when_valid"
+                                                       required>
+                                               </select>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>--}}
 
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6">

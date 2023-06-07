@@ -1016,10 +1016,10 @@
                 fetch(document.querySelector('#suppliersList').value)
                     .then(response => response.json())
                     .then(function (response) {
-                        let selectElem = $('select[name="supplierName"]');
-                        // Populate results
+                        let selectElem = $('select[name="supplier"]');
+
                         if (response.state === 'failure') {
-                            //show errors
+
                             toastr.error('Failed to retrieve Supplier Records', 'Connection Error');
                             return;
                         }
