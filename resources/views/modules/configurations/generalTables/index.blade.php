@@ -455,7 +455,7 @@
                             },
                             300);
                     },
-                    'PUT',
+                    'POST',
                 )
             })
 
@@ -513,40 +513,12 @@
                                     },
                                     300);
                             },
-                            'DELETE',
+                            'POST',
                         )
-                    },
-                    function () {
-
                     }
                 );
             })
 
-            function launchDeleteModal(recordData, id) {
-                let modalElement = document.getElementById(id);
-                let modal = new bootstrap.Modal(modalElement);
-                modal.show();
-
-                let modalBody = modalElement.querySelector(".modal-body");
-                modalBody.innerHTML = "Are you sure you would like to delete  ?";
-
-                let modalButton = modalElement.querySelector(".btn-danger");
-                modalButton.addEventListener("click", function () {
-                    $.ajax({
-                        url: "/delete/" + recordData.id,
-                        type: "DELETE",
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function (response) {
-                            let tableRow = $("#myTable tbody tr[data-id='" + recordData.id + "']");
-                            tableRow.remove();
-                        },
-
-                    })
-                    modal.hide();
-                });
-            }
 
             function launchErrorModal(message, id) {
                 const modalElement = document.getElementById(id);
