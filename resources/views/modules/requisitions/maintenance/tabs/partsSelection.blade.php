@@ -1,4 +1,6 @@
-@php use Carbon\Carbon; @endphp
+@php use Carbon\Carbon;
+ use App\Models\reference\PurchaseOffice;
+ @endphp
 <div class="container-fluid">
     <div class="row" data-form-url="{{route("process.job_card")}}" data-model-name="JobCardHeader">
         <div class="col-9">
