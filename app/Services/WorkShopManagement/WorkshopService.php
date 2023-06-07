@@ -9,6 +9,7 @@ use App\Http\Requests\JobCardRequest;
 use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\WorkShopManagement\JobCardHeader;
+use App\Models\WorkShopManagement\VehicleDefects;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use Illuminate\Http\Request;
@@ -130,10 +131,23 @@ class WorkshopService
     {
         DB::beginTransaction();
         $models = [];
+        //$request->remarks
         foreach ($request->defect as $defect) {
             $model = new VehicleDefects();
-            $model->
+            $model->job_card_no = '';
+
+            $model->veh_sys = $request->vehicleSystem;
+            $model->defect_category_code = $request->defectCategory;
+            $model->defect_code = $request->defect;
+            $model->section_code = $request->workshopSection;
+
+            $model->created_by = auth()->user()->staff_no;
+
             array_push($models, $model);
+        }
+
+        foreach ($models as $item) {
+            $item->save();
         }
 
         DB::commit();
