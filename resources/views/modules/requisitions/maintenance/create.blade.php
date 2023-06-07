@@ -894,7 +894,7 @@
                     }
                 });
 
-                $('#materialDetailsTable').on('change', 'select, input', function (e) {
+                $('#material_table').on('change', 'select, input', function (e) {
                     eventHandler(this, e);
                 }).on('keyup', 'select,input,textarea', function (e) {
                     eventHandler(this, e);

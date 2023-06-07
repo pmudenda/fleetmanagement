@@ -196,9 +196,9 @@
                            class="table table-row-dashed align-middle gs-0">
                         <thead>
                         <tr class="bg-default">
-                            <th style="width: 25%;" class="pl-2">Reg. No</th>
+                            <th style="width: 10%;" class="pl-2">Reg. No</th>
                             <th style="width: 25%;">Article</th>
-                            <th style="width: 25%;">Article Code</th>
+                            <th style="width: 15%;">Article Code</th>
                             <th style="width: 25%;">Specification</th>
                             <th style="width: 25%;">Qty.</th>
                             <th style="width: 25%;">UOM</th>
@@ -218,7 +218,7 @@
                                             required
                                             readonly
                                             value="{{$details->veh_reg}}"
-                                            class="form-select form-select-sm registration"/>
+                                            class="form-control form-control-sm registration"/>
                                     </td>
                                     <td>
                                         <select
@@ -226,7 +226,7 @@
                                             id="articlesDropDownList"
                                             required
                                             data-value="{{$defect->veh_sys}}"
-                                            class="form-select form-select-sm articles">
+                                            class="form-control form-control-sm articles">
                                             <option></option>
                                         </select>
                                     </td>
@@ -236,14 +236,14 @@
                                             name="articleCode"
                                             required
                                             readonly
-                                            class="form-select form-select-sm articleCode"/>
+                                            class="form-control form-control-sm articleCode"/>
                                     </td>
                                     <td>
                                         <input
                                             id="technical_specification"
                                             name="technical_specification"
                                             required
-                                            class="form-select form-select-sm technical_specification"/>
+                                            class="form-control form-control-sm technical_specification"/>
                                     </td>
 
                                     <td>
@@ -251,7 +251,7 @@
                                             name="quantity"
                                             id="quantity"
                                             required
-                                            class="form-select form-select-sm quantity"/>
+                                            class="form-control form-control-sm quantity"/>
                                     </td>
 
                                     <td>
@@ -260,7 +260,7 @@
                                             id="unit_of_measure"
                                             required
                                             readonly
-                                            class="form-select form-select-sm uom"/>
+                                            class="form-control form-control-sm unit_of_measure"/>
                                     </td>
 
                                     <td>
@@ -268,7 +268,7 @@
                                                id="unit_price"
                                                required
                                                readonly
-                                               class="form-select form-select-sm unit_price"/>
+                                               class="form-control form-control-sm unit_price"/>
                                     </td>
 
                                     <td>
@@ -276,7 +276,7 @@
                                                id="total_price"
                                                required
                                                readonly
-                                               class="form-select form-select-sm total_price"/>
+                                               class="form-control form-control-sm total_price"/>
                                     </td>
 
                                     <td class="view-mode">
@@ -290,84 +290,7 @@
                                 </tr>
                             @endforeach
                         @else
-                            <tr class="increment">
-                                <td class="showNumber">
-                                    <input
-                                        name="registration"
-                                        id="registration"
-                                        required
-                                        readonly
-                                        value="{{$details->veh_reg}}"
-                                        class="form-select form-select-sm registration"/>
-                                </td>
-                                <td>
-                                    <select
-                                        name="articles"
-                                        id="articlesDropDownList"
-                                        required
-                                        data-value="{{$defect->veh_sys}}"
-                                        class="form-select form-select-sm articles">
-                                        <option></option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <input
-                                        id="articleCode"
-                                        name="articleCode"
-                                        required
-                                        readonly
-                                        class="form-select form-select-sm articleCode"/>
-                                </td>
-                                <td>
-                                    <input
-                                        id="technical_specification"
-                                        name="technical_specification"
-                                        required
-                                        class="form-select form-select-sm technical_specification"/>
-                                </td>
 
-                                <td>
-                                    <input
-                                        name="quantity"
-                                        id="quantity"
-                                        required
-                                        class="form-select form-select-sm quantity"/>
-                                </td>
-
-                                <td>
-                                    <input
-                                        name="unit_of_measure"
-                                        id="unit_of_measure"
-                                        required
-                                        readonly
-                                        class="form-select form-select-sm uom"/>
-                                </td>
-
-                                <td>
-                                    <input name="unit_price"
-                                           id="unit_price"
-                                           required
-                                           readonly
-                                           class="form-select form-select-sm unit_price"/>
-                                </td>
-
-                                <td>
-                                    <input name="total_price"
-                                           id="total_price"
-                                           required
-                                           readonly
-                                           class="form-select form-select-sm total_price"/>
-                                </td>
-
-                                <td class="view-mode">
-                                    <button type="button"
-                                            data-value="{{$defect->id ?? '0'}}"
-                                            value="deleteRow"
-                                            class="btn btn-danger p-2">
-                                        <i class="fas fa-trash m-0"></i>
-                                    </button>
-                                </td>
-                            </tr>
                         @endif
                         </tbody>
                     </table>
