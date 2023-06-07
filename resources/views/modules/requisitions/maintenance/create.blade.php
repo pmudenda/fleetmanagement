@@ -1023,17 +1023,11 @@
                             toastr.error('Failed to retrieve Supplier Records', 'Connection Error');
                             return;
                         }
-                        /*<option value>--Supplier--</option>
-                        <option v-for="supplier in supplierList"
-                                                    :key="supplier.code_supplier"
-                            :value="supplier.code_supplier">
-                                    @{{ supplier.name_of_supplier }}
-                            </option>*/
-
-                        app.supplierList = response['payload'];
 
                         let suppliers = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, suppliers, "code_supplier", ["code_supplier", "name_of_supplier"], " ==> ", '--Select Supplier--');
+                        tmsApp.populateDropDownList(selectElem, suppliers,
+                            "code_supplier", ["code_supplier", "name_of_supplier"],
+                            " ==> ", '--Select Supplier--');
 
                         let supplier = selectElem.attr('data-value');
                         if (supplier) {
@@ -1064,82 +1058,9 @@
                     }
                     $(item).val(value).trigger('change')
                 });
-
-                /*$('table#part8').find('tbody').children().map(function (index, row) {
-                    $(row).find('select[name="vehicleSystem"]').trigger('change');
-                });*/
-
-                /*for (let modelName in window['defects']) {
-
-                    let tableOrContainer = document.find('[data-model-name="Defects"]');
-
-                    let tableRow = null;
-                    tableRow = Table.clearRows(tableOrContainer);
-                    if (!tableRow.get(0)) {
-                        tableRow = tableOrContainer;
-                    }
-
-
-                    if (modelName && !!tableRow) {
-                        let arrayOfInput = tableRow.find('input[name],select[name]');
-                        arrayOfInput.each(function (i, item) {
-                            elementNames[item.name] = true;
-                            let propertyValue = Util.getProperty(returnData[modelName][rowNumber], item.name);
-
-                            if (propertyValue === undefined) {
-                                let columnName = Util.getProperty(self._mapper, item.name + ".column");
-                                if (!!columnName) {
-                                    columnName = columnName.split(".").reverse().pop();
-                                } else {
-                                    return;
-                                }
-                                propertyValue = self.getMapperValue(item.name, returnData[modelName][rowNumber][columnName]);
-                                if (propertyValue === undefined) {
-                                    propertyValue = returnData[modelName][rowNumber][columnName];
-                                }
-                            }
-
-                            if (propertyValue != null && typeof propertyValue === "object") {
-                                let tmp = Util.getProperty(self._mapper, item.name + ".returnKey");
-                                if (!!tmp) {
-                                    propertyValue = self.getMapperValue(item.name, propertyValue[tmp]);
-                                } else {
-                                    propertyValue = Util.getProperty(propertyValue, "id"); // TODO - Remove this quick fix
-                                }
-                            }
-
-                            if (propertyValue != null) {
-                                let fieldClass = "";
-                                if ((propertyValue + "").indexOf('_+') >= 0) {
-                                    fieldClass = "has-changed-added";
-                                    propertyValue = (propertyValue + "").replace('_+', '');
-                                }
-                                if ((propertyValue + "").indexOf('_*') >= 0) {
-                                    fieldClass = "has-changed";
-                                    propertyValue = (propertyValue + "").replace('_*', '');
-                                }
-                                $(item).val(propertyValue).addClass(fieldClass);
-                                $('option', $(item)).each(function (index, option) {
-                                    if (option.value && option.value.toLowerCase() === (propertyValue + "").toLowerCase()) {
-                                        $(item).val(option.value);
-                                    }
-                                });
-                            }
-
-                        });
-
-                        tableRow = Table.addRow(tableOrContainer);
-                    }
-
-                    Table.deleteRow(tableRow);
-
-                }*/
-                /*for (let i in elementNames) {
-                    if (elementNames.hasOwnProperty(i) && !preventChangeEvent[i]) {
-                        $('[name="' + i + '"]').trigger('change');
-                    }
-                }*/
             }
+
+            getSuppliers();
 
         })(window.tmsApp || {}, jQuery)
     </script>
