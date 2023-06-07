@@ -16,6 +16,7 @@ class VehicleDefects extends Model
         'defect_category_code',
         'defect_code',
         'section_code',
+        'date_def',
         'created_by',
         'modified_by',
     ];

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('defect_category_code',20);
             $table->string('defect_code',20);
             $table->string('section_code',20);
-
+            $table->timestamp('date_def')->nullable();
             $table->string('created_by',20);
             $table->string('modified_by',20)->nullable();
 

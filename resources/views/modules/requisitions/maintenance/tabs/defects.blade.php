@@ -22,28 +22,28 @@
                             @foreach($defects as $defect)
                                 <tr class="increment">
                                     <td class="showNumber">
-                                        <select name="vehicleSystem"
+                                        <select name="vehicleSystem" required
                                                 data-value="{{$defect->veh_sys}}"
                                                 class="form-select form-select-sm vehicleSystem">
                                             <option></option>
                                         </select>
                                     </td>
                                     <td>
-                                        <select name="defectCategory"
+                                        <select name="defectCategory" required
                                                 data-value="{{$defect->defect_category_code}}"
                                                 class="form-select form-select-sm defectCategory">
                                             <option></option>
                                         </select>
                                     </td>
                                     <td>
-                                        <select name="defect"
+                                        <select name="defect" required
                                                 data-value="{{$defect->defect_code}}"
                                                 class="form-select form-select-sm defect">
                                             <option></option>
                                         </select>
                                     </td>
                                     <td>
-                                        <select name="workshopSection"
+                                        <select name="workshopSection" required
                                                 class="form-select form-select-sm workshopSection">
                                             <option></option>
                                             @foreach($workshop_sections as $workshop_section)
@@ -60,9 +60,9 @@
                                     </td>
 
                                     <td>
-                                        <input name="total"
+                                        <input name="date_def"
                                                readonly="readonly"
-                                               value="@if($defect){{date('Y-m-d',strtotime(\Carbon\Carbon::parse($defect->date_in)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
+                                               value="@if($defect){{date('Y-m-d',strtotime(Carbon::parse($defect->date_def)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
                                                class="tabledit-input form-control input-sm input-number"
                                                type="text">
                                     </td>
@@ -109,7 +109,7 @@
                                 <td>
                                     <input name="total"
                                            readonly="readonly"
-                                           value="@if($details){{date('Y-m-d',strtotime(\Carbon\Carbon::parse($details->date_in)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
+                                           value="@if($details){{date('Y-m-d',strtotime(Carbon::parse($details->date_in)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
                                            class="tabledit-input form-control input-sm input-number"
                                            type="text">
                                 </td>

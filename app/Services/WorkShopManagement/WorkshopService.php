@@ -135,6 +135,8 @@ class WorkshopService
 
         foreach ($request->get('defects') as $defect) {
 
+            // validation
+
             VehicleDefects::firstOrCreate(
                 [
                     'job_card_no' => $request['job_card_no'],
@@ -145,6 +147,7 @@ class WorkshopService
                 [
                     'section_code' => $defect['workshopSection'],
                     'created_by' => auth()->user()->staff_no,
+                    'date_def' => Carbon::parse($defect['date_def'])
                 ]);
         }
 
