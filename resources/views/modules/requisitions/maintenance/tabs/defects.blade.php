@@ -69,7 +69,7 @@
 
                                     <td class="view-mode">
                                         <button type="button"
-                                                data-value="{{$defect->date_def ?? '0'}}"
+                                                data-value="{{$defect->id ?? '0'}}"
                                                 value="deleteRow"
                                                 class="btn btn-danger p-2">
                                             <i class="fas fa-trash m-0"></i>
