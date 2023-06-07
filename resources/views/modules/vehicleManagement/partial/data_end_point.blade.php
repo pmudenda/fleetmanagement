@@ -47,6 +47,7 @@
 <input type="hidden"
        id="fuelTypesUrl"
        value="{{route('fuel.types')}}"/>
+
 <input type="hidden"
        id="suppliersList"
        value="{{route('suppliers.list')}}"/>

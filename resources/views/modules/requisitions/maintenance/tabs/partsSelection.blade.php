@@ -163,13 +163,14 @@
                     <div class="container-fluid pl-0">
                         <div class="row">
                             <div class="form-group row">
-                                <label
+                                {{--<label
                                     class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                     for="staff_name">
                                     Service Advisor:
-                                </label>
+                                </label>--}}
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    @if($details && $details->service_advisor)
+
+                                    {{--@if($details && $details->service_advisor)
                                         <input type="text"
                                                readonly
                                                class="form-control form-control-sm when_valid number_input"
@@ -187,7 +188,7 @@
                                                required
                                                name="service_advisor"
                                         />
-                                    @endif
+                                    @endif--}}
 
                                 </div>
                             </div>
