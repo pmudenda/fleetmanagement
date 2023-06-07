@@ -146,7 +146,7 @@
                         for="remarks">Comments (optional):
                     </label>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
-                        @if(!empty('comments'))
+                        @if(!empty($comments))
                             <textarea type="text"
                                       id="remarks"
                                       name="remarks"
