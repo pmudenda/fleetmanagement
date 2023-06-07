@@ -919,7 +919,7 @@
 
             getFuelLevels();
 
-            loadData('VEH_SYS', document.querySelector('#systemsUrl').value + '?key=VEH_SYS');
+            loadData('VEH_SYS', document.querySelector('#systemsUrl').value + '?key=VEH_SYS', $('select[name="vehicleSystem"]'));
 
             initEventHandlers();
 
