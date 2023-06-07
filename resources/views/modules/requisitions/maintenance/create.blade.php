@@ -83,7 +83,8 @@
                 <input type="hidden" value="{{route('load.defects')}}" id="defectUrl"/>
                 <input type="hidden" value="{{route('load.workshop.section')}}" id="workShopSectionsUrl"/>
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
-                <input type="hidden" value="{{route('delete.defect.record')}}" name="deleteDefectUrl" id="deleteDefectUrl"/>
+                <input type="hidden" value="{{route('delete.defect.record')}}" name="deleteDefectUrl"
+                       id="deleteDefectUrl"/>
             </div>
         </div>
     </section>
@@ -727,7 +728,26 @@
                 loadData('WDF', document.querySelector('#defectUrl').value + '?key=' + selectedValue, selectElem);
             }
 
+            function showAndRequireSupplierData() {
+                document.querySelector('#supplierContainer').style.display = null;
+                document.querySelector('[name="supplier"]').setAttribute('required', 'required');
+            }
+
+            function hideAndRemoveRequireSupplierData() {
+                document.querySelector('#supplierContainer').style.display = 'none';
+                document.querySelector('[name="supplier"]').removeAttribute('required');
+            }
+
             function initEventHandlers() {
+
+                $("#itemType").on('change', function () {
+                    const selectedItemType = this.value
+                    if (document.querySelector('[name="stockItemCode"]').value === selectedItemType) {
+                        showAndRequireSupplierData();
+                    } else {
+                        hideAndRemoveRequireSupplierData();
+                    }
+                });
 
                 $(document).on('change', 'select[name="vehicleSystem"]', function () {
                     if (!this.value) return;
@@ -933,7 +953,7 @@
                             Table.deleteRow(tableRow);
                             e.preventDefault();
                             e.stopPropagation();
-                            if(!valueId || valueId == "0"){
+                            if (!valueId || valueId == "0") {
                                 return;
                             }
 
@@ -992,6 +1012,39 @@
                 });
             }
 
+            function getSuppliers() {
+                fetch(document.querySelector('#suppliersList').value)
+                    .then(response => response.json())
+                    .then(function (response) {
+                        let selectElem = $('select[name="supplierName"]');
+                        // Populate results
+                        if (response.state === 'failure') {
+                            //show errors
+                            toastr.error('Failed to retrieve Supplier Records', 'Connection Error');
+                            return;
+                        }
+                        /*<option value>--Supplier--</option>
+                        <option v-for="supplier in supplierList"
+                                                    :key="supplier.code_supplier"
+                            :value="supplier.code_supplier">
+                                    @{{ supplier.name_of_supplier }}
+                            </option>*/
+
+                        app.supplierList = response['payload'];
+
+                        let suppliers = response['payload'];
+                        tmsApp.populateDropDownList(selectElem, suppliers, "code_supplier", ["code_supplier", "name_of_supplier"], " ==> ", '--Select Supplier--');
+
+                        let supplier = selectElem.attr('data-value');
+                        if (supplier) {
+                            selectElem.val(supplier);
+                            selectElem.trigger('change');
+                        }
+                    }).catch(function (error) {
+                    toastr.error('Could not Retrieve Data, some feature might not work.', 'Connection error');
+                });
+            }
+
             initializeFormWizard();
 
             getWorkshops();
@@ -1006,7 +1059,7 @@
 
                 $(document).find('.vehicleSystem').map(function (index, item) {
                     const value = item.getAttribute('data-value');
-                    if(!value){
+                    if (!value) {
                         return;
                     }
                     $(item).val(value).trigger('change')

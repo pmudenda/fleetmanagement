@@ -18,7 +18,7 @@
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <select
-                                        data-value="{{$details->workshop_code ?? ''}}"
+                                        data-value="{{''}}"
                                         required
                                         class="form-select form-select-sm"
                                         name="itemType"
@@ -68,7 +68,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="container-fluid pl-0">
-                        <div class="row">
+                        <div class="row" id="supplierContainer" style="display: none;">
                             <div class="form-group row">
                                 <div
                                     class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">

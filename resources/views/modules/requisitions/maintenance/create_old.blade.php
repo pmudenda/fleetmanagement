@@ -659,57 +659,15 @@
 
             getFuelLevels();
 
-
-
-            function getSuppliers() {
-                fetch(document.querySelector('#suppliersList').value)
-                    .then(response => response.json())
-                    .then(function (response) {
-                        let selectElem = $('select[name="supplierName"]');
-                        // Populate results
-                        if (response.state === 'failure') {
-                            //show errors
-                            toastr.error('Failed to retrieve Supplier Records', 'Connection Error');
-                            return;
-                        }
-                        /*<option value>--Supplier--</option>
-                        <option v-for="supplier in supplierList"
-                                                    :key="supplier.code_supplier"
-                            :value="supplier.code_supplier">
-                                    @{{ supplier.name_of_supplier }}
-                            </option>*/
-
-                        app.supplierList = response['payload'];
-
-                        let suppliers = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, suppliers, "code_supplier", ["code_supplier", "name_of_supplier"], " ==> ", '--Select Supplier--');
-
-                        let supplier = selectElem.attr('data-value');
-                        if (supplier) {
-                            selectElem.val(supplier);
-                            selectElem.trigger('change');
-                        }
-                    }).catch(function (error) {
-                    toastr.error('Could not Retrieve Data, some feature might not work.', 'Connection error');
-                });
-            }
-
-
         })(window.tmsApp || {}, jQuery)
 
 
 
         $(document).ready(function () {
 
-            function showAndRequireSupplierData() {
-            }
 
-            $("#itemType").on('change', function () {
-                const selectedItemType = this.value
-                if (document.querySelector('[name="stockItemCode"]').value === selectedItemType) {
-                    showAndRequireSupplierData();
-                }
-            });
+
+
         })
     </script>
 @endpush
