@@ -240,6 +240,7 @@ class MaintenanceController extends Controller
         $accessories_checked_in = null;
         $details = null;
         $defects = null;
+        $comments = null;
 
         if ($reference) {
             $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)
@@ -248,7 +249,6 @@ class MaintenanceController extends Controller
 
             $defects = VehicleDefects::where('job_card_no', '=', $reference)->get();
             $comments = WorkShopComments::where('job_card_no', '=', $reference)->get();
-
         }
 
         return array($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections, $defects, $comments);

@@ -642,6 +642,9 @@
                             summaryTotal += tmsApp.getFloat(it.value);
                         });
                         $('#totalAmount').text(tmsApp.numberFormat(summaryTotal, 2));
+                    case '':
+
+                        break;
                     default:
                         break;
                 }
@@ -830,7 +833,7 @@
                     }
                 });
 
-                $('#materialDetailsTable').on('change', 'select,input', function (e) {
+                $('#materialDetailsTable').on('change', 'select, input', function (e) {
                     eventHandler(this, e);
                 }).on('keyup', 'select,input,textarea', function (e) {
                     eventHandler(this, e);
