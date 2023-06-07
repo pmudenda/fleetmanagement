@@ -9,6 +9,11 @@
         th {
             white-space: nowrap;
         }
+        /**===NO WRAP ON TABLE =====**/
+        table.dataTable.nowrap th,
+        table.dataTable.nowrap td {
+            white-space: nowrap;
+        }
 
         .select2 {
             width: 100% !important;

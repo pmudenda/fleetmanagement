@@ -173,11 +173,12 @@
                 </div>
             </div>
         </div>
+        <hr/>
         <div class="col-xs-12 col-sm-12 col-md-12 px-0">
             <div class="row">
                 <div class="table-responsive" style="max-height:500px;">
                     <table id="material_table" data-form-url="{{route("process.job_card")}}" data-model-name="PartsHeader"
-                           class="table table-row-dashed align-middle gs-0">
+                           class="table dataTable table-row-dashed align-middle gs-0 nowrap">
                         <thead>
                         <tr class="bg-default">
                             <th style="width: 10%;" class="pl-2">Reg. No</th>
