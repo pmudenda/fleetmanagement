@@ -143,7 +143,8 @@
                 <div class="form-group">
                     <label
                         class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                        for="remarks">Comments (optional):
+                        for="remarks">
+                        Comments (optional):
                     </label>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
                         @if(!empty($comments))

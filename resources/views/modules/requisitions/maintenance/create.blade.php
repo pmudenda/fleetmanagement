@@ -88,6 +88,7 @@
 @push('scripts')
     <script>
         window.selectedAccessories = {!! json_encode($accessories_checked_in) !!};
+        window.defects = {!! json_encode($defects) !!};
         window.step_id = {!! $step !!};
     </script>
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
@@ -429,9 +430,6 @@
                 document.querySelector('#image_view').style.display = 'none';
 
                 $('tbody#vehicleDetails').html('');
-
-                //$("#material_description").text(tmsApp.formatMoney('0', 2));
-                //$('input[name="material_description"]').val(tmsApp.formatMoney('0', 2));
             }
 
             function enableWebUIControls() {
@@ -913,6 +911,10 @@
 
                 if (window['selectedAccessories']) {
                     setSelectedAccessories();
+                }
+
+                if(window['defects']){
+                    $('select[name="vehicleSystem"]').trigger('change')
                 }
 
                 findDriver();
