@@ -137,5 +137,25 @@ Route::get('load/workshop/section', function (Request $request) {
         ]);
     }
 })->name('load.workshop.section');
+Route::get('load/workshop/section', function (Request $request) {
+    try {
+
+        $workShopSection = GeneralTableConfigurations::where('type', ConfigurationTypes::WORK_SHOP_SECTION)
+            ->where('parent', $request->get('key'))->get();
+
+        return response()->json([
+            'success' => !empty($workShopSection),
+            'payload' => $workShopSection
+        ]);
+
+    } catch (Exception $e) {
+        Log::error($e);
+        return response()->json([
+            'success' => false,
+            'payload' => [],
+            'message' => ErrorMessages::getMessage('')
+        ]);
+    }
+})->name('load.workshop.section');
 
 

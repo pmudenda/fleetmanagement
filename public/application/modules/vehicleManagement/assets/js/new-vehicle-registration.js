@@ -864,23 +864,7 @@ let app = new Vue({
         },*/
 
         /* getOrganizationalUnits: function () {
-             fetch(document.querySelector('#orgUnitsEndpoint').value)
-                 .then(response => response.json())
-                 .then(response => {
-                     // Populate results
-                     if (response.state === 'failure') {
-                         //show errors
-                         toastr.error('Connection error, no data found')
-                         return;
-                     }
 
-                     app.organizationalUnits = response['payload'];
-                 })
-                 .catch(function (error) {
-                     // notify of error
-                     toastr.error(
-                         'Connection error. Could not retrieve data, some feature might not work.')
-                 });
          },*/
 
         getUserUnitLabel: function (val) {
@@ -890,6 +874,23 @@ let app = new Vue({
         },
 
         loadLicenceClasses: function () {
+            fetch(document.querySelector('#licenseClassEndpoint').value)
+                .then(response => response.json())
+                .then(response => {
+                    // Populate results
+                    if (response.state === 'failure') {
+                        //show errors
+                        toastr.error('Connection error, no data found')
+                        return;
+                    }
+
+                    app.organizationalUnits = response['payload'];
+                })
+                .catch(function (error) {
+                    // notify of error
+                    toastr.error(
+                        'Connection error. Could not retrieve data, some feature might not work.')
+                });
             this.licenseTypes = [{'code': 'A', 'name': 'Class A'}, {'code': 'B', 'name': 'Class B'}, {
                 'code': 'C',
                 'name': 'Class C'

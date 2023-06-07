@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\StatusHelper;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -29,7 +30,7 @@ return new class extends Migration {
             $table->timestamp('modified_by')->nullable();
             $table->string('status')->default(StatusHelper::active());
             $table->string('is_designated_driver', 3);
-            $table->string('on_boarding_reference', 15);
+            $table->string('on_boarding_reference', 20);
             $table->timestamps();
         });
     }

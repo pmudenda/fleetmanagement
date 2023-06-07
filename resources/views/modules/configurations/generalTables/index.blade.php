@@ -45,8 +45,8 @@
                                     <table id="recordsTable" class="table table-bordered table-striped">
                                         <thead>
                                         <tr>
-                                            <th>Name</th>
                                             <th>Code</th>
+                                            <th>Name</th>
                                             @if(str_contains(strtolower($type) ,"status"))
                                                 <th>Active</th>
                                             @else
@@ -64,23 +64,21 @@
                                         @else
                                             @foreach($entries as $entry)
                                                 <tr data-id="{{$entry->id}}">
-                                                    <td class="name">
-                                                        {{$entry->name}}
-
-                                                    </td>
                                                     <td class="code">
                                                         {{$entry->code}}
-
+                                                    </td>
+                                                    <td class="name">
+                                                        {{$entry->name}}
                                                     </td>
                                                     <td class="status">
                                                         @if($entry->active == '01')
                                                             <span class="badge badge-success p-2">
                                                                     Active
-                                                                </span>
+                                                            </span>
                                                         @else
                                                             <span class="badge badge-danger p-2">
                                                                     Inactive
-                                                                </span>
+                                                            </span>
                                                         @endif
                                                     </td>
                                                     <td>
@@ -109,14 +107,14 @@
                                                                         </a>
                                                                     </li>
 
-                                                                    <li>
+                                                                  {{--  <li>
                                                                         <button type="submit" id="deleteButton"
                                                                                 data-id="{{$entry->id}}"
                                                                                 class="delButton dropdown-item">
                                                                             <i class="fa fa-trash"></i>
                                                                             Delete
                                                                         </button>
-                                                                    </li>
+                                                                    </li>--}}
                                                                 {{--@endcan--}}
                                                             </ul>
                                                         </div>
@@ -163,21 +161,20 @@
                     @endif
 
                     <div class="modal-body">
-
-                        <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">Name:</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
-                                   id="data_name" required>
-
-                            @error('name')
-                            <p class=" errorText">{{$message}}</p>
-                            @enderror
-                        </div>
                         <div class="mb-3">
                             <label for="message-text" class="col-form-label">Code:</label>
                             <input type="text" class="form-control @error('code') is-invalid @enderror" id="data_code"
                                    name="code" required>
                             @error('code')
+                            <p class=" errorText">{{$message}}</p>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Description:</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
+                                   id="data_name" required>
+
+                            @error('name')
                             <p class=" errorText">{{$message}}</p>
                             @enderror
                         </div>
@@ -208,10 +205,7 @@
                                 <p class=" errorText">{{$message}}</p>
                                 @enderror
                             @endIf--}}
-
                         </div>
-
-
                     </div>
                     <div class="modal-footer">
                         <button id="closeButton" type="button"
@@ -255,16 +249,16 @@
                         <input type="text" value="{{$type}}" name="type" style="display: none" id="data_type"/>
                     @endif
                     <div class="modal-body">
-
-                        <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">Name:</label>
-                            <input type="text" class="form-control" name="name" id="data_edit_name">
-                        </div>
                         <div class="mb-3">
                             <label for="message-text" class="col-form-label">Code:</label>
-                            <input type="text" class="form-control" id="data_edit_code" name="code">
+                            <input type="text"
+                                   class="form-control"
+                                   id="data_edit_code" name="code">
                         </div>
-
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Description:</label>
+                            <input type="text" class="form-control" name="name" id="data_edit_name">
+                        </div>
                         {{--<div class="mb-3">
                             <label for="message-text" class="col-form-label">Status:</label>
                             <select name="status" class="form-control" id="data_edit_status">
@@ -372,44 +366,6 @@
                                 },
                                 'success'
                             );
-                            /*
-                              console.log(entry)
-                              const table = document.getElementById('myTable');
-                              const tableBody = table.getElementsByTagName('tbody')[0];
-                              const newRow = document.createElement('tr');
-
-                              newRow.setAttribute('data-id', entry.id);
-
-                              Object.entries(formData).forEach(function ([key, value]) {
-                                  if (key === 'type') return; // Skip the iteration when key is 'type'
-                                  console.log(key);
-                                  const td = document.createElement('td');
-                                  td.innerHTML = value;
-                                  newRow.appendChild(td);
-                              });
-
-                              let html = `<td>
-                              <button class="btn btn-sm btn-outline-primary editBtn"
-                                          data-id="${entry.id}"
-                                          data-record_name="${entry.name}"
-                                          data-record_status="${entry.status}"
-                                          data-record_code="${entry.code}"
-                                          data-bs-toggle="modal"
-                                          data-bs-target="#editModal">
-                                          <i class="fa fa-edit" aria-hidden="true"></i>Edit
-                              </button>
-                              <button type="submit" id="deleteButton" data-id="${entry.id}" class="delButton btn btn-sm btn-outline-danger"><i class="fa fa-trash"></i>Delete
-                                          </button>
-                              </td>`;
-                              const td = document.createElement('td');
-                              td.innerHTML = html;
-                              newRow.appendChild(td);
-                              tableBody.appendChild(newRow);
-                              document.getElementById("data_name").value = ""
-                              document.getElementById("data_code").value = ""
-                              document.getElementById("data_status").value = ""
-                              document.getElementById("closeButton").click();
-                            */
                         }
                     },
                     function (xhr, settings, error) {
@@ -418,14 +374,6 @@
                                 tmsApp.showErrorMessages(xhr, 'System Configuration');
                             },
                             300);
-                        /* if ('responseJSON' in xhr) {
-                             let message = xhr.responseJSON.errors;
-                             let errorText1 = document.querySelector(".errorText1")
-                             let errorText2 = document.querySelector(".errorText2")
-                             errorText1.innerText = message.name;
-                             errorText2.innerText = message.code;
-
-                         }*/
                     }
                 )
             });
@@ -458,28 +406,49 @@
                 e.preventDefault();
                 e.stopPropagation();
 
-                let formData = {
-                    name: document.getElementById("data_edit_name").value,
-                    code: document.getElementById("data_edit_code").value,
-                    //status: document.getElementById("data_edit_status").value,
-                }
+                let formData = new FormData('form[name="configurationEditTableForm"]');
 
                 tmsApp.asyncPostFormData(
                     '/edit/' + id,
                     formData,
                     function (asyncResponse) {
-                        /*let tableRow = $("#myTable tbody tr[data-id='" + id + "']");
-                        tableRow.find(".name").text(formData.name);
-                        tableRow.find(".code").text(formData.code);
-                        tableRow.find(".status").text(formData.status);
-                        id = "";
-                        document.getElementById("data_edit_name").value = ""
-                        document.getElementById("data_edit_code").value = ""
-                        document.getElementById("data_edit_status").value = ""
-                        document.getElementById("closeEditButton").click();*/
-                    },
-                    function () {
+                        if ('success' in asyncResponse && !asyncResponse.success) {
+                            if (asyncResponse.hasOwnProperty('errors')) {
+                                toastr.error(
+                                    asyncResponse.message
+                                );
+                                tmsApp.printErrorMsg(asyncResponse.errors);
+                                return
+                            }
 
+                            setTimeout(function () {
+                                tmsApp.systemError(
+                                    'System Configuration',
+                                    asyncResponse['message'],
+                                    function () {
+                                    }, 'error');
+                            }, 300);
+                            return;
+                        }
+
+                        if (asyncResponse.success) {
+                            const entry = asyncResponse.payload;
+                            tmsApp.showSystemMessage(
+                                'System Configuration',
+                                asyncResponse['message'],
+                                function () {
+                                    window.location.reload();
+                                },
+                                'success'
+                            );
+                        }
+                    },
+                    function (xhr, settings, error) {
+                        setTimeout(
+                            function () {
+                                tmsApp.showErrorMessages(xhr, 'System Configuration');
+                            },
+                            300);
                     },
                     'PUT',
                 )
@@ -487,7 +456,7 @@
 
             })
 
-            $(document).on('click', '.delButton', function (e) {
+            /*$(document).on('click', '.delButton', function (e) {
                 let recordData = e.currentTarget.dataset;
                 console.log(recordData)
                 tmsApp.confirm(
@@ -503,7 +472,7 @@
                     }
                 );
             })
-
+*/
             function launchDeleteModal(recordData, id) {
                 let modalElement = document.getElementById(id);
                 let modal = new bootstrap.Modal(modalElement);
@@ -531,16 +500,15 @@
             }
 
             function launchErrorModal(message, id) {
-                var modalElement = document.getElementById(id);
-                var modal = new bootstrap.Modal(modalElement);
+                const modalElement = document.getElementById(id);
+                let modal = new bootstrap.Modal(modalElement);
                 modal.show();
 
-                var modalBody = modalElement.querySelector(".modal-body");
+                let modalBody = modalElement.querySelector(".modal-body");
                 modalBody.innerHTML = message;
 
-                var modalButton = modalElement.querySelector(".btn-danger");
+                let modalButton = modalElement.querySelector(".btn-danger");
                 modalButton.addEventListener("click", function () {
-
                     modal.hide();
                 });
             }
@@ -548,11 +516,5 @@
             tmsApp.initDatatable("#recordsTable", true, true);
         })(window.tmsApp || {}, jQuery);
     </script>
-
-    {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css">--}}
-
 @endpush
 

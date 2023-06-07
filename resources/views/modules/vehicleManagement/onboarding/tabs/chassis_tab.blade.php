@@ -253,7 +253,7 @@
                     <td class="frappe-control" colspan="1">
                         <div class="clearfix">
                             <label for="requiredMinimumDrivingLicense" class="control-label reqd"
-                                   style="padding-right: 0px;">Minimum Driving License:</label>
+                                   style="padding-right: 0px;">Driving License Class:</label>
                             <span class="help"></span>
                         </div>
                     </td>
