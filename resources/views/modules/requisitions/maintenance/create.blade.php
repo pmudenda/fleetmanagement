@@ -87,6 +87,7 @@
                 <input type="hidden" value="{{route('load.defects.category')}}" id="defectCategoryUrl"/>
                 <input type="hidden" value="{{route('load.defects')}}" id="defectUrl"/>
                 <input type="hidden" value="{{route('load.workshop.section')}}" id="workShopSectionsUrl"/>
+                <input type="hidden" value="{{route('load.articles')}}" id="articlesUrl"/>
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
                 <input type="hidden" value="{{route('delete.defect.record')}}" name="deleteDefectUrl"
                        id="deleteDefectUrl"/>
@@ -391,6 +392,36 @@
                     .then(response => response.json())
                     .then(response => {
                         let selectElem = $('select[name="workshopSection"]');
+                        // Populate results
+                        if (response.state === 'failure') {
+                            //show errors
+                            toastr.error('Connection error, no data found')
+                            return;
+                        }
+
+                        let workshops = response['payload'];
+                        tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
+
+                        let location = selectElem.attr('data-value');
+                        console.log(location);
+                        if (location) {
+                            selectElem.val(location);
+                            selectElem.trigger('change');
+                        }
+
+                    })
+                    .catch(function (error) {
+                        // notify of error
+                        toastr.error(
+                            'Connection error. Could not retrieve data, some feature might not work.')
+                    });
+            }
+
+            function getArticles() {
+                fetch(document.querySelector('#articlesUrl').value)
+                    .then(response => response.json())
+                    .then(response => {
+                        let selectElem = $('.articlesDropDownList');
                         // Populate results
                         if (response.state === 'failure') {
                             //show errors
@@ -1073,6 +1104,8 @@
             }
 
             getSuppliers();
+
+            getArticles();
 
         })(window.tmsApp || {}, jQuery)
     </script>

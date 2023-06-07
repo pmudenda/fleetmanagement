@@ -186,7 +186,7 @@
                             <th style="width: 15%;">Article Code</th>
                             <th style="width: 25%;">Specification</th>
                             <th style="width: 25%;">Qty.</th>
-                            <th style="width: 25%;">UOM</th>
+                            <th style="width: 5%;">UOM</th>
                             <th style="width: 25%;">Unit Price</th>
                             <th style="width: 25%;">Total</th>
                             <th style="width: 25%;"></th>
@@ -210,8 +210,8 @@
                                             name="articles"
                                             id="articlesDropDownList"
                                             required
-                                            data-value="{{$defect->veh_sys}}"
-                                            class="form-control form-control-sm articles">
+                                            data-value=""
+                                            class="form-control form-control-sm articlesDropDownList">
                                             <option></option>
                                         </select>
                                     </td>

@@ -5,6 +5,7 @@ use App\Enums\ConfigurationTypes;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\API\RoadTransportSafetyAgencyIntegrationController;
 use App\Models\configurations\GeneralTableConfigurations;
+use App\Models\reference\Article;
 use App\Models\reference\GtaVehicle;
 use App\Models\WorkShopManagement\WorkShopTable;
 use Illuminate\Http\Request;
@@ -163,5 +164,25 @@ Route::get('vehicle/licence/classes', function (Request $request) {
         ]);
     }
 })->name('vehicle.licence.classes');
+
+Route::get('load/procurement/articles', function (Request $request) {
+    try {
+        $procurementArticles = Article::where('type_article', '=', $request->get('type_article'))
+            ->get();
+
+        return response()->json([
+            'success' => !empty($procurementArticles),
+            'payload' => $procurementArticles
+        ]);
+
+    } catch (Exception $e) {
+        Log::error($e);
+        return response()->json([
+            'success' => false,
+            'payload' => [],
+            'message' => ErrorMessages::getMessage('err_0005')
+        ]);
+    }
+})->name('load.articles');
 
 
