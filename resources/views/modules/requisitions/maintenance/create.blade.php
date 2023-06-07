@@ -106,6 +106,35 @@
             window.goToNext = false;
             let bodyTag = "fieldset";
 
+            $(document).ready(function (){
+                setTimeout(function () {
+                    let job_card_number = $('[name="job_card_number"]').val();
+                    if (job_card_number) {
+                        const elem = $("#repairTypeDropdownList");
+                        let val = elem.attr('data-value');
+                        if (val) {
+                            elem.val(val);
+                            elem.trigger('change');
+                        }
+                    }
+
+                    if (window['selectedAccessories']) {
+                        setSelectedAccessories();
+                    }
+
+                    if(window['defects']){
+                        $('table#part8').find('tbody').children().map(function(index , row){
+                            $(row).find('select[name="vehicleSystem"]').trigger('change');
+                        });
+                    }
+
+                    findDriver();
+
+                    findVehicle();
+
+                }, 600);
+            });
+
             /*****************************Function Handlers************************************/
             function initializeFormWizard() {
                 function postData(formElements, submitForm) {
@@ -896,33 +925,6 @@
                     return false;
                 });
             }
-
-            setTimeout(function () {
-                let job_card_number = $('[name="job_card_number"]').val();
-                if (job_card_number) {
-                    const elem = $("#repairTypeDropdownList");
-                    let val = elem.attr('data-value');
-                    if (val) {
-                        elem.val(val);
-                        elem.trigger('change');
-                    }
-                }
-
-                if (window['selectedAccessories']) {
-                    setSelectedAccessories();
-                }
-
-                if(window['defects']){
-                    $('table#part8').find('tbody').children().map(function(index , row){
-                        $(row).find('select[name="vehicleSystem"]').trigger('change');
-                    });
-                }
-
-                findDriver();
-
-                findVehicle();
-
-            }, 600);
 
             initializeFormWizard();
 
