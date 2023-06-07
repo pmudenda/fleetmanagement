@@ -195,17 +195,17 @@ class GeneralTablesController extends Controller
     public function edit(Request $request): JsonResponse
     {
         try {
-            $formData = $request->validate([
+            /*$formData = $request->validate([
                 'name' => 'required|max:255',
                 'code' => 'required|max:4',
                 'type' => 'required'
-            ]);
+            ]);*/
 
             $entry = GeneralTableConfigurations::where('code', '=', $request->code)
                 ->where('type', '=', $request->type)->get()->first();
 
-            $entry->name = $formData['name'];
-            $entry->code = $formData['code'];
+            $entry->name = $request->name;
+            $entry->code = $request->code;
             $entry->status = 1;
             $entry->save();
 
