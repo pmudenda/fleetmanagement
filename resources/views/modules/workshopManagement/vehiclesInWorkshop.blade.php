@@ -118,7 +118,7 @@
                                                         <li>
                                                             <a class="dropdown-item"
                                                                data-kt-action="edit"
-                                                               href="{{URL::signedRoute('accessories.job.card',['step'=> '2', 'reference'=>$workshop->job_card_no])}}">
+                                                               href="{{URL::signedRoute('accessories.job.card',['step'=> '1', 'reference'=>$workshop->job_card_no])}}">
                                                                 Open
                                                             </a>
                                                         </li>

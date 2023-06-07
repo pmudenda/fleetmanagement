@@ -17,4 +17,8 @@ class SystemMessages
     {
         return "Vehicle Accessories Processed Successfully";
     }
+    public static function defectRecorded(): string
+    {
+        return "Vehicle Accessories Processed Successfully";
+    }
 }

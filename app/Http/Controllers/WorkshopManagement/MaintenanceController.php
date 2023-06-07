@@ -150,7 +150,6 @@ class MaintenanceController extends Controller
     public function processJobCard(JobCardRequest $request): JsonResponse
     {
         try {
-            //if ($request->get('modelName') == 'JobCardHeader') {
             $response = $this->workshopService->createJobCard($request);
             return response()->json(
                 [
@@ -199,7 +198,7 @@ class MaintenanceController extends Controller
             $this->workshopService->createJobCardDefects($request);
             return response()->json([
                 'success' => true,
-                'message' => SystemMessages::accessoriesCheckedIn(),
+                'message' => SystemMessages::defectRecorded(),
                 'redirectUrl' => URL::signedRoute('defects.job.card',
                     ['step' => 4, 'reference' => $request->get('job_card_voucher')]),
             ]);
