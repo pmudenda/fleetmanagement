@@ -2,6 +2,9 @@
  use App\Models\reference\PurchaseOffice;
  @endphp
 <div class="container-fluid">
+    <input type="hidden"
+           id="suppliersList"
+           value="{{route('suppliers.list')}}"/>
     <div class="row" data-form-url="{{route("process.job_card")}}" data-model-name="JobCardHeader">
         <div class="col-9">
             <div class="row">
