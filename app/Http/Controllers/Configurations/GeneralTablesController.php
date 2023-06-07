@@ -8,6 +8,8 @@ use App\Enums\Constants;
 use App\Exceptions\GeneralTableRecordException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateRecordRequest;
+use App\Http\Requests\GeneralTableEditRequest;
+use App\Http\Requests\GeneralTableDeleteRequest;
 use App\Models\configurations\general\Status;
 use App\Models\configurations\GeneralTableConfigurations;
 use Exception;
@@ -192,15 +194,10 @@ class GeneralTablesController extends Controller
 
     }
 
-    public function edit(Request $request): JsonResponse
+    public function edit(GeneralTableEditRequest $request): JsonResponse
     {
         Log::info($request->json());
         try {
-            /*$formData = $request->validate([
-                'name' => 'required|max:255',
-                'code' => 'required|max:4',
-                'type' => 'required'
-            ]);*/
 
             $entry = GeneralTableConfigurations::where('code', '=', $request->get('code'))
                 ->where('type', '=', $request->get('type'))
@@ -228,14 +225,11 @@ class GeneralTablesController extends Controller
         }
     }
 
-    public function delete(Request $request): JsonResponse
+    public function delete(GeneralTableDeleteRequest $request): JsonResponse
     {
         try {
-            $request->validate([
-                'id' => 'required'
-            ]);
 
-            $entry = GeneralTableConfigurations::where('id', '=', $request->get('id'))
+            $entry = GeneralTableConfigurations::where('id', '=', $request->id)
                 ->first();
             $entry->status = 0;
             $entry->deleted_at = Carbon::now();
