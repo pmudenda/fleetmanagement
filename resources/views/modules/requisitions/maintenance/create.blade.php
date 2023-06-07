@@ -140,6 +140,7 @@
                             arr.push(obj);
                         });
 
+                        obj['job_card_no'] = $('input[name="job_card_voucher"]').val();
                         obj['remarks'] = $('#remarks').val();
                     } else {
                         $($container).find('input[name], select[name]').each(function (i, item) {
