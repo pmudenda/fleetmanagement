@@ -267,7 +267,7 @@
                                                                                 <input id="designated-driver-yes"
                                                                                        type="radio"
                                                                                        name="isDesignatedDriver"
-                                                                                       value="yes" disabled />
+                                                                                       value="yes" disabled/>
                                                                                 <label
                                                                                     for="designated-driver-yes">Yes</label>
                                                                             </div>
@@ -276,7 +276,7 @@
                                                                                        type="radio"
                                                                                        checked
                                                                                        name="isDesignatedDriver"
-                                                                                       value="no" disabled />
+                                                                                       value="no" disabled/>
                                                                                 <label
                                                                                     for="designated-driver-no">No</label>
                                                                             </div>
@@ -591,7 +591,6 @@
                                                                                class="form-control form-control-sm"
                                                                                id="permit_date_expiry"
                                                                                name="permit_date_expiry"
-                                                                               readonly
                                                                                required>
                                                                     </div>
                                                                 </div>
@@ -659,9 +658,11 @@
 
                     let fileSelects = [].slice.call(document.querySelectorAll(selector));
                     fileSelects.map(function (fileSelect) {
-                        fileSelect.addEventListener("change", (e) => {
-                            preview(e);
-                        }, false);
+                        fileSelect.addEventListener("change",
+                            (e) => {
+                                preview(e);
+                            },
+                            false);
                     });
 
                     function preview(event) {

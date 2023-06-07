@@ -28,6 +28,8 @@
                                 <div>
                                     {{--v-model="engineDetails.numberOfCylinders"--}}
                                     <input type="number"
+                                           max="16"
+                                           min="2"
                                            required
                                            id="numberOfCylinders"
                                            name="numberOfCylinders"
@@ -55,9 +57,9 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group bg-gray-300">
                                     {{--v-model="engineDetails.engineCapacity"--}}
-                                    <input type="text"
+                                    <input type="number"
                                            class="input-with-feedback form-control bold number_input view_mode"
-                                           maxlength="140"
+                                           max="10000"
                                            required
                                            data-fieldtype="Link"
                                            data-fieldname="company"

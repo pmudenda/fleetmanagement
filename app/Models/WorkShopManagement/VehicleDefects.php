@@ -9,6 +9,6 @@ class VehicleDefects extends Model
 {
     use HasFactory;
 
-    protected $table = '';
+    protected $table = 'WM_VEHICLE_DEFECTS';
     protected $fillable = [];
 }
