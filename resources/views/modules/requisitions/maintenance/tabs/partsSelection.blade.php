@@ -186,11 +186,12 @@
                     <div class="container-fluid pl-0">
                         <div class="row">
                             <div class="form-group row">
-                                <label
+                               {{-- <label
                                     class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                    for="current_odometer">Odometer value:</label>
+                                    for="current_odometer">Odometer value:
+                                </label>--}}
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    <div class="input-group">
+                                    {{--<div class="input-group">
                                         <input type="number"
                                                class="form-control form-control-sm"
                                                id="current_odometer"
@@ -199,7 +200,7 @@
                                         <div class="input-group-text">
                                             Km
                                         </div>
-                                    </div>
+                                    </div>--}}
                                 </div>
                             </div>
                         </div>
@@ -263,7 +264,7 @@
                                     Driver:
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    <div class="input-group">
+                                    {{--<div class="input-group">
                                         <input type="text"
                                                list="employee_list"
                                                data-action="{{route('driver.search')}}"
@@ -282,7 +283,7 @@
                                         </div>
                                         <datalist id="employee_list">
                                         </datalist>
-                                    </div>
+                                    </div>--}}
                                 </div>
                             </div>
                         </div>
@@ -294,11 +295,11 @@
                         <div class="row">
                             <div class="form-group row">
                                 <div class="col-xs-12 col-sm-12 col-md-10 col-lg-11">
-                                    <input type="text"
+                                   {{-- <input type="text"
                                            class="form-control form-control-sm"
                                            id="driver_name"
                                            name="driver_name"
-                                           readonly/>
+                                           readonly/>--}}
                                 </div>
                             </div>
                         </div>
