@@ -321,7 +321,7 @@
                         tmsApp.populateDropDownList(selectElem, workshops, "workshop_code", ["workshop_name", "area_code"], "=>");
 
                         let location = selectElem.attr('data-value');
-                        console.log(location);
+
                         if (location) {
                             selectElem.val(location);
                             selectElem.trigger('change');
@@ -835,8 +835,7 @@
                     eventHandler(this, e);
                 }).on('keyup', 'select,input,textarea', function (e) {
                     eventHandler(this, e);
-                })
-                    .on('blur', 'input', function (e) {
+                }).on('blur', 'input', function (e) {
                         if (this.name === 'quantity') {
                             $(this).val(tmsApp.numberFormat(this.value));
                         }
@@ -914,7 +913,9 @@
                 }
 
                 if(window['defects']){
-                    $('select[name="vehicleSystem"]').trigger('change')
+                    $('table#part8').find('tbody').children().map(function(index , row){
+                        $(row).find('select[name="vehicleSystem"]').trigger('change');
+                    });
                 }
 
                 findDriver();
