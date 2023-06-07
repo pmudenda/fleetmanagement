@@ -731,21 +731,30 @@
             function showAndRequireSupplierData() {
                 document.querySelector('#supplierContainer').style.display = null;
                 document.querySelector('[name="supplier"]').setAttribute('required', 'required');
+
+                document.querySelector('#storeContainer').style.display = 'none';
+                document.querySelector('[name="store_code"]').removeAttribute('required');
             }
 
             function hideAndRemoveRequireSupplierData() {
                 document.querySelector('#supplierContainer').style.display = 'none';
                 document.querySelector('[name="supplier"]').removeAttribute('required');
+
+                document.querySelector('#storeContainer').style.display = null;
+                document.querySelector('[name="store_code"]').setAttribute('required', 'required');
             }
 
             function initEventHandlers() {
 
                 $("#itemType").on('change', function () {
                     const selectedItemType = this.value
-                    if (document.querySelector('[name="nonStockItemCode"]').value === selectedItemType) {
-                        showAndRequireSupplierData();
-                    } else {
+                    if (
+                        document.querySelector('[name="stockItemCode"]').value !== selectedItemType
+                    ) {
                         hideAndRemoveRequireSupplierData();
+                    }
+                    else {
+                        showAndRequireSupplierData();
                     }
                 });
 
@@ -839,7 +848,6 @@
                                                 asyncResponse['message'],
                                                 function () {
                                                     window.location.href = asyncResponse["redirectUrl"]
-                                                    //window.location.reload();
                                                 },
                                                 'success'
                                             );

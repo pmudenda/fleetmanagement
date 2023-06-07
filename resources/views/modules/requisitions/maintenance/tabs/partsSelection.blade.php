@@ -29,8 +29,8 @@
                                         <option value="03">SERVICE</option>
                                     </select>
                                     <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
-                                    <input type="hidden" value="{{RequisitionItemTypes::NonStockItemCode}}"
-                                           id="nonStockItemCode" name="nonStockItemCode"/>
+                                    <input type="hidden" value="{{RequisitionItemTypes::StockItemCode}}"
+                                           id="stockItemCode" name="stockItemCode"/>
                                 </div>
                             </div>
                         </div>
@@ -69,8 +69,9 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="container-fluid pl-0">
-                        <div class="row" id="supplierContainer" style="display: none;">
-                            <div class="form-group row">
+                        <div class="row">
+
+                            <div id="supplierContainer" style="display: none;" class="form-group row">
                                 <div
                                     class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                     <div class="control-input">
@@ -92,6 +93,23 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div id="storeContainer" style="display: none;" class="form-group row">
+                                <label
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                    for="staff_name">
+                                    Store:
+                                </label>
+                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                    <input type="text"
+                                           class="form-control form-control-sm"
+                                           id="store_code"
+                                           value=""
+                                           placeholder=""
+                                           name="store_code"/>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -120,40 +138,6 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="container-fluid pl-0">
-                        <div class="row">
-                            <div class="form-group row">
-                                <label
-                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                    for="staff_name">
-                                    Store:
-                                </label>
-                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    <input type="text"
-                                           class="form-control form-control-sm"
-                                           id="store_code"
-                                           value=""
-                                           placeholder=""
-                                           name="store_code"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="container-fluid pl-0">
-                        <div class="row">
-                            <div class="form-group row">
-                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
