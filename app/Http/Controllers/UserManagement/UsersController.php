@@ -233,10 +233,10 @@ class UsersController extends Controller
         //
     }
 
-    public function attach(Request $request, $id): RedirectResponse
+    public function attach(Request $request): RedirectResponse
     {
         try {
-            $user = User::find($id);
+            $user = User::find($request->id);
             $user->roles()->syncWithoutDetaching($request->role_ids);
             return redirect()->back()->with('message', 'User Successfully Added To Selected Groups ..');
         } catch (\Exception $e) {
@@ -245,9 +245,9 @@ class UsersController extends Controller
         }
     }
 
-    public function detach(Request $request, $id): RedirectResponse
+    public function detach(Request $request): RedirectResponse
     {
-        $user = User::find($id);
+        $user = User::find($request->id);
         $user->roles()->detach($request->role_id);
         return redirect()->back()->with('message', 'Role Successfully detached..');
     }

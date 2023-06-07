@@ -282,7 +282,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form name="db2" method="post" action="{{route('user.detach', $user->id )}}">
+                        <form name="db2" method="post" action="{{route('user.detach')}}">
+                            <input type="hidden" name="id" id="id" value="{{$user->id}}">
                             @csrf
                             <div class="card-body">
                                 <div class="row">
@@ -331,8 +332,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form name="db2" method="post" action="{{route('user.attach', $user->id )}}">
+                    <form name="db2" method="post" action="{{route('user.attach')}}">
                         @csrf
+                        <input type="hidden" name="id" id="id" value="{{$user->id}}">
                         <div class="card-body">
                             <div class="row">
                                 <span class="text-danger">Select Profile:</span>

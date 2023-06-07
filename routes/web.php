@@ -71,8 +71,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('/user', UsersController::class);
 
         Route::post('/get-employee-data', [UsersController::class, 'search'])->name('user.search');
-        Route::post('user/attach/{id}', [UsersController::class, 'attach'])->name('user.attach');
-        Route::post('user/detach/{id}', [UsersController::class, 'detach'])->name('user.detach');
+        Route::post('user/attach', [UsersController::class, 'attach'])->name('user.attach');
+        Route::post('user/detach', [UsersController::class, 'detach'])->name('user.detach');
     });
 
     Route::group(['prefix' => 'security'], function () {
