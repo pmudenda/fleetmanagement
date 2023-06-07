@@ -137,15 +137,16 @@ Route::get('load/workshop/section', function (Request $request) {
         ]);
     }
 })->name('load.workshop.section');
-Route::get('load/workshop/section', function (Request $request) {
+
+
+Route::get('vehicle/vehicle/vehicle', function (Request $request) {
     try {
 
-        $workShopSection = GeneralTableConfigurations::where('type', ConfigurationTypes::WORK_SHOP_SECTION)
-            ->where('parent', $request->get('key'))->get();
+        $licenseCategory = GeneralTableConfigurations::where('type', ConfigurationTypes::LICENSE_CLASS)->get();
 
         return response()->json([
-            'success' => !empty($workShopSection),
-            'payload' => $workShopSection
+            'success' => !empty($licenseCategory),
+            'payload' => $licenseCategory
         ]);
 
     } catch (Exception $e) {
@@ -156,6 +157,6 @@ Route::get('load/workshop/section', function (Request $request) {
             'message' => ErrorMessages::getMessage('')
         ]);
     }
-})->name('load.workshop.section');
+})->name('vehicle.vehicle.vehicle');
 
 

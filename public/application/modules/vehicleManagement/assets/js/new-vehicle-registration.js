@@ -884,17 +884,17 @@ let app = new Vue({
                         return;
                     }
 
-                    app.organizationalUnits = response['payload'];
+                    app.licenseTypes = response['payload'];
                 })
                 .catch(function (error) {
                     // notify of error
                     toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
+                        'Connection error. Could not retrieve license category data, some feature might not work.')
                 });
-            this.licenseTypes = [{'code': 'A', 'name': 'Class A'}, {'code': 'B', 'name': 'Class B'}, {
+             /*= [{'code': 'A', 'name': 'Class A'}, {'code': 'B', 'name': 'Class B'}, {
                 'code': 'C',
                 'name': 'Class C'
-            }, {'code': 'E', 'name': 'Class E'},];
+            }, {'code': 'E', 'name': 'Class E'},];*/
         },
 
         loadRegistrationTypes: function () {

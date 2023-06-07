@@ -60,3 +60,8 @@
 <input type="hidden" id="batteryUrl" name="locationUrl"
        value="{{ route('battery.get') }}">
 
+<input type="hidden"
+       id="licenseClassEndpoint"
+       name="licenseClassEndpoint"
+       value="{{ route('vehicle.licence.classes') }}">
+
