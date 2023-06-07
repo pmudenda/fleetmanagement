@@ -934,9 +934,17 @@
 
             function dataFiler() {
 
-                $('table#part8').find('tbody').children().map(function (index, row) {
-                    $(row).find('select[name="vehicleSystem"]').trigger('change');
+                $(document).find('.vehicleSystem').map(function (index, item) {
+                    const value = item.getAttribute('data-value');
+                    if(!value){
+                        return;
+                    }
+                    $(item).val(value).trigger('change')
                 });
+
+                /*$('table#part8').find('tbody').children().map(function (index, row) {
+                    $(row).find('select[name="vehicleSystem"]').trigger('change');
+                });*/
 
                 /*for (let modelName in window['defects']) {
 
@@ -1003,8 +1011,7 @@
                     Table.deleteRow(tableRow);
 
                 }*/
-
-              /*for (let i in elementNames) {
+                /*for (let i in elementNames) {
                     if (elementNames.hasOwnProperty(i) && !preventChangeEvent[i]) {
                         $('[name="' + i + '"]').trigger('change');
                     }
