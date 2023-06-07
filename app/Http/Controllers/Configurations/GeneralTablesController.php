@@ -201,9 +201,16 @@ class GeneralTablesController extends Controller
                 ->where('type', '=', $request->get('type'))
                 ->first();
 
+            if(empty($entry)){
+                return response()->json([
+                    'success' => false,
+                    'message' => "Record Not Found",
+                ]);
+            }
+
             $entry->name = $request->name;
             $entry->code = $request->code;
-            $entry->status = 1;
+            $entry->active = 1;
             $entry->save();
 
             return response()->json([
@@ -229,7 +236,15 @@ class GeneralTablesController extends Controller
 
             $entry = GeneralTableConfigurations::where('id', '=', $request->id)
                 ->first();
-            $entry->status = 0;
+
+            if(empty($entry)){
+                return response()->json([
+                    'success' => false,
+                    'message' => "Record Not Found",
+                ]);
+            }
+
+            $entry->active = 0;
             $entry->deleted_at = Carbon::now();
             $entry->save();
             return response()->json([
@@ -240,12 +255,10 @@ class GeneralTablesController extends Controller
         } catch (\Throwable|Exception $exception) {
             Log::error($exception->getMessage());
 
-            $output = [
+            return response()->json([
                 'success' => false,
                 'message' => "Your submission had an error",
-            ];
-
-            return response()->json($output);
+            ]);
         }
     }
 }

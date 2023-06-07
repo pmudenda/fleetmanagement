@@ -57,7 +57,6 @@ Route::get('load/vehicle/systems', function (Request $request) {
         }*/
 
         $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))->get();
-        //$workShopTableData = $query->get();
         return response()->json([
             'success' => !empty($workShopTableData),
             'payload' => $workShopTableData
@@ -78,6 +77,7 @@ Route::get('load/defectsCategory', function (Request $request) {
         Log::info('Request filter ' . $request->get('filter'));
 
         $workShopTableData = WorkShopTable::where('type_code', 'WCT')
+            ->where('active', '=', 1)
             ->where('parent', $request->get('key'))->get();
 
         return response()->json([
@@ -100,6 +100,7 @@ Route::get('load/defects', function (Request $request) {
         Log::info('Request filter ' . $request->get('filter'));
 
         $workShopTableData = WorkShopTable::where('type_code', 'WDF')
+            ->where('active', '=', 1)
             ->where('parent', $request->get('key'))->get();
 
         return response()->json([
@@ -121,7 +122,9 @@ Route::get('load/workshop/section', function (Request $request) {
     try {
 
         $workShopSection = GeneralTableConfigurations::where('type', ConfigurationTypes::WORK_SHOP_SECTION)
-            ->where('parent', $request->get('key'))->get();
+            ->where('parent', $request->get('key'))
+            ->where('active', '=', 1)
+            ->get();
 
         return response()->json([
             'success' => !empty($workShopSection),
@@ -141,7 +144,9 @@ Route::get('load/workshop/section', function (Request $request) {
 Route::get('vehicle/licence/classes', function (Request $request) {
     try {
 
-        $licenseCategory = GeneralTableConfigurations::where('type', ConfigurationTypes::LICENSE_CLASS)->get();
+        $licenseCategory = GeneralTableConfigurations::where('type', ConfigurationTypes::LICENSE_CLASS)
+            ->where('active', '=', 1)
+            ->get();
 
         return response()->json([
             'success' => !empty($licenseCategory),

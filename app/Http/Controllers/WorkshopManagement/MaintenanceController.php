@@ -58,16 +58,8 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        /*$repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
-            ->get();
-        $details = null;*/
-
         list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections) = $this->jobCardCreationData($request);
 
-        $view_name = "";
-        /* if($step == 1){
-             $view_name= 'modules.requisitions.maintenance.create_old';
-         }else{*/
         $view_name = 'modules.requisitions.maintenance.create';
 
         return view($view_name)
@@ -223,17 +215,22 @@ class MaintenanceController extends Controller
         $step = $request->get('step') ?? 0;
         $reference = $request->get('reference');
 
-        $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)->get();
+        $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
+            ->where('active', '=', 1)
+            ->get();
 
         $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
 
-        $workshop_sections = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::WORK_SHOP_SECTION)->get();
+        $workshop_sections = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::WORK_SHOP_SECTION)
+            ->where('active', '=', 1)
+            ->get();
 
         $accessories_checked_in = null;
         $details = null;
 
         if ($reference) {
-            $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)->get();
+            $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)
+                ->get();
             $details = $this->workshopService->getJobCardDetails($reference);
         }
 
