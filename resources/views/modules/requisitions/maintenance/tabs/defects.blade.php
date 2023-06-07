@@ -24,27 +24,27 @@
                                     <td class="showNumber">
                                         <select name="vehicleSystem"
                                                 data-value="{{$defect->veh_sys}}"
-                                                class="form-select form-select-sm">
+                                                class="form-select form-select-sm vehicleSystem">
                                             <option></option>
                                         </select>
                                     </td>
                                     <td>
                                         <select name="defectCategory"
                                                 data-value="{{$defect->defect_category_code}}"
-                                                class="form-select form-select-sm">
+                                                class="form-select form-select-sm defectCategory">
                                             <option></option>
                                         </select>
                                     </td>
                                     <td>
                                         <select name="defect"
                                                 data-value="{{$defect->defect_code}}"
-                                                class="form-select form-select-sm">
+                                                class="form-select form-select-sm defect">
                                             <option></option>
                                         </select>
                                     </td>
                                     <td>
                                         <select name="workshopSection"
-                                                class="form-select form-select-sm">
+                                                class="form-select form-select-sm workshopSection">
                                             <option></option>
                                             @foreach($workshop_sections as $workshop_section)
                                                 @if($defect->section_code == $workshop_section->code)
@@ -80,22 +80,24 @@
                             <tr class="increment">
                                 <td class="showNumber">
                                     <select name="vehicleSystem"
-                                            class="form-select form-select-sm">
+                                            class="form-select form-select-sm vehicleSystem">
                                         <option></option>
                                     </select>
                                 </td>
                                 <td>
-                                    <select name="defectCategory" class="form-select form-select-sm">
+                                    <select name="defectCategory"
+                                            class="form-select form-select-sm defectCategory">
                                         <option></option>
                                     </select>
                                 </td>
                                 <td>
-                                    <select name="defect" class="form-select form-select-sm">
+                                    <select name="defect"
+                                            class="form-select form-select-sm defect">
                                         <option></option>
                                     </select>
                                 </td>
                                 <td>
-                                    <select name="workshopSection" class="form-select form-select-sm">
+                                    <select name="workshopSection" class="form-select form-select-sm workshopSection">
                                         <option></option>
                                         @foreach($workshop_sections as $workshop_section)
                                             <option
