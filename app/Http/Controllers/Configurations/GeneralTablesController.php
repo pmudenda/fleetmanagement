@@ -16,6 +16,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -191,19 +192,19 @@ class GeneralTablesController extends Controller
 
     }
 
-    public function edit(Request $request, $id): JsonResponse
+    public function edit(Request $request): JsonResponse
     {
         try {
             $formData = $request->validate([
-                'name' => 'required',
-                'code' => 'required',
-                'status' => 'required',
+                'name' => 'required|max:255',
+                'code' => 'required|max:4',
+                'type' => 'required'
             ]);
 
-            $entry = GeneralTableConfigurations::find($id);
+            $entry = GeneralTableConfigurations::where('code', '=', $request->code)->where('type', '=', $request->type);
             $entry->name = $formData['name'];
             $entry->code = $formData['code'];
-            $entry->status = 1;//$formData['status'];
+            $entry->status = 1;
             $entry->save();
             return response()->json([]);
 
@@ -219,8 +220,32 @@ class GeneralTablesController extends Controller
         }
     }
 
-    public function delete(GeneralTableConfigurations $id)
+    public function delete(Request $request): JsonResponse
     {
-        $id->delete();
+        try {
+            $formData = $request->validate([
+                //'name' => 'required|max:255',
+                'code' => 'required|max:4',
+                'type' => 'required'
+            ]);
+
+            $entry = GeneralTableConfigurations::where('code', '=', $request->code)->where('type', '=', $request->type);
+            //$entry->name = $formData['name'];
+            //$entry->code = $formData['code'];
+            $entry->status = 0;
+            $entry->deleted_at = Carbon::now();
+            $entry->save();
+            return response()->json([]);
+
+        } catch (\Throwable|Exception $exception) {
+            Log::error($exception->getMessage());
+
+            $output = [
+                'status' => 'failure',
+                'message' => "Your submission had an error",
+            ];
+
+            return response()->json($output);
+        }
     }
 }

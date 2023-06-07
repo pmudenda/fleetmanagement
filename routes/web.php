@@ -94,8 +94,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/open-view', [GeneralTablesController::class, "openFormTypeView"])->name('configuration.general.table');
             Route::get('/types', [GeneralTablesController::class, "show"]);
             Route::post('/general_tables', [GeneralTablesController::class, "save"])->name('save.data');
-            Route::put('/edit/{id}', [GeneralTablesController::class, "edit"])->name('edit.data');
-            Route::delete('/delete/{id}', [GeneralTablesController::class, "delete"])->name('delete.data');
+            Route::put('/edit', [GeneralTablesController::class, "edit"])->name('edit.data');
+            Route::delete('/delete', [GeneralTablesController::class, "delete"])->name('delete.data');
         });
 
         Route::get('vehicle/make', function () {

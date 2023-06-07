@@ -242,7 +242,9 @@
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form name="configurationEditTableForm" method="post">
+                <form name="configurationEditTableForm"
+                      action="{{route('edit.data')}}"
+                      method="post">
                     @csrf
                     @method('PUT')
                     @if($title != 'nothing')
@@ -251,7 +253,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="message-text" class="col-form-label">Code:</label>
-                            <input type="text"
+                            <input type="text" readonly
                                    class="form-control"
                                    id="data_edit_code" name="code">
                         </div>
@@ -281,7 +283,7 @@
         </div>
     </div>
 
-
+    <input type="hidden" name="deleteUrl" value="{{route('delete.data')}}">
     {{--Delete Modal--}}
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -406,10 +408,11 @@
                 e.preventDefault();
                 e.stopPropagation();
 
-                let formData = new FormData(document.querySelector('form[name="configurationEditTableForm"]'));
+                const form = document.querySelector('form[name="configurationEditTableForm"]')
+                let formData = new FormData();
 
                 tmsApp.asyncPostFormData(
-                    '/edit/' + id,
+                    form.action,
                     formData,
                     function (asyncResponse) {
                         if ('success' in asyncResponse && !asyncResponse.success) {
@@ -456,7 +459,7 @@
 
             })
 
-            /*$(document).on('click', '.delButton', function (e) {
+            $(document).on('click', '.delButton', function (e) {
                 let recordData = e.currentTarget.dataset;
                 console.log(recordData)
                 tmsApp.confirm(
@@ -465,14 +468,14 @@
                     'Yes',
                     'No, Cancel',
                     function () {
-
+// deleteUrl
                     },
                     function () {
 
                     }
                 );
             })
-*/
+
             function launchDeleteModal(recordData, id) {
                 let modalElement = document.getElementById(id);
                 let modal = new bootstrap.Modal(modalElement);
