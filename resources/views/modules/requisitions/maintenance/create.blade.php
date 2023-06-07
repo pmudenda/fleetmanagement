@@ -733,7 +733,7 @@
                 loadData('WDF', document.querySelector('#defectUrl').value + '?key=' + selectedValue, selectElem);
             }
 
-            function showAndRequireSupplierData() {
+            function showSupplierControls() {
                 document.querySelector('#supplierContainer').style.display = null;
                 document.querySelector('[name="supplier"]').setAttribute('required', 'required');
 
@@ -741,7 +741,7 @@
                 document.querySelector('[name="store_code"]').removeAttribute('required');
             }
 
-            function hideAndRemoveRequireSupplierData() {
+            function showStockItemControls() {
                 document.querySelector('#supplierContainer').style.display = 'none';
                 document.querySelector('[name="supplier"]').removeAttribute('required');
 
@@ -752,14 +752,13 @@
             function initEventHandlers() {
 
                 $("#itemType").on('change', function () {
-                    const selectedItemType = this.value
-                    if (
-                        document.querySelector('[name="stockItemCode"]').value !== selectedItemType
-                    ) {
-                        hideAndRemoveRequireSupplierData();
+                    const selectedItemType = this.value;
+
+                    if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
+                        showStockItemControls();
                     }
                     else {
-                        showAndRequireSupplierData();
+                        showSupplierControls();
                     }
                 });
 
