@@ -392,19 +392,10 @@
                     });
             }
 
-            function loadData(key, url) {
+            function loadData(key, url, selectElem) {
                 fetch(url)
                     .then(response => response.json())
                     .then(response => {
-
-                        let selectElem = '';
-                        if (key === 'VEH_SYS') {
-                            selectElem = $('select[name="vehicleSystem"]');
-                        } else if (key === 'WCT') {
-                            selectElem = $('select[name="defectCategory"]');
-                        } else if (key === 'WDF') {
-                            selectElem = $('select[name="defect"]');
-                        }
 
                         if (response.state === 'failure') {
                             toastr.error('Connection error, no data found')
@@ -677,26 +668,30 @@
                 }
             }
 
-            function getVehicleDefectCategory(selectedValue) {
+            function getVehicleDefectCategory(selectedValue, selectElem) {
                 if (!selectedValue) return;
-                loadData('WCT', document.querySelector('#defectCategoryUrl').value + '?key=' + selectedValue);
+                loadData('WCT', document.querySelector('#defectCategoryUrl').value + '?key=' + selectedValue, selectElem);
             }
 
-            function getVehicleDefects(selectedValue) {
+            function getVehicleDefects(selectedValue, selectElem) {
                 if (!selectedValue) return;
-                loadData('WDF', document.querySelector('#defectUrl').value + '?key=' + selectedValue);
+                loadData('WDF', document.querySelector('#defectUrl').value + '?key=' + selectedValue, selectElem);
             }
 
             function initEventHandlers() {
 
                 $(document).on('change', 'select[name="vehicleSystem"]', function () {
                     if (!this.value) return;
-                    getVehicleDefectCategory(this.value);
+                    const tr = $(this).closest('tr');
+                    let selectElem = tr.find('select[name="defectCategory"]');
+                    getVehicleDefectCategory(this.value, selectElem);
                 });
 
                 $(document).on('change', 'select[name="defectCategory"]', function () {
                     if (!this.value) return;
-                    getVehicleDefects(this.value);
+                    const tr = $(this).closest('tr');
+                    let selectElem = tr.find('select[name="defect"]');
+                    getVehicleDefects(this.value, selectElem);
                 })
 
                 $(document).on('keyup paste', '[name="vehicle_registration"]', function () {
