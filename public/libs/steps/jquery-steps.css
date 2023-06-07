@@ -166,7 +166,7 @@
     position: relative;
     width: 100% !important;
     height: 95%;
-    padding: 2.5% 1.5%;
+    padding: 1.5% 0.5% 2.5% 0.5%;
     overflow: auto;
 }
 
