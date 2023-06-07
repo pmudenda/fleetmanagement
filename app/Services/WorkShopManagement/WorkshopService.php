@@ -10,6 +10,7 @@ use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\VehicleDefects;
+use App\Models\WorkShopManagement\WorkShopComments;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use Illuminate\Http\Request;
@@ -127,28 +128,35 @@ class WorkshopService
         DB::commit();
     }
 
-    public function createJobCardDefects(Request $request)
+    public function createJobCardDefects(Request $request): void
     {
         DB::beginTransaction();
         $models = [];
-        //$request->remarks
-        foreach ($request->defect as $defect) {
-            $model = new VehicleDefects();
-            $model->job_card_no = '';
 
+        foreach ($request->defect as $defect) {
+
+            $model = new VehicleDefects();
+            $model->job_card_no = $request->job_card_no;
             $model->veh_sys = $defect->vehicleSystem;
             $model->defect_category_code = $defect->defectCategory;
             $model->defect_code = $defect->defect;
             $model->section_code = $defect->workshopSection;
-
             $model->created_by = auth()->user()->staff_no;
 
-            array_push($models, $model);
+            $models[] = $model;
         }
 
         foreach ($models as $item) {
             $item->save();
         }
+
+        WorkShopComments::create([
+            'job_card_no' => $request->job_card_no,
+            'type' => 'DEF',
+            'remarks'  => $request->remarks,
+            'status' => StatusHelper::new(),
+            'created_by' => auth()->user()->staff_no
+        ]);
 
         DB::commit();
     }

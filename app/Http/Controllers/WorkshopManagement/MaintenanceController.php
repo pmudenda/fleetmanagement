@@ -201,7 +201,7 @@ class MaintenanceController extends Controller
                 'success' => true,
                 'message' => SystemMessages::accessoriesCheckedIn(),
                 'redirectUrl' => URL::signedRoute('defects.job.card',
-                    ['step' => 3, 'reference' => $request->get('job_card_voucher')]),
+                    ['step' => 4, 'reference' => $request->get('job_card_voucher')]),
             ]);
         } catch (\Exception $e) {
             Log::error($e);

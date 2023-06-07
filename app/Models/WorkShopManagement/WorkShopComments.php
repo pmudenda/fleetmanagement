@@ -5,18 +5,17 @@ namespace App\Models\WorkShopManagement;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class VehicleDefects extends Model
+class WorkShopComments extends Model
 {
     use HasFactory;
-    protected $table = 'WM_VEHICLE_DEFECTS';
+
+    protected $table = 'WM_WORK_SHOP_COMMENTS';
 
     protected $fillable = [
         'job_card_no',
-        'veh_sys',
-        'defect_category_code',
-        'defect_code',
-        'section_code',
-        'created_by',
-        'modified_by',
+        'type',
+        'remarks',
+        'status',
+        'created_by'
     ];
 }
