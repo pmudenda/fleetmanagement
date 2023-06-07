@@ -406,7 +406,7 @@
                 e.preventDefault();
                 e.stopPropagation();
 
-                let formData = new FormData('form[name="configurationEditTableForm"]');
+                let formData = new FormData(document.querySelector('form[name="configurationEditTableForm"]'));
 
                 tmsApp.asyncPostFormData(
                     '/edit/' + id,
