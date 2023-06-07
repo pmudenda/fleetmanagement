@@ -417,8 +417,9 @@
                     });
             }
 
-            function getArticles() {
-                fetch(document.querySelector('#articlesUrl').value)
+            function getArticles(selectedItemType) {
+
+                fetch(document.querySelector('#articlesUrl').value +"?type_article="+ selectedItemType)
                     .then(response => response.json())
                     .then(response => {
                         let selectElem = $('.articlesDropDownList');
@@ -787,9 +788,11 @@
 
                     if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
                         showStockItemControls();
+                        getArticles(selectedItemType);
                     }
                     else {
                         showSupplierControls();
+                        getArticles(selectedItemType);
                     }
                 });
 
@@ -1104,8 +1107,6 @@
             }
 
             getSuppliers();
-
-            getArticles();
 
         })(window.tmsApp || {}, jQuery)
     </script>
