@@ -136,11 +136,11 @@ class WorkshopService
         foreach ($request->get('defects') as $defect) {
 
             $model = new VehicleDefects();
-            $model->job_card_no = $request->job_card_no;
-            $model->veh_sys = $defect->vehicleSystem;
-            $model->defect_category_code = $defect->defectCategory;
-            $model->defect_code = $defect->defect;
-            $model->section_code = $defect->workshopSection;
+            $model->job_card_no = $request['job_card_no'];
+            $model->veh_sys = $defect['vehicleSystem'];
+            $model->defect_category_code = $defect['defectCategory'];
+            $model->defect_code = $defect['defect'];
+            $model->section_code = $defect['workshopSection'];
             $model->created_by = auth()->user()->staff_no;
 
             $models[] = $model;
