@@ -52,7 +52,9 @@
                                             @else
                                                 <th>Status</th>
                                             @endIf
-                                            <th>Action</th>
+                                            @can(config('rights.add_general_table_data'))
+                                                <th>Action</th>
+                                            @endcan
                                         </tr>
                                         </thead>
 
@@ -81,18 +83,19 @@
                                                             </span>
                                                         @endif
                                                     </td>
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button
-                                                                class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
-                                                                type="button"
-                                                                id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                                aria-expanded="false">
-                                                                Actions
-                                                            </button>
-                                                            <ul class="dropdown-menu"
-                                                                aria-labelledby="dropdownMenuButton1">
-                                                                @can(config('rights.add_general_table_data'))
+                                                    @can(config('rights.add_general_table_data'))
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <button
+                                                                    class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
+                                                                    type="button"
+                                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                                    aria-expanded="false">
+                                                                    Actions
+                                                                </button>
+                                                                <ul class="dropdown-menu"
+                                                                    aria-labelledby="dropdownMenuButton1">
+
                                                                     <li>
                                                                         <a href="#"
                                                                            id="editButton"
@@ -116,11 +119,12 @@
                                                                             Delete
                                                                         </button>
                                                                     </li>
-                                                                @endcan
-                                                            </ul>
-                                                        </div>
 
-                                                    </td>
+                                                                </ul>
+                                                            </div>
+
+                                                        </td>
+                                                    @endcan
                                                 </tr>
                                             @endforeach
                                         @endif

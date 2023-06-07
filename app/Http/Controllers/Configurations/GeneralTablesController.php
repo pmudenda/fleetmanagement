@@ -194,7 +194,7 @@ class GeneralTablesController extends Controller
 
     public function editRecord(GeneralTableEditRequest $request): JsonResponse
     {
-        Log::info($request->json());
+        Log::info('Editing Record');
         try {
 
             $entry = GeneralTableConfigurations::where('code', '=', $request->get('code'))

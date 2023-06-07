@@ -106,10 +106,6 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        /*if (!$request->has('step')) {
-            return redirect(URL::signedRoute('maintenance.requisition', ['step' => 1]));
-        }*/
-
         list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections) = $this->jobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.create')
