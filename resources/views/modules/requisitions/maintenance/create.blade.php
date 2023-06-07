@@ -904,7 +904,7 @@
 
                     let btnEl = $(this);
                     let tableId = $(this).closest('table').attr('id');
-                    let valueId = $(this).closest('table').attr('data-value');
+                    let valueId = $(this).attr('data-value');
                     let tableRow = btnEl.closest('tr');
                     let table = btnEl.closest('table');
                     tmsApp.confirm(
