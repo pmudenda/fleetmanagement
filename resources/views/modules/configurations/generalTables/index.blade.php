@@ -472,7 +472,7 @@
                     function () {
                         //
                         tmsApp.asyncPostFormData(
-                            document.querySelector('#deleteUrl').value,
+                            document.querySelector('[name="deleteUrl"]').value,
                             formData,
                             function (asyncResponse) {
                                 if ('success' in asyncResponse && !asyncResponse.success) {
