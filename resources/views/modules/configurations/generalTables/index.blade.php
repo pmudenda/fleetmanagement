@@ -386,20 +386,20 @@
                 document.getElementById("data_edit_name").value = recordData.record_name
                 // document.getElementById("data_type").value = ""
                 document.getElementById("data_edit_code").value = recordData.record_code
-                document.getElementById("data_edit_status").value = recordData.record_status
+                //document.getElementById("data_edit_status").value = recordData.record_status
 
             })
 
             document.querySelector("#createRecordModal").addEventListener('hidden.bs.modal', (e) => {
                 document.getElementById("data_name").value = "";
                 document.getElementById("data_code").value = ""
-                document.getElementById("data_status").value = "Select Status"
+                //document.getElementById("data_status").value = "Select Status"
             })
 
             document.querySelector("#editRecordModal").addEventListener('hidden.bs.modal', (e) => {
                 document.getElementById("data_name").value = "";
                 document.getElementById("data_code").value = ""
-                document.getElementById("data_status").value = "Select Status"
+                //document.getElementById("data_status").value = "Select Status"
             })
 
             $('form[name="configurationEditTableForm"]').on('submit', function (e) {
