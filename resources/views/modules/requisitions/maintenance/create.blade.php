@@ -650,9 +650,6 @@
             function setSelectedAccessories() {
 
                 $.each(selectedAccessories, function (index, element) {
-                    console.log(element.code);
-                    console.log(element?.is_present);
-                    console.log(element?.remarks);
                     $("input[name=field_" + element?.code + "][value=" + element?.is_present + "]").prop('checked', true);
                     $("input[name=comment_" + element.code + "]").val(element?.remarks);
                 });
@@ -672,8 +669,7 @@
 
                 function resetTimer() {
                     clearTimeout(time);
-                    time = setTimeout(work, 120000); // save data every 2 minutes, (1000 milliseconds = 1 second)
-
+                    time = setTimeout(work, 120000);
                 }
             }
 

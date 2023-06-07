@@ -146,8 +146,7 @@ Route::get('vehicle/licence/classes', function (Request $request) {
     try {
 
         $licenseCategory = GeneralTableConfigurations::where('type', ConfigurationTypes::LICENSE_CLASS)
-            ->where('active', '=', 1)
-            ->orWhere('active', '=', true)
+            ->where('active', '=', "1")
             ->get();
 
         return response()->json([
