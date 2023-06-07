@@ -18,48 +18,108 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="increment">
-                            <td class="showNumber">
-                                <select name="vehicleSystem"
-                                        class="form-select form-select-sm">
-                                    <option></option>
-                                </select>
-                            </td>
-                            <td>
-                                <select name="defectCategory" class="form-select form-select-sm">
-                                    <option></option>
-                                </select>
-                            </td>
-                            <td>
-                                <select name="defect" class="form-select form-select-sm">
-                                    <option></option>
-                                </select>
-                            </td>
-                            <td>
-                                <select name="workshopSection" class="form-select form-select-sm">
-                                    <option></option>
-                                    @foreach($workshop_sections as $workshop_section)
-                                        <option value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
-                                    @endforeach
-                                </select>
-                            </td>
+                        @if(!empty($defects))
+                            @foreach($defects as $defect)
+                                <tr class="increment">
+                                    <td class="showNumber">
+                                        <select name="vehicleSystem"
+                                                data-value="{{$defect->veh_sys}}"
+                                                class="form-select form-select-sm">
+                                            <option></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="defectCategory"
+                                                data-value="{{$defect->defect_category_code}}"
+                                                class="form-select form-select-sm">
+                                            <option></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="defect"
+                                                data-value="{{$defect->defect_code}}"
+                                                class="form-select form-select-sm">
+                                            <option></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="workshopSection"
+                                                class="form-select form-select-sm">
+                                            <option></option>
+                                            @foreach($workshop_sections as $workshop_section)
+                                                @if($defect->section_code)
+                                                    <option selected
+                                                        value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                @else
+                                                    <option
+                                                        value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </td>
 
-                            <td>
-                                <input name="total"
-                                       readonly="readonly"
-                                       value="@if($details){{date('Y-m-d',strtotime(\Carbon\Carbon::parse($details->date_in)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
-                                       class="tabledit-input form-control input-sm input-number"
-                                       type="text">
-                            </td>
+                                    <td>
+                                        <input name="total"
+                                               readonly="readonly"
+                                               value="@if($defect){{date('Y-m-d',strtotime(\Carbon\Carbon::parse($defect->date_in)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
+                                               class="tabledit-input form-control input-sm input-number"
+                                               type="text">
+                                    </td>
 
-                            <td class="view-mode">
-                                <button type="button"
-                                        value="deleteRow"
-                                        class="btn btn-danger p-2">
-                                    <i class="fas fa-trash m-0"></i>
-                                </button>
-                            </td>
-                        </tr>
+                                    <td class="view-mode">
+                                        <button type="button"
+                                                value="deleteRow"
+                                                class="btn btn-danger p-2">
+                                            <i class="fas fa-trash m-0"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr class="increment">
+                                <td class="showNumber">
+                                    <select name="vehicleSystem"
+                                            class="form-select form-select-sm">
+                                        <option></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="defectCategory" class="form-select form-select-sm">
+                                        <option></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="defect" class="form-select form-select-sm">
+                                        <option></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="workshopSection" class="form-select form-select-sm">
+                                        <option></option>
+                                        @foreach($workshop_sections as $workshop_section)
+                                            <option
+                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <input name="total"
+                                           readonly="readonly"
+                                           value="@if($details){{date('Y-m-d',strtotime(\Carbon\Carbon::parse($details->date_in)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
+                                           class="tabledit-input form-control input-sm input-number"
+                                           type="text">
+                                </td>
+
+                                <td class="view-mode">
+                                    <button type="button"
+                                            value="deleteRow"
+                                            class="btn btn-danger p-2">
+                                        <i class="fas fa-trash m-0"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        @endif
                         </tbody>
                     </table>
                     <button type="button"
