@@ -92,32 +92,31 @@
                                                             </button>
                                                             <ul class="dropdown-menu"
                                                                 aria-labelledby="dropdownMenuButton1">
-                                                                {{-- @can(config('rights.edit_vehicle'))--}}
-
-                                                                <li>
-                                                                    <a href="#"
-                                                                       id="editButton"
-                                                                       data-id="{{$entry->id}}"
-                                                                       data-record_name="{{$entry->name}}"
-                                                                       data-record_status="{{$entry->active}}"
-                                                                       data-record_code="{{$entry->code}}"
-                                                                       class="dropdown-item"
-                                                                       data-bs-toggle="modal"
-                                                                       data-bs-target="#editRecordModal">
-                                                                        <i class="fa fa-edit"></i>
-                                                                        Edit
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <button type="submit"
-                                                                            id="deleteButton"
-                                                                            data-id="{{$entry->id}}"
-                                                                            class="deleteButton dropdown-item">
-                                                                        <i class="fa fa-trash"></i>
-                                                                        Delete
-                                                                    </button>
-                                                                </li>
-                                                                {{--@endcan--}}
+                                                                @can(config('rights.add_general_table_data'))
+                                                                    <li>
+                                                                        <a href="#"
+                                                                           id="editButton"
+                                                                           data-id="{{$entry->id}}"
+                                                                           data-record_name="{{$entry->name}}"
+                                                                           data-record_status="{{$entry->active}}"
+                                                                           data-record_code="{{$entry->code}}"
+                                                                           class="dropdown-item"
+                                                                           data-bs-toggle="modal"
+                                                                           data-bs-target="#editRecordModal">
+                                                                            <i class="fa fa-edit"></i>
+                                                                            Edit
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <button type="submit"
+                                                                                id="deleteButton"
+                                                                                data-id="{{$entry->id}}"
+                                                                                class="deleteButton dropdown-item">
+                                                                            <i class="fa fa-trash"></i>
+                                                                            Delete
+                                                                        </button>
+                                                                    </li>
+                                                                @endcan
                                                             </ul>
                                                         </div>
 
@@ -182,31 +181,6 @@
                         </div>
 
                         <div class="mb-3 d-none">
-                            {{--@if(str_contains(strtolower($type) ,"status"))
-                                <label style="display: none;" for="message-text" class="col-form-label">Active:</label>
-                                <select name="status" style="display: none;"
-                                        class="form-control @error('status') is-invalid @enderror" id="data_status"
-                                        required>
-                                    <option value="1">Yes</option>
-                                </select>
-                                @error('status')
-                                <p class=" errorText">{{$message}}</p>
-                                @enderror
-                            @else
-                                <label for="message-text" class="col-form-label">Status:</label>
-
-                                <select name="status" class="form-control @error('status') is-invalid @enderror"
-                                        id="data_status"
-                                        required>
-                                    <option>Select Status</option>
-                                    @foreach($statusList as $status)
-                                        <option value="{{$status->code}}">{{$status->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('status')
-                                <p class=" errorText">{{$message}}</p>
-                                @enderror
-                            @endIf--}}
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -263,15 +237,6 @@
                             <label for="recipient-name" class="col-form-label">Description:</label>
                             <input type="text" class="form-control" name="name" id="data_edit_name">
                         </div>
-                        {{--<div class="mb-3">
-                            <label for="message-text" class="col-form-label">Status:</label>
-                            <select name="status" class="form-control" id="data_edit_status">
-                                <option>Select Status</option>
-                                @foreach($statusList as $status)
-                                    <option value="{{$status->code}}">{{$status->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>--}}
                     </div>
                     <div class="modal-footer">
                         <button id="closeEditButton" type="button"
@@ -304,7 +269,6 @@
             </div>
         </div>
     </div>
-
 
     {{--error Display--}}
     <div class="modal fade" id="errorDisplay" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

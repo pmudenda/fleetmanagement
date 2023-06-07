@@ -2,6 +2,7 @@
 
 use App\Constants\ErrorMessages;
 use App\Enums\ConfigurationTypes;
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\API\RoadTransportSafetyAgencyIntegrationController;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\reference\GtaVehicle;
@@ -77,7 +78,7 @@ Route::get('load/defectsCategory', function (Request $request) {
         Log::info('Request filter ' . $request->get('filter'));
 
         $workShopTableData = WorkShopTable::where('type_code', 'WCT')
-            ->where('active', '=', 1)
+            //->where('status', '=', 1)
             ->where('parent', $request->get('key'))->get();
 
         return response()->json([
@@ -90,7 +91,7 @@ Route::get('load/defectsCategory', function (Request $request) {
         return response()->json([
             'success' => false,
             'payload' => [],
-            'message' => ErrorMessages::getMessage('')
+            'message' => ErrorMessages::getMessage('err_0005')
         ]);
     }
 })->name('load.defects.category');
@@ -100,7 +101,7 @@ Route::get('load/defects', function (Request $request) {
         Log::info('Request filter ' . $request->get('filter'));
 
         $workShopTableData = WorkShopTable::where('type_code', 'WDF')
-            ->where('active', '=', 1)
+            ->where('status', '=', StatusHelper::active())
             ->where('parent', $request->get('key'))->get();
 
         return response()->json([
@@ -113,7 +114,7 @@ Route::get('load/defects', function (Request $request) {
         return response()->json([
             'success' => false,
             'payload' => [],
-            'message' => ErrorMessages::getMessage('')
+            'message' => ErrorMessages::getMessage('err_0005')
         ]);
     }
 })->name('load.defects');
@@ -123,7 +124,7 @@ Route::get('load/workshop/section', function (Request $request) {
 
         $workShopSection = GeneralTableConfigurations::where('type', ConfigurationTypes::WORK_SHOP_SECTION)
             ->where('parent', $request->get('key'))
-            ->where('active', '=', 1)
+            ->where('status', '=', StatusHelper::active())
             ->get();
 
         return response()->json([
@@ -136,7 +137,7 @@ Route::get('load/workshop/section', function (Request $request) {
         return response()->json([
             'success' => false,
             'payload' => [],
-            'message' => ErrorMessages::getMessage('')
+            'message' => ErrorMessages::getMessage('err_0005')
         ]);
     }
 })->name('load.workshop.section');
@@ -145,7 +146,7 @@ Route::get('vehicle/licence/classes', function (Request $request) {
     try {
 
         $licenseCategory = GeneralTableConfigurations::where('type', ConfigurationTypes::LICENSE_CLASS)
-            ->where('active', '=', 1)
+            ->where('status', '=', StatusHelper::active())
             ->get();
 
         return response()->json([
@@ -158,7 +159,7 @@ Route::get('vehicle/licence/classes', function (Request $request) {
         return response()->json([
             'success' => false,
             'payload' => [],
-            'message' => ErrorMessages::getMessage('')
+            'message' => ErrorMessages::getMessage('err_0005')
         ]);
     }
 })->name('vehicle.licence.classes');

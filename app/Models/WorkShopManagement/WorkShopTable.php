@@ -10,4 +10,12 @@ class WorkShopTable extends Model
     use HasFactory;
 
     protected $table = 'WM_WORKSHOP_TABLES';
+
+    protected $fillable =[
+        'type_code',
+        'parent',
+        'code',
+        'status',
+        'description',
+    ];
 }
