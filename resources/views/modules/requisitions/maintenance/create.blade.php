@@ -1070,31 +1070,30 @@
                         let row = Table.addRow($('table#' + tableId));
 
                         //console.log(row);
-
                         if (tableId === "part8") {
-                            $(row).find('[name="defect"]').select2('destroy');
-                            $(row).find('[name="defectCategory"]').select2('destroy');
-                            $(row).find('[name="vehicleSystem"]').select2('destroy');
+                            $('[name="defect"]').select2('destroy');
+                            $('[name="defectCategory"]').select2('destroy');
+                            $('[name="vehicleSystem"]').select2('destroy');
                         } else if (tableId === "material_table") {
                             //$(row).find('[name="articles"]').select2('destroy');
                         }
 
                         if (tableId === "material_table") {
-                            initProjectSelector($(row).find('[name="articles"]'));
+                            //initProjectSelector($(row).find('[name="articles"]'));
                         } else {
                             setTimeout(function () {
 
-                                $(row).find('[name="defect"]').select2({
+                                $('[name="defect"]').select2({
                                     theme: "bootstrap4",
                                     width: "resolve",
                                 });
 
-                                $(row).find('[name="defectCategory"]').select2({
+                                $('[name="defectCategory"]').select2({
                                     theme: "bootstrap4",
                                     width: "resolve",
                                 });
 
-                                $(row).find('[name="vehicleSystem"]').select2({
+                                $('[name="vehicleSystem"]').select2({
                                     theme: "bootstrap4",
                                     width: "resolve",
                                 });
