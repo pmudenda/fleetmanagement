@@ -18,6 +18,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                        {{$defects}}
                         @if(!empty($defects))
                             @foreach($defects as $defect)
                                 <tr class="increment">
