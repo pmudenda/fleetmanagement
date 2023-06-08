@@ -187,24 +187,24 @@ Route::get('load/procurement/articles', function (Request $request) {
 
         if ($itemType == RequisitionItemTypes::StockItemCode) {
             $query->where(function ($q) use ($itemType) {
-                $q->whereBetween('code_group',
+                $q->whereBetween('spms_articles_view.code_group',
                     ['01', '39']);
             });
         } else if ($itemType == RequisitionItemTypes::NonStockItemCode) {
             $query->where(function ($q) use ($itemType) {
-                $q->where('code_group', '=', '40');
+                $q->where('spms_articles_view.code_group', '=', '40');
             });
         } else if ($itemType == RequisitionItemTypes::ServiceItemCode) {
             $query->where(function ($q) use ($itemType) {
-                $q->where('code_group', '=', '41');
+                $q->where('spms_articles_view.code_group', '=', '41');
             });
         }
 
-        $query->where('type_article', '=', $request->get('type_article'));
+        $query->where('spms_articles_view.type_article', '=', $request->get('type_article'));
 
         $query->where(function ($query) use ($search) {
-            $query->orWhere('code_article', 'like', "%{$search}%")
-                ->orWhere('description', 'like', "%{$search}%");
+            $query->orWhere('spms_articles_view.code_article', 'like', "%{$search}%")
+                ->orWhere('spms_articles_view.description', 'like', "%{$search}%");
         });
 
         $procurementArticles = $query
