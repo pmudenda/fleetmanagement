@@ -1081,7 +1081,7 @@
                         if (tableId === "material_table") {
                             let selector = $(lastRow).find('[name="articles"]');
                             console.log(selector);
-                            initProjectSelector(selector);
+                            //initProjectSelector(selector);
                         } else {
                             setTimeout(function () {
 
