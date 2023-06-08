@@ -86,16 +86,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                    <input type="text"
+                                           readonly
+                                           value="{{$officeDetails->workshop_name ?? 0}}"
+                                           class="form-control form-control-sm"/>
+                                    <input type="hidden"
+                                           name="workshop_code"
+                                           value="{{$officeDetails->workshop_no ?? 0}}"/>
+                                </div>
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                <input type="text"
-                                       readonly
-                                       value="{{$officeDetails->workshop_name ?? 0}}"
-                                       class="form-control form-control-sm"/>
-                                <input type="hidden"
-                                       name="workshop_code"
-                                       value="{{$officeDetails->workshop_no ?? 0}}"/>
-                            </div>
+
                         </div>
                     </div>
                 </div>
