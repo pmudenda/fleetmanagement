@@ -177,7 +177,7 @@
             if (!project['id']) {
                 return project['text'];
             }
-            return project['text'];
+            return project['description'];
         }
 
         /**

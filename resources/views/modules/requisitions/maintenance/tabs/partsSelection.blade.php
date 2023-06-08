@@ -230,7 +230,7 @@
                            class="table dataTable table-row-dashed align-middle gs-0 nowrap">
                         <thead>
                         <tr class="bg-default">
-                            <th style="width: 10%;" class="pl-2">Reg. No</th>
+                            <th style="width: 6%;" class="pl-2">Reg. No</th>
                             <th style="width: 25%;">Article</th>
                             <th>Article Code</th>
                             <th style="width: 25%;">Specification</th>

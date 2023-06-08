@@ -168,6 +168,15 @@ Route::get('load/licence/classes', function (Request $request) {
 
 Route::get('load/procurement/articles', function (Request $request) {
     try {
+
+        if (empty($request->get('type_article'))) {
+            return response()->json([
+                'success' => false,
+                'items' => [],
+                'total_count' => 0
+            ]);
+        }
+
         $search = strtoupper($request->get('search'));
         $query = Article::select('code_article', 'description', 'technical_specifications', 'unit_measure', 'price_map');
         $itemType = $request->get('type_article');
