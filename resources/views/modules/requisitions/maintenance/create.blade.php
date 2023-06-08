@@ -818,7 +818,7 @@
                             summaryTotalQty += tmsApp.getFloat(it.value);
                         });
 
-                        $('#quantityTotal').text(tmsApp.numberFormat(summaryTotalQty));
+                        $('#quantityTotal').text(tmsApp.getRawNumber(summaryTotalQty));
                         let lineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=unit_price]").val());
                         $(element).closest("tr").find("input[name=total_price]").val(lineAmountTotal).change();
                         $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(lineAmountTotal));
@@ -1076,13 +1076,14 @@
                             $(row).find('[name="defectCategory"]').select2('destroy');
                             $(row).find('[name="vehicleSystem"]').select2('destroy');
                         } else if (tableId === "material_table") {
-                            $(row).find('[name="articles"]').select2('destroy');
+                            //$(row).find('[name="articles"]').select2('destroy');
                         }
 
                         if (tableId === "material_table") {
-                            //initProjectSelector($(row).find('[name="articles"]'));
+                            initProjectSelector($(row).find('[name="articles"]'));
                         } else {
                             setTimeout(function () {
+
                                 $(row).find('[name="defect"]').select2({
                                     theme: "bootstrap4",
                                     width: "resolve",
