@@ -168,11 +168,6 @@
             return $('<option value="' + project['id'] + '">' + project['text'] + '</option>');
         }
 
-        /**
-         *
-         * @param project {id: iValue, text:labelVal}
-         * @returns {*|string}
-         */
         function formatRepoSelection(project) {
             if (!project['id']) {
                 return project['text'];
@@ -180,11 +175,6 @@
             return project['description'];
         }
 
-        /**
-         * prepares results
-         * @param items
-         * @returns {*}
-         */
         function formatResults(items) {
             return $.map(items, function (obj) {
                 return {
@@ -234,6 +224,7 @@
 
                 setTimeout(function () {
                     let job_card_number = $('[name="job_card_number"]').val();
+
                     if (job_card_number) {
                         const elem = $("#repairTypeDropdownList");
                         let val = elem.attr('data-value');
@@ -413,49 +404,50 @@
 
                     },
 
-                }).validate({
-                    errorClass: "error-class",
-                    validClass: "valid-class",
-                    errorElement: 'div',
-                    errorPlacement: function (error, element) {
-                        if (element.parent('.input-group').length) {
-                            error.insertAfter(element.parent());
-                        } else {
-                            error.insertAfter(element);
-                        }
-                    },
-                    onError: function () {
-                        $('.input-group.error-class').find('.help-block.form-error').each(function () {
-                            $(this).closest('.form-group').addClass('error-class').append($(this));
-                        });
-                    },
-                    rules: {
-                        vehicle_registration: {
-                            required: true
+                })
+                    .validate({
+                        errorClass: "error-class",
+                        validClass: "valid-class",
+                        errorElement: 'div',
+                        errorPlacement: function (error, element) {
+                            if (element.parent('.input-group').length) {
+                                error.insertAfter(element.parent());
+                            } else {
+                                error.insertAfter(element);
+                            }
                         },
-                        workshop: {
-                            required: true
-                        }
-                    },
-                    messages: {
-                        workshop: {
-                            required: "Select the workshop vehicle is being checked-into"
+                        onError: function () {
+                            $('.input-group.error-class').find('.help-block.form-error').each(function () {
+                                $(this).closest('.form-group').addClass('error-class').append($(this));
+                            });
                         },
-                        vehicle_registration: {
-                            required: "Vehicle Registration is required"
+                        rules: {
+                            vehicle_registration: {
+                                required: true
+                            },
+                            workshop: {
+                                required: true
+                            }
                         },
+                        messages: {
+                            workshop: {
+                                required: "Select the workshop vehicle is being checked-into"
+                            },
+                            vehicle_registration: {
+                                required: "Vehicle Registration is required"
+                            },
 
-                        current_odometer: {
-                            required: "Enter current odometer reading"
-                        },
-                        repairType: {
-                            required: "Select type of repair"
-                        },
-                        driver_staff_number: {
-                            required: "Driver details are required"
+                            current_odometer: {
+                                required: "Enter current odometer reading"
+                            },
+                            repairType: {
+                                required: "Select type of repair"
+                            },
+                            driver_staff_number: {
+                                required: "Driver details are required"
+                            }
                         }
-                    }
-                });
+                    });
             }
 
             function getWorkshops() {
@@ -647,10 +639,6 @@
                 elements.forEach(function (element) {
                     element.removeAttribute('disabled');
                 });
-
-                //document.querySelector('#vehicleDetailsContainer').style.display = null;
-                //document.querySelector('#materialDetailsContainer').style.display = null;
-                //document.querySelector('#image_view').style.display = null;
             }
 
             function populateVehicleDetails(payload) {
@@ -817,7 +805,6 @@
             }
 
             function eventHandler(element, e) {
-                let $table = '';// $('#materialDetailsTable');
 
                 switch (element.name) {
                     case 'unit_price':
@@ -954,7 +941,6 @@
                     findVehicle();
                 });
 
-
                 $(document).on('click', '#vehicleSearchBtn', function () {
                     if (!document.querySelector('[name="vehicle_registration"]').value) {
                         return;
@@ -962,7 +948,6 @@
                     removeSubmissionAndDetailsOptions();
                     findVehicle();
                 });
-
 
                 setTimeout(function () {
                     $(document).on('keyup paste', '#driver_staff_number', function () {
@@ -1061,8 +1046,6 @@
                                     }, 300)
                                 }
                             )
-                        },
-                        function () {
                         }
                     );
                 })
@@ -1081,12 +1064,6 @@
                     eventHandler(this, e);
                 });
 
-                /*.on('blur', 'input', function (e) {
-                    if (this.name === 'quantity') {
-                        $(this).val(tmsApp.numberFormat(this.value));
-                    }
-                });*/
-
                 $(document).off('click', 'button[value="addRow"][data-table-id]')
                     .on('click', 'button[value="addRow"][data-table-id]', function () {
                         let tableId = $(this).data('tableId');
@@ -1099,7 +1076,10 @@
                             $('.articlesDropDownList').select2('destroy');
                         }
 
-                        Table.addRow($('table#' + tableId));
+                        let row = Table.addRow($('table#' + tableId));
+
+                        console.log(row);
+
                         if (tableId === "material_table") {
                             initProjectSelector('.articlesDropDownList');
                         } else {
