@@ -2,12 +2,12 @@
 
 use App\Constants\ErrorMessages;
 use App\Enums\ConfigurationTypes;
+use App\Enums\RequisitionItemTypes;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\API\RoadTransportSafetyAgencyIntegrationController;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\reference\Article;
 use App\Models\reference\GtaVehicle;
-use App\Models\reference\Store;
 use App\Models\WorkShopManagement\WorkShopTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -169,11 +169,19 @@ Route::get('load/licence/classes', function (Request $request) {
 Route::get('load/procurement/articles', function (Request $request) {
     try {
         $search = strtoupper($request->get('search'));
+        $query = Article::guery();
 
-        $procurementArticles = Article::where('type_article', '=', $request->get('type_article'))
+        if ($request->get('type_article') == RequisitionItemTypes::StockItemCode) {
+            $query->whereBetween('code_group', '01', '39');
+        } else if ($request->get('type_article') == RequisitionItemTypes::NonStockItemCode) {
+            $query->where('code_group', '=', '40');
+        } else if( $request->get('type_article') == RequisitionItemTypes::ServiceItemCode){
+            $query->where('code_group', '=', '41');
+        }
+
+        $procurementArticles = $query->where('type_article', '=', $request->get('type_article'))
             ->where('code_article', 'LIKE', "%{$search}%")
             ->orWhere('description', 'LIKE', "%{$search}%")
-            //->orWhere('technical_specification', 'LIKE', "%{$search}%")
             ->get();
 
         return response()->json([
@@ -191,6 +199,27 @@ Route::get('load/procurement/articles', function (Request $request) {
         ]);
     }
 })->name('load.articles');
+
+Route::get('load/article/details', function (Request $request) {
+    try {
+
+        $procurementArticles = Article::where('code_article', '=', $request->get('type_article'))
+            ->first();
+
+        return response()->json([
+            'success' => !empty($procurementArticles),
+            'payload' => $procurementArticles,
+        ]);
+
+    } catch (Exception $e) {
+        Log::error($e);
+        return response()->json([
+            'success' => false,
+            'payload' => [],
+            'message' => ErrorMessages::getMessage('err_0005')
+        ]);
+    }
+})->name('load.article.details');
 
 /*Route::get('load/stores', function (Request $request) {
     try {

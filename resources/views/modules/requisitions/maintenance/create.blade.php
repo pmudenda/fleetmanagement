@@ -89,6 +89,7 @@
                 <input type="hidden" value="{{route('load.defects')}}" id="defectUrl"/>
                 <input type="hidden" value="{{route('load.workshop.section')}}" id="workShopSectionsUrl"/>
                 <input type="hidden" value="{{route('load.articles')}}" id="articlesUrl"/>
+                <input type="hidden" value="{{route('load.article.details')}}" id="articleDetailsUrl"/>
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
                 <input type="hidden" value="{{route('delete.defect.record')}}" name="deleteDefectUrl"
                        id="deleteDefectUrl"/>
@@ -173,7 +174,7 @@
             $('[name="articleCode"]').val(project['id']);
             $('[name="total_price"]').val(project['id']);
             return project['text'];
-           /* project['id'] + ":" +*/
+            /* project['id'] + ":" +*/
         }
 
         /**
@@ -182,14 +183,12 @@
          * @returns {*}
          */
         function formatResults(items) {
-
             return $.map(items, function (obj) {
                 return {
                     "id": obj['code_article'],
-                    "text": obj['code_article'] + ':' + obj.description
+                    "text": obj['code_article'] + ':' + obj.description,
                 };
             });
-
         }
     </script>
     <script>
@@ -479,67 +478,78 @@
                     });
             }
 
-            /*    function getWorkshopSections() {
-                    fetch(document.querySelector('#workShopSectionsUrl').value)
-                        .then(response => response.json())
-                        .then(response => {
-                            let selectElem = $('select[name="workshopSection"]');
-                            // Populate results
-                            if (response.state === 'failure') {
-                                //show errors
-                                toastr.error('Connection error, no data found')
-                                return;
+            function getWorkshopSections() {
+                fetch(document.querySelector('#workShopSectionsUrl').value)
+                    .then(response => response.json())
+                    .then(response => {
+                        let selectElem = $('select[name="workshopSection"]');
+                        // Populate results
+                        if (response.state === 'failure') {
+                            //show errors
+                            toastr.error('Connection error, no data found')
+                            return;
+                        }
+
+                        let workshops = response['payload'];
+                        tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
+
+                        let location = selectElem.attr('data-value');
+                        console.log(location);
+                        if (location) {
+                            selectElem.val(location);
+                            selectElem.trigger('change');
+                        }
+
+                    })
+                    .catch(function (error) {
+                        // notify of error
+                        toastr.error(
+                            'Connection error. Could not retrieve data, some feature might not work.')
+                    });
+            }
+
+            function getArticles(code_article, row) {
+
+                fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
+                    .then(response => response.json())
+                    .then(response => {
+                        let selectElem = $(row).find('.articlesDropDownList');
+                        // Populate results
+                        if (response.state === 'failure') {
+                            //show errors
+                            toastr.error('Connection error, no data found')
+                            return;
+                        }
+
+                        let option = new Option(data.full_name, data.id, true, true);
+                        selectElem.append(option).trigger('change');
+
+                        // manually trigger the `select2:select` event
+                        selectElem.trigger({
+                            type: 'select2:select',
+                            params: {
+                                data: data
                             }
-
-                            let workshops = response['payload'];
-                            tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
-
-                            let location = selectElem.attr('data-value');
-                            console.log(location);
-                            if (location) {
-                                selectElem.val(location);
-                                selectElem.trigger('change');
-                            }
-
-                        })
-                        .catch(function (error) {
-                            // notify of error
-                            toastr.error(
-                                'Connection error. Could not retrieve data, some feature might not work.')
                         });
-                }
 
-                function getArticles(selectedItemType) {
+                        /*let workshops = response['payload'];
+                        tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
 
-                    fetch(document.querySelector('').value +"?type_article="+ selectedItemType)
-                        .then(response => response.json())
-                        .then(response => {
-                            let selectElem = $('.articlesDropDownList');
-                            // Populate results
-                            if (response.state === 'failure') {
-                                //show errors
-                                toastr.error('Connection error, no data found')
-                                return;
-                            }
+                        let location = selectElem.attr('data-value');
+                        console.log(location);
+                        if (location) {
+                            selectElem.val(location);
+                            selectElem.trigger('change');
+                        }*/
 
-                            let workshops = response['payload'];
-                            tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
+                    })
+                    .catch(function (error) {
+                        // notify of error
+                        toastr.error(
+                            'Connection error. Could not retrieve data, some feature might not work.')
+                    });
+            }
 
-                            let location = selectElem.attr('data-value');
-                            console.log(location);
-                            if (location) {
-                                selectElem.val(location);
-                                selectElem.trigger('change');
-                            }
-
-                        })
-                        .catch(function (error) {
-                            // notify of error
-                            toastr.error(
-                                'Connection error. Could not retrieve data, some feature might not work.')
-                        });
-                }
-    */
             function getFuelLevels() {
                 fetch(document.querySelector('#fuelLevelsUrl').value)
                     .then(response => response.json())
@@ -1043,13 +1053,14 @@
 
                 $(document).off('click', 'button[value="addRow"][data-table-id]')
                     .on('click', 'button[value="addRow"][data-table-id]', function () {
+                        let tableId = $(this).data('tableId');
 
                         if (tableId === "part8") {
                             $('[name="defect"]').select2('destroy');
                             $('[name="defectCategory"]').select2('destroy');
                             $('[name="vehicleSystem"]').select2('destroy');
                         }
-                        let tableId = $(this).data('tableId');
+
                         Table.addRow($('table#' + tableId));
                         if (tableId === "material_table") {
                             initProjectSelector('.articlesDropDownList');
