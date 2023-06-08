@@ -5,9 +5,9 @@
            id="suppliersList"
            value="{{route('suppliers.list')}}"/>
     <div class="row">
+        <div class="col-12">
 
-        <div class="row">
-            <div class="col-10">
+            <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="container-fluid pl-0">
                         <div class="row">
@@ -69,160 +69,158 @@
                     </div>
                 </div>
             </div>
-            <div class="col-2">
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                <div class="container-fluid pl-0">
-                    <div class="form-group row">
-                        <label
-                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                            for="workshop_code">Workshop:
-                        </label>
-                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                            <input type="text"
-                                   readonly
-                                   value="{{$officeDetails->workshop_name ?? 0}}"
-                                   class="form-control form-control-sm"/>
-                            <input type="hidden"
-                                   name="workshop_code"
-                                   value="{{$officeDetails->workshop_no ?? 0}}"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                <div class="container-fluid pl-0">
-                    <div class="row">
-                        <div class="form-group row">
-                            <label
-                                class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                for="job_card_no">
-                                Request Date:
-                            </label>
-                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                <input type="text"
-                                       class="form-control form-control-sm"
-                                       id="request_date"
-                                       readonly
-                                       value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
-                                       name="request_date"
-                                       required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                <div class="container-fluid pl-0">
-                    <div class="row">
-
-                        <div id="supplierContainer" style="display: none;" class="form-group row">
-                            <div
-                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
-                                <div class="control-input">
-                                    <div class="link-field ui-front"
-                                         style="position: relative;">
-                                        <label class="form-check-inline field-required">
-                                            Suppliers
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                <select
-                                    data-value=""
-                                    class="form-select form-select-sm"
-                                    name="supplier"
-                                    autocomplete="off"
-                                    id="supplier">
-                                </select>
-                            </div>
-                        </div>
-
-                        <div id="storeContainer" style="display: none;" class="form-group row">
-                            <label
-                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                for="staff_name">
-                                Store:
-                            </label>
-                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                <input type="hidden"
-                                       id="store_code"
-                                       value="{{$officeDetails->store_code ?? ''}}"
-                                       name="store_code"/>
-                                <input type="text"
-                                       class="form-control form-control-sm"
-                                       id="store_name"
-                                       value="{{$officeDetails->store_code ?? ''}}:{{$officeDetails->store_name ?? ''}}"
-                                       placeholder=""
-                                       name="store_name"/>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                <div class="container-fluid pl-0">
-                    <div class="row">
-                        {{--<div class="form-group row">
-                            <label
-                                class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                for="job_card_no">
-                                Request Date:
-                            </label>
-                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                <input type="text"
-                                       class="form-control form-control-sm"
-                                       id="request_date"
-                                       readonly
-                                       value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
-                                       name="request_date"
-                                       required>
-                            </div>
-                        </div>--}}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                <div class="container-fluid pl-0">
-                    <div class="row">
-                        <div class="form-group row">
-                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                <div class="container-fluid pl-0">
-                    <div class="row" style="display: none;">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="container-fluid pl-0">
                         <div class="form-group row">
                             <label
                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                for="staff_no">Date Expected Out:
+                                for="workshop_code">Workshop:
                             </label>
-                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                 <input type="text"
-                                       class="form-control form-control-sm"
-                                       id="date_expected_out"
-                                       value="@if($details){{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}@else{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
-                                       name="date_of_req"
-                                >
+                                       readonly
+                                       value="{{$officeDetails->workshop_name ?? 0}}"
+                                       class="form-control form-control-sm"/>
+                                <input type="hidden"
+                                       name="workshop_code"
+                                       value="{{$officeDetails->workshop_no ?? 0}}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="container-fluid pl-0">
+                        <div class="row">
+                             <div class="form-group row">
+                                 <label
+                                     class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                     for="job_card_no">
+                                     Request Date:
+                                 </label>
+                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                     <input type="text"
+                                            class="form-control form-control-sm"
+                                            id="request_date"
+                                            readonly
+                                            value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
+                                            name="request_date"
+                                            required>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="container-fluid pl-0">
+                        <div class="row">
+
+                            <div id="supplierContainer" style="display: none;" class="form-group row">
+                                <div
+                                    class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                    <div class="control-input">
+                                        <div class="link-field ui-front"
+                                             style="position: relative;">
+                                            <label class="form-check-inline field-required">
+                                                Suppliers
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                    <select
+                                        data-value=""
+                                        class="form-select form-select-sm"
+                                        name="supplier"
+                                        autocomplete="off"
+                                        id="supplier">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="storeContainer" style="display: none;" class="form-group row">
+                                <label
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                    for="staff_name">
+                                    Store:
+                                </label>
+                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                    <input type="hidden"
+                                           id="store_code"
+                                           value="{{$officeDetails->store_code ?? ''}}"
+                                           name="store_code"/>
+                                    <input type="text"
+                                           class="form-control form-control-sm"
+                                           id="store_name"
+                                           value="{{$officeDetails->store_code ?? ''}}:{{$officeDetails->store_name ?? ''}}"
+                                           placeholder=""
+                                           name="store_name"/>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="container-fluid pl-0">
+                        <div class="row">
+                            {{--<div class="form-group row">
+                                <label
+                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                    for="job_card_no">
+                                    Request Date:
+                                </label>
+                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                    <input type="text"
+                                           class="form-control form-control-sm"
+                                           id="request_date"
+                                           readonly
+                                           value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
+                                           name="request_date"
+                                           required>
+                                </div>
+                            </div>--}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="container-fluid pl-0">
+                        <div class="row">
+                            <div class="form-group row">
+                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="container-fluid pl-0">
+                        <div class="row" style="display: none;">
+                            <div class="form-group row">
+                                <label
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                    for="staff_no">Date Expected Out:
+                                </label>
+                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                    <input type="text"
+                                           class="form-control form-control-sm"
+                                           id="date_expected_out"
+                                           value="@if($details){{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}@else{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
+                                           name="date_of_req"
+                                    >
+                                </div>
                             </div>
                         </div>
                     </div>
