@@ -112,7 +112,7 @@
 
         function initProjectSelector(selector) {
             const dataUrl = document.querySelector('#articlesUrl').value;
-            $(selector).select2({
+            selector.select2({
                 selectOnClose: true,
                 multiple: false,
                 quietMillis: 100,
@@ -193,7 +193,7 @@
     <script>
         $(document).ready(function () {
 
-            initProjectSelector('.articlesDropDownList');
+            initProjectSelector($('.articlesDropDownList'));
 
             Inputmask({
                 "mask": "AAA 9{1,4}"
@@ -557,7 +557,7 @@
                     .then(response => response.json())
                     .then(response => {
                         let selectElem = $('select[name="fuel_level"]');
-                        // Populate results
+
                         if (response.state === 'failure') {
                             //show errors
                             toastr.error('Connection error, no data found')
@@ -568,7 +568,7 @@
                         tmsApp.populateDropDownList(selectElem, fuelLevels, "code", ["name"], "");
 
                         let location = selectElem.attr('data-value');
-                        console.log(location);
+
                         if (location) {
                             selectElem.val(location);
                             selectElem.trigger('change');
@@ -595,14 +595,13 @@
                         tmsApp.populateDropDownList(selectElem, fuelLevels, "code", ["description"], "");
 
                         let location = selectElem.attr('data-value');
-                        console.log(selectElem.name);
+
                         if (location) {
                             selectElem.val(location);
                             selectElem.trigger('change');
                         }
                     })
                     .catch(function (error) {
-                        // notify of error
                         toastr.error(
                             'Connection error. Could not retrieve data, some feature might not work.')
                     });
@@ -1070,18 +1069,18 @@
 
                         let row = Table.addRow($('table#' + tableId));
 
-                        console.log(row);
+                        //console.log(row);
 
                         if (tableId === "part8") {
                             $(row).find('[name="defect"]').select2('destroy');
                             $(row).find('[name="defectCategory"]').select2('destroy');
                             $(row).find('[name="vehicleSystem"]').select2('destroy');
                         } else if (tableId === "material_table") {
-                            $(row).find('.articlesDropDownList').select2('destroy');
+                            $(row).find('[name="articles"]').select2('destroy');
                         }
 
                         if (tableId === "material_table") {
-                            initProjectSelector($(row).find('.articlesDropDownList'));
+                            initProjectSelector($(row).find('[name="articles"]'));
                         } else {
                             setTimeout(function () {
                                 $(row).find('[name="defect"]').select2({
