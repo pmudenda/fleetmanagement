@@ -63,7 +63,7 @@ class MaintenanceController extends Controller
         }
 
         list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections, $defects,
-            $comments, $officeDetails) = $this->jobCardCreationData($request);
+            $comments, $officeDetails, $materials) = $this->jobCardCreationData($request);
 
         $view_name = 'modules.requisitions.maintenance.create';
 
@@ -78,7 +78,8 @@ class MaintenanceController extends Controller
                     'workshop_sections',
                     'defects',
                     'comments',
-                    'officeDetails'
+                    'officeDetails',
+                    'materials'
                 )
             );
     }
@@ -95,7 +96,7 @@ class MaintenanceController extends Controller
 
         list($step, $repairTypes, $accessories_checked_in, $accessories,
             $details, $workshop_sections,
-            $defects, $comments, $officeDetails) = $this->jobCardCreationData($request);
+            $defects, $comments, $officeDetails, $materials) = $this->jobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.create')
             ->with(
@@ -108,7 +109,8 @@ class MaintenanceController extends Controller
                     'workshop_sections',
                     'defects',
                     'comments',
-                    'officeDetails'
+                    'officeDetails',
+                    'materials'
                 )
             );
     }
@@ -127,7 +129,7 @@ class MaintenanceController extends Controller
             $details,
             $workshop_sections,
             $defects,
-            $comments, $officeDetails) = $this->jobCardCreationData($request);
+            $comments, $officeDetails, $materials) = $this->jobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.create')
             ->with(
@@ -140,7 +142,8 @@ class MaintenanceController extends Controller
                     'workshop_sections',
                     'defects',
                     'comments',
-                    'officeDetails'
+                    'officeDetails',
+                    'materials'
                 )
             );
     }
@@ -272,7 +275,7 @@ class MaintenanceController extends Controller
             $workshop_sections,
             $defects,
             $comments,
-            $officeDetails);
+            $officeDetails, $materials);
     }
 
 
