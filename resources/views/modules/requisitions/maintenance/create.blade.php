@@ -647,9 +647,9 @@
                     element.removeAttribute('disabled');
                 });
 
-                document.querySelector('#vehicleDetailsContainer').style.display = null;
+                //document.querySelector('#vehicleDetailsContainer').style.display = null;
                 //document.querySelector('#materialDetailsContainer').style.display = null;
-                document.querySelector('#image_view').style.display = null;
+                //document.querySelector('#image_view').style.display = null;
             }
 
             function populateVehicleDetails(payload) {

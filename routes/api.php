@@ -10,6 +10,7 @@ use App\Models\reference\Article;
 use App\Models\reference\GtaVehicle;
 use App\Models\WorkShopManagement\WorkShopTable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
@@ -178,28 +179,36 @@ Route::get('load/procurement/articles', function (Request $request) {
         }
 
         $search = strtoupper($request->get('search'));
-        $query = Article::select('code_article', 'description', 'technical_specifications', 'unit_measure', 'price_map');
+        // SPMS_ARTICLES_VIEW
+        $query = DB::table('spms_articles_view')
+            ->leftJoin('posts', 'users.id', '=', 'posts.user_id');
+
         $itemType = $request->get('type_article');
 
         if ($itemType == RequisitionItemTypes::StockItemCode) {
             $query->where(function ($q) use ($itemType) {
-                $q->whereBetween('code_group', ['01', '39']);
+                $q->whereBetween('code_group',
+                    ['01', '39']);
             });
-
         } else if ($itemType == RequisitionItemTypes::NonStockItemCode) {
             $query->where(function ($q) use ($itemType) {
                 $q->where('code_group', '=', '40');
             });
-
         } else if ($itemType == RequisitionItemTypes::ServiceItemCode) {
             $query->where(function ($q) use ($itemType) {
                 $q->where('code_group', '=', '41');
             });
         }
 
-        $procurementArticles = $query->where('type_article', '=', $request->get('type_article'))
-            ->where('code_article', 'LIKE', "%{$search}%")
-            ->orWhere('description', 'LIKE', "%{$search}%")
+        $query->where('type_article', '=', $request->get('type_article'));
+
+        $query->where(function ($query) use ($search) {
+            $query->orWhere('code_article', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%");
+        });
+
+        $procurementArticles = $query
+            ->select('code_article', 'description', 'technical_specifications', 'unit_measure', 'price_map')
             ->get();
 
         return response()->json([
