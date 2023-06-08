@@ -104,12 +104,16 @@
                                     Store:
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                    <input type="hidden"
+                                           id="store_code"
+                                           value="{{$officeDetails->store_code}}"
+                                           name="store_code"/>
                                     <input type="text"
                                            class="form-control form-control-sm"
-                                           id="store_code"
-                                           value="{{}}"
+                                           id="store_name"
+                                           value="{{$officeDetails->store_code}}:{{$officeDetails->store_name}}"
                                            placeholder=""
-                                           name="store_code"/>
+                                           name="store_name"/>
                                 </div>
                             </div>
 

@@ -260,7 +260,10 @@ class MaintenanceController extends Controller
                 ->leftJoin('spms_stores_view', 'config_workshop.store_code', '=', 'spms_stores_view.code_store')
                 ->leftJoin('zfm_purchase_offices', 'config_workshop.area_code', '=', 'zfm_purchase_offices.area')
                 ->where('config_workshop.workshop_code', '=', $details->workshop_code)
-                ->select('config_workshop.*', 'spms_stores_view.*', 'zfm_purchase_offices.description as purchase_office',
+                ->select('config_workshop.*',
+                    'spms_stores_view.code_store as store_code',
+                    'spms_stores_view.description as store_name',
+                    'zfm_purchase_offices.description as purchase_office',
                     'zfm_purchase_offices.code_office as purchase_office_code')
                 ->get();
 
