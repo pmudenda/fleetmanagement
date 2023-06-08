@@ -803,7 +803,7 @@
             }
 
             function eventHandler(element, e) {
-                let $table = $('#materialDetailsTable');
+                let $table = '';// $('#materialDetailsTable');
 
                 switch (element.name) {
                     case 'unit_price':
@@ -1056,15 +1056,17 @@
                     }
                 });
 
-                $('#material_table').on('change', 'select, input', function (e) {
+                $('#material_table').on('change', 'input', function (e) {
                     eventHandler(this, e);
-                }).on('keyup', 'select,input,textarea', function (e) {
+                }).on('keyup', 'input,textarea', function (e) {
                     eventHandler(this, e);
-                }).on('blur', 'input', function (e) {
+                });
+
+                /*.on('blur', 'input', function (e) {
                     if (this.name === 'quantity') {
                         $(this).val(tmsApp.numberFormat(this.value));
                     }
-                });
+                });*/
 
                 $(document).off('click', 'button[value="addRow"][data-table-id]')
                     .on('click', 'button[value="addRow"][data-table-id]', function () {

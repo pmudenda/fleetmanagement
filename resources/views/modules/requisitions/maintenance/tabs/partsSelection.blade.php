@@ -224,7 +224,7 @@
         <hr/>
         <div class="col-xs-12 col-sm-12 col-md-12 px-0">
             <div class="row">
-                <div class="table-responsive" style="max-height:500px; overflow-x: auto;">
+                <div style="max-height:500px; overflow-x: auto;">
                     <table id="material_table" data-form-url="{{route("process.job_card")}}"
                            data-model-name="PartsHeader"
                            class="table dataTable table-row-dashed align-middle gs-0 nowrap">
