@@ -152,6 +152,8 @@
                 templateResult: formatRepo,
                 //formatRepo,
                 templateSelection: formatRepoSelection
+            }).off('select2:select').on('select2:select', function (e) {
+                console.log('select event', e);
             });
         }
 
