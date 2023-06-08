@@ -166,10 +166,12 @@
          * @returns {*|string}
          */
         function formatRepoSelection(project) {
+            console.log(project);
             if (!project['id']) {
                 return project['text'];
             }
             $('[name="articleCode"]').val(project['id']);
+            $('[name="total_price"]').val(project['id']);
             return project['text'];
            /* project['id'] + ":" +*/
         }
