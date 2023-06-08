@@ -19,7 +19,6 @@
                         </thead>
                         <tbody>
                         @if($defects->isNotEmpty())
-                            {{"Am not empty"}}
                             @foreach($defects as $defect)
                                 <tr class="increment">
                                     <td class="showNumber">
