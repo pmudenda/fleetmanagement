@@ -227,6 +227,7 @@
             let bodyTag = "fieldset";
 
             $(document).ready(function () {
+
                 setTimeout(function () {
                     let job_card_number = $('[name="job_card_number"]').val();
                     if (job_card_number) {
@@ -802,34 +803,32 @@
                 let $table = $('#materialDetailsTable');
 
                 switch (element.name) {
-                    case 'material_price':
+                    case 'unit_price':
                         // line total = new material price multiplied by quantity value
-                        let totalAmount = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=material_quantity]").val());
-                        $(element).closest("tr").find("input[name=material_amount]").val(totalAmount).change();
-                        $(element).closest("tr").find("#material_amount").text(tmsApp.numberFormat(totalAmount));
+                        let totalAmount = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=quantity]").val());
+                        $(element).closest("tr").find("input[name=total_price]").val(totalAmount).change();
+                        $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(totalAmount));
                         break;
-                    case 'material_quantity':
+                    case 'quantity':
 
                         let summaryTotalQty = 0;
-                        $table.find("input[name=material_quantity]").each(function (i, it) {
+                        $table.find("input[name=quantity]").each(function (i, it) {
                             summaryTotalQty += tmsApp.getFloat(it.value);
                         });
 
-                        $('#totalQty').text(tmsApp.numberFormat(summaryTotalQty));
-                        // line total = new quantity value multiplied by material price
-                        let lineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=material_price]").val());
-                        $(element).closest("tr").find("input[name=material_amount]").val(lineAmountTotal).change();
-                        $(element).closest("tr").find("#material_amount").text(tmsApp.numberFormat(lineAmountTotal));
+                        $('#quantityTotal').text(tmsApp.numberFormat(summaryTotalQty));
+                        let lineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=unit_price]").val());
+                        $(element).closest("tr").find("input[name=total_price]").val(lineAmountTotal).change();
+                        $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(lineAmountTotal));
                         break;
-                    case 'material_amount':
+                    case 'total_price':
                         // calculate new footer total
                         let summaryTotal = 0;
-                        $table.find("input[name=material_amount]").each(function (i, it) {
+                        $table.find("input[name=total_price]").each(function (i, it) {
                             summaryTotal += tmsApp.getFloat(it.value);
                         });
-                        $('#totalAmount').text(tmsApp.numberFormat(summaryTotal, 2));
+                        $('#itemsTotal').text(tmsApp.numberFormat(summaryTotal, 2));
                     case '':
-
                         break;
                     default:
                         break;
@@ -864,12 +863,20 @@
 
             function getVehicleDefectCategory(selectedValue, selectElem) {
                 if (!selectedValue) return;
-                loadData('WCT', document.querySelector('#defectCategoryUrl').value + '?key=' + selectedValue, selectElem);
+                loadData(
+                    'WCT',
+                    document.querySelector('#defectCategoryUrl').value + '?key=' + selectedValue,
+                    selectElem
+                );
             }
 
             function getVehicleDefects(selectedValue, selectElem) {
                 if (!selectedValue) return;
-                loadData('WDF', document.querySelector('#defectUrl').value + '?key=' + selectedValue, selectElem);
+                loadData(
+                    'WDF',
+                    document.querySelector('#defectUrl').value + '?key=' + selectedValue,
+                    selectElem
+                );
             }
 
             function showSupplierControls() {
@@ -1064,6 +1071,8 @@
                             $('[name="defect"]').select2('destroy');
                             $('[name="defectCategory"]').select2('destroy');
                             $('[name="vehicleSystem"]').select2('destroy');
+                        } else if (tableId === "material_table") {
+                            $('.articlesDropDownList').select2('destroy');
                         }
 
                         Table.addRow($('table#' + tableId));
