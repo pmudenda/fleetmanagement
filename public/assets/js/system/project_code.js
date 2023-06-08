@@ -4,7 +4,7 @@ $(document).ready(function () {
 });
 
 function initProjectSelector(selector) {
-
+    const dataUrl = document.querySelector('#projects_url').value;
     $(selector).select2({
         selectOnClose: true,
         multiple: false,
@@ -19,7 +19,7 @@ function initProjectSelector(selector) {
                 window.showLoaderModal(false);
                 window.loaderVisible = false;
             },
-            url: document.querySelector('#projects_url').value,
+            url: dataUrl,
             dataType: 'json',
             data: function (params) {
                 return {
