@@ -232,13 +232,13 @@
                         <tr class="bg-default">
                             <th style="width: 10%;" class="pl-2">Reg. No</th>
                             <th style="width: 25%;">Article</th>
-                            <th style="width: 15%;">Article Code</th>
+                            <th>Article Code</th>
                             <th style="width: 25%;">Specification</th>
-                            <th style="width: 25%;">Qty.</th>
-                            <th style="width: 5%;">UOM</th>
-                            <th style="width: 25%;">Unit Price</th>
-                            <th style="width: 25%;">Total</th>
-                            <th style="width: 25%;"></th>
+                            <th>Qty.</th>
+                            <th>UOM</th>
+                            <th>Unit Price</th>
+                            <th>Total</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
