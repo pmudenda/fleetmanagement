@@ -1,5 +1,4 @@
-@php use App\Enums\RequisitionItemTypes;use Carbon\Carbon;
- use App\Models\reference\PurchaseOffice;
+@php use App\Enums\RequisitionItemTypes;use App\Models\reference\PurchaseOffice;use Carbon\Carbon;
 @endphp
 <div class="container-fluid">
     <input type="hidden"
@@ -52,12 +51,16 @@
                                         class="form-select form-select-sm"
                                         name="purchase_office"
                                         id="purchase_office">
-                                        <option value=""></option>
-                                        @foreach(PurchaseOffice::get() as $purchaseOffice)
+
+                                        <option value="{{$purchaseOffice->purchase_office_code}}">
+                                            {{$purchaseOffice->purchase_office}}
+                                        </option>
+                                        {{--@foreach(PurchaseOffice::get() as $purchaseOffice)
+                                            @if($purchaseOffice->purchase_office_code) @endif
                                             <option value="{{$purchaseOffice->code_office}}">
                                                 {{$purchaseOffice->description}}
                                             </option>
-                                        @endforeach
+                                        @endforeach--}}
                                     </select>
                                 </div>
                             </div>
@@ -104,7 +107,7 @@
                                     <input type="text"
                                            class="form-control form-control-sm"
                                            id="store_code"
-                                           value=""
+                                           value="{{}}"
                                            placeholder=""
                                            name="store_code"/>
                                 </div>
@@ -177,7 +180,8 @@
         <div class="col-xs-12 col-sm-12 col-md-12 px-0">
             <div class="row">
                 <div class="table-responsive" style="max-height:500px;">
-                    <table id="material_table" data-form-url="{{route("process.job_card")}}" data-model-name="PartsHeader"
+                    <table id="material_table" data-form-url="{{route("process.job_card")}}"
+                           data-model-name="PartsHeader"
                            class="table dataTable table-row-dashed align-middle gs-0 nowrap">
                         <thead>
                         <tr class="bg-default">

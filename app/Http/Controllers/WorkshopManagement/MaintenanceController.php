@@ -16,7 +16,6 @@ use App\Models\WorkShopManagement\WorkShopComments;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\WorkShopManagement\WorkshopService;
-use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -24,6 +23,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
@@ -62,7 +62,8 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections, $defects, $comments) = $this->jobCardCreationData($request);
+        list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections, $defects,
+            $comments, $officeDetails) = $this->jobCardCreationData($request);
 
         $view_name = 'modules.requisitions.maintenance.create';
 
@@ -76,7 +77,8 @@ class MaintenanceController extends Controller
                     'step',
                     'workshop_sections',
                     'defects',
-                    'comments'
+                    'comments',
+                    'officeDetails'
                 )
             );
     }
@@ -91,7 +93,9 @@ class MaintenanceController extends Controller
             return redirect(URL::signedRoute('maintenance.requisition', ['step' => 1]));
         }
 
-        list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections, $defects, $comments) = $this->jobCardCreationData($request);
+        list($step, $repairTypes, $accessories_checked_in, $accessories,
+            $details, $workshop_sections,
+            $defects, $comments, $officeDetails) = $this->jobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.create')
             ->with(
@@ -103,7 +107,8 @@ class MaintenanceController extends Controller
                     'step',
                     'workshop_sections',
                     'defects',
-                    'comments'
+                    'comments',
+                    'officeDetails'
                 )
             );
     }
@@ -122,7 +127,7 @@ class MaintenanceController extends Controller
             $details,
             $workshop_sections,
             $defects,
-            $comments) = $this->jobCardCreationData($request);
+            $comments,$officeDetails) = $this->jobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.create')
             ->with(
@@ -134,7 +139,8 @@ class MaintenanceController extends Controller
                     'step',
                     'workshop_sections',
                     'defects',
-                    'comments'
+                    'comments',
+                    'officeDetails'
                 )
             );
     }
@@ -243,17 +249,26 @@ class MaintenanceController extends Controller
         $details = null;
         $defects = null;
         $comments = null;
+        $officeDetails = null;
 
         if ($reference) {
             $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)
                 ->get();
             $details = $this->workshopService->getJobCardDetails($reference);
 
+            $officeDetails = DB::table('config_workshop')
+                ->leftJoin('spms_stores_view', 'config_workshop.store_code', '=', 'spms_stores_view.code_store')
+                ->leftJoin('zfm_purchase_offices', 'config_workshop.area_code', '=', 'zfm_purchase_offices.area')
+                ->where('config_workshop.workshop_code', '=', $details->workshop_code)
+                ->select('config_workshop.*', 'spms_stores_view.*', 'zfm_purchase_offices.description as purchase_office',
+                    'zfm_purchase_offices.code_office as purchase_office_code')
+                ->get();
+
             $defects = VehicleDefects::where('job_card_no', '=', $reference)->get();
             $comments = WorkShopComments::where('job_card_no', '=', $reference)->get();
         }
 
-        return array($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections, $defects, $comments);
+        return array($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections, $defects, $comments, $officeDetails);
     }
 
 

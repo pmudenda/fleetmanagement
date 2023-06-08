@@ -3,6 +3,8 @@
 namespace App\Services\Integration;
 
 use App\Constants\SystemOfOrigin;
+use App\Models\reference\ActiveProjectsModel;
+use App\Models\reference\Store;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -162,5 +164,9 @@ class ProcurementSystemIntegrationService
             Log::error($e);
             return "";
         }
+    }
+
+    public function Store(){
+        return Store::get();
     }
 }

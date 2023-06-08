@@ -27,7 +27,6 @@ Route::middleware('auth=>sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::post('license-verification', [RoadTransportSafetyAgencyIntegrationController::class, 'verifyLicenseDetails'])->name('license.details.verification');
 
 Route::post('find/vehicle', function (Request $request) {
@@ -46,6 +45,7 @@ Route::post('find/vehicle', function (Request $request) {
         ]);
     }
 })->name('cleanup.vehicle.find');
+
 
 Route::get('load/vehicle/systems', function (Request $request) {
     try {
@@ -143,7 +143,7 @@ Route::get('load/workshop/section', function (Request $request) {
     }
 })->name('load.workshop.section');
 
-Route::get('vehicle/licence/classes', function (Request $request) {
+Route::get('load/licence/classes', function (Request $request) {
     try {
 
         $licenseCategory = GeneralTableConfigurations::where('type', ConfigurationTypes::LICENSE_CLASS)
@@ -184,5 +184,25 @@ Route::get('load/procurement/articles', function (Request $request) {
         ]);
     }
 })->name('load.articles');
+
+Route::get('load/stores', function (Request $request) {
+    try {
+        $procurementArticles = Article::where('type_article', '=', $request->get('type_article'))
+            ->get();
+
+        return response()->json([
+            'success' => !empty($procurementArticles),
+            'payload' => $procurementArticles
+        ]);
+
+    } catch (Exception $e) {
+        Log::error($e);
+        return response()->json([
+            'success' => false,
+            'payload' => [],
+            'message' => ErrorMessages::getMessage('err_0005')
+        ]);
+    }
+})->name('load.stores');
 
 
