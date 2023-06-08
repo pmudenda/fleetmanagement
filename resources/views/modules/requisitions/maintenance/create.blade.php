@@ -136,7 +136,7 @@
                         return {
                             results: formatResults(data.items),
                             pagination: {
-                                more: (params.page * 30) < data.total_count
+                                more: (params.page * 30) < data['total_count']
                             }
                         };
                     },
@@ -184,11 +184,12 @@
             });
 
         }
-        const dataUrl = document.querySelector('#articlesUrl').value;
-        initProjectSelector('.articlesDropDownList', dataUrl);
     </script>
     <script>
         $(document).ready(function () {
+            const dataUrl = document.querySelector('#articlesUrl').value;
+            initProjectSelector('.articlesDropDownList', dataUrl);
+
             Inputmask({
                 "mask": "AAA 9{1,4}"
             }).mask('[name="vehicle_registration"]');

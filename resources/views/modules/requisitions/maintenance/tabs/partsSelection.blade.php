@@ -254,7 +254,6 @@
                                     <td class="showNumber">
                                         <input
                                             name="registration"
-                                            id="registration"
                                             required
                                             value="{{$details->veh_reg ?? ''}}"
                                             class="form-control form-control-sm registration"/>
@@ -262,7 +261,6 @@
                                     <td>
                                         <select
                                             name="articles"
-                                            id="articlesDropDownList"
                                             required
                                             data-value="{{$material->material_code ?? ''}}"
                                             class="form-select form-select-sm articlesDropDownList">
@@ -271,7 +269,6 @@
                                     </td>
                                     <td>
                                         <input
-                                            id="articleCode"
                                             name="articleCode"
                                             value="{{$material->material_code ?? ''}}"
                                             required
@@ -280,7 +277,6 @@
                                     </td>
                                     <td>
                                         <input
-                                            id="technical_specification"
                                             name="technical_specification"
                                             required
                                             value="{{$material->specifications ?? ''}}"
@@ -290,7 +286,6 @@
                                     <td>
                                         <input
                                             name="quantity"
-                                            id="quantity"
                                             required
                                             value="{{$material->quantity ?? ''}}"
                                             class="form-control form-control-sm quantity"/>
@@ -299,7 +294,6 @@
                                     <td>
                                         <input
                                             name="unit_of_measure"
-                                            id="unit_of_measure"
                                             required
                                             value="{{$material->unit_of_measure ?? ''}}"
                                             readonly
@@ -308,7 +302,6 @@
 
                                     <td>
                                         <input name="unit_price"
-                                               id="unit_price"
                                                required
                                                value="{{$material->price ?? ''}}"
                                                readonly
@@ -317,7 +310,6 @@
 
                                     <td>
                                         <input name="total_price"
-                                               id="total_price"
                                                required
                                                value="{{$material->amount ?? ''}}"
                                                readonly
@@ -339,7 +331,6 @@
                                 <td class="showNumber">
                                     <input
                                         name="registration"
-                                        id="registration"
                                         required
                                         value="{{$details->veh_reg ?? ''}}"
                                         class="form-control form-control-sm registration"/>
@@ -347,7 +338,6 @@
                                 <td>
                                     <select
                                         name="articles"
-                                        id="articlesDropDownList"
                                         required
                                         data-value=""
                                         class="form-control form-control-sm articlesDropDownList">
@@ -356,7 +346,6 @@
                                 </td>
                                 <td>
                                     <input
-                                        id="articleCode"
                                         name="articleCode"
                                         required
                                         readonly
@@ -364,7 +353,6 @@
                                 </td>
                                 <td>
                                     <input
-                                        id="technical_specification"
                                         name="technical_specification"
                                         required
                                         class="form-control form-control-sm technical_specification"/>
@@ -373,7 +361,6 @@
                                 <td>
                                     <input
                                         name="quantity"
-                                        id="quantity"
                                         required
                                         class="form-control form-control-sm quantity"/>
                                 </td>
@@ -381,7 +368,6 @@
                                 <td>
                                     <input
                                         name="unit_of_measure"
-                                        id="unit_of_measure"
                                         required
                                         readonly
                                         class="form-control form-control-sm unit_of_measure"/>
@@ -389,7 +375,6 @@
 
                                 <td>
                                     <input name="unit_price"
-                                           id="unit_price"
                                            required
                                            readonly
                                            class="form-control form-control-sm unit_price"/>
@@ -397,7 +382,6 @@
 
                                 <td>
                                     <input name="total_price"
-                                           id="total_price"
                                            required
                                            readonly
                                            class="form-control form-control-sm total_price"/>
