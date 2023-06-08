@@ -169,14 +169,23 @@ Route::get('load/licence/classes', function (Request $request) {
 Route::get('load/procurement/articles', function (Request $request) {
     try {
         $search = strtoupper($request->get('search'));
-        $query = Article::guery();
+        $query = Article::select('code_article', 'description', 'technical_specifications', 'unit_measure', 'price_map');
+        $itemType = $request->get('type_article');
 
-        if ($request->get('type_article') == RequisitionItemTypes::StockItemCode) {
-            $query->whereBetween('code_group', ['01', '39']);
-        } else if ($request->get('type_article') == RequisitionItemTypes::NonStockItemCode) {
-            $query->where('code_group', '=', '40');
-        } else if( $request->get('type_article') == RequisitionItemTypes::ServiceItemCode){
-            $query->where('code_group', '=', '41');
+        if ($itemType == RequisitionItemTypes::StockItemCode) {
+            $query->where(function ($q) use ($itemType) {
+                $q->whereBetween('code_group', ['01', '39']);
+            });
+
+        } else if ($itemType == RequisitionItemTypes::NonStockItemCode) {
+            $query->where(function ($q) use ($itemType) {
+                $q->where('code_group', '=', '40');
+            });
+
+        } else if ($itemType == RequisitionItemTypes::ServiceItemCode) {
+            $query->where(function ($q) use ($itemType) {
+                $q->where('code_group', '=', '41');
+            });
         }
 
         $procurementArticles = $query->where('type_article', '=', $request->get('type_article'))
@@ -194,7 +203,8 @@ Route::get('load/procurement/articles', function (Request $request) {
         Log::error($e);
         return response()->json([
             'success' => false,
-            'payload' => [],
+            'items' => [],
+            'total_count' => 0,
             'message' => ErrorMessages::getMessage('err_0005')
         ]);
     }
