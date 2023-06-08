@@ -194,7 +194,8 @@
                     'description': obj?.description,
                     'price_map': obj?.price_map,
                     'technical_specifications': obj?.technical_specifications,
-                    'unit_measure': obj?.unit_measure
+                    'unit_measure': obj?.unit_measure,
+                    'unit_measure_name': obj?.unit_measure_name
                 };
             });
         }

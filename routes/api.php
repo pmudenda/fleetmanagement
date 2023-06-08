@@ -214,7 +214,7 @@ Route::get('load/procurement/articles', function (Request $request) {
                 'spms_articles_view.technical_specifications',
                 'spms_articles_view.unit_measure',
                 'spms_articles_view.price_map',
-                'units_view.abbreviation'
+                'units_view.abbreviation as unit_measure_name'
             )->get();
 
         return response()->json([
