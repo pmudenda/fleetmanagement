@@ -127,7 +127,7 @@ class MaintenanceController extends Controller
             $details,
             $workshop_sections,
             $defects,
-            $comments,$officeDetails) = $this->jobCardCreationData($request);
+            $comments, $officeDetails) = $this->jobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.create')
             ->with(
@@ -271,7 +271,16 @@ class MaintenanceController extends Controller
             $comments = WorkShopComments::where('job_card_no', '=', $reference)->get();
         }
 
-        return array($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections, $defects, $comments, $officeDetails);
+        return array(
+            $step,
+            $repairTypes,
+            $accessories_checked_in,
+            $accessories,
+            $details,
+            $workshop_sections,
+            $defects,
+            $comments,
+            $officeDetails->first());
     }
 
 
