@@ -106,7 +106,8 @@
     <script>
         'use strict';
 
-        function initProjectSelector(selector,dataUrl) {
+        function initProjectSelector(selector) {
+            const dataUrl = document.querySelector('#articlesUrl').value;
             $(selector).select2({
                 selectOnClose: true,
                 multiple: false,
@@ -187,8 +188,8 @@
     </script>
     <script>
         $(document).ready(function () {
-            const dataUrl = document.querySelector('#articlesUrl').value;
-            initProjectSelector('.articlesDropDownList', dataUrl);
+
+            initProjectSelector('.articlesDropDownList');
 
             Inputmask({
                 "mask": "AAA 9{1,4}"
@@ -472,67 +473,67 @@
                     });
             }
 
-            function getWorkshopSections() {
-                fetch(document.querySelector('#workShopSectionsUrl').value)
-                    .then(response => response.json())
-                    .then(response => {
-                        let selectElem = $('select[name="workshopSection"]');
-                        // Populate results
-                        if (response.state === 'failure') {
-                            //show errors
-                            toastr.error('Connection error, no data found')
-                            return;
-                        }
+            /*    function getWorkshopSections() {
+                    fetch(document.querySelector('#workShopSectionsUrl').value)
+                        .then(response => response.json())
+                        .then(response => {
+                            let selectElem = $('select[name="workshopSection"]');
+                            // Populate results
+                            if (response.state === 'failure') {
+                                //show errors
+                                toastr.error('Connection error, no data found')
+                                return;
+                            }
 
-                        let workshops = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
+                            let workshops = response['payload'];
+                            tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
 
-                        let location = selectElem.attr('data-value');
-                        console.log(location);
-                        if (location) {
-                            selectElem.val(location);
-                            selectElem.trigger('change');
-                        }
+                            let location = selectElem.attr('data-value');
+                            console.log(location);
+                            if (location) {
+                                selectElem.val(location);
+                                selectElem.trigger('change');
+                            }
 
-                    })
-                    .catch(function (error) {
-                        // notify of error
-                        toastr.error(
-                            'Connection error. Could not retrieve data, some feature might not work.')
-                    });
-            }
+                        })
+                        .catch(function (error) {
+                            // notify of error
+                            toastr.error(
+                                'Connection error. Could not retrieve data, some feature might not work.')
+                        });
+                }
 
-            function getArticles(selectedItemType) {
+                function getArticles(selectedItemType) {
 
-                fetch(document.querySelector('').value +"?type_article="+ selectedItemType)
-                    .then(response => response.json())
-                    .then(response => {
-                        let selectElem = $('.articlesDropDownList');
-                        // Populate results
-                        if (response.state === 'failure') {
-                            //show errors
-                            toastr.error('Connection error, no data found')
-                            return;
-                        }
+                    fetch(document.querySelector('').value +"?type_article="+ selectedItemType)
+                        .then(response => response.json())
+                        .then(response => {
+                            let selectElem = $('.articlesDropDownList');
+                            // Populate results
+                            if (response.state === 'failure') {
+                                //show errors
+                                toastr.error('Connection error, no data found')
+                                return;
+                            }
 
-                        let workshops = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
+                            let workshops = response['payload'];
+                            tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
 
-                        let location = selectElem.attr('data-value');
-                        console.log(location);
-                        if (location) {
-                            selectElem.val(location);
-                            selectElem.trigger('change');
-                        }
+                            let location = selectElem.attr('data-value');
+                            console.log(location);
+                            if (location) {
+                                selectElem.val(location);
+                                selectElem.trigger('change');
+                            }
 
-                    })
-                    .catch(function (error) {
-                        // notify of error
-                        toastr.error(
-                            'Connection error. Could not retrieve data, some feature might not work.')
-                    });
-            }
-
+                        })
+                        .catch(function (error) {
+                            // notify of error
+                            toastr.error(
+                                'Connection error. Could not retrieve data, some feature might not work.')
+                        });
+                }
+    */
             function getFuelLevels() {
                 fetch(document.querySelector('#fuelLevelsUrl').value)
                     .then(response => response.json())
