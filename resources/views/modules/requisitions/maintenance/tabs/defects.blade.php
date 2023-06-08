@@ -108,7 +108,7 @@
                                 </td>
 
                                 <td>
-                                    <input name="total"
+                                    <input name="date_def"
                                            readonly="readonly"
                                            value="@if($details){{date('Y-m-d',strtotime(Carbon::parse($details->date_in)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
                                            class="tabledit-input form-control input-sm input-number"
