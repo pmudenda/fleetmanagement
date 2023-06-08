@@ -94,7 +94,7 @@
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="container-fluid pl-0">
                         <div class="row">
-                            {{-- <div class="form-group row">
+                             <div class="form-group row">
                                  <label
                                      class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
                                      for="job_card_no">
@@ -109,7 +109,7 @@
                                             name="request_date"
                                             required>
                                  </div>
-                             </div>--}}
+                             </div>
                         </div>
                     </div>
                 </div>
@@ -171,7 +171,7 @@
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="container-fluid pl-0">
                         <div class="row">
-                            <div class="form-group row">
+                            {{--<div class="form-group row">
                                 <label
                                     class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
                                     for="job_card_no">
@@ -186,7 +186,7 @@
                                            name="request_date"
                                            required>
                                 </div>
-                            </div>
+                            </div>--}}
                         </div>
                     </div>
                 </div>
