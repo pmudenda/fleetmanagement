@@ -18,7 +18,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @if($defects->isNotEmpty())
+                        @if($defects && $defects->isNotEmpty())
                             @foreach($defects as $defect)
                                 <tr class="increment">
                                     <td class="showNumber">

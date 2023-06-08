@@ -256,7 +256,6 @@
                                             name="registration"
                                             id="registration"
                                             required
-                                            readonly
                                             value="{{$details->veh_reg ?? ''}}"
                                             class="form-control form-control-sm registration"/>
                                     </td>
@@ -342,7 +341,6 @@
                                         name="registration"
                                         id="registration"
                                         required
-                                        readonly
                                         value="{{$details->veh_reg ?? ''}}"
                                         class="form-control form-control-sm registration"/>
                                 </td>
