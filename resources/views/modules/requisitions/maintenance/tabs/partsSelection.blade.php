@@ -343,7 +343,7 @@
                                         id="registration"
                                         required
                                         readonly
-                                        value="{{$details->veh_reg}}"
+                                        value="{{$details->veh_reg ?? ''}}"
                                         class="form-control form-control-sm registration"/>
                                 </td>
                                 <td>
