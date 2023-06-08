@@ -73,11 +73,20 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="container-fluid pl-0">
-                        <div class="form-group row">
-                            <label
-                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                for="workshop_code">Workshop:
-                            </label>
+                        <div class="row">
+                            <div class="form-group row">
+                                <div
+                                    class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                    <div class="control-input">
+                                        <div class="link-field ui-front"
+                                             style="position: relative;">
+                                            <label for="workshop_code" class="form-check-inline field-required">
+                                                Workshop:
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                 <input type="text"
                                        readonly
@@ -171,22 +180,6 @@
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="container-fluid pl-0">
                         <div class="row">
-                            {{--<div class="form-group row">
-                                <label
-                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                    for="job_card_no">
-                                    Request Date:
-                                </label>
-                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    <input type="text"
-                                           class="form-control form-control-sm"
-                                           id="request_date"
-                                           readonly
-                                           value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
-                                           name="request_date"
-                                           required>
-                                </div>
-                            </div>--}}
                         </div>
                     </div>
                 </div>
