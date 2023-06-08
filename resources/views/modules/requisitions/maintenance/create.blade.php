@@ -1068,7 +1068,7 @@
                         let tableId = $(this).data('tableId');
 
                         let row = Table.addRow($('table#' + tableId));
-
+                        let lastRow = $('table#' + tableId).find('tbody tr').last();// eq((skipBottom + 1) * -1);
                         //console.log(row);
                         if (tableId === "part8") {
                             $('[name="defect"]').select2('destroy');
@@ -1079,7 +1079,9 @@
                         }
 
                         if (tableId === "material_table") {
-                            //initProjectSelector($(row).find('[name="articles"]'));
+                            let selector = $(lastRow).find('[name="articles"]');
+                            console.log(selector);
+                            initProjectSelector(selector);
                         } else {
                             setTimeout(function () {
 
