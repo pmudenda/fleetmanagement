@@ -8,7 +8,7 @@
                     <table
                         class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
-                        <tr class="bg-dark">
+                        <tr class="bg-dark-subtle">
                             <th class="pl-2">Item</th>
                             <th>Present</th>
                             <th class="pr-2">Not Present</th>
@@ -42,7 +42,7 @@
                     <table
                         class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
-                        <tr class="bg-dark">
+                        <tr class="bg-dark-subtle">
                             <th class="pl-2">Item</th>
                             <th>Present</th>
                             <th class="pr-2">Not Present</th>

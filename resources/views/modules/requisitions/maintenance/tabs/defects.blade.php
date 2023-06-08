@@ -8,7 +8,7 @@
                     <table id="part8" data-form-url="{{route("defects.job_card")}}" data-model-name="Defects"
                            class="table table-row-dashed align-middle gs-0">
                         <thead>
-                        <tr class="bg-dark">
+                        <tr class="bg-dark-subtle">
                             <th style="width: 25%;" class="pl-2">System</th>
                             <th style="width: 25%;">Category</th>
                             <th style="width: 25%;" class="pr-2">Defect</th>
