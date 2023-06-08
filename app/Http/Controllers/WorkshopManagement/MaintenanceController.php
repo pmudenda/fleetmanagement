@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCardRequest;
 use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
+use App\Models\MaterialDetail;
 use App\Models\WorkShopManagement\VehicleDefects;
 use App\Models\WorkShopManagement\WorkShopComments;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
@@ -292,6 +293,37 @@ class MaintenanceController extends Controller
         try {
 
             $entry = VehicleDefects::where('id', '=', $request->record_id)
+                ->first();
+
+            if (empty($entry)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Record Not Found",
+                ]);
+            }
+
+            $entry->deleted_at = Carbon::now();
+            $entry->save();
+            return response()->json([
+                'success' => true,
+                'message' => "Record Removed Successfully",
+            ]);
+
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => "We could not complete processing your request to an error",
+            ]);
+        }
+    }
+
+
+    public function deleteMaterialRecord(Request $request): JsonResponse
+    {
+        try {
+            $entry = MaterialDetail::where('id', '=', $request->record_id)
                 ->first();
 
             if (empty($entry)) {

@@ -168,14 +168,16 @@ Route::get('load/licence/classes', function (Request $request) {
 
 Route::get('load/procurement/articles', function (Request $request) {
     try {
-        $search = $request->get('search');
+        $search = strtoupper($request->get('search'));
         $procurementArticles = Article::where('type_article', '=', $request->get('type_article'))
             ->where('description', 'LIKE', "%{$search}%")
+            ->orWhere('technical_specification', 'LIKE', "%{$search}%")
             ->get();
 
         return response()->json([
             'success' => !empty($procurementArticles),
-            'payload' => $procurementArticles
+            'items' => $procurementArticles,
+            'total_count' => $procurementArticles->count()
         ]);
 
     } catch (Exception $e) {
@@ -188,7 +190,7 @@ Route::get('load/procurement/articles', function (Request $request) {
     }
 })->name('load.articles');
 
-Route::get('load/stores', function (Request $request) {
+/*Route::get('load/stores', function (Request $request) {
     try {
         $procurementArticles = Store::where('type_article', '=', $request->get('type_article'))
             ->get();
@@ -206,6 +208,6 @@ Route::get('load/stores', function (Request $request) {
             'message' => ErrorMessages::getMessage('err_0005')
         ]);
     }
-})->name('load.stores');
+})->name('load.stores');*/
 
 

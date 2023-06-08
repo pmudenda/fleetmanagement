@@ -221,6 +221,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         //delete defect
         Route::post('/deleteRecord', [MaintenanceController::class, "deleteRecord"])->name('delete.defect.record');
+        Route::post('/deleteMaterialRecord', [MaintenanceController::class, "deleteMaterialRecord"])->name('delete.material.record');
     });
 
     Route::group(['prefix' => 'driver-management'], function () {

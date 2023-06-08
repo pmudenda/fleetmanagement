@@ -9,6 +9,7 @@
         th {
             white-space: nowrap;
         }
+
         /**===NO WRAP ON TABLE =====**/
         table.dataTable.nowrap th,
         table.dataTable.nowrap td {
@@ -91,6 +92,8 @@
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
                 <input type="hidden" value="{{route('delete.defect.record')}}" name="deleteDefectUrl"
                        id="deleteDefectUrl"/>
+                <input type="hidden" value="{{route('delete.material.record')}}" name="deleteMaterialUrl"
+                       id="deleteMaterialUrl"/>
             </div>
         </div>
     </section>
@@ -875,8 +878,7 @@
                     if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
                         showStockItemControls();
                         //getArticles(selectedItemType);
-                    }
-                    else {
+                    } else {
                         showSupplierControls();
                         //getArticles(selectedItemType);
                     }
@@ -1039,32 +1041,33 @@
                 $(document).off('click', 'button[value="addRow"][data-table-id]')
                     .on('click', 'button[value="addRow"][data-table-id]', function () {
 
-                        $('[name="defect"]').select2('destroy');
-                        $('[name="defectCategory"]').select2('destroy');
-                        $('[name="vehicleSystem"]').select2('destroy');
-
+                        if (tableId === "part8") {
+                            $('[name="defect"]').select2('destroy');
+                            $('[name="defectCategory"]').select2('destroy');
+                            $('[name="vehicleSystem"]').select2('destroy');
+                        }
                         let tableId = $(this).data('tableId');
                         Table.addRow($('table#' + tableId));
-                        if (tableId === "part8") {
-                            //initInvoiceDatePicker();
+                        if (tableId === "material_table") {
+                            initProjectSelector('.articlesDropDownList');
+                        } else {
+                            setTimeout(function () {
+                                $('[name="defect"]').select2({
+                                    theme: "bootstrap4",
+                                    width: "resolve",
+                                });
+
+                                $('[name="defectCategory"]').select2({
+                                    theme: "bootstrap4",
+                                    width: "resolve",
+                                });
+
+                                $('[name="vehicleSystem"]').select2({
+                                    theme: "bootstrap4",
+                                    width: "resolve",
+                                });
+                            }, 600);
                         }
-
-                        setTimeout(function () {
-                            $('[name="defect"]').select2({
-                                theme: "bootstrap4",
-                                width: "resolve",
-                            });
-
-                            $('[name="defectCategory"]').select2({
-                                theme: "bootstrap4",
-                                width: "resolve",
-                            });
-
-                            $('[name="vehicleSystem"]').select2({
-                                theme: "bootstrap4",
-                                width: "resolve",
-                            });
-                        }, 600);
                     });
 
                 $(document).on('click', 'button[value="deleteRow"]', function (e) {
@@ -1088,14 +1091,18 @@
                             if (!valueId || valueId == "0") {
                                 return;
                             }
+                            let dataUrl = "";
+                            if (tableId === 'part8') {
+                                dataUrl = document.querySelector('[name="deleteDefectUrl"]').value;
+                            } else {
+                                dataUrl = document.querySelector('[name="deleteMaterialUrl"]').value;
+                            }
 
                             let formData = new FormData();
                             formData.append('record_id', valueId);
-                            //scheduleUpdater(tableId, table);
-                            // return false;
-                            //
+
                             tmsApp.asyncPostFormData(
-                                document.querySelector('[name="deleteDefectUrl"]').value,
+                                dataUrl,
                                 formData,
                                 function (asyncResponse) {
                                     if ('success' in asyncResponse && !asyncResponse.success) {
@@ -1108,12 +1115,13 @@
                                         }
 
                                         setTimeout(function () {
-                                            tmsApp.systemError(
-                                                'System Configuration',
-                                                asyncResponse['message'],
-                                                function () {
-                                                }, 'error');
-                                        }, 300);
+                                                tmsApp.systemError(
+                                                    'System Configuration',
+                                                    asyncResponse['message'],
+                                                    function () {
+                                                    }, 'error');
+                                            },
+                                            300);
                                         return;
                                     }
 
