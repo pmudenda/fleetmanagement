@@ -36,7 +36,9 @@ class MaterialHeader extends Model
         'item_type',
         'workshop_no',
         'document_no',
-        'form_order'
+        'form_order',
+        'store',
+        'purchase_office'
     ];
 
     public function originator(): BelongsTo

@@ -23,10 +23,12 @@ return new class extends Migration
             $table->string('st_pur')->nullable();
             $table->Integer('odometer')->nullable();
             $table->string('cost_centre', 15)->nullable();
+            $table->string('purchase_office', 15)->nullable();
+            $table->string('store', 15)->nullable();
             $table->string('item_type')->nullable();
             $table->string('workshop_no', 255)->nullable();
             $table->string('document_no', 255)->nullable();
-            $table->string('form_order')->nullable();
+            $table->string('form_order',20)->nullable();
             $table->string('requested_by',255)->nullable();
             $table->string('authorised_by',255)->nullable();
             $table->string('town_from')->nullable();

@@ -53,7 +53,7 @@
                                         name="purchase_office"
                                         id="purchase_office">
 
-                                        <option value="{{$officeDetails->purchase_office_code ?? ''}}">
+                                        <option value="{{$officeDetails->purchase_office_area ?? ''}}">
                                             {{$officeDetails->purchase_office ?? ''}}
                                         </option>
                                         {{--@foreach(PurchaseOffice::get() as $purchaseOffice)
@@ -83,6 +83,9 @@
                                        readonly
                                        value="{{$officeDetails->workshop_name ?? 0}}"
                                        class="form-control form-control-sm"/>
+                                <input type="hidden"
+                                       name="workshop_code"
+                                       value="{{$officeDetails->workshop_no ?? 0}}"/>
                             </div>
                         </div>
                     </div>
@@ -245,8 +248,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @if(!empty($defects))
-                            @foreach($defects as $defect)
+                        @if(!empty($materials))
+                            @foreach($materials as $material)
                                 <tr class="increment">
                                     <td class="showNumber">
                                         <input
@@ -318,7 +321,7 @@
 
                                     <td class="view-mode">
                                         <button type="button"
-                                                data-value="{{$defect->id ?? '0'}}"
+                                                data-value="{{$material->id ?? '0'}}"
                                                 value="deleteRow"
                                                 class="btn btn-danger p-2">
                                             <i class="fas fa-trash m-0"></i>
@@ -327,9 +330,100 @@
                                 </tr>
                             @endforeach
                         @else
+                            <tr class="increment">
+                                <td class="showNumber">
+                                    <input
+                                        name="registration"
+                                        id="registration"
+                                        required
+                                        readonly
+                                        value="{{$details->veh_reg}}"
+                                        class="form-control form-control-sm registration"/>
+                                </td>
+                                <td>
+                                    <select
+                                        name="articles"
+                                        id="articlesDropDownList"
+                                        required
+                                        data-value=""
+                                        class="form-control form-control-sm articlesDropDownList">
+                                        <option></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input
+                                        id="articleCode"
+                                        name="articleCode"
+                                        required
+                                        readonly
+                                        class="form-control form-control-sm articleCode"/>
+                                </td>
+                                <td>
+                                    <input
+                                        id="technical_specification"
+                                        name="technical_specification"
+                                        required
+                                        class="form-control form-control-sm technical_specification"/>
+                                </td>
 
+                                <td>
+                                    <input
+                                        name="quantity"
+                                        id="quantity"
+                                        required
+                                        class="form-control form-control-sm quantity"/>
+                                </td>
+
+                                <td>
+                                    <input
+                                        name="unit_of_measure"
+                                        id="unit_of_measure"
+                                        required
+                                        readonly
+                                        class="form-control form-control-sm unit_of_measure"/>
+                                </td>
+
+                                <td>
+                                    <input name="unit_price"
+                                           id="unit_price"
+                                           required
+                                           readonly
+                                           class="form-control form-control-sm unit_price"/>
+                                </td>
+
+                                <td>
+                                    <input name="total_price"
+                                           id="total_price"
+                                           required
+                                           readonly
+                                           class="form-control form-control-sm total_price"/>
+                                </td>
+
+                                <td class="view-mode">
+                                    <button type="button"
+                                            data-value="{{$defect->id ?? '0'}}"
+                                            value="deleteRow"
+                                            class="btn btn-danger p-2">
+                                        <i class="fas fa-trash m-0"></i>
+                                    </button>
+                                </td>
+                            </tr>
                         @endif
                         </tbody>
+                        <tfoot>
+                        <tr>
+                            <td class="pl-2"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Total</td>
+                            <td><b id="itemsTotal" class="input-number">0.00</b></td>
+                            <td></td>
+                        </tr>
+                        </tfoot>
+
                     </table>
                     <button type="button"
                             data-table-id="material_table"

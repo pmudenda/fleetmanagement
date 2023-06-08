@@ -275,17 +275,21 @@ class FuelRequisitionService
         $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
 
         $workflowProcess = '';
+        $description = "";
         Log::info('Requisition Type ' . $requisitionPostRequest->get('requisition_type'));
         if ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::OutOfTown->value) {
             $workflowProcess = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
+            $description = "Out Of Town ";
         } elseif ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::Normal->value) {
             $workflowProcess = WorkflowProcessCodes::NormalFuelRequisition->value;
+            $description = "Normal ";
         } elseif ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::Override->value) {
             $workflowProcess = WorkflowProcessCodes::OverrideFuelRequisition->value;
+            $description = "Override ";
         }
 
-        $short_description = "Fuel Requisition For Vehicle Reg No. " . $registrationNumber;
-        $long_description = "Fuel Requisition Ref.No. " . $requisition_reference_number . " For Vehicle Reg No. " . $registrationNumber;
+        $short_description = $description . "Fuel Requisition For Vehicle Reg No. " . $registrationNumber;
+        $long_description = $description . "Fuel Requisition Ref.No. " . $requisition_reference_number . " For Vehicle Reg No. " . $registrationNumber;
 
         $this->workflowService->initiateWorkflowProcess(
             $requisition_reference_number,
