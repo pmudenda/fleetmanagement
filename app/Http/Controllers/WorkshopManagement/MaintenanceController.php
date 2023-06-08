@@ -255,10 +255,10 @@ class MaintenanceController extends Controller
 
         $accessories_checked_in = null;
         $details = null;
-        $defects = null;
+        $defects = collect([]);
         $comments = [];
         $officeDetails = null;
-        $materials = [];
+        $materials = collect([]);
 
         if ($reference) {
             $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)

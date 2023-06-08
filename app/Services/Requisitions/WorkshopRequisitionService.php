@@ -59,8 +59,8 @@ class WorkshopRequisitionService
 
         $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::WORKSHOP_REQUISITION);
 
-        $form_order_number = ''; //DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
-        $document_number = '';
+        $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
+        //$document_number = '';
 
         $workflowProcess = '';
         $item_type = "";
@@ -106,7 +106,7 @@ class WorkshopRequisitionService
                 'status' => StatusHelper::new(),
 
                 'req_no' => $requisition_reference_number,
-                //'form_order' => $form_order_number,
+                'form_order' => $form_order_number,
                 //'document_no' => $document_number,
                 'workshop_no' => $requisitionPostRequest->get('workshop_code'),
 

@@ -8,4 +8,5 @@ class WorkflowModules
     const FUEL_REQUISITION = "FUEL_REQ";
     const WORKSHOP_REQUISITION = "SPARES_REQ";
     const STOCK_REQUISITION = 'STR';
+    const PURCHASE_REQUISITION = "PUR";
 }

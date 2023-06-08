@@ -248,7 +248,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @if($materials->isNotEmpty())
+                        @if($materials && $materials->isNotEmpty())
                             @foreach($materials as $material)
                                 <tr class="increment">
                                     <td class="showNumber">
