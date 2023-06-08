@@ -324,6 +324,7 @@
                             <tr class="increment">
                                 <td class="showNumber">
                                     <input
+                                        readonly="readonly"
                                         name="registration"
                                         required
                                         value="{{$details->veh_reg ?? ''}}"

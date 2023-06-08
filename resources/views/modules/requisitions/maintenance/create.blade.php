@@ -815,7 +815,7 @@
                     case 'quantity':
 
                         let summaryTotalQty = 0;
-                        $table.find("input[name=quantity]").each(function (i, it) {
+                        $(element).closest("tr").find("input[name=quantity]").each(function (i, it) {
                             summaryTotalQty += tmsApp.getFloat(it.value);
                         });
 
@@ -827,7 +827,7 @@
                     case 'total_price':
                         // calculate new footer total
                         let summaryTotal = 0;
-                        $table.find("input[name=total_price]").each(function (i, it) {
+                        $(element).closest("tr").find("input[name=total_price]").each(function (i, it) {
                             summaryTotal += tmsApp.getFloat(it.value);
                         });
                         $('#itemsTotal').text(tmsApp.numberFormat(summaryTotal, 2));
