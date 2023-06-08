@@ -14,6 +14,7 @@ use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\WorkShopManagement\VehicleDefects;
 use App\Models\WorkShopManagement\WorkShopComments;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
+use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\WorkShopManagement\WorkshopService;
 use Illuminate\Contracts\View\Factory;
@@ -32,11 +33,15 @@ class MaintenanceController extends Controller
 {
     private WorkshopService $workshopService;
     private DocumentNumberGenerationService $numberGeneratorService;
+    private FuelRequisitionService $requisitionService;
 
-    public function __construct(WorkshopService $workshopService, DocumentNumberGenerationService $numberGeneratorService)
+    public function __construct(WorkshopService $workshopService,
+                                DocumentNumberGenerationService $numberGeneratorService,
+                                FuelRequisitionService $requisitionService)
     {
         $this->workshopService = $workshopService;
         $this->numberGeneratorService = $numberGeneratorService;
+        $this->requisitionService = $requisitionService;
     }
 
     public function list(Request $request): View
@@ -253,7 +258,7 @@ class MaintenanceController extends Controller
         $defects = null;
         $comments = [];
         $officeDetails = null;
-        $materials = null;
+        $materials = [];
 
         if ($reference) {
             $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)
@@ -263,7 +268,10 @@ class MaintenanceController extends Controller
             $officeDetails = $this->workshopService->getWorkShopPurchaseOfficeAndStore($details->workshop_code);
 
             $defects = VehicleDefects::where('job_card_no', '=', $reference)->get();
+
             $comments = WorkShopComments::where('job_card_no', '=', $reference)->get();
+
+            $materials = $this->requisitionService->getWorkShopRequisitionDetail($reference);
         }
 
         return array(

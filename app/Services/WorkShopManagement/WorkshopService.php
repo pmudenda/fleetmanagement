@@ -84,7 +84,7 @@ class WorkshopService
 
     public function getJobCardDetails(mixed $reference)
     {
-        //        //$details = JobCardHeader::where('job_card_no', '=', $reference)->orderBy('id', 'desc')->first();
+        // $details = JobCardHeader::where('job_card_no', '=', $reference)->orderBy('id', 'desc')->first();
         $query = DB::table('WKS_JOB_CARD_HEADER')
             ->leftJoin('SEC_USERS', 'WKS_JOB_CARD_HEADER.received_by', '=', 'SEC_USERS.staff_no')
             ->leftJoin('CONFIG_GENERAL_TABLES', 'WKS_JOB_CARD_HEADER.receiving_section', '=', 'CONFIG_GENERAL_TABLES.code')
