@@ -150,10 +150,15 @@
                 placeholder: 'Enter Article name or Code',
                 minimumInputLength: 4,
                 templateResult: formatRepo,
-                //formatRepo,
                 templateSelection: formatRepoSelection
             }).off('select2:select').on('select2:select', function (e) {
-                console.log('select event', e);
+                let article = e.params['data'];
+                const row = $(e).closest('tr');
+                console.log('selected Article ', article);
+                console.log('Affected Row ', row);
+                $('[name="articleCode"]').val(article['id']);
+                $('[name="total_price"]').val(article['price_map']);
+                $('[name="technical_specification"]').val(article['technical_specifications']);
             });
         }
 
@@ -169,14 +174,10 @@
          * @returns {*|string}
          */
         function formatRepoSelection(project) {
-            console.log(project);
             if (!project['id']) {
                 return project['text'];
             }
-            $('[name="articleCode"]').val(project['id']);
-            $('[name="total_price"]').val(project['id']);
             return project['text'];
-            /* project['id'] + ":" +*/
         }
 
         /**
