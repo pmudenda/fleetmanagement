@@ -172,7 +172,7 @@ Route::get('load/procurement/articles', function (Request $request) {
         $query = Article::guery();
 
         if ($request->get('type_article') == RequisitionItemTypes::StockItemCode) {
-            $query->whereBetween('code_group', '01', '39');
+            $query->whereBetween('code_group', ['01', '39']);
         } else if ($request->get('type_article') == RequisitionItemTypes::NonStockItemCode) {
             $query->where('code_group', '=', '40');
         } else if( $request->get('type_article') == RequisitionItemTypes::ServiceItemCode){
