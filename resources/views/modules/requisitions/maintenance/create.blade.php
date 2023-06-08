@@ -1068,36 +1068,37 @@
                     .on('click', 'button[value="addRow"][data-table-id]', function () {
                         let tableId = $(this).data('tableId');
 
-                        if (tableId === "part8") {
-                            $('[name="defect"]').select2('destroy');
-                            $('[name="defectCategory"]').select2('destroy');
-                            $('[name="vehicleSystem"]').select2('destroy');
-                        } else if (tableId === "material_table") {
-                            $('.articlesDropDownList').select2('destroy');
-                        }
-
                         let row = Table.addRow($('table#' + tableId));
 
                         console.log(row);
 
+                        if (tableId === "part8") {
+                            $(row).find('[name="defect"]').select2('destroy');
+                            $(row).find('[name="defectCategory"]').select2('destroy');
+                            $(row).find('[name="vehicleSystem"]').select2('destroy');
+                        } else if (tableId === "material_table") {
+                            $(row).find('.articlesDropDownList').select2('destroy');
+                        }
+
                         if (tableId === "material_table") {
-                            initProjectSelector('.articlesDropDownList');
+                            initProjectSelector($(row).find('.articlesDropDownList'));
                         } else {
                             setTimeout(function () {
-                                $('[name="defect"]').select2({
+                                $(row).find('[name="defect"]').select2({
                                     theme: "bootstrap4",
                                     width: "resolve",
                                 });
 
-                                $('[name="defectCategory"]').select2({
+                                $(row).find('[name="defectCategory"]').select2({
                                     theme: "bootstrap4",
                                     width: "resolve",
                                 });
 
-                                $('[name="vehicleSystem"]').select2({
+                                $(row).find('[name="vehicleSystem"]').select2({
                                     theme: "bootstrap4",
                                     width: "resolve",
                                 });
+
                             }, 600);
                         }
                     });
