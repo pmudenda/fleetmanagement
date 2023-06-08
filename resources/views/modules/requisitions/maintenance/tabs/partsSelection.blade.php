@@ -6,6 +6,7 @@
            value="{{route('suppliers.list')}}"/>
     <div class="row">
         <div class="col-12">
+
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="container-fluid pl-0">
@@ -68,6 +69,59 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="container-fluid pl-0">
+                        <div class="form-group row">
+                            <label
+                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                for="staff_no">Item Type:
+                            </label>
+                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                <select
+                                    data-value="{{''}}"
+                                    required
+                                    class="form-select form-select-sm"
+                                    name="itemType"
+                                    id="itemType">
+                                    <option></option>
+                                    <option value="01">STOCK ITEM</option>
+                                    <option value="02">NON STOCK ITEM</option>
+                                    <option value="03">SERVICE</option>
+                                </select>
+                                <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
+                                <input type="hidden" value="{{RequisitionItemTypes::StockItemCode}}"
+                                       id="stockItemCode" name="stockItemCode"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="container-fluid pl-0">
+                        <div class="row">
+                           {{-- <div class="form-group row">
+                                <label
+                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                    for="job_card_no">
+                                    Request Date:
+                                </label>
+                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                    <input type="text"
+                                           class="form-control form-control-sm"
+                                           id="request_date"
+                                           readonly
+                                           value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
+                                           name="request_date"
+                                           required>
+                                </div>
+                            </div>--}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
