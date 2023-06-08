@@ -170,7 +170,8 @@
                 return project['text'];
             }
             $('[name="articleCode"]').val(project['id']);
-            return project['id'] + ":" + project['text'];
+            return project['text'];
+           /* project['id'] + ":" +*/
         }
 
         /**
