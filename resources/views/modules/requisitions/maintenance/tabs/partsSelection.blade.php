@@ -330,7 +330,7 @@
                                         class="form-control form-control-sm registration"/>
                                 </td>
                                 <td>
-                                    <select
+                                    <select disabled
                                         name="articles"
                                         required
                                         data-value=""
