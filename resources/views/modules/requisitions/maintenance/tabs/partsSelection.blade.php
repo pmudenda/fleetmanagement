@@ -229,7 +229,7 @@
                            data-model-name="PartsHeader"
                            class="table dataTable table-row-dashed align-middle gs-0 nowrap">
                         <thead>
-                        <tr class="bg-default">
+                        <tr class="bg-dark-subtle">
                             <th style="width: 6%;" class="pl-2">Reg. No</th>
                             <th style="width: 25%;">Article</th>
                             <th>Article Code</th>
@@ -397,10 +397,10 @@
                             <td class="pl-2"></td>
                             <td></td>
                             <td></td>
-                            <td>Total</td>
-                            <td><b id="quantityTotal" class="input-number">0.00</b></td>
+                            <td class="text-right"><strong>TOTAL</strong></td>
+                            <td><b id="quantityTotal" class="input-number">0</b></td>
                             <td></td>
-                            <td>Total</td>
+                            <td class="text-right">TOTAL</td>
                             <td><b id="itemsTotal" class="input-number">0.00</b></td>
                             <td></td>
                         </tr>
@@ -437,7 +437,7 @@
                                       id="remarks"
                                       name="remarks"
                                       style="height: 129px;"
-                                      class="form-control form-control-sm">{{$comments->where('type','=','DEF')->first()->remarks ??''}}</textarea>
+                                      class="form-control form-control-sm">{{$comments->where('type','=','REQ')->first()->remarks ??''}}</textarea>
                         @else
                             <textarea type="text"
                                       id="remarks"

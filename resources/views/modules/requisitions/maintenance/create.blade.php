@@ -153,11 +153,11 @@
                 templateSelection: formatRepoSelection
             }).off('select2:select').on('select2:select', function (e) {
                 let article = e.params['data'];
-                const row = $(e).closest('tr');
+                const row = $(e.).closest('tr');
                 console.log('selected Article ', article);
                 console.log('Affected Row ', row);
                 $('[name="articleCode"]').val(article['id']);
-                $('[name="total_price"]').val(article['price_map']);
+                $('[name="unit_price"]').val(article['price_map']);
                 $('[name="technical_specification"]').val(article['technical_specifications']);
             });
         }
