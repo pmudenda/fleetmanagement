@@ -187,6 +187,11 @@
                 return {
                     "id": obj['code_article'],
                     "text": obj['code_article'] + ':' + obj.description,
+                    'code_article': obj?.code_article,
+                    'description': obj?.description,
+                    'price_map': obj?.price_map,
+                    'technical_specifications': obj?.technical_specifications,
+                    'unit_measure': obj?.unit_measure
                 };
             });
         }
