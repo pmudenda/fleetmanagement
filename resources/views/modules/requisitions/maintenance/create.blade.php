@@ -154,11 +154,11 @@
             }).off('select2:select').on('select2:select', function (e) {
                 let article = e.params['data'];
                 const row = $(e.currentTarget).closest('tr');
-                console.log('selected Article ', article);
-                console.log('Affected Row ', row);
-                $('[name="articleCode"]').val(article['id']);
-                $('[name="unit_price"]').val(article['price_map']);
-                $('[name="technical_specification"]').val(article['technical_specifications']);
+
+                $(row).find('[name="articleCode"]').val(article['id']);
+                $(row).find('[name="unit_price"]').val(article['price_map']);
+                $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
+                $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
             });
         }
 

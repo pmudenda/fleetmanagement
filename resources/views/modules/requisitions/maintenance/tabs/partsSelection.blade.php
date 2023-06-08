@@ -404,10 +404,10 @@
                             <td></td>
                             <td></td>
                             <td class="text-right"><strong>TOTAL</strong></td>
-                            <td><b id="quantityTotal" class="input-number">0</b></td>
+                            <td class="text-right"><b id="quantityTotal" class="input-number">0</b></td>
                             <td></td>
                             <td class="text-right">TOTAL</td>
-                            <td><b id="itemsTotal" class="input-number">0.00</b></td>
+                            <td class="text-right"><b id="itemsTotal" class="input-number">0.00</b></td>
                             <td></td>
                         </tr>
                         </tfoot>
