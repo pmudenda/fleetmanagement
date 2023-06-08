@@ -52,8 +52,8 @@
                                         name="purchase_office"
                                         id="purchase_office">
 
-                                        <option value="{{$purchaseOffice->purchase_office_code}}">
-                                            {{$purchaseOffice->purchase_office}}
+                                        <option value="{{$officeDetails->purchase_office_code ?? ''}}">
+                                            {{$officeDetails->purchase_office ?? ''}}
                                         </option>
                                         {{--@foreach(PurchaseOffice::get() as $purchaseOffice)
                                             @if($purchaseOffice->purchase_office_code) @endif
@@ -106,12 +106,12 @@
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <input type="hidden"
                                            id="store_code"
-                                           value="{{$officeDetails->store_code}}"
+                                           value="{{$officeDetails->store_code ?? ''}}"
                                            name="store_code"/>
                                     <input type="text"
                                            class="form-control form-control-sm"
                                            id="store_name"
-                                           value="{{$officeDetails->store_code}}:{{$officeDetails->store_name}}"
+                                           value="{{$officeDetails->store_code ?? ''}}:{{$officeDetails->store_name ?? ''}}"
                                            placeholder=""
                                            name="store_name"/>
                                 </div>
