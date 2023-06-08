@@ -169,9 +169,11 @@ Route::get('load/licence/classes', function (Request $request) {
 Route::get('load/procurement/articles', function (Request $request) {
     try {
         $search = strtoupper($request->get('search'));
+
         $procurementArticles = Article::where('type_article', '=', $request->get('type_article'))
-            ->where('description', 'LIKE', "%{$search}%")
-            ->orWhere('technical_specification', 'LIKE', "%{$search}%")
+            ->where('code_article', 'LIKE', "%{$search}%")
+            ->orWhere('description', 'LIKE', "%{$search}%")
+            //->orWhere('technical_specification', 'LIKE', "%{$search}%")
             ->get();
 
         return response()->json([
