@@ -76,7 +76,7 @@
                         <div class="form-group row">
                             <label
                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                for="staff_no">Workshop:
+                                for="workshop_code">Workshop:
                             </label>
                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                 <input type="text"
@@ -257,7 +257,7 @@
                                             id="registration"
                                             required
                                             readonly
-                                            value="{{$details->veh_reg}}"
+                                            value="{{$details->veh_reg ?? ''}}"
                                             class="form-control form-control-sm registration"/>
                                     </td>
                                     <td>

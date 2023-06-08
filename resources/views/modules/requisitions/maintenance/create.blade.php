@@ -142,7 +142,7 @@
                     },
                     cache: true
                 },
-                placeholder: 'Enter Project name | Code',
+                placeholder: 'Enter Article name or Code',
                 minimumInputLength: 4,
                 templateResult: formatRepo,
                 //formatRepo,
