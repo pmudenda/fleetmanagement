@@ -7,6 +7,7 @@ use App\Http\Controllers\API\RoadTransportSafetyAgencyIntegrationController;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\reference\Article;
 use App\Models\reference\GtaVehicle;
+use App\Models\reference\Store;
 use App\Models\WorkShopManagement\WorkShopTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -167,7 +168,9 @@ Route::get('load/licence/classes', function (Request $request) {
 
 Route::get('load/procurement/articles', function (Request $request) {
     try {
+        $search = $request->get('search');
         $procurementArticles = Article::where('type_article', '=', $request->get('type_article'))
+            ->where('description', 'LIKE', "%{$search}%")
             ->get();
 
         return response()->json([
@@ -187,7 +190,7 @@ Route::get('load/procurement/articles', function (Request $request) {
 
 Route::get('load/stores', function (Request $request) {
     try {
-        $procurementArticles = Article::where('type_article', '=', $request->get('type_article'))
+        $procurementArticles = Store::where('type_article', '=', $request->get('type_article'))
             ->get();
 
         return response()->json([

@@ -265,8 +265,8 @@
                                             name="articles"
                                             id="articlesDropDownList"
                                             required
-                                            data-value=""
-                                            class="form-control form-control-sm articlesDropDownList">
+                                            data-value="{{$material->material_code ?? ''}}"
+                                            class="form-select form-select-sm articlesDropDownList">
                                             <option></option>
                                         </select>
                                     </td>
@@ -274,6 +274,7 @@
                                         <input
                                             id="articleCode"
                                             name="articleCode"
+                                            value="{{$material->material_code ?? ''}}"
                                             required
                                             readonly
                                             class="form-control form-control-sm articleCode"/>
@@ -283,6 +284,7 @@
                                             id="technical_specification"
                                             name="technical_specification"
                                             required
+                                            value="{{$material->specifications ?? ''}}"
                                             class="form-control form-control-sm technical_specification"/>
                                     </td>
 
@@ -291,6 +293,7 @@
                                             name="quantity"
                                             id="quantity"
                                             required
+                                            value="{{$material->quantity ?? ''}}"
                                             class="form-control form-control-sm quantity"/>
                                     </td>
 
@@ -299,6 +302,7 @@
                                             name="unit_of_measure"
                                             id="unit_of_measure"
                                             required
+                                            value="{{$material->unit_of_measure ?? ''}}"
                                             readonly
                                             class="form-control form-control-sm unit_of_measure"/>
                                     </td>
@@ -307,6 +311,7 @@
                                         <input name="unit_price"
                                                id="unit_price"
                                                required
+                                               value="{{$material->price ?? ''}}"
                                                readonly
                                                class="form-control form-control-sm unit_price"/>
                                     </td>
@@ -315,6 +320,7 @@
                                         <input name="total_price"
                                                id="total_price"
                                                required
+                                               value="{{$material->amount ?? ''}}"
                                                readonly
                                                class="form-control form-control-sm total_price"/>
                                     </td>

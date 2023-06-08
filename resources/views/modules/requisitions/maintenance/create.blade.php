@@ -106,14 +106,13 @@
     <script>
         'use strict';
 
-        function initProjectSelector(selector) {
-            const dataUrl = document.querySelector('#projects_url').value;
+        function initProjectSelector(selector,dataUrl) {
             $(selector).select2({
                 selectOnClose: true,
                 multiple: false,
                 quietMillis: 100,
                 id: function (project) {
-                    return project.code_project;
+                    return project['code_article'];
                 },
                 theme: 'bootstrap4',
                 ajax: {
@@ -127,6 +126,7 @@
                     data: function (params) {
                         return {
                             search: params.term, // search term
+                            type_article: document.querySelector('#itemType').value,
                             page: params.page
                         };
                     },
@@ -165,7 +165,7 @@
             if (!project['id']) {
                 return project['text'];
             }
-            $('[name="projectCode"]').val(project['id']);
+            $('[name="articleCode"]').val(project['id']);
             return project['id'] + ":" + project['text'];
         }
 
@@ -178,13 +178,14 @@
 
             return $.map(items, function (obj) {
                 return {
-                    "id": obj['code_project'],
-                    "text": obj['code_project'] + ':' + obj.description
+                    "id": obj['code_article'],
+                    "text": obj['code_article'] + ':' + obj.description
                 };
             });
 
         }
-
+        const dataUrl = document.querySelector('#articlesUrl').value;
+        initProjectSelector('.articlesDropDownList', dataUrl);
     </script>
     <script>
         $(document).ready(function () {
@@ -502,7 +503,7 @@
 
             function getArticles(selectedItemType) {
 
-                fetch(document.querySelector('#articlesUrl').value +"?type_article="+ selectedItemType)
+                fetch(document.querySelector('').value +"?type_article="+ selectedItemType)
                     .then(response => response.json())
                     .then(response => {
                         let selectElem = $('.articlesDropDownList');
@@ -871,11 +872,11 @@
 
                     if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
                         showStockItemControls();
-                        getArticles(selectedItemType);
+                        //getArticles(selectedItemType);
                     }
                     else {
                         showSupplierControls();
-                        getArticles(selectedItemType);
+                        //getArticles(selectedItemType);
                     }
                 });
 
