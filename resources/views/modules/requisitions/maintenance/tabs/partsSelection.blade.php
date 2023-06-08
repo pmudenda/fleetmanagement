@@ -29,8 +29,13 @@
                                         <option value="03">SERVICE</option>
                                     </select>
                                     <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
-                                    <input type="hidden" value="{{RequisitionItemTypes::StockItemCode}}"
-                                           id="stockItemCode" name="stockItemCode"/>
+                                    <input type="hidden"
+                                           value="{{RequisitionItemTypes::StockItemCode}}"
+                                           id="stockItemCode"
+                                           name="stockItemCode"/>
+                                    <input type="hidden"
+                                           value="{{RequisitionItemTypes::ServiceItemCode}}"
+                                           id="serviceItemCode" name="serviceItemCode"/>
                                 </div>
                             </div>
                         </div>

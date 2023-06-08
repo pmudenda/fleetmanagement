@@ -639,6 +639,19 @@
                 document.querySelector('#image_view').style.display = null;
             }
 
+            function enableArticleSelectionWebUIControls() {
+
+                let elements = document.querySelectorAll('.articlesDropDownList');
+
+                elements.forEach(function (element) {
+                    element.removeAttribute('disabled');
+                });
+
+                document.querySelector('#vehicleDetailsContainer').style.display = null;
+                //document.querySelector('#materialDetailsContainer').style.display = null;
+                document.querySelector('#image_view').style.display = null;
+            }
+
             function populateVehicleDetails(payload) {
                 let vehicle = payload['vehicle'];
                 //let article = payload['article'];
@@ -813,7 +826,6 @@
                         $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(totalAmount));
                         break;
                     case 'quantity':
-
                         let summaryTotalQty = 0;
                         $(element).closest("tr").find("input[name=quantity]").each(function (i, it) {
                             summaryTotalQty += tmsApp.getFloat(it.value);
@@ -831,8 +843,6 @@
                             summaryTotal += tmsApp.getFloat(it.value);
                         });
                         $('#itemsTotal').text(tmsApp.numberFormat(summaryTotal, 2));
-                    case '':
-                        break;
                     default:
                         break;
                 }
@@ -905,11 +915,19 @@
 
                     if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
                         showStockItemControls();
-                        //getArticles(selectedItemType);
+                        $('.quantity').attr('readonly', false);
+                    } else if (document.querySelector('[name="serviceItemCode"]').value == selectedItemType) {
+                        showSupplierControls();
+                        $('.quantity').attr('readonly', 'readonly');
                     } else {
                         showSupplierControls();
-                        //getArticles(selectedItemType);
+                        $('.quantity').attr('readonly', false);
                     }
+
+                    if (selectedItemType) {
+                        enableArticleSelectionWebUIControls();
+                    }
+
                 });
 
                 $(document).on('change', 'select[name="vehicleSystem"]', function () {
