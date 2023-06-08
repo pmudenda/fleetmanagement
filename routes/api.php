@@ -181,7 +181,7 @@ Route::get('load/procurement/articles', function (Request $request) {
         $search = strtoupper($request->get('search'));
         // SPMS_ARTICLES_VIEW
         $query = DB::table('spms_articles_view')
-            ->leftJoin('posts', 'users.id', '=', 'posts.user_id');
+            ->leftJoin('units_view', 'spms_articles_view.unit_measure', '=', 'units_view.code_unit');
 
         $itemType = $request->get('type_article');
 
@@ -208,8 +208,14 @@ Route::get('load/procurement/articles', function (Request $request) {
         });
 
         $procurementArticles = $query
-            ->select('code_article', 'description', 'technical_specifications', 'unit_measure', 'price_map')
-            ->get();
+            ->select(
+                'code_article',
+                'description',
+                'technical_specifications',
+                'unit_measure',
+                'price_map',
+                'abbreviation'
+            )->get();
 
         return response()->json([
             'success' => !empty($procurementArticles),
