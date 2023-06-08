@@ -1075,11 +1075,11 @@
                             $('[name="defectCategory"]').select2('destroy');
                             $('[name="vehicleSystem"]').select2('destroy');
                         } else if (tableId === "material_table") {
-                            $(lastRow).find('.articlesDropDownList').select2('destroy');
+                           $('.articlesDropDownList').select2('destroy');
                         }
 
                         if (tableId === "material_table") {
-                            let selector = $(lastRow).find('.articlesDropDownList');
+                            let selector = $('.articlesDropDownList');
                             console.log(selector);
                             initProjectSelector(selector);
                         } else {
