@@ -209,12 +209,12 @@ Route::get('load/procurement/articles', function (Request $request) {
 
         $procurementArticles = $query
             ->select(
-                'code_article',
-                'description',
-                'technical_specifications',
-                'unit_measure',
-                'price_map',
-                'abbreviation'
+                'spms_articles_view.code_article',
+                'spms_articles_view.description',
+                'spms_articles_view.technical_specifications',
+                'spms_articles_view.unit_measure',
+                'spms_articles_view.price_map',
+                'units_view.abbreviation'
             )->get();
 
         return response()->json([
