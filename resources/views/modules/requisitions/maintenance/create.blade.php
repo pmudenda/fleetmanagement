@@ -1080,7 +1080,7 @@
                         }
 
                         if (tableId === "material_table") {
-                            initProjectSelector($(row).find('[name="articles"]'));
+                            //initProjectSelector($(row).find('[name="articles"]'));
                         } else {
                             setTimeout(function () {
                                 $(row).find('[name="defect"]').select2({
