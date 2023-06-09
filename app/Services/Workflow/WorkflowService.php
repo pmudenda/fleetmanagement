@@ -443,7 +443,6 @@ class WorkflowService
             ->get();
     }
 
-
     private function createUserNotification(string $taskReference, int $actioningOfficer, string $title, string $actionPage, $long_description): void
     {
         $currentUser = auth()->user();

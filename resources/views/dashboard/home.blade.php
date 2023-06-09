@@ -221,7 +221,6 @@
                                                 <a href="{{URL::signedRoute('show.fuel.requisition', ['ref'=>  $rec->reference])}}">
                                                     {{$rec->reference}}
                                                 </a>
-
                                             </td>
                                             <td>
                                                 {{$rec->subject ?? '--'}}
@@ -237,9 +236,11 @@
                                                {{Carbon::parse($rec->date_acted)->format('d/m/Y')}}
                                             </td>
                                             <td>
-                                                <a href="{{URL::signedRoute('show.fuel.requisition',['ref'=> $rec->reference])}}"
+                                                {{--'show.fuel.requisition'--}}
+                                                <a href="{{URL::signedRoute($rec->url,['ref'=> $rec->reference])}}"
                                                    class="btn btn-sm btn-success">
-                                                    <i class="fas fa-eye"></i> Open
+                                                    <i class="fas fa-eye"></i>
+                                                    Open
                                                 </a>
                                             </td>
 

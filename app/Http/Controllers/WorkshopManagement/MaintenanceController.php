@@ -14,6 +14,7 @@ use App\Http\Requests\WorkshopRequisitionRequest;
 use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\MaterialDetail;
+use App\Models\RequisitionTypes;
 use App\Models\WorkShopManagement\VehicleDefects;
 use App\Models\WorkShopManagement\WorkShopComments;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
@@ -28,6 +29,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
@@ -94,6 +96,45 @@ class MaintenanceController extends Controller
                 )
             );
     }
+
+
+    public function show(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
+        $req_no = $request->get('ref');
+
+        $user = Auth::user();
+
+        $requestDetails = $this->requisitionService->getRequisitionDetail($req_no);
+
+        if($requestDetails == null){
+            abort(404);
+        }
+
+        //$costCenter = CostCenters::where('code_cost_center', $user->cc_code)->first();
+        /*$organizationalUnit = OrganizationalUnits::where('code_unit', $requestDetails->cc_code)
+            ->first();*/
+
+        $requisitionTypes = RequisitionTypes::where('status', '01')->where('module', 'FR')->get();
+
+        $daysToNextRefuel = config('settings.fuel_requisition_validity');
+
+        $approvalHistory = [];
+
+        return view('modules.requisitions.maintenance.show')
+            ->with(compact(
+                'user',
+                'requisitionTypes',
+                'requestDetails',
+                'daysToNextRefuel',
+                'approvalHistory'
+            ));
+    }
+
+
 
     public function accessoriesTab(Request $request): View
     {

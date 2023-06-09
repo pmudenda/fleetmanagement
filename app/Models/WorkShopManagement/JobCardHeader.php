@@ -16,6 +16,7 @@ class JobCardHeader extends Model
         'workshop_code',
         'veh_reg',
         'job_card_no',
+        'req_no',
         'driver_in',
         'repair_type',
 

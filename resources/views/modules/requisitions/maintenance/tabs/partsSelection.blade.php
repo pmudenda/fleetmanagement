@@ -288,7 +288,7 @@
                                                name="quantity"
                                                required
                                                value="{{$material->quantity ?? ''}}"
-                                               class="form-control form-control-sm quantity"/>
+                                               class="form-control form-control-sm quantity number_input"/>
                                     </td>
 
                                     <td>
@@ -365,7 +365,7 @@
                                         min="1"
                                         name="quantity"
                                         required
-                                        class="form-control form-control-sm quantity"/>
+                                        class="form-control form-control-sm quantity number_input"/>
                                 </td>
 
                                 <td>
@@ -449,7 +449,7 @@
                                       required
                                       name="remarks"
                                       style="height: 129px;"
-                                      class="form-control form-control-sm">{{$comments->where('type','=','REQ')->first()->remarks ??''}}</textarea>
+                                      class="form-control comments form-control-sm">{{$comments->where('type','=','REQ')->first()->remarks ??''}}</textarea>
                         @else
                             <textarea type="text"
                                       id="remarks"
@@ -458,7 +458,7 @@
                                       required
                                       name="remarks"
                                       style="height: 129px;"
-                                      class="form-control form-control-sm"></textarea>
+                                      class="form-control comments form-control-sm"></textarea>
                         @endif
 
                     </div>

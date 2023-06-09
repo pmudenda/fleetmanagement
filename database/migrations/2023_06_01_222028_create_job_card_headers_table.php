@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('workshop_code', 7)->nullable();
             $table->string('veh_reg', 10)->nullable();
             $table->string('job_card_no', 20)->nullable();
+            $table->string('req_no', 20)->nullable();
             $table->string('driver_in', 7)->nullable();
             $table->string('repair_type', 7)->nullable();
 

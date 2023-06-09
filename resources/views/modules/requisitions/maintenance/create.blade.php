@@ -216,12 +216,12 @@
 
         (function (tmsApp, $) {
             function adjustIframeHeight() {
-               /* var $body   = $('body'),
-                    $iframe = $body.data('iframe.fv');
-                if ($iframe) {
-                    // Adjust the height of iframe
-                    $iframe.height($body.height());
-                }*/
+                /* var $body   = $('body'),
+                     $iframe = $body.data('iframe.fv');
+                 if ($iframe) {
+                     // Adjust the height of iframe
+                     $iframe.height($body.height());
+                 }*/
             }
 
             let form = $('#jobCardForm').show();
@@ -339,10 +339,10 @@
                                 "Request Submission",
                                 "Request submitted successfully, Click 'Ok' proceed to provide information for other sections",
                                 function () {
-                                    if(window.global_currentIndex == 2){
+                                    if (window.global_currentIndex == 2) {
                                         window.goToNext = true;
                                         form.steps("next");
-                                    }else{
+                                    } else {
                                         window.location.href = response['redirectUrl'];
                                     }
                                 },
@@ -1004,7 +1004,11 @@
 
                 $(document).on('keypress', '.number_input', function (event) {
                     tmsApp.numberOnly(event);
-                })
+                });
+
+                $(document).on('keyup', '.comments', function (event) {
+                    this.value = this.value.toUpperCase();
+                });
 
                 $(document).on('click', '#submitRequisitionBtn', function () {
                     let $form = document.forms['fuelRequisitionForm'];
@@ -1135,16 +1139,16 @@
                                 //console.log(selector);
                                 initProjectSelector('.articlesDropDownList');
 
-                               /* let option = new Option(data.full_name, data.id, true, true);
-                                selectElem.append(option).trigger('change');
+                                /* let option = new Option(data.full_name, data.id, true, true);
+                                 selectElem.append(option).trigger('change');
 
-                                // manually trigger the `select2:select` event
-                                selectElem.trigger({
-                                    type: 'select2:select',
-                                    params: {
-                                        data: data
-                                    }
-                                });*/
+                                 // manually trigger the `select2:select` event
+                                 selectElem.trigger({
+                                     type: 'select2:select',
+                                     params: {
+                                         data: data
+                                     }
+                                 });*/
                             }
                         });
 
