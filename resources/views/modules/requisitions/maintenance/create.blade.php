@@ -1104,21 +1104,22 @@
                             }
 
                             if (tableId === "part8") {
-                                let row = row[0];
+                                let row = lastRow[0];
+
                                 $(row).find('select2 select2-container select2-container--bootstrap4 select2-container--below').remove();
 
-                                let $_defect_sel = $(row).find('select.defect');
+                                let $_defect_sel = $(row).find('[nam="defect"]');
 
                                 console.log($_defect_sel);
                                 reinitializeSelect2($_defect_sel);
 
-                                let $_defect_category_sel = $(row[0]).find('select.defectCategory');
+                                let $_defect_category_sel = $(row).find('[name="defectCategory"]');
                                 // $("select.select2-hidden-accessible").select2('destroy');
                                 console.log($_defect_category_sel);
                                 reinitializeSelect2($_defect_category_sel);
 
 
-                                let $_vehicle_system_sel = $(row[0]).find('select.vehicleSystem')
+                                let $_vehicle_system_sel = $(row).find('[name="vehicleSystem"]')
                                 console.log($_vehicle_system_sel);
                                 reinitializeSelect2($_vehicle_system_sel);
 
