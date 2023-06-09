@@ -1091,9 +1091,9 @@
 
                             function reinitializeSelect2($_defect_sel) {
                                 if ($_defect_sel) {
-                                    if ($($_defect_sel).data('select2')) {
+                                 /*   if ($($_defect_sel).data('select2')) {
                                         $($_defect_sel).select2('destroy');
-                                    }
+                                    }*/
 
                                     $($_defect_sel).select2({
                                         theme: "bootstrap4",
