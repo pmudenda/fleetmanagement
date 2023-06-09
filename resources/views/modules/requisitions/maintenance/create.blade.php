@@ -215,6 +215,14 @@
         });
 
         (function (tmsApp, $) {
+            function adjustIframeHeight() {
+               /* var $body   = $('body'),
+                    $iframe = $body.data('iframe.fv');
+                if ($iframe) {
+                    // Adjust the height of iframe
+                    $iframe.height($body.height());
+                }*/
+            }
 
             let form = $('#jobCardForm').show();
             window.goToNext = false;
@@ -392,7 +400,7 @@
                         if (currentIndex === 2 && priorIndex === 3) {
                             //form.steps("previous");
                         }
-
+                        adjustIframeHeight();
                         $('ul[aria-label="Pagination"]').find('a[data-action="skip"]').removeClass('d-none');
                         window.global_currentIndex = currentIndex;
                         window.goToNext = false;
