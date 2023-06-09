@@ -35,8 +35,8 @@ class WorkflowService
                                             string $comment,
                                             User   $currentUser,
                                                    $amount,
-    string $short_description,
-    string $long_description
+                                            string $short_description,
+                                            string $long_description
     ): WorkflowTaskDetail
     {
 
@@ -145,19 +145,22 @@ class WorkflowService
                                    string $comment
     ): int
     {
+        Log::info('Received Reference ' . $reference);
         $current_user = auth()->user();
         // get workflow process header
-        $task_header = WorkflowTaskHeader::where('reference', '=', $reference)
+        $task_header = WorkflowTaskHeader::where('reference', '=', trim($reference))
             ->where('process_code', '=', $process_id)
             ->first();
 
         // get workflow process detail
-        $task_detail = WorkflowTaskDetail::where('reference', '=', $reference)
+        $task_detail = WorkflowTaskDetail::where('reference', '=', trim($reference))
             ->where('process_code', '=', $process_id)
             ->orderBy('id', 'desc')
             ->first();
 
-        if (empty($task_detail) || empty($task_header)) throw new WorkflowTaskCreationFailedException("Approval Process Data Not Found", 100);
+        if (empty($task_detail)) throw new WorkflowTaskCreationFailedException("Approval Process Details Not Found", 100);
+
+        if (empty($task_header)) throw new WorkflowTaskCreationFailedException("Approval Process Heading Data Not Found", 100);
 
         if (empty($task_detail->current_step_id)) {
             throw new WorkflowTaskCreationFailedException("Approval Process Current State Data Is Missing", 101);
@@ -476,13 +479,13 @@ class WorkflowService
             ->orderBy('id', 'desc')
             ->first();
 
-        if($task_header){
+        if ($task_header) {
             $task_header->date_ended = Carbon::now();
             $task_header->status = StatusHelper::cancelled();
             $task_header->save();
         }
 
-        if($task_detail){
+        if ($task_detail) {
             $task_detail->date_ended = Carbon::now();
             $task_detail->save();
         }
