@@ -439,7 +439,7 @@
                     <label
                         class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
                         for="remarks">
-                        Comments :
+                        Comments <small>Will be used as justification for Requisition</small>:
                     </label>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
                         @if(!empty($comments))

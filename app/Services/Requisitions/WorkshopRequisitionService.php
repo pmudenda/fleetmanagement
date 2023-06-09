@@ -11,6 +11,7 @@ use App\Http\Requests\WorkshopRequisitionRequest;
 use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Models\Workflow\WorkflowModules;
+use App\Models\WorkShopManagement\WorkShopComments;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\DocumentNumberGenerationService;
@@ -137,22 +138,34 @@ class WorkshopRequisitionService
             MaterialDetail::create([
                 'created_by' => $user->staff_no,
                 'date_created' => Carbon::now(),
-                'material_code' => $requisitionPostRequest->articles,
+                'material_code' => $item->articles,
 
-                'unit_of_measure' => $requisitionPostRequest->unit_of_measure,
+                'unit_of_measure' => $item->unit_of_measure,
 
-                'quantity' => $requisitionPostRequest->quantity,
-                'amount' => $requisitionPostRequest->total_price,
-                'price' => $requisitionPostRequest->unit_price,
+                'quantity' => $item->quantity,
+                'amount' => $item->total_price,
+                'price' => $item->unit_price,
 
-                'cost_centre' => $requisitionPostRequest->store_code,
+                'cost_centre' => $item->store_code,
                 'req_no' => $requisition_reference_number,
-                'specifications' => $requisitionPostRequest->material_description,
-                'reg_no' => $requisitionPostRequest->registration,
+                'specifications' => $item->material_description,
+                'reg_no' => $item->registration,
 
                 'cost_centre_name' => $requisitionPostRequest->store_name ?? 'NA'
             ]);
         }
+
+
+        WorkShopComments::firstOrCreate(
+            [
+                'job_card_no' => $requisitionPostRequest->job_card_no,
+                'type' => 'REQ',
+            ],
+            [
+                'remarks' => $requisitionPostRequest->remarks,
+                'status' => StatusHelper::new(),
+                'created_by' => auth()->user()->staff_no
+            ]);
 
         DB::commit();
 
