@@ -407,7 +407,7 @@
                         //$('a[role="#finish"]').disableBtn();
 
                         if (form.valid()) {
-                            postData($(form.find(bodyTag).get(currentIndex)).find('[data-model-name]').get(0), true);
+                            postData($(form.find(bodyTag).get(window.global_currentIndex)).find('[data-model-name]').get(0), true);
                         } else {
                             //$('a[role="#finish"]').enableBtn();
                             //swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");

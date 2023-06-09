@@ -283,7 +283,7 @@
                                     </td>
 
                                     <td>
-                                        <input type="number"
+                                        <input type="text"
                                                min="1"
                                                name="quantity"
                                                required
@@ -361,7 +361,7 @@
 
                                 <td>
                                     <input
-                                        type="number"
+                                        type="text"
                                         min="1"
                                         max="30"
                                         name="quantity"
