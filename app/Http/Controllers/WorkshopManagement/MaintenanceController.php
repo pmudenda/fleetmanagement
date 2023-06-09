@@ -9,6 +9,7 @@ use App\Enums\Constants;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCardRequest;
+use App\Http\Requests\VehicleDefectsRequest;
 use App\Http\Requests\WorkshopRequisitionRequest;
 use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
@@ -217,7 +218,7 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function processJobCardDefects(Request $request): JsonResponse
+    public function processJobCardDefects(VehicleDefectsRequest $request): JsonResponse
     {
         try {
             $this->workshopService->createJobCardDefects($request);

@@ -274,7 +274,8 @@
                                             class="form-control form-control-sm articleCode"/>
                                     </td>
                                     <td>
-                                        <input
+                                        <input type="text"
+                                            max="255"
                                             name="technical_specification"
                                             required
                                             value="{{$material->specifications ?? ''}}"
@@ -282,11 +283,12 @@
                                     </td>
 
                                     <td>
-                                        <input
-                                            name="quantity"
-                                            required
-                                            value="{{$material->quantity ?? ''}}"
-                                            class="form-control form-control-sm quantity"/>
+                                        <input type="number"
+                                               min="1"
+                                               name="quantity"
+                                               required
+                                               value="{{$material->quantity ?? ''}}"
+                                               class="form-control form-control-sm quantity"/>
                                     </td>
 
                                     <td>
