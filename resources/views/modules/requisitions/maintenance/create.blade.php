@@ -338,7 +338,6 @@
                                 "Request Submission",
                                 "Request submitted successfully, Click 'Ok' proceed to provide information for other sections",
                                 function () {
-
                                     if(window.global_currentIndex == 2){
                                         window.goToNext = true;
                                         form.steps("next");

@@ -196,15 +196,6 @@
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="container-fluid pl-0">
                         <div class="row">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="container-fluid pl-0">
-                        <div class="row">
                             <div class="form-group row">
                                 <label
                                     class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
@@ -223,20 +214,10 @@
                                         <input type="date"
                                                class="form-control form-control-sm"
                                                id="date_expected"
-                                               value="{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
+                                               value="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                                name="date_expected"
                                         />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <div class="container-fluid pl-0">
-                        <div class="row" style="display: none;">
-                            <div class="form-group row">
-                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -244,7 +225,7 @@
                 </div>
             </div>
         </div>
-        <hr/>
+        <hr style="color: orange;" />
         <div class="col-xs-12 col-sm-12 col-md-12 px-0">
             <div class="row">
                 <div style="max-height:500px; overflow-x: auto;">
@@ -456,20 +437,22 @@
             <div class="row">
                 <div class="form-group">
                     <label
-                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
                         for="remarks">
-                        Comments (optional):
+                        Comments :
                     </label>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
                         @if(!empty($comments))
                             <textarea type="text"
                                       id="remarks"
+                                      required
                                       name="remarks"
                                       style="height: 129px;"
                                       class="form-control form-control-sm">{{$comments->where('type','=','REQ')->first()->remarks ??''}}</textarea>
                         @else
                             <textarea type="text"
                                       id="remarks"
+                                      required
                                       name="remarks"
                                       style="height: 129px;"
                                       class="form-control form-control-sm"></textarea>

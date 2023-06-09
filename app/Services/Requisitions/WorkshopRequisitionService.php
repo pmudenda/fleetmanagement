@@ -59,10 +59,10 @@ class WorkshopRequisitionService
         $user = Auth()->user();
 
         $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::WORKSHOP_REQUISITION);
-
+        Log::info("Requisition Ref. ". $requisition_reference_number);
         $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
         //$document_number = '';
-
+        Log::info("Doc No. ". $form_order_number);
         $workflowProcess = '';
         $item_type = "";
 
@@ -83,6 +83,8 @@ class WorkshopRequisitionService
                 $item_type = RequisitionItemTypes::Service;
                 break;
         }
+
+        Log::info('Determined Requisition Item Type Code' . $$item_type);
 
         $short_description = ""; //"Fuel Requisition For Vehicle Reg No. " . $registrationNumber;
         $long_description = ""; //"Fuel Requisition Ref.No. " . $requisition_reference_number . " For Vehicle Reg No. " . $registrationNumber;
@@ -113,7 +115,7 @@ class WorkshopRequisitionService
 
                 'item_type' => $item_type,
                 'requested_by' => $user->staff_no,
-                'cost_centre' => $requisitionPostRequest->get('cost_centre_code') ?? 'N', //rename to business unit/code_unit
+                'cost_centre' => $requisitionPostRequest->get('store_code') ?? 'N', //rename to business unit/code_unit
                 'veh_reg_no' => $registrationNumber,
                 'purchase_office' => $requisitionPostRequest->get('purchase_office'),
                 'store' => $requisitionPostRequest->store_code,
@@ -125,7 +127,7 @@ class WorkshopRequisitionService
                 //'town_from' => $requisitionPostRequest->has('departureTown') ? $requisitionPostRequest->get('departureTown') : null,
                 //'town_to' => $requisitionPostRequest->has('destinationTown') ? $requisitionPostRequest->get('destinationTown') : null,
 
-                'comments' => $requisitionPostRequest->justification,
+                'comments' => $requisitionPostRequest->remarks,
                 //'requisition_type' => $requisitionPostRequest->requisition_type,
                 'cost_assigned_to' => 'CostCenter'
             ]
@@ -135,20 +137,20 @@ class WorkshopRequisitionService
             MaterialDetail::create([
                 'created_by' => $user->staff_no,
                 'date_created' => Carbon::now(),
-                'material_code' => $requisitionPostRequest->articleCode,
+                'material_code' => $requisitionPostRequest->articles,
 
                 'unit_of_measure' => $requisitionPostRequest->unit_of_measure,
 
-                'quantity' => $requisitionPostRequest->material_quantity,
-                'amount' => $requisitionPostRequest->material_amount,
-                'price' => $requisitionPostRequest->material_price,
+                'quantity' => $requisitionPostRequest->quantity,
+                'amount' => $requisitionPostRequest->total_price,
+                'price' => $requisitionPostRequest->unit_price,
 
                 'cost_centre' => $requisitionPostRequest->store_code,
                 'req_no' => $requisition_reference_number,
                 'specifications' => $requisitionPostRequest->material_description,
                 'reg_no' => $requisitionPostRequest->registration,
 
-                'cost_centre_name' => $requisitionPostRequest->cost_center_name ?? 'NA'
+                'cost_centre_name' => $requisitionPostRequest->store_name ?? 'NA'
             ]);
         }
 
