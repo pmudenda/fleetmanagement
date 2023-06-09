@@ -60,10 +60,10 @@ class WorkshopRequisitionService
         $user = Auth()->user();
 
         $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::WORKSHOP_REQUISITION);
-        Log::info("Requisition Ref. ". $requisition_reference_number);
+        Log::info("Requisition Ref. " . $requisition_reference_number);
         $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
         //$document_number = '';
-        Log::info("Doc No. ". $form_order_number);
+        Log::info("Doc No. " . $form_order_number);
         $workflowProcess = '';
         $item_type = "";
 
@@ -135,6 +135,7 @@ class WorkshopRequisitionService
         );
 
         foreach ($requisitionPostRequest->get('items') as $item) {
+            $item = (object)$item;
             MaterialDetail::create([
                 'created_by' => $user->staff_no,
                 'date_created' => Carbon::now(),
