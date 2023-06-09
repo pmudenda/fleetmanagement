@@ -1070,31 +1070,18 @@
                             let tableId = $(this).data('tableId');
 
                             if (tableId === "part8") {
-
                                 if ($('.select_2_control').data('select2')) {
                                     $('.select_2_control').select2('destroy');
                                 }
-
-                               /* if ($('.vehicleSystem').data('select2')) {
-                                    $('.vehicleSystem').select2('destroy');
-                                }
-
-                                if ($('.defectCategory').data('select2')) {
-                                    $('.defectCategory').select2('destroy');
-                                }*/
-
                             }
 
                             let row = Table.addRow($('table#' + tableId));
                             let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
 
+                            lastRow.find('button[name="deleteRow"]').attr('data-value', 0);
                             function reinitializeSelect2($_defect_sel) {
                                 if ($_defect_sel) {
                                     $($_defect_sel).removeClass('select2-hidden-accessible');
-                                    /*if ($($_defect_sel).data('select2')) {
-                                        $($_defect_sel).select2('destroy');
-                                    }*/
-
                                     $($_defect_sel).select2({
                                         theme: "bootstrap4",
                                         width: "resolve",
@@ -1107,12 +1094,6 @@
                                 $(row).find('.select2-container').remove();
                                 let $_defect_sel = $(".select_2_control");
                                 reinitializeSelect2($_defect_sel);
-
-                                /*let $_defect_category_sel = $(".defectCategory");
-                                reinitializeSelect2($_defect_category_sel);
-
-                                let $_vehicle_system_sel = $('.vehicleSystem')
-                                reinitializeSelect2($_vehicle_system_sel);*/
                             }
 
                             if (tableId === "material_table") {
