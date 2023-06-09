@@ -116,13 +116,24 @@
                                     Request Date:
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    <input type="date"
-                                           class="form-control form-control-sm"
-                                           id="request_date"
-                                           readonly
-                                           value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
-                                           name="request_date"
-                                           required>
+                                    @if($details)
+                                        <input type="date"
+                                               class="form-control form-control-sm"
+                                               id="request_date"
+                                               readonly
+                                               value="{{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('d/m/Y'))}}"
+                                               name="request_date"
+                                               required>
+                                    @else
+                                        <input type="date"
+                                               class="form-control form-control-sm"
+                                               id="request_date"
+                                               readonly
+                                               value="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                               name="request_date"
+                                               required>
+                                    @endif
+
                                 </div>
                             </div>
                         </div>
@@ -275,11 +286,11 @@
                                     </td>
                                     <td>
                                         <input type="text"
-                                            max="255"
-                                            name="technical_specification"
-                                            required
-                                            value="{{$material->specifications ?? ''}}"
-                                            class="form-control form-control-sm technical_specification"/>
+                                               max="255"
+                                               name="technical_specification"
+                                               required
+                                               value="{{$material->specifications ?? ''}}"
+                                               class="form-control form-control-sm technical_specification"/>
                                     </td>
 
                                     <td>

@@ -338,9 +338,13 @@
                                 "Request Submission",
                                 "Request submitted successfully, Click 'Ok' proceed to provide information for other sections",
                                 function () {
-                                    //window.location.href = response['redirectUrl'];
-                                    window.goToNext = true;
-                                    form.steps("next");
+
+                                    if(window.global_currentIndex == 2){
+                                        window.goToNext = true;
+                                        form.steps("next");
+                                    }else{
+                                        window.location.href = response['redirectUrl'];
+                                    }
                                 },
                                 "success"
                             );
@@ -383,7 +387,7 @@
                         }
 
                         form.validate().settings.ignore = ":disabled,:hidden";
-
+                        window.global_currentIndex = currentIndex;
                         if (form.valid() && !window.goToNext) {
                             tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
                                 postData(form.find('[data-model-name]').get(currentIndex), false);
