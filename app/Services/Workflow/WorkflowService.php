@@ -146,6 +146,7 @@ class WorkflowService
     ): int
     {
         Log::info('Received Reference ' . $reference);
+        Log::info('Received Process Code ' . $process_id);
         $current_user = auth()->user();
         // get workflow process header
         $task_header = WorkflowTaskHeader::where('reference', '=', trim($reference))
