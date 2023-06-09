@@ -128,7 +128,7 @@ class WorkflowController extends Controller
             $actionTaken = '';
             $message = '';
             $action = 0;
-            switch ($request->get('Approved')) {
+            switch (strtolower(trim($request->get('Approved')))) {
                 case 'approve':
                     $action = WorkflowActions::approve();
                     $actionTaken = "Approved";

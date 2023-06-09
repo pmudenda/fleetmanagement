@@ -146,7 +146,6 @@ class WorkflowService
     ): int
     {
 
-        DB::beginTransaction();
 
         Log::info('Received Reference ' . $reference);
         Log::info('Received Process Code ' . $process_id);
@@ -214,9 +213,11 @@ class WorkflowService
                 return 0;
                 break;
             case 3:
+
                 // approved
                 //check if the current step is final step .CurrentStep.IsFinalStep == 1
                 if ($current_step->is_final_step || $current_step->is_final_step == '1' || $current_step->is_final_step == 1) {
+                    DB::beginTransaction();
                     Log::info("Final Step Approving and Ending Process");
 
                     WorkflowLog::create([
@@ -237,10 +238,11 @@ class WorkflowService
 
                     $task_detail->date_ended = Carbon::now();
                     $task_detail->save();
-
+                    DB::commit();
                     return 100;
                 }
 
+                DB::beginTransaction();
                 Log::info("Workflow Step Not Final ");
                 // get step
                 $next_step = WorkflowStep::where('step_id', '=', $current_step->next_step)
@@ -355,7 +357,9 @@ class WorkflowService
                         $next_step->action_page
                     );*/
                 }
-                Log::info("Returning Next Step Id " .  $next_step->step_id);
+                Log::info("Returning Next Step Id " . $next_step->step_id);
+
+                DB::commit();
                 return $next_step->step_id;
             case 5:
             {
@@ -455,8 +459,8 @@ class WorkflowService
             'reference' => $task_detail->reference
         ]);
 
-        DB::commit();
-        return $next_step->step_id;
+
+        return "00";
     }
 
     public function getMyApprovalTasks($staff_no)
