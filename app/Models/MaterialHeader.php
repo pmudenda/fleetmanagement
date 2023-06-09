@@ -38,8 +38,10 @@ class MaterialHeader extends Model
         'workshop_no',
         'document_no',
         'form_order',
+        'supplier_code',
         'store',
-        'purchase_office'
+        'purchase_office',
+        'issue_balance', // holds issue balance when there is partial issue
     ];
 
     public function originator(): BelongsTo

@@ -102,11 +102,12 @@ class WorkshopRequisitionService
         );*/
 
         $store_code = $requisitionPostRequest->store_code;
+        $job_cord_no = $requisitionPostRequest->job_card_no;
+
         $matHeader = MaterialHeader::create(
             [
                 'created_by' => $user->id,
                 'date_created' => Carbon::now(),
-                //'st_pur' => '',
                 //'document_no' => $document_number,
                 'status' => StatusHelper::new(),
                 'req_no' => $requisition_reference_number,
@@ -126,27 +127,25 @@ class WorkshopRequisitionService
         );
 
         foreach ($requisitionPostRequest->get('items') as $item) {
-
             MaterialDetail::create([
                 'created_by' => $user->staff_no,
                 'date_created' => Carbon::now(),
-                'material_code' => $item->articleCode,
-                'unit_of_measure' => $item->unit_of_measure,
-                'quantity' => $item->quantity,
-                'amount' => $item->total_price,
-                'price' => $item->unit_price,
+                'material_code' => $item['articleCode'],
+                'unit_of_measure' => $item['unit_of_measure'],
+                'quantity' => $item['quantity'],
+                'amount' => $item['total_price'],
+                'price' => $item['unit_price'],
                 'cost_centre' => $store_code,
                 'req_no' => $requisition_reference_number,
-                'specifications' => $item->material_description,
-                'reg_no' => $item->registration,
-                //'cost_centre_name' => $requisitionPostRequest->store_name ?? 'NA'
+                'specifications' => $item['material_description'],
+                'reg_no' => $item['registration'],
             ]);
         }
 
 
         WorkShopComments::firstOrCreate(
             [
-                'job_card_no' => $requisitionPostRequest->job_card_no,
+                'job_card_no' => $job_cord_no,
                 'type' => 'REQ',
             ],
             [
