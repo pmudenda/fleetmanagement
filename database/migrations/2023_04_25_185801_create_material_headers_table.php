@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('created_by');
             $table->string('st_pur')->nullable();
             $table->Integer('odometer')->nullable();
+            $table->string('user_unit', 15)->nullable();
             $table->string('cost_centre', 15)->nullable();
             $table->string('purchase_office', 15)->nullable();
             $table->string('store', 15)->nullable();

@@ -20,6 +20,7 @@ class MaterialHeader extends Model
         'req_no',
         'veh_reg_no',
         'cost_centre',
+        'user_unit',
         'valid_date_from',
         'valid_date_to',
         'odometer',

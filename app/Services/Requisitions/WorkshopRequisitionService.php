@@ -101,58 +101,45 @@ class WorkshopRequisitionService
             $long_description
         );*/
 
-
+        $store_code = $requisitionPostRequest->store_code;
         $matHeader = MaterialHeader::create(
             [
                 'created_by' => $user->id,
                 'date_created' => Carbon::now(),
                 //'st_pur' => '',
+                //'document_no' => $document_number,
                 'status' => StatusHelper::new(),
-
                 'req_no' => $requisition_reference_number,
                 'form_order' => $form_order_number,
-                //'document_no' => $document_number,
                 'workshop_no' => $requisitionPostRequest->get('workshop_code'),
-
                 'item_type' => $item_type,
                 'requested_by' => $user->staff_no,
-                'cost_centre' => $requisitionPostRequest->get('store_code') ?? 'N', //rename to business unit/code_unit
                 'veh_reg_no' => $registrationNumber,
                 'purchase_office' => $requisitionPostRequest->get('purchase_office'),
-                'store' => $requisitionPostRequest->store_code,
+                'store' => $store_code ,
                 'supplier_code' => $requisitionPostRequest->supplier,
-
                 'valid_date_from' => $valid_from,
                 'valid_date_to' => $valid_to,
-                //'odometer' => $requisitionPostRequest->get('odometer_reading'),
-                //'town_from' => $requisitionPostRequest->has('departureTown') ? $requisitionPostRequest->get('departureTown') : null,
-                //'town_to' => $requisitionPostRequest->has('destinationTown') ? $requisitionPostRequest->get('destinationTown') : null,
-
                 'comments' => $requisitionPostRequest->remarks,
-                //'requisition_type' => $requisitionPostRequest->requisition_type,
                 'cost_assigned_to' => 'CostCenter'
             ]
         );
 
         foreach ($requisitionPostRequest->get('items') as $item) {
-            $item = (object)$item;
+
             MaterialDetail::create([
                 'created_by' => $user->staff_no,
                 'date_created' => Carbon::now(),
                 'material_code' => $item->articleCode,
-
                 'unit_of_measure' => $item->unit_of_measure,
-
                 'quantity' => $item->quantity,
                 'amount' => $item->total_price,
                 'price' => $item->unit_price,
-
-                'cost_centre' => $item->store_code,
+                'cost_centre' => $store_code,
                 'req_no' => $requisition_reference_number,
                 'specifications' => $item->material_description,
                 'reg_no' => $item->registration,
-
-                'cost_centre_name' => $requisitionPostRequest->store_name ?? 'NA'
+                //'cost_centre_name' => $requisitionPostRequest->store_name ?? 'NA'
             ]);
         }
 
@@ -176,9 +163,9 @@ class WorkshopRequisitionService
 
         return response()->json([
             'success' => true,
-            'message' => 'Requisition Submitted For Approval To. '
-                . $authoriser . ' Requisition Number ' . $requisition_reference_number,
-            'redirectUrl' => URL::signedRoute('show.fuel.requisition', [
+            'message' => 'Requisition '.$requisition_reference_number.' Submitted To. '
+                . $authoriser . 'For Approval',
+            'redirectUrl' => URL::signedRoute('show.workshop.requisition', [
                 'ref' => $requisition_reference_number
             ])
         ]);
