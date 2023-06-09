@@ -1078,7 +1078,7 @@
                             let row = Table.addRow($('table#' + tableId));
                             let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
 
-                            lastRow.find('button[name="deleteRow"]').attr('data-value', 0);
+                            lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
                             function reinitializeSelect2($_defect_sel) {
                                 if ($_defect_sel) {
                                     $($_defect_sel).removeClass('select2-hidden-accessible');
