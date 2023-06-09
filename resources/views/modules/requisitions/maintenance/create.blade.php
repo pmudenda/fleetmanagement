@@ -265,7 +265,7 @@
                     let arr = [];
                     let obj = {};
 
-                    if (formSel.data('modelName') === 'Defects') {
+                    if (formSel.data('modelName') === 'Defects'|| formSel.data('modelName') === 'PartsHeader') {
                         $(formElements).find("tbody").children().map(function (index, row) {
                             let obj = {};
                             $(row).find('input[name], select[name]').each(function (i, item) {
@@ -284,8 +284,19 @@
                             arr.push(obj);
                         });
 
-                        obj['job_card_no'] = $('input[name="job_card_voucher"]').val();
-                        obj['remarks'] = $('#remarks').val();
+                        if (formSel.data('modelName') === 'Defects') {
+                            obj['job_card_no'] = $('input[name="job_card_voucher"]').val();
+                            obj['remarks'] = $('#remarks').val();
+                        } else if (formSel.data('modelName') === 'PartsHeader') {
+                            obj['job_card_no'] = $('input[name="job_card_number"]').val();
+                            obj['purchase_office'] = $('[name="purchase_office"]').val();
+                            obj['workshop_code'] = $('[name="workshop_code"]').val();
+                            obj['request_date'] = $('[name="request_date"]').val();
+                            obj['supplier'] = $('[name="supplier"]').val();
+                            obj['store_code'] = $('[name="store_code"]').val();
+                            obj['store_name'] = $('[name="store_name"]').val();
+                            obj['remarks'] = $('#remarks').val();
+                        }
                     } else {
                         $($container).find('input[name], select[name]').each(function (i, item) {
                             let val = item.value.replace(/,/g, '');
@@ -298,7 +309,7 @@
                         });
                     }
 
-                    formData['defects'] = arr;
+                    formData['items'] = arr;
 
                     formData = {
                         ...obj,
@@ -377,7 +388,7 @@
                     onStepChanged: function (event, currentIndex, priorIndex) {
 
                         if (currentIndex === 2 && priorIndex === 3) {
-                            form.steps("previous");
+                            //form.steps("previous");
                         }
 
                         $('ul[aria-label="Pagination"]').find('a[data-action="skip"]').removeClass('d-none');
@@ -388,7 +399,6 @@
                     onFinishing: function (event, currentIndex) {
                         form.validate().settings.ignore = ":disabled";
                         return form.valid();
-
                     },
                     onFinished: function () {
                         //postData.call(this);
@@ -1079,6 +1089,7 @@
                             let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
 
                             lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
+
                             function reinitializeSelect2($_defect_sel) {
                                 if ($_defect_sel) {
                                     $($_defect_sel).removeClass('select2-hidden-accessible');

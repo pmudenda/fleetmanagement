@@ -6,6 +6,7 @@ use App\Enums\ConfigurationTypes;
 use App\Enums\Modules;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\JobCardRequest;
+use App\Http\Requests\VehicleDefectsRequest;
 use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\WorkShopManagement\JobCardHeader;
@@ -128,15 +129,15 @@ class WorkshopService
         DB::commit();
     }
 
-    public function createJobCardDefects(Request $request): void
+    public function createJobCardDefects(VehicleDefectsRequest $request): void
     {
+        $validator = Validator::make($request->all(), [
+
+        ]);
         DB::beginTransaction();
         $models = [];
 
-        foreach ($request->get('defects') as $defect) {
-
-            // validation
-
+        foreach ($request->get('items') as $defect) {
             VehicleDefects::firstOrCreate(
                 [
                     'job_card_no' => $request['job_card_no'],

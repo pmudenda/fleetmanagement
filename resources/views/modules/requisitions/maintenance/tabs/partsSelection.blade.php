@@ -4,7 +4,9 @@
     <input type="hidden"
            id="suppliersList"
            value="{{route('suppliers.list')}}"/>
-    <div class="row">
+    <div class="row"
+         data-form-url="{{route("process.requisition")}}"
+         data-model-name="PartsHeader">
         <div class="col-12">
 
             <div class="row">
@@ -109,27 +111,26 @@
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="container-fluid pl-0">
                         <div class="row">
-                             <div class="form-group row">
-                                 <label
-                                     class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                     for="job_card_no">
-                                     Request Date:
-                                 </label>
-                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                     <input type="text"
-                                            class="form-control form-control-sm"
-                                            id="request_date"
-                                            readonly
-                                            value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
-                                            name="request_date"
-                                            required>
-                                 </div>
-                             </div>
+                            <div class="form-group row">
+                                <label
+                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                    for="job_card_no">
+                                    Request Date:
+                                </label>
+                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                    <input type="text"
+                                           class="form-control form-control-sm"
+                                           id="request_date"
+                                           readonly
+                                           value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
+                                           name="request_date"
+                                           required>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
 
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
@@ -191,7 +192,6 @@
                 </div>
             </div>
 
-
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="container-fluid pl-0">
@@ -230,8 +230,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 px-0">
             <div class="row">
                 <div style="max-height:500px; overflow-x: auto;">
-                    <table id="material_table" data-form-url="{{route("process.job_card")}}"
-                           data-model-name="PartsHeader"
+                    <table id="material_table"
                            class="table dataTable table-row-dashed align-middle gs-0 nowrap">
                         <thead>
                         <tr class="bg-dark-subtle">
@@ -337,10 +336,10 @@
                                 </td>
                                 <td>
                                     <select disabled
-                                        name="articles"
-                                        required
-                                        data-value=""
-                                        class="form-control form-control-sm articlesDropDownList">
+                                            name="articles"
+                                            required
+                                            data-value=""
+                                            class="form-control form-control-sm articlesDropDownList">
                                         <option></option>
                                     </select>
                                 </td>
@@ -406,7 +405,7 @@
                             <td class="text-right"><strong>TOTAL</strong></td>
                             <td class="text-right"><b id="quantityTotal" class="input-number">0</b></td>
                             <td></td>
-                            <td class="text-right">TOTAL</td>
+                            <td class="text-right"><strong>TOTAL</strong></td>
                             <td class="text-right"><b id="itemsTotal" class="input-number">0.00</b></td>
                             <td></td>
                         </tr>

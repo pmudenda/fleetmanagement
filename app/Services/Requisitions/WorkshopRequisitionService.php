@@ -43,6 +43,7 @@ class WorkshopRequisitionService
      */
     public function processRequest(WorkshopRequisitionRequest $requisitionPostRequest): JsonResponse
     {
+        Log::info("Creating Workshop Request");
 
         DB::beginTransaction();
 

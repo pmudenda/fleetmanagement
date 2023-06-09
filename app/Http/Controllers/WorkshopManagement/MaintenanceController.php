@@ -9,6 +9,7 @@ use App\Enums\Constants;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCardRequest;
+use App\Http\Requests\WorkshopRequisitionRequest;
 use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\MaterialDetail;
@@ -16,6 +17,7 @@ use App\Models\WorkShopManagement\VehicleDefects;
 use App\Models\WorkShopManagement\WorkShopComments;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
 use App\Services\Requisitions\FuelRequisitionService;
+use App\Services\Requisitions\WorkshopRequisitionService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\WorkShopManagement\WorkshopService;
 use Illuminate\Contracts\View\Factory;
@@ -25,7 +27,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
@@ -35,14 +36,17 @@ class MaintenanceController extends Controller
     private WorkshopService $workshopService;
     private DocumentNumberGenerationService $numberGeneratorService;
     private FuelRequisitionService $requisitionService;
+    private WorkshopRequisitionService $workshopRequisitionService;
 
-    public function __construct(WorkshopService $workshopService,
+    public function __construct(WorkshopService                 $workshopService,
                                 DocumentNumberGenerationService $numberGeneratorService,
-                                FuelRequisitionService $requisitionService)
+                                FuelRequisitionService          $requisitionService,
+                                WorkshopRequisitionService      $workshopRequisitionService)
     {
         $this->workshopService = $workshopService;
         $this->numberGeneratorService = $numberGeneratorService;
         $this->requisitionService = $requisitionService;
+        $this->workshopRequisitionService = $workshopRequisitionService;
     }
 
     public function list(Request $request): View
@@ -217,6 +221,29 @@ class MaintenanceController extends Controller
     {
         try {
             $this->workshopService->createJobCardDefects($request);
+            return response()->json([
+                'success' => true,
+                'message' => SystemMessages::defectRecorded(),
+                'redirectUrl' => URL::signedRoute('defects.job.card',
+                    ['step' => 4, 'reference' => $request->get('job_card_no')]),
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return response()->json(
+                [
+                    'success' => false,
+                    'payload' => [],
+                    'message' => ErrorMessages::getMessage('err_0005')
+                ]
+            );
+        }
+    }
+
+
+    public function processWorkShopRequisition(WorkshopRequisitionRequest $request): JsonResponse
+    {
+        try {
+            $this->workshopRequisitionService->processRequest($request);
             return response()->json([
                 'success' => true,
                 'message' => SystemMessages::defectRecorded(),
