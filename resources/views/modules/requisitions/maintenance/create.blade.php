@@ -60,23 +60,23 @@
                       method="post">
                     @csrf
                     <h1>Job Card Details</h1>
-                    <div>
+                    <section>
                         @include('modules.requisitions.maintenance.tabs.job_card_header')
-                    </div>
+                    </section>
 
                     <h1>Accessories Checkin & Movement</h1>
-                    <div>
+                    <section>
                         @include('modules.requisitions.maintenance.tabs.accessories')
-                    </div>
+                    </section>
 
                     <h1>Defects</h1>
-                    <div>
+                    <section>
                         @include('modules.requisitions.maintenance.tabs.defects')
-                    </div>
+                    </section>
                     <h1>Parts Selection</h1>
-                    <div>
+                    <section>
                         @include('modules.requisitions.maintenance.tabs.partsSelection')
-                    </div>
+                    </section>
 
                 </form>
 
@@ -218,7 +218,7 @@
 
             let form = $('#jobCardForm').show();
             window.goToNext = false;
-            let bodyTag = "div";
+            let bodyTag = "section";
 
             $(document).ready(function () {
 
