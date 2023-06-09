@@ -218,7 +218,7 @@
 
             let form = $('#jobCardForm').show();
             window.goToNext = false;
-            let bodyTag = "fieldset";
+            let bodyTag = "div";
 
             $(document).ready(function () {
 
