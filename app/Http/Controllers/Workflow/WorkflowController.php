@@ -111,6 +111,7 @@ class WorkflowController extends Controller
 
             $requisitionDetail = $this->requisitionService->getRequisitionDetail($reference);
 
+            $process_code = '';
             switch ($requisitionDetail->item_type) {
                 case RequisitionItemTypes::ServiceItemCode:
                 case RequisitionItemTypes::StockItemCode:
