@@ -329,7 +329,9 @@
                                 "Request Submission",
                                 "Request submitted successfully, Click 'Ok' proceed to provide information for other sections",
                                 function () {
-                                    window.location.href = response['redirectUrl'];
+                                    //window.location.href = response['redirectUrl'];
+                                    window.goToNext = true;
+                                    form.steps("next");
                                 },
                                 "success"
                             );
@@ -402,12 +404,12 @@
                     },
                     onFinished: function () {
                         //postData.call(this);
-                        $('a[role="#finish"]').disableBtn();
+                        //$('a[role="#finish"]').disableBtn();
 
                         if (form.valid()) {
                             postData($(form.find(bodyTag).get(currentIndex)).find('[data-model-name]').get(0), true);
                         } else {
-                            $('a[role="#finish"]').enableBtn();
+                            //$('a[role="#finish"]').enableBtn();
                             //swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
                         }
 
