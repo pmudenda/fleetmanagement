@@ -145,6 +145,9 @@ class WorkflowService
                                    string $comment
     ): int
     {
+
+        DB::beginTransaction();
+
         Log::info('Received Reference ' . $reference);
         Log::info('Received Process Code ' . $process_id);
         $current_user = auth()->user();
@@ -286,7 +289,7 @@ class WorkflowService
                 }
 
                 // is supervisor of
-                $next_approver = User::where('staff_no', $current_user->supervisor_code);
+                $next_approver = User::where('staff_no', $current_user->supervisor_code)->first();
                 if (empty($next_approver)) {
                     throw new WorkflowTaskCreationFailedException("Supervisor Not Found");
                 }
@@ -445,6 +448,7 @@ class WorkflowService
             'reference' => $task_detail->reference
         ]);
 
+        DB::commit();
         return $next_step->step_id;
     }
 
