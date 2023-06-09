@@ -131,9 +131,6 @@ class WorkshopService
 
     public function createJobCardDefects(VehicleDefectsRequest $request): void
     {
-        $validator = Validator::make($request->all(), [
-
-        ]);
         DB::beginTransaction();
         $models = [];
 
