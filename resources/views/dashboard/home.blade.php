@@ -218,7 +218,7 @@
                                     @foreach($approvalTasks as $rec)
                                         <tr>
                                             <td>
-                                                <a href="{{URL::signedRoute('show.fuel.requisition', ['ref'=>  $rec->reference])}}">
+                                                <a href="{{URL::signedRoute($rec->url, ['ref'=>  $rec->reference])}}">
                                                     {{$rec->reference}}
                                                 </a>
                                             </td>
