@@ -1106,9 +1106,9 @@
                             if (tableId === "part8") {
                                 let row = lastRow[0];
 
-                                $(row).find('select2 select2-container select2-container--bootstrap4 select2-container--below').remove();
+                                $(row).find('.select2-container').remove();
 
-                                let $_defect_sel = $(row).find('[nam="defect"]');
+                                let $_defect_sel = $(row).find('[name="defect"]');
 
                                 console.log($_defect_sel);
                                 reinitializeSelect2($_defect_sel);
