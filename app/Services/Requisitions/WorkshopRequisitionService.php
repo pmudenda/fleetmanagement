@@ -138,7 +138,7 @@ class WorkshopRequisitionService
             MaterialDetail::create([
                 'created_by' => $user->staff_no,
                 'date_created' => Carbon::now(),
-                'material_code' => $item->articles,
+                'material_code' => $item->articleCode,
 
                 'unit_of_measure' => $item->unit_of_measure,
 
