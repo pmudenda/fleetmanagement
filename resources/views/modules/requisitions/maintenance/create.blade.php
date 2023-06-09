@@ -1091,9 +1091,10 @@
 
                             function reinitializeSelect2($_defect_sel) {
                                 if ($_defect_sel) {
-                                 /*   if ($($_defect_sel).data('select2')) {
+                                    $($_defect_sel).removeClass('select2-hidden-accessible');
+                                    if ($($_defect_sel).data('select2')) {
                                         $($_defect_sel).select2('destroy');
-                                    }*/
+                                    }
 
                                     $($_defect_sel).select2({
                                         theme: "bootstrap4",
@@ -1103,8 +1104,11 @@
                             }
 
                             if (tableId === "part8") {
+                                let row = row[0];
+                                $(row).find('select2 select2-container select2-container--bootstrap4 select2-container--below').remove();
 
-                                let $_defect_sel = $(row[0]).find('select.defect')
+                                let $_defect_sel = $(row).find('select.defect');
+
                                 console.log($_defect_sel);
                                 reinitializeSelect2($_defect_sel);
 
