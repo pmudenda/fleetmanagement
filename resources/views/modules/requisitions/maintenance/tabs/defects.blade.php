@@ -38,7 +38,7 @@
                                     <td>
                                         <select name="defect" required
                                                 data-value="{{$defect->defect_code}}"
-                                                class="form-select form-select-sm defect">
+                                                class="form-select form-select-sm select_2_control defect">
                                             <option></option>
                                         </select>
                                     </td>
