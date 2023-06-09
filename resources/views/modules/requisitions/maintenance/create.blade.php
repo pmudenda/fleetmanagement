@@ -1068,33 +1068,32 @@
                         'button[value="addRow"][data-table-id]',
                         function () {
                             let tableId = $(this).data('tableId');
-                            /*   if (tableId === "part8") {
 
-                                     if ($('.defect').data('select2')) {
-                                         $('.defect').select2('destroy');
-                                     }
+                            if (tableId === "part89") {
 
-                                     if ($('.vehicleSystem').data('select2')) {
-                                         $('.vehicleSystem').select2('destroy');
-                                     }
+                                if ($('.defect').data('select2')) {
+                                    $('.defect').select2('destroy');
+                                }
 
-                                     if ($('.defectCategory').data('select2')) {
-                                         $('.defectCategory').select2('destroy');
-                                     }
+                                if ($('.vehicleSystem').data('select2')) {
+                                    $('.vehicleSystem').select2('destroy');
+                                }
 
-                               }*/
+                                if ($('.defectCategory').data('select2')) {
+                                    $('.defectCategory').select2('destroy');
+                                }
+
+                            }
 
                             let row = Table.addRow($('table#' + tableId));
                             let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
-                            console.log(lastRow[0]);
-                            console.log(row[0]);
 
                             function reinitializeSelect2($_defect_sel) {
                                 if ($_defect_sel) {
                                     $($_defect_sel).removeClass('select2-hidden-accessible');
-                                    if ($($_defect_sel).data('select2')) {
+                                    /*if ($($_defect_sel).data('select2')) {
                                         $($_defect_sel).select2('destroy');
-                                    }
+                                    }*/
 
                                     $($_defect_sel).select2({
                                         theme: "bootstrap4",
@@ -1109,38 +1108,13 @@
                                 $(row).find('.select2-container').remove();
 
                                 let $_defect_sel = $(row).find('[name="defect"]');
-
-                                console.log($_defect_sel);
                                 reinitializeSelect2($_defect_sel);
 
                                 let $_defect_category_sel = $(row).find('[name="defectCategory"]');
-                                // $("select.select2-hidden-accessible").select2('destroy');
-                                console.log($_defect_category_sel);
                                 reinitializeSelect2($_defect_category_sel);
 
-
                                 let $_vehicle_system_sel = $(row).find('[name="vehicleSystem"]')
-                                console.log($_vehicle_system_sel);
                                 reinitializeSelect2($_vehicle_system_sel);
-
-                                /*setTimeout(function () {
-
-                                    $('.defect').select2({
-                                        theme: "bootstrap4",
-                                        width: "resolve",
-                                    });
-
-                                    $('.defectCategory').select2({
-                                        theme: "bootstrap4",
-                                        width: "resolve",
-                                    });
-
-                                    $('.vehicleSystem').select2({
-                                        theme: "bootstrap4",
-                                        width: "resolve",
-                                    });
-
-                                }, 600);*/
                             }
 
                             if (tableId === "material_table") {
