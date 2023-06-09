@@ -207,7 +207,8 @@ class WorkflowService
 
                 return 0;
                 break;
-            case 3: // approved
+            case 3:
+                // approved
                 //check if the current step is final step .CurrentStep.IsFinalStep == 1
                 if ($current_step->is_final_step || $current_step->is_final_step == '1' || $current_step->is_final_step == 1) {
                     Log::info("Approving and Ending Process");
@@ -231,24 +232,10 @@ class WorkflowService
                     $task_detail->date_ended = Carbon::now();
                     $task_detail->save();
 
-                    /*
-                     WorkflowTaskDetail::create([
-                        'reference' => $reference,
-                        'process_code' => $process_id,
-                        'user_id' => $current_user->id,
-                        'current_step_id' => $current_step->step_id,
-                        'actioning_officer' => $current_user->staff_no,
-                        'status' => StatusHelper::new(),
-                        'step_after_submission' => $current_step->action_page,
-                        'date_started' => Carbon::now(),
-                        'created_by' => $current_user->staff_no,
-                        'date_ended' => Carbon::now(),
-                    ]);
-                    */
-
                     return 100;
                 }
 
+                // get step
                 $next_step = WorkflowStep::where('step_id', '=', $current_step->next_step)
                     ->where('process_id', '=', $process_id)
                     ->first();
@@ -257,7 +244,7 @@ class WorkflowService
                 if (empty($next_step)) {
                     throw new WorkflowTaskCreationFailedException("Approval Process Next State Record Not Found", 102);
                 }
-                //get next step
+                //get to next step
 
                 /*if ($next_step == null) {
                     $task_detail->current_step_id = null;
@@ -269,7 +256,20 @@ class WorkflowService
                     return $task_detail;
                 }*/
 
-                //$task_detail->current_step_id = $next_step->step_id;
+                // create partial authorisation log
+                WorkflowLog::create([
+                    'remarks' => $comment,
+                    'action_date' => Carbon::now(),
+                    'actioning_officer' => $current_user->staff_no,
+                    'action' => $action,
+                    'activity' => $actionTaken,
+                    'status' => StatusHelper::partiallyAuthorised(),
+                    'previous_step' => $current_step->previous_step,
+                    'step_id' => $current_step->step_id,
+                    'reference' => $reference
+                ]);
+
+                $task_detail->current_step_id = $next_step->step_id;
 
                 //send notification to actioning officer
 
@@ -277,12 +277,19 @@ class WorkflowService
 
                 $userRoles = [];
 
-                /*if ($next_step->privilege != null) {
-                    userRoles = _context . UserRoles
+                if ($next_step->privilege != null) {
+                    // find people with privilege
+                    /*userRoles = _context . UserRoles
                         . include(usr => usr . User)
                     .Where(ur => ur . RoleId == nextStep . Role)
-                    .ToList();
-                    }*/
+                    .ToList();*/
+                }
+
+                // is supervisor of
+                $next_approver = User::where('staff_no', $current_user->supervisor_code);
+                if (empty($next_approver)) {
+                    throw new WorkflowTaskCreationFailedException("Supervisor Not Found");
+                }
 
                 //$assign_to_user = new User([0]);
 
@@ -306,36 +313,40 @@ class WorkflowService
                              smalletNumberOfTasks = actioningTasks;
                              userId = (int)userRole . UserId;
                          }
-                     }*/
+                     }
+                */
 
-                /*  $assign_to_user->UserId = $userId;
+                $assign_to_user = $next_approver;
 
-                  if ($assign_to_user->user_id != 0) {
-                      $task_detail->actioning_officer = $assign_to_user->user_id;
-                  }
+                if ($assign_to_user->staff_no != 0) {
+                    $task_detail->actioning_officer = $assign_to_user->staff_no;
+                }
 
-                  // save process and send notification
-                  $task_detail->save();
-                  // new notification
+                // save process and send notification
+                $task_detail->save();
 
-                  self::closePreviousTasks($task_detail);
+                $task_header->assigned_user = $assign_to_user->staff_no;
+                $task_header->save();
+                // new notification
 
-                  // next step is present
-                  $finalApproval = (bool)$next_step->is_final_step;
+                //self::closePreviousTasks($task_detail);
 
-                  if ($finalApproval) {
-                      // final approval
-                      //_newConnectionService . Close($task_detail->reference);
+                // next step is present
+                $finalApproval = (bool)$next_step->is_final_step;
 
-                      //CreateUserNotification(taskDetail, "New Connection Request Work Task", nextStep?.ActionPage);
-                  } else {
-                      self::createUserNotification(
-                          $task_detail, "New Connection Request Work Task",
-                          $next_step->action_page
-                      );
-                  }*/
+                if ($finalApproval) {
+                    // final approval
+                    //_newConnectionService . Close($task_detail->reference);
 
-                return 00;
+                    //CreateUserNotification(taskDetail, "New Connection Request Work Task", nextStep?.ActionPage);
+                } else {
+                    /*self::createUserNotification(
+                        $task_detail, "New Connection Request Work Task",
+                        $next_step->action_page
+                    );*/
+                }
+
+                return $next_step->step_id;
             case 5:
             {
                 //send back
