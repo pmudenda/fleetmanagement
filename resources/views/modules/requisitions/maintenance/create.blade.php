@@ -1089,11 +1089,8 @@
                             console.log(lastRow[0]);
                             console.log(row[0]);
 
-                            if (tableId === "part8") {
-
-                                let $_defect_sel = $(row[0]).find('select.defect')
-                                console.log($_defect_sel);
-                                if($_defect_sel){
+                            function reinitializeSelect2($_defect_sel) {
+                                if ($_defect_sel) {
                                     if ($($_defect_sel).data('select2')) {
                                         $($_defect_sel).select2('destroy');
                                     }
@@ -1103,25 +1100,23 @@
                                         width: "resolve",
                                     });
                                 }
+                            }
+
+                            if (tableId === "part8") {
+
+                                let $_defect_sel = $(row[0]).find('select.defect')
+                                console.log($_defect_sel);
+                                reinitializeSelect2($_defect_sel);
+
+                                let $_defect_category_sel = $(row[0]).find('select.defectCategory');
+                                // $("select.select2-hidden-accessible").select2('destroy');
+                                console.log($_defect_category_sel);
+                                reinitializeSelect2($_defect_category_sel);
 
 
-                                $('.defectCategory').select2({
-                                    theme: "bootstrap4",
-                                    width: "resolve",
-                                });
-
-                                $('.vehicleSystem').select2({
-                                    theme: "bootstrap4",
-                                    width: "resolve",
-                                });
-
-                                if ($('.vehicleSystem').data('select2')) {
-                                    $('.vehicleSystem').select2('destroy');
-                                }
-
-                                if ($('.defectCategory').data('select2')) {
-                                    $('.defectCategory').select2('destroy');
-                                }
+                                let $_vehicle_system_sel = $(row[0]).find('select.vehicleSystem')
+                                console.log($_vehicle_system_sel);
+                                reinitializeSelect2($_vehicle_system_sel);
 
                                 /*setTimeout(function () {
 
