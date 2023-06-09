@@ -296,6 +296,7 @@
                             obj['job_card_no'] = $('input[name="job_card_voucher"]').val();
                             obj['remarks'] = $('#remarks').val();
                         } else if (formSel.data('modelName') === 'PartsHeader') {
+                            obj['itemType'] = $('input[name="itemType"]').val();
                             obj['job_card_no'] = $('input[name="job_card_number"]').val();
                             obj['purchase_office'] = $('[name="purchase_office"]').val();
                             obj['workshop_code'] = $('[name="workshop_code"]').val();

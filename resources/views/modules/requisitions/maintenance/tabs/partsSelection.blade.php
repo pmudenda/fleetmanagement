@@ -225,7 +225,7 @@
                 </div>
             </div>
         </div>
-        <hr style="color: orange;" />
+        <hr style="color: orange;"/>
         <div class="col-xs-12 col-sm-12 col-md-12 px-0">
             <div class="row">
                 <div style="max-height:500px; overflow-x: auto;">
