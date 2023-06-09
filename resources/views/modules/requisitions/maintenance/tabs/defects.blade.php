@@ -24,14 +24,14 @@
                                     <td class="showNumber">
                                         <select name="vehicleSystem" required
                                                 data-value="{{$defect->veh_sys}}"
-                                                class="form-select form-select-sm vehicleSystem">
+                                                class="form-select form-select-sm select_2_control vehicleSystem">
                                             <option></option>
                                         </select>
                                     </td>
                                     <td>
                                         <select name="defectCategory" required
                                                 data-value="{{$defect->defect_category_code}}"
-                                                class="form-select form-select-sm defectCategory">
+                                                class="form-select form-select-sm select_2_control defectCategory">
                                             <option></option>
                                         </select>
                                     </td>
@@ -81,19 +81,19 @@
                             <tr class="increment">
                                 <td class="showNumber">
                                     <select name="vehicleSystem"
-                                            class="form-select form-select-sm vehicleSystem">
+                                            class="form-select form-select-sm select_2_control vehicleSystem">
                                         <option></option>
                                     </select>
                                 </td>
                                 <td>
                                     <select name="defectCategory"
-                                            class="form-select form-select-sm defectCategory">
+                                            class="form-select form-select-sm select_2_control defectCategory">
                                         <option></option>
                                     </select>
                                 </td>
                                 <td>
                                     <select name="defect"
-                                            class="form-select form-select-sm defect">
+                                            class="form-select form-select-sm select_2_control defect">
                                         <option></option>
                                     </select>
                                 </td>
