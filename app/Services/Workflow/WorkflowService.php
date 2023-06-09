@@ -184,6 +184,9 @@ class WorkflowService
             throw new WorkflowTaskCreationFailedException("Approval Process Current State Record Not Found", 102);
         }
 
+        Log::info("Action Passed is " . $action);
+        Log::info("Action  Taken " . $actionTaken);
+
         switch ($action) {
             case 1:
                 // resubmission
@@ -214,7 +217,7 @@ class WorkflowService
                 // approved
                 //check if the current step is final step .CurrentStep.IsFinalStep == 1
                 if ($current_step->is_final_step || $current_step->is_final_step == '1' || $current_step->is_final_step == 1) {
-                    Log::info("Approving and Ending Process");
+                    Log::info("Final Step Approving and Ending Process");
 
                     WorkflowLog::create([
                         'remarks' => $comment,
@@ -238,10 +241,13 @@ class WorkflowService
                     return 100;
                 }
 
+                Log::info("Workflow Step Not Final ");
                 // get step
                 $next_step = WorkflowStep::where('step_id', '=', $current_step->next_step)
                     ->where('process_id', '=', $process_id)
                     ->first();
+
+                Log::info("Next Step Determined As " . $next_step->step_id);
 
 
                 if (empty($next_step)) {
@@ -260,6 +266,7 @@ class WorkflowService
                 }*/
 
                 // create partial authorisation log
+                Log::info("Creating Approval Log ");
                 WorkflowLog::create([
                     'remarks' => $comment,
                     'action_date' => Carbon::now(),
@@ -320,7 +327,7 @@ class WorkflowService
                 */
 
                 $assign_to_user = $next_approver;
-
+                Log::info("Next Approver Determine as " . $assign_to_user->staff_no);
                 if ($assign_to_user->staff_no != 0) {
                     $task_detail->actioning_officer = $assign_to_user->staff_no;
                 }
@@ -348,7 +355,7 @@ class WorkflowService
                         $next_step->action_page
                     );*/
                 }
-
+                Log::info("Returning Next Step Id " .  $next_step->step_id);
                 return $next_step->step_id;
             case 5:
             {
