@@ -353,7 +353,7 @@
                 form.steps({
                     showStepURLhash: true,
                     headerTag: "h1",
-                    bodyTag: "div",
+                    bodyTag: "section",
                     transitionEffect: "slideLeft",
                     autoFocus: true,
                     saveState: true,
