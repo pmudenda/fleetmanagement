@@ -11,6 +11,7 @@ enum Modules: string
     case Requisition = 'REQ';
     const FuelReq = 'FR';
 
+    const WORKSHOP_DOCUMENT = 'WAC';
     const JOB_CARD = 'JOB_CAR';
     const Material = 'MAT';
 }

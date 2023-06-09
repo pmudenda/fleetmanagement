@@ -148,7 +148,7 @@
                     cache: true
                 },
                 placeholder: 'Enter Article name or Code',
-                minimumInputLength: 4,
+                minimumInputLength: 3,
                 templateResult: formatRepo,
                 templateSelection: formatRepoSelection
             }).off('select2:select').on('select2:select', function (e) {

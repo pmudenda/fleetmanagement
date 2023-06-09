@@ -27,7 +27,7 @@ class WorkshopService
     {
         $user = auth()->user();
 
-        ///$receiverParts = explode('|', $request->get('service_advisor'));
+        /// $receiverParts = explode('|', $request->get('service_advisor'));
         if ($request->has('job_card_number') && !empty($request->get('job_card_number')) && $request->get('job_card_number') != 0) {
             // update the information
             $details = JobCardHeader::where('job_card_no', '=', $request->get('job_card_number'))->orderBy('id', 'desc')
@@ -52,19 +52,21 @@ class WorkshopService
             return $details;
         }
 
-        //$doc_number = DocumentNumberGenerationService::generateReferenceNumber(Modules::JOB_CARD);
+        $workshop_number = DocumentNumberGenerationService::generateReferenceNumber(Modules::WORKSHOP_DOCUMENT);
         $doc_number = DocumentNumberGenerationService::generateReferenceNumber(Modules::JOB_CARD);
-        //$doc_number = '983738378363';
 
         $section = GeneralTableConfigurations::where('name', '=', 'RECEPTION')
             ->where('type', ConfigurationTypes::WORK_SHOP_SECTION)
             ->first();
+
         if (empty($section)) {
             Log::info("Receiving Section Not Found");
         }
 
         $data = [
             'veh_reg' => $request->get('vehicle_registration'),
+            'job_card_no' => $doc_number,
+            'workshop_doc_no' => $workshop_number,
             'date_in' => Carbon::now(), Carbon::createFromFormat('Y-m-d', trim($request->get('date_of_req'))),
             'workshop_code' => $request->get('workshop'),
             'time_in' => Carbon::now(),//(trim($request->get('timeIn')))->format('H:i:s'),
@@ -75,8 +77,6 @@ class WorkshopService
             'millage_in' => $request->get('current_odometer'),
             'fuel_level_in' => $request->get('fuel_level'),
             'driver_in' => $request->get('driver_staff_number'),
-            'job_card_no' => $doc_number,
-            'workshop_doc_no' => $doc_number,
             'created_by' => $user->id
         ];
 

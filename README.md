@@ -918,7 +918,7 @@ END;
 
 ## Function Generate Reference
 ```oracle
-create or replace FUNCTION fn_generate_reference_number (
+CREATE OR REPLACE FUNCTION fn_generate_reference_number (
     p_module VARCHAR2,
     p_user   VARCHAR2
 ) RETURN STRING IS
@@ -928,31 +928,34 @@ create or replace FUNCTION fn_generate_reference_number (
 BEGIN
     IF p_module = 'FUEL_REQ' THEN
         v_prefix := 'ZFMFUE';
-        v_next_num := "FLEETMASTER"."FUEL_REQ_SEQ".nextval;
+        v_next_num := "FUEL_REQ_SEQ".nextval;
     ELSIF p_module = 'SPARES_REQ' THEN
         v_prefix := 'ZFMREF';
-        v_next_num := "FLEETMASTER"."SPARES_REQ_SEQ".nextval;
+        v_next_num := "SPARES_REQ_SEQ".nextval;
     ELSIF p_module = 'PUR' THEN
         v_prefix := 'ZFMPUR';
-        v_next_num := "FLEETMASTER"."PURCHASE_REQ_SEQ".nextval;
+        v_next_num := "PURCHASE_REQ_SEQ".nextval;
     ELSIF p_module = 'STR' THEN
         v_prefix := 'ZFMSTR';
-        v_next_num := "FLEETMASTER"."STORES_REQ_SEQ".nextval;
+        v_next_num :="STORES_REQ_SEQ".nextval;
     ELSIF p_module = 'REQ' THEN
         v_prefix := 'ZFMREQ';
-        v_next_num := "FLEETMASTER"."GENERAL_REQ_SEQ".nextval;
+        v_next_num := "GENERAL_REQ_SEQ".nextval;
     ELSIF p_module = 'DRV_ONBOARD' THEN
         v_prefix := 'ZFMDOB';
-        v_next_num := "FLEETMASTER"."DRV_ONBOARDING_REQ_SEQ".nextval;
+        v_next_num := "DRV_ONBOARDING_REQ_SEQ".nextval;
     ELSIF p_module = 'VEH_ONBOARD' THEN
         v_prefix := 'ZFMVOB';
-        v_next_num := "FLEETMASTER"."VEH_ONBOARDING_REQ_SEQ".nextval;
+        v_next_num := "VEH_ONBOARDING_REQ_SEQ".nextval;
     ELSIF p_module = 'JOB_CAR' THEN
         v_prefix := 'ZFMJBC';
-        v_next_num := "FLEETMASTER"."WKSH_JOBCARD_SEQ".nextval;
+        v_next_num := "WKSH_JOBCARD_SEQ".nextval;
+    ELSIF p_module = 'WAC' THEN
+        v_prefix := 'ZFMWAC';
+        v_next_num := "ZFM_WORKSHOP_DOC_SEQ".nextval;
     ELSIF p_module = 'ACC_RPT' THEN
         v_prefix := 'ZFMACC';
-        v_next_num := "FLEETMASTER"."ZFM_ACC_SEQ".nextval;
+        v_next_num := "ZFM_ACC_SEQ".nextval;
     END IF;
 
     v_reference := v_prefix
@@ -988,8 +991,6 @@ CREATE SEQUENCE "FLEETMASTER"."SPARES_REQ_SEQ" MINVALUE 1 MAXVALUE 9999999999999
 CREATE SEQUENCE "FLEETMASTER"."PURCHASE_REQ_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
     20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
 
-
-
 CREATE SEQUENCE "FLEETMASTER"."STORES_REQ_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
     20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
 
@@ -1006,6 +1007,9 @@ CREATE SEQUENCE "FLEETMASTER"."WKSH_JOBCARD_SEQ" MINVALUE 1 MAXVALUE 99999999999
     20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
 
 CREATE SEQUENCE "FLEETMASTER"."ZFM_ACC_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
+    20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
+
+CREATE SEQUENCE "FLEETMASTER"."ZFM_WORKSHOP_DOC_SEQ" MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE
     20 NOORDER NOCYCLE NOKEEP NOSCALE GLOBAL;
 ```
 ## Synchronize Requisitions
