@@ -137,7 +137,7 @@ class WorkshopRequisitionService
                 'price' => $item['unit_price'],
                 'cost_centre' => $store_code,
                 'req_no' => $requisition_reference_number,
-                'specifications' => $item['material_description'],
+                'specifications' => $item['technical_specification'],
                 'reg_no' => $item['registration'],
             ]);
         }
