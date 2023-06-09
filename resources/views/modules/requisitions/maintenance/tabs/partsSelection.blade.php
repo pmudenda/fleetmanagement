@@ -445,6 +445,8 @@
                         @if(!empty($comments))
                             <textarea type="text"
                                       id="remarks"
+                                      minlength="20"
+                                      maxlength="255"
                                       required
                                       name="remarks"
                                       style="height: 129px;"
@@ -452,6 +454,8 @@
                         @else
                             <textarea type="text"
                                       id="remarks"
+                                      minlength="20"
+                                      maxlength="255"
                                       required
                                       name="remarks"
                                       style="height: 129px;"

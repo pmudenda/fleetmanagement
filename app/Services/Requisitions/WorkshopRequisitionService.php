@@ -84,7 +84,7 @@ class WorkshopRequisitionService
                 break;
         }
 
-        Log::info('Determined Requisition Item Type Code' . $$item_type);
+        Log::info('Determined Requisition Item Type Code' . $item_type);
 
         $short_description = ""; //"Fuel Requisition For Vehicle Reg No. " . $registrationNumber;
         $long_description = ""; //"Fuel Requisition Ref.No. " . $requisition_reference_number . " For Vehicle Reg No. " . $registrationNumber;
