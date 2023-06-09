@@ -112,7 +112,7 @@
 
         function initProjectSelector(selector) {
             const dataUrl = document.querySelector('#articlesUrl').value;
-            selector.select2({
+            $(selector).select2({
                 selectOnClose: true,
                 multiple: false,
                 quietMillis: 100,
@@ -1064,45 +1064,50 @@
                 });
 
                 $(document).off('click', 'button[value="addRow"][data-table-id]')
-                    .on('click', 'button[value="addRow"][data-table-id]', function () {
-                        let tableId = $(this).data('tableId');
+                    .on('click',
+                        'button[value="addRow"][data-table-id]',
+                        function () {
+                            let tableId = $(this).data('tableId');
 
-                        let row = Table.addRow($('table#' + tableId));
-                        let lastRow = $('table#' + tableId).find('tbody tr').last();// eq((skipBottom + 1) * -1);
-                        //console.log(row);
-                        if (tableId === "part8") {
-                            $('[name="defect"]').select2('destroy');
-                            $('[name="defectCategory"]').select2('destroy');
-                            $('[name="vehicleSystem"]').select2('destroy');
-                        } else if (tableId === "material_table") {
-                           $('[name="articles"]').select2('destroy');
-                        }
+                            let row = Table.addRow($('table#' + tableId));
+                            let lastRow = $('table#' + tableId).find('tbody tr').last();// eq((skipBottom + 1) * -1);
+                            //console.log(row);
+                            if (tableId === "part8") {
+                                $('.defect').select2('destroy');
+                                $('.defectCategory').select2('destroy');
+                                $('.vehicleSystem').select2('destroy');
+                            } else if (tableId === "material_table") {
+                                //$('[name="articles"]').select2('destroy');
+                                if ($('.articlesDropDownList').data('select2')) {
+                                    $('.articlesDropDownList').select2('destroy');
+                                }
+                            }
 
-                        if (tableId === "material_table") {
-                            //let selector = $('.articlesDropDownList');
-                            console.log(selector);
-                            initProjectSelector( $('[name="articles"]'));
-                        } else {
-                            setTimeout(function () {
+                            if (tableId === "material_table") {
+                                let selector = $('.articlesDropDownList');
+                                console.log(selector);
+                                initProjectSelector($('[name="articles"]'));
+                            } else {
+                                setTimeout(function () {
 
-                                $('[name="defect"]').select2({
-                                    theme: "bootstrap4",
-                                    width: "resolve",
-                                });
+                                    $('[name="defect"]').select2({
+                                        theme: "bootstrap4",
+                                        width: "resolve",
+                                    });
 
-                                $('[name="defectCategory"]').select2({
-                                    theme: "bootstrap4",
-                                    width: "resolve",
-                                });
+                                    $('[name="defectCategory"]').select2({
+                                        theme: "bootstrap4",
+                                        width: "resolve",
+                                    });
 
-                                $('[name="vehicleSystem"]').select2({
-                                    theme: "bootstrap4",
-                                    width: "resolve",
-                                });
+                                    $('[name="vehicleSystem"]').select2({
+                                        theme: "bootstrap4",
+                                        width: "resolve",
+                                    });
 
-                            }, 600);
-                        }
-                    });
+                                }, 600);
+                            }
+                        });
 
                 $(document).on('click', 'button[value="deleteRow"]', function (e) {
                     e.preventDefault();
