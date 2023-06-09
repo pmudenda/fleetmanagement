@@ -1068,37 +1068,28 @@
                         'button[value="addRow"][data-table-id]',
                         function () {
                             let tableId = $(this).data('tableId');
+                            if (tableId === "part8") {
+
+                                  if ($('.defect').data('select2')) {
+                                      $('.defect').select2('destroy');
+                                  }
+
+                                  if ($('.vehicleSystem').data('select2')) {
+                                      $('.vehicleSystem').select2('destroy');
+                                  }
+
+                                  if ($('.defectCategory').data('select2')) {
+                                      $('.defectCategory').select2('destroy');
+                                  }
+
+                            }
 
                             let row = Table.addRow($('table#' + tableId));
                             let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
-                            console.log(lastRow);
-                            console.log(row);
-                            if (tableId === "part8") {
+                            console.log(lastRow[0]);
+                            console.log(row[0]);
 
-                                if ($('.defect').data('select2')) {
-                                    $('.defect').select2('destroy');
-                                }
-
-                                if ($('.vehicleSystem').data('select2')) {
-                                    $('.vehicleSystem').select2('destroy');
-                                }
-
-                                if ($('.defectCategory').data('select2')) {
-                                    $('.defectCategory').select2('destroy');
-                                }
-
-                            } else if (tableId === "material_table") {
-
-                                if ($('.articlesDropDownList').data('select2')) {
-                                    $('.articlesDropDownList').select2('destroy');
-                                }
-                            }
-
-                            if (tableId === "material_table") {
-                                let selector = $('.articlesDropDownList');
-                                console.log(selector);
-                                initProjectSelector($('.articlesDropDownList'));
-                            } else {
+                            if (tableId === "part8"){
                                 setTimeout(function () {
 
                                     $('.defect').select2({
@@ -1117,6 +1108,18 @@
                                     });
 
                                 }, 600);
+                            }
+
+                            if (tableId === "material_table") {
+                                if ($('.articlesDropDownList').data('select2')) {
+                                    $('.articlesDropDownList').select2('destroy');
+                                }
+                            }
+
+                            if (tableId === "material_table") {
+                                let selector = $('.articlesDropDownList');
+                                console.log(selector);
+                                initProjectSelector($('.articlesDropDownList'));
                             }
                         });
 
