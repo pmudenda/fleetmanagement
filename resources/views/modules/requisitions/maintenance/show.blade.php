@@ -12,7 +12,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <h4>Approve Fuel Requisition</h4>
+                    <h4>Approve Stores Requisition</h4>
                 </div>
                 <div class="card-toolbar justify-content-end">
                     @if(!empty($requestDetails))
@@ -64,9 +64,9 @@
                                     </a>
                                 </th>
                                 <th width="33%" colspan="4" class="text-center">
-                                    FUEL REQUISITION
+                                    STORES REQUISITION
                                 </th>
-                                <th width="34%" colspan="1" class="p-3">Doc Number:<br>CO.14900.FORM.00040<br>Version:
+                                <th width="34%" colspan="1" class="p-3">Doc Number:<br>XX.YYYYY.DOC_TYPE.NUMBER<br>Version:
                                     5
                                 </th>
                             </tr>
@@ -84,7 +84,7 @@
                                                     <div class="form-group row">
                                                         <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Registration #:
+                                                            for="staff_no">Vehicle Registration #:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group">
@@ -120,100 +120,60 @@
                                         </div>
                                     </div>
 
-                                    @if($requestDetails->cost_assigned_to =='CostCenter')
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="container-fluid pl-0">
-                                                    <div class="row">
-                                                        <div class="form-group row">
-                                                            <div
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
-                                                                <div class="control-input">
-                                                                    <div class="link-field ui-front"
-                                                                         style="position: relative;">
-                                                                        <label class="form-check-inline">
-                                                                            <input type="radio"
-                                                                                   id="costOnCostCentre"
-                                                                                   class="list-row-checkbox bold mr-3"
-                                                                                   name="CostAssignedTo"
-                                                                                   value="CostCenterBasedRequisition"
-                                                                                   @if($requestDetails->cost_assigned_to =='CostCenter')
-                                                                                       checked
-                                                                                @endif
-                                                                            />
-                                                                            User Department
-                                                                        </label>
-                                                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <div
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            <div class="control-input">
+                                                                <div class="link-field ui-front"
+                                                                     style="position: relative;">
+                                                                    <label class="form-check-inline">
+                                                                        <input type="radio"
+                                                                               id="costOnCostCentre"
+                                                                               class="list-row-checkbox bold mr-3"
+                                                                               name="CostAssignedTo"
+                                                                               value="CostCenterBasedRequisition"
+                                                                               @if($requestDetails->cost_assigned_to =='CostCenter')
+                                                                                   checked
+                                                                            @endif
+                                                                        />
+                                                                        User Department
+                                                                    </label>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                <input type="text" class="form-control form-control-sm"
-                                                                       id="cost_centre_code"
-                                                                       value="{{$requestDetails->cost_centre}}"
-                                                                       name="cost_centre_code"
-                                                                       required readonly>
-                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="container-fluid pl-0">
-                                                    <div class="row">
-                                                        <div class="form-group row">
-                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-10">
-                                                                <input type="text" class="form-control form-control-sm"
-                                                                       id="cost_center_name"
-                                                                       value="{{$requestDetails->cost_centre_name}}"
-                                                                       name="cost_center_name"
-                                                                       required readonly>
-                                                            </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   id="cost_centre_code"
+                                                                   value="{{$requestDetails->cost_centre}}"
+                                                                   name="cost_centre_code"
+                                                                   required readonly>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    @else
-                                        {{--@if($requestDetails->cost_assigned_to =='Project')--}}
-                                        <div class="row">
-                                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="container-fluid pl-0">
-                                                    <div class="row">
-                                                        <div class="form-group row">
-                                                            <div
-                                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
-                                                                <div class="control-input">
-                                                                    <div class="link-field ui-front"
-                                                                         style="position: relative;">
-                                                                        <label class="form-check-inline">
-                                                                            <input type="radio"
-                                                                                   id="projectInput"
-                                                                                   class="list-row-checkbox bold mr-3"
-                                                                                   autocomplete="off"
-                                                                                   name="CostAssignedTo"
-                                                                                   @if($requestDetails->cost_assigned_to =='Project')
-                                                                                       checked
-                                                                                   @endif
-                                                                                   value="ProjectBasedRequisition">
-                                                                            Project
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                <input type="form-control" readonly
-                                                                       value="{{$requestDetails->project_code}}"/>
-                                                                {{--<select type="text" name="project_code"
-                                                                        class="form-select mt-1 project-code-ajax"
-                                                                        id="project_code">
-                                                                </select>--}}
-                                                            </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-10">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   id="cost_center_name"
+                                                                   value="{{$requestDetails->cost_centre_name}}"
+                                                                   name="cost_center_name"
+                                                                   required readonly>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    @endif
+                                    </div>
+
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
@@ -269,87 +229,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    @if($requestDetails->requisition_type == RequisitionTypes::OutOfTown->value)
-                                        <div class="row" id="outOfTown">
-                                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="container-fluid pl-0">
-                                                    <div class="row">
-                                                        <div class="form-group row">
-                                                            <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Departure Date:</label>
-                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                <input type="date" class="form-control form-control-sm"
-                                                                       id="departure_date"
-                                                                       readonly
-                                                                       value="{{ date('Y-m-d', strtotime($requestDetails->valid_date_from)) }}"
-                                                                       name="departure_date"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {{-- max="{{  }}"--}}
-                                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="container-fluid pl-0">
-                                                    <div class="row">
-                                                        <div class="form-group row">
-                                                            <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">Return Date:</label>
-                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                {{--max="{{ }}"--}}
-                                                                <input type="date" class="form-control form-control-sm"
-                                                                       id="return_date"
-                                                                       readonly
-                                                                       value="{{date('Y-m-d', strtotime($requestDetails->valid_date_to))  }}"
-                                                                       name="return_date">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row outOfTown">
-                                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="container-fluid pl-0">
-                                                    <div class="row">
-                                                        <div class="form-group row">
-                                                            <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Departure Town:</label>
-                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                <input id="departureTown" name="departureTown"
-                                                                       readonly
-                                                                       value="{{$requestDetails->town_from}}"
-                                                                       class="form-control"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="container-fluid pl-0">
-                                                    <div class="row">
-                                                        <div class="form-group row">
-                                                            <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">Destination Town:</label>
-                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                <input id="destinationTown"
-                                                                       readonly
-                                                                       value="{{$requestDetails->town_to}}"
-                                                                       name="destinationTown"
-                                                                       class="form-control"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
 
 
                                     <div class="row">
@@ -491,10 +370,8 @@
                                 <table id="materialDetailsTable" class="table table-bordered">
                                     <thead>
                                     <tr class="bg-dark">
+                                        <th>Article</th>
                                         <th>Material Description</th>
-                                        @if($requestDetails->cost_assigned_to !='CostCenter')
-                                            <th>Project Number</th>
-                                        @endif
                                         <th>Qty</th>
                                         <th>Unit Of Measure</th>
                                         <th>Price</th>
@@ -503,17 +380,17 @@
                                     </thead>
                                     <tbody>
                                     <tr>
+
+                                        <td>
+                                            <input type="text" name="projectCode" readonly
+                                                   value="{{$requestDetails->material_code}}"
+                                                   class="form-control form-control-sm border-0"/>
+                                        </td>
+
                                         <td>
                                             <span data-material-input="material_description"
                                                   id="material_description">{{$requestDetails->specifications}}</span>
                                         </td>
-                                        @if($requestDetails->cost_assigned_to !='CostCenter')
-                                            <td>
-                                                <input type="text" name="projectCode" readonly
-                                                       value="{{$requestDetails->project_code}}"
-                                                       class="form-control form-control-sm border-0"/>
-                                            </td>
-                                        @endif
                                         <td>
                                             <span name="material_quantity"
                                                   id="material_quantity">{{$requestDetails->quantity}}</span>
@@ -562,7 +439,8 @@
                         @if(auth()->user()->staff_no != $requestDetails->requested_by)
                             <div class="card-footer">
                                 <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                                    <button type="button" id="approveRequisitionBtn" class="btn btn-success btn-sm mr-3">
+                                    <button type="button" id="approveRequisitionBtn"
+                                            class="btn btn-success btn-sm mr-3">
                                         <i class="fas fa-thumbs-up"></i> Approve
                                     </button>
                                     <button type="button"
@@ -576,7 +454,7 @@
                     @endif
                 </form>
 
-                <input type="hidden" value="{{ route('workflow.approve') }}" id="approvalUrl">
+                <input type="hidden" value="{{ route('stores.requisition.approve') }}" id="approvalUrl">
                 <input type="hidden" value="{{ $requestDetails->req_no }}" id="taskReference">
             </div>
         </div>
@@ -606,8 +484,8 @@
                                     ajaxResponse.message,
                                     function () {
                                         setTimeout(function () {
-                                            window.location.href = ajaxResponse['redirectUrl'];
-                                        },
+                                                window.location.href = ajaxResponse['redirectUrl'];
+                                            },
                                             300);
                                     },
                                     'success');

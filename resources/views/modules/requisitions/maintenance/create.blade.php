@@ -335,9 +335,13 @@
                     }).done(function (response) {
                         window.loaderMessage = "Loading... please wait";
                         if (response.hasOwnProperty("success") && response.success) {
+                            const message = response.message > ""
+                                ? response.message
+                                : "Request submitted successfully, Click 'Ok' proceed to provide information for other sections";
+
                             tmsApp.showSystemMessage(
                                 "Request Submission",
-                                "Request submitted successfully, Click 'Ok' proceed to provide information for other sections",
+                                message,
                                 function () {
                                     if (window.global_currentIndex == 2) {
                                         window.goToNext = true;

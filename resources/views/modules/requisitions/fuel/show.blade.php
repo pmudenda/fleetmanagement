@@ -66,7 +66,7 @@
                                 <th width="33%" colspan="4" class="text-center">
                                     FUEL REQUISITION
                                 </th>
-                                <th width="34%" colspan="1" class="p-3">Doc Number:<br>CO.14900.FORM.00040<br>Version:
+                                <th width="34%" colspan="1" class="p-3">Doc Number:<br>XX.YYYYY.DOC_TYPE.NUMBER<br>Version:
                                     5
                                 </th>
                             </tr>
