@@ -70,15 +70,15 @@ class WorkshopRequisitionService
         switch ($requisitionPostRequest->itemType) {
             case RequisitionItemTypes::StockItemCode:
                 $item_type = RequisitionItemTypes::StockItem;
-                $workflowProcess = WorkflowProcessCodes::StoresRequisition;
+                $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
                 break;
             case RequisitionItemTypes::NonStockItemCode:
                 $item_type = RequisitionItemTypes::NonStockItem;
-                $workflowProcess = WorkflowProcessCodes::StoresRequisition;
+                $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
                 break;
             case RequisitionItemTypes::ServiceItemCode:
                 $item_type = RequisitionItemTypes::Service;
-                $workflowProcess = WorkflowProcessCodes::StoresRequisition;
+                $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
                 break;
         }
 
