@@ -361,6 +361,9 @@
 
                                 <td>
                                     <input
+                                        type="number"
+                                        min="1"
+                                        max="30"
                                         name="quantity"
                                         required
                                         class="form-control form-control-sm quantity"/>
