@@ -4,9 +4,7 @@
     <input type="hidden"
            id="suppliersList"
            value="{{route('suppliers.list')}}"/>
-    <div class="row"
-         data-form-url="{{route("process.requisition")}}"
-         data-model-name="PartsHeader">
+    <div class="row">
         <div class="col-12">
 
             <div class="row">
@@ -231,6 +229,8 @@
             <div class="row">
                 <div style="max-height:500px; overflow-x: auto;">
                     <table id="material_table"
+                           data-form-url="{{route("process.requisition")}}"
+                           data-model-name="PartsHeader"
                            class="table dataTable table-row-dashed align-middle gs-0 nowrap">
                         <thead>
                         <tr class="bg-dark-subtle">
