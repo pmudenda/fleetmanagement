@@ -206,7 +206,26 @@
                     <div class="container-fluid pl-0">
                         <div class="row">
                             <div class="form-group row">
+                                <label
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                    for="staff_no">Collection Date:
+                                </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                    @if($details)
+                                        <input type="date"
+                                               class="form-control form-control-sm"
+                                               id="date_expected"
+                                               value="{{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}"
+                                               name="date_expected"
+                                        />
+
+                                    @else
+                                        <input type="date"
+                                               class="form-control form-control-sm"
+                                               id="date_expected"
+                                               value="{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
+                                               name="date_expected"
+                                        />
                                 </div>
                             </div>
                         </div>
@@ -217,17 +236,7 @@
                     <div class="container-fluid pl-0">
                         <div class="row" style="display: none;">
                             <div class="form-group row">
-                                <label
-                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                    for="staff_no">Date Expected Out:
-                                </label>
                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                    <input type="date"
-                                           class="form-control form-control-sm"
-                                           id="date_expected"
-                                           value="@if($details){{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}@else{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
-                                           name="date_expected"
-                                    >
                                 </div>
                             </div>
                         </div>
