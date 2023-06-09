@@ -1075,7 +1075,7 @@
                                 }
                             }
 
-                            let row = Table.addRow($('table#' + tableId));
+                            Table.addRow($('table#' + tableId));
                             let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
 
                             lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
@@ -1103,9 +1103,9 @@
                             }
 
                             if (tableId === "material_table") {
-                                let selector = $('.articlesDropDownList');
-                                console.log(selector);
-                                initProjectSelector($('.articlesDropDownList'));
+                                //let selector = $('.articlesDropDownList');
+                                //console.log(selector);
+                                initProjectSelector('.articlesDropDownList');
                             }
                         });
 
