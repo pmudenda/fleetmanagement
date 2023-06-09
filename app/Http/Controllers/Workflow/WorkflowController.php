@@ -113,11 +113,11 @@ class WorkflowController extends Controller
 
             $process_code = '';
             switch ($requisitionDetail->item_type) {
-                case RequisitionItemTypes::ServiceItemCode:
-                case RequisitionItemTypes::StockItemCode:
+                case RequisitionItemTypes::Service:
+                case RequisitionItemTypes::NonStockItem:
                     $process_code = WorkflowProcessCodes::PurchaseProcess->value;
                     break;
-                case RequisitionItemTypes::NonStockItemCode:
+                case RequisitionItemTypes::StockItem:
                     $process_code = WorkflowProcessCodes::StoresRequisition->value;
                     break;
                 default:
