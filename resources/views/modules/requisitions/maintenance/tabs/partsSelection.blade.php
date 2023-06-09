@@ -238,7 +238,7 @@
                             <th style="width: 25%;">Article</th>
                             <th>Article Code</th>
                             <th style="width: 25%;">Specification</th>
-                            <th>Qty.</th>
+                            <th style="width: 4%; max-width: 4%;">Qty.</th>
                             <th>UOM</th>
                             <th>Unit Price</th>
                             <th>Total</th>
@@ -363,7 +363,6 @@
                                     <input
                                         type="text"
                                         min="1"
-                                        max="30"
                                         name="quantity"
                                         required
                                         class="form-control form-control-sm quantity"/>
