@@ -299,7 +299,8 @@
                             obj['job_card_no'] = $('input[name="job_card_number"]').val();
                             obj['purchase_office'] = $('[name="purchase_office"]').val();
                             obj['workshop_code'] = $('[name="workshop_code"]').val();
-                            obj['request_date'] = $('[name="request_date"]').val();
+                            obj['request_date'] = $('[name="request_date"]').val()?.trim();
+                            obj['date_expected'] = $('[name="date_expected"]').val()?.trim();
                             obj['supplier'] = $('[name="supplier"]').val();
                             obj['store_code'] = $('[name="store_code"]').val();
                             obj['store_name'] = $('[name="store_name"]').val();
@@ -502,7 +503,7 @@
                     });
             }
 
-            function getWorkshopSections() {
+            /*function getWorkshopSections() {
                 fetch(document.querySelector('#workShopSectionsUrl').value)
                     .then(response => response.json())
                     .then(response => {
@@ -530,7 +531,7 @@
                         toastr.error(
                             'Connection error. Could not retrieve data, some feature might not work.')
                     });
-            }
+            }*/
 
             function getArticles(code_article, row) {
 
@@ -1129,6 +1130,17 @@
                                 //let selector = $('.articlesDropDownList');
                                 //console.log(selector);
                                 initProjectSelector('.articlesDropDownList');
+
+                               /* let option = new Option(data.full_name, data.id, true, true);
+                                selectElem.append(option).trigger('change');
+
+                                // manually trigger the `select2:select` event
+                                selectElem.trigger({
+                                    type: 'select2:select',
+                                    params: {
+                                        data: data
+                                    }
+                                });*/
                             }
                         });
 

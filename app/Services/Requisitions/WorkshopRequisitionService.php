@@ -47,7 +47,7 @@ class WorkshopRequisitionService
 
         DB::beginTransaction();
 
-        $valid_to = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('collection_date')) ?? Carbon::now()->addDays(7);
+        $valid_to = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('date_expected')) ?? Carbon::now()->addDays(7);
         $valid_from = Carbon::now();
         $registrationNumber = "";
 

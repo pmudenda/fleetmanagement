@@ -5,7 +5,9 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="row">
                 <div class="table-responsive" style="max-height:500px;">
-                    <table id="part8" data-form-url="{{route("defects.job_card")}}" data-model-name="Defects"
+                    <table id="part8"
+                           data-form-url="{{route("defects.job_card")}}"
+                           data-model-name="Defects"
                            class="table table-row-dashed align-middle gs-0">
                         <thead>
                         <tr class="bg-dark-subtle">

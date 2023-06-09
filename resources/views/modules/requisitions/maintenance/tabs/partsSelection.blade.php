@@ -213,9 +213,9 @@
                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                     <input type="text"
                                            class="form-control form-control-sm"
-                                           id="date_expected_out"
+                                           id="date_expected"
                                            value="@if($details){{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}@else{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
-                                           name="date_of_req"
+                                           name="date_expected"
                                     >
                                 </div>
                             </div>
