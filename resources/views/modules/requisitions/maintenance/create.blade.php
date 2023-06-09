@@ -265,7 +265,7 @@
                     let arr = [];
                     let obj = {};
 
-                    if (formSel.data('modelName') === 'Defects'|| formSel.data('modelName') === 'PartsHeader') {
+                    if (formSel.data('modelName') === 'Defects' || formSel.data('modelName') === 'PartsHeader') {
                         $(formElements).find("tbody").children().map(function (index, row) {
                             let obj = {};
                             $(row).find('input[name], select[name]').each(function (i, item) {
@@ -407,7 +407,10 @@
                         //$('a[role="#finish"]').disableBtn();
 
                         if (form.valid()) {
-                            postData($(form.find(bodyTag).get(window.global_currentIndex)).find('[data-model-name]').get(0), true);
+                            tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
+                                postData($(form.find(bodyTag).get(window.global_currentIndex)).find('[data-model-name]').get(0), true);
+                            }, function () {
+                            });
                         } else {
                             //$('a[role="#finish"]').enableBtn();
                             //swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
