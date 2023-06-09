@@ -116,7 +116,7 @@
                                     Request Date:
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    <input type="text"
+                                    <input type="date"
                                            class="form-control form-control-sm"
                                            id="request_date"
                                            readonly
@@ -211,7 +211,7 @@
                                     for="staff_no">Date Expected Out:
                                 </label>
                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                    <input type="text"
+                                    <input type="date"
                                            class="form-control form-control-sm"
                                            id="date_expected"
                                            value="@if($details){{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}@else{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
