@@ -86,7 +86,7 @@ class WorkshopRequisitionService
 
         $short_description = ""; //"Fuel Requisition For Vehicle Reg No. " . $registrationNumber;
         $long_description = ""; //"Fuel Requisition Ref.No. " . $requisition_reference_number . " For Vehicle Reg No. " . $registrationNumber;
-
+        $authoriser = 'Lovemore';
         /*$this->workflowService->initiateWorkflowProcess(
             $requisition_reference_number,
             (int)$workflowProcess,
@@ -160,8 +160,11 @@ class WorkshopRequisitionService
 
         return response()->json([
             'success' => true,
-            'message' => 'Requisition Submitted For Approval. Requisition Number ' . $requisition_reference_number,
-            'redirectUrl' => URL::signedRoute('show.fuel.requisition', ['ref' => $requisition_reference_number])
+            'message' => 'Requisition Submitted For Approval To. '
+                . $authoriser . ' Requisition Number ' . $requisition_reference_number,
+            'redirectUrl' => URL::signedRoute('show.fuel.requisition', [
+                'ref' => $requisition_reference_number
+            ])
         ]);
     }
 }
