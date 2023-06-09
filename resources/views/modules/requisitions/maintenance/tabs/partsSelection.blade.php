@@ -117,19 +117,19 @@
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     @if($details)
-                                        <input type="date"
+                                        <input type="text"
                                                class="form-control form-control-sm"
                                                id="request_date"
                                                readonly
-                                               value="{{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('d/m/Y'))}}"
+                                               value="{{Carbon::parse($details->date_in)->format('d/m/Y')}}"
                                                name="request_date"
                                                required>
                                     @else
-                                        <input type="date"
+                                        <input type="text"
                                                class="form-control form-control-sm"
                                                id="request_date"
                                                readonly
-                                               value="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                               value="{{Carbon::parse(Carbon::now())->format('d/m/Y')}}"
                                                name="request_date"
                                                required>
                                     @endif
