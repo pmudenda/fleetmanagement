@@ -46,12 +46,20 @@ class WorkshopController extends Controller
         $typeStr = $type;
         $workshop_sections = GeneralTableConfigurations::where(Constants::TYPE_KEY, $type)->get();
 
-        return view('modules.workshopManagement.sections')
+       /* return view('modules.workshopManagement.sections')
             ->with(compact(
                 'workshop_sections',
                 'type',
                 'typeStr'
-            ));
+            ));*/
+
+        return view('modules.configurations.generalTables.index')->with(
+            [
+                'title' => "Workshop Sections",
+                'entries' => $workshop_sections,
+                'type' => $type,
+                'statusList' => []
+            ]);
     }
 
     public function getActiveWorkShops(): JsonResponse

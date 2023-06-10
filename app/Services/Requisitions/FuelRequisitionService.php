@@ -589,32 +589,4 @@ class FuelRequisitionService
             ->get();
 
     }
-
-    /**
-     * @throws FuelRequisitionException
-     */
-    public function createWorkshopMaterialStoresRequisition(mixed $get): void
-    {
-        $requisitionDetail = self::getRequisitionDetail($get);
-
-        $results = $this->procurementService->createStoresRequisition(
-            $get,
-            $requisitionDetail->veh_reg_no,
-            $requisitionDetail->form_order,
-            Accounts::DefaultNonFuelMaterialAccount,
-            TransactionType::NonFuelStoresRequisition,
-            $requisitionDetail->store,
-            'ZFMJBC0000000024'
-        );
-
-        if (empty($results)) {
-            throw new FuelRequisitionException("Requisition could not approved ");
-        }
-
-        if (!str_contains($results, 'J01')) {
-            throw new FuelRequisitionException($results);
-        }
-
-        Log::info("Stores Requisition Generated with document " . $results);
-    }
 }

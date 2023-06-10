@@ -6,6 +6,7 @@ use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
+use App\Enums\RequisitionItemTypes;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCardRequest;
@@ -22,6 +23,7 @@ use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Requisitions\WorkshopRequisitionService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\WorkShopManagement\WorkshopService;
+use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -30,6 +32,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
@@ -76,7 +79,7 @@ class MaintenanceController extends Controller
         }
 
         list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections, $defects,
-            $comments, $officeDetails, $materials) = $this->jobCardCreationData($request);
+            $comments, $officeDetails, $materials) = $this->getJobCardCreationData($request);
 
         $view_name = 'modules.requisitions.maintenance.create';
 
@@ -110,7 +113,7 @@ class MaintenanceController extends Controller
 
         $requestDetails = $this->requisitionService->getRequisitionDetail($req_no);
 
-        if($requestDetails == null){
+        if ($requestDetails == null) {
             abort(404);
         }
 
@@ -134,7 +137,74 @@ class MaintenanceController extends Controller
             ));
     }
 
+    public function searchArticle(Request $request): JsonResponse
+    {
+        try {
 
+            if (empty($request->get('type_article'))) {
+                return response()->json([
+                    'success' => false,
+                    'items' => [],
+                    'total_count' => 0
+                ]);
+            }
+
+            $search = strtoupper($request->get('search'));
+            // SPMS_ARTICLES_VIEW
+            $query = DB::table('spms_articles_view')
+                ->leftJoin('units_view', 'spms_articles_view.unit_measure', '=', 'units_view.code_unit');
+
+            $itemType = $request->get('type_article');
+
+            if ($itemType == RequisitionItemTypes::StockItemCode) {
+                $query->where(function ($q) use ($itemType) {
+                    $q->whereIn('spms_articles_view.code_group',
+                        ['01', '04', '30']);
+                });
+            } else if ($itemType == RequisitionItemTypes::NonStockItemCode) {
+                $query->where(function ($q) use ($itemType) {
+                    $q->where('spms_articles_view.code_group', '=', '40');
+                });
+            } else if ($itemType == RequisitionItemTypes::ServiceItemCode) {
+                $query->where(function ($q) use ($itemType) {
+                    $q->where('spms_articles_view.code_group', '=', '41');
+                });
+            }
+
+            $query->where('spms_articles_view.type_article', '=', $request->get('type_article'));
+
+            $query->where(function ($query) use ($search) {
+                $query->orWhere('spms_articles_view.code_article', 'like', "%{$search}%")
+                    ->orWhere('spms_articles_view.description', 'like', "%{$search}%");
+            });
+
+            $procurementArticles = $query
+                ->select(
+                    'spms_articles_view.code_article',
+                    'spms_articles_view.description',
+                    'spms_articles_view.technical_specifications',
+                    'spms_articles_view.price_map',
+                    'spms_articles_view.unit_measure',
+                    'units_view.abbreviation as abbreviation',
+                    'units_view.description as unit_measure_name'
+                )->get();
+
+            return response()->json([
+                'success' => !empty($procurementArticles),
+                'items' => $procurementArticles,
+                'total_count' => $procurementArticles->count()
+            ]);
+
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'success' => false,
+                'items' => [],
+                'total_count' => 0,
+                'message' => ErrorMessages::getMessage('err_0005')
+            ]);
+        }
+    }
 
     public function accessoriesTab(Request $request): View
     {
@@ -148,7 +218,7 @@ class MaintenanceController extends Controller
 
         list($step, $repairTypes, $accessories_checked_in, $accessories,
             $details, $workshop_sections,
-            $defects, $comments, $officeDetails, $materials) = $this->jobCardCreationData($request);
+            $defects, $comments, $officeDetails, $materials) = $this->getJobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.create')
             ->with(
@@ -181,7 +251,7 @@ class MaintenanceController extends Controller
             $details,
             $workshop_sections,
             $defects,
-            $comments, $officeDetails, $materials) = $this->jobCardCreationData($request);
+            $comments, $officeDetails, $materials) = $this->getJobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.create')
             ->with(
@@ -308,7 +378,7 @@ class MaintenanceController extends Controller
      * @param Request $request
      * @return array
      */
-    public function jobCardCreationData(Request $request): array
+    public function getJobCardCreationData(Request $request): array
     {
         $step = $request->get('step') ?? 0;
         $reference = $request->get('reference');

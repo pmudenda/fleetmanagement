@@ -1,4 +1,4 @@
-@php use App\Models\MaterialHeader;use App\Models\Workflow\WorkflowTaskHeader;use Carbon\Carbon; @endphp
+@php use App\Helpers\StatusHelper;use App\Models\MaterialHeader;use App\Models\Security\User;use App\Models\Workflow\WorkflowTaskHeader;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
 @push('styles')
@@ -19,7 +19,7 @@
                     <div class="small-box bg-info">
                         <div class="inner">
                             <h3>150</h3>
-                            <p>Fuel Requisitions</p>
+                            <p>Total Fuel Requisitions</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
@@ -46,8 +46,8 @@
 
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>44</h3>
-                            <p>User Registrations</p>
+                            <h3>{{User::where('con_st_code','=', StatusHelper::active())->count()}}</h3>
+                            <p>Active User</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
@@ -233,7 +233,7 @@
                                                 {{$rec->originator}}
                                             </td>
                                             <td>
-                                               {{Carbon::parse($rec->date_acted)->format('d/m/Y')}}
+                                                {{Carbon::parse($rec->date_acted)->format('d/m/Y')}}
                                             </td>
                                             <td>
                                                 {{--'show.fuel.requisition'--}}

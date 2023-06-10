@@ -3,7 +3,6 @@
 namespace App\Services\Integration;
 
 use App\Constants\SystemOfOrigin;
-use App\Models\reference\ActiveProjectsModel;
 use App\Models\reference\Store;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -83,9 +82,17 @@ class ProcurementSystemIntegrationService
     {
         try {
             Log::info('Generating Document For ' . $doc_type . ' and Area ' . $area_code);
-            $results = DB::select(
-                'select storesDocumentNumberGenerator(:ls_type, :ls_area) as value from dual',
-                ['ls_type' => $doc_type, 'ls_area' => $area_code]);
+            /*   $results = DB::select(
+                   'select storesDocumentNumberGenerator(:, :) as value from dual',
+                   ['ls_type' => $doc_type, 'ls_area' => $area_code]);
+           */
+
+            $pdo = DB::getPdo();
+
+            $stmt = $pdo->prepare("begin :result := fn_stores_doc_no_generator(:ls_type, :ls_area); end;");
+            $stmt->bindParam(':result', $results, PDO::PARAM_STR, 2000);
+            $stmt->bindParam(':ls_type', $doc_type);
+            $stmt->bindParam(':ls_area', $area_code);
 
             $result = null;
             if (is_array($results) && !empty($results)) {
@@ -145,6 +152,7 @@ class ProcurementSystemIntegrationService
             $stmt = $pdo->prepare("begin :result := fn_cancel_stores_req(:p_ref_no, :p_current_user); end;");
             $stmt->bindParam(':result', $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(':p_ref_no', $doc_no);
+            $stmt->bindParam(':p_system_origin', $ZESCOFleetMaster);
             $stmt->bindParam(':p_current_user', $user_staff);
             $stmt->execute();
 
@@ -166,7 +174,64 @@ class ProcurementSystemIntegrationService
         }
     }
 
-    public function Store(){
+    public function Store()
+    {
         return Store::get();
+    }
+
+    public function createStoresReservation(
+        $doc_no,
+        $veh_reg_no,
+        $form_order,
+        $account,
+        $transactionType,
+        $stores_code = null,
+        $job_card_no = null,
+        $delivery_site = null
+    )
+    {
+        try {
+            Log::info('Generating Stores Reservation For Request ' . $doc_no);
+
+            $ZESCOFleetMaster = SystemOfOrigin::ZESCOFleetMaster;
+
+            $pdo = DB::getPdo();
+
+            $user = auth()->user()->staff_no;
+            $stmt = $pdo->prepare("begin :result := fn_create_stores_rsv(:p_ref_no, :p_reg_no, :p_store_code, :p_user_requesting, :p_job_card, :p_system_origin, :p_fleet_req_code, :p_req_acc_number, :p_delivery_site, :p_transaction_type, :p_current_user); end;");
+            $stmt->bindParam(':p_ref_no', $doc_no);
+            $stmt->bindParam(':p_reg_no', $veh_reg_no);
+            $stmt->bindParam(':p_store_code', $stores_code);
+            $stmt->bindParam(':p_user_requesting', $user);
+            $stmt->bindParam(':p_job_card', $job_card_no);
+            $stmt->bindParam(':p_system_origin', $ZESCOFleetMaster);
+            $stmt->bindParam(':p_fleet_req_code', $form_order);
+            $stmt->bindParam(':p_req_acc_number', $account);
+            $stmt->bindParam(':p_delivery_site', $delivery_site);
+            $stmt->bindParam(':p_transaction_type', $transactionType);
+            $stmt->bindParam(':p_current_user', $user);
+            $stmt->bindParam(':result', $results, PDO::PARAM_STR, 2000);
+            $stmt->execute();
+
+            //$result = null;
+            if (is_array($results) && !empty($results)) {
+                $result = $results[0];
+            } else {
+                $result = $results;
+            }
+
+            Log::info($result);
+
+            $rawJNumber = $result;
+
+            if (str_starts_with($rawJNumber, '0')) {
+                return substr($rawJNumber, 1);
+            }
+            return $rawJNumber;
+
+        } catch (\Exception $e) {
+            Log::error($e);
+            return "";
+        }
     }
 }

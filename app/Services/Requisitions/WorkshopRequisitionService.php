@@ -2,6 +2,8 @@
 
 namespace App\Services\Requisitions;
 
+use App\Constants\Accounts;
+use App\Constants\TransactionType;
 use App\Enums\RequisitionItemTypes;
 use App\Enums\WorkflowProcessCodes;
 use App\Events\RequisitionRaised;
@@ -170,4 +172,49 @@ class WorkshopRequisitionService
             ])
         ]);
     }
+
+
+    /**
+     * @throws FuelRequisitionException
+     */
+    public function createWorkshopMaterialStoresRequisition(mixed $req_no): void
+    {
+        $requisitionDetail = self::getReservationDetail($req_no);
+
+        $results = $this->procurementService->createStoresReservation(
+            $req_no,
+            $requisitionDetail->veh_reg_no,
+            $requisitionDetail->form_order,
+            Accounts::DefaultMotorVehicleAccount,
+            TransactionType::NonFuelStoresRequisition,
+            $requisitionDetail->store,
+            'ZFMJBC0000000024'
+        );
+
+        if (empty($results)) {
+            throw new FuelRequisitionException("Requisition could not approved ");
+        }
+
+        if (!str_contains($results, 'J01')) {
+            throw new FuelRequisitionException($results);
+        }
+
+        Log::info("Stores Requisition Generated with document " . $results);
+    }
+
+
+    public function getReservationDetail($req_no): mixed
+    {
+        $results = DB::table('GEN_MATERIAL_HEADERS')
+            ->where('GEN_MATERIAL_HEADERS.req_no', $req_no)
+            ->join('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
+            ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
+            ->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
+            ->select('GEN_MATERIAL_HEADERS.*', 'GEN_MATERIAL_DETAILS.*', 'CONFIG_STATUSES.name as status_name', 'CONFIG_STATUSES.color_code')
+            ->get();
+
+        return $results->first();
+
+    }
+
 }

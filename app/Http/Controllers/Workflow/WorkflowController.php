@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Workflow\WorkflowActions;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Services\Requisitions\FuelRequisitionService;
+use App\Services\Requisitions\WorkshopRequisitionService;
 use App\Services\Workflow\WorkflowService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -23,13 +24,17 @@ use Illuminate\Support\Facades\Log;
 
 class WorkflowController extends Controller
 {
-    private FuelRequisitionService $requisitionService;
+    private FuelRequisitionService $fuelRequisitionService;
+    private WorkshopRequisitionService $workshopRequisitionService;
     private WorkflowService $workflowService;
 
-    public function __construct(FuelRequisitionService $requisitionService, WorkflowService $workflowService)
+    public function __construct(FuelRequisitionService $requisitionService,
+                                WorkflowService $workflowService,
+                                WorkshopRequisitionService $workshopRequisitionService)
     {
-        $this->requisitionService = $requisitionService;
+        $this->fuelRequisitionService = $requisitionService;
         $this->workflowService = $workflowService;
+        $this->workshopRequisitionService = $workshopRequisitionService;
     }
 
     public function showWorkTask(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
@@ -44,7 +49,7 @@ class WorkflowController extends Controller
         try {
             $reference = $request->get('reference');
 
-            $requisitionDetail = $this->requisitionService->getRequisitionDetail($reference);
+            $requisitionDetail = $this->workshopRequisitionService->getReservationDetail($reference);
 
             $process_code = '';
             if ($requisitionDetail->requisition_type == RequisitionTypes::OutOfTown->value) {
@@ -81,7 +86,7 @@ class WorkflowController extends Controller
             );
 
             if ($nextStepId == 100) {
-                $this->requisitionService->createStoresRequisition($request->get('reference'));
+                $this->fuelRequisitionService->createStoresRequisition($request->get('reference'));
             }
 
             return response()->json([
@@ -109,7 +114,7 @@ class WorkflowController extends Controller
         try {
             $reference = $request->get('reference');
 
-            $requisitionDetail = $this->requisitionService->getRequisitionDetail($reference);
+            $requisitionDetail = $this->fuelRequisitionService->getRequisitionDetail($reference);
 
             $process_code = '';
             switch ($requisitionDetail->item_type) {
@@ -155,7 +160,7 @@ class WorkflowController extends Controller
             );
 
             if ($nextStepId == 100) {
-                $this->requisitionService->createWorkshopMaterialStoresRequisition($request->get('reference'));
+                $this->workshopRequisitionService->createWorkshopMaterialStoresRequisition($request->get('reference'));
             }
 
             return response()->json([

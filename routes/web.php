@@ -151,6 +151,8 @@ Route::group(['middleware' => 'auth'], function () {
         // STORES REQUISITIONS
         Route::get('/workshop/approve', [MaintenanceController::class, 'show'])->name('show.workshop.requisition');
         Route::post('/workflow/stores/requisition/approve', [WorkflowController::class, 'processStoresRequisitionApproval'])->name('stores.requisition.approve');
+
+        Route::get('load/procurement/articles',[MaintenanceController::class, 'searchArticle'])->name('load.articles');
     });
 
     Route::group(['prefix' => 'driver-management'], function () {
