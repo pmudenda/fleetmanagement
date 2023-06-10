@@ -86,12 +86,12 @@ class WorkshopService
     public function getJobCardDetails(mixed $reference)
     {
         // $details = JobCardHeader::where('job_card_no', '=', $reference)->orderBy('id', 'desc')->first();
-        $query = DB::table('WKS_JOB_CARD_HEADER')
-            ->leftJoin('SEC_USERS', 'WKS_JOB_CARD_HEADER.received_by', '=', 'SEC_USERS.staff_no')
-            ->leftJoin('CONFIG_GENERAL_TABLES', 'WKS_JOB_CARD_HEADER.receiving_section', '=', 'CONFIG_GENERAL_TABLES.code')
+        $query = DB::table('WM_JOB_CARD_HEADER')
+            ->leftJoin('SEC_USERS', 'WM_JOB_CARD_HEADER.received_by', '=', 'SEC_USERS.staff_no')
+            ->leftJoin('CONFIG_GENERAL_TABLES', 'WM_JOB_CARD_HEADER.receiving_section', '=', 'CONFIG_GENERAL_TABLES.code')
             ->where('CONFIG_GENERAL_TABLES.type', '=', ConfigurationTypes::WORK_SHOP_SECTION)
-            ->where('WKS_JOB_CARD_HEADER.job_card_no', '=', $reference)
-            ->select('WKS_JOB_CARD_HEADER.*', 'CONFIG_GENERAL_TABLES.name as section_in_name', 'SEC_USERS.name as service_advisor')
+            ->where('WM_JOB_CARD_HEADER.job_card_no', '=', $reference)
+            ->select('WM_JOB_CARD_HEADER.*', 'CONFIG_GENERAL_TABLES.name as section_in_name', 'SEC_USERS.name as service_advisor')
             ->get();
 
         return $query->first();
@@ -137,8 +137,9 @@ class WorkshopService
         foreach ($request->get('items') as $defect) {
             VehicleDefects::firstOrCreate(
                 [
-                    'job_card_no' => $request['job_card_no'],
+                    'workshop_reference' => $request['workshop_reference'],
                     'veh_sys' => $defect['vehicleSystem'],
+                    'job_card_no' => $request['job_card_no'],
                     'defect_category_code' => $defect['defectCategory'],
                     'defect_code' => $defect['defect'],
                 ],
@@ -165,15 +166,15 @@ class WorkshopService
 
     public function getJobCardHeader(): Collection
     {
-        return DB::table('WKS_JOB_CARD_HEADER')
-            ->leftJoin('SEC_USERS', 'WKS_JOB_CARD_HEADER.received_by', '=', 'SEC_USERS.staff_no')
-            ->leftJoin('CONFIG_GENERAL_TABLES', 'WKS_JOB_CARD_HEADER.receiving_section', '=', 'CONFIG_GENERAL_TABLES.code')
-            ->leftJoin('CONFIG_GENERAL_TABLES as config', 'WKS_JOB_CARD_HEADER.repair_type', '=', 'config.code')
-            ->leftJoin('CONFIG_WORKSHOP', 'WKS_JOB_CARD_HEADER.receiving_section', '=', 'CONFIG_WORKSHOP.workshop_code')
+        return DB::table('WM_JOB_CARD_HEADER')
+            ->leftJoin('SEC_USERS', 'WM_JOB_CARD_HEADER.received_by', '=', 'SEC_USERS.staff_no')
+            ->leftJoin('CONFIG_GENERAL_TABLES', 'WM_JOB_CARD_HEADER.receiving_section', '=', 'CONFIG_GENERAL_TABLES.code')
+            ->leftJoin('CONFIG_GENERAL_TABLES as config', 'WM_JOB_CARD_HEADER.repair_type', '=', 'config.code')
+            ->leftJoin('CONFIG_WORKSHOP', 'WM_JOB_CARD_HEADER.receiving_section', '=', 'CONFIG_WORKSHOP.workshop_code')
             ->where('CONFIG_GENERAL_TABLES.type', '=', ConfigurationTypes::WORK_SHOP_SECTION)
             ->where('config.type', '=', ConfigurationTypes::REPAIR_TYPE)
             //->where('config.code', '=', )
-            ->select('WKS_JOB_CARD_HEADER.*',
+            ->select('WM_JOB_CARD_HEADER.*',
                 'CONFIG_WORKSHOP.workshop_name',
                 'config.name as repair_type_name',
                 'CONFIG_GENERAL_TABLES.name as section_in_name',

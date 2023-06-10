@@ -9,7 +9,7 @@ class JobCardHeader extends Model
 {
     use HasFactory;
 
-    protected $table = 'WKS_JOB_CARD_HEADER';
+    protected $table = 'WM_JOB_CARD_HEADER';
 
     protected $fillable = [
         'workshop_doc_no',

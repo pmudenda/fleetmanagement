@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('WM_VEHICLE_DEFECTS', function (Blueprint $table) {
             $table->id();
-
-            $table->string('job_card_no',20);
+            $table->string('workshop_reference',20);
+            $table->string('workshop_code',20);
             $table->string('veh_sys',20);
             $table->string('defect_category_code',20);
             $table->string('defect_code',20);
@@ -23,6 +23,17 @@ return new class extends Migration
             $table->timestamp('deleted_at')->nullable();
             $table->string('created_by',20);
             $table->string('modified_by',20)->nullable();
+
+            /*
+             *
+                    SECTION_DEF            VARCHAR2(3)
+                    SECTION_CHK            VARCHAR2(3)
+                    DATE_CHK               DATE
+                    TIME_CHK               VARCHAR2(5)
+                    APPEARANCE             VARCHAR2(1)
+                    IDLER                  VARCHAR2(3)
+
+             * */
 
             $table->timestamps();
         });

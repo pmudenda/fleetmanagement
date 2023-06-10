@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('WKS_JOB_CARD_HEADER', function (Blueprint $table) {
+        Schema::create('WM_JOB_CARD_HEADER', function (Blueprint $table) {
             $table->id();
             $table->string('workshop_doc_no', 20);
             $table->string('workshop_code', 7)->nullable();
@@ -56,6 +56,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('WKS_JOB_CARD_HEADER');
+        Schema::dropIfExists('WM_JOB_CARD_HEADER');
     }
 };

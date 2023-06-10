@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('WM_JOB_CARD_VEHICLE_ACCESSORIES', function (Blueprint $table) {
             $table->id();
+            $table->string('workshop_reference',20);
             $table->string('job_card_no', 20);
             $table->string('name', 255);
             $table->string('code', 10);

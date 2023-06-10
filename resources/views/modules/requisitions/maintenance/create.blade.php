@@ -91,6 +91,7 @@
                 <input type="hidden" value="{{route('load.articles')}}" id="articlesUrl"/>
                 <input type="hidden" value="{{route('load.article.details')}}" id="articleDetailsUrl"/>
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
+                <input type="hidden" value="{{$details->workshop_doc_no ?? ''}}" id="workshop_reference"/>
                 <input type="hidden" value="{{route('delete.defect.record')}}" name="deleteDefectUrl"
                        id="deleteDefectUrl"/>
                 <input type="hidden" value="{{route('delete.material.record')}}" name="deleteMaterialUrl"
@@ -293,9 +294,11 @@
                         });
 
                         if (formSel.data('modelName') === 'Defects') {
+                            obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
                             obj['job_card_no'] = $('input[name="job_card_voucher"]').val();
                             obj['remarks'] = $('#remarks').val();
                         } else if (formSel.data('modelName') === 'PartsHeader') {
+                            obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
                             obj['itemType'] = $('[name="itemType"]').val();
                             obj['job_card_no'] = $('[name="job_card_number"]').val();
                             obj['purchase_office'] = $('[name="purchase_office"]').val();
@@ -306,6 +309,7 @@
                             obj['store_code'] = $('[name="store_code"]').val();
                             obj['store_name'] = $('[name="store_name"]').val();
                             obj['remarks'] = $('#remarks').val();
+                            obj['total_amount'] = $('itemsTotal').text();
                         }
                     } else {
                         $($container).find('input[name], select[name]').each(function (i, item) {

@@ -32,6 +32,7 @@ class WorkshopRequisitionRequest extends FormRequest
             'item.*.unit_price' => 'required|numeric',
 
             'job_card_no' => 'required|string',
+            'workshop_reference' => 'required|string',
             'modelName' => 'required|string',
             'purchase_office' => 'required|string',
             'remarks' => 'required|string',

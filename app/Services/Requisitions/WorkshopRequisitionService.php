@@ -17,6 +17,7 @@ use App\Models\Workflow\WorkflowActions;
 use App\Models\Workflow\WorkflowModules;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\WorkShopComments;
+use App\Models\WorkShopManagement\WorkShopMaterials;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\DocumentNumberGenerationService;
@@ -96,13 +97,15 @@ class WorkshopRequisitionService
             WorkflowActions::submit(),
             $justification,
             $user,
-            0,//$requisitionPostRequest->material_amount,
+            $requisitionPostRequest->total_amount ?? 0,
             $short_description,
             $long_description
         );
 
         $store_code = $requisitionPostRequest->store_code;
         $job_cord_no = $requisitionPostRequest->job_card_no;
+        $workshop_reference = $requisitionPostRequest->workshop_reference;
+        $workshop_code = $requisitionPostRequest->get('workshop_code');
 
         $matHeader = MaterialHeader::create(
             [
@@ -111,7 +114,7 @@ class WorkshopRequisitionService
                 'status' => StatusHelper::new(),
                 'req_no' => $requisition_reference_number,
                 'form_order' => $form_order_number,
-                'workshop_no' => $requisitionPostRequest->get('workshop_code'),
+                'workshop_no' => $workshop_code,
                 'item_type' => $item_type,
                 'requested_by' => $user->staff_no,
                 'veh_reg_no' => $registrationNumber,
@@ -138,6 +141,37 @@ class WorkshopRequisitionService
                 'req_no' => $requisition_reference_number,
                 'specifications' => $item['technical_specification'],
                 'reg_no' => $item['registration'],
+            ]);
+
+            WorkShopMaterials::create([
+                'workshop_reference' => $workshop_reference,
+                'workshop_code' => $workshop_code,
+                //section
+                'req_evaluation' => 'Y',
+                'date_mat'=> Carbon::now(),
+                //'date_created' => Carbon::now(),
+                'material_code' => $item['articleCode'],
+                'unit_of_measure' => $item['unit_of_measure'],
+                'quantity' => $item['quantity'],
+                'amount' => $item['total_price'],
+                'price' => $item['unit_price'],
+                // defect_no
+                //proc_ref
+                //st_pur
+                //form_order
+                'store_code' => $store_code,
+                'ind'=> 'Y',
+                //sch_flouted
+                'supplier_code' => $requisitionPostRequest->supplier,
+                'veh_reg_no' => $item['registration'],
+
+                'requested_by' => $user->staff_no,
+                'requested_by_id' => $user->id,
+                //authorised_by
+                'status'=> StatusHelper::new(),
+                'created_by' => $user->id,
+                //'req_no' => $requisition_reference_number,
+                //'specifications' => $item['technical_specification'],
             ]);
         }
 

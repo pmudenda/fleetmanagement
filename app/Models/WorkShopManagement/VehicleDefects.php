@@ -14,7 +14,8 @@ class VehicleDefects extends Model
     protected $table = 'WM_VEHICLE_DEFECTS';
 
     protected $fillable = [
-        'job_card_no',
+        'workshop_reference',
+        'workshop_code',
         'veh_sys',
         'defect_category_code',
         'defect_code',
