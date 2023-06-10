@@ -104,13 +104,12 @@ class WorkshopService
         $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
             ->get();
 
+        Log::info('Saving Accessories on ' . $reference_number);
+
         foreach ($accessoryNames as $accessoryName) {
             $accessoryCode = $accessoryName->code;
-
             $response = $request->get('field_' . trim($accessoryCode));
             $remarks = $request->get('comment_' . trim($accessoryCode));
-
-            Log::info($accessoryCode . ' ' . $response . ' ' . $remarks);
 
             WorkShopVehicleAccessories::updateOrCreate(
                 [
@@ -184,7 +183,7 @@ class WorkshopService
 
     public function getWorkShopPurchaseOfficeAndStore($workshop_code)
     {
-        $data= DB::table('config_workshop')
+        $data = DB::table('config_workshop')
             ->leftJoin('spms_stores_view', 'config_workshop.store_code', '=', 'spms_stores_view.code_store')
             ->leftJoin('zfm_purchase_offices', 'config_workshop.area_code', '=', 'zfm_purchase_offices.area')
             ->where('config_workshop.workshop_code', '=', $workshop_code)
