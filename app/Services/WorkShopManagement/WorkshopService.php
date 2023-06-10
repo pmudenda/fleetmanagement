@@ -100,6 +100,7 @@ class WorkshopService
     {
         DB::beginTransaction();
         $job_card_voucher = $request->get('job_card_voucher');
+        $reference_number = $request->get('job_card_voucher');
         $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
             ->get();
 
@@ -114,6 +115,7 @@ class WorkshopService
             WorkShopVehicleAccessories::updateOrCreate(
                 [
                     'job_card_no' => trim($job_card_voucher),
+                    'workshop_reference' => trim($reference_number),
                     'code' => trim($accessoryCode),
                 ],
                 [
