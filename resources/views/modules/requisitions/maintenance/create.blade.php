@@ -349,7 +349,7 @@
                                 message,
                                 function () {
                                     window.location.href = response['redirectUrl'];
-                                    if (window.global_currentIndex == 2) {
+                                    if (window.global_currentIndex === 2) {
                                         window.goToNext = true;
                                         form.steps("next");
                                     } else {
