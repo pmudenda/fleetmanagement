@@ -673,7 +673,6 @@
 
                 elements.forEach(function (element) {
                     element.removeAttribute('disabled');
-                    element.trigger('change');
                 });
             }
 
