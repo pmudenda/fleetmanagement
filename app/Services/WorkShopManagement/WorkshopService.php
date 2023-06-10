@@ -150,7 +150,7 @@ class WorkshopService
 
         WorkShopComments::firstOrCreate(
             [
-                'job_card_no' => $request->job_card_no,
+                'workshop_reference' => $request->workshop_reference,
                 'type' => 'DEF',
             ],
             [
