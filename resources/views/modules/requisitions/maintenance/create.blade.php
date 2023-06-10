@@ -112,7 +112,7 @@
     <script>
         'use strict';
 
-        function initProjectSelector(selector) {
+        function initArticleSelector(selector) {
             const dataUrl = document.querySelector('#articlesUrl').value;
             $(selector).select2({
                 selectOnClose: true,
@@ -184,7 +184,7 @@
                     "text": obj['code_article'] + ':' + obj.description,
                     'code_article': obj?.code_article,
                     'description': obj?.description,
-                    'price_map': obj?.price_map,
+                    'price_map': obj?.price,
                     'technical_specifications': obj?.technical_specifications,
                     'unit_measure': obj?.unit_measure,
                     'unit_measure_name': obj?.unit_measure_name
@@ -195,7 +195,7 @@
     <script>
         $(document).ready(function () {
 
-            initProjectSelector($('.articlesDropDownList'));
+            initArticleSelector($('.articlesDropDownList'));
 
             Inputmask({
                 "mask": "AAA 9{1,4}"
@@ -559,7 +559,18 @@
                             return;
                         }
 
-                        let option = new Option(data.full_name, data.id, true, true);
+                        let data = {
+                            "id": response['code_article'],
+                            "text": response['code_article'] + ':' + response.description,
+                            'code_article': response?.code_article,
+                            'description': response?.description,
+                            'price_map': response?.price,
+                            'technical_specifications': response?.technical_specifications,
+                            'unit_measure': response?.unit_measure,
+                            'unit_measure_name': response?.unit_measure_name
+                        };
+
+                        let option = new Option(data.text, data.id, true, true);
                         selectElem.append(option).trigger('change');
 
                         // manually trigger the `select2:select` event
@@ -1140,7 +1151,7 @@
                                 let article = $(row).find('input.articleCode').val();
                                 console.log('Article on line',article)
                                 let $_defect_sel = $(".articlesDropDownList");
-                                initProjectSelector($_defect_sel);
+                                initArticleSelector($_defect_sel);
                                 getArticleDetails(article, $_defect_sel);
                             }
                         });
