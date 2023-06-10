@@ -100,7 +100,7 @@ class WorkshopService
     {
         DB::beginTransaction();
         $job_card_voucher = $request->get('job_card_voucher');
-        $reference_number = $request->get('job_card_voucher');
+        $reference_number = $request->get('workshop_reference');
         $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
             ->get();
 
@@ -119,8 +119,6 @@ class WorkshopService
                     'code' => trim($accessoryCode),
                 ],
                 [
-                    //'job_card_no' => $job_card_voucher,
-                    //'code' => $accessoryCode,
                     'name' => $accessoryName->name,
                     'remarks' => $remarks,
                     'is_present' => $response
