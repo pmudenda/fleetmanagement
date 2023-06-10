@@ -137,7 +137,7 @@ class WorkshopService
                 [
                     'workshop_reference' => $request['workshop_reference'],
                     'veh_sys' => $defect['vehicleSystem'],
-                    'job_card_no' => $request['job_card_no'],
+                    //'job_card_no' => $request['job_card_no'],
                     'defect_category_code' => $defect['defectCategory'],
                     'defect_code' => $defect['defect'],
                 ],

@@ -28,7 +28,7 @@ class VehicleDefectsRequest extends FormRequest
             'item.*.defectCategory' => 'required',
             'item.*.vehicleSystem' => 'required',
             'item.*.workshopSection' => 'required',
-            'job_card_no' => 'required',
+            'workshop_reference' => 'required|string|max:20',
             'modelName' => 'required',
             'remarks' => 'nullable|string|max:255'
         ];
