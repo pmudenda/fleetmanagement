@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Constants\ErrorMessages;
 use App\Models\reference\Article;
 use App\Models\reference\PurchaseOrders;
+use App\Services\Integration\ProcurementSystemIntegrationService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,6 +13,14 @@ use Illuminate\Support\Facades\Log;
 
 class ProcurementSystemIntegrationController extends \App\Http\Controllers\Controller
 {
+
+    private ProcurementSystemIntegrationService $procurementSystemIntegrationService;
+
+    public function __construct(ProcurementSystemIntegrationService $procurementSystemIntegrationService)
+    {
+        $this->procurementSystemIntegrationService = $procurementSystemIntegrationService;
+    }
+
     public function verifyPurchaseOrder(Request $request): JsonResponse
     {
 
@@ -33,7 +42,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
                 ]);
             }
             return response()->json([
-                'state' => empty($purchaseOrder) ?  'erorr' : 'success',
+                'state' => empty($purchaseOrder) ? 'erorr' : 'success',
                 'payload' => $purchaseOrder,
                 'message' => empty($purchaseOrder) ? " Data could not be retrieved" : 'Data Retrieved'
             ]);
@@ -70,6 +79,29 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
             'payload' => Article::whereIn('code_article', ['300101-0002', '300101-0001'])
                 ->get(['code_article', 'description'])
         ]);
+    }
+
+    public function getArticleDetails(Request $request): JsonResponse
+    {
+        try {
+
+            $procurementArticles = $this->procurementSystemIntegrationService->getArticleByCode($request->get('type_article'));
+            /*Article::where('code_article', '=', )
+                ->first();*/
+
+            return response()->json([
+                'success' => !empty($procurementArticles),
+                'payload' => $procurementArticles,
+            ]);
+
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'success' => false,
+                'payload' => [],
+                'message' => ErrorMessages::getMessage('err_0005')
+            ]);
+        }
     }
 
 }

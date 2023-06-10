@@ -5,15 +5,10 @@ use App\Http\Controllers\Configurations\ChargeOutRateController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
 use App\Http\Controllers\DriverManagement\DriverController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\migration\VehicleDataCleaningController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\Requisitions\FuelRequisitionController;
-use App\Http\Controllers\Security\PasswordResetController;
 use App\Http\Controllers\Security\PermissionsController;
 use App\Http\Controllers\Security\RolesController;
-use App\Http\Controllers\UserManagement\UsersController;
-use App\Http\Controllers\VehicleManagement\VehicleController;
-use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
 use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkshopManagement\MaintenanceController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
@@ -144,7 +139,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/deleteMaterialRecord', [MaintenanceController::class, "deleteMaterialRecord"])->name('delete.material.record');
 
 
-        Route::get('/workshop/requisition', function(){
+        Route::get('/workshop/requisition', function () {
             return "Requisition Will Show Here";
         })->name('show.workshop.requisition');
 
@@ -152,7 +147,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/workshop/approve', [MaintenanceController::class, 'show'])->name('show.workshop.requisition');
         Route::post('/workflow/stores/requisition/approve', [WorkflowController::class, 'processStoresRequisitionApproval'])->name('stores.requisition.approve');
 
-        Route::get('load/procurement/articles',[MaintenanceController::class, 'searchArticle'])->name('load.articles');
+
     });
 
     Route::group(['prefix' => 'driver-management'], function () {
@@ -174,6 +169,12 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
 });
+
+Route::get('load/procurement/articles', [MaintenanceController::class, 'searchArticle'])
+    ->name('load.articles');
+
+Route::get('load/article/details', [ProcurementSystemIntegrationController::class, "getArticleDetails"])
+    ->name('load.article.details');
 
 Route::get('barcodes', function (Request $request) {
 

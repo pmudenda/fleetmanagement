@@ -91,7 +91,8 @@
                 <input type="hidden" value="{{route('load.articles')}}" id="articlesUrl"/>
                 <input type="hidden" value="{{route('load.article.details')}}" id="articleDetailsUrl"/>
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
-                <input type="hidden" value="{{$details->workshop_doc_no ?? ''}}" name="workshop_reference" id="workshop_reference"/>
+                <input type="hidden" value="{{$details->workshop_doc_no ?? ''}}" name="workshop_reference"
+                       id="workshop_reference"/>
                 <input type="hidden" value="{{route('delete.defect.record')}}" name="deleteDefectUrl"
                        id="deleteDefectUrl"/>
                 <input type="hidden" value="{{route('delete.material.record')}}" name="deleteMaterialUrl"
@@ -545,12 +546,12 @@
                     });
             }*/
 
-            function getArticles(code_article, row) {
+            function getArticleDetails(code_article, selectElem) {
 
                 fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
                     .then(response => response.json())
                     .then(response => {
-                        let selectElem = $(row).find('.articlesDropDownList');
+                        //let  = $(row).find('.articlesDropDownList');
                         // Populate results
                         if (response.state === 'failure') {
                             //show errors
@@ -666,11 +667,7 @@
             }
 
             function enableArticleSelectionWebUIControls() {
-
                 let elements = document.querySelectorAll('.articlesDropDownList');
-
-                console.log(elements);
-
                 elements.forEach(function (element) {
                     element.removeAttribute('disabled');
                 });
@@ -1138,32 +1135,13 @@
                             }
 
                             if (tableId === "material_table") {
-                                //if ($('.').data('select2')) {
-                                    //$('.articlesDropDownList').select2('destroy');
-
                                 let row = lastRow[0];
                                 $(row).find('.select2-container').remove();
-                                $(row).find('.articlesDropDownList').removeProp('disabled');
+                                let article = $(row).find('input.articleCode').val();
+                                console.log('Article on line',article)
                                 let $_defect_sel = $(".articlesDropDownList");
-                                //reinitializeSelect2($_defect_sel);
                                 initProjectSelector($_defect_sel);
-                            }
-
-                            if (tableId === "material_table") {
-                                //let selector = $('.articlesDropDownList');
-                                //console.log(selector);
-                                //initProjectSelector('.articlesDropDownList');
-
-                                /* let option = new Option(data.full_name, data.id, true, true);
-                                 selectElem.append(option).trigger('change');
-
-                                 // manually trigger the `select2:select` event
-                                 selectElem.trigger({
-                                     type: 'select2:select',
-                                     params: {
-                                         data: data
-                                     }
-                                 });*/
+                                getArticleDetails(article, $_defect_sel);
                             }
                         });
 

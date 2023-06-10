@@ -150,9 +150,17 @@ class MaintenanceController extends Controller
             }
 
             $search = strtoupper($request->get('search'));
+
             // SPMS_ARTICLES_VIEW
             $query = DB::table('spms_articles_view')
-                ->leftJoin('units_view', 'spms_articles_view.unit_measure', '=', 'units_view.code_unit');
+                ->leftJoin('units_view',
+                    'spms_articles_view.unit_measure',
+                    '=',
+                    'units_view.code_unit')
+                ->leftJoin('stock_management_view',
+                    'spms_articles_view.code_article',
+                    '=',
+                    'stock_management_view.code_article');
 
             $itemType = $request->get('type_article');
 
@@ -171,7 +179,8 @@ class MaintenanceController extends Controller
                 });
             }
 
-            $query->where('spms_articles_view.type_article', '=', $request->get('type_article'));
+            $query->where('spms_articles_view.type_article', '=', $request->get('type_article'))
+                ->where('stock_management_view.level_type', '=', '02');
 
             $query->where(function ($query) use ($search) {
                 $query->orWhere('spms_articles_view.code_article', 'like', "%{$search}%")
@@ -184,6 +193,7 @@ class MaintenanceController extends Controller
                     'spms_articles_view.description',
                     'spms_articles_view.technical_specifications',
                     'spms_articles_view.price_map',
+                    'stock_management_view.price_map as price',
                     'spms_articles_view.unit_measure',
                     'units_view.abbreviation as abbreviation',
                     'units_view.description as unit_measure_name'

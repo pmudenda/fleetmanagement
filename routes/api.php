@@ -51,14 +51,7 @@ Route::post('find/vehicle', function (Request $request) {
 
 Route::get('load/vehicle/systems', function (Request $request) {
     try {
-        Log::info('Request filter ' . $request->get('key'));
-        //$workShopTableData = [];
-        //$query = WorkShopTable::query();
-
-        /*if (!empty($request->get('filter'))) {
-            WorkShopTable::where('type_code', $request->get('key'))
-                ->where('parent', $request->get('filter'))->get();
-        }*/
+        //Log::info('Request filter ' . $request->get('key'));
 
         $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))->get();
         return response()->json([
@@ -166,27 +159,6 @@ Route::get('load/licence/classes', function (Request $request) {
         ]);
     }
 })->name('vehicle.licence.classes');
-
-Route::get('load/article/details', function (Request $request) {
-    try {
-
-        $procurementArticles = Article::where('code_article', '=', $request->get('type_article'))
-            ->first();
-
-        return response()->json([
-            'success' => !empty($procurementArticles),
-            'payload' => $procurementArticles,
-        ]);
-
-    } catch (Exception $e) {
-        Log::error($e);
-        return response()->json([
-            'success' => false,
-            'payload' => [],
-            'message' => ErrorMessages::getMessage('err_0005')
-        ]);
-    }
-})->name('load.article.details');
 
 /*Route::get('load/stores', function (Request $request) {
     try {
