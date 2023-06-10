@@ -672,6 +672,7 @@
 
                 elements.forEach(function (element) {
                     element.removeAttribute('disabled');
+                    element.change();
                 });
             }
 
@@ -938,9 +939,10 @@
                     if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
                         showStockItemControls();
                         $('.quantity').attr('readonly', false);
-                    } else if (document.querySelector('[name="serviceItemCode"]').value == selectedItemType) {
+                    } else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
                         showSupplierControls();
                         $('.quantity').attr('readonly', 'readonly');
+                        $('.quantity').val(1);
                     } else {
                         showSupplierControls();
                         $('.quantity').attr('readonly', false);
@@ -1137,9 +1139,13 @@
                             }
 
                             if (tableId === "material_table") {
-                                if ($('.articlesDropDownList').data('select2')) {
-                                    $('.articlesDropDownList').select2('destroy');
-                                }
+                                //if ($('.').data('select2')) {
+                                    //$('.articlesDropDownList').select2('destroy');
+
+                                let row = lastRow[0];
+                                $(row).find('.select2-container').remove();
+                                let $_defect_sel = $(".articlesDropDownList");
+                                reinitializeSelect2($_defect_sel);
                             }
 
                             if (tableId === "material_table") {
