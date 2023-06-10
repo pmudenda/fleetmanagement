@@ -670,6 +670,8 @@
 
                 let elements = document.querySelectorAll('.articlesDropDownList');
 
+                console.log(elements);
+
                 elements.forEach(function (element) {
                     element.removeAttribute('disabled');
                     element.change();

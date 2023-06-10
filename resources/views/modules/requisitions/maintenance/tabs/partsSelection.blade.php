@@ -251,6 +251,7 @@
                                 <tr class="increment">
                                     <td class="showNumber">
                                         <input
+                                            readonly
                                             name="registration"
                                             required
                                             value="{{$details->veh_reg ?? ''}}"
@@ -258,6 +259,7 @@
                                     </td>
                                     <td>
                                         <select
+                                            readonly
                                             name="articles"
                                             required
                                             data-value="{{$material->material_code ?? ''}}"
@@ -278,6 +280,7 @@
                                                max="255"
                                                name="technical_specification"
                                                required
+                                               readonly
                                                value="{{$material->specifications ?? ''}}"
                                                class="form-control form-control-sm technical_specification"/>
                                     </td>
@@ -287,6 +290,7 @@
                                                min="1"
                                                name="quantity"
                                                required
+                                               readonly
                                                value="{{$material->quantity ?? ''}}"
                                                class="form-control form-control-sm quantity number_input"/>
                                     </td>
