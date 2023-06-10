@@ -888,7 +888,6 @@
 
                 function work() {
                     //validateFormElements(form);
-
                 }
 
                 function resetTimer() {
@@ -1146,12 +1145,13 @@
                                 $(row).find('.select2-container').remove();
                                 let $_defect_sel = $(".articlesDropDownList");
                                 reinitializeSelect2($_defect_sel);
+                                initProjectSelector($_defect_sel);
                             }
 
                             if (tableId === "material_table") {
                                 //let selector = $('.articlesDropDownList');
                                 //console.log(selector);
-                                initProjectSelector('.articlesDropDownList');
+                                //initProjectSelector('.articlesDropDownList');
 
                                 /* let option = new Option(data.full_name, data.id, true, true);
                                  selectElem.append(option).trigger('change');
