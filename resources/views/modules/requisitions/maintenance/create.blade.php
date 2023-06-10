@@ -662,7 +662,6 @@
                 });
 
                 document.querySelector('#vehicleDetailsContainer').style.display = null;
-                //document.querySelector('#materialDetailsContainer').style.display = null;
                 document.querySelector('#image_view').style.display = null;
             }
 
@@ -674,7 +673,7 @@
 
                 elements.forEach(function (element) {
                     element.removeAttribute('disabled');
-                    element.change();
+                    element.trigger('change');
                 });
             }
 
@@ -1145,8 +1144,9 @@
 
                                 let row = lastRow[0];
                                 $(row).find('.select2-container').remove();
+                                $(row).find('.articlesDropDownList').removeProp('disabled');
                                 let $_defect_sel = $(".articlesDropDownList");
-                                reinitializeSelect2($_defect_sel);
+                                //reinitializeSelect2($_defect_sel);
                                 initProjectSelector($_defect_sel);
                             }
 
