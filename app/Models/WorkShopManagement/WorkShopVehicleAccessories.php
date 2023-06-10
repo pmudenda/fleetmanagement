@@ -11,6 +11,7 @@ class WorkShopVehicleAccessories extends Model
 
     protected $table = 'WM_JOB_CARD_VEHICLE_ACCESSORIES';
     protected $fillable = [
+        'workshop_reference',
         'job_card_no',
         'name',
         'code',
