@@ -12,7 +12,7 @@ class WorkShopComments extends Model
     protected $table = 'WM_WORK_SHOP_COMMENTS';
 
     protected $fillable = [
-        'job_card_no',
+        'workshop_reference',
         'type',
         'remarks',
         'status',

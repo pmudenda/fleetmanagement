@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('WM_WORK_SHOP_COMMENTS', function (Blueprint $table) {
             $table->id();
-            $table->string('job_card_no', 20);
+            $table->string('workshop_reference', 20);
             $table->string('type', 20);
             $table->string('remarks', 300);
             $table->string('status', 4);

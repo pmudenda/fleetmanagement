@@ -407,9 +407,9 @@ class MaintenanceController extends Controller
 
             $officeDetails = $this->workshopService->getWorkShopPurchaseOfficeAndStore($details->workshop_code);
 
-            $defects = VehicleDefects::where('job_card_no', '=', $reference)->get();
+            $defects = VehicleDefects::where('workshop_reference', '=', $details->workshop_reference)->get();
 
-            $comments = WorkShopComments::where('job_card_no', '=', $reference)->get();
+            $comments = WorkShopComments::where('workshop_reference', '=', $details->workshop_reference)->get();
 
             $materials = $this->requisitionService->getWorkShopRequisitionDetail($reference);
         }
