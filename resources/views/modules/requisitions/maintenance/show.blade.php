@@ -362,7 +362,9 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @php $totalCount = 0; $totalAmount   = 0;   @endphp
                                     @foreach($details as $detail)
+                                        @php $totalCount +=$detail->quantity; $totalAmount+=$detail->amount  @endphp
                                         <tr>
 
                                             <td>
@@ -404,12 +406,12 @@
 
                                         <td class="text-right"><strong>Total Quantity</strong>
                                             <span class="text-bold"
-                                                  id="totalQty">{{number_format(0, 2)}}</span>
+                                                  id="totalQty">{{number_format($totalCount)}}</span>
                                         </td>
                                         <td></td>
                                         <td class="text-right"><strong>Total Amount</strong></td>
                                         <td><span class="text-bold"
-                                                  id="totalAmount">{{number_format(0, 2)}}</span>
+                                                  id="totalAmount">{{number_format($totalAmount, 2)}}</span>
                                         </td>
                                     </tr>
                                     </tfoot>
