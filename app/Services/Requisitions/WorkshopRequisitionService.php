@@ -272,7 +272,8 @@ class WorkshopRequisitionService
 
         WorkShopComments::firstOrCreate(
             [
-                'job_card_no' => $job_cord_no,
+                //'job_card_no' => $job_cord_no,
+                'workshop_reference' => $workshop_reference,
                 'type' => 'REQ',
             ],
             [
