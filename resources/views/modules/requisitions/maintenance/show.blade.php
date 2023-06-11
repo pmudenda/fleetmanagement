@@ -5,7 +5,7 @@
     <link href="{{asset("assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")}}" rel="stylesheet"
           type="text/css"/>
     <style>
-        tbody, td, tfoot, th, thead, tr {
+      .corporate tbody, td, tfoot, th, thead, tr {
             border-color: inherit;
             border-style: solid;
             border-width: 1px !important;
@@ -59,7 +59,7 @@
                             </tr>
                             </thead>
                         </table>
-                        <table border="1" width="100%" data-height="100px" cellspacing="0" cellpadding="0"
+                        <table class="corporate" border="1" width="100%" data-height="100px" cellspacing="0" cellpadding="0"
                                align="Centre"
                                class="mb-4 ">
                             <thead>
