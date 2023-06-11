@@ -114,6 +114,12 @@
 
         function initArticleSelector(selector) {
             const dataUrl = document.querySelector('#articlesUrl').value;
+
+            // don't re-initialize
+            if($(selector).hasAttribute('data-select2-id="1"')){
+                return;
+            }
+
             $(selector).select2({
                 selectOnClose: true,
                 multiple: false,
@@ -1153,10 +1159,12 @@
                             if (tableId === "material_table") {
                                 let row = lastRow[0];
                                 $(row).find('.select2-container').remove();
+                                $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+
                                 let article = $(row).find('input.articleCode').val();
                                 console.log('Article on line', article)
                                 let $_defect_sel = $(".articlesDropDownList");
-                                //initArticleSelector($_defect_sel);
+                                initArticleSelector($_defect_sel);
                                 //getArticleDetails(article, $_defect_sel);
                             }
                         });
