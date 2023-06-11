@@ -863,27 +863,31 @@
             function eventHandler(element, e) {
 
                 switch (element.name) {
+                    case 'quantity':
+                        let summaryTotalQty = 0;
+                        $(element).closest("table").find("input[name=quantity]").each(function (i, it) {
+                            summaryTotalQty += Util.getFloat(it.value);
+                        });
+
+                        // set value in footer
+                        $('#quantityTotal').text(tmsApp.getRawNumber(summaryTotalQty));
+
+                        let lineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=unit_price]").val());
+                        $(element).closest("tr").find("input[name=total_price]").val(lineAmountTotal).change();
+                        $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(lineAmountTotal));
+                        break;
+
                     case 'unit_price':
                         // line total = new material price multiplied by quantity value
                         let totalAmount = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=quantity]").val());
                         $(element).closest("tr").find("input[name=total_price]").val(totalAmount).change();
                         $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(totalAmount));
                         break;
-                    case 'quantity':
-                        let summaryTotalQty = 0;
-                        $(element).closest("tr").find("input[name=quantity]").each(function (i, it) {
-                            summaryTotalQty += tmsApp.getFloat(it.value);
-                        });
 
-                        $('#quantityTotal').text(tmsApp.getRawNumber(summaryTotalQty));
-                        let lineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=unit_price]").val());
-                        $(element).closest("tr").find("input[name=total_price]").val(lineAmountTotal).change();
-                        $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(lineAmountTotal));
-                        break;
                     case 'total_price':
                         // calculate new footer total
                         let summaryTotal = 0;
-                        $(element).closest("tr").find("input[name=total_price]").each(function (i, it) {
+                        $(element).closest("table").find("input[name=total_price]").each(function (i, it) {
                             summaryTotal += tmsApp.getFloat(it.value);
                         });
                         $('#itemsTotal').text(tmsApp.numberFormat(summaryTotal, 2));

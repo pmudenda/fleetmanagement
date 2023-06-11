@@ -313,7 +313,9 @@
                                     </td>
 
                                     <td>
+                                        <span id="total_price"></span>
                                         <input name="total_price"
+                                               type="hidden"
                                                required
                                                value="{{$material->amount ?? ''}}"
                                                readonly
