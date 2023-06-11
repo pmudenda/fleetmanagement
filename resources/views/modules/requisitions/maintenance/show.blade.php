@@ -98,7 +98,7 @@
                                                                 <input type="text"
                                                                        readonly
                                                                        class="form-control form-control-sm"
-                                                                       value="{{$requestDetails->reg_no}}"
+                                                                       value="{{$requestDetails->reg_no ??''}}"
                                                                        autocapitalize="characters"
                                                                        id="vehicle_registration"
                                                                        placeholder=""
@@ -153,7 +153,7 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="cost_centre_code"
-                                                                   value="{{$requestDetails->cost_centre}}"
+                                                                   value="{{$requestDetails->cost_centre?? ''}}"
                                                                    name="cost_centre_code"
                                                                    required readonly>
                                                         </div>
@@ -168,7 +168,7 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-10">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="cost_center_name"
-                                                                   value="{{$requestDetails->cost_centre_name}}"
+                                                                   value="{{$requestDetails->cost_centre_name?? ''}}"
                                                                    name="cost_center_name"
                                                                    required readonly>
                                                         </div>
@@ -189,7 +189,7 @@
                                                             Requisition Type:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <select name="requisition_type" id="requisition_type"
+                                                            {{--<select name="requisition_type" id="requisition_type"
                                                                     class="form-control form-select-sm"
                                                                     disabled
                                                                     required>
@@ -203,7 +203,7 @@
                                                                             value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
                                                                     @endif
                                                                 @endforeach
-                                                            </select>
+                                                            </select>--}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -222,7 +222,7 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="odometer_reading"
-                                                                   value="{{$requestDetails->odometer}}"
+                                                                   value="{{$requestDetails->odometer ?? ''}}"
                                                                    readonly
                                                                    required
                                                                    name="odometer_reading"
@@ -247,7 +247,7 @@
                                                             <div class="input-group input-group-sm">
                                                                 <input type="text" class="form-control form-control-sm"
                                                                        id="fuel_allocation"
-                                                                       value="{{$requestDetails->max_allowed}}"
+                                                                       value=""
                                                                        name="fuel_allocation"
                                                                        readonly
                                                                 />
@@ -282,28 +282,7 @@
                                     </div>
 
                                     <div class="row">
-                                        @if($requestDetails->requisition_type != RequisitionTypes::OutOfTown->value)
-                                            <div class="col-xs-12 col-sm-6 col-md-6">
-                                                <div class="container-fluid pl-0">
-                                                    <div class="row">
-                                                        <div class="form-group row">
-                                                            <label
-                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                                                for="next_fuel_date">
-                                                                Next Refueling Date :
-                                                            </label>
-                                                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
-                                                                <input type="text" class="form-control form-control-sm"
-                                                                       id="next_fuel_date"
-                                                                       value="{{date('Y-m-d', strtotime($requestDetails->valid_date_to))}}"
-                                                                       name="next_fuel_date"
-                                                                       readonly required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endif
+
 
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
@@ -339,7 +318,7 @@
                                                                   id="justification"
                                                                   name="justification"
                                                                   style="height: 129px;"
-                                                                  class="form-control form-control-sm">{{$requestDetails->comments}}</textarea>
+                                                                  class="form-control form-control-sm">{{$requestDetails->comments ?? ''}}</textarea>
                                                         </div>
                                                     </div>
                                                 </div>
