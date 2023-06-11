@@ -116,7 +116,7 @@
             const dataUrl = document.querySelector('#articlesUrl').value;
 
             // don't re-initialize
-            let hasAttribute = $(element).hasAttribute('data-select2-id="1"');
+            let hasAttribute = element.hasAttribute('data-select2-id="1"');
             console.log(hasAttribute);
             if(hasAttribute){
                 return;
