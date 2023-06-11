@@ -1028,6 +1028,10 @@
                     this.value = this.value.toUpperCase();
                 });
 
+                $(document).on('keyup', '.technical_specification', function (event) {
+                    this.value = this.value.toUpperCase();
+                });
+
                 $(document).on('click', '#submitRequisitionBtn', function () {
                     let $form = document.forms['fuelRequisitionForm'];
                     if (!$($form).valid()) {
@@ -1150,10 +1154,10 @@
                                 let row = lastRow[0];
                                 $(row).find('.select2-container').remove();
                                 let article = $(row).find('input.articleCode').val();
-                                console.log('Article on line',article)
+                                console.log('Article on line', article)
                                 let $_defect_sel = $(".articlesDropDownList");
                                 initArticleSelector($_defect_sel);
-                                getArticleDetails(article, $_defect_sel);
+                                //getArticleDetails(article, $_defect_sel);
                             }
                         });
 
