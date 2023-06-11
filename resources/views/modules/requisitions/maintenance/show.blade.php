@@ -371,7 +371,7 @@
                                 </div>
                             </div>
                         </div>
-
+{{$requestDetails}}
                         <div class="container-fluid">
                             <div id="materialDetailsContainer" class="table-responsive mt-3">
                                 <table id="materialDetailsTable" class="table table-bordered">
