@@ -114,7 +114,7 @@ class MaintenanceController extends Controller
 
         $user = Auth::user();
 
-        $requestDetails = $this->fuelRequisitionService->getRequisitionDetail($req_no);
+        $requestDetails = $this->workshopRequisitionService->getWorkShopRequisitionDetail($req_no);
 
         if ($requestDetails == null) {
             abort(404);

@@ -49,7 +49,7 @@ class WorkflowController extends Controller
         try {
             $reference = $request->get('reference');
 
-            $requisitionDetail = $this->workshopRequisitionService->getReservationDetail($reference);
+            $requisitionDetail = $this->fuelRequisitionService->getRequisitionDetail($reference);
 
             $process_code = '';
             if ($requisitionDetail->requisition_type == RequisitionTypes::OutOfTown->value) {
@@ -112,9 +112,10 @@ class WorkflowController extends Controller
     public function processStoresRequisitionApproval(Request $request): JsonResponse
     {
         try {
+
             $reference = $request->get('reference');
 
-            $requisitionDetail = $this->fuelRequisitionService->getRequisitionDetail($reference);
+            $requisitionDetail = $this->workshopRequisitionService->getReservationDetail($reference);
 
             $process_code = '';
             switch ($requisitionDetail->item_type) {
