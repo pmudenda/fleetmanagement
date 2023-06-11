@@ -116,6 +116,10 @@ class WorkshopRequisitionService
                 break;
         }
 
+        $query->select(
+            'spms_articles_view.description'
+        );
+
         // check each article to make sure it's of the correct type and is no active on a reservation for the same car
         foreach ($requisitionPostRequest->get('items') as $item) {
 
@@ -124,7 +128,7 @@ class WorkshopRequisitionService
                 ->count();
 
             if ($count == 0) {
-                $message = "Article @articleCode is not a @itemType Item";
+                $message = "Article @articleCode is not a @itemType";
                 $articleType = $item_type == RequisitionItemTypes::StockItem ? "Stock Item" : ($item_type == RequisitionItemTypes::NonStockItem
                     ? "Non Stock Item " : "Service");
 
