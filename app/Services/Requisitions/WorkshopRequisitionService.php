@@ -358,7 +358,7 @@ class WorkshopRequisitionService
                 'CONFIG_STATUSES.color_code')
             ->get();
 
-        return [$header, $detail];
+        return [$header->first(), $detail];
 
     }
 
