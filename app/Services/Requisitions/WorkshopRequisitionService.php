@@ -124,7 +124,7 @@ class WorkshopRequisitionService
                 ->count();
 
             if ($count == 0) {
-                $message = "Article @articleCode is not ";
+                $message = "Article @articleCode is not a @itemType Item";
                 $articleType = $item_type == RequisitionItemTypes::StockItem ? "Stock Item" : ($item_type == RequisitionItemTypes::NonStockItem
                     ? "Non Stock Item " : "Service");
 
