@@ -85,44 +85,45 @@ class WorkshopRequisitionService
         // check that each article selected is of correct class
         $item_type = "";
         $workflowProcess = '';
-        $query = DB::table('spms_articles_view');
 
         switch ($requisitionPostRequest->itemType) {
             case RequisitionItemTypes::StockItemCode:
                 $item_type = RequisitionItemTypes::StockItem;
                 $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
-
-                $query->where(function ($q) use ($item_type) {
-                    $q->whereIn('spms_articles_view.code_group',
-                        ['01', '04', '30']);
-                });
-
                 break;
+            case RequisitionItemTypes::ServiceItemCode:
             case RequisitionItemTypes::NonStockItemCode:
                 $item_type = RequisitionItemTypes::Service;
                 $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
-                $query->where(function ($q) use ($item_type) {
-                    $q->where('spms_articles_view.code_group', '=', '40');
-                });
-
-                break;
-            case RequisitionItemTypes::ServiceItemCode:
-                $item_type = RequisitionItemTypes::Service;
-                $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
-                $query->where(function ($q) use ($item_type) {
-                    $q->where('spms_articles_view.code_group', '=', '41');
-                });
-
                 break;
         }
 
-        $query->select(
-            'spms_articles_view.description'
-        );
 
         // check each article to make sure it's of the correct type and is no active on a reservation for the same car
         foreach ($requisitionPostRequest->get('items') as $item) {
+            $query = DB::table('spms_articles_view');
 
+            switch ($requisitionPostRequest->itemType) {
+                case RequisitionItemTypes::StockItemCode:
+                    $query->where(function ($q) use ($item_type) {
+                        $q->whereIn('spms_articles_view.code_group',
+                            ['01', '04', '30']);
+                    });
+
+                    break;
+                case RequisitionItemTypes::NonStockItemCode:
+                    $query->where(function ($q) use ($item_type) {
+                        $q->where('spms_articles_view.code_group', '=', '40');
+                    });
+
+                    break;
+                case RequisitionItemTypes::ServiceItemCode:
+                    $query->where(function ($q) use ($item_type) {
+                        $q->where('spms_articles_view.code_group', '=', '41');
+                    });
+
+                    break;
+            }
             $count = $query->where('code_article', '=', $item['articleCode'])
                 ->where('status', '=', '11')
                 ->count();
