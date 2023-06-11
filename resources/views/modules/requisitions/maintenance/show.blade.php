@@ -79,7 +79,7 @@
                             </tr>
                             </thead>
                         </table>
-
+{{$requestDetails}}
                         <label class="app-required-marker"></label>
                         <div class="container-fluid mt-2">
                             <div class="row">
