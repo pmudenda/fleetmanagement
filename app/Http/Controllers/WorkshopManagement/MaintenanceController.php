@@ -44,7 +44,7 @@ class MaintenanceController extends Controller
 {
     private WorkshopService $workshopService;
     private DocumentNumberGenerationService $numberGeneratorService;
-    private FuelRequisitionService $requisitionService;
+    private FuelRequisitionService $fuelRequisitionService;
     private WorkshopRequisitionService $workshopRequisitionService;
 
     public function __construct(WorkshopService                 $workshopService,
@@ -54,7 +54,7 @@ class MaintenanceController extends Controller
     {
         $this->workshopService = $workshopService;
         $this->numberGeneratorService = $numberGeneratorService;
-        $this->requisitionService = $requisitionService;
+        $this->fuelRequisitionService = $requisitionService;
         $this->workshopRequisitionService = $workshopRequisitionService;
     }
 
@@ -114,7 +114,7 @@ class MaintenanceController extends Controller
 
         $user = Auth::user();
 
-        $requestDetails = $this->requisitionService->getRequisitionDetail($req_no);
+        $requestDetails = $this->fuelRequisitionService->getRequisitionDetail($req_no);
 
         if ($requestDetails == null) {
             abort(404);
@@ -426,7 +426,7 @@ class MaintenanceController extends Controller
 
             $comments = WorkShopComments::where('workshop_reference', '=', $details->workshop_doc_no)->get();
 
-            $materials = $this->requisitionService->getWorkShopRequisitionDetail($reference);
+            $materials = $this->workshopRequisitionService->getWorkShopRequisitionDetail($reference);
         }
 
         return array(

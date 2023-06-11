@@ -327,6 +327,30 @@ class WorkshopRequisitionService
         Log::info("Stores Requisition Generated with document " . $results);
     }
 
+    public function getWorkShopRequisitionDetail(mixed $req_no): mixed
+    {
+        // 'GEN_MATERIAL_HEADERS.*',
+       /* return DB::table('GEN_MATERIAL_HEADERS')
+            ->where('GEN_MATERIAL_HEADERS.req_no', $req_no)
+            ->join('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
+            ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
+            ->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
+            ->select('GEN_MATERIAL_DETAILS.*', 'CONFIG_STATUSES.name as status_name', 'CONFIG_STATUSES.color_code')
+            ->get();*/
+
+        // 'GEN_MATERIAL_HEADERS.*',
+        return DB::table('GEN_MATERIAL_DETAILS')
+            ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
+            ->leftJoin('SPMS_ARTICLES_VIEW', 'GEN_MATERIAL_DETAILS.MATERIAL_CODE', '=', 'SPMS_ARTICLES_VIEW.CODE_ARTICLE')
+            ->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
+            ->where('GEN_MATERIAL_DETAILS.req_no', $req_no)
+            ->select('GEN_MATERIAL_DETAILS.*',
+                'SPMS_ARTICLES_VIEW.description',
+                'CONFIG_STATUSES.name as status_name',
+                'CONFIG_STATUSES.color_code')
+            ->get();
+
+    }
 
     public function getReservationDetail($req_no): mixed
     {
@@ -341,5 +365,4 @@ class WorkshopRequisitionService
         return $results->first();
 
     }
-
 }
