@@ -339,9 +339,12 @@ class WorkshopRequisitionService
             ->get();*/
 
         // 'GEN_MATERIAL_HEADERS.*',
-        return DB::table('GEN_MATERIAL_DETAILS')
-            ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
-            ->leftJoin('SPMS_ARTICLES_VIEW', 'GEN_MATERIAL_DETAILS.MATERIAL_CODE', '=', 'SPMS_ARTICLES_VIEW.CODE_ARTICLE')
+        return DB::table('GEN_MATERIAL_HEADERS')
+            ->join('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
+            ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status',
+                '=', 'CONFIG_STATUSES.code')
+            ->leftJoin('SPMS_ARTICLES_VIEW', 'GEN_MATERIAL_DETAILS.MATERIAL_CODE',
+                '=', 'SPMS_ARTICLES_VIEW.CODE_ARTICLE')
             ->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
             ->where('GEN_MATERIAL_DETAILS.req_no', $req_no)
             ->select('GEN_MATERIAL_DETAILS.*',
