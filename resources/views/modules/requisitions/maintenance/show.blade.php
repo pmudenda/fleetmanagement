@@ -43,7 +43,7 @@
                                align="Centre"
                                class="border-0">
                             <thead>
-                            <tr class="border-0">
+                            <tr class="border-0" style="border-style: none;">
                                 <th width="33%" colspan="4" style="border:none;" class="text-left">
                                     @if(!empty($requestDetails)  && !empty($requestDetails->proc_ref))
                                         REQUISITION NUMBER: <span
