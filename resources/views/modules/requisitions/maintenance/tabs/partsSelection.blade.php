@@ -233,7 +233,7 @@
                            data-model-name="PartsHeader"
                            class="table dataTable table-row-dashed align-middle gs-0 nowrap">
                         <thead>
-                        <tr class="bg-dark-subtle">
+                        <tr class="bg-success-subtle">
                             <th style="width: 6%;" class="pl-2">Reg. No</th>
                             <th style="width: 25%;">Article</th>
                             <th>Article Code</th>
