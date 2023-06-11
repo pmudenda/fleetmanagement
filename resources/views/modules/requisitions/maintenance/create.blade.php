@@ -1156,7 +1156,7 @@
                                 let article = $(row).find('input.articleCode').val();
                                 console.log('Article on line', article)
                                 let $_defect_sel = $(".articlesDropDownList");
-                                initArticleSelector($_defect_sel);
+                                //initArticleSelector($_defect_sel);
                                 //getArticleDetails(article, $_defect_sel);
                             }
                         });
