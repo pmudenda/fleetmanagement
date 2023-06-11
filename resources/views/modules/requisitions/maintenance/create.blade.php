@@ -112,15 +112,17 @@
     <script>
         'use strict';
 
-        function initArticleSelector(selector) {
+        function initArticleSelector(element) {
             const dataUrl = document.querySelector('#articlesUrl').value;
 
             // don't re-initialize
-            if(selector.hasAttribute('data-select2-id="1"')){
+            let hasAttribute = $(element).hasAttribute('data-select2-id="1"');
+            console.log(hasAttribute);
+            if(hasAttribute){
                 return;
             }
 
-            $(selector).select2({
+            element.select2({
                 selectOnClose: true,
                 multiple: false,
                 quietMillis: 100,
