@@ -384,6 +384,7 @@
                 }
 
                 let stepId = window.step_id || 1;
+                window.global_currentIndex = stepId - 1;
                 form.steps({
                     showStepURLhash: true,
                     headerTag: "h1",
