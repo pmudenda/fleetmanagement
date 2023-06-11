@@ -22,6 +22,7 @@ class MaterialDetail extends Model
         'project_name',
         'supplier_code',
         'cost_centre',
+        'stores_code',
         'cost_centre_name',
         'reg_no',
         'amount',

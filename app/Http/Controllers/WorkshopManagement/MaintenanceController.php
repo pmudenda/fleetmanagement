@@ -7,6 +7,9 @@ use App\Constants\SystemMessages;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
 use App\Enums\RequisitionItemTypes;
+use App\Exceptions\FuelRequisitionException;
+use App\Exceptions\MaterialReservationException;
+use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCardRequest;
@@ -362,7 +365,7 @@ class MaintenanceController extends Controller
     }
 
 
-    public function processWorkShopRequisition(WorkshopRequisitionRequest $request): JsonResponse
+    public function processWorkShopMaterials(WorkshopRequisitionRequest $request): JsonResponse
     {
         try {
             $this->workshopRequisitionService->processRequest($request);
@@ -374,13 +377,15 @@ class MaintenanceController extends Controller
             ]);
         } catch (\Exception $e) {
             Log::error($e);
-            return response()->json(
-                [
-                    'success' => false,
-                    'payload' => [],
-                    'message' => ErrorMessages::getMessage('err_0005')
-                ]
-            );
+            $message = ErrorMessages::getMessage('err_0005');
+
+            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException) {
+                $message = $e->getMessage();
+            }
+            return response()->json([
+                'success' => false,
+                'message' => $message
+            ]);
         }
     }
 

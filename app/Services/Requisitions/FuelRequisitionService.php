@@ -6,7 +6,6 @@ use App\Constants\Accounts;
 use App\Constants\ErrorMessages;
 use App\Constants\TransactionType;
 use App\Enums\Modules;
-use App\Enums\RequisitionItemTypes;
 use App\Enums\RequisitionTypes;
 use App\Enums\WorkflowProcessCodes;
 use App\Events\RequisitionRaised;
@@ -365,7 +364,7 @@ class FuelRequisitionService
 
         $vehicle = VehicleHeader::where('registration_number', '=', $reference)->first();
 
-        if (!in_array($vehicle->status, $allowedStatus)) {
+        if (empty($vehicle) || !in_array($vehicle->status, $allowedStatus)) {
             throw new FuelRequisitionException(ErrorMessages::getMessage('err_0004'), 1000);
         }
     }
@@ -580,13 +579,15 @@ class FuelRequisitionService
     public function getWorkShopRequisitionDetail(mixed $req_no): mixed
     {
         // 'GEN_MATERIAL_HEADERS.*',
-        return DB::table('GEN_MATERIAL_HEADERS')
-            ->where('GEN_MATERIAL_HEADERS.req_no', $req_no)
-            ->join('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
+        return DB::table('GEN_MATERIAL_DETAILS')
             ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
+            ->leftJoin('SPMS_ARTICLES_VIEW', 'GEN_MATERIAL_DETAILS.MATERIAL_CODE', '=', 'SPMS_ARTICLES_VIEW.CODE_ARTICLE')
             ->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
-            ->select('GEN_MATERIAL_DETAILS.*', 'CONFIG_STATUSES.name as status_name', 'CONFIG_STATUSES.color_code')
+            ->where('GEN_MATERIAL_DETAILS.req_no', $req_no)
+            ->select('GEN_MATERIAL_DETAILS.*',
+                'SPMS_ARTICLES_VIEW.description',
+                'CONFIG_STATUSES.name as status_name',
+                'CONFIG_STATUSES.color_code')
             ->get();
-
     }
 }

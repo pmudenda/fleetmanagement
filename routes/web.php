@@ -129,7 +129,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('save/job/card', [MaintenanceController::class, 'processJobCard'])->name('process.job_card');
         Route::post('save/job/card/accessories', [MaintenanceController::class, 'processJobCardAccessories'])->name('job_card.accessories.checkin');
         Route::post('save/job-card/defects', [MaintenanceController::class, 'processJobCardDefects'])->name('defects.job_card');
-        Route::post('save/workshop/requisition', [MaintenanceController::class, 'processWorkShopRequisition'])->name('process.requisition');
+        Route::post('save/workshop/requisition', [MaintenanceController::class, 'processWorkShopMaterials'])->name('process.requisition');
         // supporting
         Route::get('requisitions/maintenance/list', [MaintenanceController::class, 'list'])->name('maintenance.list');
         Route::post('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
