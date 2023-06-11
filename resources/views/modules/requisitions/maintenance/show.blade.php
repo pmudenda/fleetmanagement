@@ -272,7 +272,7 @@
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="request_date"
                                                                    readonly
-                                                                   value="{{date('Y-m-d', strtotime($requestDetails->valid_date_from))}}"
+                                                                  {{-- value="{{date('Y-m-d', strtotime($requestDetails->valid_date_from))}}"--}}
                                                                    name="request_date">
                                                         </div>
                                                     </div>
