@@ -144,9 +144,6 @@
                                                                                class="list-row-checkbox bold mr-3"
                                                                                name="CostAssignedTo"
                                                                                value="CostCenterBasedRequisition"
-                                                                               @if($requestDetails->cost_assigned_to =='CostCenter')
-                                                                                   checked
-                                                                            @endif
                                                                         />
                                                                         User Department
                                                                     </label>
@@ -371,7 +368,7 @@
                                 </div>
                             </div>
                         </div>
-{{$requestDetails}}
+
                         <div class="container-fluid">
                             <div id="materialDetailsContainer" class="table-responsive mt-3">
                                 <table id="materialDetailsTable" class="table table-bordered">
@@ -386,52 +383,54 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
+                                    @foreach($details as $detail)
+                                        <tr>
 
-                                        <td>
-                                            <input type="text" name="projectCode" readonly
-                                                   value="{{$requestDetails->material_code}}"
-                                                   class="form-control form-control-sm border-0"/>
-                                        </td>
+                                            <td>
+                                                <input type="text" name="projectCode" readonly
+                                                       value="{{$detail->material_code}}"
+                                                       class="form-control form-control-sm border-0"/>
+                                            </td>
 
-                                        <td>
+                                            <td>
                                             <span data-material-input="material_description"
-                                                  id="material_description">{{$requestDetails->specifications}}</span>
-                                        </td>
-                                        <td>
+                                                  id="material_description">{{$detail->specifications}}</span>
+                                            </td>
+                                            <td>
                                             <span name="material_quantity"
-                                                  id="material_quantity">{{$requestDetails->quantity}}</span>
-                                        </td>
-                                        <td>
+                                                  id="material_quantity">{{$detail->quantity}}</span>
+                                            </td>
+                                            <td>
                                             <span data-material-input="unit_of_measure"
-                                                  id="unit_of_measure">{{$requestDetails->unit_of_measure}}</span>
-                                        </td>
-                                        <td>
+                                                  id="unit_of_measure">{{$detail->unit_of_measure}}</span>
+                                            </td>
+                                            <td>
 
                                             <span data-material-input="material_price"
-                                                  id="material_price">{{number_format($requestDetails->price, 2)}}</span>
-                                        </td>
-                                        <td>
+                                                  id="material_price">{{number_format($detail->price, 2)}}</span>
+                                            </td>
+                                            <td>
                                             <span data-material-input="material_amount"
-                                                  id="material_amount">{{number_format($requestDetails->amount, 2)}}</span>
-                                            <input type="hidden" name="material_amount">
-                                        </td>
-                                    </tr>
+                                                  id="material_amount">{{number_format($detail->amount, 2)}}</span>
+                                                <input type="hidden" name="material_amount">
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
                                     </tbody>
                                     <tfoot>
                                     <tr>
                                         <td></td>
-                                        @if($requestDetails->cost_assigned_to !='CostCenter')
                                             <td></td>
-                                        @endif
+
                                         <td class="text-right"><strong>Total Quantity</strong>
                                             <span class="text-bold"
-                                                  id="totalQty">{{number_format($requestDetails->price, 2)}}</span>
+                                                  id="totalQty">{{number_format(0, 2)}}</span>
                                         </td>
                                         <td></td>
                                         <td class="text-right"><strong>Total Amount</strong></td>
                                         <td><span class="text-bold"
-                                                  id="totalAmount">{{number_format($requestDetails->amount, 2)}}</span>
+                                                  id="totalAmount">{{number_format(0, 2)}}</span>
                                         </td>
                                     </tr>
                                     </tfoot>
