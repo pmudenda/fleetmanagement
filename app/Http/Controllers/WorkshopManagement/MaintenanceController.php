@@ -114,15 +114,14 @@ class MaintenanceController extends Controller
 
         $user = Auth::user();
 
-        $requestDetails = $this->workshopRequisitionService->getWorkShopRequisitionDetail($req_no);
+        [$header, $details] = $this->workshopRequisitionService->getWorkShopRequisitionDetail($req_no);
+
+        $requestDetails = $header;
 
         if ($requestDetails == null) {
             abort(404);
         }
 
-        //$costCenter = CostCenters::where('code_cost_center', $user->cc_code)->first();
-        /*$organizationalUnit = OrganizationalUnits::where('code_unit', $requestDetails->cc_code)
-            ->first();*/
 
         $requisitionTypes = RequisitionTypes::where('status', '01')->where('module', 'FR')->get();
 
@@ -135,6 +134,7 @@ class MaintenanceController extends Controller
                 'user',
                 'requisitionTypes',
                 'requestDetails',
+                'details',
                 'daysToNextRefuel',
                 'approvalHistory'
             ));
@@ -426,7 +426,7 @@ class MaintenanceController extends Controller
 
             $comments = WorkShopComments::where('workshop_reference', '=', $details->workshop_doc_no)->get();
 
-            $materials = $this->workshopRequisitionService->getWorkShopRequisitionDetail($reference);
+            [$header, $materials] = $this->workshopRequisitionService->getWorkShopRequisitionDetail($reference);
         }
 
         return array(
