@@ -312,7 +312,7 @@ class WorkshopRequisitionService
     {
         $requisitionDetail = self::getReservationDetail($req_no);
 
-        $results = $this->procurementService->createStoresReservation(
+        $results = $this->procurementService->createStoresRequisition(
             $req_no,
             $requisitionDetail->veh_reg_no,
             $requisitionDetail->form_order,
