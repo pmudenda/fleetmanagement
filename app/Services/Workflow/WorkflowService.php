@@ -107,7 +107,7 @@ class WorkflowService
 
         //'date_acted'
         WorkflowTaskHeader::Create([
-            'assigned_user' => $assignToUser->con_per_no,
+            'assigned_user' => $assignToUser->staff_no,
             'subject' => $short_description,
             'status' => StatusHelper::new(),
             'url' => $actionPage,
@@ -126,7 +126,7 @@ class WorkflowService
             'process_code' => $processCode,
             'user_id' => $currentUser->staff_no,
             'current_step_id' => $stepAfterSubmission->step_id,
-            'actioning_officer' => $assignToUser->con_per_no,
+            'actioning_officer' => $assignToUser->staff_no,
             'status' => StatusHelper::new(),
             'step_after_submission' => $actionPage,
             'date_started' => Carbon::now(),

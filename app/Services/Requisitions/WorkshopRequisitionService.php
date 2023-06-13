@@ -171,7 +171,7 @@ class WorkshopRequisitionService
         $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::WORKSHOP_REQUISITION);
 
         Log::info("Requisition Ref. " . $requisition_reference_number);
-        //$form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
+        $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
         //$document_number = '';
         //Log::info("Doc No. " . $form_order_number);
         Log::info('Requisition Item Type ' . $requisitionPostRequest->get('itemType'));
@@ -208,7 +208,7 @@ class WorkshopRequisitionService
                 'date_created' => Carbon::now(),
                 'status' => StatusHelper::new(),
                 'req_no' => $requisition_reference_number,
-                //'form_order' => $form_order_number,
+                'form_order' => $form_order_number,
                 'workshop_no' => $workshop_code,
                 'item_type' => $item_type,
                 'requested_by' => $user->staff_no,

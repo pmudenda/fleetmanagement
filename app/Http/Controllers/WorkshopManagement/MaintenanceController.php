@@ -197,6 +197,7 @@ class MaintenanceController extends Controller
                     'spms_articles_view.technical_specifications',
                     'spms_articles_view.price_map',
                     'stock_management_view.price_map as price',
+                    'stock_management_view.stock_available as quantity_in_store',
                     'spms_articles_view.unit_measure',
                     'units_view.abbreviation as abbreviation',
                     'units_view.description as unit_measure_name'

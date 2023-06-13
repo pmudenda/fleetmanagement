@@ -154,7 +154,7 @@ class WorkshopService
                 'type' => 'DEF',
             ],
             [
-                'remarks' => $request->remarks,
+                'remarks' => $request->remarks ?? '',
                 'status' => StatusHelper::new(),
                 'created_by' => auth()->user()->staff_no
             ]);
