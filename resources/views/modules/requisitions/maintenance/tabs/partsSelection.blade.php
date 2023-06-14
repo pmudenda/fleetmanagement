@@ -11,6 +11,7 @@
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="container-fluid pl-0">
                         <div class="row">
+                            <input type="hidden" value="{{$MaterialHeader->id ?? 0}}" name="materialHeaderId">
                             <div class="form-group row">
                                 <label
                                     class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
@@ -159,7 +160,7 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <select
-                                        data-value=""
+                                        data-value="{{$materialsHeader->supplier_code}}"
                                         class="form-select form-select-sm"
                                         name="supplier"
                                         autocomplete="off"
@@ -201,12 +202,12 @@
                                     for="staff_no">Collection Date:
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                    @if($details)
+                                    @if($materialsHeader)
                                         <input type="date"
                                                class="form-control form-control-sm"
                                                id="date_expected"
                                                min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                               value="{{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}"
+                                               value="{{date('Y-m-d', strtotime(Carbon::parse($materialsHeader->collection_date)->format('Y-m-d')))}}"
                                                name="date_expected"
                                         />
 

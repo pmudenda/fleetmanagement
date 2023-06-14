@@ -19,6 +19,7 @@ class WorkShopMaterialHeader extends Model
         'collection_date',
         'supplier_code',
         'purchasing_office',
-        'job_card_no'
+        'job_card_no',
+        'form_order'
     ];
 }

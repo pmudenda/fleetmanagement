@@ -229,6 +229,7 @@ class WorkshopRequisitionService
 
         WorkShopMaterialHeader::create(
             [
+                'form_order' => $form_order_number,
                 'job_card_no' => $job_cord_no,
                 'item_type_code' => $item_type_code,
                 'workshop_reference' => $workshop_reference,
@@ -360,6 +361,8 @@ class WorkshopRequisitionService
     {
         $requisitionDetail = self::getReservationDetail($req_no);
 
+        $materialHeader = WorkShopMaterialHeader::where('form_order','=',$requisitionDetail->form_order)->first();
+
         $results = $this->procurementService->createStoresReservation(
             $req_no,
             $requisitionDetail->veh_reg_no,
@@ -367,7 +370,7 @@ class WorkshopRequisitionService
             Accounts::DefaultMotorVehicleAccount,
             TransactionType::NonFuelStoresRequisition,
             $requisitionDetail->store,
-            $requisitionDetail->job_card_no
+            $materialHeader->job_card_no
         );
 
         if (empty($results)) {
