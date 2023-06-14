@@ -75,8 +75,9 @@
                                 <th width="33%" colspan="4" class="text-center">
                                     STORES RESERVATION
                                 </th>
-                                <th width="34%" colspan="1" class="p-3">Doc Number:<br>XX.YYYYY.DOC_TYPE.NUMBER<br>Version:
-                                    5
+                                <th width="34%" colspan="1" class="p-3">
+                                    {{--Doc Number:<br>XX.YYYYY.DOC_TYPE.NUMBER<br>Version:
+                                    5--}}
                                 </th>
                             </tr>
                             </thead>
