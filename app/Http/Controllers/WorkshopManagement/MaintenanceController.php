@@ -379,13 +379,7 @@ class MaintenanceController extends Controller
     public function processWorkShopMaterials(WorkshopRequisitionRequest $request): JsonResponse
     {
         try {
-            $this->workshopRequisitionService->processRequest($request);
-            return response()->json([
-                'success' => true,
-                'message' => SystemMessages::materialAndServicesRecorded(),
-                'redirectUrl' => URL::signedRoute('defects.job.card',
-                    ['step' => 4, 'reference' => $request->get('job_card_no')]),
-            ]);
+           return $this->workshopRequisitionService->processRequest($request);
         } catch (\Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');

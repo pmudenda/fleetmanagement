@@ -4,6 +4,7 @@ namespace App\Services\Requisitions;
 
 use App\Constants\Accounts;
 use App\Constants\ErrorMessages;
+use App\Constants\SystemMessages;
 use App\Constants\TransactionType;
 use App\Enums\RequisitionItemTypes;
 use App\Enums\WorkflowProcessCodes;
@@ -99,7 +100,6 @@ class WorkshopRequisitionService
                 $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
                 break;
         }
-
 
         // check each article to make sure it's of the correct type and is no active on a reservation for the same car
         foreach ($requisitionPostRequest->get('items') as $item) {
@@ -310,7 +310,6 @@ class WorkshopRequisitionService
                 'created_by' => auth()->user()->staff_no
             ]);
 
-
         // Link Requisition and Job Card
         JobCardHeader::where('job_card_no', $job_cord_no)
             ->update(['req_no' => $requisition_reference_number]);
@@ -322,13 +321,19 @@ class WorkshopRequisitionService
         RequisitionRaised::dispatch($matHeader);
         Log::info('Requisition ' . $requisition_reference_number . ' raised successfully');
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Requisition ' . $requisition_reference_number . ' Submitted To. '
-                . $authority . 'For Approval',
+        /*return response()->json([
+
             'redirectUrl' => URL::signedRoute('show.workshop.requisition', [
                 'ref' => $requisition_reference_number
             ])
+        ]);*/
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Requisition ' . $requisition_reference_number . ' Generated and submitted to. '
+                . $authority . 'for Authorisation',
+            'redirectUrl' => URL::signedRoute('defects.job.card',
+                ['step' => 4, 'reference' => $job_cord_no]),
         ]);
     }
 

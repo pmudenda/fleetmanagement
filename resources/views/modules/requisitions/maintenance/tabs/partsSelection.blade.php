@@ -259,14 +259,17 @@
                                             class="form-control form-control-sm registration"/>
                                     </td>
                                     <td>
-                                        <select
-                                            readonly
+                                        <input
+                                            type="hidden"
                                             name="articles"
+                                            value="{{$material->material_code ?? ''}}"
+                                            class="form-select form-select-sm articlesDropDownList"/>
+                                        <input
+                                            type="text"
+                                            readonly
                                             required
-                                            data-value="{{$material->material_code ?? ''}}"
-                                            class="form-select form-select-sm articlesDropDownList">
-                                            <option></option>
-                                        </select>
+                                            value="{{$material->material_code ?? ''}}: {{$material->specifications ?? ''}}"
+                                            class="form-control form-control-sm"/>
                                     </td>
                                     <td>
                                         <input
