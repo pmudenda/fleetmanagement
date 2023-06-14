@@ -146,7 +146,7 @@
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="store"
                                                                    readonly
-                                                                   value="{{$requestDetails->store}}:{{Store::where('code_store','=',$requestDetails->store)->first()->description}}"
+                                                                   value="{{$requestDetails->store}} : {{Store::where('code_store','=',$requestDetails->store)->first()->description}}"
                                                                    name="request_date">
                                                         </div>
                                                     </div>
@@ -157,7 +157,7 @@
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
-                                                    <div class="form-group row">
+                                                    <div class="form-group row" style="display: none;">
                                                         <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="mobile_no">Collection Date:</label>
@@ -257,7 +257,7 @@
 
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
-                                                <div class="row">
+                                                <div style="display: none;" class="row">
                                                     <div class="form-group row">
                                                         <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
