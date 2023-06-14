@@ -1,5 +1,5 @@
 @php use Carbon\Carbon; @endphp
-<div class="card-header bg-success">
+<div class="card-header bg-success mt-10">
     <h4 class="card-title text-white">Approval Routing History</h4>
     <span class="badge badge-secondary right ml-2">
         @if($approvals != null)
@@ -18,7 +18,7 @@
 
     <table id="dataTable" class="table table-hover table">
         <thead class="">
-        <tr class="bg-dark">
+        <tr class="bg-dark-subtle">
             <th class="pl-2">Profile</th>
             <th>User</th>
             <th>Signature</th>
@@ -67,7 +67,7 @@
                     <td>{{$item->remarks}}</td>
                     <td>{{Carbon::parse($item->created_at)->format('d/m/Y')}}</td>
                     <td>
-                        {{Carbon::parse($item->created_at)->diffAsCarbonInterval($item->action_date)}}
+                        {{Carbon::parse($approvals[$key-1]->created_at)->diffAsCarbonInterval($item->action_date)}}
                     </td>
                 </tr>
             @endforeach
