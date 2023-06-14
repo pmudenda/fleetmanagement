@@ -1398,7 +1398,7 @@
                     $(selectElem).trigger('change');
 
                     // manually trigger the `select2:select` event
-                    selectElem.trigger({
+                    $(selectElem).trigger({
                         type: 'select2:select',
                         params: {
                             data: data
