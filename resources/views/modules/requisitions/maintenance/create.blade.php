@@ -1405,7 +1405,7 @@
                         }
                     });
 
-                    $(selectElem).val(value).trigger('change')
+                    $(selectElem).val(id).trigger('change')
                 });
             }
 
