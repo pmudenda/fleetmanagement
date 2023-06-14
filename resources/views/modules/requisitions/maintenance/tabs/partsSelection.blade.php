@@ -1,4 +1,4 @@
-@php use App\Enums\RequisitionItemTypes;use App\Models\reference\PurchaseOffice;use Carbon\Carbon;
+@php use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use App\Models\reference\PurchaseOffice;use Carbon\Carbon;
 @endphp
 <div class="container-fluid">
     <input type="hidden"
@@ -325,6 +325,7 @@
 
                                     <td class="view-mode">
                                         <button type="button"
+                                                @if($material->status == StatusHelper::authorised()) disabled @endif
                                                 data-value="{{$material->id ?? '0'}}"
                                                 value="deleteRow"
                                                 class="btn btn-danger p-2">
