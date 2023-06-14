@@ -9,6 +9,8 @@ class WorkShopMaterialHeader extends Model
 {
     use HasFactory;
 
+    protected $table ='WM_WORKSHOP_MATERIALS_HEADER';
+
     protected $fillable = [
         'item_type_code',
         'workshop_reference',
