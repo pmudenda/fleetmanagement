@@ -29,7 +29,7 @@
                                     <th>Date In</th>
                                     <th>Date Expected Out</th>
                                     <th>Originator</th>
-                                    <th>Qty. Requested</th>
+                                    {{--<th>Qty. Requested</th>--}}
                                     {{--<th>Qty. Issued</th>--}}
                                     <th>Status</th>
                                     <th>Remarks</th>
@@ -63,9 +63,9 @@
                                             {{$rec->originator?? '--'}}
                                         </td>
 
-                                        <td>
+                                       {{-- <td>
                                             {{$rec->quantity}}
-                                        </td>
+                                        </td>--}}
 
                                         {{-- <td>
                                              {{$rec->quantity_issued ?? 0}}
