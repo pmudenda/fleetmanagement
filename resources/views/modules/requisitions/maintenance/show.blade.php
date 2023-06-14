@@ -1,11 +1,11 @@
-@php use App\Enums\RequisitionTypes;use Carbon\Carbon; @endphp
+@php use App\Enums\RequisitionTypes;use App\Models\Security\User;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 @push('styles')
     <link href="{{asset("assets/plugins/select2/css/select2.min.css")}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset("assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")}}" rel="stylesheet"
           type="text/css"/>
     <style>
-      .corporate tbody, td, tfoot, th, thead, tr {
+        .corporate tbody, td, tfoot, th, thead, tr {
             border-color: inherit;
             border-style: solid;
             /*border-width: 1px !important;*/
@@ -59,7 +59,8 @@
                             </tr>
                             </thead>
                         </table>
-                        <table class="corporate" border="1" width="100%" data-height="100px" cellspacing="0" cellpadding="0"
+                        <table class="corporate" border="1" width="100%" data-height="100px" cellspacing="0"
+                               cellpadding="0"
                                align="Centre"
                                class="mb-4 ">
                             <thead>
@@ -151,11 +152,11 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                           {{-- <input type="text" class="form-control form-control-sm"
-                                                                   id="cost_centre_code"
-                                                                   value="{{$requestDetails->cost_centre?? ''}}"
-                                                                   name="cost_centre_code"
-                                                                   required readonly>--}}
+                                                            {{-- <input type="text" class="form-control form-control-sm"
+                                                                    id="cost_centre_code"
+                                                                    value="{{$requestDetails->cost_centre?? ''}}"
+                                                                    name="cost_centre_code"
+                                                                    required readonly>--}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -183,11 +184,11 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                       {{-- <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
-                                                            Requisition Type:
-                                                        </label>--}}
+                                                        {{-- <label
+                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                             for="staff_name">
+                                                             Requisition Type:
+                                                         </label>--}}
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             {{--<select name="requisition_type" id="requisition_type"
                                                                     class="form-control form-select-sm"
@@ -282,9 +283,7 @@
                                     </div>
 
                                     <div class="row">
-
-
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="col-xs-12 col-sm-12 col-md-12">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
@@ -295,7 +294,7 @@
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="requester"
                                                                    readonly
-                                                                   value="{{\App\Models\Security\User::where('staff_no','=', $requestDetails->requested_by)->first()->name}}"
+                                                                   value="{{User::where('staff_no','=', $requestDetails->requested_by)->first()->name}}"
                                                                    name="requester">
                                                         </div>
                                                     </div>
@@ -305,7 +304,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="col-xs-12 col-sm-12 col-md-12">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
@@ -352,7 +351,7 @@
                             <div id="materialDetailsContainer" class="table-responsive mt-3">
                                 <table id="materialDetailsTable" class="table table-bordered">
                                     <thead>
-                                    <tr class="bg-dark">
+                                    <tr class="bg-orange">
                                         <th>Article</th>
                                         <th>Material Description</th>
                                         <th>Qty</th>
@@ -402,7 +401,7 @@
                                     <tfoot>
                                     <tr>
                                         <td></td>
-                                            <td></td>
+                                        <td></td>
 
                                         <td class="text-right"><strong>Total Quantity</strong>
                                             <span class="text-bold"
