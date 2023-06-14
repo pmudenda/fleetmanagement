@@ -222,7 +222,8 @@ class WorkshopRequisitionService
                 'valid_date_from' => $valid_from,
                 'valid_date_to' => $valid_to,
                 'comments' => $justification,
-                'cost_assigned_to' => 'CostCenter'
+                'cost_assigned_to' => 'CostCenter',
+                'is_fuel' => 'N',
             ]
         );
 

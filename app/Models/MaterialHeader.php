@@ -31,6 +31,7 @@ class MaterialHeader extends Model
         'requested_by_id',
         'requested_by',
         'comments',
+        'is_fuel',
         'status',
         'requisition_type',
         'cost_assigned_to',

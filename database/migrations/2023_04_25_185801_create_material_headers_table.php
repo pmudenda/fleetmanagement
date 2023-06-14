@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('date_created');
             $table->string('created_by');
             $table->string('st_pur')->nullable();
+            $table->string('is_fuel')->default('N')->nullable();
             $table->Integer('odometer')->nullable();
             $table->string('user_unit', 15)->nullable();
             $table->string('cost_centre', 15)->nullable();

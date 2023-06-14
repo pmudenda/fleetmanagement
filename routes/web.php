@@ -143,6 +143,8 @@ Route::group(['middleware' => 'auth'], function () {
             return "Requisition Will Show Here";
         })->name('show.workshop.requisition');
 
+        Route::get('/workshop/requisitions/list', [WorkshopController::class, 'requisitions'])->name('list.workshop.requisition');
+
         // STORES REQUISITIONS
         Route::get('/workshop/approve', [MaintenanceController::class, 'show'])->name('show.workshop.requisition');
         Route::post('/workflow/stores/requisition/approve', [WorkflowController::class, 'processStoresRequisitionApproval'])->name('stores.requisition.approve');

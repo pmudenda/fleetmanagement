@@ -165,6 +165,13 @@
                                             </p>
                                         </a>
                                     </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ URL::signedRoute('list.workshop.requisition') }}">
+                                            <i class="fas fa-list nav-icon"></i>
+                                            <p>Requisitions</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
 
@@ -207,15 +214,17 @@
                                             <p>New</p>
                                         </a>
                                     </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ URL::signedRoute('list.fuel.requisition') }}">
+                                            <i class="fas fa-list nav-icon"></i>
+                                            <p>List</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ URL::signedRoute('list.fuel.requisition') }}">
-                                    <i class="fas fa-list nav-icon"></i>
-                                    <p>List</p>
-                                </a>
-                            </li>
+
 
                             {{--<li class="nav-item">
                                 <a href="#" class="nav-link">

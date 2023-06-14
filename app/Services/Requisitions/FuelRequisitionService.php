@@ -303,6 +303,7 @@ class FuelRequisitionService
 
         $matHeader = MaterialHeader::create(
             [
+                'is_fuel' => 'Y',
                 'req_no' => $requisition_reference_number,
                 'form_order' => $form_order_number,
                 'status' => StatusHelper::new(),
@@ -526,6 +527,7 @@ class FuelRequisitionService
                 ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
                 ->where('GEN_MATERIAL_HEADERS.requested_by', '=', $staff_no)
                 ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
+                ->where('GEN_MATERIAL_HEADERS.IS_FUEL', '=', 'Y')
                 ->select(
                     'GEN_MATERIAL_HEADERS.*',
                     'GEN_MATERIAL_DETAILS.quantity',
@@ -542,6 +544,7 @@ class FuelRequisitionService
                 ->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
                 ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
                 ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
+                ->where('GEN_MATERIAL_HEADERS.IS_FUEL', '=', 'Y')
                 ->select(
                     'GEN_MATERIAL_HEADERS.*',
                     'GEN_MATERIAL_DETAILS.quantity',
