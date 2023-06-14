@@ -1201,8 +1201,10 @@
                             let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
 
                             lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
-                            lastRow.find('[name="technical_specification"]').attr('readonly', false);
-                            lastRow.find('[name="quantity"]').attr('readonly', false);
+                            lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
+                            lastRow.find('[name="quantity"]').val('').attr('readonly', false);
+                            lastRow.find('[name="unit_of_measure"]').val('');
+                            lastRow.find('[name="unit_price"]').val('');
 
                             function reinitializeSelect2($_defect_sel) {
                                 if ($_defect_sel) {
