@@ -254,7 +254,7 @@ class ProcurementSystemIntegrationService
             ->leftJoin('STOCK_MANAGEMENT_VIEW', 'spms_articles_view.CODE_ARTICLE', '=', 'STOCK_MANAGEMENT_VIEW.CODE_ARTICLE')
             ->leftJoin('UNITS_VIEW', 'spms_articles_view.UNIT_MEASURE', '=', 'UNITS_VIEW.code_unit')
             //->where('STOCK_MANAGEMENT_VIEW.LEVEL_TYPE', '=', '02')
-            ->where('SPMS_ARTICLES_VIEW.CODE_ARTICLE', '=', $article_code)
+            ->where('spms_articles_view.CODE_ARTICLE', '=', $article_code)
             ->select(
                     'spms_articles_view.code_article',
                     'spms_articles_view.description',

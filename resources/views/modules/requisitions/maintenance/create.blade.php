@@ -1379,7 +1379,7 @@
                         return;
                     }
 
-                    getArticleDetails(id, selectElem);
+                    // getArticleDetails(id, selectElem);
 
                     /*let data = {
                         "id": id,

@@ -86,8 +86,6 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
         try {
 
             $procurementArticles = $this->procurementSystemIntegrationService->getArticleDetailsByCode($request->get('type_article'));
-            /*Article::where('code_article', '=', )
-                ->first();*/
 
             return response()->json([
                 'success' => !empty($procurementArticles),
