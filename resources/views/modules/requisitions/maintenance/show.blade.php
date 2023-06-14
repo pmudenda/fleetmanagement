@@ -138,7 +138,7 @@
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
-                                                                    <label class="form-check-inline">
+                                                                    {{--<label class="form-check-inline">
                                                                         <input type="radio"
                                                                                id="costOnCostCentre"
                                                                                class="list-row-checkbox bold mr-3"
@@ -146,16 +146,16 @@
                                                                                value="CostCenterBasedRequisition"
                                                                         />
                                                                         User Department
-                                                                    </label>
+                                                                    </label>--}}
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="text" class="form-control form-control-sm"
+                                                           {{-- <input type="text" class="form-control form-control-sm"
                                                                    id="cost_centre_code"
                                                                    value="{{$requestDetails->cost_centre?? ''}}"
                                                                    name="cost_centre_code"
-                                                                   required readonly>
+                                                                   required readonly>--}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -240,7 +240,7 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        <label
+                                                        {{--<label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="mobile_no">Allocation Per Week:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -256,7 +256,7 @@
                                                                 </div>
                                                             </div>
 
-                                                        </div>
+                                                        </div>--}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -272,7 +272,7 @@
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="request_date"
                                                                    readonly
-                                                                  {{-- value="{{date('Y-m-d', strtotime($requestDetails->valid_date_from))}}"--}}
+                                                                   value="{{date('Y-m-d', strtotime($requestDetails->created_at))}}"
                                                                    name="request_date">
                                                         </div>
                                                     </div>
@@ -295,7 +295,7 @@
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="requester"
                                                                    readonly
-                                                                   value="{{$requestDetails->requested_by}}"
+                                                                   value="{{\App\Models\Security\User::where('staff_no','=', $requestDetails->requested_by)->name}}"
                                                                    name="requester">
                                                         </div>
                                                     </div>
