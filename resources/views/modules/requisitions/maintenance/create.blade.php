@@ -1382,7 +1382,7 @@
                     $(selectElem).closest('tr').find('')
 
                     let option = new Option(text,id, true, true);
-                    selectElem.append(option).trigger('change');
+                    selectElem[0].append(option).trigger('change');
 
                     // manually trigger the `select2:select` event
                     selectElem.trigger({
