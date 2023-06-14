@@ -178,7 +178,7 @@
                             + $("#store_name").val()
                             + ' does not have '
                             + article?.id
-                            + ' - '+article['technical_specifications']+' in stock. ' +
+                            + ' - ' + article['technical_specifications'] + ' in stock. ' +
                             'You may have to wait until the stock is received before your request can be processed'
                     });
                 }
@@ -189,7 +189,7 @@
                 $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
                 $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
 
-                getArticleDetails(article['id'], )
+                getArticleDetails(article['id'],)
             });
         }
 
@@ -334,7 +334,7 @@
                         dataFiler();
                     }
 
-                    if(window['materials']){
+                    if (window['materials']) {
                         prefillSelectedMaterials();
                     }
 
@@ -1381,9 +1381,9 @@
 
                     $(selectElem).closest('tr').find('')
 
-                    let option = new Option(text,id, true, true);
+                    let option = new Option(text, id, true, true);
                     selectElem[0].append(option);
-                        selectElem[0].trigger('change');
+                    selectElem.trigger('change');
 
                     // manually trigger the `select2:select` event
                     selectElem.trigger({
