@@ -247,7 +247,7 @@
 
                     let option = new Option(data.text, data.id, true, true);
                     selectElem.append(option).trigger('change');
-
+// "search","BBB");
                     // manually trigger the `select2:select` event
                     selectElem.trigger({
                         type: 'select2:select',
@@ -1379,19 +1379,21 @@
                         return;
                     }
 
-                    let data = {
+                    getArticleDetails(id, selectElem);
+
+                    /*let data = {
                         "id": id,
                         "text": text,
-                        /*'code_article': response?.code_article,
+                        'code_article': response?.code_article,
                         'description': response?.description,
                         'price_map': response?.price,
                         'technical_specifications': response?.technical_specifications,
                         'unit_measure': response?.unit_measure,
-                        'unit_measure_name': response?.unit_measure_name*/
+                        'unit_measure_name': response?.unit_measure_name
                     };
 
 
-                    $(selectElem).closest('tr').find('')
+                    // $(selectElem).closest('tr').find('')
 
                     let option = new Option(text, id, true, true);
                     selectElem[0].append(option);
@@ -1405,7 +1407,7 @@
                         }
                     });
 
-                    $(selectElem).val(id).trigger('change')
+                    $(selectElem).val(id).trigger('change')*/
                 });
             }
 
