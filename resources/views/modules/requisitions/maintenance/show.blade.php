@@ -132,56 +132,50 @@
                                         </div>
                                     </div>
 
+                                    <div class="row">
 
-                                    {{--<div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        <div
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <label class="form-check-inline">
-                                                                        <input type="radio"
-                                                                               id="costOnCostCentre"
-                                                                               class="list-row-checkbox bold mr-3"
-                                                                               name="CostAssignedTo"
-                                                                               value="CostCenterBasedRequisition"
-                                                                        />
-                                                                        User Department
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="request_date">Store:
+                                                        </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                             <input type="text" class="form-control form-control-sm"
-                                                                    id="cost_centre_code"
-                                                                    value="{{$requestDetails->cost_centre?? ''}}"
-                                                                    name="cost_centre_code"
-                                                                    required readonly>
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   id="store"
+                                                                   readonly
+                                                                   value="{{$requestDetails->store}}"
+                                                                   name="request_date">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-10">
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Collection Date:</label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
-                                                                   id="cost_center_name"
-                                                                   value="{{$requestDetails->cost_centre_name?? ''}}"
-                                                                   name="cost_center_name"
-                                                                   required readonly>
+                                                                   id="fuel_allocation"
+                                                                   value=""
+                                                                   name="fuel_allocation"
+                                                                   readonly
+                                                            />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>--}}
+                                    </div>
+
+
 
                                     {{--  <div class="row">
                                           <div class="col-xs-12 col-sm-6 col-md-6">
