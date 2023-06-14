@@ -445,6 +445,8 @@
                 <input type="hidden" value="{{ $requestDetails->req_no }}" id="taskReference">
             </div>
         </div>
+        <input type="hidden" name="onboarding_status" id="onboarding_status"
+               value="{{StatusHelper::onboardingComplete()}}">
     </section>
 @endsection
 @push('scripts')

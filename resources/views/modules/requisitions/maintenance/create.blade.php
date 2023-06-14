@@ -1,4 +1,4 @@
-@php use Carbon\Carbon; @endphp
+@php use App\Helpers\StatusHelper;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 @push('styles')
     <link href="{{asset("assets/plugins/select2/css/select2.min.css")}}" rel="stylesheet" type="text/css"/>
@@ -101,7 +101,8 @@
                        id="deleteMaterialUrl"/>
             </div>
         </div>
-        <input type="hidden" name="onboarding_status" id="onboarding_status" value="030">
+        <input type="hidden" name="onboarding_status" id="onboarding_status"
+               value="{{StatusHelper::onboardingComplete()}}">
     </section>
 @endsection
 @push('scripts')
@@ -228,7 +229,7 @@
             fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
                 .then(response => response.json())
                 .then(response => {
-                   let result = response['payload'];
+                    let result = response['payload'];
                     if (result.success === 'failure') {
                         // show errors
                         toastr.error('Connection error, no data found')
