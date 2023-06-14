@@ -250,19 +250,30 @@ class ProcurementSystemIntegrationService
 
     public function getArticleDetailsByCode($article_code)
     {
-        $results = DB::table('SPMS_ARTICLES_VIEW')
-            ->leftJoin('STOCK_MANAGEMENT_VIEW', 'SPMS_ARTICLES_VIEW.CODE_ARTICLE', '=', 'STOCK_MANAGEMENT_VIEW.CODE_ARTICLE')
-            ->leftJoin('UNITS_VIEW', 'SPMS_ARTICLES_VIEW.UNIT_MEASURE', '=', 'UNITS_VIEW.code_unit')
+        $results = DB::table('spms_articles_view')
+            ->leftJoin('STOCK_MANAGEMENT_VIEW', 'spms_articles_view.CODE_ARTICLE', '=', 'STOCK_MANAGEMENT_VIEW.CODE_ARTICLE')
+            ->leftJoin('UNITS_VIEW', 'spms_articles_view.UNIT_MEASURE', '=', 'UNITS_VIEW.code_unit')
             //->where('STOCK_MANAGEMENT_VIEW.LEVEL_TYPE', '=', '02')
             ->where('SPMS_ARTICLES_VIEW.CODE_ARTICLE', '=', $article_code)
             ->select(
-                'UNITS_VIEW.description',
-                'units_view.abbreviation',
-                'SPMS_ARTICLES_VIEW.description as name',
-                'SPMS_ARTICLES_VIEW.CODE_ARTICLE as code',
-                'STOCK_MANAGEMENT_VIEW.PRICE_MAP as price'
+                    'spms_articles_view.code_article',
+                    'spms_articles_view.description',
+                    'spms_articles_view.technical_specifications',
+                    'spms_articles_view.price_map',
+                    'stock_management_view.price_map as price',
+                    'stock_management_view.stock_available as quantity_in_store',
+                    'spms_articles_view.unit_measure',
+                    'units_view.abbreviation as abbreviation',
+                    'units_view.description as unit_measure_name'
             )
             ->get();
+
+        /*'UNITS_VIEW.description',
+                'units_view.abbreviation',
+                'spms_articles_view.description as name',
+                'spms_articles_view.technical_specifications',
+                'spms_articles_view.CODE_ARTICLE as code',
+                'STOCK_MANAGEMENT_VIEW.PRICE_MAP as price'*/
 
         return $results->first();
     }
