@@ -84,8 +84,11 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
     public function getArticleDetails(Request $request): JsonResponse
     {
         try {
+            $code_article = $request->get('type_article');
 
-            $procurementArticles = $this->procurementSystemIntegrationService->getArticleDetailsByCode($request->get('type_article'));
+            Log::info('Code Article ' .$code_article);
+
+            $procurementArticles = $this->procurementSystemIntegrationService->getArticleDetailsByCode($code_article);
 
             return response()->json([
                 'success' => !empty($procurementArticles),
