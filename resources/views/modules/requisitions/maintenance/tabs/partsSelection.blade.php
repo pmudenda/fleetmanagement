@@ -237,7 +237,7 @@
                             <th style="width: 6%;" class="pl-2">Reg. No</th>
                             <th style="width: 25%;">Article</th>
                             <th>Article Code</th>
-                            <th style="width: 25%;">Specification</th>
+                            <th style="width: 25%;">Tech. Specification</th>
                             <th style="width: 4%; max-width: 4%;">Qty.</th>
                             <th>UOM</th>
                             <th>Unit Price</th>
