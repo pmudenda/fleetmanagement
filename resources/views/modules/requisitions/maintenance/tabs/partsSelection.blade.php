@@ -261,21 +261,11 @@
                                         <select
                                                 name="articles"
                                                 required
-                                                data-value=""
+                                                data-text="{{$material->material_code ?? ''}} : {{$material->specifications ?? ''}}"
+                                                data-value="{{$material->material_code ?? ''}}"
                                                 class="form-control form-control-sm articlesDropDownList">
-                                            <option value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}: {{$material->specifications ?? ''}}</option>
+                                            <option value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}} : {{$material->specifications ?? ''}}</option>
                                         </select>
-                                      {{--  <input
-                                            type="hidden"
-                                            name="articles"
-                                            value="{{$material->material_code ?? ''}}"
-                                            class="form-select form-select-sm articlesDropDownList"/>
-                                        <input
-                                            type="text"
-                                            readonly
-                                            required
-                                            value="{{$material->material_code ?? ''}}: {{$material->specifications ?? ''}}"
-                                            class="form-control form-control-sm"/>--}}
                                     </td>
                                     <td>
                                         <input
