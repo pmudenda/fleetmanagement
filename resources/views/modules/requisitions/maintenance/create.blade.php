@@ -101,6 +101,7 @@
                        id="deleteMaterialUrl"/>
             </div>
         </div>
+        <input type="hidden" name="onboarding_status" id="onboarding_status" value="030">
     </section>
 @endsection
 @push('scripts')
@@ -172,9 +173,13 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'The Store ' + $("#store_name").val() + ' does not have ' + article?.id + ' in stock'
-                    })
-                    return;
+                        text: 'The Store '
+                            + $("#store_name").val()
+                            + ' does not have '
+                            + article?.id
+                            + ' - '+article['technical_specifications']+' in stock' +
+                            'You may have to wait until the stock is received before your request can be processed'
+                    });
                 }
 
                 $(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
@@ -182,6 +187,8 @@
                 $(row).find('[name="unit_price"]').val(article['price_map']);
                 $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
                 $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
+
+                getArticleDetails(article['id'], )
             });
         }
 
@@ -214,6 +221,59 @@
                 };
             });
         }
+
+
+        function getArticleDetails(code_article, selectElem) {
+
+            fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
+                .then(response => response.json())
+                .then(response => {
+                    if (response.state === 'failure') {
+                        //show errors
+                        toastr.error('Connection error, no data found')
+                        return;
+                    }
+
+                    let data = {
+                        "id": response['code_article'],
+                        "text": response['code_article'] + ':' + response.description,
+                        'code_article': response?.code_article,
+                        'description': response?.description,
+                        'price_map': response?.price,
+                        'technical_specifications': response?.technical_specifications,
+                        'unit_measure': response?.unit_measure,
+                        'unit_measure_name': response?.unit_measure_name
+                    };
+
+                    let option = new Option(data.text, data.id, true, true);
+                    selectElem.append(option).trigger('change');
+
+                    // manually trigger the `select2:select` event
+                    selectElem.trigger({
+                        type: 'select2:select',
+                        params: {
+                            data: data
+                        }
+                    });
+
+                    /*let workshops = response['payload'];
+                    tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
+
+                    let location = selectElem.attr('data-value');
+                    console.log(location);
+                    if (location) {
+                        selectElem.val(location);
+                        selectElem.trigger('change');
+                    }*/
+
+                })
+                .catch(function (error) {
+                    // notify of error
+                    toastr.error(
+                        'Connection error. Could not retrieve data, some feature might not work.')
+                });
+        }
+
     </script>
     <script>
         $(document).ready(function () {
@@ -573,59 +633,6 @@
                     });
             }*/
 
-            function getArticleDetails(code_article, selectElem) {
-
-                fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
-                    .then(response => response.json())
-                    .then(response => {
-                        //let  = $(row).find('.articlesDropDownList');
-                        // Populate results
-                        if (response.state === 'failure') {
-                            //show errors
-                            toastr.error('Connection error, no data found')
-                            return;
-                        }
-
-                        let data = {
-                            "id": response['code_article'],
-                            "text": response['code_article'] + ':' + response.description,
-                            'code_article': response?.code_article,
-                            'description': response?.description,
-                            'price_map': response?.price,
-                            'technical_specifications': response?.technical_specifications,
-                            'unit_measure': response?.unit_measure,
-                            'unit_measure_name': response?.unit_measure_name
-                        };
-
-                        let option = new Option(data.text, data.id, true, true);
-                        selectElem.append(option).trigger('change');
-
-                        // manually trigger the `select2:select` event
-                        selectElem.trigger({
-                            type: 'select2:select',
-                            params: {
-                                data: data
-                            }
-                        });
-
-                        /*let workshops = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
-
-                        let location = selectElem.attr('data-value');
-                        console.log(location);
-                        if (location) {
-                            selectElem.val(location);
-                            selectElem.trigger('change');
-                        }*/
-
-                    })
-                    .catch(function (error) {
-                        // notify of error
-                        toastr.error(
-                            'Connection error. Could not retrieve data, some feature might not work.')
-                    });
-            }
-
             function getFuelLevels() {
                 fetch(document.querySelector('#fuelLevelsUrl').value)
                     .then(response => response.json())
@@ -731,7 +738,7 @@
                 }*/
 
                 // BAD 1010
-                if (vehicle['on_boarding_status'] != '030') {
+                if (vehicle['on_boarding_status'] != document.querySelector('[name="onboarding_status"]')) {
                     tmsApp.showSystemMessage("Incomplete Vehicle Details",
                         `The vehicle ${vehicle['registration_number']} is ${vehicle_state}. Please Contact Fleet Master
                             System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com`,
