@@ -205,6 +205,7 @@
                                         <input type="date"
                                                class="form-control form-control-sm"
                                                id="date_expected"
+                                               min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                                value="{{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}"
                                                name="date_expected"
                                         />
@@ -213,6 +214,7 @@
                                         <input type="date"
                                                class="form-control form-control-sm"
                                                id="date_expected"
+                                               min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                                value="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                                name="date_expected"
                                         />
