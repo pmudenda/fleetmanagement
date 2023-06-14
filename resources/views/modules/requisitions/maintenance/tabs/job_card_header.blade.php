@@ -227,6 +227,7 @@
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <div class="input-group">
                                         <input type="number"
+                                               max="1"
                                                class="form-control form-control-sm"
                                                id="current_odometer"
                                                value="{{$details->millage_in ?? ''}}"
