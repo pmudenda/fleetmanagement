@@ -247,4 +247,23 @@ class ProcurementSystemIntegrationService
             return "";
         }
     }
+
+    public function getArticleDetailsByCode($article_code)
+    {
+        $results = DB::table('SPMS_ARTICLES_VIEW')
+            ->leftJoin('STOCK_MANAGEMENT_VIEW', 'SPMS_ARTICLES_VIEW.CODE_ARTICLE', '=', 'STOCK_MANAGEMENT_VIEW.CODE_ARTICLE')
+            ->leftJoin('UNITS_VIEW', 'SPMS_ARTICLES_VIEW.UNIT_MEASURE', '=', 'UNITS_VIEW.code_unit')
+            //->where('STOCK_MANAGEMENT_VIEW.LEVEL_TYPE', '=', '02')
+            ->where('SPMS_ARTICLES_VIEW.CODE_ARTICLE', '=', $article_code)
+            ->select(
+                'UNITS_VIEW.description',
+                'units_view.abbreviation',
+                'SPMS_ARTICLES_VIEW.description as name',
+                'SPMS_ARTICLES_VIEW.CODE_ARTICLE as code',
+                'STOCK_MANAGEMENT_VIEW.PRICE_MAP as price'
+            )
+            ->get();
+
+        return $results->first();
+    }
 }
