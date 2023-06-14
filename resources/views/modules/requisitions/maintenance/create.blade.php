@@ -228,26 +228,29 @@
             fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
                 .then(response => response.json())
                 .then(response => {
-                    if (response.state === 'failure') {
-                        //show errors
+                   let result = response['payload'];
+                    if (result.success === 'failure') {
+                        // show errors
                         toastr.error('Connection error, no data found')
                         return;
                     }
 
+                    console.log(result);
+
                     let data = {
-                        "id": response['code_article'],
-                        "text": response['code_article'] + ':' + response.description,
-                        'code_article': response?.code_article,
-                        'description': response?.description,
-                        'price_map': response?.price,
-                        'technical_specifications': response?.technical_specifications,
-                        'unit_measure': response?.unit_measure,
-                        'unit_measure_name': response?.unit_measure_name
+                        "id": result['code_article'],
+                        "text": result['code_article'] + ':' + result.description,
+                        'code_article': result?.code_article,
+                        'description': result?.description,
+                        'price_map': result?.price,
+                        'technical_specifications': result?.technical_specifications,
+                        'unit_measure': result?.unit_measure,
+                        'unit_measure_name': result?.unit_measure_name
                     };
 
                     let option = new Option(data.text, data.id, true, true);
                     selectElem.append(option).trigger('change');
-// "search","BBB");
+
                     // manually trigger the `select2:select` event
                     selectElem.trigger({
                         type: 'select2:select',
@@ -256,7 +259,38 @@
                         }
                     });
 
-                    /*let workshops = response['payload'];
+                    /*
+                    let data = {
+                        "id": id,
+                        "text": text,
+                        'code_article': response?.code_article,
+                        'description': response?.description,
+                        'price_map': response?.price,
+                        'technical_specifications': response?.technical_specifications,
+                        'unit_measure': response?.unit_measure,
+                        'unit_measure_name': response?.unit_measure_name
+                    };
+
+
+                    // $(selectElem).closest('tr').find('')
+
+                    let option = new Option(text, id, true, true);
+                    selectElem[0].append(option);
+                    $(selectElem).trigger('change');
+
+                    // manually trigger the `select2:select` event
+                    $(selectElem).trigger({
+                        type: 'select2:select',
+                        params: {
+                            data: data
+                        }
+                    });
+
+                    $(selectElem).val(id).trigger('change')
+                    */
+
+                    /*
+                    let workshops = response['payload'];
                     tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
 
                     let location = selectElem.attr('data-value');
@@ -264,13 +298,12 @@
                     if (location) {
                         selectElem.val(location);
                         selectElem.trigger('change');
-                    }*/
-
+                    }
+                    */
                 })
                 .catch(function (error) {
                     // notify of error
-                    toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
+                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
                 });
         }
 
@@ -1380,34 +1413,6 @@
                     }
 
                     getArticleDetails(id, selectElem);
-
-                    /*let data = {
-                        "id": id,
-                        "text": text,
-                        'code_article': response?.code_article,
-                        'description': response?.description,
-                        'price_map': response?.price,
-                        'technical_specifications': response?.technical_specifications,
-                        'unit_measure': response?.unit_measure,
-                        'unit_measure_name': response?.unit_measure_name
-                    };
-
-
-                    // $(selectElem).closest('tr').find('')
-
-                    let option = new Option(text, id, true, true);
-                    selectElem[0].append(option);
-                    $(selectElem).trigger('change');
-
-                    // manually trigger the `select2:select` event
-                    $(selectElem).trigger({
-                        type: 'select2:select',
-                        params: {
-                            data: data
-                        }
-                    });
-
-                    $(selectElem).val(id).trigger('change')*/
                 });
             }
 
