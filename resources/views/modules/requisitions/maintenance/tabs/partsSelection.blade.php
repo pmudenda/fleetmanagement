@@ -277,7 +277,7 @@
                                     </td>
                                     <td>
                                         <input type="text"
-                                               max="255"
+                                               maxlength="300"
                                                name="technical_specification"
                                                required
                                                readonly
