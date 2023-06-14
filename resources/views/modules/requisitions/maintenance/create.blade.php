@@ -1383,7 +1383,7 @@
 
                     let option = new Option(text, id, true, true);
                     selectElem[0].append(option);
-                    selectElem.trigger('change');
+                    $(selectElem).trigger('change');
 
                     // manually trigger the `select2:select` event
                     selectElem.trigger({
