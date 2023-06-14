@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('req_evaluation', 2)->nullable();
             $table->timestamp('date_mat')->nullable();
             $table->string('material_code')->nullable();
-            $table->string('unit_of_measure')->nullable();
+            $table->string('unit_of_measure', 18)->nullable();
             $table->Integer('quantity')->nullable();
 
             $table->decimal('amount', 18, 2)->nullable();

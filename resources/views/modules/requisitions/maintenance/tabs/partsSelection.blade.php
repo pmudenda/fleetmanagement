@@ -265,7 +265,7 @@
                                                 required
                                                 data-text="{{$material->material_code ?? ''}} : {{$material->specifications ?? ''}}"
                                                 data-value="{{$material->material_code ?? ''}}"
-                                                class="form-control form-control-sm articlesDropDownList">
+                                                class="form-control form-control-sm DropDownList">
                                             <option value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}} : {{$material->specifications ?? ''}}</option>
                                         </select>
                                     </td>

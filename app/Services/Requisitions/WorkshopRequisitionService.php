@@ -20,6 +20,7 @@ use App\Models\Workflow\WorkflowActions;
 use App\Models\Workflow\WorkflowModules;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\WorkShopComments;
+use App\Models\WorkShopManagement\WorkShopMaterialHeader;
 use App\Models\WorkShopManagement\WorkShopMaterials;
 use App\Models\WorkShopManagement\WorkShopServiceModel;
 use App\Services\Integration\ProcurementSystemIntegrationService;
@@ -104,8 +105,9 @@ class WorkshopRequisitionService
 
         foreach ($requisitionPostRequest->get('items') as $item) {
             $query = DB::table('spms_articles_view');
+            $item_type_code = $requisitionPostRequest->itemType;
 
-            switch ($requisitionPostRequest->itemType) {
+            switch ($item_type_code) {
                 case RequisitionItemTypes::StockItemCode:
                     $query->where(function ($q) use ($item_type) {
                         $q->whereIn('spms_articles_view.code_group',
@@ -137,7 +139,7 @@ class WorkshopRequisitionService
                 $articleType = $item_type == RequisitionItemTypes::StockItem
                     ? "Stock Item"
                     : ($item_type == RequisitionItemTypes::NonStockItem
-                    ? "Non Stock Item " : "Service");
+                        ? "Non Stock Item " : "Service");
 
                 throw new MaterialReservationException(
                     str_replace("@itemType", $articleType,
@@ -153,10 +155,10 @@ class WorkshopRequisitionService
                 ->where('gen_material_details.material_code', '=', $item['articleCode'])
                 ->where('gen_material_details.reg_no', '=', $registrationNumber)
                 ->whereIn('gen_material_headers.status', [
-                        StatusHelper::new(),
-                        StatusHelper::authorised(),
-                        StatusHelper::partiallyReleased()
-                    ])->select("gen_material_headers.*")
+                    StatusHelper::new(),
+                    StatusHelper::authorised(),
+                    StatusHelper::partiallyReleased()
+                ])->select("gen_material_headers.*")
                 ->first();
 
             if (!empty($activeRequests)) {
@@ -223,6 +225,19 @@ class WorkshopRequisitionService
                 'cost_assigned_to' => 'CostCenter'
             ]
         );
+
+
+        WorkShopMaterialHeader::create(
+            [
+                'job_card_no' => $job_cord_no,
+                'item_type_code' => $item_type_code,
+                'workshop_reference' => $workshop_reference,
+                'workshop_code' => $workshop_code,
+                'request_date' => Carbon::now(),
+                'collection_date' => Carbon::parse($requisitionPostRequest->date_expected),
+                'supplier_code' => $requisitionPostRequest->supplier,
+                'purchasing_office' => $requisitionPostRequest->get('purchase_office'),
+            ]);
 
         foreach ($requisitionPostRequest->get('items') as $item) {
             MaterialDetail::create([

@@ -21,6 +21,7 @@ use App\Models\MaterialDetail;
 use App\Models\RequisitionTypes;
 use App\Models\WorkShopManagement\VehicleDefects;
 use App\Models\WorkShopManagement\WorkShopComments;
+use App\Models\WorkShopManagement\WorkShopMaterialHeader;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
 use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Requisitions\WorkshopRequisitionService;
@@ -82,7 +83,7 @@ class MaintenanceController extends Controller
         }
 
         list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections, $defects,
-            $comments, $officeDetails, $materials) = $this->getJobCardCreationData($request);
+            $comments, $officeDetails, $materials, $materialsHeader) = $this->getJobCardCreationData($request);
 
         $view_name = 'modules.requisitions.maintenance.create';
 
@@ -98,7 +99,8 @@ class MaintenanceController extends Controller
                     'defects',
                     'comments',
                     'officeDetails',
-                    'materials'
+                    'materials',
+                    'materialsHeader'
                 )
             );
     }
@@ -240,7 +242,8 @@ class MaintenanceController extends Controller
             $defects,
             $comments,
             $officeDetails,
-            $materials
+            $materials,
+            $materialsHeader
             ) = $this->getJobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.create')
@@ -255,7 +258,8 @@ class MaintenanceController extends Controller
                     'defects',
                     'comments',
                     'officeDetails',
-                    'materials'
+                    'materials',
+                    'materialsHeader'
                 )
             );
     }
@@ -274,7 +278,11 @@ class MaintenanceController extends Controller
             $details,
             $workshop_sections,
             $defects,
-            $comments, $officeDetails, $materials) = $this->getJobCardCreationData($request);
+            $comments,
+            $officeDetails,
+            $materials,
+            $materialsHeader
+            ) = $this->getJobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.create')
             ->with(
@@ -288,7 +296,8 @@ class MaintenanceController extends Controller
                     'defects',
                     'comments',
                     'officeDetails',
-                    'materials'
+                    'materials',
+                    'materialsHeader'
                 )
             );
     }
@@ -418,6 +427,7 @@ class MaintenanceController extends Controller
         $comments = [];
         $officeDetails = null;
         $materials = collect([]);
+        $materialsHeader = null;
 
         if ($reference) {
             $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)
@@ -431,6 +441,8 @@ class MaintenanceController extends Controller
             $comments = WorkShopComments::where('workshop_reference', '=', $details->workshop_doc_no)->get();
 
             $materials = $this->workshopRequisitionService->getWorkShopRequisitionItems($reference);
+
+            $materialsHeader = WorkShopMaterialHeader::where('job_card_no', '=', $reference)->first();
         }
 
         return array(
@@ -443,7 +455,8 @@ class MaintenanceController extends Controller
             $defects,
             $comments,
             $officeDetails,
-            $materials
+            $materials,
+            $materialsHeader
         );
     }
 
