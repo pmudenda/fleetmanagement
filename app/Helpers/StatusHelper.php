@@ -114,4 +114,9 @@ class StatusHelper
         return "39";
     }
 
+    public static function vehicleInWorkshop(): string
+    {
+        return "005";
+    }
+
 }

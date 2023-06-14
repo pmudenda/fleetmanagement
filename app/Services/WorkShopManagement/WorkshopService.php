@@ -9,6 +9,7 @@ use App\Http\Requests\JobCardRequest;
 use App\Http\Requests\VehicleDefectsRequest;
 use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
+use App\Models\VehicleManagement\VehicleHeader;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\VehicleDefects;
 use App\Models\WorkShopManagement\WorkShopComments;
@@ -28,7 +29,7 @@ class WorkshopService
         $user = auth()->user();
 
         /// $receiverParts = explode('|', $request->get('service_advisor'));
-        if ($request->has('job_card_number') && !empty($request->get('job_card_number')) && $request->get('job_card_number') != 0) {
+        if ($request->has('job_card_number') && !empty($request->get('job_card_number'))) {
             // update the information
             $details = JobCardHeader::where('job_card_no', '=', $request->get('job_card_number'))->orderBy('id', 'desc')
                 ->first();
@@ -80,7 +81,11 @@ class WorkshopService
             'created_by' => $user->id
         ];
 
-        return JobCardHeader::create($data);
+        $jobCardHeader = JobCardHeader::create($data);
+
+        $this->moveVehicleToWorkShop($jobCardHeader->veh_reg);
+
+        return $jobCardHeader;
     }
 
     public function getJobCardDetails(mixed $reference)
@@ -195,5 +200,11 @@ class WorkshopService
                 'zfm_purchase_offices.code_office as purchase_office_code')
             ->get();
         return $data->first();
+    }
+
+    private function moveVehicleToWorkShop($veh_reg)
+    {
+        VehicleHeader::where('registration_number', $veh_reg)
+            ->update(['status' => StatusHelper::vehicleInWorkshop()]);
     }
 }
