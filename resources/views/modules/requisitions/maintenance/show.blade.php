@@ -339,13 +339,20 @@
                                 </div>
                                 <div class="col-3">
                                     <div id="vehicleDetailsContainer" style="display: none;"
-                                         class="col-xs-12 col-sm-12 col-md-12">
+                                         class="col-xs-12 col-sm-12 col-md-12 pl-0">
                                         <h1>Vehicle Details</h1>
-                                        <table class="table">
+                                        <table class="table table-striped">
                                             <tbody id="vehicleDetails" class="vehicleDetails">
                                             </tbody>
                                         </table>
                                     </div>
+
+                                    <div id="image_view" class="card text-center py-5 my-2" style="display: none;">
+                                        <div class="form-group">
+                                            <div class="imagePreview"></div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
