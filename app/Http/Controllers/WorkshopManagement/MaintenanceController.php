@@ -184,8 +184,8 @@ class MaintenanceController extends Controller
                 });
             }
 
-            $query->where('spms_articles_view.type_article', '=', $request->get('type_article'))
-                ->where('stock_management_view.level_type', '=', '02');
+            $query->where('spms_articles_view.type_article', '=', $request->get('type_article'));
+                //->where('stock_management_view.level_type', '=', '02');
 
             $query->where(function ($query) use ($search) {
                 $query->orWhere('spms_articles_view.code_article', 'like', "%{$search}%")
