@@ -738,7 +738,7 @@
                 }*/
 
                 // BAD 1010
-                if (vehicle['on_boarding_status'] != document.querySelector('[name="onboarding_status"]')) {
+                if (vehicle['on_boarding_status'] != document.querySelector('[name="onboarding_status"]').value) {
                     tmsApp.showSystemMessage("Incomplete Vehicle Details",
                         `The vehicle ${vehicle['registration_number']} is ${vehicle_state}. Please Contact Fleet Master
                             System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com`,
