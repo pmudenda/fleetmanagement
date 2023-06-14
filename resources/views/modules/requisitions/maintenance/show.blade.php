@@ -449,6 +449,115 @@
 @push('scripts')
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script>
+        function populateVehicleDetails(payload) {
+            let vehicle = payload['vehicle'];
+            let images = payload['images'];
+            let vehicle_state = payload['vehicle_state'];
+
+            if (!vehicle || !vehicle.brand_name) {
+                return;
+            }
+
+            /*if (typeof vehicle.fuel_allocation === 'undefined' || vehicle.fuel_allocation == null || vehicle.fuel_allocation === "0") {
+
+                tmsApp.showSystemMessage("Vehicle Details Incomplete",
+                    'Vehicle has no Fuel Allocation, Request System Administrator to assign allocation', () => {
+                    }, "error")
+
+                return;
+            }*/
+
+            // BAD 1010
+            if (vehicle['on_boarding_status'] != document.querySelector('[name="onboarding_status"]').value) {
+                tmsApp.showSystemMessage("Incomplete Vehicle Details",
+                    `The vehicle ${vehicle['registration_number']} is ${vehicle_state}. Please Contact Fleet Master
+                            System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com`,
+                    () => {
+                    },
+                    "error");
+                return;
+            }
+
+            let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
+            $("#vehicle_description").val(vLabel);
+            let row = `<tr><th>Make</th><td id="make">${vehicle.brand_name}</td></tr>
+                               <tr>
+                                    <th>Model</th><td id="model">${vehicle.model_name} ${vehicle.model_code}</td>
+                               </tr>
+                               <tr style="">
+                                     <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
+                                </tr>`;
+
+            $('tbody#vehicleDetails').html(row);
+
+            /*if (vehicle.fuel_allocation) {
+                let perWeekAllocation = vehicle.fuel_allocation * 7;
+                document.querySelector('[name="fuel_allocation"]').value = perWeekAllocation ?? 0;
+                document.querySelector('[name="material_quantity"]').value = perWeekAllocation ?? 0;
+                document.querySelector('[name="material_quantity"]').setAttribute('max', perWeekAllocation);
+                $('#totalQty').text(tmsApp.numberFormat(perWeekAllocation));
+            }*/
+
+            enableWebUIControls();
+
+            /*if (article) {
+
+                $("#material_description").text(article['name']);
+                $('input[name="material_description"]').val(article['name']);
+                $('input[name="material_article_code"]').val(article['code']);
+
+                $("#unit_of_measure").text(article['short_name']);
+                $('input[name="unit_of_measure"]').val(article['short_name']);
+
+                $("#material_price").text(tmsApp.formatMoney(article['price'], 2));
+                $('input[name="material_price"]').val(article['price']).change();
+            }*/
+
+            if (images && images.length > 0) {
+                let frontViewImages = images.filter((image) => {
+                    return image['file_type'] === 'Front View';
+                })
+                let imagePath = frontViewImages[0]?.path;
+                document.querySelector(".imagePreview").style.backgroundImage = "url(/storage" + imagePath + ")";
+            }
+
+        }
+
+        function findVehicle() {
+            const numberPlate = document.querySelector('[name="vehicle_registration"]').value;
+            if (!numberPlate) {
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append('vehicle_registration', numberPlate);
+
+            tmsApp.asyncGetFormData(
+                $('#vehicle_registration').attr('data-action') + '?vehicle_registration=' + numberPlate,
+                formData,
+                function (response_data) {
+                    if (response_data.success === 'true' || response_data.success === true) {
+                        populateVehicleDetails(response_data.payload);
+                    } else {
+                        //removeSubmissionAndDetailsOptions();
+                        tmsApp.systemError(
+                            'Vehicle',
+                            'Vehicle with Registration No.' + numberPlate
+                            + ' was not found, Check your input and try again',
+                            function () {
+                            });
+                    }
+                },
+                function (xhr) {
+                    tmsApp.systemError(
+                        'System Message',
+                        'We could not complete processing your request, please try again later',
+                        function () {
+                        });
+                }
+            )
+        }
+
         (function (appInstance, $) {
             $('#approveRequisitionBtn').on('click', function () {
                 appInstance.approval.dialog(
@@ -516,6 +625,9 @@
                     },
                 );
             });
+
+
+            findVehicle();
 
         })(window.tmsApp || {}, jQuery)
     </script>
