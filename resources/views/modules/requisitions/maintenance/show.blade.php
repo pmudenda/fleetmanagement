@@ -295,7 +295,7 @@
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="requester"
                                                                    readonly
-                                                                   value="{{\App\Models\Security\User::where('staff_no','=', $requestDetails->requested_by)->name}}"
+                                                                   value="{{\App\Models\Security\User::where('staff_no','=', $requestDetails->requested_by)->first()->name}}"
                                                                    name="requester">
                                                         </div>
                                                     </div>
