@@ -303,6 +303,7 @@
                 })
                 .catch(function (error) {
                     // notify of error
+                    console.log(error);
                     toastr.error('Connection error. Could not retrieve data, some feature might not work.')
                 });
         }
