@@ -333,7 +333,7 @@
                             obj['supplier'] = $('[name="supplier"]').val();
                             obj['store_code'] = $('[name="store_code"]').val();
                             obj['store_name'] = $('[name="store_name"]').val();
-                            obj['remarks'] = $('#remarks').val();
+                            obj['remarks'] = $('#comments').val();
                             obj['total_amount'] = $('itemsTotal').text();
                             obj['vehicle_registration'] = $('input[name="vehicle_registration"]').val();
                         }
