@@ -45,8 +45,8 @@ class WorkflowApprovalHistory extends Component
                 'WFL_WORKFLOW_ACTIONS.description as action_description',
                 'CONFIG_STATUSES.name as status_name',
                 'SEC_USERS.name','SEC_USERS.avatar')
+            ->orderBy('WFL_WORKFLOW_LOGS.action_date')
             ->get();
-        //Log::info($this->approvals);
         return view('components.workflow-approval-history');
     }
 }
