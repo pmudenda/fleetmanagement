@@ -6,7 +6,7 @@
     <link href="{{asset("assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")}}" rel="stylesheet"
           type="text/css"/>
     <style>
-        .corporate tbody, td, tfoot, th, thead, tr {
+        .corporate > tbody, td, tfoot, th, thead, tr {
             border-color: inherit;
             border-style: solid;
             /*border-width: 1px !important;*/
