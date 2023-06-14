@@ -122,7 +122,6 @@ class MaintenanceController extends Controller
             abort(404);
         }
 
-
         $requisitionTypes = RequisitionTypes::where('status', '01')->where('module', 'FR')->get();
 
         $daysToNextRefuel = config('settings.fuel_requisition_validity');
