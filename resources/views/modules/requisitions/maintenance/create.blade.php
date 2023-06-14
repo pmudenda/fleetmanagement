@@ -1379,6 +1379,18 @@
                         return;
                     }
 
+                    let data = {
+                        "id": id,
+                        "text": text,
+                        /*'code_article': response?.code_article,
+                        'description': response?.description,
+                        'price_map': response?.price,
+                        'technical_specifications': response?.technical_specifications,
+                        'unit_measure': response?.unit_measure,
+                        'unit_measure_name': response?.unit_measure_name*/
+                    };
+
+
                     $(selectElem).closest('tr').find('')
 
                     let option = new Option(text, id, true, true);
