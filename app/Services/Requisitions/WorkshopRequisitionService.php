@@ -241,31 +241,29 @@ class WorkshopRequisitionService
                 WorkShopServiceModel::create([
                     'workshop_reference' => $workshop_reference,
                     'workshop_code' => $workshop_code,
-                    // section
-                    // 'date_created' => Carbon::now(),
-                    // defect_no
-                    // proc_ref
-                    // st_pur
-                    // form_order
-                    // authorised_by
-                    // sch_flouted
-                    // 'req_no' => $requisition_reference_number,
                     'req_evaluation' => 'Y',
-                    'date_mat' => Carbon::now(),
+                    // def_no
+                    // 'movement_no',
+                    'date_send' => Carbon::now(),
                     'material_code' => $item['articleCode'],
                     'unit_of_measure' => $item['unit_of_measure'],
                     'quantity' => $item['quantity'],
-                    'amount' => $item['total_price'],
+                    'amount_est' => $item['total_price'],
                     'price' => $item['unit_price'],
                     'store_code' => $store_code,
+                    'office_code' => $requisitionPostRequest->get('purchase_office'),
                     'ind' => 'Y',
+                    // 'stf_number',
                     'supplier_code' => $requisitionPostRequest->supplier,
                     'veh_reg_no' => $item['registration'],
-                    'specifications' => $item['technical_specification'],
-                    'requested_by' => $user->staff_no,
+                    'specification' => $item['technical_specification'],
+                    'originator' => $user->staff_no,
                     'requested_by_id' => $user->id,
                     'status' => StatusHelper::new(),
                     'created_by' => $user->id,
+                    // 'section',
+                    // 'date_collect',
+                    // 'authorised_by',
                 ]);
             }else{
                 WorkShopMaterials::create([
