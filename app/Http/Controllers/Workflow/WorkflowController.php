@@ -161,7 +161,7 @@ class WorkflowController extends Controller
             );
 
             if ($nextStepId == 100) {
-                $this->workshopRequisitionService->createWorkshopMaterialStoresRequisition($request->get('reference'));
+                $this->workshopRequisitionService->createWorkshopMaterialStoresReservation($request->get('reference'));
             }
 
             return response()->json([

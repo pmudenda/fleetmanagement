@@ -20,7 +20,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <h4>Approve Stores Requisition</h4>
+                    <h4>APPROVE STORES RESERVATION</h4>
                 </div>
                 <div class="card-toolbar justify-content-end">
                     @if(!empty($requestDetails))
@@ -46,9 +46,9 @@
                             <thead>
                             <tr class="border-0" style="border-style: none;">
                                 <th width="33%" colspan="4" style="border:none;" class="text-left">
-                                    @if(!empty($requestDetails)  && !empty($requestDetails->proc_ref))
+                                    @if(!empty($requestDetails)  && !empty($requestDetails->st_pur))
                                         REQUISITION NUMBER: <span
-                                            class="text-orange">{{ $requestDetails->proc_ref }}</span>
+                                            class="text-orange">{{ $requestDetails->st_pur }}</span>
                                     @endif
                                 </th>
                                 <th width="33%" colspan="4" style="border:none;" class="text-center"></th>
@@ -182,18 +182,18 @@
                                         </div>
                                     </div>--}}
 
-                                    <div class="row">
+                                  {{--  <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        {{-- <label
+                                                         <label
                                                              class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                              for="staff_name">
                                                              Requisition Type:
-                                                         </label>--}}
+                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            {{--<select name="requisition_type" id="requisition_type"
+                                                            <select name="requisition_type" id="requisition_type"
                                                                     class="form-control form-select-sm"
                                                                     disabled
                                                                     required>
@@ -207,7 +207,7 @@
                                                                             value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
                                                                     @endif
                                                                 @endforeach
-                                                            </select>--}}
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -236,7 +236,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>--}}
 
 
                                     <div class="row">
@@ -244,7 +244,7 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        {{--<label
+                                                        <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="mobile_no">Allocation Per Week:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -260,7 +260,7 @@
                                                                 </div>
                                                             </div>
 
-                                                        </div>--}}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -271,7 +271,8 @@
                                                     <div class="form-group row">
                                                         <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Request Date:</label>
+                                                            for="request_date">Request Date:
+                                                        </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="request_date"
@@ -496,29 +497,6 @@
 
                 $('tbody#vehicleDetails').html(row);
 
-                /*if (vehicle.fuel_allocation) {
-                    let perWeekAllocation = vehicle.fuel_allocation * 7;
-                    document.querySelector('[name="fuel_allocation"]').value = perWeekAllocation ?? 0;
-                    document.querySelector('[name="material_quantity"]').value = perWeekAllocation ?? 0;
-                    document.querySelector('[name="material_quantity"]').setAttribute('max', perWeekAllocation);
-                    $('#totalQty').text(tmsApp.numberFormat(perWeekAllocation));
-                }*/
-
-               // enableWebUIControls();
-
-                /*if (article) {
-
-                    $("#material_description").text(article['name']);
-                    $('input[name="material_description"]').val(article['name']);
-                    $('input[name="material_article_code"]').val(article['code']);
-
-                    $("#unit_of_measure").text(article['short_name']);
-                    $('input[name="unit_of_measure"]').val(article['short_name']);
-
-                    $("#material_price").text(tmsApp.formatMoney(article['price'], 2));
-                    $('input[name="material_price"]').val(article['price']).change();
-                }*/
-
                 if (images && images.length > 0) {
                     let frontViewImages = images.filter((image) => {
                         return image['file_type'] === 'Front View';
@@ -563,7 +541,6 @@
                     }
                 )
             }
-
 
             $('#approveRequisitionBtn').on('click', function () {
                 tmsApp.approval.dialog(

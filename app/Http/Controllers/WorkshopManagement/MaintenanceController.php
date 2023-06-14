@@ -114,7 +114,7 @@ class MaintenanceController extends Controller
 
         $user = Auth::user();
 
-        [$header, $details] = $this->workshopRequisitionService->getWorkShopRequisitionDetail($req_no);
+        [$header, $details] = $this->workshopRequisitionService->getWorkShopReservationDetails($req_no);
 
         $requestDetails = $header;
 

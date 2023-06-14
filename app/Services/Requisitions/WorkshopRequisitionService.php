@@ -341,7 +341,7 @@ class WorkshopRequisitionService
     /**
      * @throws FuelRequisitionException
      */
-    public function createWorkshopMaterialStoresRequisition(mixed $req_no): void
+    public function createWorkshopMaterialStoresReservation(mixed $req_no): void
     {
         $requisitionDetail = self::getReservationDetail($req_no);
 
@@ -359,14 +359,14 @@ class WorkshopRequisitionService
             throw new FuelRequisitionException("Requisition could not approved ");
         }
 
-        if (!str_contains($results, 'J01')) {
+        if (!str_contains($results, 'J02')) {
             throw new FuelRequisitionException($results);
         }
 
         Log::info("Stores Requisition Generated with document " . $results);
     }
 
-    public function getWorkShopRequisitionDetail(mixed $req_no): array
+    public function getWorkShopReservationDetails(mixed $req_no): array
     {
         // 'GEN_MATERIAL_HEADERS.*',
         $header = DB::table('GEN_MATERIAL_HEADERS')
