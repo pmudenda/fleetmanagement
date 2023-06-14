@@ -542,6 +542,7 @@
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                         <input type="text"
+                                                                               readonly
                                                                                class="form-control form-control-sm"
                                                                                id="permit_number"
                                                                                name="permit_number"
@@ -860,7 +861,7 @@
 
             $('[name="license_date_issued"]').on('change', function () {
                 let date = new Date(this.value);
-                //reformatDate(date, "ISO")
+                // reformatDate(date, "ISO")
                 document.querySelector('[name="license_date_expiry"]').setAttribute('min', this.value);
                 let expiryDate = addYears(date, 5);
                 document.querySelector('[name="license_date_expiry"]').setAttribute('max', reformatDate(expiryDate, "ISO"));
@@ -876,7 +877,11 @@
                 if (!this.value || this.value.replaceAll("_", '').length < 8) {
                     return;
                 }
+
                 window.loaderMessage = "Verifying License Number with RTSA, Please wait";
+
+                $('#license_number').val(this.value);
+
                 setTimeout(function () {
                     verifyingDriverLicense();
                 }, 300);

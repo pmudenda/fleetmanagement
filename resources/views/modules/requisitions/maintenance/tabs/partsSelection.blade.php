@@ -97,7 +97,7 @@
                                            class="form-control form-control-sm"/>
                                     <input type="hidden"
                                            name="workshop_code"
-                                           value="{{$officeDetails->workshop_no ?? 0}}"/>
+                                           value="{{$officeDetails->workshop_code ?? 0}}"/>
                                 </div>
                             </div>
 

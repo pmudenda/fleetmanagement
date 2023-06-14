@@ -4,7 +4,6 @@ namespace App\Services\Requisitions;
 
 use App\Constants\Accounts;
 use App\Constants\ErrorMessages;
-use App\Constants\SystemMessages;
 use App\Constants\TransactionType;
 use App\Enums\RequisitionItemTypes;
 use App\Enums\WorkflowProcessCodes;
@@ -102,6 +101,7 @@ class WorkshopRequisitionService
         }
 
         // check each article to make sure it's of the correct type and is no active on a reservation for the same car
+
         foreach ($requisitionPostRequest->get('items') as $item) {
             $query = DB::table('spms_articles_view');
 
@@ -126,13 +126,17 @@ class WorkshopRequisitionService
 
                     break;
             }
-            $count = $query->where('code_article', '=', $item['articleCode'])
+
+            $count = $query
+                ->where('code_article', '=', $item['articleCode'])
                 ->where('status', '=', '11')
                 ->count();
 
             if ($count == 0) {
                 $message = "Article @articleCode is not a @itemType";
-                $articleType = $item_type == RequisitionItemTypes::StockItem ? "Stock Item" : ($item_type == RequisitionItemTypes::NonStockItem
+                $articleType = $item_type == RequisitionItemTypes::StockItem
+                    ? "Stock Item"
+                    : ($item_type == RequisitionItemTypes::NonStockItem
                     ? "Non Stock Item " : "Service");
 
                 throw new MaterialReservationException(
@@ -148,13 +152,11 @@ class WorkshopRequisitionService
                 'gen_material_details.req_no')
                 ->where('gen_material_details.material_code', '=', $item['articleCode'])
                 ->where('gen_material_details.reg_no', '=', $registrationNumber)
-                ->whereIn('gen_material_headers.status',
-                    [
+                ->whereIn('gen_material_headers.status', [
                         StatusHelper::new(),
                         StatusHelper::authorised(),
                         StatusHelper::partiallyReleased()
-                    ])
-                ->select("gen_material_headers.*")
+                    ])->select("gen_material_headers.*")
                 ->first();
 
             if (!empty($activeRequests)) {
@@ -181,7 +183,7 @@ class WorkshopRequisitionService
         $short_description = "Workshop Requisition for Vehicle Reg No. " . $registrationNumber;
         $long_description = "Workshop Requisition Ref.No. " . $requisition_reference_number . " For Vehicle Reg No. " . $registrationNumber;
 
-        $authority = 'GhostInCode';
+        //$authority = 'GhostInCode';
 
         $justification = $requisitionPostRequest->remarks;
 
@@ -237,7 +239,7 @@ class WorkshopRequisitionService
                 'reg_no' => $item['registration'],
             ]);
 
-            if($item_type == RequisitionItemTypes::Service){
+            if ($item_type == RequisitionItemTypes::Service) {
                 WorkShopServiceModel::create([
                     'workshop_reference' => $workshop_reference,
                     'workshop_code' => $workshop_code,
@@ -265,7 +267,7 @@ class WorkshopRequisitionService
                     // 'date_collect',
                     // 'authorised_by',
                 ]);
-            }else{
+            } else {
                 WorkShopMaterials::create([
                     'workshop_reference' => $workshop_reference,
                     'workshop_code' => $workshop_code,
@@ -274,10 +276,10 @@ class WorkshopRequisitionService
                     // defect_no
                     // proc_ref
                     // st_pur
-                    // form_order
                     // authorised_by
                     // sch_flouted
                     // 'req_no' => $requisition_reference_number,
+                    'form_order' => $form_order_number,
                     'req_evaluation' => 'Y',
                     'date_mat' => Carbon::now(),
                     'material_code' => $item['articleCode'],
@@ -322,7 +324,6 @@ class WorkshopRequisitionService
         Log::info('Requisition ' . $requisition_reference_number . ' raised successfully');
 
         /*return response()->json([
-
             'redirectUrl' => URL::signedRoute('show.workshop.requisition', [
                 'ref' => $requisition_reference_number
             ])
@@ -330,8 +331,7 @@ class WorkshopRequisitionService
 
         return response()->json([
             'success' => true,
-            'message' => 'Requisition ' . $requisition_reference_number . ' Generated and submitted to. '
-                . $authority . 'for Authorisation',
+            'message' => 'Requisition ' . $requisition_reference_number . ' Generated and submitted to the next authority for Authorisation',
             'redirectUrl' => URL::signedRoute('defects.job.card',
                 ['step' => 4, 'reference' => $job_cord_no]),
         ]);
@@ -352,7 +352,7 @@ class WorkshopRequisitionService
             Accounts::DefaultMotorVehicleAccount,
             TransactionType::NonFuelStoresRequisition,
             $requisitionDetail->store,
-            'ZFMJBC0000000024'
+            $requisitionDetail->job_card_no
         );
 
         if (empty($results)) {
@@ -378,7 +378,10 @@ class WorkshopRequisitionService
             ->get();
 
         $detail = DB::table('GEN_MATERIAL_HEADERS')
-            ->join('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
+            ->join('GEN_MATERIAL_DETAILS',
+                'GEN_MATERIAL_HEADERS.req_no',
+                '=',
+                'GEN_MATERIAL_DETAILS.req_no')
             ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status',
                 '=', 'CONFIG_STATUSES.code')
             ->leftJoin('SPMS_ARTICLES_VIEW', 'GEN_MATERIAL_DETAILS.MATERIAL_CODE',
