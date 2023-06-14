@@ -8,7 +8,7 @@
       .corporate tbody, td, tfoot, th, thead, tr {
             border-color: inherit;
             border-style: solid;
-            border-width: 1px !important;
+            /*border-width: 1px !important;*/
         }
     </style>
 @endpush
