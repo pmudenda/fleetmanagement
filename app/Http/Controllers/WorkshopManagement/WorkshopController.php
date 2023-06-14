@@ -50,33 +50,31 @@ class WorkshopController extends Controller
     {
         if ($staff_no) {
             return DB::table('GEN_MATERIAL_HEADERS')
-                ->leftJoin('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
+                //->leftJoin('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
                 ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
-                //->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
                 ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
                 ->where('GEN_MATERIAL_HEADERS.requested_by', '=', $staff_no)
                 ->where('GEN_MATERIAL_HEADERS.IS_FUEL', '=', 'N')
                 ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
                 ->select(
                     'GEN_MATERIAL_HEADERS.*',
-                    'GEN_MATERIAL_DETAILS.quantity',
-                    'GEN_MATERIAL_DETAILS.quantity_issued',
+                    //'GEN_MATERIAL_DETAILS.quantity',
+                    //'GEN_MATERIAL_DETAILS.quantity_issued',
                     'SEC_USERS.name as originator',
                     'CONFIG_STATUSES.name as status_name')
                 ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
                 ->get();
         } else {
             return DB::table('GEN_MATERIAL_HEADERS')
-                ->leftJoin('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
+                //->leftJoin('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
                 ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
-                //->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
                 ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
                 ->where('GEN_MATERIAL_HEADERS.IS_FUEL', '=', 'N')
                 ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
                 ->select(
                     'GEN_MATERIAL_HEADERS.*',
-                    'GEN_MATERIAL_DETAILS.quantity',
-                    'GEN_MATERIAL_DETAILS.quantity_issued',
+                    //'GEN_MATERIAL_DETAILS.quantity',
+                    //'GEN_MATERIAL_DETAILS.quantity_issued',
                     'SEC_USERS.name as originator',
                     'CONFIG_STATUSES.name as status_name')
                 ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
