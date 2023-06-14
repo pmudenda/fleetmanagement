@@ -84,7 +84,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
     public function getArticleDetails(Request $request): JsonResponse
     {
         try {
-            $code_article = $request->get('type_article');
+            $code_article = $request->get('code_article');
 
             Log::info('Code Article ' .$code_article);
 
