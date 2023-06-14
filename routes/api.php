@@ -53,7 +53,9 @@ Route::get('load/vehicle/systems', function (Request $request) {
     try {
         //Log::info('Request filter ' . $request->get('key'));
 
-        $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))->get();
+        $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))
+            ->where('status', '=', StatusHelper::active())
+            ->get();
         return response()->json([
             'success' => !empty($workShopTableData),
             'payload' => $workShopTableData
