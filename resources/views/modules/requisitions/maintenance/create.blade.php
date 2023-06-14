@@ -1205,6 +1205,8 @@
                             lastRow.find('[name="quantity"]').val('').attr('readonly', false);
                             lastRow.find('[name="unit_of_measure"]').val('');
                             lastRow.find('[name="unit_price"]').val('');
+                            lastRow.find('[name="total_price"]').val('');
+                            lastRow.find('#unit_price').text('');
 
                             function reinitializeSelect2($_defect_sel) {
                                 if ($_defect_sel) {
