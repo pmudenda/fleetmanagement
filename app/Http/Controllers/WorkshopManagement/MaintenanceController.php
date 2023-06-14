@@ -427,7 +427,7 @@ class MaintenanceController extends Controller
 
             $comments = WorkShopComments::where('workshop_reference', '=', $details->workshop_doc_no)->get();
 
-            [$header, $materials] = $this->workshopRequisitionService->getWorkShopRequisitionDetail($reference);
+            $materials = $this->workshopRequisitionService->getWorkShopRequisitionItems($reference);
         }
 
         return array(
@@ -439,7 +439,9 @@ class MaintenanceController extends Controller
             $workshop_sections,
             $defects,
             $comments,
-            $officeDetails, $materials);
+            $officeDetails,
+            $materials
+        );
     }
 
 
