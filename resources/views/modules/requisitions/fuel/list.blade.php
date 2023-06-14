@@ -42,9 +42,15 @@
                                 @foreach($requisitions as $rec)
                                     <tr>
                                         <td>
-                                            <a href="{{URL::signedRoute('show.fuel.requisition', ['ref'=>  $rec->req_no])}}">
-                                                {{$rec->req_no}}
-                                            </a>
+                                            @if($requisition_type == 'FUEL')
+                                                <a href="{{URL::signedRoute('show.fuel.requisition', ['ref'=>  $rec->req_no])}}">
+                                                    {{$rec->req_no}}
+                                                </a>
+                                            @else
+                                                <a href="{{URL::signedRoute('show.workshop.requisition', ['ref'=>  $rec->req_no])}}">
+                                                    {{$rec->req_no}}
+                                                </a>
+                                            @endif
                                         </td>
 
                                         <td>
@@ -86,10 +92,15 @@
                                         </td>
 
                                         <td>
-                                            <a href="{{URL::signedRoute('show.fuel.requisition',['ref'=> $rec->req_no])}}"
-                                               class="btn btn-sm btn-success">
-                                                <i class="fas fa-eye"></i> Open
-                                            </a>
+                                            @if($requisition_type == 'FUEL')
+                                                <a href="{{URL::signedRoute('show.fuel.requisition', ['ref'=>  $rec->req_no])}}">
+                                                    <i class="fas fa-eye"></i>  Open
+                                                </a>
+                                            @else
+                                                <a href="{{URL::signedRoute('show.workshop.requisition', ['ref'=>  $rec->req_no])}}">
+                                                    <i class="fas fa-eye"></i>  Open
+                                                </a>
+                                            @endif
                                         </td>
 
                                     </tr>

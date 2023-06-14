@@ -91,8 +91,10 @@ class WorkshopController extends Controller
     {
         $staff_no = auth()->user()->staff_no;
         $requisitions = self::getMyRequisitions(null, 'N');
+
+        $requisition_type = "WORKSHOP";
         return view("modules.requisitions.fuel.list")
-            ->with(compact('requisitions'));
+            ->with(compact('requisitions','requisition_type'));
     }
 
     public function sections(): View

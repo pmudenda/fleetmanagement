@@ -38,8 +38,9 @@ class FuelRequisitionController extends Controller
     {
         $staff_no = auth()->user()->staff_no;
         $requisitions = $this->requisitionService->getMyRequisitions(null, 'Y');
+        $requisition_type = "FUEL";
         return view("modules.requisitions.fuel.list")
-            ->with(compact('requisitions'));
+            ->with(compact('requisitions','requisition_type'));
     }
 
     public function validateOdometer(OdometerValidationRequest $request): JsonResponse
