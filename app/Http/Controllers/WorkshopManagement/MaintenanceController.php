@@ -372,7 +372,7 @@ class MaintenanceController extends Controller
             $this->workshopRequisitionService->processRequest($request);
             return response()->json([
                 'success' => true,
-                'message' => SystemMessages::defectRecorded(),
+                'message' => SystemMessages::materialAndServicesRecorded(),
                 'redirectUrl' => URL::signedRoute('defects.job.card',
                     ['step' => 4, 'reference' => $request->get('job_card_no')]),
             ]);

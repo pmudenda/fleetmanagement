@@ -312,7 +312,7 @@ class WorkshopRequisitionService
     {
         $requisitionDetail = self::getReservationDetail($req_no);
 
-        $results = $this->procurementService->createStoresRequisition(
+        $results = $this->procurementService->createStoresReservation(
             $req_no,
             $requisitionDetail->veh_reg_no,
             $requisitionDetail->form_order,
@@ -369,8 +369,12 @@ class WorkshopRequisitionService
             ->join('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
             ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
             ->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
-            ->select('GEN_MATERIAL_HEADERS.*', 'GEN_MATERIAL_DETAILS.*', 'CONFIG_STATUSES.name as status_name', 'CONFIG_STATUSES.color_code')
-            ->get();
+            ->select(
+                'GEN_MATERIAL_HEADERS.*',
+                'GEN_MATERIAL_DETAILS.*',
+                'CONFIG_STATUSES.name as status_name',
+                'CONFIG_STATUSES.color_code'
+            )->get();
 
         return $results->first();
 

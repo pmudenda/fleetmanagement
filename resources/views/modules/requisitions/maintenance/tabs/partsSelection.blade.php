@@ -246,6 +246,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                        {{$materials}}
                         @if($materials && $materials->isNotEmpty())
                             @foreach($materials as $material)
                                 <tr class="increment">
