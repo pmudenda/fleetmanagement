@@ -93,7 +93,7 @@ class WorkshopController extends Controller
         $requisitions = self::getMyRequisitions(null, 'N');
 
         $requisition_type = "WORKSHOP";
-        return view("modules.requisitions.fuel.list")
+        return view("modules.workshopManagement.list")
             ->with(compact('requisitions','requisition_type'));
     }
 

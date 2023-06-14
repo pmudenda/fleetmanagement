@@ -9,7 +9,7 @@
 
 @section('content')
 
-    <x-content-header :pageTitle="'Fuel Requisitions'"/>
+    <x-content-header :pageTitle="'Workshop Requests'"/>
     <div class="container-fluid">
         <!-- Main row -->
         <div class="row">
@@ -25,12 +25,10 @@
                                 <tr>
                                     <th>Reference #</th>
                                     <th>Document No.</th>
-                                    <th>Req. Type</th>
                                     <th>Registration</th>
                                     <th>Valid From</th>
                                     <th>Valid To</th>
                                     <th>Originator</th>
-                                    <th>Odometer</th>
                                     <th>Qty. Requested</th>
                                     {{--<th>Qty. Issued</th>--}}
                                     <th>Status</th>
@@ -42,7 +40,7 @@
                                 @foreach($requisitions as $rec)
                                     <tr>
                                         <td>
-                                            <a href="{{URL::signedRoute('show.fuel.requisition', ['ref'=>  $rec->req_no])}}">
+                                            <a href="{{URL::signedRoute('show.workshop.requisition', ['ref'=>  $rec->req_no])}}">
                                                 {{$rec->req_no}}
                                             </a>
                                         </td>
@@ -51,9 +49,6 @@
                                             {{$rec->st_pur}}
                                         </td>
 
-                                        <td>
-                                            {{$rec->requisition_type}}
-                                        </td>
 
                                         <td>
                                             {{$rec->veh_reg_no}}
@@ -67,9 +62,7 @@
                                         <td>
                                             {{$rec->originator?? '--'}}
                                         </td>
-                                        <td>
-                                            {{$rec->odometer}}
-                                        </td>
+
                                         <td>
                                             {{$rec->quantity}}
                                         </td>
@@ -86,7 +79,7 @@
                                         </td>
 
                                         <td>
-                                            <a href="{{URL::signedRoute('show.fuel.requisition', ['ref'=>  $rec->req_no])}}">
+                                            <a href="{{URL::signedRoute('show.workshop.requisition', ['ref'=>  $rec->req_no])}}">
                                                 <i class="fas fa-eye"></i> Open
                                             </a>
                                         </td>
