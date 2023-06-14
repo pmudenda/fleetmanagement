@@ -1,4 +1,4 @@
-@php use App\Helpers\StatusHelper;use App\Models\Security\User; @endphp
+@php use App\Helpers\StatusHelper;use App\Models\reference\Store;use App\Models\Security\User; @endphp
 @php @endphp
 @extends('layouts.app')
 @push('styles')
@@ -6,11 +6,11 @@
     <link href="{{asset("assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")}}" rel="stylesheet"
           type="text/css"/>
     <style>
- /*       .corporate > tbody, td, tfoot, th, thead, tr {
-            border-color: inherit;
-            border-style: solid;
-            !*border-width: 1px !important;*!
-        }*/
+        /*       .corporate > tbody, td, tfoot, th, thead, tr {
+                   border-color: inherit;
+                   border-style: solid;
+                   !*border-width: 1px !important;*!
+               }*/
     </style>
 @endpush
 @section('content')
@@ -146,7 +146,7 @@
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="store"
                                                                    readonly
-                                                                   value="{{$requestDetails->store}}"
+                                                                   value="{{$requestDetails->store}}:{{Store::where('code_store','=',$requestDetails->store)->first()->description}}"
                                                                    name="request_date">
                                                         </div>
                                                     </div>
@@ -174,7 +174,6 @@
                                             </div>
                                         </div>
                                     </div>
-
 
 
                                     {{--  <div class="row">
