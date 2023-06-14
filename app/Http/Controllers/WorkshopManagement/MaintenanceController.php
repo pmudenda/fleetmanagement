@@ -230,9 +230,17 @@ class MaintenanceController extends Controller
             return redirect(URL::signedRoute('maintenance.requisition', ['step' => 1]));
         }
 
-        list($step, $repairTypes, $accessories_checked_in, $accessories,
-            $details, $workshop_sections,
-            $defects, $comments, $officeDetails, $materials) = $this->getJobCardCreationData($request);
+        list($step,
+            $repairTypes,
+            $accessories_checked_in,
+            $accessories,
+            $details,
+            $workshop_sections,
+            $defects,
+            $comments,
+            $officeDetails,
+            $materials
+            ) = $this->getJobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.create')
             ->with(

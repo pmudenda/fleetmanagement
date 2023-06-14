@@ -23,6 +23,7 @@ class WorkShopMaterials extends Model
         'amount',
         'price',
         'defect_no',
+        'specifications',
         'proc_ref',
         'st_pur',
         'form_order',

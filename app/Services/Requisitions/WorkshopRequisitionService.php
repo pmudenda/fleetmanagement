@@ -260,14 +260,14 @@ class WorkshopRequisitionService
                 //sch_flouted
                 'supplier_code' => $requisitionPostRequest->supplier,
                 'veh_reg_no' => $item['registration'],
-
+                'specifications' => $item['technical_specification'],
                 'requested_by' => $user->staff_no,
                 'requested_by_id' => $user->id,
                 //authorised_by
                 'status' => StatusHelper::new(),
                 'created_by' => $user->id,
                 //'req_no' => $requisition_reference_number,
-                //'specifications' => $item['technical_specification'],
+                //'specifications' => ,
             ]);
         }
 
@@ -384,10 +384,9 @@ class WorkshopRequisitionService
     public function getWorkShopRequisitionItems(mixed $reference): Collection
     {
         return DB::table('WM_JOB_CARD_HEADER')
-
             ->join('WM_WORKSHOP_MATERIALS', 'WM_JOB_CARD_HEADER.WORKSHOP_DOC_NO', '=', 'WM_WORKSHOP_MATERIALS.WORKSHOP_REFERENCE')
             //->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
-            ->where('WM_JOB_CARD_HEADER.JOB_CARD_NO','=', $reference)
+            ->where('WM_JOB_CARD_HEADER.JOB_CARD_NO', '=', $reference)
             //->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
             ->select(
                 'WM_WORKSHOP_MATERIALS.*'

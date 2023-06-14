@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->decimal('price', 18, 2)->nullable();
 
             $table->string('defect_no', 255)->nullable();
+            $table->string('specifications', 255)->nullable();
             $table->string('proc_ref')->nullable();
             $table->string('st_pur')->nullable();
             $table->string('form_order')->nullable();

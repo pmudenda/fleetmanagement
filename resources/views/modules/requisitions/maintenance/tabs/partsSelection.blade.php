@@ -314,7 +314,7 @@
                                     </td>
 
                                     <td>
-                                        <span id="total_price"></span>
+                                        <span id="total_price">{{$material->amount ?? ''}}</span>
                                         <input name="total_price"
                                                type="hidden"
                                                required
