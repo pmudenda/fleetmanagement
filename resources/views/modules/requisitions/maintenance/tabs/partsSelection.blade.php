@@ -154,7 +154,7 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <select
-                                        data-value="{{$materialsHeader->supplier_code}}"
+                                        data-value="{{$materialsHeader->supplier_code ?? ''}}"
                                         class="form-select form-select-sm"
                                         name="supplier"
                                         autocomplete="off"
