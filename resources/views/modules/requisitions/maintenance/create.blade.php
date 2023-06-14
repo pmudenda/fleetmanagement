@@ -512,7 +512,7 @@
                         }
 
                         let workshops = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, workshops, "workshop_code", ["workshop_name", "area_code"], "=>");
+                        tmsApp.populateDropDownList(selectElem, workshops, "workshop_code", ["workshop_name"], "");
 
                         let location = selectElem.attr('data-value');
 
