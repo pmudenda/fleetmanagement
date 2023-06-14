@@ -91,7 +91,8 @@
                 <input type="hidden" value="{{route('load.articles')}}" id="articlesUrl"/>
                 <input type="hidden" value="{{route('load.article.details')}}" id="articleDetailsUrl"/>
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
-                <input type="hidden" value="{{$details->veh_reg ?? ''}}" name="vehicle_registration" id="vehicle_registration"/>
+                <input type="hidden" value="{{$details->veh_reg ?? ''}}" name="vehicle_registration"
+                       id="vehicle_registration"/>
                 <input type="hidden" value="{{$details->workshop_doc_no ?? ''}}" name="workshop_reference"
                        id="workshop_reference"/>
                 <input type="hidden" value="{{route('delete.defect.record')}}" name="deleteDefectUrl"
@@ -119,7 +120,7 @@
             // don't re-initialize
             let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
             console.log(hasAttribute);
-            if(hasAttribute){
+            if (hasAttribute) {
                 return;
             }
 
@@ -143,6 +144,7 @@
                         return {
                             search: params.term, // search term
                             type_article: document.querySelector('#itemType').value,
+                            store_code: document.querySelector('#store_code').value,
                             page: params.page
                         };
                     },
@@ -166,6 +168,16 @@
                 let article = e.params['data'];
                 const row = $(e.currentTarget).closest('tr');
 
+                if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'The Store ' + $("#store_name").val() + ' does not have ' + article?.id + ' in stock'
+                    })
+                    return;
+                }
+
+                $(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
                 $(row).find('[name="articleCode"]').val(article['id']);
                 $(row).find('[name="unit_price"]').val(article['price_map']);
                 $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
@@ -196,7 +208,9 @@
                     'price_map': obj?.price,
                     'technical_specifications': obj?.technical_specifications,
                     'unit_measure': obj?.unit_measure,
-                    'unit_measure_name': obj?.unit_measure_name
+                    'unit_measure_code': obj?.unit_measure,
+                    'unit_measure_name': obj?.unit_measure_name,
+                    'quantity_in_store': obj?.quantity_in_store
                 };
             });
         }
@@ -955,27 +969,59 @@
                 document.querySelector('[name="store_code"]').setAttribute('required', 'required');
             }
 
+            function tableHasItems() {
+                let inputs = $("#material_table > tbody").find('.articleCode');
+                for (const input of inputs) {
+                    if (input.value > "") {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            function changeRequestType(selectedItemType) {
+
+                if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
+                    showStockItemControls();
+                    $('.quantity').attr('readonly', false);
+                } else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
+                    showSupplierControls();
+                    $('.quantity').attr('readonly', 'readonly');
+                    $('.quantity').val(1);
+                } else {
+                    showSupplierControls();
+                    $('.quantity').attr('readonly', false);
+                }
+
+                if (selectedItemType) {
+                    enableArticleSelectionWebUIControls();
+                }
+            }
+
             function initEventHandlers() {
 
                 $("#itemType").on('change', function () {
                     const selectedItemType = this.value;
 
-                    if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
-                        showStockItemControls();
-                        $('.quantity').attr('readonly', false);
-                    } else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
-                        showSupplierControls();
-                        $('.quantity').attr('readonly', 'readonly');
-                        $('.quantity').val(1);
-                    } else {
-                        showSupplierControls();
-                        $('.quantity').attr('readonly', false);
+                    if (tableHasItems()) {
+                        Swal.fire({
+                            title: 'Change Requisition Item Type',
+                            text: "Changing Item Type will clear the items you've selected already." +
+                                " Would you like to proceed ?",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                changeRequestType(selectedItemType);
+                            }
+                        });
+                        return;
                     }
 
-                    if (selectedItemType) {
-                        enableArticleSelectionWebUIControls();
-                    }
-
+                    changeRequestType(selectedItemType);
                 });
 
                 $(document).on('change', 'select[name="vehicleSystem"]', function () {

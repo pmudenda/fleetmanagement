@@ -152,9 +152,9 @@ class MaintenanceController extends Controller
                 ]);
             }
 
-            $search = strtoupper($request->get('search'));
+            $search = trim(strtoupper($request->get('search')));
 
-            // SPMS_ARTICLES_VIEW
+            // SPMS ARTICLES VIEW
             $query = DB::table('spms_articles_view')
                 ->leftJoin('units_view',
                     'spms_articles_view.unit_measure',
@@ -166,11 +166,13 @@ class MaintenanceController extends Controller
                     'stock_management_view.code_article');
 
             $itemType = $request->get('type_article');
+            $store_code = $request->get('store_code');
 
             if ($itemType == RequisitionItemTypes::StockItemCode) {
-                $query->where(function ($q) use ($itemType) {
+                $query->where(function ($q) use ($itemType, $store_code) {
                     $q->whereIn('spms_articles_view.code_group',
                         ['01', '04', '30']);
+                    $q->where('stock_management_view.code_store', '=', $store_code);
                 });
             } else if ($itemType == RequisitionItemTypes::NonStockItemCode) {
                 $query->where(function ($q) use ($itemType) {
