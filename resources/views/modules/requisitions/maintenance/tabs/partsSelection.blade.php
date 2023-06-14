@@ -19,15 +19,15 @@
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <select
-                                        data-value="{{''}}"
+                                        data-value="{{$MaterialHeader->item_type_code}}"
                                         required
                                         class="form-select form-select-sm"
                                         name="itemType"
                                         id="itemType">
                                         <option></option>
-                                        <option value="01">STOCK ITEM</option>
-                                        <option value="02">NON STOCK ITEM</option>
-                                        <option value="03">SERVICE</option>
+                                        <option @if($MaterialHeader->item_type_code == '01') selected @endif value="01">STOCK ITEM</option>
+                                        <option @if($MaterialHeader->item_type_code == '02') selected @endif value="02">NON STOCK ITEM</option>
+                                        <option @if($MaterialHeader->item_type_code == '03') selected @endif value="03">SERVICE</option>
                                     </select>
                                     <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
                                     <input type="hidden"
@@ -61,12 +61,6 @@
                                         <option value="{{$officeDetails->purchase_office_area ?? ''}}">
                                             {{$officeDetails->purchase_office ?? ''}}
                                         </option>
-                                        {{--@foreach(PurchaseOffice::get() as $purchaseOffice)
-                                            @if($purchaseOffice->purchase_office_code) @endif
-                                            <option value="{{$purchaseOffice->code_office}}">
-                                                {{$purchaseOffice->description}}
-                                            </option>
-                                        @endforeach--}}
                                     </select>
                                 </div>
                             </div>
