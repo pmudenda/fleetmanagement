@@ -108,6 +108,7 @@
     <script>
         window.selectedAccessories = {!! json_encode($accessories_checked_in) !!};
         window.defects = {!! json_encode($defects) !!};
+        window.materials = {!! json_encode($materials) !!};
         window.step_id = {!! $step !!};
     </script>
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
@@ -222,7 +223,6 @@
             });
         }
 
-
         function getArticleDetails(code_article, selectElem) {
 
             fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
@@ -314,7 +314,6 @@
             let bodyTag = "section";
 
             $(document).ready(function () {
-
                 setTimeout(function () {
                     let job_card_number = $('[name="job_card_number"]').val();
 
@@ -333,6 +332,10 @@
 
                     if (window['defects']) {
                         dataFiler();
+                    }
+
+                    if(window['materials']){
+                        prefillSelectedMaterials();
                     }
 
                     findDriver();
@@ -720,7 +723,6 @@
 
             function populateVehicleDetails(payload) {
                 let vehicle = payload['vehicle'];
-                //let article = payload['article'];
                 let images = payload['images'];
                 let vehicle_state = payload['vehicle_state'];
 
@@ -1365,6 +1367,32 @@
                         return;
                     }
                     $(item).val(value).trigger('change')
+                });
+            }
+
+            function prefillSelectedMaterials() {
+
+                $(document).find('.articlesDropDownList').map(function (index, selectElem) {
+                    const id = selectElem.getAttribute('data-value');
+                    const text = selectElem.getAttribute('data-text');
+                    if (!id) {
+                        return;
+                    }
+
+                    $(selectElem).closest('tr').find('')
+
+                    let option = new Option(text,id, true, true);
+                    selectElem.append(option).trigger('change');
+
+                    // manually trigger the `select2:select` event
+                    selectElem.trigger({
+                        type: 'select2:select',
+                        params: {
+                            data: data
+                        }
+                    });
+
+                    $(selectElem).val(value).trigger('change')
                 });
             }
 
