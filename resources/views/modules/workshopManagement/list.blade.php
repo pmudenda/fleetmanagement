@@ -26,8 +26,8 @@
                                     <th>Reference #</th>
                                     <th>Document No.</th>
                                     <th>Registration</th>
-                                    <th>Valid From</th>
-                                    <th>Valid To</th>
+                                    <th>Date In</th>
+                                    <th>Date Expected Out</th>
                                     <th>Originator</th>
                                     <th>Qty. Requested</th>
                                     {{--<th>Qty. Issued</th>--}}
