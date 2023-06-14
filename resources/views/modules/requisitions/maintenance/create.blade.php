@@ -189,7 +189,7 @@
                 $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
                 $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
 
-                getArticleDetails(article['id'],)
+                // getArticleDetails(article['id'],)
             });
         }
 
