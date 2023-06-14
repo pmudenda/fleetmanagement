@@ -67,7 +67,12 @@
                     <td>{{$item->remarks}}</td>
                     <td>{{Carbon::parse($item->created_at)->format('d/m/Y')}}</td>
                     <td>
-                        {{Carbon::parse($approvals[$key-1]->created_at)->diffAsCarbonInterval($item->action_date)}}
+                        @if($key == 0)
+                            N/A
+                        @else
+                            {{Carbon::parse($approvals[$key-1]->created_at)->diffAsCarbonInterval($item->action_date)}}
+                        @endif
+
                     </td>
                 </tr>
             @endforeach
