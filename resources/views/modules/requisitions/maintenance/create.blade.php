@@ -177,12 +177,12 @@
                             + $("#store_name").val()
                             + ' does not have '
                             + article?.id
-                            + ' - '+article['technical_specifications']+' in stock' +
+                            + ' - '+article['technical_specifications']+' in stock. ' +
                             'You may have to wait until the stock is received before your request can be processed'
                     });
                 }
 
-                $(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
+                //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
                 $(row).find('[name="articleCode"]').val(article['id']);
                 $(row).find('[name="unit_price"]').val(article['price_map']);
                 $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
