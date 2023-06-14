@@ -98,7 +98,7 @@
                                                                 <input type="text"
                                                                        readonly
                                                                        class="form-control form-control-sm"
-                                                                       value="{{$requestDetails->reg_no ??''}}"
+                                                                       value="{{$requestDetails->veh_reg_no ??''}}"
                                                                        autocapitalize="characters"
                                                                        id="vehicle_registration"
                                                                        placeholder=""
@@ -183,11 +183,11 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        <label
+                                                       {{-- <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="staff_name">
                                                             Requisition Type:
-                                                        </label>
+                                                        </label>--}}
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             {{--<select name="requisition_type" id="requisition_type"
                                                                     class="form-control form-select-sm"
