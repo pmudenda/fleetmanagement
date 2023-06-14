@@ -496,7 +496,7 @@
                     $('#totalQty').text(tmsApp.numberFormat(perWeekAllocation));
                 }*/
 
-                enableWebUIControls();
+               // enableWebUIControls();
 
                 /*if (article) {
 
