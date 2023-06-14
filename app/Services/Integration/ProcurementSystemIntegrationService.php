@@ -208,9 +208,22 @@ class ProcurementSystemIntegrationService
 
             $ZESCOFleetMaster = SystemOfOrigin::ZESCOFleetMaster;
 
+            $user = auth()->user()->staff_no;
+
+            Log::info(':p_req_ref_no '. $doc_no);
+            Log::info(':p_veh_reg_no '. $veh_reg_no);
+            Log::info(':p_store_code '. $stores_code);
+            Log::info(':p_user_requesting '. $user);
+            Log::info(':p_job_card_no '. $job_card_no);
+            Log::info(':p_system_origin '. $ZESCOFleetMaster);
+            Log::info(':p_fleet_req_code '. $form_order);
+            Log::info(':p_req_acc_number '. $account);
+            Log::info(':p_delivery_site '. $delivery_site);
+            Log::info(':p_transaction_type '. $transactionType);
+            Log::info(':p_current_user '. $user);
+
             $pdo = DB::getPdo();
 
-            $user = auth()->user()->staff_no;
             $stmt = $pdo->prepare("begin :result := fn_create_reservation(:p_req_ref_no, :p_veh_reg_no, :p_store_code, :p_user_requesting, :p_job_card_no, :p_system_origin, :p_fleet_req_code, :p_req_acc_number, :p_delivery_site, :p_transaction_type, :p_current_user); end;");
             $stmt->bindParam(':p_req_ref_no', $doc_no);
             $stmt->bindParam(':p_veh_reg_no', $veh_reg_no);
