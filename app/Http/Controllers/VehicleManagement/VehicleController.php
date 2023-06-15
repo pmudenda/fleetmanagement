@@ -96,14 +96,14 @@ class VehicleController extends Controller
             $vehicle_state = '';
 
             if ($vehicle->on_boarding_status != StatusHelper::onboardingComplete()) {
-                $vehicle_state = str_replace("@",
+                $vehicle_state = str_replace("@reg",
                     $vehicle->registration_number,
-                    "The vehicle @ has not completed the onboarding process. Please Contact Fleet Master
+                    "The vehicle @reg has not completed the onboarding process. Please Contact Fleet Master
                             System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com");
             } elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
-                $vehicle_state = str_replace("@",
+                $vehicle_state = str_replace("@reg",
                     $vehicle->registration_number,
-                    "The vehicle @ is in Workshop. Please Contact Fleet Master
+                    "The vehicle @reg is in Workshop. Please Contact Fleet Master
                             System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com");
             }
 
