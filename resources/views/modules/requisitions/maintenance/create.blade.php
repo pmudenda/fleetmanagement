@@ -125,6 +125,9 @@
             const dataUrl = document.querySelector('#articlesUrl').value;
 
             // don't re-initialize
+            if(element.length == 0){
+                return;
+            }
             let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
             console.log(hasAttribute);
             if (hasAttribute) {
