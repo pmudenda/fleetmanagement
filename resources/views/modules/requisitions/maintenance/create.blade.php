@@ -104,6 +104,8 @@
         <input type="hidden" name="onboarding_status" id="onboarding_status"
                value="{{StatusHelper::onboardingComplete()}}">
     </section>
+    <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding" id="incompleteOnBoarding" />
+    <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop" id="vehicleInWorkshop" />
 @endsection
 @push('scripts')
     <script>

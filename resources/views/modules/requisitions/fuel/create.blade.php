@@ -1,4 +1,4 @@
-@php use App\Enums\RequisitionTypes;use Carbon\Carbon; @endphp
+@php use App\Enums\RequisitionTypes;use App\Helpers\StatusHelper;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 @push('styles')
     <link href="{{asset("assets/plugins/select2/css/select2.min.css")}}" rel="stylesheet" type="text/css"/>
@@ -586,8 +586,9 @@
                 <input type="hidden" value="{{route('search.project')}}" id="projects_url">
                 <input type="hidden" value="{{route('fuel.last.requisition')}}" id="previousRequisitionUrl">
                 <input type="hidden" value="{{RequisitionTypes::OutOfTown}}" id="outOfTownReqCode">
-                <input type="hidden" value="{{\App\Helpers\StatusHelper::onboardingComplete()}}" id="incompleteOnBoarding">
-                <input type="hidden" value="{{\App\Helpers\StatusHelper::vehicleInWorkshop()}}" id="vehicleInWorkshop">
+
+                <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding" id="incompleteOnBoarding" />
+                <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop" id="vehicleInWorkshop" />
             </div>
         </div>
     </section>
@@ -670,9 +671,7 @@
 
                 let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
                 $("#vehicle_description").val(vLabel);
-                let row = `<tr>
-                                    <th>Make:</th><td id="make">${vehicle.brand_name}</td>
-                               </tr>
+                let row = `<tr> <th>Make:</th><td id="make">${vehicle.brand_name}</td></tr>
                                <tr>
                                     <th>Model:</th><td id="model">${vehicle['model_name']} ${vehicle.model_code}</td>
                                </tr>
