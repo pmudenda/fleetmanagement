@@ -589,6 +589,7 @@
 
                 <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding" id="incompleteOnBoarding" />
                 <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop" id="vehicleInWorkshop" />
+                <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive" />
             </div>
         </div>
     </section>
@@ -640,29 +641,18 @@
                     return;
                 }
 
-                if (typeof vehicle.fuel_allocation === 'undefined' || vehicle.fuel_allocation == null || vehicle.fuel_allocation === "0") {
-
+                if (!vehicle.fuel_allocation) {
                     tmsApp.showSystemMessage("Vehicle Details Incomplete",
                         'Vehicle has no Fuel Allocation, Request System Administrator to assign allocation', () => {
-                        }, "error")
-
-                    return;
-                }
-
-                if (vehicle['status'] == document.querySelector('[name="vehicleInWorkshop"]').value) {
-                    tmsApp.showSystemMessage("Incomplete Vehicle Details",
-                        `The vehicle ${vehicle['registration_number']} is in Workshop. Please Contact Fleet Master
-                            System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com`,
-                        () => {
                         },
-                        "error");
+                        "error")
+
                     return;
                 }
 
-                if (vehicle['on_boarding_status'] != document.querySelector('[name="incompleteOnBoarding"]').value) {
+                if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
                     tmsApp.showSystemMessage("Incomplete Vehicle Details",
-                        `The vehicle ${vehicle['registration_number']} is ${vehicle_state}. Please Contact Fleet Master
-                            System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com`,
+                        vehicle_state,
                         () => {
                         },
                         "error");
@@ -789,7 +779,7 @@
                     formData,
                     function (response_data) {
                         if (response_data.success === 'true' || response_data.success === true) {
-                            populateVehicleDetails(response_data.payload);
+                            populateVehicleDetails(response_data.payload, response_data['message']);
                         } else {
                             removeSubmissionAndDetailsOptions();
                             let $message = response_data['message'] ? response_data['message'] : ' No Vehicle Found, Check your input and try again';

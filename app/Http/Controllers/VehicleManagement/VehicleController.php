@@ -6,19 +6,15 @@ use App\Constants\ErrorMessages;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\configurations\ConfigAccessories;
-use App\Models\configurations\general\Status;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
-use App\Services\Workflow\WorkflowService;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class VehicleController extends Controller
@@ -26,7 +22,7 @@ class VehicleController extends Controller
     private VehicleDetailsService $vehicleDetailsService;
     private ProcurementSystemIntegrationService $procurementService;
 
-    public function __construct(VehicleDetailsService $vehicleDetailsService,
+    public function __construct(VehicleDetailsService               $vehicleDetailsService,
                                 ProcurementSystemIntegrationService $procurementService)
     {
         $this->vehicleDetailsService = $vehicleDetailsService;
@@ -100,8 +96,17 @@ class VehicleController extends Controller
             $vehicle_state = '';
 
             if ($vehicle->on_boarding_status != StatusHelper::onboardingComplete()) {
-                $vehicle_state = str_replace("@", $vehicle->on_boarding_status, "Pending @ detail processing");
+                $vehicle_state = str_replace("@",
+                    $vehicle->registration_number,
+                    "The vehicle @ has not completed the onboarding process. Please Contact Fleet Master
+                            System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com");
+            } elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
+                $vehicle_state = str_replace("@",
+                    $vehicle->registration_number,
+                    "The vehicle @ is in Workshop. Please Contact Fleet Master
+                            System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com");
             }
+
             return response()->json([
                 'payload' => [
                     'vehicle' => $vehicle,
