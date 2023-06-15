@@ -54,11 +54,11 @@ class VehicleDetailsService
             ->leftJoin('VM_ASSIGNMENTS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ASSIGNMENTS.vehicle_header_id')
             ->leftJoin('VM_ENGINE_DETAILS',
                 'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
-            ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
+            //->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
             ->select('VM_VEHICLE_HEADER.*',
                 'VM_ASSIGNMENTS.*',
                 'VM_ENGINE_DETAILS.fuel_allocation',
-                'CONFIG_STATUSES.name as status_name',
+                //'CONFIG_STATUSES.name as status_name',
                 'VM_ENGINE_DETAILS.fuel_types'
             )
 
