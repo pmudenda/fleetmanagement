@@ -586,6 +586,8 @@
                 <input type="hidden" value="{{route('search.project')}}" id="projects_url">
                 <input type="hidden" value="{{route('fuel.last.requisition')}}" id="previousRequisitionUrl">
                 <input type="hidden" value="{{RequisitionTypes::OutOfTown}}" id="outOfTownReqCode">
+                <input type="hidden" value="{{\App\Helpers\StatusHelper::onboardingComplete()}}" id="incompleteOnBoarding">
+                <input type="hidden" value="{{\App\Helpers\StatusHelper::vehicleInWorkshop()}}" id="vehicleInWorkshop">
             </div>
         </div>
     </section>
@@ -646,7 +648,17 @@
                     return;
                 }
 
-                if (vehicle['on_boarding_status'] != '030') {
+                if (vehicle['status'] != document.querySelector('[name="vehicleInWorkshop"]').value) {
+                    tmsApp.showSystemMessage("Incomplete Vehicle Details",
+                        `The vehicle ${vehicle['registration_number']} is in Workshop. Please Contact Fleet Master
+                            System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com`,
+                        () => {
+                        },
+                        "error");
+                    return;
+                }
+
+                if (vehicle['on_boarding_status'] != document.querySelector('[name="incompleteOnBoarding"]').value) {
                     tmsApp.showSystemMessage("Incomplete Vehicle Details",
                         `The vehicle ${vehicle['registration_number']} is ${vehicle_state}. Please Contact Fleet Master
                             System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com`,
