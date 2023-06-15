@@ -649,7 +649,7 @@
                     return;
                 }
 
-                if (vehicle['status'] != document.querySelector('[name="vehicleInWorkshop"]').value) {
+                if (vehicle['status'] == document.querySelector('[name="vehicleInWorkshop"]').value) {
                     tmsApp.showSystemMessage("Incomplete Vehicle Details",
                         `The vehicle ${vehicle['registration_number']} is in Workshop. Please Contact Fleet Master
                             System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com`,
