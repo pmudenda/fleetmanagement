@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\VehicleManagement;
 
 use App\Constants\ErrorMessages;
+use App\Constants\SystemMessages;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\configurations\ConfigAccessories;
@@ -97,14 +98,11 @@ class VehicleController extends Controller
 
             if ($vehicle->on_boarding_status != StatusHelper::onboardingComplete()) {
                 $vehicle_state = str_replace("@reg",
-                    $vehicle->registration_number,
-                    "The vehicle @reg has not completed the onboarding process. Please Contact Fleet Master
-                            System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com");
+                    $vehicle->registration_number, SystemMessages::vehiclePendingOnboardingCompletion());
             } elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
                 $vehicle_state = str_replace("@reg",
                     $vehicle->registration_number,
-                    "The vehicle @reg is in Workshop. Please Contact Fleet Master
-                            System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com");
+                    SystemMessages::vehicleInWorkshop());
             }
 
             return response()->json([

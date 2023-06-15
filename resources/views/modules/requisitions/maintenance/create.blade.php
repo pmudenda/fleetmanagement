@@ -339,6 +339,7 @@
         });
 
         (function (tmsApp, $) {
+
             function adjustIframeHeight() {
                 /* var $body   = $('body'),
                      $iframe = $body.data('iframe.fv');
@@ -379,7 +380,7 @@
 
                     findDriver();
 
-                    findVehicle();
+                    findVehicle("InWorkshop");
 
                 }, 600);
             });
@@ -760,7 +761,7 @@
                 });
             }
 
-            function populateVehicleDetails(payload) {
+            function populateVehicleDetails(payload, state) {
                 let vehicle = payload['vehicle'];
                 let images = payload['images'];
                 let vehicle_state = payload['vehicle_state'];
@@ -770,13 +771,15 @@
                 }
 
                 // BAD 1010
-                if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
-                    tmsApp.showSystemMessage("Vehicle State",
-                        vehicle_state,
-                        () => {
-                        },
-                        "error");
-                    return;
+                if(state !== 'InWorkshop'){
+                    if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
+                        tmsApp.showSystemMessage("Vehicle State",
+                            vehicle_state,
+                            () => {
+                            },
+                            "error");
+                        return;
+                    }
                 }
 
                 let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
@@ -806,7 +809,7 @@
 
             }
 
-            function findVehicle() {
+            function findVehicle(stage) {
                 const numberPlate = document.querySelector('#vehicle_registration').value;
                 if (!numberPlate) {
                     return;
@@ -820,7 +823,7 @@
                     formData,
                     function (response_data) {
                         if (response_data.success === 'true' || response_data.success === true) {
-                            populateVehicleDetails(response_data.payload);
+                            populateVehicleDetails(response_data.payload, stage);
                         } else {
                             removeSubmissionAndDetailsOptions();
                             tmsApp.systemError(
