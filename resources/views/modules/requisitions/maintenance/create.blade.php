@@ -106,6 +106,8 @@
     </section>
     <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding" id="incompleteOnBoarding" />
     <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop" id="vehicleInWorkshop" />
+    <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive" />
+
 @endsection
 @push('scripts')
     <script>
@@ -767,20 +769,10 @@
                     return;
                 }
 
-                /*if (typeof vehicle.fuel_allocation === 'undefined' || vehicle.fuel_allocation == null || vehicle.fuel_allocation === "0") {
-
-                    tmsApp.showSystemMessage("Vehicle Details Incomplete",
-                        'Vehicle has no Fuel Allocation, Request System Administrator to assign allocation', () => {
-                        }, "error")
-
-                    return;
-                }*/
-
                 // BAD 1010
-                if (vehicle['on_boarding_status'] != document.querySelector('[name="onboarding_status"]').value) {
-                    tmsApp.showSystemMessage("Incomplete Vehicle Details",
-                        `The vehicle ${vehicle['registration_number']} is ${vehicle_state}. Please Contact Fleet Master
-                            System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.com`,
+                if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
+                    tmsApp.showSystemMessage("Vehicle State",
+                        vehicle_state,
                         () => {
                         },
                         "error");
@@ -789,38 +781,20 @@
 
                 let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
                 $("#vehicle_description").val(vLabel);
-                let row = `<tr><th>Make</th><td id="make">${vehicle.brand_name}</td></tr>
+                let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
                                <tr>
-                                    <th>Model</th><td id="model">${vehicle.model_name} ${vehicle.model_code}</td>
+                                    <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
                                </tr>
                                <tr style="">
                                      <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
+                                </tr>
+                                <tr style="">
+                                     <th>State:</th><td id="registration">${vehicle['status_name']}</td>
                                 </tr>`;
 
                 $('tbody#vehicleDetails').html(row);
 
-                /*if (vehicle.fuel_allocation) {
-                    let perWeekAllocation = vehicle.fuel_allocation * 7;
-                    document.querySelector('[name="fuel_allocation"]').value = perWeekAllocation ?? 0;
-                    document.querySelector('[name="material_quantity"]').value = perWeekAllocation ?? 0;
-                    document.querySelector('[name="material_quantity"]').setAttribute('max', perWeekAllocation);
-                    $('#totalQty').text(tmsApp.numberFormat(perWeekAllocation));
-                }*/
-
                 enableWebUIControls();
-
-                /*if (article) {
-
-                    $("#material_description").text(article['name']);
-                    $('input[name="material_description"]').val(article['name']);
-                    $('input[name="material_article_code"]').val(article['code']);
-
-                    $("#unit_of_measure").text(article['short_name']);
-                    $('input[name="unit_of_measure"]').val(article['short_name']);
-
-                    $("#material_price").text(tmsApp.formatMoney(article['price'], 2));
-                    $('input[name="material_price"]').val(article['price']).change();
-                }*/
 
                 if (images && images.length > 0) {
                     let frontViewImages = images.filter((image) => {

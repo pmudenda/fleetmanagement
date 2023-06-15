@@ -608,7 +608,6 @@
                 });
 
                 document.querySelector('#vehicleDetailsContainer').style.display = 'none';
-                //document.querySelector('#materialDetailsContainer').style.display = 'none';
                 document.querySelector('#image_view').style.display = 'none';
 
                 $('tbody#vehicleDetails').html('');
@@ -627,7 +626,6 @@
                 });
 
                 document.querySelector('#vehicleDetailsContainer').style.display = null;
-                //document.querySelector('#materialDetailsContainer').style.display = null;
                 document.querySelector('#image_view').style.display = null;
             }
 
