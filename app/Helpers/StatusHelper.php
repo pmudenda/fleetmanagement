@@ -114,9 +114,63 @@ class StatusHelper
         return "39";
     }
 
+
+    public static function vehicleHandedOver(): string
+    {
+        return "03";
+    }
+
+    public static function vehicleInactive(): string
+    {
+        return "03";
+    }
+
+    public static function vehicleActive(): string
+    {
+        return "01";
+    }
+
+    public static function vehicleStolen(): string
+    {
+        return "07";
+    }
+
+
+    public static function vehicleGrounded(): string
+    {
+        return "04";
+    }
+
     public static function vehicleInWorkshop(): string
     {
-        return "005";
+        return "05";
     }
+
+    public static function vehicleScrap(): string
+    {
+        return "06";
+    }
+
+    public static function vehicleDisposed(): string
+    {
+        return "08";
+    }
+
+
+    public static function vehiclePendingDisposal(): string
+    {
+        return "09";
+    }
+
+    public static function vehicleSalvage(): string
+    {
+        return "10";
+    }
+
+    public static function vehicleReRegistered(): string
+    {
+        return "11";
+    }
+
 
 }

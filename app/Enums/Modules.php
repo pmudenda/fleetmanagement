@@ -14,4 +14,6 @@ enum Modules: string
     const WORKSHOP_DOCUMENT = 'WAC';
     const JOB_CARD = 'JOB_CAR';
     const Material = 'MAT';
+
+    const Vehicle = "VEH";
 }
