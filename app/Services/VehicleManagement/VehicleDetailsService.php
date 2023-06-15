@@ -3,6 +3,7 @@
 namespace App\Services\VehicleManagement;
 
 use App\Enums\Modules;
+use App\Helpers\StatusHelper;
 use App\Models\general\File;
 use Illuminate\Support\Facades\DB;
 
@@ -53,11 +54,14 @@ class VehicleDetailsService
             ->leftJoin('VM_ASSIGNMENTS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ASSIGNMENTS.vehicle_header_id')
             ->leftJoin('VM_ENGINE_DETAILS',
                 'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
-            ->select('VM_VEHICLE_HEADER.*', 'VM_ASSIGNMENTS.*',
+            ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
+            ->select('VM_VEHICLE_HEADER.*',
+                'VM_ASSIGNMENTS.*',
                 'VM_ENGINE_DETAILS.fuel_allocation',
                 'CONFIG_STATUSES.name as status_name',
-                'VM_ENGINE_DETAILS.fuel_types')
-            ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
+                'VM_ENGINE_DETAILS.fuel_types'
+            )
+
             ->get();
 
         return $results->first();
@@ -66,7 +70,7 @@ class VehicleDetailsService
     public function getVehicleImages(mixed $reference)
     {
         return File::where('reference_number', "=", $reference)
-            ->where('status', '=', '01')
+            ->where('status', '=', StatusHelper::active())
             ->whereIn('module', ['vehicleRegistration', 'Vehicle Registration'])
             ->whereIn('file_type', ["Front View", "Back View", "Right View", "Left View"])
             ->get();
