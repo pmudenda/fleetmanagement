@@ -57,7 +57,7 @@ class WorkshopRequisitionService
      */
     public function validateVehicleStatus($reference): void
     {
-        $allowedStatus = [StatusHelper::active()];
+        $allowedStatus = [StatusHelper::active(), StatusHelper::vehicleInWorkshop()];
 
         $vehicle = VehicleHeader::where('registration_number', '=', $reference)->first();
 
@@ -355,7 +355,7 @@ class WorkshopRequisitionService
     {
         $requisitionDetail = self::getReservationDetail($req_no);
 
-        $materialHeader = WorkShopMaterialHeader::where('form_order','=',$requisitionDetail->form_order)->first();
+        $materialHeader = WorkShopMaterialHeader::where('form_order', '=', $requisitionDetail->form_order)->first();
 
         $results = $this->procurementService->createStoresReservation(
             $req_no,
