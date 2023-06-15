@@ -642,7 +642,7 @@
                 }
 
                 if (!vehicle.fuel_allocation) {
-                    tmsApp.showSystemMessage("Vehicle Details Incomplete",
+                    tmsApp.showSystemMessage("Vehicle State",
                         'Vehicle has no Fuel Allocation, Request System Administrator to assign allocation', () => {
                         },
                         "error")
@@ -651,7 +651,7 @@
                 }
 
                 if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
-                    tmsApp.showSystemMessage("Incomplete Vehicle Details",
+                    tmsApp.showSystemMessage("Vehicle State",
                         vehicle_state,
                         () => {
                         },
