@@ -2,6 +2,7 @@
 
 namespace App\Services\VehicleManagement;
 
+use App\Enums\Modules;
 use App\Models\general\File;
 use Illuminate\Support\Facades\DB;
 
@@ -48,12 +49,15 @@ class VehicleDetailsService
         $results = DB::table('VM_VEHICLE_HEADER')->
         where('VM_VEHICLE_HEADER.registration_number', $vehicle_registration)
             //->where('on_boarding_status', $request->vehicle_registration)
+            ->leftJoin('CONFIG_STATUSES', 'VM_VEHICLE_HEADER.status', '=', 'CONFIG_STATUSES.code')
             ->leftJoin('VM_ASSIGNMENTS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ASSIGNMENTS.vehicle_header_id')
             ->leftJoin('VM_ENGINE_DETAILS',
                 'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
             ->select('VM_VEHICLE_HEADER.*', 'VM_ASSIGNMENTS.*',
                 'VM_ENGINE_DETAILS.fuel_allocation',
+                'CONFIG_STATUSES.name as status_name',
                 'VM_ENGINE_DETAILS.fuel_types')
+            ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
             ->get();
 
         return $results->first();

@@ -671,13 +671,16 @@
                 let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
                 $("#vehicle_description").val(vLabel);
                 let row = `<tr>
-                                    <th>Make</th><td id="make">${vehicle.brand_name}</td>
+                                    <th>Make:</th><td id="make">${vehicle.brand_name}</td>
                                </tr>
                                <tr>
-                                    <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle.model_code}</td>
+                                    <th>Model:</th><td id="model">${vehicle['model_name']} ${vehicle.model_code}</td>
                                </tr>
                                <tr style="">
-                                     <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
+                                     <th>Type:</th><td id="registration">${vehicle['body_type_name']}</td>
+                                </tr>
+                                <tr style="">
+                                     <th>State:</th><td id="registration">${vehicle['status_name']}</td>
                                 </tr>`;
 
                 $('tbody#vehicleDetails').html(row);
