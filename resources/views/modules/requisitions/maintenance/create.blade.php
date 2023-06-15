@@ -476,7 +476,11 @@
                                 "Request Submission",
                                 message,
                                 function () {
-                                    window.location.href = response['redirectUrl'];
+                                    if(submitForm){
+                                        window.location.href = response['redirectUrl'];
+                                        return;
+                                    }
+
                                     if (window.global_currentIndex === 2) {
                                         window.goToNext = true;
                                         form.steps("next");
@@ -1110,6 +1114,10 @@
                 });
 
                 $(document).on('keyup', '.comments', function (event) {
+                    this.value = this.value.toUpperCase();
+                });
+
+                $(document).on('keyup', '[name="remarks"]', function (event) {
                     this.value = this.value.toUpperCase();
                 });
 

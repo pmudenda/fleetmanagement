@@ -340,17 +340,10 @@ class WorkshopRequisitionService
         RequisitionRaised::dispatch($matHeader);
         Log::info('Requisition ' . $requisition_reference_number . ' raised successfully');
 
-        /*return response()->json([
-            'redirectUrl' => URL::signedRoute('show.workshop.requisition', [
-                'ref' => $requisition_reference_number
-            ])
-        ]);*/
-
         return response()->json([
             'success' => true,
             'message' => 'Requisition ' . $requisition_reference_number . ' Generated and submitted to the next authority for Authorisation',
-            'redirectUrl' => URL::signedRoute('defects.job.card',
-                ['step' => 4, 'reference' => $job_cord_no]),
+            'redirectUrl' => URL::signedRoute('maintenance.list'),
         ]);
     }
 
