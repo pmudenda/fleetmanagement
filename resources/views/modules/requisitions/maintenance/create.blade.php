@@ -176,6 +176,7 @@
                 const row = $(e.currentTarget).closest('tr');
 
                 if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
+                   const description = article?.technical_specifications ? article?.technical_specifications : "";
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
@@ -183,7 +184,7 @@
                             + $("#store_name").val()
                             + ' does not have '
                             + article?.id
-                            + ' - ' + article['technical_specifications'] + ' in stock. ' +
+                            + ' - ' +description+ ' in stock. ' +
                             'You may have to wait until the stock is received before your request can be processed'
                     });
                 }
