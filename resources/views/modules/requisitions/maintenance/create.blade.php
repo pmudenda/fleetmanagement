@@ -19,37 +19,6 @@
         .select2 {
             width: 100% !important;
         }
-
-        #exTab1 .tab-content {
-            color : white;
-            background-color: #428bca;
-            padding : 5px 15px;
-        }
-
-        #exTab2 h3 {
-            color : white;
-            background-color: #428bca;
-            padding : 5px 15px;
-        }
-
-        /* remove border radius for the tab */
-
-        #exTab1 .nav-pills > li > a {
-            border-radius: 0;
-        }
-
-        /* change border radius for the tab , apply corners on top*/
-
-        #exTab3 .nav-pills > li > a {
-            border-radius: 4px 4px 0 0 ;
-        }
-
-        #exTab3 .tab-content {
-            color : white;
-            background-color: #428bca;
-            padding : 5px 15px;
-        }
-
     </style>
 @endpush
 @section('content')
@@ -95,7 +64,7 @@
                         @include('modules.requisitions.maintenance.tabs.job_card_header')
                     </section>
 
-                    <h1>Accessories Checkin & Movement</h1>
+                    <h1>Accessories</h1>
                     <section>
                         @include('modules.requisitions.maintenance.tabs.accessories')
                     </section>
@@ -104,7 +73,7 @@
                     <section>
                         @include('modules.requisitions.maintenance.tabs.defects')
                     </section>
-                    <h1>Parts Selection</h1>
+                    <h1>Material & Services</h1>
                     <section>
                         @include('modules.requisitions.maintenance.tabs.partsSelection')
                     </section>
