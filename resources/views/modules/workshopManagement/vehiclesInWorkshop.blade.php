@@ -30,7 +30,10 @@
                             </div>
                             <div class="card-toolbar justify-content-end">
                                 <!--begin::Filter-->
-                                <button type="button" class="btn btn-sm btn-primary me-3" data-menu-trigger="click"
+                                <button type="button" class="btn btn-sm btn-primary me-3"
+                                        data-toggle="modal"
+                                        data-target="#finderModal"
+                                        data-menu-trigger="click"
                                         data-menu-placement="bottom-end">
                                     <span class="svg-icon svg-icon-2">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -141,6 +144,56 @@
 
     </section>
 
+    <!-- The Modal -->
+    <div class="modal" id="finderModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Email</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>John</td>
+                            <td>Doe</td>
+                            <td>john@example.com</td>
+                        </tr>
+                        <tr>
+                            <td>Mary</td>
+                            <td>Moe</td>
+                            <td>mary@example.com</td>
+                        </tr>
+                        <tr>
+                            <td>July</td>
+                            <td>Dooley</td>
+                            <td>july@example.com</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
 
     {{--<div class="modal fade" id="createRecordModal" tabindex="-1" aria-labelledby="createRecordModalLabel"
          aria-hidden="true">

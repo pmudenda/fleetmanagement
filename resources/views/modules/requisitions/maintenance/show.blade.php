@@ -35,20 +35,26 @@
 
                 <x-error-view/>
 
-                <form name="fuelRequisitionForm" id="fuelRequisitionForm" action="{{route('save.fuel.requisition')}}"
+                <form name="fuelRequisitionForm"
+                      id="fuelRequisitionForm"
+                      action="{{route('save.fuel.requisition')}}"
                       method="post">
                     @csrf
                     <div class="card-body user-data">
 
-                        <table border="1" width="100%" data-height="100px" cellspacing="0" cellpadding="0"
+                        <table border="1"
+                               width="100%"
+                               data-height="100px"
+                               cellspacing="0"
+                               cellpadding="0"
                                align="Centre"
                                class="border-0">
                             <thead>
                             <tr class="border-0" style="border-style: none;">
                                 <th width="33%" colspan="4" style="border:none;" class="text-left">
-                                    @if(!empty($requestDetails)  && !empty($requestDetails->st_pur))
-                                        REQUISITION NUMBER: <span
-                                            class="text-orange">{{ $requestDetails->st_pur }}</span>
+                                    @if(!empty($requestDetails) && !empty($requestDetails->st_pur))
+                                        REQUISITION NUMBER:
+                                        <span class="text-orange">{{ $requestDetails->st_pur }}</span>
                                     @endif
                                 </th>
                                 <th width="33%" colspan="4" style="border:none;" class="text-center"></th>

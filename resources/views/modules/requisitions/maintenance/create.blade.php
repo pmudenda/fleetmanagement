@@ -19,6 +19,37 @@
         .select2 {
             width: 100% !important;
         }
+
+        #exTab1 .tab-content {
+            color : white;
+            background-color: #428bca;
+            padding : 5px 15px;
+        }
+
+        #exTab2 h3 {
+            color : white;
+            background-color: #428bca;
+            padding : 5px 15px;
+        }
+
+        /* remove border radius for the tab */
+
+        #exTab1 .nav-pills > li > a {
+            border-radius: 0;
+        }
+
+        /* change border radius for the tab , apply corners on top*/
+
+        #exTab3 .nav-pills > li > a {
+            border-radius: 4px 4px 0 0 ;
+        }
+
+        #exTab3 .tab-content {
+            color : white;
+            background-color: #428bca;
+            padding : 5px 15px;
+        }
+
     </style>
 @endpush
 @section('content')
@@ -125,7 +156,7 @@
             const dataUrl = document.querySelector('#articlesUrl').value;
 
             // don't re-initialize
-            if(element.length == 0){
+            if(element.length === 0){
                 return;
             }
             let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
@@ -393,6 +424,7 @@
 
                     if (window['materials']) {
                         prefillSelectedMaterials();
+                        $('[name="quantity"]').change();
                     }
 
                     findDriver();
