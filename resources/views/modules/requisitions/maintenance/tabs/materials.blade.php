@@ -1,3 +1,6 @@
+@php
+    use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use Carbon\Carbon;
+@endphp
 <div class="row">
     <div class="col-12">
 
@@ -20,9 +23,15 @@
                                         name="itemType"
                                         id="itemType">
                                         <option></option>
-                                        <option @if($materialsHeader->item_type_code == '01') selected @endif value="01">STOCK ITEM</option>
-                                        <option @if($materialsHeader->item_type_code == '02') selected @endif value="02">NON STOCK ITEM</option>
-                                        <option @if($materialsHeader->item_type_code == '03') selected @endif value="03">SERVICE</option>
+                                        <option @if($materialsHeader->item_type_code == '01') selected
+                                                @endif value="01">STOCK ITEM
+                                        </option>
+                                        <option @if($materialsHeader->item_type_code == '02') selected
+                                                @endif value="02">NON STOCK ITEM
+                                        </option>
+                                        <option @if($materialsHeader->item_type_code == '03') selected
+                                                @endif value="03">SERVICE
+                                        </option>
                                     </select>
                                 @else
                                     <select
@@ -33,7 +42,7 @@
                                         <option></option>
                                         <option value="01">STOCK ITEM</option>
                                         <option value="02">NON STOCK ITEM</option>
-                                       {{--<option value="03">SERVICE</option>--}}
+                                        {{--<option value="03">SERVICE</option>--}}
                                     </select>
                                 @endif
 
@@ -269,7 +278,9 @@
                                             data-text="{{$material->material_code ?? ''}} : {{$material->specifications ?? ''}}"
                                             data-value="{{$material->material_code ?? ''}}"
                                             class="form-control form-control-sm DropDownList">
-                                        <option value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}} : {{$material->specifications ?? ''}}</option>
+                                        <option
+                                            value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}
+                                            : {{$material->specifications ?? ''}}</option>
                                     </select>
                                 </td>
                                 <td>
