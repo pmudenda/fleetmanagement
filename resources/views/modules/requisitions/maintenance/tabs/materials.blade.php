@@ -482,7 +482,6 @@
                                   style="height: 129px;"
                                   class="form-control comments form-control-sm"></textarea>
                     @endif
-
                 </div>
             </div>
         </div>
@@ -499,5 +498,15 @@
             </tr>
             </tbody>
         </table>
+        <div class="col-12 text-right">
+           <div>
+               <button type="button" style="background: #f59d33; color: #fff;"
+                       data-table-id="material_table"
+                       class="btn btn-sm btn-primary add pull-right">
+                   <i class="fa fa-save"></i>
+                   Save
+               </button>
+           </div>
+        </div>
     </div>
 </div>
