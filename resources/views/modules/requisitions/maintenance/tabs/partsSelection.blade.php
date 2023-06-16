@@ -17,14 +17,13 @@
     </ul><!-- Tab panes -->
     <div class="tab-content">
         <div class="tab-pane active" id="tabs-1" role="tabpanel">
-            <p>First Panel</p>
             @include('modules.requisitions.maintenance.tabs.materials')
         </div>
         <div class="tab-pane" id="tabs-2" role="tabpanel">
-            <p>Second Panel</p>
+            @include('modules.requisitions.maintenance.tabs.services')
         </div>
         <div class="tab-pane" id="tabs-3" role="tabpanel">
-            <p>Third Panel</p>
+            @include('modules.requisitions.maintenance.tabs.labour')
         </div>
     </div>
 </div>

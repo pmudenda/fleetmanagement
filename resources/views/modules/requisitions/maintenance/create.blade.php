@@ -330,8 +330,6 @@
                 });
         }
 
-    </script>
-    <script>
         $(document).ready(function () {
 
             initArticleSelector($('.articlesDropDownList'));
@@ -405,6 +403,7 @@
 
             /*****************************Function Handlers************************************/
             function initializeFormWizard() {
+
                 function postData(formElements, submitForm) {
                     window.loaderMessage = "Posting Data... please wait";
                     let $container = $(formElements);
@@ -535,6 +534,9 @@
                     labels: {
                         finish: 'Submit'
                     },
+                    onInit: function(){
+                        console.log('Wizard Initiallzing')
+                    },
                     onStepChanging: function (event, currentIndex, newIndex) {
 
                         if (currentIndex > newIndex) {
@@ -565,10 +567,14 @@
 
                         if (currentIndex === 2 && priorIndex === 3) {
                             //form.steps("previous");
+                            $('ul[aria-label="Pagination"]').find('a[href="#finish"]').removeClass('d-none');
                         }
                         adjustIframeHeight();
-                        $('ul[aria-label="Pagination"]').find('a[data-action="skip"]').removeClass('d-none');
+                        //$('ul[aria-label="Pagination"]').find('a[data-action="skip"]').removeClass('d-none');
                         window.global_currentIndex = currentIndex;
+                        if(currentIndex === 3){
+                            $('ul[aria-label="Pagination"]').find('a[href="#finish"]').addClass('d-none');
+                        }
                         window.goToNext = false;
 
                     },
@@ -578,7 +584,8 @@
                     },
                     onFinished: function () {
                         //postData.call(this);
-                        //$('a[role="#finish"]').disableBtn();
+
+                        $('a[href="#finish"]').disableBtn();
 
                         if (form.valid()) {
                             tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
