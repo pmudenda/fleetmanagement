@@ -449,20 +449,20 @@
                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
                     @if(!empty($comments))
                         <textarea type="text"
-                                  id="comments"
+                                  id="service_comments"
                                   minlength="20"
                                   maxlength="255"
                                   required
-                                  name="comments"
+                                  name="service_comments"
                                   style="height: 129px;"
                                   class="form-control comments form-control-sm">{{$comments->where('type','=','SREQ')->first()->remarks ??''}}</textarea>
                     @else
                         <textarea type="text"
-                                  id="comments"
+                                  id="service_comments"
                                   minlength="20"
                                   maxlength="255"
                                   required
-                                  name="comments"
+                                  name="service_comments"
                                   style="height: 129px;"
                                   class="form-control comments form-control-sm"></textarea>
                     @endif
@@ -487,7 +487,7 @@
                 <button type="button"
                         id="saveServices"
                         style="background: #f59d33; color: #fff;"
-                        data-table-id="material_table"
+                        data-table-id="services_table"
                         class="btn btn-sm btn-success add pull-right">
                     <i class="fa fa-save"></i>
                     Save
