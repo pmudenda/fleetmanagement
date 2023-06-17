@@ -258,87 +258,73 @@
                     </thead>
                     <tbody>
                     @if($services && $services->isNotEmpty())
-                        @foreach($services as $material)
+                        @foreach($services as $service)
                             <tr class="increment">
                                 <td class="showNumber">
                                     <input
-                                        readonly
-                                        name="registration"
+                                        readonly="readonly"
+                                        name="vehicle_registration"
                                         required
                                         value="{{$details->veh_reg ?? ''}}"
-                                        class="form-control form-control-sm registration"/>
+                                        class="form-control form-control-sm vehicle_registration"/>
                                 </td>
                                 <td>
-                                    <select readonly
-                                            name="articles"
-                                            required
-                                            data-text="{{$material->material_code ?? ''}} : {{$material->specifications ?? ''}}"
-                                            data-value="{{$material->material_code ?? ''}}"
-                                            class="form-control form-control-sm DropDownList">
-                                        <option
-                                            value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}
-                                            : {{$material->specifications ?? ''}}</option>
+                                    <select
+                                        name="service_article"
+                                        required
+                                        data-value=""
+                                        class="form-control form-control-sm servicesArticlesDropDownList">
+                                        <option></option>
                                     </select>
                                 </td>
                                 <td>
                                     <input
-                                        name="articleCode"
-                                        value="{{$material->material_code ?? ''}}"
+                                        name="serviceArticleCode"
                                         required
                                         readonly
-                                        class="form-control form-control-sm articleCode"/>
+                                        class="form-control form-control-sm serviceArticleCode"/>
                                 </td>
                                 <td>
-                                    <input type="text"
-                                           maxlength="300"
-                                           name="technical_specification"
-                                           required
-                                           readonly
-                                           value="{{$material->specifications ?? ''}}"
-                                           class="form-control form-control-sm technical_specification"/>
-                                </td>
-
-                                <td>
-                                    <input type="text"
-                                           min="1"
-                                           name="quantity"
-                                           required
-                                           readonly
-                                           value="{{$material->quantity ?? ''}}"
-                                           class="form-control form-control-sm quantity number_input"/>
+                                    <input
+                                        name="service_technical_specification"
+                                        required
+                                        class="form-control form-control-sm service_technical_specification"/>
                                 </td>
 
                                 <td>
                                     <input
+                                        type="text"
+                                        min="1"
+                                        name="service_quantity"
+                                        required
+                                        class="form-control form-control-sm service_quantity number_input"/>
+                                </td>
+
+                                {{--<td>
+                                    <input
                                         name="unit_of_measure"
                                         required
-                                        value="{{$material->unit_of_measure ?? ''}}"
                                         readonly
                                         class="form-control form-control-sm unit_of_measure"/>
+                                </td>--}}
+
+                                <td>
+                                    <input name="service_unit_price"
+                                           required
+                                           readonly
+                                           class="form-control form-control-sm service_unit_price"/>
                                 </td>
 
                                 <td>
-                                    <input name="unit_price"
+                                    <input name="service_total_price"
                                            required
-                                           value="{{$material->price ?? ''}}"
                                            readonly
-                                           class="form-control form-control-sm unit_price"/>
-                                </td>
-
-                                <td>
-                                    <span id="total_price">{{$material->amount ?? ''}}</span>
-                                    <input name="total_price"
-                                           type="hidden"
-                                           required
-                                           value="{{$material->amount ?? ''}}"
-                                           readonly
-                                           class="form-control form-control-sm total_price"/>
+                                           class="form-control form-control-sm service_total_price"/>
                                 </td>
 
                                 <td class="view-mode">
                                     <button type="button"
-                                            @if($material->status == StatusHelper::authorised()) disabled @endif
-                                            data-value="{{$material->id ?? '0'}}"
+                                            data-value="{{$defect->id ?? '0'}}"
                                             value="deleteRow"
                                             class="btn btn-danger p-2">
                                         <i class="fas fa-trash m-0"></i>
@@ -351,63 +337,63 @@
                             <td class="showNumber">
                                 <input
                                     readonly="readonly"
-                                    name="registration"
+                                    name="vehicle_registration"
                                     required
                                     value="{{$details->veh_reg ?? ''}}"
-                                    class="form-control form-control-sm registration"/>
+                                    class="form-control form-control-sm vehicle_registration"/>
                             </td>
                             <td>
-                                <select disabled
-                                        name="articles"
-                                        required
-                                        data-value=""
-                                        class="form-control form-control-sm articlesDropDownList">
+                                <select
+                                    name="service_article"
+                                    required
+                                    data-value=""
+                                    class="form-control form-control-sm servicesArticlesDropDownList">
                                     <option></option>
                                 </select>
                             </td>
                             <td>
                                 <input
-                                    name="articleCode"
+                                    name="serviceArticleCode"
                                     required
                                     readonly
-                                    class="form-control form-control-sm articleCode"/>
+                                    class="form-control form-control-sm serviceArticleCode"/>
                             </td>
                             <td>
                                 <input
-                                    name="technical_specification"
+                                    name="service_technical_specification"
                                     required
-                                    class="form-control form-control-sm technical_specification"/>
+                                    class="form-control form-control-sm service_technical_specification"/>
                             </td>
 
                             <td>
                                 <input
                                     type="text"
                                     min="1"
-                                    name="quantity"
+                                    name="service_quantity"
                                     required
-                                    class="form-control form-control-sm quantity number_input"/>
+                                    class="form-control form-control-sm service_quantity number_input"/>
                             </td>
 
-                            <td>
+                            {{--<td>
                                 <input
                                     name="unit_of_measure"
                                     required
                                     readonly
                                     class="form-control form-control-sm unit_of_measure"/>
+                            </td>--}}
+
+                            <td>
+                                <input name="service_unit_price"
+                                       required
+                                       readonly
+                                       class="form-control form-control-sm service_unit_price"/>
                             </td>
 
                             <td>
-                                <input name="unit_price"
+                                <input name="service_total_price"
                                        required
                                        readonly
-                                       class="form-control form-control-sm unit_price"/>
-                            </td>
-
-                            <td>
-                                <input name="total_price"
-                                       required
-                                       readonly
-                                       class="form-control form-control-sm total_price"/>
+                                       class="form-control form-control-sm service_total_price"/>
                             </td>
 
                             <td class="view-mode">
@@ -427,10 +413,10 @@
                         <td></td>
                         <td></td>
                         <td class="text-right"><strong>TOTAL</strong></td>
-                        <td class="text-right"><b id="quantityTotal" class="input-number">0</b></td>
+                        <td class="text-right"><b id="serviceQuantityTotal" class="input-number">0</b></td>
                         <td></td>
                         <td class="text-right"><strong>TOTAL</strong></td>
-                        <td class="text-right"><b id="itemsTotal" class="input-number">0.00</b></td>
+                        <td class="text-right"><b id="serviceTotalPrice" class="input-number">0.00</b></td>
                         <td></td>
                     </tr>
                     </tfoot>
