@@ -536,7 +536,7 @@
                             obj['vehicle_registration'] = $('input[name="vehicle_registration"]').val();
                         } else if (formSel.data('modelName') === 'ServicesHeader') {
                             obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
-                            obj['itemType'] = $('[name="itemType"]').val();
+                            obj['itemType'] = $('[name="serviceItemType"]').val();
                             obj['job_card_no'] = $('[name="job_card_number"]').val();
                             obj['purchase_office'] = $('[name="purchase_office"]').val();
                             obj['workshop_code'] = $('[name="workshop_code"]').val();
