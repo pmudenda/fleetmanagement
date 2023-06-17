@@ -136,7 +136,7 @@
             const dataUrl = document.querySelector('#articlesUrl').value;
 
             // don't re-initialize
-            if (element.length === 0) {
+            if (!element || element.length === 0) {
                 return;
             }
             let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
@@ -1390,7 +1390,15 @@
                         'button[value="addRow"][data-table-id]',
                         function () {
                             let tableId = $(this).data('tableId');
-
+                            function reinitializeSelect2($_defect_sel) {
+                                if ($_defect_sel) {
+                                    $($_defect_sel).removeClass('select2-hidden-accessible');
+                                    $($_defect_sel).select2({
+                                        theme: "bootstrap4",
+                                        width: "resolve",
+                                    });
+                                }
+                            }
                             if (tableId === "part8") {
                                 if ($('.select_2_control').data('select2')) {
                                     $('.select_2_control').select2('destroy');
@@ -1403,20 +1411,11 @@
                             lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
                             lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
                             lastRow.find('[name="quantity"]').val('').attr('readonly', false);
+                            lastRow.find('[name="articles"]').attr('readonly', false);
                             lastRow.find('[name="unit_of_measure"]').val('');
                             lastRow.find('[name="unit_price"]').val('');
                             lastRow.find('[name="total_price"]').val('');
                             lastRow.find('#unit_price').text('');
-
-                            function reinitializeSelect2($_defect_sel) {
-                                if ($_defect_sel) {
-                                    $($_defect_sel).removeClass('select2-hidden-accessible');
-                                    $($_defect_sel).select2({
-                                        theme: "bootstrap4",
-                                        width: "resolve",
-                                    });
-                                }
-                            }
 
                             if (tableId === "part8") {
                                 let row = lastRow[0];
@@ -1433,7 +1432,9 @@
                                 let article = $(row).find('input.articleCode').val();
                                 console.log('Article on line', article)
                                 let $_defect_sel = $(row).find(".articlesDropDownList");
+                                let $_defect_sel_ = $(row).find(".DropDownList");
                                 initArticleSelector($_defect_sel);
+                                initArticleSelector($_defect_sel_);
                                 //getArticleDetails(article, $_defect_sel);
                             }
                         });
