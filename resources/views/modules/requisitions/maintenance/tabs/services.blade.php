@@ -38,8 +38,8 @@
                                         class="form-select form-select-sm"
                                         name="itemType"
                                         id="itemType">
-                                        <option></option>
-                                       {{-- <option value="01">STOCK ITEM</option>
+                                        {{--<option></option>
+                                        <option value="01">STOCK ITEM</option>
                                         <option value="02">NON STOCK ITEM</option>--}}
                                         <option value="03">SERVICE</option>
                                     </select>
