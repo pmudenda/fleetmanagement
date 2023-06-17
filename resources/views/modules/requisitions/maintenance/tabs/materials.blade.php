@@ -226,7 +226,7 @@
                                            class="form-control form-control-sm"
                                            id="date_expected"
                                            min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                           value="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                           value="{{date('Y-m-d', strtotime(Carbon::now()->addDays(7)))}}"
                                            name="date_expected"
                                     />
                                 @endif

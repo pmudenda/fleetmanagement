@@ -28,8 +28,9 @@ class WorkshopServiceRequisitionRequest extends FormRequest
             'item.*.vehicle_registration' => 'required|string',
             'item.*.service_technical_specification' => 'required|string',
             'item.*.service_total_price' => 'required|numeric',
-            //'item.*.unit_of_measure' => 'required|string',
+            'item.*.service_unit_of_measure' => 'required|string',
             'item.*.service_unit_price' => 'required|numeric',
+            'item.*.vehicle_registration' => 'required|numeric',
 
             'job_card_no' => 'required|string',
             'workshop_reference' => 'required|string',

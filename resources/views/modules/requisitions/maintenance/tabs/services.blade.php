@@ -223,7 +223,7 @@
                                     <input type="date"
                                            class="form-control form-control-sm"
                                            id="date_expected"
-                                           min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                           min="{{date('Y-m-d', strtotime(Carbon::now()->addDays(7)))}}"
                                            value="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                            name="date_expected"
                                     />
@@ -300,13 +300,13 @@
                                         class="form-control form-control-sm service_quantity number_input"/>
                                 </td>
 
-                                {{--<td>
+                                <td>
                                     <input
-                                        name="unit_of_measure"
+                                        name="service_unit_of_measure"
                                         required
                                         readonly
                                         class="form-control form-control-sm unit_of_measure"/>
-                                </td>--}}
+                                </td>
 
                                 <td>
                                     <input name="service_unit_price"
@@ -374,13 +374,13 @@
                                     class="form-control form-control-sm service_quantity number_input"/>
                             </td>
 
-                            {{--<td>
+                            <td>
                                 <input
-                                    name="unit_of_measure"
+                                    name="service_unit_of_measure"
                                     required
                                     readonly
                                     class="form-control form-control-sm unit_of_measure"/>
-                            </td>--}}
+                            </td>
 
                             <td>
                                 <input name="service_unit_price"
