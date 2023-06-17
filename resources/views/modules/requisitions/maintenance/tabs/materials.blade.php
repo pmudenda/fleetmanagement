@@ -1,7 +1,7 @@
 @php
     use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use Carbon\Carbon;
 @endphp
-<div class="row">
+<div class="row pt-5">
     <div class="col-12">
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-6">
@@ -500,9 +500,11 @@
         </table>
         <div class="col-12 text-right">
            <div>
-               <button type="button" style="background: #f59d33; color: #fff;"
+               <button type="button"
+                       id="save"
+                       style="background: #f59d33; color: #fff;"
                        data-table-id="material_table"
-                       class="btn btn-sm btn-primary add pull-right">
+                       class="btn btn-sm btn-success add pull-right">
                    <i class="fa fa-save"></i>
                    Save
                </button>
