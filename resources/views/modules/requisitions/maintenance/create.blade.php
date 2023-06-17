@@ -1381,7 +1381,7 @@
                     }
                 });
 
-                $('#material_table').on('change', 'input', function (e) {
+                $(document).on('change', 'input', function (e) {
                     eventHandler(this, e);
                 }).on('keyup', 'input,textarea', function (e) {
                     eventHandler(this, e);
