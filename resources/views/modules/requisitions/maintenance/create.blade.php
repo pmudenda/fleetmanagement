@@ -19,6 +19,15 @@
         .select2 {
             width: 100% !important;
         }
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+            border-color: orange;
+        }
+
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
+            color: #495057;
+            background-color: #fff;
+            border-color: #dee2e6 #dee2e6 #fff;
+        }
     </style>
 @endpush
 @section('content')
