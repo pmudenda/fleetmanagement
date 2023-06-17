@@ -1071,7 +1071,7 @@
                     case 'service_quantity':
                         let serviceSummaryTotalQty = 0;
                         $(element).closest("table").find("input[name=service_quantity]").each(function (i, it) {
-                            summaryTotalQty += Util.getFloat(it.value);
+                            serviceSummaryTotalQty += Util.getFloat(it.value);
                         });
 
                         // set value in footer
