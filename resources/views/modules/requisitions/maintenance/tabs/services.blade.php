@@ -21,16 +21,14 @@
                                         class="form-select form-select-sm"
                                         name="itemType"
                                         id="itemType">
-                                        <option></option>
-                                       {{-- <option @if($materialsHeader->item_type_code == '01') selected
-                                                @endif value="01">STOCK ITEM
-                                        </option>
-                                        <option @if($materialsHeader->item_type_code == '02') selected
-                                                @endif value="02">NON STOCK ITEM
-                                        </option>--}}
-                                        <option @if($materialsHeader->item_type_code == '03') selected
-                                                @endif value="03">SERVICE
-                                        </option>
+                                        {{-- <option></option>
+                                       - <option @if($materialsHeader->item_type_code == '01') selected
+                                                 @endif value="01">STOCK ITEM
+                                         </option>
+                                         <option @if($materialsHeader->item_type_code == '02') selected
+                                                 @endif value="02">NON STOCK ITEM
+                                         </option>--}}
+                                        <option value="03">SERVICE</option>
                                     </select>
                                 @else
                                     <select
