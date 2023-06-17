@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('WFL_WORKFLOW_APPROVAL_LIMIT', function (Blueprint $table) {
             $table->id();
             $table->string('user_unit_code', 10);
-            $table->string('user_unit_name', 10);
+            $table->string('user_unit_name', 255);
             $table->string('office', 255);
             $table->string('final_step', 4);
             $table->decimal('approval_limit', 18,2);
