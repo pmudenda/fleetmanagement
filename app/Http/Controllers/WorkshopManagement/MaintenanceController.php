@@ -405,7 +405,7 @@ class MaintenanceController extends Controller
     public function processWorkShopMaterials(WorkshopRequisitionRequest $request): JsonResponse
     {
         try {
-            return $this->workshopRequisitionService->processServiceRequest($request);
+            return $this->workshopRequisitionService->processRequest($request);
         } catch (\Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
@@ -423,7 +423,7 @@ class MaintenanceController extends Controller
     public function processWorkShopServices(WorkshopServiceRequisitionRequest $request): JsonResponse
     {
         try {
-            return $this->workshopRequisitionService->processRequest($request);
+            return $this->workshopRequisitionService->processServiceRequest($request);
         } catch (\Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');

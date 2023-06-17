@@ -1525,6 +1525,7 @@
                     .then(response => response.json())
                     .then(function (response) {
                         let selectElem = $('select[name="supplier"]');
+                        let serviceSupplierElem = $('select[name="service_supplier"]');
 
                         if (response.state === 'failure') {
 
@@ -1537,10 +1538,20 @@
                             "code_supplier", ["code_supplier", "name_of_supplier"],
                             " ==> ", '--Select Supplier--');
 
+                        tmsApp.populateDropDownList(serviceSupplierElem, suppliers,
+                            "code_supplier", ["code_supplier", "name_of_supplier"],
+                            " ==> ", '--Select Supplier--');
+
                         let supplier = selectElem.attr('data-value');
                         if (supplier) {
                             selectElem.val(supplier);
                             selectElem.trigger('change');
+                        }
+
+                        let service_supplier = serviceSupplierElem.attr('data-value');
+                        if (service_supplier) {
+                            serviceSupplierElem.val(service_supplier);
+                            serviceSupplierElem.trigger('change');
                         }
                     }).catch(function (error) {
                     toastr.error('Could not Retrieve Data, some feature might not work.', 'Connection error');
