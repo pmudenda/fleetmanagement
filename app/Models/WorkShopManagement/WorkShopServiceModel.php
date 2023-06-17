@@ -9,6 +9,8 @@ class WorkShopServiceModel extends Model
 {
     use HasFactory;
 
+    protected $table = 'WM_WORKSHOP_SERVICES';
+
     protected $fillable = [
         'workshop_reference',
         'workshop_code',
