@@ -293,8 +293,11 @@
 
                                 <td>
                                     <input
+                                        readonly
                                         type="text"
                                         min="1"
+                                        value="1"
+                                        max="1"
                                         name="service_quantity"
                                         required
                                         class="form-control form-control-sm service_quantity number_input"/>
@@ -367,8 +370,11 @@
 
                             <td>
                                 <input
+                                    readonly
                                     type="text"
                                     min="1"
+                                    value="1"
+                                    max="1"
                                     name="service_quantity"
                                     required
                                     class="form-control form-control-sm service_quantity number_input"/>
