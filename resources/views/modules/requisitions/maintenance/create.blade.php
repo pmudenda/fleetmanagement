@@ -344,6 +344,7 @@
         $(document).ready(function () {
 
             initArticleSelector($('.articlesDropDownList'));
+            initArticleSelector($('.servicesArticlesDropDownList'));
 
             Inputmask({
                 "mask": "AAA 9{1,4}"
