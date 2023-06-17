@@ -30,7 +30,6 @@ class WorkshopServiceRequisitionRequest extends FormRequest
             'item.*.service_total_price' => 'required|numeric',
             'item.*.service_unit_of_measure' => 'required|string',
             'item.*.service_unit_price' => 'required|numeric',
-            'item.*.vehicle_registration' => 'required|numeric',
 
             'job_card_no' => 'required|string',
             'workshop_reference' => 'required|string',
@@ -38,7 +37,7 @@ class WorkshopServiceRequisitionRequest extends FormRequest
             'purchase_office' => 'required|string',
             'remarks' => 'required|string',
             'request_date' => 'required|string',
-            'store_code' => 'required|string',
+            //'store_code' => 'required|string',
             'store_name' => 'required|string',
             'supplier' => 'nullable|string',
             'workshop_code' => 'required|string',
