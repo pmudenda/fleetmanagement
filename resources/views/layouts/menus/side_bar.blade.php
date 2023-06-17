@@ -492,7 +492,7 @@
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
-                                    <ul class="nav nav-treeview pl-3">
+                                    <ul class="nav nav-treeview pl-2">
 
                                         <li class="nav-item">
                                             <a href="#" class="nav-link">
@@ -502,20 +502,20 @@
                                                     <i class="right fas fa-angle-left"></i>
                                                 </p>
                                             </a>
-                                            <ul class="nav nav-treeview pl-3">
+                                            <ul class="nav nav-treeview pl-2">
 
                                                 <!--Define Vehicle Brands-->
                                                 @can(config('rights.add_vehicle_brand'))
                                                     <li class="nav-item">
                                                         <a class="nav-link"
                                                            href="{{ URL::signedRoute('vehicle.make') }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span>
-                                            </span>
+                                                            <span class="menu-bullet">
+                                                                <span class="bullet bullet-dot">
+                                                                </span>
+                                                            </span>
                                                             <span class="menu-title">
-                                                Make (Brand)
-                                            </span>
+                                                            Make (Brand)
+                                                        </span>
                                                         </a>
                                                     </li>
                                                 @endcan
@@ -525,13 +525,13 @@
                                                     <li class="nav-item">
                                                         <a class="nav-link"
                                                            href="{{ URL::signedRoute('vehicle.models') }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span>
-                                            </span>
+                                                            <span class="menu-bullet">
+                                                                <span class="bullet bullet-dot">
+                                                                </span>
+                                                            </span>
                                                             <span class="menu-title">
-                                                Models
-                                            </span>
+                                                            Models
+                                                        </span>
                                                         </a>
                                                     </li>
                                                 @endcan
@@ -542,9 +542,10 @@
                                                     <li class="nav-item">
                                                         <a class="nav-link"
                                                            href="{{ URL::signedRoute('vehicle.body.types') }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span></span>
+                                                            <span class="menu-bullet">
+                                                                <span class="bullet bullet-dot">
+                                                                </span>
+                                                            </span>
                                                             <p class="menu-title">
                                                                 Body Types
                                                             </p>
@@ -556,9 +557,10 @@
                                                     <li class="nav-item">
                                                         <a class="nav-link"
                                                            href="{{ URL::signedRoute('vehicle.fuel.allocation') }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span></span>
+                                                            <span class="menu-bullet">
+                                                                <span class="bullet bullet-dot">
+                                                                </span>
+                                                            </span>
                                                             <p class="menu-title">
                                                                 Fuel Allocation
                                                             </p>
@@ -576,7 +578,7 @@
                                                     <i class="right fas fa-angle-left"></i>
                                                 </p>
                                             </a>
-                                            <ul class="nav nav-treeview pl-3">
+                                            <ul class="nav nav-treeview pl-2">
                                                 @canany([config('rights.add_workshop_section'),config('rights.edit_workshop_section'),config('rights.view_workshop_section')])
                                                     <li class="nav-item">
                                                         <a class="nav-link"
@@ -624,7 +626,7 @@
                                                     <i class="right fas fa-angle-left"></i>
                                                 </p>
                                             </a>
-                                            <ul class="nav nav-treeview pl-3">
+                                            <ul class="nav nav-treeview pl-2">
                                                 <li class="nav-item">
                                                     <a class="nav-link"
                                                        href="{{ URL::signedRoute('configuration.general.table',['ref'=>'accident-nature']) }}">
@@ -714,15 +716,13 @@
                                             </a>
                                         </li>
 
-                                        {{-- <li class="nav-item myNavItems">
-                                             <a onclick="testChange('insuranceSubtypes')" class="nav-link" href="/types/insurancesubtypes">Insurance Subtypes</a>
-                                         </li>--}}
                                         <li class="nav-item">
                                             <a class="nav-link"
                                                href="{{ URL::signedRoute('configuration.general.table',['ref'=>'repair-category']) }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span></span>
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot">
+                                                    </span>
+                                                </span>
 
                                                 <p class="menu-title">
                                                     Repair Types
@@ -733,10 +733,10 @@
                                         <li class="nav-item">
                                             <a class="nav-link"
                                                href="{{URL::signedRoute('configuration.general.table',['ref'=>'store-movement-type']) }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot">
+                                                    </span>
                                                 </span>
-                                            </span>
 
                                                 <p class="menu-title">
                                                     Stores Movement Types
@@ -747,9 +747,10 @@
                                         <li class="nav-item">
                                             <a class="nav-link"
                                                href="{{ URL::signedRoute('configuration.general.table',['ref'=>'vehicle-status']) }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span></span>
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot">
+                                                    </span>
+                                                </span>
                                                 <p class="menu-title">
                                                     Vehicle Status
                                                 </p>

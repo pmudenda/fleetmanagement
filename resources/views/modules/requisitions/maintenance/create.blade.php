@@ -19,6 +19,7 @@
         .select2 {
             width: 100% !important;
         }
+
         .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
             border-color: orange;
         }
@@ -113,9 +114,10 @@
         <input type="hidden" name="onboarding_status" id="onboarding_status"
                value="{{StatusHelper::onboardingComplete()}}">
     </section>
-    <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding" id="incompleteOnBoarding" />
-    <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop" id="vehicleInWorkshop" />
-    <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive" />
+    <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding"
+           id="incompleteOnBoarding"/>
+    <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop" id="vehicleInWorkshop"/>
+    <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
 
 @endsection
 @push('scripts')
@@ -134,7 +136,7 @@
             const dataUrl = document.querySelector('#articlesUrl').value;
 
             // don't re-initialize
-            if(element.length === 0){
+            if (element.length === 0) {
                 return;
             }
             let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
@@ -188,13 +190,13 @@
                 const row = $(e.currentTarget).closest('tr');
 
                 if (!article?.price_map) {
-                   const description = article?.technical_specifications ? article?.technical_specifications : "";
+                    const description = article?.technical_specifications ? article?.technical_specifications : "";
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'The Article '
                             + article?.id
-                            + ' - ' +description+ ' has no price. ' +
+                            + ' - ' + description + ' has no price. ' +
                             ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
                     });
                     return;
@@ -209,7 +211,7 @@
                             + $("#store_name").val()
                             + ' does not have '
                             + article?.id
-                            + ' - ' +description+ ' in stock. ' +
+                            + ' - ' + description + ' in stock. ' +
                             'You may have to wait until the stock is received before your request can be processed'
                     });
                 }
@@ -359,7 +361,6 @@
                     $this.removeClass("disabled").attr("disabled", false)
                 })
             }
-
         });
 
         (function (tmsApp, $) {
@@ -502,7 +503,7 @@
                                 "Request Submission",
                                 message,
                                 function () {
-                                    if(submitForm){
+                                    if (submitForm) {
                                         window.location.href = response['redirectUrl'];
                                         return;
                                     }
@@ -543,8 +544,8 @@
                     labels: {
                         finish: 'Submit'
                     },
-                    onInit: function(){
-                        console.log('Wizard Initiallzing')
+                    onInit: function () {
+                        console.log('Wizard Initializing')
                     },
                     onStepChanging: function (event, currentIndex, newIndex) {
 
@@ -581,7 +582,7 @@
                         adjustIframeHeight();
                         //$('ul[aria-label="Pagination"]').find('a[data-action="skip"]').removeClass('d-none');
                         window.global_currentIndex = currentIndex;
-                        if(currentIndex === 3){
+                        if (currentIndex === 3) {
                             $('ul[aria-label="Pagination"]').find('a[href="#finish"]').addClass('d-none');
                         }
                         window.goToNext = false;
@@ -592,24 +593,33 @@
                         return form.valid();
                     },
                     onFinished: function () {
-                        //postData.call(this);
 
                         $('a[href="#finish"]').disableBtn();
 
                         if (form.valid()) {
-                            tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
-                                postData($(form.find(bodyTag).get(window.global_currentIndex)).find('[data-model-name]').get(0), true);
-                            }, function () {
-                            });
+                            tmsApp.confirm(
+                                'Confirm',
+                                'Do you want to save the changes ?',
+                                'Yes',
+                                'No',
+                                function () {
+                                    postData(
+                                        $(form.find(bodyTag).get(window.global_currentIndex))
+                                            .find('[data-model-name]').get(0),
+                                        true
+                                    );
+                                },
+                                function () {
+                                }
+                            );
                         } else {
                             //$('a[role="#finish"]').enableBtn();
                             //swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
                         }
 
                     },
-
-                })
-                    .validate({
+                }).validate(
+                    {
                         errorClass: "error-class",
                         validClass: "valid-class",
                         errorElement: 'div',
@@ -651,7 +661,19 @@
                                 required: "Driver details are required"
                             }
                         }
+                    }
+                );
+
+                $(document).on('click', '#saveMaterials', function () {
+                    $('a[href="#finish"]')
+                    tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
+                        postData(
+                            $(form.find(bodyTag).get(window.global_currentIndex)).find('[data-model-name]').get(0),
+                            true
+                        );
+                    }, function () {
                     });
+                });
             }
 
             function getWorkshops() {
@@ -809,7 +831,7 @@
                 }
 
                 // BAD 1010
-                if(state !== 'InWorkshop'){
+                if (state !== 'InWorkshop') {
                     if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
                         tmsApp.showSystemMessage("Vehicle State",
                             vehicle_state,
