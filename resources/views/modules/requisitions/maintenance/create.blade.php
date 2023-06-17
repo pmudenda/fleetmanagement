@@ -281,35 +281,6 @@
                 let article = e.params['data'];
                 const row = $(e.currentTarget).closest('tr');
 
-                if (!article?.price_map) {
-                    const description = article?.technical_specifications ? article?.technical_specifications : "";
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'The Article '
-                            + article?.id
-                            + ' - ' + description + ' has no price. ' +
-                            ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
-                    });
-                    return;
-                }
-
-                /*
-                if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
-                     const description = article?.technical_specifications ? article?.technical_specifications : "";
-                     Swal.fire({
-                         icon: 'error',
-                         title: 'Oops...',
-                         text: 'The Store '
-                             + $("#store_name").val()
-                             + ' does not have '
-                             + article?.id
-                             + ' - ' + description + ' in stock. ' +
-                             'You may have to wait until the stock is received before your request can be processed'
-                     });
-                 }
-                 */
-
                 $(row).find('[name="articleCode"]').val(article['id']);
                 $(row).find('[name="unit_price"]').val(article['price_map']);
                 $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
