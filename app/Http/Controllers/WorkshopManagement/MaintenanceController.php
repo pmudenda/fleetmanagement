@@ -7,7 +7,6 @@ use App\Constants\SystemMessages;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
 use App\Enums\RequisitionItemTypes;
-use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\MaterialReservationException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
@@ -22,6 +21,7 @@ use App\Models\RequisitionTypes;
 use App\Models\WorkShopManagement\VehicleDefects;
 use App\Models\WorkShopManagement\WorkShopComments;
 use App\Models\WorkShopManagement\WorkShopMaterialHeader;
+use App\Models\WorkShopManagement\WorkShopServiceModel;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
 use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Requisitions\WorkshopRequisitionService;
@@ -82,8 +82,20 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        list($step, $repairTypes, $accessories_checked_in, $accessories, $details, $workshop_sections, $defects,
-            $comments, $officeDetails, $materials, $materialsHeader) = $this->getJobCardCreationData($request);
+        list(
+            $step,
+            $repairTypes,
+            $accessories_checked_in,
+            $accessories,
+            $details,
+            $workshop_sections,
+            $defects,
+            $comments,
+            $officeDetails,
+            $materials,
+            $materialsHeader,
+            $services
+            ) = $this->getJobCardCreationData($request);
 
         $view_name = 'modules.requisitions.maintenance.create';
 
@@ -100,7 +112,8 @@ class MaintenanceController extends Controller
                     'comments',
                     'officeDetails',
                     'materials',
-                    'materialsHeader'
+                    'materialsHeader',
+                    'services'
                 )
             );
     }
@@ -186,7 +199,7 @@ class MaintenanceController extends Controller
             }
 
             $query->where('spms_articles_view.type_article', '=', $request->get('type_article'));
-                //->where('stock_management_view.level_type', '=', '02');
+            //->where('stock_management_view.level_type', '=', '02');
 
             $query->where(function ($query) use ($search) {
                 $query->orWhere('spms_articles_view.code_article', 'like', "%{$search}%")
@@ -243,7 +256,8 @@ class MaintenanceController extends Controller
             $comments,
             $officeDetails,
             $materials,
-            $materialsHeader
+            $materialsHeader,
+            $services
             ) = $this->getJobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.create')
@@ -259,7 +273,8 @@ class MaintenanceController extends Controller
                     'comments',
                     'officeDetails',
                     'materials',
-                    'materialsHeader'
+                    'materialsHeader',
+                    'services'
                 )
             );
     }
@@ -281,7 +296,8 @@ class MaintenanceController extends Controller
             $comments,
             $officeDetails,
             $materials,
-            $materialsHeader
+            $materialsHeader,
+            $services
             ) = $this->getJobCardCreationData($request);
 
         return view('modules.requisitions.maintenance.create')
@@ -297,7 +313,8 @@ class MaintenanceController extends Controller
                     'comments',
                     'officeDetails',
                     'materials',
-                    'materialsHeader'
+                    'materialsHeader',
+                    'services'
                 )
             );
     }
@@ -387,7 +404,7 @@ class MaintenanceController extends Controller
     public function processWorkShopMaterials(WorkshopRequisitionRequest $request): JsonResponse
     {
         try {
-           return $this->workshopRequisitionService->processRequest($request);
+            return $this->workshopRequisitionService->processRequest($request);
         } catch (\Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
@@ -443,6 +460,8 @@ class MaintenanceController extends Controller
             $materials = $this->workshopRequisitionService->getWorkShopRequisitionItems($reference);
 
             $materialsHeader = WorkShopMaterialHeader::where('job_card_no', '=', $reference)->first();
+
+            $services = WorkShopServiceModel::where('workshop_reference', '=', $details->workshop_doc_no)->get();
         }
 
         return array(
@@ -456,7 +475,8 @@ class MaintenanceController extends Controller
             $comments,
             $officeDetails,
             $materials,
-            $materialsHeader
+            $materialsHeader,
+            $services
         );
     }
 

@@ -257,8 +257,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @if($materials && $materials->isNotEmpty())
-                        @foreach($materials as $material)
+                    @if($services && $services->isNotEmpty())
+                        @foreach($services as $material)
                             <tr class="increment">
                                 <td class="showNumber">
                                     <input
@@ -437,7 +437,7 @@
 
                 </table>
                 <button type="button"
-                        data-table-id="material_table"
+                        data-table-id="services_table"
                         class="btn btn-sm btn-primary add pull-right"
                         value="addRow">
                     <i class="fa fa-plus"></i>
