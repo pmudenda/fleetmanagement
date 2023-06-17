@@ -1064,11 +1064,31 @@
                         $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(lineAmountTotal));
                         break;
 
+                    case 'service_quantity':
+                        let serviceSummaryTotalQty = 0;
+                        $(element).closest("table").find("input[name=service_quantity]").each(function (i, it) {
+                            summaryTotalQty += Util.getFloat(it.value);
+                        });
+
+                        // set value in footer
+                        $('#serviceQuantityTotal').text(tmsApp.getRawNumber(serviceSummaryTotalQty));
+
+                        let serviceLineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=service_unit_price]").val());
+                        $(element).closest("tr").find("input[name=service_total_price]").val(serviceLineAmountTotal).change();
+                        $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(serviceLineAmountTotal));
+                        break;
+
                     case 'unit_price':
                         // line total = new material price multiplied by quantity value
                         let totalAmount = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=quantity]").val());
                         $(element).closest("tr").find("input[name=total_price]").val(totalAmount).change();
                         $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(totalAmount));
+                        break;
+
+                    case 'service_unit_price':
+                        let serviceTotalAmount = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=service_quantity]").val());
+                        $(element).closest("tr").find("input[name=service_total_price]").val(serviceTotalAmount).change();
+                        $(element).closest("tr").find("#service_total_price").text(tmsApp.numberFormat(serviceTotalAmount));
                         break;
 
                     case 'total_price':
@@ -1078,6 +1098,17 @@
                             summaryTotal += tmsApp.getFloat(it.value);
                         });
                         $('#itemsTotal').text(tmsApp.numberFormat(summaryTotal, 2));
+                        break;
+
+                    case 'service_total_price':
+                        // calculate new footer total
+                        let serviceSummaryTotal = 0;
+                        $(element).closest("table").find("input[name=service_total_price]").each(function (i, it) {
+                            serviceSummaryTotal += tmsApp.getFloat(it.value);
+                        });
+                        $('#serviceTotalPrice').text(tmsApp.numberFormat(serviceSummaryTotal, 2));
+                        break;
+
                     default:
                         break;
                 }
@@ -1361,6 +1392,7 @@
                         'button[value="addRow"][data-table-id]',
                         function () {
                             let tableId = $(this).data('tableId');
+
                             function reinitializeSelect2($_defect_sel) {
                                 if ($_defect_sel) {
                                     $($_defect_sel).removeClass('select2-hidden-accessible');
@@ -1370,6 +1402,7 @@
                                     });
                                 }
                             }
+
                             if (tableId === "part8") {
                                 if ($('.select_2_control').data('select2')) {
                                     $('.select_2_control').select2('destroy');
