@@ -19,8 +19,8 @@
                                         data-value="{{$materialsHeader->item_type_code ?? ''}}"
                                         readonly="readonly"
                                         class="form-select form-select-sm"
-                                        name="itemType"
-                                        id="itemType">
+                                        name="serviceItemType"
+                                        id="serviceItemType">
                                         {{-- <option></option>
                                        - <option @if($materialsHeader->item_type_code == '01') selected
                                                  @endif value="01">STOCK ITEM
@@ -34,8 +34,8 @@
                                     <select
                                         required
                                         class="form-select form-select-sm"
-                                        name="itemType"
-                                        id="itemType">
+                                        name="serviceItemType"
+                                        id="serviceItemType">
                                         {{--<option></option>
                                         <option value="01">STOCK ITEM</option>
                                         <option value="02">NON STOCK ITEM</option>--}}
@@ -170,14 +170,14 @@
                                 <select
                                     data-value="{{$materialsHeader->supplier_code ?? ''}}"
                                     class="form-select form-select-sm"
-                                    name="supplier"
+                                    name="service_supplier"
                                     autocomplete="off"
-                                    id="supplier">
+                                    id="service_supplier">
                                 </select>
                             </div>
                         </div>
 
-                        <div id="storeContainer" style="display: none;" class="form-group row">
+                        {{--<div id="storeContainer" style="display: none;" class="form-group row">
                             <label
                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                 for="staff_name">
@@ -195,7 +195,7 @@
                                        placeholder=""
                                        name="store_name"/>
                             </div>
-                        </div>
+                        </div>--}}
 
                     </div>
                 </div>
@@ -240,7 +240,7 @@
         <div class="row">
             <div style="max-height:500px; overflow-x: auto;">
                 <table id="services_table"
-                       data-form-url="{{route("process.requisition")}}"
+                       data-form-url="{{route("process.service.requisition")}}"
                        data-model-name="ServicesHeader"
                        class="table dataTable table-row-dashed align-middle gs-0 nowrap">
                     <thead>

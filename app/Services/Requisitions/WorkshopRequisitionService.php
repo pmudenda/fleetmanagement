@@ -440,4 +440,8 @@ class WorkshopRequisitionService
             )->get();
 
     }
+
+    public function processServiceRequest(WorkshopRequisitionRequest $request)
+    {
+    }
 }

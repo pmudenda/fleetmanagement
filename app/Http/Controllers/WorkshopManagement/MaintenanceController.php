@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCardRequest;
 use App\Http\Requests\VehicleDefectsRequest;
 use App\Http\Requests\WorkshopRequisitionRequest;
+use App\Http\Requests\WorkshopServiceRequisitionRequest;
 use App\Models\configurations\ConfigAccessories;
 use App\Models\configurations\GeneralTableConfigurations;
 use App\Models\MaterialDetail;
@@ -402,6 +403,24 @@ class MaintenanceController extends Controller
 
 
     public function processWorkShopMaterials(WorkshopRequisitionRequest $request): JsonResponse
+    {
+        try {
+            return $this->workshopRequisitionService->processServiceRequest($request);
+        } catch (\Exception $e) {
+            Log::error($e);
+            $message = ErrorMessages::getMessage('err_0005');
+
+            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException) {
+                $message = $e->getMessage();
+            }
+            return response()->json([
+                'success' => false,
+                'message' => $message
+            ]);
+        }
+    }
+
+    public function processWorkShopServices(WorkshopServiceRequisitionRequest $request): JsonResponse
     {
         try {
             return $this->workshopRequisitionService->processRequest($request);

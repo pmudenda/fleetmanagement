@@ -221,8 +221,99 @@
                 $(row).find('[name="unit_price"]').val(article['price_map']);
                 $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
                 $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
+            });
+        }
 
-                // getArticleDetails(article['id'],)
+        function initServiceArticleSelector(element) {
+            const dataUrl = document.querySelector('#articlesUrl').value;
+
+            // don't re-initialize
+            if (element.length === 0) {
+                return;
+            }
+            let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
+            console.log(hasAttribute);
+            if (hasAttribute) {
+                return;
+            }
+
+            element.select2({
+                selectOnClose: true,
+                multiple: false,
+                quietMillis: 100,
+                id: function (project) {
+                    return project['code_article'];
+                },
+                theme: 'bootstrap4',
+                ajax: {
+                    delay: 250,
+                    beforeSend: function () {
+                        window.showLoaderModal(false);
+                        window.loaderVisible = false;
+                    },
+                    url: dataUrl,
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            search: params.term, // search term
+                            type_article: document.querySelector('#serviceItemType').value,
+                            supplier_code: document.querySelector('#service_supplier').value,
+                            page: params.page
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+
+                        return {
+                            results: formatResults(data.items),
+                            pagination: {
+                                more: (params.page * 30) < data['total_count']
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: 'Enter Article name or Code',
+                minimumInputLength: 3,
+                templateResult: formatRepo,
+                templateSelection: formatRepoSelection
+            }).off('select2:select').on('select2:select', function (e) {
+                let article = e.params['data'];
+                const row = $(e.currentTarget).closest('tr');
+
+                if (!article?.price_map) {
+                    const description = article?.technical_specifications ? article?.technical_specifications : "";
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'The Article '
+                            + article?.id
+                            + ' - ' + description + ' has no price. ' +
+                            ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
+                    });
+                    return;
+                }
+
+                /*
+                if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
+                     const description = article?.technical_specifications ? article?.technical_specifications : "";
+                     Swal.fire({
+                         icon: 'error',
+                         title: 'Oops...',
+                         text: 'The Store '
+                             + $("#store_name").val()
+                             + ' does not have '
+                             + article?.id
+                             + ' - ' + description + ' in stock. ' +
+                             'You may have to wait until the stock is received before your request can be processed'
+                     });
+                 }
+                 */
+
+                $(row).find('[name="articleCode"]').val(article['id']);
+                $(row).find('[name="unit_price"]').val(article['price_map']);
+                $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
+                $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
             });
         }
 
@@ -344,7 +435,8 @@
         $(document).ready(function () {
 
             initArticleSelector($('.articlesDropDownList'));
-            initArticleSelector($('.servicesArticlesDropDownList'));
+
+            initServiceArticleSelector($('.servicesArticlesDropDownList'));
 
             Inputmask({
                 "mask": "AAA 9{1,4}"
@@ -453,8 +545,7 @@
                             obj['job_card_no'] = $('input[name="job_card_voucher"]').val();
                             obj['vehicle_registration'] = $('input[name="vehicle_registration"]').val();
                             obj['remarks'] = $('#remarks').val();
-                        }
-                        else if (formSel.data('modelName') === 'PartsHeader') {
+                        } else if (formSel.data('modelName') === 'PartsHeader') {
                             obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
                             obj['itemType'] = $('[name="itemType"]').val();
                             obj['job_card_no'] = $('[name="job_card_number"]').val();
@@ -468,9 +559,7 @@
                             obj['remarks'] = $('#comments').val();
                             obj['total_amount'] = $('#itemsTotal').text();
                             obj['vehicle_registration'] = $('input[name="vehicle_registration"]').val();
-                        }
-                        else if (formSel.data('modelName') === 'ServicesHeader')
-                        {
+                        } else if (formSel.data('modelName') === 'ServicesHeader') {
                             obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
                             obj['itemType'] = $('[name="itemType"]').val();
                             obj['job_card_no'] = $('[name="job_card_number"]').val();
