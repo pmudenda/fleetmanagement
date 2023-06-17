@@ -492,7 +492,11 @@
                     let arr = [];
                     let obj = {};
 
-                    if (formSel.data('modelName') === 'Defects' || formSel.data('modelName') === 'PartsHeader') {
+                    if (
+                        formSel.data('modelName') === 'Defects'
+                        || formSel.data('modelName') === 'PartsHeader'
+                        || formSel.data('modelName') === 'ServicesHeader'
+                    ) {
                         $(formElements).find("tbody").children().map(function (index, row) {
                             let obj = {};
                             $(row).find('input[name], select[name]').each(function (i, item) {
@@ -1074,7 +1078,7 @@
                         $('#serviceQuantityTotal').text(tmsApp.getRawNumber(serviceSummaryTotalQty));
 
                         let serviceLineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=service_unit_price]").val());
-                        $(element).closest("tr").find("input[name=service_total_price]").val(serviceLineAmountTotal).change();
+                        $(element).closest("tr").find("input[name=service_total_price]").val(serviceLineAmountTotal);//.change();
                         $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(serviceLineAmountTotal));
                         break;
 
@@ -1087,6 +1091,7 @@
 
                     case 'service_unit_price':
                         let serviceTotalAmount = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=service_quantity]").val());
+                        $(element).closest("tr").find("input[name=service_quantity]").change();
                         $(element).closest("tr").find("input[name=service_total_price]").val(serviceTotalAmount).change();
                         $(element).closest("tr").find("#service_total_price").text(tmsApp.numberFormat(serviceTotalAmount));
                         break;
