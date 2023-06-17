@@ -156,7 +156,7 @@
                 <div class="container-fluid pl-0">
                     <div class="row">
 
-                        <div id="supplierContainer" style="display: none;" class="form-group row">
+                        <div id="supplierContainer" class="form-group row">
                             <div
                                 class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                 <div class="control-input">
