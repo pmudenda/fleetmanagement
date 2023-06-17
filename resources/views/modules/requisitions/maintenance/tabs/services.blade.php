@@ -385,7 +385,6 @@
                             <td>
                                 <input name="service_unit_price"
                                        required
-                                       readonly
                                        class="form-control form-control-sm service_unit_price"/>
                             </td>
 

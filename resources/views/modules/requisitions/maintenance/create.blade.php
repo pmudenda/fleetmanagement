@@ -281,9 +281,9 @@
                 let article = e.params['data'];
                 const row = $(e.currentTarget).closest('tr');
 
-                $(row).find('[name="articleCode"]').val(article['id']);
+                $(row).find('[name="serviceArticleCode"]').val(article['id']);
                 $(row).find('[name="unit_price"]').val(article['price_map']);
-                $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
+                $(row).find('[name="service_technical_specification"]').val(article['technical_specifications']);
                 $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
             });
         }
