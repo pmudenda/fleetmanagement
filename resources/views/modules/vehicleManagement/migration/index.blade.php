@@ -94,7 +94,8 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="vehicleType">Model*:</label>
-                                                <select name="model" class="form-control required" id="modelNo" required>
+                                                <select name="model" class="form-control required" id="modelNo"
+                                                        required>
                                                     <option>Select Model</option>
                                                 </select>
                                             </div>
@@ -412,7 +413,9 @@
     </section>
 @endsection
 @push('scripts')
-    {{-- <script src="{{ asset('assets/js/migration/index2.js') }}"></script> --}}
+    <script>
+        window.vehicleMakes = {!! json_encode($vehicleMakes) !!};
+    </script>
     <script>
         (function (tmsApp, $) {
 
@@ -456,18 +459,16 @@
                     function (xhr) {
                         tmsApp.systemError('System Message', 'We could not complete processing your request, please try again later');
                     }
-                )
+                );
             });
 
             const make = document.getElementById("vehicleMake");
             const model = document.getElementById("modelNo");
 
-            make.addEventListener("change", () => {
-                model.removeAttribute("disabled")
-                const selectedMake = make.value;
-                //const modelOptions = options[selectedMake];
+            function getVehicleModels(id) {
+                console.log(id);
                 // Clear previous model options
-                model.innerHTML = "";
+                //model.innerHTML = "";
                 // Add new model options
                 /*modelOptions.forEach((modelOption) => {
                     const option = document.createElement('option');
@@ -482,6 +483,22 @@
                     model.appendChild(sub)
                     model.setAttribute("disabled", true)
                 }*/
+            }
+
+            make.addEventListener("change", (e) => {
+                model.removeAttribute("disabled")
+                const ele = e.target;
+                const makes = window['vehicleMakes'].filter(function (brand) {
+                    return ele.selectedOptions[0].text = brand.name;
+                });
+
+                if (makes.length === 0) {
+                    return;
+                }
+
+                let make = makes[0];
+
+                getVehicleModels(make?.id);
             });
 
             const dummyOptions = ["One", "Two", "Three"]
