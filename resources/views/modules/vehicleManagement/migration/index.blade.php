@@ -413,9 +413,11 @@
     <script>
         (function (tmsApp, $) {
 
-            if(document.querySelector('#registrationNumber').value > ""){
-                $("#vehicleSearchBtn").click();
-            }
+            setTimeout(function(){
+                if(document.querySelector('#registrationNumber').value > ""){
+                    document.querySelector("#vehicleSearchBtn").trigger('click');
+                }
+            }, 300);
 
             $("#vehicleSearchBtn").on('click', function () {
                 let registrationNumber = document.querySelector('#registrationNumber').value;
