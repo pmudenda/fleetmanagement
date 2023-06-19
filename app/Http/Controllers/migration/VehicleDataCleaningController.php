@@ -37,9 +37,9 @@ class VehicleDataCleaningController extends Controller
 
     public function cleanUpWindow(Request $request): View
     {
-        $req = $request->get('reg');
+        $registration = $request->get('reg');
         return view('modules.vehicleManagement.migration.index')
-            ->with(compact('req'));
+            ->with(compact('registration'));
     }
 
 

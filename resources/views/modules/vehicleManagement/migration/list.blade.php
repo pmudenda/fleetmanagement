@@ -128,7 +128,7 @@
 
                                 <td>
                                     <a href="{{URL::signedRoute('vehicle.data.cleanup', ['reg'=> trim($vehicle->matricula)])}}"
-                                       class="text-gray-800 text-hover-primary mb-1">
+                                       class="btn btn-link mb-1">
                                         {{$vehicle->matricula}}
                                     </a>
                                 </td>
@@ -159,48 +159,26 @@
                                 </td>
 
                                 <td>
-                                    {{--{{$vehicle->created_at }}--}}
+                                    {{$vehicle->fech_act }}
                                 </td>
 
                                 <td class="text-start">
-                                    {{-- <div class="dropdown">
-                                         <button class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
-                                                 type="button"
-                                                 id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                 aria-expanded="false">
-                                             Actions
-                                         </button>
-                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                              @can(config('rights.edit_vehicle'))
-                                             @if($vehicle->on_boarding_status == StatusHelper::onboardingComplete())
-                                                 <li>
-                                                     <a class="dropdown-item" data-kt-action="edit"
-                                                        href="{{URL::signedRoute('view.vehicle', ['step' => 6, 'reference' => $vehicle->id, 'edit'=> true])}}">
-                                                         Edit
-                                                     </a>
-                                                 </li>
-
-                                                 <li>
-                                                     <a class="dropdown-item" data-kt-action="edit"
-                                                        href="{{URL::signedRoute('vehicle.show', [
-                                                             'step' => 2,
-                                                             'reference' => $vehicle->id,
-                                                             'edit'=> true])}}">
-                                                         View
-                                                     </a>
-                                                 </li>
-                                             @endif
-                                             @if($vehicle->on_boarding_status != StatusHelper::onboardingComplete())
-                                                 <li>
-                                                     <a class="dropdown-item"
-                                                        href="{{URL::signedRoute('resume.onboarding',['reference' => $vehicle->id])}}">
-                                                         Complete Onboarding
-                                                     </a>
-                                                 </li>
-                                             @endif
-                                             @endcan
-                                         </ul>
-                                     </div>--}}
+                                    <div class="dropdown">
+                                        <button class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
+                                                type="button"
+                                                id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                            Actions
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li>
+                                                <a class="dropdown-item" data-kt-action="edit"
+                                                   href="{{URL::signedRoute('vehicle.data.cleanup', ['reg'=> trim($vehicle->matricula)])}}">
+                                                    View
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </td>
 
                             </tr>

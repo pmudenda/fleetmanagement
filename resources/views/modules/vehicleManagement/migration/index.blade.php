@@ -58,6 +58,7 @@
                                                 <div class="input-group">
                                                     <input name="registrationNumber"
                                                            type="text"
+                                                           value="{{$registration ?? ''}}"
                                                            data-action="{{route('cleanup.vehicle.find')}}"
                                                            class="form-control form-control-sm required"
                                                            id="registrationNumber"
@@ -411,6 +412,10 @@
     {{-- <script src="{{ asset('assets/js/migration/index2.js') }}"></script> --}}
     <script>
         (function (tmsApp, $) {
+
+            if(document.querySelector('#registrationNumber').value > ""){
+                $("#vehicleSearchBtn").click();
+            }
 
             $("#vehicleSearchBtn").on('click', function () {
                 let registrationNumber = document.querySelector('#registrationNumber').value;
