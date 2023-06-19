@@ -108,17 +108,17 @@
 
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="ownerAddress">Engine No*:</label>
-                                                <input name="engineNo" type="text" class="form-control required"
-                                                       id="ownerAddress" placeholder="2AX-XXXXXXXXX" required>
+                                                <label for="engineNo">Engine No*:</label>
+                                                <input name="engineNo" type="text" readonly class="form-control required"
+                                                       id="ownerAddress" placeholder="" required>
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group ">
-                                                <label for="ownerAddress">Chassis No*:</label>
+                                                <label for="chassisNo">Chassis No*:</label>
                                                 <input name="chassisNo" type="text" class="form-control required"
-                                                       id="ownerAddress" placeholder="SVXX-XXXXXXX" required>
+                                                       id="chassisNo" placeholder="" readonly required>
                                             </div>
                                         </div>
                                     </div>
@@ -174,9 +174,9 @@
 
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="ownerAddress">Current Odometer:</label>
+                                                <label for="odometer">Current Odometer:</label>
                                                 <input name="odometer" type="text" class="form-control"
-                                                       id="ownerAddress" placeholder="Current Odometer" required>
+                                                       id="odometer" placeholder="Current Odometer" required>
                                             </div>
                                         </div>
                                     </div>
@@ -196,7 +196,6 @@
                                                 <label for="vehicleType">Directorate*:</label>
                                                 <select name="directorate" class="form-control make" id="directorate"
                                                         required>
-
                                                 </select>
                                             </div>
                                         </div>
@@ -413,11 +412,26 @@
     <script>
         (function (tmsApp, $) {
 
-            setTimeout(function(){
-                if(document.querySelector('#registrationNumber').value > ""){
-                    document.querySelector("#vehicleSearchBtn").trigger('click');
+            setTimeout(function () {
+                if (document.querySelector('#registrationNumber').value > "") {
+                    document.querySelector("#vehicleSearchBtn").click();
                 }
             }, 300);
+
+            function populateVehicleDetails(payload) {
+                document.querySelector('[name="chassisNo"]').value = payload?.bastidor;
+                document.querySelector('[name="engineNo"]').value = payload?.engine_no;
+                document.querySelector('[name="model_code"]').value = payload?.tipo_motor;
+                //document.querySelector('[name="model_code"]').value = payload?.year_pur;
+                //document.querySelector('[name="model_code"]').value = payload?.fuel_allocation;
+                //document.querySelector('[name="model_code"]').value = payload?.fuel_type;
+                //document.querySelector('[name="model_code"]').value = payload?.marca_motor;
+                document.querySelector('[name="odometer"]').value = payload?.km_rr;
+            }
+
+            function removeSubmissionAndDetailsOptions() {
+
+            }
 
             $("#vehicleSearchBtn").on('click', function () {
                 let registrationNumber = document.querySelector('#registrationNumber').value;
@@ -428,9 +442,9 @@
                     formData,
                     function (response_data) {
                         if (response_data.success === 'true' || response_data.success === true) {
-                            //populateVehicleDetails(response_data.payload);
+                            populateVehicleDetails(response_data.payload);
                         } else {
-                            //removeSubmissionAndDetailsOptions();
+                            removeSubmissionAndDetailsOptions();
                             let $message = response_data['message'] ? response_data['message'] : ' No Vehicle Found, Check your input and try again';
                             tmsApp.systemError('Vehicle', $message);
                         }
