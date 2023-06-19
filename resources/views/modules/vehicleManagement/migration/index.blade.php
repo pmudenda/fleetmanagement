@@ -442,7 +442,7 @@
                     formData,
                     function (response_data) {
                         if (response_data.success === 'true' || response_data.success === true) {
-                            populateVehicleDetails(response_data.payload);
+                            populateVehicleDetails(response_data.payload[0]);
                         } else {
                             removeSubmissionAndDetailsOptions();
                             let $message = response_data['message'] ? response_data['message'] : ' No Vehicle Found, Check your input and try again';
