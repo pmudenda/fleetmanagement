@@ -80,9 +80,13 @@
                                         <div class="col-md-4">
                                             <div class="form-group ">
                                                 <label class="required-field" for="vehicleType">Make :</label>
-                                                <select name="make"
-                                                        onchange="loadModelByMaker(this, '/ajax/maker_to_model_upper', '#model');"
-                                                        class="form-select make required" id="make" required>
+                                                <select name="vehicleMake"
+                                                        class="form-select make required" id="vehicleMake" required>
+                                                    @foreach($vehicleMakes as $vehicleMake)
+                                                        <option value="{{$vehicleMake->id}}">
+                                                            {{$vehicleMake->name}}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -90,8 +94,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="vehicleType">Model*:</label>
-                                                <select name="model" class="form-control required" id="modelNo" required
-                                                        disabled>
+                                                <select name="model" class="form-control required" id="modelNo" required>
                                                     <option>Select Model</option>
                                                 </select>
                                             </div>
@@ -109,7 +112,8 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="engineNo">Engine No*:</label>
-                                                <input name="engineNo" type="text" readonly class="form-control required"
+                                                <input name="engineNo" type="text" readonly
+                                                       class="form-control required"
                                                        id="ownerAddress" placeholder="" required>
                                             </div>
                                         </div>
@@ -126,7 +130,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group ">
                                                 <label for="vehicleType">Color:</label>
-                                                <select name="vehicleColor" class="form-control make" id="color">
+                                                <select name="vehicleColor" class="form-control" id="color">
                                                     <option value="black">Black</option>
                                                     <option value="red">Red</option>
                                                     <option value="blue">Blue</option>
@@ -162,10 +166,10 @@
                                         <div class="col-md-4">
                                             <div class="form-group ">
                                                 <label for="transmission">Transmission:</label>
-                                                <select name="transmission" class="form-control make" id="transmission">
+                                                <select name="transmission" class="form-select" id="transmission">
                                                     <option>Select transmission</option>
-                                                    <option value="automatic">Automatic</option>
-                                                    <option value="manual">Manual</option>
+                                                    <option value="AT">AUTOMATIC</option>
+                                                    <option value="MT">MANUAL</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -455,71 +459,30 @@
                 )
             });
 
-            const make = document.getElementById("make");
+            const make = document.getElementById("vehicleMake");
             const model = document.getElementById("modelNo");
-
-            //////////////////////////////////////////////  Station Details ////////////////////////////////////////////////
-
-            const options = {
-                'Select Make': []
-                , 'Benz': [
-                    'C200'
-                    , 'E300'
-                    , '5921'
-                ]
-                , 'Toyota': [
-                    '1652'
-                    , '65372'
-                    , 'gdha'
-                ]
-                , 'Honda': [
-                    '6821'
-                    , '6371'
-                    , 'gajd'
-                ]
-                , 'Kaya': [
-                    'Yellow'
-                ]
-            };
-
-            // Populate make dropdown
-            Object.keys(options).forEach((key) => {
-                const option = document.createElement('option');
-                option.value = key;
-                option.textContent = key;
-                make.appendChild(option);
-            });
 
             make.addEventListener("change", () => {
                 model.removeAttribute("disabled")
                 const selectedMake = make.value;
-                const modelOptions = options[selectedMake];
-
+                //const modelOptions = options[selectedMake];
                 // Clear previous model options
                 model.innerHTML = "";
-
                 // Add new model options
-                modelOptions.forEach((modelOption) => {
+                /*modelOptions.forEach((modelOption) => {
                     const option = document.createElement('option');
                     option.value = modelOption;
                     option.textContent = modelOption;
                     model.appendChild(option);
-                });
-
-                if (selectedMake === "Select Make") {
+                });*/
+                /*if (selectedMake === "Select Make") {
                     const sub = document.createElement('option')
                     sub.value = "Select Model No"
                     sub.textContent = "Select Model"
                     model.appendChild(sub)
                     model.setAttribute("disabled", true)
-                }
-
-
+                }*/
             });
-
-            //////////////////////////////////////////////  Station Details //////////////////////////////////////////////////////
-            //////////////////////////////////////////////  Assignment Details  //////////////////////////////////////////////////
-
 
             const dummyOptions = ["One", "Two", "Three"]
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\migration;
 
 use App\Http\Controllers\Controller;
+use App\Models\configurations\vehicle\ConfigVehicleBrand;
 use App\Models\reference\GtaVehicle;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -38,8 +39,9 @@ class VehicleDataCleaningController extends Controller
     public function cleanUpWindow(Request $request): View
     {
         $registration = $request->get('reg');
+        $vehicleMakes = ConfigVehicleBrand::get();
         return view('modules.vehicleManagement.migration.index')
-            ->with(compact('registration'));
+            ->with(compact('registration','vehicleMakes'));
     }
 
 
