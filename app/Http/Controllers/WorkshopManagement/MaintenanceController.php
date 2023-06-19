@@ -464,6 +464,7 @@ class MaintenanceController extends Controller
         $officeDetails = null;
         $materials = collect([]);
         $materialsHeader = null;
+        $services = collect([]);
 
         if ($reference) {
             $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)
