@@ -429,11 +429,18 @@
                 document.querySelector('[name="chassisNo"]').value = payload?.bastidor;
                 document.querySelector('[name="engineNo"]').value = payload?.engine_no;
                 document.querySelector('[name="model_code"]').value = payload?.tipo_motor;
-                //document.querySelector('[name="model_code"]').value = payload?.year_pur;
-                //document.querySelector('[name="model_code"]').value = payload?.fuel_allocation;
-                //document.querySelector('[name="model_code"]').value = payload?.fuel_type;
-                //document.querySelector('[name="model_code"]').value = payload?.marca_motor;
+                // document.querySelector('[name="model_code"]').value = payload?.year_pur;
+                // document.querySelector('[name="model_code"]').value = payload?.fuel_allocation;
+                // document.querySelector('[name="model_code"]').value = payload?.fuel_type;
+                // document.querySelector('[name="vehicleMake"]').text = payload?.marca_motor;
                 document.querySelector('[name="odometer"]').value = payload?.km_rr;
+                prefillDropdownList(payload?.marca_motor);
+            }
+
+            function prefillDropdownList(marca_motor) {
+                $("vehicleMake > option").filter(function () {
+                    return $(this).text() === marca_motor?.trim();
+                }).attr('selected', true);
             }
 
             function removeSubmissionAndDetailsOptions() {
