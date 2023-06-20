@@ -11,7 +11,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <h4>Data Migration</h4>
+                    <h4>Current Vehicle Details</h4>
                 </div>
             </div>
             <div class="row">
@@ -43,36 +43,12 @@
 
                             </div>
                         </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group ">
-                                <label class="required-field" for="vehicleType">Make :</label>
-                                <select name="vehicleMake"
-                                        class="form-select make required" id="vehicleMake" required>
-                                    @foreach($vehicleMakes as $vehicleMake)
-                                        <option value="{{$vehicleMake->id}}">
-                                            {{$vehicleMake->name}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="vehicleType">Model*:</label>
-                                <select name="model" class="form-control required" id="modelNo"
-                                        required>
-                                    <option>Select Model</option>
-                                </select>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
 
         </div>
-        <div class="card">
+        <div class="card mt-10">
             <div class="card-header">
                 <div class="card-title">
                     <h4>Data Migration</h4>
