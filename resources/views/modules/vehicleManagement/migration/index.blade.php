@@ -438,8 +438,8 @@
             }
 
             function prefillDropdownList(marca_motor) {
-                $("vehicleMake > option").filter(function () {
-                    return $(this).text() === marca_motor?.trim();
+                $("#vehicleMake>option").filter(function () { console.log($(this).text());
+                    return $(this).text()?.trim() === marca_motor?.trim();
                 }).attr('selected', true);
             }
 
