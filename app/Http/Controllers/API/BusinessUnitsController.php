@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\general\BusinessUnits;
+use App\Models\general\BusinessUnit;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -16,7 +16,7 @@ class BusinessUnitsController extends Controller
 
             $month = 60 * 60 * 24 * 30;
             $data = cache()->remember('business_units', $month, function () {
-                return BusinessUnits::where('status','=','01')->orderBy('code_bu')->get();
+                return BusinessUnit::where('status','=','01')->orderBy('code_bu')->get();
             });
 
             return response()->json([

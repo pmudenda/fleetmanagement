@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\general;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RepairTypes extends Model
+class LicenseType extends Model
 {
     use HasFactory;
 
-    protected $table = 'CONFIG_REPAIR_TYPES';
+    protected $table = 'CONFIG_LICENSE_TYPES';
 }

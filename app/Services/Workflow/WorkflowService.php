@@ -8,6 +8,7 @@ use App\Helpers\Priority;
 use App\Helpers\StatusHelper;
 use App\Models\reference\PHCMSEmployee;
 use App\Models\Security\User;
+use App\Models\Workflow\WorkflowApprovalLimit;
 use App\Models\Workflow\WorkflowLog;
 use App\Models\Workflow\WorkflowProcess;
 use App\Models\Workflow\WorkflowStep;
@@ -160,6 +161,8 @@ class WorkflowService
             ->where('process_code', '=', $process_id)
             ->orderBy('id', 'desc')
             ->first();
+
+        $lastStep = getApprovalLimit($task_header->user_unit, $task_header->amount);
 
         if (empty($task_detail)) throw new WorkflowTaskCreationFailedException("Approval Process Details Not Found", 100);
 
@@ -463,7 +466,7 @@ class WorkflowService
         return "00";
     }
 
-    public function getMyApprovalTasks($staff_no)
+    public function getMyApprovalTasks($staff_no): \Illuminate\Support\Collection
     {
         return DB::table('WFL_WORKFLOW_TASK')
             ->leftJoin('SEC_USERS', 'WFL_WORKFLOW_TASK.created_by', '=', 'SEC_USERS.id')
@@ -521,21 +524,11 @@ class WorkflowService
     }
 
 
-    private function create_UserNotification(WorkflowTaskDetail $workflowTask, $title, $actionPage): void
+    private function getApprovalLimit($user_unit, $amount): mixed
     {
-        if ($workflowTask->ActioningOfficer == null) return;
-
-        $notification = WorkflowTaskHeader::create
-        ([
-            /*Sender = "System",
-            AssignedUser = (int)workflowTask . ActioningOfficer,
-            Subject = $"{title} - " + workflowTask . Reference,
-            Message = " You have received a workflow task  &nbsp; &nbsp;<a style='padding-top: 0.1em;padding-bottom: 0.1em;' class='btn btn-primary btn-md' href='" + actionPage + "?refNo=" +
-             workflowTask . Reference +
-             "'> <i class='fa fa-folder-open-o' aria-hidden='true'></i> Open Task</a>",
-            Status = "SENT",
-            DateReceived = Carbon::now()*/
-        ]);
+        return WorkflowApprovalLimit::where('user_unit_code', '=', $user_unit)
+            ->whereBetween()
+            ->first();
     }
 
     private function closePreviousTasks(WorkflowTaskDetail $process): void

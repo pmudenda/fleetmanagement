@@ -12,18 +12,18 @@ use App\Http\Requests\CostingDetailsPost;
 use App\Http\Requests\EngineDetailsPost;
 use App\Http\Requests\OnboardingVehicleAccessoryRequest;
 use App\Http\Requests\VehicleHeaderRequest;
-use App\Models\configurations\ConfigAccessories;
+use App\Models\configurations\Accessory;
 use App\Models\configurations\vehicle\ConfigVehicleBodyType;
 use App\Models\configurations\vehicle\ConfigVehicleBrand;
-use App\Models\configurations\vehicle\ConfigVehicleModel;
-use App\Models\general\OrganizationalUnits;
-use App\Models\reference\Areas;
+use App\Models\configurations\vehicle\VehicleModel;
+use App\Models\general\OrganizationalUnit;
+use App\Models\reference\Area;
 use App\Models\VehicleManagement\Assignment;
 use App\Models\VehicleManagement\BodyAndWeightDetail;
 use App\Models\VehicleManagement\ChassisDetail;
 use App\Models\VehicleManagement\CostAndValuation;
 use App\Models\VehicleManagement\EngineDetail;
-use App\Models\VehicleManagement\VehicleAccessories;
+use App\Models\VehicleManagement\VehicleAccessory;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\BarCodes\BarcodeGenerationService;
 use App\Services\FileUploads\FileUploadService;
@@ -186,7 +186,7 @@ class OnBoardingService
         DB::beginTransaction();
         $user_unit_code = $request->input('user_unit');
 
-        $organizationUnit = OrganizationalUnits::where('code_unit', $user_unit_code)->first();
+        $organizationUnit = OrganizationalUnit::where('code_unit', $user_unit_code)->first();
         $registrationNumber = strtoupper(trim($request->input('registrationNumber')));
         $exitingRegistration = VehicleHeader::where('registration_number', $registrationNumber)->first();
 
@@ -197,7 +197,7 @@ class OnBoardingService
         }
 
         $brand = ConfigVehicleBrand::where('id', $request->input('brand'))->first();
-        $vehicleModel = ConfigVehicleModel::where('id',
+        $vehicleModel = VehicleModel::where('id',
             $request->input('model'))->first();
 
         if (empty($vehicleModel)) {
@@ -392,7 +392,7 @@ class OnBoardingService
         $bu_code = $businessUnitParts[0];
         $bu_name = $businessUnitParts[1];
 
-        $businessArea = Areas::where('area', '=', trim($request->input('businessArea')))
+        $businessArea = Area::where('area', '=', trim($request->input('businessArea')))
             //->where('type', '=', 'businessAreas')
             ->first();
 
@@ -507,7 +507,7 @@ class OnBoardingService
     {
         $headerId = $request->get('headerId');
 
-        $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
+        $accessoryNames = Accessory::where('status', '=', StatusHelper::active())
             ->get();
         foreach ($accessoryNames as $accessoryName) {
             $accessoryCode= $accessoryName->code;
@@ -515,7 +515,7 @@ class OnBoardingService
             $response = $request->get($accessoryCode);
             $remarks = $request->get('COMMENT_'.$accessoryCode);
 
-            VehicleAccessories::create(
+            VehicleAccessory::create(
                 [
                     'vehicle_header_id' => $headerId,
                     'name' => $accessoryName->name,

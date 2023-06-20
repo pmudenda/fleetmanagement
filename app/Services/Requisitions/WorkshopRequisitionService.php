@@ -5,6 +5,8 @@ namespace App\Services\Requisitions;
 use App\Constants\Accounts;
 use App\Constants\ErrorMessages;
 use App\Constants\TransactionType;
+use App\Constants\WorkflowActions;
+use App\Constants\WorkflowModules;
 use App\Enums\RequisitionItemTypes;
 use App\Enums\WorkflowProcessCodes;
 use App\Events\RequisitionRaised;
@@ -17,12 +19,10 @@ use App\Http\Requests\WorkshopServiceRequisitionRequest;
 use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Models\VehicleManagement\VehicleHeader;
-use App\Models\Workflow\WorkflowActions;
-use App\Models\Workflow\WorkflowModules;
 use App\Models\WorkShopManagement\JobCardHeader;
-use App\Models\WorkShopManagement\WorkShopComments;
+use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkShopMaterialHeader;
-use App\Models\WorkShopManagement\WorkShopMaterials;
+use App\Models\WorkShopManagement\WorkShopMaterial;
 use App\Models\WorkShopManagement\WorkShopServiceModel;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
@@ -286,7 +286,7 @@ class WorkshopRequisitionService
                     // 'authorised_by',
                 ]);
             } else {
-                WorkShopMaterials::create([
+                WorkShopMaterial::create([
                     'workshop_reference' => $workshop_reference,
                     'workshop_code' => $workshop_code,
                     // section
@@ -318,7 +318,7 @@ class WorkshopRequisitionService
             }
         }
 
-        WorkShopComments::firstOrCreate(
+        WorkShopComment::firstOrCreate(
             [
                 //'job_card_no' => $job_cord_no,
                 'workshop_reference' => $workshop_reference,
@@ -496,7 +496,8 @@ class WorkshopRequisitionService
                     break;
                 case RequisitionItemTypes::ServiceItemCode:
                     $query->where(function ($q) use ($item_type) {
-                        $q->where('spms_articles_view.code_group', '=', '41');
+                        $q->where('spms_articles_view.code_group', '=', '41')
+                            ->where('spms_articles_view.code_subgroup', '=', '02');
                     });
 
                     break;
@@ -521,7 +522,8 @@ class WorkshopRequisitionService
                 );
             }
 
-            $activeRequests = DB::table("gen_material_headers")->join("gen_material_details",
+            $activeRequests = DB::table("gen_material_headers")
+                ->join("gen_material_details",
                 'gen_material_headers.req_no',
                 '=',
                 'gen_material_details.req_no')
@@ -546,18 +548,17 @@ class WorkshopRequisitionService
 
         }
 
-        $purchase_process_reference = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
-        $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
 
+        $form_order = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
+        $purchase_process_reference = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
         Log::info("Requisition Ref. " . $purchase_process_reference);
-        Log::info("Doc No. " . $form_order_number);
+        Log::info("Doc No. " . $form_order);
         Log::info('Requisition Item Type ' . $requisitionPostRequest->get('itemType'));
         Log::info('Determined Requisition Item Type Code ' . $item_type);
 
         $short_description = "Workshop Requisition for Vehicle Reg No. " . $registrationNumber;
         $long_description = "Workshop Requisition Ref.No. " . $purchase_process_reference . " For Vehicle Reg No. " . $registrationNumber;
 
-        //$authority = 'GhostInCode';
         $justification = $requisitionPostRequest->remarks;
 
         $this->workflowService->initiateWorkflowProcess(
@@ -582,7 +583,7 @@ class WorkshopRequisitionService
                 'date_created' => Carbon::now(),
                 'status' => StatusHelper::new(),
                 'req_no' => $purchase_process_reference,
-                'form_order' => $form_order_number,
+                'form_order' => $form_order,
                 'workshop_no' => $workshop_code,
                 'item_type' => $item_type,
                 'requested_by' => $user->staff_no,
@@ -601,7 +602,7 @@ class WorkshopRequisitionService
 
         WorkShopMaterialHeader::create(
             [
-                'form_order' => $form_order_number,
+                'form_order' => $form_order,
                 'job_card_no' => $job_cord_no,
                 'item_type_code' => $item_type_code,
                 'workshop_reference' => $workshop_reference,
@@ -659,7 +660,7 @@ class WorkshopRequisitionService
 
         }
 
-        WorkShopComments::firstOrCreate(
+        WorkShopComment::firstOrCreate(
             [
                 //'job_card_no' => $job_cord_no,
                 'workshop_reference' => $workshop_reference,

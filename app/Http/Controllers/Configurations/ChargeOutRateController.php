@@ -9,7 +9,7 @@ use App\Http\Requests\ChargeOutRateRequest;
 use App\Models\ChargeOutRate;
 use App\Models\configurations\vehicle\ConfigVehicleBodyType;
 use App\Models\configurations\vehicle\ConfigVehicleBrand;
-use App\Models\configurations\vehicle\ConfigVehicleModel;
+use App\Models\configurations\vehicle\VehicleModel;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -35,7 +35,7 @@ class ChargeOutRateController extends Controller
             $type = $request->get("bodyType");
             $charge = $request->get("rate");
             $make = ConfigVehicleBrand::where('id', '=', $brand)->first();
-            $model_type = ConfigVehicleModel::where('id', '=', $model)->first();
+            $model_type = VehicleModel::where('id', '=', $model)->first();
             $type = ConfigVehicleBodyType::where('id', '=', $type)->first();
 
             ChargeOutRate::create([

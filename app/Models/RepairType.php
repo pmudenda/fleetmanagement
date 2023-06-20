@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RequisitionTypes extends Model
+class RepairType extends Model
 {
     use HasFactory;
-    protected $table = 'CONFIG_REQUISITION_TYPES';
+
+    protected $table = 'CONFIG_REPAIR_TYPES';
 }

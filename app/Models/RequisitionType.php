@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Models\configurations;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ConfigAccessories extends Model
+class RequisitionType extends Model
 {
     use HasFactory;
-
-    protected $table = 'CONFIG_ACCESSORIES';
+    protected $table = 'CONFIG_REQUISITION_TYPES';
 }

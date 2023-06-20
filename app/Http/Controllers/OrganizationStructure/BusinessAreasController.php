@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\OrganizationStructure;
 
 use App\Http\Controllers\Controller;
-use App\Models\reference\Areas;
+use App\Models\reference\Area;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -13,7 +13,7 @@ class BusinessAreasController extends Controller
     public function get(): JsonResponse
     {
         try {
-            $data = Areas::get();
+            $data = Area::get();
             return response()->json([
                 'state' => 'success',
                 'payload' => $data

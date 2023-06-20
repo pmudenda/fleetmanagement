@@ -4,7 +4,7 @@ namespace App\Http\Controllers\VehicleManagement;
 
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
-use App\Models\configurations\vehicle\ConfigVehicleModel;
+use App\Models\configurations\vehicle\VehicleModel;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -17,7 +17,7 @@ class VehicleModelsController extends Controller
     public function get(Request $request): JsonResponse
     {
         try {
-            $data = ConfigVehicleModel::get();
+            $data = VehicleModel::get();
             return response()->json([
                 'state' => 'success',
                 'payload' => $data
@@ -38,7 +38,7 @@ class VehicleModelsController extends Controller
 
             $modelCode = trim(strtoupper($request->input('model_code')));
 
-            $vehicleModel = ConfigVehicleModel::where('model_code', '=', $modelCode)
+            $vehicleModel = VehicleModel::where('model_code', '=', $modelCode)
                 ->where('model_name', '=', trim(strtoupper($request->input('model_code'))))
                 ->first();
 
@@ -50,7 +50,7 @@ class VehicleModelsController extends Controller
                 ]);
             }
 
-            $model = ConfigVehicleModel::create(
+            $model = VehicleModel::create(
                 [
                     'status' => StatusHelper::active(),
                     'model_name' => trim(strtoupper($request->input('model_name'))),
@@ -80,7 +80,7 @@ class VehicleModelsController extends Controller
     {
         try {
             $statusList = [StatusHelper::active()];
-            $data = ConfigVehicleModel::whereIn('status', $statusList)
+            $data = VehicleModel::whereIn('status', $statusList)
                 ->get();
             return response()->json([
                 'state' => 'success',

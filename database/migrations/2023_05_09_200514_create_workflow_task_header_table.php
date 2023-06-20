@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->string('reference');
             $table->string('priority');
             $table->string('description', 255);
+            $table->string('user_unit', 10);
             $table->Integer('created_by');
             $table->Integer('modified_by');
             $table->decimal('amount', 18, 2);

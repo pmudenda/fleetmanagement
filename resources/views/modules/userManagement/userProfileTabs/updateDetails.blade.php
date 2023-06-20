@@ -1,4 +1,4 @@
-@php use App\Models\reference\Areas; @endphp
+@php use App\Models\reference\Area; @endphp
 <form class="form-horizontal" method="post"
       action="#">
     @csrf
@@ -103,7 +103,7 @@
                     name="user_division_id">
                 {{--<option value="{{ $user->division->id ?? '' }}  ">
                     {{ $user->division->name ?? '' }} </option>--}}
-                @foreach(Areas::get() as $area)
+                @foreach(Area::get() as $area)
                     <option value="{{$area->area}}">{{$area->description}}</option>
                 @endforeach
             </select>

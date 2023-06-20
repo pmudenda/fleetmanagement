@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Models\WorkShopManagement;
+namespace App\Models\VehicleManagement;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WorkShopVehicleAccessories extends Model
+class VehicleAccessory extends Model
 {
     use HasFactory;
+    protected $table = 'VM_VEHICLE_ACCESSORIES';
 
-    protected $table = 'WM_JOB_CARD_VEHICLE_ACCESSORIES';
     protected $fillable = [
-        'workshop_reference',
-        'job_card_no',
+        'vehicle_header_id',
         'name',
         'code',
         'remarks',

@@ -2,11 +2,11 @@
 
 namespace App\Services\DriverManagement;
 
+use App\Constants\WorkflowModules;
 use App\Exceptions\DriverOnBoardingException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\DriverOnboardingRequest;
 use App\Models\Driver;
-use App\Models\Workflow\WorkflowModules;
 use App\Services\FileUploads\FileUploadService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use Carbon\Carbon;

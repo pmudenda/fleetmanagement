@@ -11,8 +11,8 @@ use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Http\Requests\OdometerValidationRequest;
-use App\Models\general\OrganizationalUnits;
-use App\Models\RequisitionTypes;
+use App\Models\general\OrganizationalUnit;
+use App\Models\RequisitionType;
 use App\Models\VehicleManagement\ChassisDetail;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\Requisitions\FuelRequisitionService;
@@ -71,11 +71,11 @@ class FuelRequisitionController extends Controller
     {
         $user = Auth::user();
 
-        $organizationalUnit = OrganizationalUnits::where('cc_code', $user->cc_code)
+        $organizationalUnit = OrganizationalUnit::where('cc_code', $user->cc_code)
             ->where('bu_code', $user->bu_code)
             ->first();
 
-        $requisitionTypes = RequisitionTypes::where('status', '01')->where('module', Modules::FuelReq)->get();
+        $requisitionTypes = RequisitionType::where('status', '01')->where('module', Modules::FuelReq)->get();
 
         $daysToNextRefuel = config('settings.fuel_requisition_validity');
 
@@ -128,7 +128,7 @@ class FuelRequisitionController extends Controller
         /*$organizationalUnit = OrganizationalUnits::where('code_unit', $requestDetails->cc_code)
             ->first();*/
 
-        $requisitionTypes = RequisitionTypes::where('status', '01')->where('module', 'FR')->get();
+        $requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
 
         $daysToNextRefuel = config('settings.fuel_requisition_validity');
 

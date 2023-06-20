@@ -7,13 +7,13 @@ use App\Enums\Modules;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\JobCardRequest;
 use App\Http\Requests\VehicleDefectsRequest;
-use App\Models\configurations\ConfigAccessories;
-use App\Models\configurations\GeneralTableConfigurations;
+use App\Models\configurations\Accessory;
+use App\Models\configurations\GeneralTableConfiguration;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Models\WorkShopManagement\JobCardHeader;
-use App\Models\WorkShopManagement\VehicleDefects;
-use App\Models\WorkShopManagement\WorkShopComments;
-use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
+use App\Models\WorkShopManagement\VehicleDefect;
+use App\Models\WorkShopManagement\WorkShopComment;
+use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -56,7 +56,7 @@ class WorkshopService
         $workshop_number = DocumentNumberGenerationService::generateReferenceNumber(Modules::WORKSHOP_DOCUMENT);
         $doc_number = DocumentNumberGenerationService::generateReferenceNumber(Modules::JOB_CARD);
 
-        $section = GeneralTableConfigurations::where('name', '=', 'RECEPTION')
+        $section = GeneralTableConfiguration::where('name', '=', 'RECEPTION')
             ->where('type', ConfigurationTypes::WORK_SHOP_SECTION)
             ->first();
 
@@ -106,7 +106,7 @@ class WorkshopService
         DB::beginTransaction();
         $job_card_voucher = $request->get('job_card_voucher');
         $reference_number = $request->get('workshop_reference');
-        $accessoryNames = ConfigAccessories::where('status', '=', StatusHelper::active())
+        $accessoryNames = Accessory::where('status', '=', StatusHelper::active())
             ->get();
 
         Log::info('Saving Accessories on ' . $reference_number);
@@ -116,7 +116,7 @@ class WorkshopService
             $response = $request->get('field_' . trim($accessoryCode));
             $remarks = $request->get('comment_' . trim($accessoryCode));
 
-            WorkShopVehicleAccessories::updateOrCreate(
+            WorkShopVehicleAccessory::updateOrCreate(
                 [
                     'job_card_no' => trim($job_card_voucher),
                     'workshop_reference' => trim($reference_number),
@@ -138,7 +138,7 @@ class WorkshopService
         $models = [];
 
         foreach ($request->get('items') as $defect) {
-            VehicleDefects::firstOrCreate(
+            VehicleDefect::firstOrCreate(
                 [
                     'workshop_reference' => $request['workshop_reference'],
                     'veh_sys' => $defect['vehicleSystem'],
@@ -153,7 +153,7 @@ class WorkshopService
                 ]);
         }
 
-        WorkShopComments::firstOrCreate(
+        WorkShopComment::firstOrCreate(
             [
                 'workshop_reference' => $request->workshop_reference,
                 'type' => 'DEF',

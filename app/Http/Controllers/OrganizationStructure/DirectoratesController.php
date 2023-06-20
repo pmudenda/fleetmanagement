@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\OrganizationStructure;
 
 use App\Http\Controllers\Controller;
-use App\Models\general\DIRECTORATES;
+use App\Models\general\Directorate;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -21,7 +21,7 @@ class DirectoratesController extends  Controller
             }
 
             $data = cache()->remember('directorates', $month, function () {
-                return DIRECTORATES::orderBy('name')->get();
+                return Directorate::orderBy('name')->get();
             });
             return response()->json([
                 'state' => 'success',

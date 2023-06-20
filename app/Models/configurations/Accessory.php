@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\general;
+namespace App\Models\configurations;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LicenseTypes extends Model
+class Accessory extends Model
 {
     use HasFactory;
 
-    protected $table = 'CONFIG_LICENSE_TYPES';
+    protected $table = 'CONFIG_ACCESSORIES';
 }

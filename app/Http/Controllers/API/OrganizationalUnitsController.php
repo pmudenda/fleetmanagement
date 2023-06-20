@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
-use App\Models\general\OrganizationalUnits;
+use App\Models\general\OrganizationalUnit;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class OrganizationalUnitsController extends Controller
         try {
             $month = 60 * 60 * 24 * 30;
 
-            $query = OrganizationalUnits::query();
+            $query = OrganizationalUnit::query();
 
             $query->where('status', StatusHelper::organizationStructureActive());
 

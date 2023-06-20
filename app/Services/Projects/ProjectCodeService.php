@@ -2,7 +2,7 @@
 
 namespace App\Services\Projects;
 
-use App\Models\reference\ActiveProjectsModel;
+use App\Models\reference\ActiveProjects;
 use Illuminate\Support\Facades\DB;
 
 class ProjectCodeService
@@ -13,6 +13,6 @@ class ProjectCodeService
           WHERE  (CODE_PROJECT LIKE '%{$searchCriteria}%' OR DESCRIPTION LIKE '%{$searchCriteria}%') AND STATUS = '01'";
         $activeProjects = DB::select($query);
 
-        return ActiveProjectsModel::hydrate($activeProjects);
+        return ActiveProjects::hydrate($activeProjects);
     }
 }

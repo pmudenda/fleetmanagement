@@ -18,9 +18,6 @@ class DocumentNumberGenerationService
         $stmt->bindParam(':p_module', $module);
         $stmt->bindParam(':p_user', $user_staff_no);
         $stmt->execute();
-        /*$results = DB::select("select  (:, :) as value from dual",
-            ['p_module' => , 'p_user' => ]
-        );*/
 
         $result = null;
         if (is_array($results) && !empty($results)) {

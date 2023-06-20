@@ -6,7 +6,7 @@ use App\Models\Main\ConfigWorkFlow;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ActiveProjectsModel extends Model
+class ActiveProjects extends Model
 {
     use HasFactory;
 

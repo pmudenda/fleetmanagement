@@ -2,12 +2,9 @@
 
 namespace App\View\Components;
 
-use App\Enums\ConfigurationTypes;
 use App\Enums\Modules;
-use App\Models\Workflow\WorkflowModules;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\Component;
 
 class WorkflowApprovalHistory extends Component

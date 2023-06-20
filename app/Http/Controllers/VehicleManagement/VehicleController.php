@@ -6,7 +6,7 @@ use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
-use App\Models\configurations\ConfigAccessories;
+use App\Models\configurations\Accessory;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
@@ -133,7 +133,7 @@ class VehicleController extends Controller
 
     public function accessories(Request $request): View
     {
-        $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())
+        $accessories = Accessory::where('status', '=', StatusHelper::active())
             ->get();
 
         return view('modules.vehicleManagement.general.accessories')

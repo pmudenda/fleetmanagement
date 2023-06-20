@@ -5,7 +5,7 @@ use App\Enums\ConfigurationTypes;
 use App\Enums\RequisitionItemTypes;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\API\RoadTransportSafetyAgencyIntegrationController;
-use App\Models\configurations\GeneralTableConfigurations;
+use App\Models\configurations\GeneralTableConfiguration;
 use App\Models\reference\Article;
 use App\Models\reference\GtaVehicle;
 use App\Models\WorkShopManagement\WorkShopTable;
@@ -120,7 +120,7 @@ Route::get('load/defects', function (Request $request) {
 Route::get('load/workshop/section', function (Request $request) {
     try {
 
-        $workShopSection = GeneralTableConfigurations::where('type', ConfigurationTypes::WORK_SHOP_SECTION)
+        $workShopSection = GeneralTableConfiguration::where('type', ConfigurationTypes::WORK_SHOP_SECTION)
             ->where('parent', $request->get('key'))
             ->where('status', '=', StatusHelper::active())
             ->get();
@@ -143,7 +143,7 @@ Route::get('load/workshop/section', function (Request $request) {
 Route::get('load/licence/classes', function (Request $request) {
     try {
 
-        $licenseCategory = GeneralTableConfigurations::where('type', ConfigurationTypes::LICENSE_CLASS)
+        $licenseCategory = GeneralTableConfiguration::where('type', ConfigurationTypes::LICENSE_CLASS)
             ->where('active', '=', "1")
             ->get();
 

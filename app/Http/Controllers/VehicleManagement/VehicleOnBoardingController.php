@@ -14,9 +14,9 @@ use App\Http\Requests\CostingDetailsPost;
 use App\Http\Requests\EngineDetailsPost;
 use App\Http\Requests\OnboardingVehicleAccessoryRequest;
 use App\Http\Requests\VehicleHeaderRequest;
-use App\Models\configurations\ConfigAccessories;
+use App\Models\configurations\Accessory;
 use App\Models\VehicleManagement\ChassisDetail;
-use App\Models\VehicleManagement\VehicleAccessories;
+use App\Models\VehicleManagement\VehicleAccessory;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\VehicleManagement\OnBoarding\OnBoardingService;
 use App\Services\VehicleManagement\VehicleDetailsService;
@@ -138,8 +138,8 @@ class VehicleOnBoardingController extends Controller
 
             $viewName = "modules.vehicleManagement.onboarding.start";
 
-            $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
-            $enteredAccessories = VehicleAccessories::where('vehicle_header_id', '=', (int)$reference)->get();
+            $accessories = Accessory::where('status', '=', StatusHelper::active())->get();
+            $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$reference)->get();
 
             return view($viewName)
                 ->with(compact(

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\general\CostCenters;
+use App\Models\general\CostCenter;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -15,7 +15,7 @@ class CostCenterController extends Controller
         try {
             $month = 60 * 60 * 24 * 30;
             $data = cache()->remember('cost_center', $month, function () {
-                return CostCenters::orderBy('description')->get();
+                return CostCenter::orderBy('description')->get();
             });
 
             return response()->json([

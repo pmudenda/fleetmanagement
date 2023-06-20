@@ -5,8 +5,12 @@ namespace App\Models\general;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrganizationalUnits extends Model
+class BusinessArea extends Model
 {
     use HasFactory;
-    protected $table= 'REF_ORGANIZATIONAL_UNITS';
+    protected $table = 'CONFIG_BUSINESS_AREAS';
+    protected $fillable = [
+        'code',
+        'name',
+    ];
 }

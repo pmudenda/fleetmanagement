@@ -5,12 +5,8 @@ namespace App\Models\general;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BusinessUnits extends Model
+class Directorate extends Model
 {
     use HasFactory;
-
-    protected $table = 'REF_BUSINESS_UNITS';
-
-    protected $fillable = [
-    ];
+    protected $table = 'REF_DIRECTORATES';
 }

@@ -15,15 +15,15 @@ use App\Http\Requests\JobCardRequest;
 use App\Http\Requests\VehicleDefectsRequest;
 use App\Http\Requests\WorkshopRequisitionRequest;
 use App\Http\Requests\WorkshopServiceRequisitionRequest;
-use App\Models\configurations\ConfigAccessories;
-use App\Models\configurations\GeneralTableConfigurations;
+use App\Models\configurations\Accessory;
+use App\Models\configurations\GeneralTableConfiguration;
 use App\Models\MaterialDetail;
-use App\Models\RequisitionTypes;
-use App\Models\WorkShopManagement\VehicleDefects;
-use App\Models\WorkShopManagement\WorkShopComments;
+use App\Models\RequisitionType;
+use App\Models\WorkShopManagement\VehicleDefect;
+use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkShopMaterialHeader;
 use App\Models\WorkShopManagement\WorkShopServiceModel;
-use App\Models\WorkShopManagement\WorkShopVehicleAccessories;
+use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
 use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Requisitions\WorkshopRequisitionService;
 use App\Services\Workflow\DocumentNumberGenerationService;
@@ -138,7 +138,7 @@ class MaintenanceController extends Controller
             abort(404);
         }
 
-        $requisitionTypes = RequisitionTypes::where('status', '01')->where('module', 'FR')->get();
+        $requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
 
         $daysToNextRefuel = config('settings.fuel_requisition_validity');
 
@@ -196,6 +196,7 @@ class MaintenanceController extends Controller
             } else if ($itemType == RequisitionItemTypes::ServiceItemCode) {
                 $query->where(function ($q) use ($itemType) {
                     $q->where('spms_articles_view.code_group', '=', '41');
+                    $q->where('spms_articles_view.code_subgroup', '=', '02');
                 });
             }
 
@@ -323,7 +324,7 @@ class MaintenanceController extends Controller
 
     public function getFuelLevels(): JsonResponse
     {
-        $fuel_levels = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::FUEL_LEVELS->value)
+        $fuel_levels = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::FUEL_LEVELS->value)
             ->get();
 
         return response()->json(
@@ -447,13 +448,13 @@ class MaintenanceController extends Controller
         $step = $request->get('step') ?? 0;
         $reference = $request->get('reference');
 
-        $repairTypes = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
+        $repairTypes = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
             ->where('active', '=', 1)
             ->get();
 
-        $accessories = ConfigAccessories::where('status', '=', StatusHelper::active())->get();
+        $accessories = Accessory::where('status', '=', StatusHelper::active())->get();
 
-        $workshop_sections = GeneralTableConfigurations::where(Constants::TYPE_KEY, ConfigurationTypes::WORK_SHOP_SECTION)
+        $workshop_sections = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::WORK_SHOP_SECTION)
             ->where('active', '=', 1)
             ->get();
 
@@ -467,15 +468,15 @@ class MaintenanceController extends Controller
         $services = collect([]);
 
         if ($reference) {
-            $accessories_checked_in = WorkShopVehicleAccessories::where('job_card_no', '=', $reference)
+            $accessories_checked_in = WorkShopVehicleAccessory::where('job_card_no', '=', $reference)
                 ->get();
             $details = $this->workshopService->getJobCardDetails($reference);
 
             $officeDetails = $this->workshopService->getWorkShopPurchaseOfficeAndStore($details->workshop_code);
 
-            $defects = VehicleDefects::where('workshop_reference', '=', $details->workshop_doc_no)->get();
+            $defects = VehicleDefect::where('workshop_reference', '=', $details->workshop_doc_no)->get();
 
-            $comments = WorkShopComments::where('workshop_reference', '=', $details->workshop_doc_no)->get();
+            $comments = WorkShopComment::where('workshop_reference', '=', $details->workshop_doc_no)->get();
 
             $materials = $this->workshopRequisitionService->getWorkShopRequisitionItems($reference);
 
@@ -505,7 +506,7 @@ class MaintenanceController extends Controller
     {
         try {
 
-            $entry = VehicleDefects::where('id', '=', $request->record_id)
+            $entry = VehicleDefect::where('id', '=', $request->record_id)
                 ->first();
 
             if (empty($entry)) {

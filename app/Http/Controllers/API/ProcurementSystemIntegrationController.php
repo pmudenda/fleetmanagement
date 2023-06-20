@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Constants\ErrorMessages;
 use App\Models\reference\Article;
-use App\Models\reference\PurchaseOrders;
+use App\Models\reference\PurchaseOrder;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -33,7 +33,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
                     'message' => 'Bad request, data missing'
                 ]);
             }
-            $purchaseOrder = PurchaseOrders::where('document_no', '=', $document_number)->get();
+            $purchaseOrder = PurchaseOrder::where('document_no', '=', $document_number)->get();
             if (empty($purchaseOrder)) {
                 return response()->json([
                     'state' => 'false',
@@ -58,7 +58,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
     public function getSuppliers(): JsonResponse
     {
         try {
-            $suppliers = PurchaseOrders::distinct()->get(['code_supplier', 'name_of_supplier']);;
+            $suppliers = PurchaseOrder::distinct()->get(['code_supplier', 'name_of_supplier']);;
             return response()->json([
                 'state' => 'success',
                 'payload' => $suppliers

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Configurations;
 
 use App\Http\Controllers\Controller;
-use App\Models\configurations\vehicle\ConfigVehicleModel;
+use App\Models\configurations\vehicle\VehicleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -36,7 +36,7 @@ class ConfigVehicleModelController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ConfigVehicleModel $configVehicleModel)
+    public function show(VehicleModel $configVehicleModel)
     {
         //
     }
@@ -44,7 +44,7 @@ class ConfigVehicleModelController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ConfigVehicleModel $configVehicleModel)
+    public function edit(VehicleModel $configVehicleModel)
     {
         //
     }
@@ -52,7 +52,7 @@ class ConfigVehicleModelController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ConfigVehicleModel $configVehicleModel)
+    public function update(Request $request, VehicleModel $configVehicleModel)
     {
         //
     }
@@ -60,7 +60,7 @@ class ConfigVehicleModelController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ConfigVehicleModel $configVehicleModel)
+    public function destroy(VehicleModel $configVehicleModel)
     {
         //
     }

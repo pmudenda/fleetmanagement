@@ -23,6 +23,7 @@ class WorkflowTaskHeader extends Model
         'created_by',
         'modified_by',
         'process_code',
-        'amount'
+        'amount',
+        'user_unit'
     ];
 }

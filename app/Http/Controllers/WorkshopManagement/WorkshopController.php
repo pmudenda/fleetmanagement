@@ -7,10 +7,10 @@ use App\Enums\Constants;
 use App\Enums\Modules;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
-use App\Models\configurations\GeneralTableConfigurations;
+use App\Models\configurations\GeneralTableConfiguration;
 use App\Models\configurations\WorkShop;
-use App\Models\general\CostCenters;
-use App\Models\reference\Areas;
+use App\Models\general\CostCenter;
+use App\Models\reference\Area;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -31,12 +31,12 @@ class WorkshopController extends Controller
         }
         $businessAreas = [];
         try {
-            $businessAreas = Areas::get();
+            $businessAreas = Area::get();
         } catch (\Exception $e) {
             Log::error($e);
         }
 
-        $costCenters = CostCenters::orderBy('description')->get();
+        $costCenters = CostCenter::orderBy('description')->get();
         return view('modules.workshopManagement.index')
             ->with(compact(
                 'workshopsList',
@@ -97,7 +97,7 @@ class WorkshopController extends Controller
     {
         $type = ConfigurationTypes::WORK_SHOP_SECTION;
         $typeStr = $type;
-        $workshop_sections = GeneralTableConfigurations::where(Constants::TYPE_KEY, $type)->get();
+        $workshop_sections = GeneralTableConfiguration::where(Constants::TYPE_KEY, $type)->get();
 
        /* return view('modules.workshopManagement.sections')
             ->with(compact(
@@ -128,7 +128,7 @@ class WorkshopController extends Controller
 
     public function getActiveWorkShopSections(): JsonResponse
     {
-        $workshopsList = GeneralTableConfigurations::where('type', '=', ConfigurationTypes::WORK_SHOP_SECTION->value)
+        $workshopsList = GeneralTableConfiguration::where('type', '=', ConfigurationTypes::WORK_SHOP_SECTION->value)
             ->where('active', 1)
             ->get();
 

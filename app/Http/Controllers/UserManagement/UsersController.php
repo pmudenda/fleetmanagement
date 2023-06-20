@@ -9,8 +9,8 @@ use App\Exceptions\UserOnBoardingException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserOnboardingRequest;
-use App\Models\general\BusinessUnits;
-use App\Models\general\CostCenters;
+use App\Models\general\BusinessUnit;
+use App\Models\general\CostCenter;
 use App\Models\reference\PHCMSEmployee;
 use App\Models\Security\Role;
 use App\Models\Security\User;
@@ -62,8 +62,8 @@ class UsersController extends Controller
     public function create(): View
     {
         $roles = Role::get();
-        $businessUnits = BusinessUnits::where('status', '=', '01')->get();
-        $costCenters = CostCenters::where('status', '=', '01')->get();
+        $businessUnits = BusinessUnit::where('status', '=', '01')->get();
+        $costCenters = CostCenter::where('status', '=', '01')->get();
 
         return view('modules.userManagement.addUser')
             ->with(compact('roles', 'businessUnits', 'costCenters'));
