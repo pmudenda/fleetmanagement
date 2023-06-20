@@ -69,7 +69,7 @@
                       action="{{route('save.workshop.requisition')}}"
                       method="post">
                     @csrf
-                    <h1>Job Card Details</h1>
+                    <h1>Details</h1>
                     <section>
                         @include('modules.requisitions.maintenance.tabs.job_card_header')
                     </section>
@@ -83,7 +83,7 @@
                     <section>
                         @include('modules.requisitions.maintenance.tabs.defects')
                     </section>
-                    <h1>Material & Services</h1>
+                    <h1>Spares & Services</h1>
                     <section>
                         @include('modules.requisitions.maintenance.tabs.partsSelection')
                     </section>
