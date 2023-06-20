@@ -16,6 +16,70 @@
             </div>
             <div class="row">
                 <div class="col-md-12 mt-10">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="registrationNumber" class="field-required">
+                                    Registration Number
+                                </label>
+                                <div class="input-group">
+                                    <input name="registrationNumber"
+                                           type="text"
+                                           value="{{$registration ?? ''}}"
+                                           data-action="{{route('cleanup.vehicle.find')}}"
+                                           class="form-control form-control-sm required"
+                                           id="registrationNumber"
+                                           placeholder=""
+                                           required/>
+                                    <div class="input-group-addon">
+                                        <button type="button"
+                                                id="vehicleSearchBtn"
+                                                name="vehicleSearchBtn"
+                                                class="btn btn-success btn-sm border-radius-0">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label class="required-field" for="vehicleType">Make :</label>
+                                <select name="vehicleMake"
+                                        class="form-select make required" id="vehicleMake" required>
+                                    @foreach($vehicleMakes as $vehicleMake)
+                                        <option value="{{$vehicleMake->id}}">
+                                            {{$vehicleMake->name}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="vehicleType">Model*:</label>
+                                <select name="model" class="form-control required" id="modelNo"
+                                        required>
+                                    <option>Select Model</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <h4>Data Migration</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mt-10">
                     <div class="wizard">
                         <div class="wizard-inner">
                             <!-- <div class="connecting-line"></div> -->
@@ -59,19 +123,10 @@
                                                     <input name="registrationNumber"
                                                            type="text"
                                                            value="{{$registration ?? ''}}"
-                                                           data-action="{{route('cleanup.vehicle.find')}}"
                                                            class="form-control form-control-sm required"
                                                            id="registrationNumber"
                                                            placeholder=""
                                                            required/>
-                                                    <div class="input-group-addon">
-                                                        <button type="button"
-                                                                id="vehicleSearchBtn"
-                                                                name="vehicleSearchBtn"
-                                                                class="btn btn-success btn-sm border-radius-0">
-                                                            <i class="fas fa-search"></i>
-                                                        </button>
-                                                    </div>
                                                 </div>
 
                                             </div>
@@ -441,6 +496,8 @@
                 $("#vehicleMake>option").filter(function () { console.log($(this).text());
                     return $(this).text()?.trim() === marca_motor?.trim();
                 }).attr('selected', true);
+
+                $("#vehicleMake").trigger('click');
             }
 
             function removeSubmissionAndDetailsOptions() {
