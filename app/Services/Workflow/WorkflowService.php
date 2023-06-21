@@ -119,7 +119,7 @@ class WorkflowService
             'created_by' => $currentUser->id,
             'date_acted' => Carbon::now(),
             'process_code' => $processCode,
-            'amount' => $amount
+            'amount' => number_format($amount)
         ]);
 
         return WorkflowTaskDetail::create([
