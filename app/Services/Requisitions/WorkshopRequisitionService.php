@@ -641,7 +641,7 @@ class WorkshopRequisitionService
                 'unit_of_measure' => $item['service_unit_of_measure'],
                 'quantity' => $item['service_quantity'],
                 'amount_est' => $item['service_total_price'],
-                'price' => $item['service_unit_price'],
+                //'price' => $item['service_unit_price'],
                 'store_code' => $store_code,
                 'office_code' => $requisitionPostRequest->get('purchase_office'),
                 'ind' => 'Y',

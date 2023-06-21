@@ -15,6 +15,7 @@ class WorkflowApprovalLimit extends Model
         'user_unit_name',
         'office',
         'final_step',
-        'approval_limit'
+        'approval_lower_limit',
+        'approval_upper_limit',
     ];
 }

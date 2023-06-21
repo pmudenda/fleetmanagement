@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('user_unit_name', 255);
             $table->string('office', 255);
             $table->string('final_step', 4);
-            $table->decimal('approval_limit', 18,2);
+            $table->decimal('approval_lower_limit', 18,2);
+            $table->decimal('approval_upper_limit', 18,2);
             $table->timestamps();
         });
     }
