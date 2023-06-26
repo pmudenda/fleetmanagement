@@ -17,12 +17,7 @@ return new class extends Migration {
             $table->string('name');
             $table->boolean('is_initial_step');
             $table->boolean('is_final_step');
-            $table->string('previous_step');
-            $table->string('next_step');
-            $table->string('next_process');
-            $table->string('action_page');
             $table->Integer('created_by',);
-            $table->Integer('modified_by');
             $table->string('privilege');
             $table->Integer('modified_by')->nullable();
             $table->string('previous_step')->nullable();

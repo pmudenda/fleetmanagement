@@ -12,13 +12,11 @@ return new class extends Migration {
     {
         Schema::create('WFL_WORKFLOW_PROCESSES', function (Blueprint $table) {
             $table->id();
-            //$table->string('process_code');
-            $table->string('process_code')->unique()->change();
+            $table->string('process_code')->unique();
             $table->string('name');
             $table->string('description');
             $table->Integer('modified_by')->nullable();
             $table->Integer('created_by');
-            $table->Integer('modified_by');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('workflow_process');
+        Schema::dropIfExists('WFL_WORKFLOW_PROCESSES');
     }
 };

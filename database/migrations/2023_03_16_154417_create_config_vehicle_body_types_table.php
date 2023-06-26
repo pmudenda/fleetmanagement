@@ -16,11 +16,10 @@ return new class extends Migration
     {
         Schema::create('CONFIG_VEHICLE_BODY_TYPES', function (Blueprint $table) {
             $table->id();
-            $table->uuid('guid')->nullable();
             $table->string('name')->unique();
             $table->string('status', 50);
             $table->string('code')->nullable();
-            $table->string('guid')->default(Str::uuid());
+            $table->string('guid')->default(Str::uuid())->nullable();
             $table->dateTime('date_created')->default(Carbon::now());
             $table->string('body_type_name', 100);
             $table->timestamp('deleted_at')->nullable();
