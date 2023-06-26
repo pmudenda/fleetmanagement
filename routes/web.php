@@ -13,6 +13,8 @@ use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkshopManagement\MaintenanceController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -193,6 +195,35 @@ Route::get('barcodes', function (Request $request) {
          )
      );
      return '<img alt="testing" src="' . asset('storage/' . $barCodeImagePath) . '"/>';*/
+})->name('barcode.generate');
+
+Route::get('test', function (Request $request) {
+
+    $phone_number = '+260976727570';
+    $message = 'Test';
+
+    Log::info('Sending WhatsApp Message');
+
+    $payload = [
+        'scenarioKey' => '493D1E0DBB68A871E44517794BB49A11',
+        'destinations' => [
+            'to' => [
+                'phoneNumber' => $phone_number
+            ]
+        ],
+        'whatsApp' => [
+            'text' => $message
+        ]
+    ];
+
+  $response =  Http::withHeaders([
+        'Authorization' => 'App 6e00ef45be9cf15c56a74f23b7a9a19f-c63a059e-cef3-4d3f-8f66-acf6d88158f2'
+    ])->withOptions([
+        'verify' => false
+    ])->post('https://zj14w6.api.infobip.com/omni/1/advanced', $payload);
+
+  Log::info($response);
+
 })->name('barcode.generate');
 
 Route::get('parts-selection', function (Request $request) {
