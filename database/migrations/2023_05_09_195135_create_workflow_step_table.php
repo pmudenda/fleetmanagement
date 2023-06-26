@@ -24,6 +24,11 @@ return new class extends Migration {
             $table->Integer('created_by',);
             $table->Integer('modified_by');
             $table->string('privilege');
+            $table->Integer('modified_by')->nullable();
+            $table->string('previous_step')->nullable();
+            $table->string('next_step')->nullable();
+            $table->string('next_process')->nullable();
+            $table->string('action_page')->nullable();
             $table->timestamps();
         });
     }

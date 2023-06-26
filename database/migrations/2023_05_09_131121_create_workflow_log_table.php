@@ -23,6 +23,19 @@ return new class extends Migration {
             $table->string('previous_step', 255);
             $table->string('remarks', 255);
             $table->timestamps();
+
+           /* $table->id();
+            $table->string('reference', 25);
+            $table->string('step_id', 04);
+            $table->string('action', 4);
+            $table->string('activity', 255);
+            $table->string('actioning_officer', 100);
+            $table->string('status', 50);
+            $table->string('next_step', 15)->nullable();
+            $table->date('action_date');
+            $table->string('previous_step', 5)->nullable();
+            $table->string('remarks', 255);
+            $table->timestamps();*/
         });
     }
 

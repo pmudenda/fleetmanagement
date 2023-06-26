@@ -53,6 +53,7 @@ return new class extends Migration
             $table->string('mobile_no',255)->nullable();
             $table->string('area_code',4)->nullable()->add();
             $table->string('guid')->default(Str::uuid())->nullable();
+            $table->boolean('has_active_session')->nullable()->default(false);
             //$table->string('job_code')->nullable();
             //$table->string('profile_job_code')->nullable();
             //$table->string('profile_unit_code')->nullable();

@@ -13,12 +13,16 @@ return new class extends Migration
     {
         Schema::create('CONFIG_VEHICLE_BRANDS', function (Blueprint $table) {
             $table->id();
-            $table->string('guid');
-            $table->string('name');
+            //$table->string('name');
+            $table->string('name')->unique();
             $table->string('code')->nullable();
             $table->string('status');
             $table->datetime('date_created')->default(Carbon\Carbon::now());
             $table->timestamp('deleted_at')->nullable();
+            //$table->string('guid');
+            //$table->dropColumn('guid');
+            $table->uuid('guid')->nullable();
+            //$table->uuid('guid')->change();
             $table->integer('created_by')->nullable();
             $table->timestamps();
         });

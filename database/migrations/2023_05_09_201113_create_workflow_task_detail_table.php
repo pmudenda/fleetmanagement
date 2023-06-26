@@ -19,6 +19,8 @@ return new class extends Migration {
             $table->string('actioning_officer');
             $table->string('status');
             $table->string('date_started');
+            $table->Integer('created_by')->nullable();
+            $table->Integer('modified_by')->nullable();
             $table->string('date_ended')->nullable();
             $table->timestamps();
         });

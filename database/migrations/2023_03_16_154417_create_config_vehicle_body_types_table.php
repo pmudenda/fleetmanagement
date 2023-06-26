@@ -16,8 +16,9 @@ return new class extends Migration
     {
         Schema::create('CONFIG_VEHICLE_BODY_TYPES', function (Blueprint $table) {
             $table->id();
+            $table->uuid('guid')->nullable();
+            $table->string('name')->unique();
             $table->string('status', 50);
-            $table->string('name');
             $table->string('code')->nullable();
             $table->string('guid')->default(Str::uuid());
             $table->dateTime('date_created')->default(Carbon::now());

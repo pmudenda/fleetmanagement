@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('GEN_GENERAL_TABLES', function (Blueprint $table) {
+       /* Schema::create('GEN_GENERAL_TABLES', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
             $table->string('code', 255);
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('created_by')->nullable();
             $table->string('created_by_name')->nullable();
             $table->timestamps();
-        });
+        });*/
     }
 
     /**
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('general_tables');
+        //Schema::dropIfExists('general_tables');
     }
 };
