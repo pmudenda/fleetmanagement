@@ -257,6 +257,7 @@
                     </tr>
                     </thead>
                     <tbody>
+                    {{$services}}
                     @if($services && $services->isNotEmpty())
                         @foreach($services as $service)
                             <tr class="increment">
