@@ -174,7 +174,6 @@ class WorkflowService
 
         $processStatus = '';
 
-
         // always start at current position
         $current_step = WorkflowStep::where('step_id', '=', $task_detail->current_step_id)
             ->where('process_id', '=', $process_id)

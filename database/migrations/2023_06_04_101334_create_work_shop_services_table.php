@@ -15,7 +15,7 @@ return new class extends Migration {
 
             $table->string('workshop_reference')->nullable();
             $table->string('workshop_code', 20);
-            $table->string('section', 10);
+            $table->string('section', 10)->nullable();
             $table->string('req_evaluation', 2);
             $table->timestamp('date_send');
             $table->string('supplier_code', 20);

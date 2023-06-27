@@ -28,9 +28,9 @@
                                         <option @if($materialsHeader->item_type_code == '02') selected
                                                 @endif value="02">NON STOCK ITEM
                                         </option>
-                                        <option @if($materialsHeader->item_type_code == '03') selected
+                                       {{-- <option @if($materialsHeader->item_type_code == '03') selected
                                                 @endif value="03">SERVICE
-                                        </option>
+                                        </option>--}}
                                     </select>
                                 @else
                                     <select

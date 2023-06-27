@@ -542,7 +542,7 @@
                             obj['workshop_code'] = $('[name="workshop_code"]').val();
                             obj['request_date'] = $('[name="request_date"]').val()?.trim();
                             obj['date_expected'] = $('[name="date_expected"]').val()?.trim();
-                            obj['supplier'] = $('[name="supplier"]').val();
+                            obj['supplier'] = $('[name="service_supplier"]').val();
                             obj['store_code'] = '';
                             // $('[name="store_code"]').val();
                             obj['store_name'] = $('[name="store_name"]').val();
