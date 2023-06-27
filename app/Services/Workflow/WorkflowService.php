@@ -162,7 +162,7 @@ class WorkflowService
             ->orderBy('id', 'desc')
             ->first();
 
-        $lastStep = getApprovalLimit($task_header->user_unit, $task_header->amount);
+        //$lastStep = getApprovalLimit($task_header->user_unit, $task_header->amount);
 
         if (empty($task_detail)) throw new WorkflowTaskCreationFailedException("Approval Process Details Not Found", 100);
 
