@@ -351,7 +351,7 @@
                                     readonly="readonly"
                                     name="vehicle_registration"
                                     required
-                                    value="{{$details->veh_reg ?? ''}}"
+                                    value="{{$details->reg_no ?? ''}}"
                                     class="form-control form-control-sm vehicle_registration"/>
                             </td>
                             <td>
