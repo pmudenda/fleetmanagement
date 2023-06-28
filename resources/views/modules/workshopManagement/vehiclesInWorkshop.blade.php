@@ -26,7 +26,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                <h4>Manager Workshops</h4>
+                                <h4>Manage Vehicles In Workshops</h4>
                             </div>
                             <div class="card-toolbar justify-content-end">
                                 <!--begin::Filter-->
@@ -80,7 +80,7 @@
                                                 {{++$key}}
                                             </td>
                                             <td>
-                                                {{$workshop->veh_reg ?? '--'}}
+                                                {{$workshop->reg_no ?? '--'}}
                                             </td>
                                             <td>
                                                 {{$workshop->workshop_doc_no ?? ''}}
