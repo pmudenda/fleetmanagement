@@ -435,7 +435,8 @@ class WorkshopRequisitionService
     public function getWorkShopRequisitionItems(mixed $reference): Collection
     {
         return DB::table('WM_JOB_CARD_HEADER')
-            ->join('WM_WORKSHOP_MATERIALS', 'WM_JOB_CARD_HEADER.WORKSHOP_DOC_NO', '=', 'WM_WORKSHOP_MATERIALS.WORKSHOP_REFERENCE')
+            // ->join('WM_WORKSHOP_MATERIALS', 'WM_JOB_CARD_HEADER.WORKSHOP_DOC_NO', '=', 'WM_WORKSHOP_MATERIALS.WORKSHOP_REFERENCE')
+            ->join('WM_WORKSHOP_MATERIALS', 'WM_JOB_CARD_HEADER.WORKSHOP_DOC_NO', '=', 'WM_WORKSHOP_MATERIALS.WSHP_ACT_CODE')
             //->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
             ->where('WM_JOB_CARD_HEADER.JOB_CARD_NO', '=', $reference)
             //->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
@@ -621,7 +622,8 @@ class WorkshopRequisitionService
             MaterialDetail::create([
                 'created_by' => $user->staff_no,
                 'date_created' => Carbon::now(),
-                'material_code' => $item['service_article'],
+                // 'material_code' => $item['service_article'],
+                'mat_code' => $item['service_article'],
                 'unit_of_measure' => $item['service_unit_of_measure'],
                 'quantity' => $item['service_quantity'] ?? 1,
                 'amount' => $item['service_total_price'],
