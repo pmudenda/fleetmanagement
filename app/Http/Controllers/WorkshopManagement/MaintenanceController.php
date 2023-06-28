@@ -474,15 +474,18 @@ class MaintenanceController extends Controller
 
             $officeDetails = $this->workshopService->getWorkShopPurchaseOfficeAndStore($details->workshop_code);
 
-            $defects = VehicleDefect::where('workshop_reference', '=', $details->workshop_doc_no)->get();
+            // $defects = VehicleDefect::where('workshop_reference', '=', $details->workshop_doc_no)->get();
+            $defects = VehicleDefect::where('workshop_reference', '=', $details->wshp_act_code)->get();
 
-            $comments = WorkShopComment::where('workshop_reference', '=', $details->workshop_doc_no)->get();
+            // $comments = WorkShopComment::where('workshop_reference', '=', $details->workshop_doc_no)->get();
+            $comments = WorkShopComment::where('workshop_reference', '=', $details->wshp_act_code)->get();
 
             $materials = $this->workshopRequisitionService->getWorkShopRequisitionItems($reference);
 
             $materialsHeader = WorkShopMaterialHeader::where('job_card_no', '=', $reference)->first();
 
-            $services = WorkShopServiceModel::where('workshop_reference', '=', $details->workshop_doc_no)->get();
+            // $services = WorkShopServiceModel::where('workshop_reference', '=', $details->workshop_doc_no)->get();
+            $services = WorkShopServiceModel::where('workshop_reference', '=', $details->wshp_act_code)->get();
         }
 
         return array(
