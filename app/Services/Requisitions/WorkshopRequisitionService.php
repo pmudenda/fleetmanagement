@@ -436,7 +436,7 @@ class WorkshopRequisitionService
     {
         return DB::table('WM_JOB_CARD_HEADER')
             // ->join('WM_WORKSHOP_MATERIALS', 'WM_JOB_CARD_HEADER.WORKSHOP_DOC_NO', '=', 'WM_WORKSHOP_MATERIALS.WORKSHOP_REFERENCE')
-            ->join('WM_WORKSHOP_MATERIALS', 'WM_JOB_CARD_HEADER.WORKSHOP_DOC_NO', '=', 'WM_WORKSHOP_MATERIALS.WSHP_ACT_CODE')
+            ->join('WM_WORKSHOP_MATERIALS', 'WM_JOB_CARD_HEADER.WSHP_ACT_CODE', '=', 'WM_WORKSHOP_MATERIALS.WSHP_ACT_CODE')
             //->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
             ->where('WM_JOB_CARD_HEADER.JOB_CARD_NO', '=', $reference)
             //->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
