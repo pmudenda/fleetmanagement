@@ -41,9 +41,9 @@
        name="documentValidationUrl"
        value="{{ route('document.number.validation') }}">/
 
-<input type="hidden"
-       name="vehicle_details"
-       value="{{route('vehicle.details', [$reference])}}"/>
+{{--<input type="hidden"--}}
+{{--       name="vehicle_details"--}}
+{{--       value="{{route('vehicle.details', [$reference])}}"/>--}}
 <input type="hidden"
        id="fuelTypesUrl"
        value="{{route('fuel.types')}}"/>

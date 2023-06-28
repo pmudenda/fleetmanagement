@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('price', 4);
             $table->string('unit_of_measure_code', 4);
             $table->string('group_code', 4);
+            $table->string('code_article')->nullable();
             $table->string('created_by')->nullable();
             $table->string('created_by_name')->nullable();
             $table->timestamps();

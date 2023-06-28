@@ -823,25 +823,7 @@ let app = new Vue({
             }, 300);
         },*/
 
-        /*getBodyTypes: function () {
-            fetch(document.querySelector('#bodyTypesEndpoint').value)
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-
-                    app.bodyTypes = response.payload;
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
-                });
-        },*/
+        /*,*/
 
         /*getBusinessUnits: function () {
             fetch(document.querySelector('#businessUnitsEndpoint').value)

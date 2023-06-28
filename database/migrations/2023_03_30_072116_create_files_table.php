@@ -20,6 +20,11 @@ return new class extends Migration {
             $table->string('path');
             $table->string('file_type');
             $table->string('file_size');
+
+            $table->string('status')->default('01')->nullable();
+            $table->timestamp('valid_from')->nullable();
+            $table->timestamp('valid_to')->nullable();
+
             $table->string('created_by');
             $table->string('created_name')->nullable();
             $table->timestamps();

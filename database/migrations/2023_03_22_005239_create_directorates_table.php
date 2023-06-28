@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('REF_DIRECTORATES', function (Blueprint $table) {
+        Schema::create('DIRECTORATES', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('active');
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('REF_DIRECTORATES');
+        Schema::dropIfExists('DIRECTORATES');
     }
 };

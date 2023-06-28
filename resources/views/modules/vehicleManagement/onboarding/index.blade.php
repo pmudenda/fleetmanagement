@@ -184,6 +184,9 @@
         </div>
 
         <!--END:::DETAILS  -->
+        <input type="hidden"
+               name="vehicle_details"
+               value="{{route('vehicle.details', [$reference])}}"/>
       @include('modules.vehicleManagement.partial.data_end_point')
     </div>
     <x-employee-search-modal/>

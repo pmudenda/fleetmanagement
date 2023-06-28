@@ -22,8 +22,12 @@ return new class extends Migration {
             $table->string('priority');
             $table->string('description', 255);
             $table->string('user_unit', 10);
+            //$table->dropColumn('message');
+            $table->string('process_code');
+            $table->Integer('modified_by')->nullable();
+            $table->dropColumn('date_acted');
+            $table->timestamp('date_ended')->nullable();
             $table->Integer('created_by');
-            $table->Integer('modified_by');
             $table->decimal('amount', 18, 2);
             $table->timestamps();
         });

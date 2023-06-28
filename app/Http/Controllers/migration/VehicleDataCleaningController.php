@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\migration;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\OrganizationStructure\DirectoratesController;
+use App\Http\Requests\DataCleanUp;
 use App\Models\configurations\vehicle\ConfigVehicleBrand;
 use App\Models\reference\GtaVehicle;
 use Illuminate\Contracts\View\View;
@@ -40,8 +42,18 @@ class VehicleDataCleaningController extends Controller
     {
         $registration = $request->get('reg');
         $vehicleMakes = ConfigVehicleBrand::get();
+
+        $colors = collect([
+            (object)['name'=>"Black", 'code'=>'BLACK'],
+            (object)['name'=>"Red", 'code'=>'RED'],
+            (object)['name'=>"Blue", 'code'=>'BLUE'],
+            (object)['name'=>"White", 'code'=>'WHITE'],
+            (object)['name'=>"Gray", 'code'=>'GRAY'],
+        ]);
         return view('modules.vehicleManagement.migration.index')
-            ->with(compact('registration','vehicleMakes'));
+            ->with(compact('registration',
+                'colors',
+                'vehicleMakes'));
     }
 
 
@@ -62,5 +74,13 @@ class VehicleDataCleaningController extends Controller
         ));
     }
 
+
+    public function saveData(DataCleanUp $request): \Illuminate\Http\JsonResponse
+    {
+        return response()->json([
+            'state' => 'success',
+            'message' => 'Request Processed Successfully'
+        ]);
+    }
 
 }

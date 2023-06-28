@@ -129,6 +129,8 @@ Route::group(['prefix' => 'vehicle-management'], function () {
 
     Route::get('/cleanup', [VehicleDataCleaningController::class, 'cleanUpWindow'])->name('vehicle.data.cleanup');
 
+    Route::post('/save/clean/data', [VehicleDataCleaningController::class, 'saveData'])->name('save.clean.data');
+
     Route::get('/cleanup/assignation/list', [VehicleDataCleaningController::class, 'cleanUpList'])->name('vehicle.migration.list');
 
     Route::post('/cleanup/filter', [VehicleDataCleaningController::class, 'filter'])->name('data.migration.filter');

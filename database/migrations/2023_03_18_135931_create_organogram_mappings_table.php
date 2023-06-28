@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('REF_DIRECTORATES', function (Blueprint $table) {
-            $table->string('code')->nullable()->unique()->add();
-            $table->string('active')->change();
+        Schema::create('organogram_mappings', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('level_1',255)->nullable();
+            $table->string('bu_description', 255)->nullable();
+            $table->string('bu_code', 255)->nullable();
         });
     }
 
@@ -22,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('REF_DIRECTORATES', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('organogram_mappings');
     }
 };

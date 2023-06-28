@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('work_shop_management', function (Blueprint $table) {
+        /*Schema::create('work_shop_management', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-        });
+        });*/
     }
 
     /**
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('work_shop_management');
+     //   Schema::dropIfExists('work_shop_management');
     }
 };
