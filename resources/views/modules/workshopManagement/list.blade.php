@@ -51,7 +51,7 @@
 
 
                                         <td>
-                                            {{$rec->reg_no}}
+                                            {{$rec->veh_reg_no}}
                                         </td>
                                         <td>
                                             {{Carbon::parse($rec->valid_date_from)->format('d/m/Y')}}
