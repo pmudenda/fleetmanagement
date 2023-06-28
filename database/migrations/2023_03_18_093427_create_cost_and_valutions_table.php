@@ -13,22 +13,17 @@ return new class extends Migration {
         Schema::create('VM_COST_AND_VALUATIONS', function (Blueprint $table) {
             $table->id();
             $table->string('assetNumber');
-            //$table->decimal('bookValue');
-            //$table->decimal('costOfLicense');
-            //$table->decimal('costPrice');
-            //$table->decimal('premium');
-            $table->decimal('bookValue', 18, 2);
-            $table->decimal('costOfLicense',18, 2);
-            $table->decimal('costPrice',18, 2);
-            $table->decimal('premium',18, 2);
+            $table->decimal('bookValue');
+            $table->decimal('costOfLicense');
+            $table->decimal('costPrice');
+            $table->decimal('premium');
             $table->string('supplierName');
             $table->integer('yearOfPurchase');
             $table->timestamp('deleted_at')->nullable();
             $table->integer('created_by')->nullable();
             $table->string('created_name')->nullable();
+
             $table->string('vehicle_header_id');
-            $table->string('purchase_order_no','100')->nullable();
-            $table->string('purchase_order_document')->nullable();
 
             $table->timestamps();
         });

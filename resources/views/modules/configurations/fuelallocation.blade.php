@@ -228,7 +228,6 @@
         <!--END:::VEHICLE HEADER -->
 
         <!--END:::DETAILS  -->
-        {{-- @include('vehicleManagement.partial.data_end_point') --}}
         <input type="hidden" id="brands-api" value="{{ route('brands.get') }}">
         <input type="hidden" id="modelEndpoint" name="modelEndpoint" value="{{ route('models.get') }}">
         <input type="hidden" id="bodyTypesEndpoint" name="bodyTypesEndpoint" value="{{ route('body_type.get') }}">

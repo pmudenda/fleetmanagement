@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('CONFIG_STATUSES', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('code', 10)->nullable();
-            $table->integer('active')->default(1);
-            $table->string('description')->nullable();
-            $table->string('color_code')->nullable();
+            $table->string('description');
+            $table->integer('active');
+            $table->string('color_code');
             $table->string('module')->nullable();
-            $table->string('created_by')->nullable();
+            $table->string('created_by');
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

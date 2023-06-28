@@ -645,10 +645,11 @@
 
     <!-- DataTables  & Plugins -->
     @include('layouts.partials.dataTableScripts')
+    <script src="{{asset('libs/imageUpload/imageUpload.js')}}"></script>
     <!-- page script -->
     <script>
         (function (tmsApp, $) {
-            function ImageUpload() {
+           /* function ImageUpload() {
                 const selector = '.fileElem';
 
                 this.init = function () {
@@ -718,7 +719,7 @@
 
                     });
                 }
-            }
+            }*/
 
             function verifyingDriverLicense() {
 

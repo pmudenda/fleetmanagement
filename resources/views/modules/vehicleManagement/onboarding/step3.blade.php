@@ -129,6 +129,9 @@
             </div>
 
             <!--END:::DETAILS  -->
+            <input type="hidden"
+                   name="vehicle_details"
+                   value="{{route('vehicle.details', [$reference])}}"/>
             @include('vehicleManagement.partial.data_end_point')
         </div>
     </section>
