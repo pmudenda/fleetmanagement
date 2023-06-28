@@ -517,13 +517,15 @@
                             arr.push(obj);
                         });
 
+                        obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
+                        // obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
+                        // obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
+
                         if (formSel.data('modelName') === 'Defects') {
-                            obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
                             obj['job_card_no'] = $('input[name="job_card_voucher"]').val();
                             obj['vehicle_registration'] = $('input[name="vehicle_registration"]').val();
                             obj['remarks'] = $('#remarks').val();
                         } else if (formSel.data('modelName') === 'PartsHeader') {
-                            obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
                             obj['itemType'] = $('[name="itemType"]').val();
                             obj['job_card_no'] = $('[name="job_card_number"]').val();
                             obj['purchase_office'] = $('[name="purchase_office"]').val();
@@ -537,7 +539,6 @@
                             obj['total_amount'] = $('#itemsTotal').text();
                             obj['vehicle_registration'] = $('input[name="vehicle_registration"]').val();
                         } else if (formSel.data('modelName') === 'ServicesHeader') {
-                            obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
                             obj['itemType'] = $('[name="serviceItemType"]').val();
                             obj['job_card_no'] = $('[name="job_card_number"]').val();
                             obj['purchase_office'] = $('[name="purchase_office"]').val();
