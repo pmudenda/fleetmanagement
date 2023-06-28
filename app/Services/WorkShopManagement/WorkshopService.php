@@ -34,7 +34,8 @@ class WorkshopService
             $details = JobCardHeader::where('job_card_no', '=', $request->get('job_card_number'))->orderBy('id', 'desc')
                 ->first();
 
-            $details->veh_reg = $request->get('vehicle_registration');
+            //$details->veh_reg = $request->get('vehicle_registration');
+            $details->reg_no = $request->get('vehicle_registration');
             $details->workshop_code = $request->get('workshop');
             $details->repair_type = $request->get('repairType');
 
