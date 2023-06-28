@@ -287,7 +287,8 @@ class WorkshopRequisitionService
                 ]);
             } else {
                 WorkShopMaterial::create([
-                    'workshop_reference' => $workshop_reference,
+                    // 'workshop_reference' => $workshop_reference,
+                    'wshp_act_code' => $workshop_reference,
                     'workshop_code' => $workshop_code,
                     // section
                     // 'date_created' => Carbon::now(),
@@ -298,9 +299,11 @@ class WorkshopRequisitionService
                     // sch_flouted
                     // 'req_no' => $requisition_reference_number,
                     'form_order' => $form_order_number,
-                    'req_evaluation' => 'Y',
+                    // 'req_evaluation' => 'Y',
+                    'evaluation' => 'Y',
                     'date_mat' => Carbon::now(),
-                    'material_code' => $item['articleCode'],
+                    // 'material_code' => $item['articleCode'],
+                    'mat_code' => $item['articleCode'],
                     'unit_of_measure' => $item['unit_of_measure'],
                     'quantity' => $item['quantity'],
                     'amount' => $item['total_price'],

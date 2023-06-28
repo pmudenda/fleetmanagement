@@ -13,12 +13,15 @@ return new class extends Migration {
         Schema::create('WM_WORKSHOP_MATERIALS', function (Blueprint $table) {
             $table->id();
 
-            $table->string('workshop_reference')->nullable();
+            // $table->string('workshop_reference')->nullable();
+            $table->string('wshp_act_code')->nullable();
             $table->string('workshop_code', 20)->nullable();
             $table->string('section', 10)->nullable();
-            $table->string('req_evaluation', 2)->nullable();
+            // $table->string('req_evaluation', 2)->nullable();
+            $table->string('evaluation', 2)->nullable();
             $table->timestamp('date_mat')->nullable();
-            $table->string('material_code')->nullable();
+            // $table->string('material_code')->nullable();
+            $table->string('mat_code')->nullable();
             $table->string('unit_of_measure', 18)->nullable();
             $table->Integer('quantity')->nullable();
 

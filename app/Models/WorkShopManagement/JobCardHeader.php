@@ -12,7 +12,8 @@ class JobCardHeader extends Model
     protected $table = 'WM_JOB_CARD_HEADER';
 
     protected $fillable = [
-        'workshop_doc_no',
+        //'workshop_doc_no',
+        'wshp_act_code',
         'workshop_code',
         'veh_reg',
         'job_card_no',
