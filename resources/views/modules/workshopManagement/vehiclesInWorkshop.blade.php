@@ -83,7 +83,7 @@
                                                 {{$workshop->reg_no ?? '--'}}
                                             </td>
                                             <td>
-                                                {{$workshop->workshop_doc_no ?? ''}}
+                                                {{$workshop->wshp_act_code ?? ''}}
                                             </td>
                                             <td>
                                                 {{$workshop->job_card_no ?? ''}}
