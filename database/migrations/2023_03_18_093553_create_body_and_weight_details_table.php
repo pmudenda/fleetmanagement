@@ -12,10 +12,10 @@ return new class extends Migration {
     {
         Schema::create('VM_BODY_AND_WEIGHT_DETAILS', function (Blueprint $table) {
             $table->id();
-            $table->string('distanceAxle1');
-            $table->string('distanceAxle2');
-            $table->string('distanceAxle3');
-            $table->string('distanceAxle4');
+            $table->string('distanceAxle1')->nullable();
+            $table->string('distanceAxle2')->nullable();
+            $table->string('distanceAxle3')->nullable();
+            $table->string('distanceAxle4')->nullable();
             $table->string('height');
             $table->string('length');
             $table->string('numberOfSeats');

@@ -12,12 +12,15 @@ class WorkShopMaterial extends Model
     protected $table = 'WM_WORKSHOP_MATERIALS';
 
     protected $fillable = [
-        'workshop_reference',
+        'wshp_act_code',
+        // 'workshop_reference',
         'workshop_code',
         'section',
-        'req_evaluation',
+        // 'req_evaluation',
+        'evaluation',
         'date_mat',
-        'material_code',
+        // 'material_code',
+        'mat_code',
         'unit_of_measure',
         'quantity',
         'amount',

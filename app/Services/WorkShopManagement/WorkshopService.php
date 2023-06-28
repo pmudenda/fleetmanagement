@@ -65,9 +65,11 @@ class WorkshopService
         }
 
         $data = [
-            'veh_reg' => $request->get('vehicle_registration'),
+            // 'veh_reg' => $request->get('vehicle_registration'),
+            'reg_no' => $request->get('vehicle_registration'),
             'job_card_no' => $doc_number,
-            'workshop_doc_no' => $workshop_number,
+            // 'workshop_doc_no' => $workshop_number,
+            'wshp_act_code' => $workshop_number,
             'date_in' => Carbon::now(), Carbon::createFromFormat('Y-m-d', trim($request->get('date_of_req'))),
             'workshop_code' => $request->get('workshop'),
             'time_in' => Carbon::now(),//(trim($request->get('timeIn')))->format('H:i:s'),
@@ -202,7 +204,7 @@ class WorkshopService
         return $data->first();
     }
 
-    private function moveVehicleToWorkShop($veh_reg)
+    private function moveVehicleToWorkShop($veh_reg): void
     {
         VehicleHeader::where('registration_number', $veh_reg)
             ->update(['status' => StatusHelper::vehicleInWorkshop()]);

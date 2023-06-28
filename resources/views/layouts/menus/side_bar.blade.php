@@ -1,5 +1,5 @@
 @php use Illuminate\Support\Facades\Auth; @endphp
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-primary sidebar-collapse elevation-4">
 
     <a href="{{ URL::signedRoute('home') }}" class="brand-link" style="background: var(--bs-zesco-secondary)">
         <img class="h-45px app-sidebar-logo-default brand-image img-circle elevation-3"

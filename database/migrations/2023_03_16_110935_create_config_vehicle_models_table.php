@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('CONFIG_VEHICLE_MODELS', function (Blueprint $table) {
             $table->id();
-            $table->string('brand_guid');
+            $table->uuid('brand_guid')->nullable();
             $table->string('brand_name') ;
             $table->string('model_guid') ;
             $table->string('model_name') ;

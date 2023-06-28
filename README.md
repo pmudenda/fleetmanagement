@@ -91,7 +91,7 @@ To Be Advised By Cyber-Security
 
 ## License
 021109558968407878
-The ZQMS is propitiatory software developed for use under strict [license]().
+The ZFMS is propitiatory software developed for use under strict [license]().
 
 
 

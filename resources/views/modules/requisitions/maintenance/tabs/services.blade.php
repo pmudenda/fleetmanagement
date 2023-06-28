@@ -174,6 +174,10 @@
                                     autocomplete="off"
                                     id="service_supplier">
                                 </select>
+                                @if($services && $services->isNotEmpty())
+                                    <input type="text" class="form-control"
+                                           value="{{$services[0]->supplier_code}}">
+                                @endif
                             </div>
                         </div>
 
@@ -257,7 +261,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @if($services && $services->isNotEmpty())
+                    @if($services->isNotEmpty())
                         @foreach($services as $service)
                             <tr class="increment">
                                 <td class="showNumber">
@@ -272,15 +276,19 @@
                                     <select
                                         name="service_article"
                                         required
-                                        data-value=""
+                                        value="{{$service->material_code ?? ''}}"
+                                        data-value="{{$service->material_code ?? ''}}"
                                         class="form-control form-control-sm servicesArticlesDropDownList">
-                                        <option></option>
+                                        <option value="{{$service->material_code ?? ''}}">
+
+                                        </option>
                                     </select>
                                 </td>
                                 <td>
                                     <input
                                         name="serviceArticleCode"
                                         required
+                                        value="{{$service->material_code ?? ''}}"
                                         readonly
                                         class="form-control form-control-sm serviceArticleCode"/>
                                 </td>
@@ -288,6 +296,7 @@
                                     <input
                                         name="service_technical_specification"
                                         required
+                                        value="{{$service->specification ?? ''}}"
                                         class="form-control form-control-sm service_technical_specification"/>
                                 </td>
 
