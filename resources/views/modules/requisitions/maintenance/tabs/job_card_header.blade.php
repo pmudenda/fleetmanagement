@@ -16,7 +16,8 @@
                                         <input type="text"
                                                data-action="{{route('requisition.vehicle.details')}}"
                                                class="form-control form-control-sm"
-                                               value="{{$details->veh_reg ?? ''}}"
+                                               {{--value="{{$details->veh_reg ?? ''}}"--}}
+                                               value="{{$details->reg_no ?? ''}}"
                                                id="vehicle_registration"
                                                placeholder="Vehicle Reg e.g AAB 6757"
                                                name="vehicle_registration" required />
