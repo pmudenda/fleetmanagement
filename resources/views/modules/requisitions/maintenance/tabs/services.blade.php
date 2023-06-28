@@ -174,7 +174,10 @@
                                     autocomplete="off"
                                     id="service_supplier">
                                 </select>
-                                <input type="text" class="form-control" value="{{$services[0]->supplier_code}}">
+                                @if($services && $services->isNotEmpty())
+                                    <input type="text" class="form-control"
+                                           value="{{$services[0]->supplier_code}}">
+                                @endif
                             </div>
                         </div>
 
