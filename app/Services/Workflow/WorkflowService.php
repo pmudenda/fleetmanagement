@@ -144,14 +144,15 @@ class WorkflowService
                                    int    $action,
                                    string $actionTaken,
                                    string $comment
-    ): int
+    ): array
     {
 
+        Log::info('Processing Workflow Reference ' . $reference);
+        Log::info('Workflow Process Code ' . $process_id);
 
-        Log::info('Received Reference ' . $reference);
-        Log::info('Received Process Code ' . $process_id);
         $current_user = auth()->user();
-        // get workflow process header
+
+        // get workflow process header for the task
         $task_header = WorkflowTaskHeader::where('reference', '=', trim($reference))
             ->where('process_code', '=', $process_id)
             ->first();
@@ -212,7 +213,7 @@ class WorkflowService
                 $task_detail->date_ended = Carbon::now();
                 $task_detail->save();
 
-                return 0;
+                return ["0","0"];
                 break;
             case 3:
 
@@ -241,7 +242,7 @@ class WorkflowService
                     $task_detail->date_ended = Carbon::now();
                     $task_detail->save();
                     DB::commit();
-                    return 100;
+                    return [100];
                 }
 
                 DB::beginTransaction();
@@ -362,7 +363,7 @@ class WorkflowService
                 Log::info("Returning Next Step Id " . $next_step->step_id);
 
                 DB::commit();
-                return $next_step->step_id;
+                return [$next_step->step_id, $assign_to_user->staff_no];
             case 5:
             {
                 //send back
@@ -391,19 +392,19 @@ class WorkflowService
 
                 $task_detail->save();
 
-                return $task_detail;
+                return [$task_detail,'0'];
             }
             //  Pay=7
             case 7:
                 $task_detail->current_step_id = null;
-                $task_detail->ctioning_officer = null;
+                $task_detail->actioning_officer = null;
                 $task_detail->save();
 
                 self::closePreviousTasks($task_detail);
 
 
                 //process is finished
-                return $task_detail;
+                return [$task_detail, '0'];
             // Reject= 6,
             case 6:
                 // Reject
@@ -434,7 +435,7 @@ class WorkflowService
 
                 $task_detail->save();
 
-                return $task_detail;
+                return [$task_detail,'0'];
 
             default:
                 $task_detail->current_step_id = null;
@@ -445,7 +446,7 @@ class WorkflowService
                 $task_detail->save();
 
                 //process is finished
-                return $task_detail;
+                return [$task_detail,'0'];
         }
 
 
@@ -462,7 +463,7 @@ class WorkflowService
         ]);
 
 
-        return "00";
+        return ["00",'0'];
     }
 
     public function getMyApprovalTasks($staff_no): \Illuminate\Support\Collection
@@ -526,7 +527,8 @@ class WorkflowService
     private function getApprovalLimit($user_unit, $amount): mixed
     {
         return WorkflowApprovalLimit::where('user_unit_code', '=', $user_unit)
-            ->whereBetween()
+            ->where('approval_lower_limit','>=', $amount)
+            ->where('approval_upper_limit','<=', $amount)
             ->first();
     }
 

@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('user_unit_code')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('change_password_on')->nullable();
             $table->string('password');
             $table->integer('user_region_id')->nullable();
             $table->integer('functional_unit_id')->nullable();

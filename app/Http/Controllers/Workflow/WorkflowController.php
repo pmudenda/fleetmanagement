@@ -77,7 +77,7 @@ class WorkflowController extends Controller
                 $message = 'Request Sent Back To Originator';
             }
 
-            $nextStepId = $this->workflowService->invokeWorkFlow(
+            list($nextStepId, $nextUser) = $this->workflowService->invokeWorkFlow(
                 $reference,
                 $process_code,
                 $action,
@@ -152,7 +152,7 @@ class WorkflowController extends Controller
                     break;
             }
 
-            $nextStepId = $this->workflowService->invokeWorkFlow(
+            list($nextStepId, $nextUser) = $this->workflowService->invokeWorkFlow(
                 $reference,
                 $process_code,
                 $action,

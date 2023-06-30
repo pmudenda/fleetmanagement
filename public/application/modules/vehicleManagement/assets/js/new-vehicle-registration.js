@@ -217,9 +217,11 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     let price = data['costprice'];
     let costPriceInput = document.querySelector('[name="costPrice"]');
-    costPriceInput.value = accounting.formatMoney(price, 2);
-    costPriceInput.setAttribute('readonly', 'readonly');
 
+    if(price && price !== "20"){
+        costPriceInput.value = accounting.formatMoney(price, 2);
+        costPriceInput.setAttribute('readonly', 'readonly');
+    }
 
     setTimeout(function () {
 

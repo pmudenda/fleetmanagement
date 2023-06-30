@@ -41,17 +41,17 @@
                                     <tr>
                                         <td>
                                             <a href="{{URL::signedRoute('show.workshop.requisition', ['ref'=>  $rec->req_no])}}">
-                                                {{$rec->req_no}}
+                                                {{$rec->req_no ?? ''}}
                                             </a>
                                         </td>
 
                                         <td>
-                                            {{$rec->st_pur}}
+                                            {{$rec->st_pur ?? ''}}
                                         </td>
 
 
                                         <td>
-                                            {{$rec->veh_reg_no}}
+                                            {{$rec->veh_reg_no ?? ''}}
                                         </td>
                                         <td>
                                             {{Carbon::parse($rec->valid_date_from)->format('d/m/Y')}}
@@ -72,15 +72,16 @@
                                          </td>--}}
 
                                         <td>
-                                            {{$rec->status_name}}
+                                            {{$rec->status_name ?? ''}}
                                         </td>
                                         <td>
-                                            {{$rec->comments}}
+                                            {{$rec->comments ? ''}}
                                         </td>
 
                                         <td>
                                             <a href="{{URL::signedRoute('show.workshop.requisition', ['ref'=>  $rec->req_no])}}">
-                                                <i class="fas fa-eye"></i> Open
+                                                <i class="fas fa-eye"></i>
+                                                Open
                                             </a>
                                         </td>
 
