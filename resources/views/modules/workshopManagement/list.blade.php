@@ -69,13 +69,14 @@
 
                                         {{-- <td>
                                              {{$rec->quantity_issued ?? 0}}
-                                         </td>--}}
+                                         </td>
+                                         --}}
 
                                         <td>
                                             {{$rec->status_name ?? ''}}
                                         </td>
                                         <td>
-                                            {{$rec->comments ? ''}}
+                                            {{$rec->comments ?? ''}}
                                         </td>
 
                                         <td>
