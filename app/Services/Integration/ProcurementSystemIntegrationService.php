@@ -261,6 +261,88 @@ class ProcurementSystemIntegrationService
         }
     }
 
+
+    /**
+     * @param $workshop_reference
+     * @param $reg_no
+     * @param $form_order
+     * @param $account
+     * @param $transaction_type
+     * @param $store_code
+     * @param $job_card_no
+     * @param $delivery_site
+     * @return mixed|string
+     */
+    public function createPurchaseProcess(
+        $workshop_reference,
+        $reg_no,
+        $form_order,
+        $account,
+        $transaction_type,
+        $store_code = null,
+        $job_card_no = null,
+        $delivery_site = null
+    ): mixed
+    {
+        try {
+            Log::info('Generating Purchase Process For Request ' . $workshop_reference);
+
+            $system_origin = SystemOfOrigin::ZESCOFleetMaster;
+            $user = auth()->user()->staff_no;
+
+            Log::info(':p_wkshp_reference', $workshop_reference);
+            Log::info(':p_reg_no', $reg_no);
+            Log::info(':p_store_code', $store_code);
+            Log::info(':p_user_requesting', $user);
+            Log::info(':p_job_card_no', $job_card_no);
+            Log::info(':p_system_origin', $system_origin);
+            Log::info(':p_delivery_site', $delivery_site);
+            Log::info(':p_form_order', $form_order);
+            Log::info(':p_req_account', $account);
+            Log::info(':p_transaction_type', $transaction_type);
+            Log::info(':p_current_user', $user);
+
+
+            $pdo = DB::getPdo();
+
+            $stmt = $pdo->prepare("begin :result := fn_create_pur_process(:p_wkshp_reference,:p_reg_no,
+            :p_store_code,:p_user_requesting,:p_job_card_no,:p_system_origin,:p_form_order,
+            :p_req_account,:p_delivery_site,:p_transaction_type,:p_current_user); end;");
+            $stmt->bindParam(':p_wkshp_reference', $workshop_reference);
+            $stmt->bindParam(':p_reg_no', $reg_no);
+            $stmt->bindParam(':p_store_code', $store_code);
+            $stmt->bindParam(':p_user_requesting', $user);
+            $stmt->bindParam(':p_job_card_no', $job_card_no);
+            $stmt->bindParam(':p_system_origin', $system_origin);
+            $stmt->bindParam(':p_delivery_site', $delivery_site);
+            $stmt->bindParam(':p_form_order', $form_order);
+            $stmt->bindParam(':p_req_account', $account);
+            $stmt->bindParam(':p_transaction_type', $transaction_type);
+            $stmt->bindParam(':p_current_user', $user);
+            $stmt->bindParam(':result', $results, PDO::PARAM_STR, 2000);
+            $stmt->execute();
+
+            if (is_array($results) && !empty($results)) {
+                $result = $results[0];
+            } else {
+                $result = $results;
+            }
+
+            Log::info($result);
+
+            $rawJNumber = $result;
+
+            if (str_starts_with($rawJNumber, '0')) {
+                return substr($rawJNumber, 1);
+            }
+            return $rawJNumber;
+
+        } catch (\Exception $e) {
+            Log::error($e);
+            return "";
+        }
+    }
+
     public function getArticleDetailsByCode($article_code)
     {
         $results = DB::table('spms_articles_view')

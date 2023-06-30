@@ -698,4 +698,66 @@ class WorkshopRequisitionService
             'redirectUrl' => URL::signedRoute('maintenance.list'),
         ]);
     }
+
+    /**
+     * @throws FuelRequisitionException
+     */
+    public function createWorkshopNonStockPurchaseProcess($workshop_reference): void
+    {
+        $requisitionDetail = self::getReservationDetail($workshop_reference);
+
+        $materialHeader = WorkShopMaterialHeader::where('form_order', '=', $requisitionDetail->form_order)->first();
+
+        $results = $this->procurementService->createPurchaseProcess(
+            $workshop_reference,
+            $requisitionDetail->veh_reg_no,
+            $requisitionDetail->form_order,
+            Accounts::DefaultMotorVehicleAccount,
+            TransactionType::NonFuelStoresRequisition,
+            $requisitionDetail->store,
+            $materialHeader->job_card_no,
+            $requisitionDetail->workshop_no
+        );
+
+        if (empty($results)) {
+            throw new FuelRequisitionException("Purchase Process Could Not Be Started ");
+        }
+
+        /*if (!str_contains($results, 'J02')) {
+            throw new FuelRequisitionException($results);
+        }*/
+
+        Log::info("Purchase Process Document document " . $results);
+    }
+
+    /**
+     * @throws FuelRequisitionException
+     */
+    public function createWorkshopServicePurchaseProcess(mixed $workshop_reference): void
+    {
+        $requisitionDetail = self::getReservationDetail($workshop_reference);
+
+        $materialHeader = WorkShopMaterialHeader::where('form_order', '=', $requisitionDetail->form_order)->first();
+
+        $results = $this->procurementService->createPurchaseProcess(
+            $workshop_reference,
+            $requisitionDetail->veh_reg_no,
+            $requisitionDetail->form_order,
+            Accounts::DefaultMotorVehicleAccount,
+            TransactionType::NonFuelStoresRequisition,
+            $requisitionDetail->store,
+            $materialHeader->job_card_no,
+            $requisitionDetail->workshop_no
+        );
+
+        if (empty($results)) {
+            throw new FuelRequisitionException("Purchase Process Could Not Be Started ");
+        }
+
+       /* if (!str_contains($results, 'J02')) {
+            throw new FuelRequisitionException($results);
+        }*/
+
+        Log::info("Purchase Process Document document " . $results);
+    }
 }

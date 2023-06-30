@@ -8,6 +8,7 @@ use App\Enums\RequisitionItemTypes;
 use App\Enums\RequisitionTypes;
 use App\Enums\WorkflowProcessCodes;
 use App\Exceptions\FuelRequisitionException;
+use App\Exceptions\MaterialReservationException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Http\Controllers\Controller;
 use App\Models\Workflow\WorkflowTaskHeader;
@@ -130,7 +131,6 @@ class WorkflowController extends Controller
                     break;
             }
 
-
             $actionTaken = '';
             $message = '';
             $action = 0;
@@ -161,7 +161,19 @@ class WorkflowController extends Controller
             );
 
             if ($nextStepId == 100) {
-                $this->workshopRequisitionService->createWorkshopMaterialStoresReservation($request->get('reference'));
+                switch ($requisitionDetail->item_type) {
+                    case RequisitionItemTypes::Service:
+                        $this->workshopRequisitionService->createWorkshopServicePurchaseProcess($request->get('reference'));
+                        break;
+                    case RequisitionItemTypes::NonStockItem:
+                    $this->workshopRequisitionService->createWorkshopNonStockPurchaseProcess($request->get('reference'));
+                        break;
+                    case RequisitionItemTypes::StockItem:
+                        $this->workshopRequisitionService->createWorkshopMaterialStoresReservation($request->get('reference'));
+                        break;
+                    default:
+                        throw new MaterialReservationException("ITEM TYPE NOT");
+                }
             }else{
                 $message = 'Request Approved and Submitted to the next authority ';
             }
