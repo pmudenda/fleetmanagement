@@ -290,17 +290,17 @@ class ProcurementSystemIntegrationService
             $system_origin = SystemOfOrigin::ZESCOFleetMaster;
             $user = auth()->user()->staff_no;
 
-            Log::info(':p_wkshp_reference', $workshop_reference);
-            Log::info(':p_reg_no', $reg_no);
-            Log::info(':p_store_code', $store_code);
-            Log::info(':p_user_requesting', $user);
-            Log::info(':p_job_card_no', $job_card_no);
-            Log::info(':p_system_origin', $system_origin);
-            Log::info(':p_delivery_site', $delivery_site);
-            Log::info(':p_form_order', $form_order);
-            Log::info(':p_req_account', $account);
-            Log::info(':p_transaction_type', $transaction_type);
-            Log::info(':p_current_user', $user);
+            Log::info(':p_wkshp_reference '. $workshop_reference);
+            Log::info(':p_reg_no '. $reg_no);
+            Log::info(':p_store_code '. $store_code);
+            Log::info(':p_user_requesting '. $user);
+            Log::info(':p_job_card_no '. $job_card_no);
+            Log::info(':p_system_origin '. $system_origin);
+            Log::info(':p_delivery_site '. $delivery_site);
+            Log::info(':p_form_order '. $form_order);
+            Log::info(':p_req_account '. $account);
+            Log::info(':p_transaction_type '. $transaction_type);
+            Log::info(':p_current_user '. $user);
 
 
             $pdo = DB::getPdo();
