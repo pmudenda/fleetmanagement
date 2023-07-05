@@ -1,4 +1,8 @@
-@php use App\Helpers\StatusHelper;use Carbon\Carbon; @endphp
+@php
+    use App\Helpers\StatusHelper;
+    use Carbon\Carbon;
+    use App\Enums\RequisitionItemTypes;
+@endphp
 @extends('layouts.app')
 @push('styles')
     <link href="{{asset("assets/plugins/select2/css/select2.min.css")}}" rel="stylesheet" type="text/css"/>
