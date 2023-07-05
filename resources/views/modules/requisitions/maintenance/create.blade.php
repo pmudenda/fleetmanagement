@@ -120,7 +120,16 @@
            id="incompleteOnBoarding"/>
     <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop" id="vehicleInWorkshop"/>
     <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
-
+    <input type="hidden"
+           value="{{RequisitionItemTypes::StockItemCode}}"
+           id="stockItemCode"
+           name="stockItemCode"/>
+    <input type="hidden"
+           value="{{RequisitionItemTypes::ServiceItemCode}}"
+           id="serviceItemCode" name="serviceItemCode"/>
+    <input type="hidden"
+           value="{{RequisitionItemTypes::NonStockItemCode}}"
+           id="nonStockItemCode" name="nonStockItemCode"/>
 @endsection
 @push('scripts')
     <script>
@@ -1201,11 +1210,18 @@
                 if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
                     showStockItemControls();
                     $('.quantity').attr('readonly', false);
-                } else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
+                }
+                else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
                     showSupplierControls();
                     $('.quantity').attr('readonly', 'readonly');
                     $('.quantity').val(1);
-                } else {
+                }
+                else if (selectedItemType == document.querySelector('[name="nonStockItemCode"]').value) {
+                    showSupplierControls();
+                    $('.quantity').attr('readonly', false);
+                    $('.quantity').val(1);
+                }
+                else {
                     showSupplierControls();
                     $('.quantity').attr('readonly', false);
                 }
