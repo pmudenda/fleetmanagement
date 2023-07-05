@@ -1223,7 +1223,8 @@
                 else if (selectedItemType == document.querySelector('[name="nonStockItemCode"]').value) {
                     showSupplierControls();
                     $('.quantity').attr('readonly', false);
-                    $('.quantity').val(1);
+                    $('[name="unit_price"]').attr('readonly', false);
+                    //$('.quantity').val(1);
                 }
                 else {
                     showSupplierControls();
