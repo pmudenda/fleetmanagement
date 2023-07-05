@@ -96,8 +96,11 @@ class WorkshopRequisitionService
                 $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
                 break;
             case RequisitionItemTypes::ServiceItemCode:
-            case RequisitionItemTypes::NonStockItemCode:
                 $item_type = RequisitionItemTypes::Service;
+                $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
+                break;
+            case RequisitionItemTypes::NonStockItemCode:
+                $item_type = RequisitionItemTypes::NonStockItem;
                 $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
                 break;
         }
