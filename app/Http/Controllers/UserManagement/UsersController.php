@@ -295,12 +295,15 @@ class UsersController extends Controller
                 //->where('con_st_code','=', 'ACT')
                 ->first();
 
-            if ($dataset->con_st_code != 'ACT') {
-                throw new UserNotActiveException(ErrorMessages::getMessage('err_0019'));
-            }
 
             if (empty($dataset)) {
                 $dataset = [];
+            }
+
+            if ($dataset) {
+                if ($dataset->con_st_code != 'ACT') {
+                    throw new UserNotActiveException(ErrorMessages::getMessage('err_0019'));
+                }
             }
 
             return response()->json([
