@@ -292,19 +292,20 @@ class UsersController extends Controller
             $dataset = PHCMSEmployee::select('*')
                 ->where('con_per_no', $searchParam)
                 ->orWhere('name', 'LIKE', "%{$searchParam}%")
-                //->where('con_st_code','=', 'ACT')
+                ->where('con_st_code','=', 'ACT')
                 ->first();
 
 
             if (empty($dataset)) {
-                $dataset = [];
+                //$dataset = [];
+                throw new UserNotActiveException(ErrorMessages::getMessage('err_0019'));
             }
 
-            if ($dataset) {
+
                 if ($dataset->con_st_code != 'ACT') {
                     throw new UserNotActiveException(ErrorMessages::getMessage('err_0019'));
                 }
-            }
+
 
             return response()->json([
                 'success' => true,

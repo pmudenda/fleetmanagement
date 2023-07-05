@@ -242,7 +242,7 @@ class WorkflowService
                     $task_detail->date_ended = Carbon::now();
                     $task_detail->save();
                     DB::commit();
-                    return [100];
+                    return [100, '0'];
                 }
 
                 DB::beginTransaction();
