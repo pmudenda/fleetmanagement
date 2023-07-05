@@ -190,34 +190,35 @@
             }).off('select2:select').on('select2:select', function (e) {
                 let article = e.params['data'];
                 const row = $(e.currentTarget).closest('tr');
+                if(document.querySelector('[name="stockItemCode"]').value == $("#itemType").val()){
 
-                if (!article?.price_map) {
-                    const description = article?.technical_specifications ? article?.technical_specifications : "";
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'The Article '
-                            + article?.id
-                            + ' - ' + description + ' has no price. ' +
-                            ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
-                    });
-                    return;
+                    if (!article?.price_map) {
+                        const description = article?.technical_specifications ? article?.technical_specifications : "";
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'The Article '
+                                + article?.id
+                                + ' - ' + description + ' has no price. ' +
+                                ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
+                        });
+                        return;
+                    }
+
+                    if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
+                        const description = article?.technical_specifications ? article?.technical_specifications : "";
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'The Store '
+                                + $("#store_name").val()
+                                + ' does not have '
+                                + article?.id
+                                + ' - ' + description + ' in stock. ' +
+                                'You may have to wait until the stock is received before your request can be processed'
+                        });
+                    }
                 }
-
-                if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
-                    const description = article?.technical_specifications ? article?.technical_specifications : "";
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'The Store '
-                            + $("#store_name").val()
-                            + ' does not have '
-                            + article?.id
-                            + ' - ' + description + ' in stock. ' +
-                            'You may have to wait until the stock is received before your request can be processed'
-                    });
-                }
-
                 //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
                 $(row).find('[name="articleCode"]').val(article['id']);
                 $(row).find('[name="unit_price"]').val(article['price_map']);
