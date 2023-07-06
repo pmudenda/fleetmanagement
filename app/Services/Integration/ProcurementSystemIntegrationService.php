@@ -317,8 +317,8 @@ class ProcurementSystemIntegrationService
             $stmt->bindParam(':p_delivery_site', $delivery_site);
             $stmt->bindParam(':p_form_order', $form_order);
             $stmt->bindParam(':p_req_account', $account);
-            $stmt->bindParam(':p_transaction_type', $transaction_type);
             $stmt->bindParam(':p_current_user', $user);
+            $stmt->bindParam(':p_transaction_type', $transaction_type);
             $stmt->bindParam(':result', $results, PDO::PARAM_STR, 2000);
             $stmt->execute();
 
