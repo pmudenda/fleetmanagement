@@ -740,16 +740,18 @@ class WorkshopRequisitionService
     {
         $requisitionDetail = self::getReservationDetail($workshop_reference);
 
-        $materialHeader = WorkShopMaterialHeader::where('form_order', '=', $requisitionDetail->form_order)->first();
+        //$materialHeader = WorkShopMaterialHeader::where('form_order', '=', $requisitionDetail->form_order)->first();
+
+        $jobCardHeader =  JobCardHeader::where('req_no','=',$workshop_reference)->first();
 
         $results = $this->procurementService->createPurchaseProcess(
-            $workshop_reference,
+            $jobCardHeader,
             $requisitionDetail->veh_reg_no,
             $requisitionDetail->form_order,
             Accounts::DefaultMotorVehicleAccount,
             TransactionType::NonFuelStoresRequisition,
             $requisitionDetail->store,
-            $materialHeader->job_card_no,
+            $jobCardHeader->job_card_no,
             $requisitionDetail->workshop_no
         );
 
