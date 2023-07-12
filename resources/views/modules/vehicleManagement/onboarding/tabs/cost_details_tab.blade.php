@@ -308,7 +308,7 @@
         </tr>
         </thead>
         <tr>
-            <td>Insurance Cover Note</td>
+            <td>Purchase Order</td>
             <td>@{{ documents.purchase_order?.originalDocumentName }}</td>
             <td>
                 <button data-zfm-view-file="insurance"
