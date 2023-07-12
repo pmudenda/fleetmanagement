@@ -1591,8 +1591,8 @@ function checkOnboardingHeaderStatus() {
                 let price = supplierData['price'];
                 console.log('Purchase Order Value', price)
                 let costPriceInput = document.querySelector('[name="costPrice"]');
-                costPriceInput.value = Util.getFloat(price, 2);
-
+                costPriceInput.value = tmsApp.formatMoney(price, 2);
+                //costPriceInput.value = Util.getFloat(price, 2);
                 costPriceInput.setAttribute('readonly', 'readonly');
 
                 let bookValueInput = document.querySelector('[name="bookValue"]');
