@@ -251,6 +251,8 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['costingAndValuation'], 'costOfLicense', data['costoflicense']);
     Vue.set(app['costingAndValuation'], 'premium', data['premium']);
 
+    $('input[name="purchase_order_number"]').val(data['purchase_order_no']);
+
     $('input[name="costOfLicense"]').val(data['costoflicense']);
     $('input[name="costOfLicense"]').trigger('change');
 
@@ -2490,6 +2492,13 @@ function checkOnboardingHeaderStatus() {
             return;
         }
         getPurchaseOrderDetails();
+    });
+
+    $('select[name="frontTyreSize"]').on('change', function(){
+        const frontTyreSize = this.value;
+        //$('select[name="frontTyreSize"]').trigger('change');
+        $('select[name="rearTyreSize"]').val(frontTyreSize);
+        $('select[name="rearTyreSize"]').trigger('change');
     });
 
     // vehicleWeightValidations
