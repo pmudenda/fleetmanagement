@@ -489,7 +489,7 @@ class FuelRequisitionService
             $requisitionDetail->veh_reg_no,
             $requisitionDetail->form_order,
             Accounts::DefaultNonFuelMaterialAccount,
-            TransactionType::FuelRequisition,
+            TransactionType::STORES_REQUISITIONS,
         );
 
         if (empty($results)) {

@@ -368,8 +368,8 @@ class WorkshopRequisitionService
             $req_no,
             $requisitionDetail->veh_reg_no,
             $requisitionDetail->form_order,
-            Accounts::DefaultMotorVehicleAccount,
-            TransactionType::NonFuelStoresRequisition,
+            Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
+            TransactionType::STORES_REQUISITIONS,
             $requisitionDetail->store,
             $materialHeader->job_card_no
         );
@@ -714,12 +714,12 @@ class WorkshopRequisitionService
             ->first();
 
         $results = $this->procurementService->createPurchaseProcess(
-            $materialHeader->workshop_reference,
+            $workshop_reference,
             $requisitionDetail->veh_reg_no,
             $requisitionDetail->form_order,
-            Accounts::DefaultMotorVehicleAccount,
-            TransactionType::NonFuelStoresRequisition,
-            $requisitionDetail->store,
+            Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
+            TransactionType::SERVICE_PURCHASE_REQUISITIONS,
+            $requisitionDetail->purchase_office,
             $materialHeader->job_card_no,
             $requisitionDetail->workshop_no
         );
@@ -747,12 +747,12 @@ class WorkshopRequisitionService
             ->first();
 
         $results = $this->procurementService->createPurchaseProcess(
-            $materialHeader->workshop_reference,
+            $workshop_reference,
             $requisitionDetail->veh_reg_no,
             $requisitionDetail->form_order,
-            Accounts::DefaultMotorVehicleAccount,
-            TransactionType::NonFuelStoresRequisition,
-            $requisitionDetail->store,
+            Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
+            TransactionType::SERVICE_PURCHASE_REQUISITIONS,
+            $requisitionDetail->purchase_office,
             $materialHeader->job_card_no,
             $requisitionDetail->workshop_no
         );

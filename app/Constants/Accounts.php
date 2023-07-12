@@ -4,6 +4,6 @@ namespace App\Constants;
 
 class Accounts
 {
-    const DefaultMotorVehicleAccount = '6120301';
+    const DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT = '6120301';
     const DefaultNonFuelMaterialAccount = '1196000';
 }

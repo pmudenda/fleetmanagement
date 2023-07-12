@@ -185,6 +185,7 @@
                                        name="store_code"/>
                                 <input type="text"
                                        class="form-control form-control-sm"
+                                       readonly
                                        id="store_name"
                                        value="{{$officeDetails->store_code ?? ''}}:{{$officeDetails->store_name ?? ''}}"
                                        placeholder=""

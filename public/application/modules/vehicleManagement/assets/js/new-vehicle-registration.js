@@ -510,7 +510,7 @@ let app = new Vue({
         });*/
 
         Inputmask({
-            "mask": "AAA 9{1,4}"
+            "mask": "A{2,3} 9{1,4}"
         }).mask("#registrationNumber");
 
         Inputmask({
@@ -2131,7 +2131,7 @@ function checkOnboardingHeaderStatus() {
     });
 
     $('#registrationNumber').on('keyup paste enter', function () {
-        if (!this.value || this.value.replace('_', '').length < 8) {
+        if (!this.value || this.value.replace('_', '').length < 3) {
             return;
         }
         setTimeout(function () {
