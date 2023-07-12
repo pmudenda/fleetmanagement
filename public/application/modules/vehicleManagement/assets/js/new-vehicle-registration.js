@@ -218,7 +218,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     let price = data['costprice'];
     let costPriceInput = document.querySelector('[name="costPrice"]');
 
-    if(price && price !== "20"){
+    if (price && price !== "20") {
         costPriceInput.value = accounting.formatMoney(price, 2);
         costPriceInput.setAttribute('readonly', 'readonly');
     }
@@ -875,10 +875,10 @@ let app = new Vue({
                     toastr.error(
                         'Connection error. Could not retrieve license category data, some feature might not work.')
                 });
-             /*= [{'code': 'A', 'name': 'Class A'}, {'code': 'B', 'name': 'Class B'}, {
-                'code': 'C',
-                'name': 'Class C'
-            }, {'code': 'E', 'name': 'Class E'},];*/
+            /*= [{'code': 'A', 'name': 'Class A'}, {'code': 'B', 'name': 'Class B'}, {
+               'code': 'C',
+               'name': 'Class C'
+           }, {'code': 'E', 'name': 'Class E'},];*/
         },
 
         loadRegistrationTypes: function () {
@@ -1532,9 +1532,9 @@ function checkOnboardingHeaderStatus() {
     function getPurchaseOrderDetails() {
         const purchaseOrder = document.querySelector('#purchase_order_number').value;
 
-        if(purchaseOrder.substring(0, 3) != "C02"){
+        if (purchaseOrder.substring(0, 3) != "C02") {
             let message = 'The purchase order number provided is not related to Vehicle purchase, Please contact system Administrator on';
-            message +='Please Contact Fleet Master\n' +
+            message += 'Please Contact Fleet Master\n' +
                 ' System Administrator on 3309,3350,3351,3306,3307, fleetmaster@zesco.co.zm'
             tmsApp.showSystemMessage('Purchase Order', message, function () {
             }, 'error');
@@ -1549,19 +1549,23 @@ function checkOnboardingHeaderStatus() {
             + '?document_number=' + purchaseOrder,
             formData,
             function (response_data) {
-            if (response_data.state === 'success') {
-                let supplierData = response_data['payload']
+                if (response_data.state !== 'success') {
+                    const message = response_data['message'] ? response_data['message']
+                        : 'Purchase Order with number ' + purchaseOrder + ' Could not be found';
+                    tmsApp.showToast(message, 'error');
+                    return;
+                }
 
-                if(!supplierData || supplierData.length > 0){
+                let payload = response_data['payload']
+
+                if (!payload || payload.length === 0) {
                     tmsApp.showToast('The purchase order number you provided did not match any record')
                     return
                 }
 
-                supplierData = supplierData[0];
+                const supplierData = payload[0];
 
-                ///ocument_no "C01CR1000983"
-
-                if(!supplierData){
+                if (!supplierData) {
                     return;
                 }
 
@@ -1598,13 +1602,11 @@ function checkOnboardingHeaderStatus() {
                 document.querySelector('#purchase_order_number').value = supplierData['document_no'];
 
                 calculateInsurancePremium(price);
-            } else {
-                tmsApp.showToast(response_data['message'], 'error');
-            }
-        }, function (xhr) {
-            console.log(xhr);
-            tmsApp.showToast('We could not complete processing your request, please try again later')
-        })
+
+            }, function (xhr) {
+                console.log(xhr);
+                tmsApp.showToast('We could not complete processing your request, please try again later')
+            })
     }
 
     function vehicleWeightValidations(element) {
@@ -2131,6 +2133,7 @@ function checkOnboardingHeaderStatus() {
     });
 
     $('#registrationNumber').on('keyup paste enter', function () {
+        console.log(this.value);
         if (!this.value || this.value.replace('_', '').length < 3) {
             return;
         }
@@ -2357,7 +2360,7 @@ function checkOnboardingHeaderStatus() {
         submitCostValuationDetails();
     });
 
-    $(document).on('keyup', '#chargeOutRate', function(){
+    $(document).on('keyup', '#chargeOutRate', function () {
         setTimeout(function () {
             let rawValue = accounting.unformat(this.value);
             this.value = accounting.formatMoney(rawValue, 'ZMW ');
@@ -2468,7 +2471,7 @@ function checkOnboardingHeaderStatus() {
     });
 
     $('[name="poSearchBtn"]').on('click', function (e) {
-        let poNumber = $('#purchase_order_number').value;
+        let poNumber = $('#purchase_order_number').val();
         if (!poNumber) {
             toastr.error('No Purchase Order number provided');
             return;
@@ -2599,5 +2602,5 @@ function checkOnboardingHeaderStatus() {
     if (window.reference) {
         window.getRegistrationDetails(window.reference);
     }
-})  (window.tmsApp || {}, jQuery);
+})(window.tmsApp || {}, jQuery);
 
