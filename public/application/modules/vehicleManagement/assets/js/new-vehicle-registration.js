@@ -3,6 +3,13 @@ window.VehicleModels = [];
 window.organizationUnits = [];
 window.businessUnits = [];
 
+function setSelectedAccessories() {
+
+    $.each(window.selectedAccessories, function (index, element) {
+        $("input[name=" + element?.code + "][value=" + element?.is_present + "]").prop('checked', true);
+        $("input[name=COMMENT_" + element.code + "]").val(element?.remarks);
+    });
+}
 function displayVehicleDetails(asyncResponse, requestReference) {
     if (!asyncResponse.success) {
         toastr.error(asyncResponse['message'])
@@ -14,8 +21,14 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     let data = asyncResponse['payload']['vehicle'];
     //console.log(data);
-    if (!data || data.length == 0) {
+    if (!data || data.length === 0) {
         return;
+    }
+
+    window.selectedAccessories = asyncResponse.payload['accessories'];
+
+    if (window['selectedAccessories']) {
+        setSelectedAccessories();
     }
 
     let hasHeaderId = (requestReference != null && requestReference != 0);

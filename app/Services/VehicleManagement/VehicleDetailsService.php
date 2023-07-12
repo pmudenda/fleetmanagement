@@ -5,6 +5,7 @@ namespace App\Services\VehicleManagement;
 use App\Enums\Modules;
 use App\Helpers\StatusHelper;
 use App\Models\general\File;
+use App\Models\VehicleManagement\VehicleAccessory;
 use Illuminate\Support\Facades\DB;
 
 class VehicleDetailsService
@@ -73,5 +74,10 @@ class VehicleDetailsService
             ->whereIn('module', ['vehicleRegistration', 'Vehicle Registration'])
             ->whereIn('file_type', ["Front View", "Back View", "Right View", "Left View"])
             ->get();
+    }
+
+    public function getSubmittedAccessories($vehicle_header_id)
+    {
+        return VehicleAccessory::where('vehicle_header_id','=', $vehicle_header_id)->get();
     }
 }

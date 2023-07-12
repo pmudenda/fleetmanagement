@@ -103,6 +103,12 @@
                             </div>
                             <!--End:::Engine Details Tab pane-->
 
+                            {{--<div class="tab-pane fade"
+                                 id="tms_access_checkin_tab"
+                                 role="tabpanel">
+                                @include('modules.vehicleManagement.onboarding.tabs.accessories_tab')
+                            </div>--}}
+
                             <!--Begin::: Costing And Valuation Tab pane-->
                             <div class="tab-pane fade" id="tms_costing_valuation_tab" role="tabpanel">
                                 @include('modules.vehicleManagement.onboarding.tabs.cost_details_tab')

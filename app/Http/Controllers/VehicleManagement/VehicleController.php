@@ -92,7 +92,7 @@ class VehicleController extends Controller
                 ]);
             }
             $vehicleImages = $this->vehicleDetailsService->getVehicleImages($vehicle->vehicle_header_id);
-
+            $accessories = $this->vehicleDetailsService->getSubmittedAccessories($vehicle->vehicle_header_id);
             $article = $this->procurementService->getArticleByCode($vehicle->fuel_types);
             $vehicle_state = '';
 
@@ -110,6 +110,7 @@ class VehicleController extends Controller
                     'vehicle' => $vehicle,
                     'article' => $article,
                     'images' => $vehicleImages,
+                    'accessories' => $accessories,
                     'vehicle_state' => $vehicle_state
                 ],
                 'success' => !empty($vehicle),
