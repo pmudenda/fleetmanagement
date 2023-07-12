@@ -194,25 +194,26 @@ class WorkflowService
                 // resubmission
                 break;
             case 2:
-                WorkflowLog::create([
-                    'remarks' => $comment,
-                    'action_date' => Carbon::now(),
-                    'actioning_officer' => $current_user->staff_no,
-                    'action' => $action,
-                    'activity' => $actionTaken,
-                    'status' => StatusHelper::authorised(),
-                    'previous_step' => $current_step->previous_step,
-                    'step_id' => $current_step->step_id,
-                    'reference' => $reference
-                ]);
+                DB::beginTransaction();
+                    WorkflowLog::create([
+                        'remarks' => $comment,
+                        'action_date' => Carbon::now(),
+                        'actioning_officer' => $current_user->staff_no,
+                        'action' => $action,
+                        'activity' => $actionTaken,
+                        'status' => StatusHelper::authorised(),
+                        'previous_step' => $current_step->previous_step,
+                        'step_id' => $current_step->step_id,
+                        'reference' => $reference
+                    ]);
 
-                $task_header->date_ended = Carbon::now();
-                $task_header->status = StatusHelper::rejected();
-                $task_header->save();
+                    $task_header->date_ended = Carbon::now();
+                    $task_header->status = StatusHelper::rejected();
+                    $task_header->save();
 
-                $task_detail->date_ended = Carbon::now();
-                $task_detail->save();
-
+                    $task_detail->date_ended = Carbon::now();
+                    $task_detail->save();
+                DB::commit();
                 return ["0","0"];
                 break;
             case 3:
@@ -367,7 +368,7 @@ class WorkflowService
             case 5:
             {
                 //send back
-
+                DB::beginTransaction();
                 $previousStep = WorkflowStep::where('step_id', '=', $current_step->previous_step)->first();
 
                 $previousStepLog = WorkflowLog::where('reference', '=', $task_detail->reference)
@@ -391,7 +392,7 @@ class WorkflowService
                 //self::createUserNotification($task_detail, "Task Sent Back", $previousStep->action_page ?? "");
 
                 $task_detail->save();
-
+                DB::commit();
                 return [$task_detail,'0'];
             }
             //  Pay=7
@@ -449,7 +450,7 @@ class WorkflowService
                 return [$task_detail,'0'];
         }
 
-
+        DB::beginTransaction();
         WorkflowLog::create([
             'remarks' => $comment,
             'action_date' => Carbon::now(),
@@ -461,7 +462,7 @@ class WorkflowService
             'step_id' => $current_step->step_id,
             'reference' => $task_detail->reference
         ]);
-
+        DB::commit();
 
         return ["00",'0'];
     }

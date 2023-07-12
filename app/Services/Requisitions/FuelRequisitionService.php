@@ -578,4 +578,12 @@ class FuelRequisitionService
                 WorkflowProcessCodes::OverrideFuelRequisition->value);
         }
     }
+
+    public function updateStatus(mixed $reference, string $status): void
+    {
+        DB::beginTransaction();
+        MaterialHeader::where('req_no', $reference)
+            ->update(['status' => $status]);
+        DB::commit();
+    }
 }

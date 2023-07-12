@@ -767,4 +767,12 @@ class WorkshopRequisitionService
 
         Log::info("Purchase Process Document document " . $results);
     }
+
+    public function updateStatus(mixed $reference, string $status): void
+    {
+        DB::beginTransaction();
+        MaterialHeader::where('req_no', $reference)
+            ->update(['status' => $status]);
+        DB::commit();
+    }
 }

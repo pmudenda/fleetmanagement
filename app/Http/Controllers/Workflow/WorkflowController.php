@@ -10,6 +10,7 @@ use App\Enums\WorkflowProcessCodes;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\MaterialReservationException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Services\Requisitions\FuelRequisitionService;
@@ -88,6 +89,18 @@ class WorkflowController extends Controller
 
             if ($nextStepId == 100) {
                 $this->fuelRequisitionService->createStoresRequisition($request->get('reference'));
+            }else{
+                $status = '';
+                switch (strtolower(trim($request->get('Approved')))) {
+                    case 'approve':
+                        $status = StatusHelper::partiallyAuthorised();
+                        break;
+                    case 'reject':
+                        $status = StatusHelper::rejected();
+                        break;
+                }
+
+                $this->fuelRequisitionService->updateStatus($reference, $status);
             }
 
             return response()->json([
@@ -176,6 +189,17 @@ class WorkflowController extends Controller
                 }
             }else{
                 $message = 'Request Approved and Submitted to the next authority ';
+                $status = '';
+                switch (strtolower(trim($request->get('Approved')))) {
+                    case 'approve':
+                        $status = StatusHelper::partiallyAuthorised();
+                        break;
+                    case 'reject':
+                        $status = StatusHelper::rejected();
+                        break;
+                }
+
+                $this->workshopRequisitionService->updateStatus($reference, $status);
             }
 
             return response()->json([
