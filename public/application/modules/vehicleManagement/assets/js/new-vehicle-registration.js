@@ -2149,7 +2149,7 @@ function checkOnboardingHeaderStatus() {
 
     $('#registrationNumber').on('keyup paste enter', function () {
         console.log(this.value);
-        if (!this.value || this.value.replace('_', '').length < 3) {
+        if (!this.value || this.value.replace('_', '').length < 4) {
             return;
         }
         setTimeout(function () {
