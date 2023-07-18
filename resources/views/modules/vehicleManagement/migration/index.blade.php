@@ -254,7 +254,6 @@
                                                 <label for="vehicleType">User Unit*:</label>
                                                 <select name="organizationalUnit" class="form-control make" id="organizationalUnit"
                                                         required>
-
                                                 </select>
                                             </div>
                                         </div>
