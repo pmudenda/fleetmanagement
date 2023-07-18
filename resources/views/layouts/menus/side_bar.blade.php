@@ -77,6 +77,7 @@
                                 </a>
                             </li>
 
+                            @can('CleanUpData')
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-circle"></i>
@@ -103,6 +104,8 @@
                                     </li>
                                 </ul>
                             </li>
+                            @endcan
+
                         </ul>
                     </li>
                 @endcanany

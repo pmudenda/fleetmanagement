@@ -15,7 +15,6 @@
     <!-- Main content -->
     <section class="content">
         <x-error-view/>
-
         <div class="container-fluid">
             <!-- Main row -->
             <div class="row">
@@ -145,7 +144,6 @@
             </div>
 
         </div>
-
     </section>
 
 @endsection
