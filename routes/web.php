@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccidentReporting\VehicleRecording;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ChargeOutRateController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
@@ -36,6 +37,12 @@ Route::get('/', function () {
 Route::post('logout', [HomeController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('/vehiclerecording', [VehicleRecording::class, 'index'])->name('accident.reporting');
+
+    Route::get('/accidenttypes', [VehicleRecording::class, 'accidentTypes'])->name('accident.types');
+
+    Route::get('/accidentnatures', [VehicleRecording::class, 'accidentNatures'])->name('accident.natures');
 
     //SESSION EXPIRE
     Route::post('getStatus', function () {

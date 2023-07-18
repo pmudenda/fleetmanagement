@@ -41,11 +41,11 @@
         :activeCrumb="'New Job Card'"
         :linkText="'Job Card'"
         :pageTitle="'Workshop Management'"/>
+
     <section class="content">
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-
                     <h4>Workshop Job Card</h4>
                     @if(!empty($details) && !empty($details->job_card_no))
                         <span class="ml-2 indicator-pill whitespace-nowrap green">

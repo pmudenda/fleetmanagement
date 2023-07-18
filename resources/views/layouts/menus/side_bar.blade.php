@@ -802,6 +802,16 @@
                         </ul>
                     </li>
                 @endcanany
+
+                <li class="nav-item">
+                    <a href="{{URL::signedRoute('accident.reporting')}}"
+                       class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>
+                           Report Accident
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
 

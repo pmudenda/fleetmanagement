@@ -1,0 +1,106 @@
+.steps li a{
+    background-color: white;
+    color: gray;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: inline-block;
+    border-bottom: 5px solid gray;
+    width: 200px;
+    margin: 2px;
+    text-decoration: none;
+}
+
+.current-info{
+    display: none;
+}
+
+.steps li.done a{
+    border-color: #088395;
+    color: #088395;
+
+}
+
+.steps li.current a{
+    color: green;
+    border-color: green;
+
+}
+
+.steps ul{
+    list-style-type: none;
+    display: flex;
+    padding-bottom: 2%;
+}
+
+.number{
+    display: none;
+}
+
+
+
+                  /* More Styling */
+
+/* .form-wrapper{
+    border: 1px solid red;
+} */
+
+
+/* Actions */
+
+h3{
+    display: none;
+}
+
+
+.actions li a{
+    margin: 5px;
+    text-align: center;
+    border: 1px solid #088395;
+
+    text-decoration: none;
+
+}
+
+.actions li a :hover{
+    transform: scale(1.06);
+
+}
+
+.actions ul{
+    list-style-type: none;
+    display: flex;
+    padding-top: 2%;
+
+}
+
+
+.form-wrapper{
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    margin-top: 5%;
+    padding-top: 2%;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-bottom: 3%;
+}
+
+.form-wrapper h2{
+    text-align: center;
+    padding-bottom: 3%;
+}
+
+.options{
+    display: flex;
+    padding-top: 2%;
+
+}
+
+.options-inner{
+    padding-left: 5%;
+}
+
+
+
+
+.branded-options{
+    padding-top: 5%;
+}
