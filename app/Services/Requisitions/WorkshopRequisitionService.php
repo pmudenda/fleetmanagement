@@ -629,8 +629,8 @@ class WorkshopRequisitionService
             MaterialDetail::create([
                 'created_by' => $user->staff_no,
                 'date_created' => Carbon::now(),
-                // 'material_code' => $item['service_article'],
-                'mat_code' => $item['service_article'],
+                'material_code' => $item['service_article'],
+                //'mat_code' => $item['service_article'],
                 'unit_of_measure' => $item['service_unit_of_measure'],
                 'quantity' => $item['service_quantity'] ?? 1,
                 'amount' => $item['service_total_price'],

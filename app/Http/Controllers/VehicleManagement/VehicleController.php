@@ -84,13 +84,14 @@ class VehicleController extends Controller
             // determine material type in form of fuel
             $vehicle = $this->vehicleDetailsService->getBasicVehicleDetails($request->vehicle_registration);
 
-            if (!$vehicle) {
+            if (empty($vehicle)) {
                 return response()->json([
                     'success' => 'false',
                     'statusDescription' => 'Not Found',
                     'message' => 'Vehicle not found'
                 ]);
             }
+
             $vehicleImages = $this->vehicleDetailsService->getVehicleImages($vehicle->vehicle_header_id);
             $accessories = $this->vehicleDetailsService->getSubmittedAccessories($vehicle->vehicle_header_id);
             $article = $this->procurementService->getArticleByCode($vehicle->fuel_types);

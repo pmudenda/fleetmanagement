@@ -24,7 +24,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -292,20 +291,17 @@ class UsersController extends Controller
             $dataset = PHCMSEmployee::select('*')
                 ->where('con_per_no', $searchParam)
                 ->orWhere('name', 'LIKE', "%{$searchParam}%")
-                ->where('con_st_code','=', 'ACT')
+                ->where('con_st_code', '=', 'ACT')
                 ->first();
-
 
             if (empty($dataset)) {
                 //$dataset = [];
                 throw new UserNotActiveException(ErrorMessages::getMessage('err_0019'));
             }
 
-
-                if ($dataset->con_st_code != 'ACT') {
-                    throw new UserNotActiveException(ErrorMessages::getMessage('err_0019'));
-                }
-
+            if ($dataset->con_st_code != 'ACT') {
+                throw new UserNotActiveException(ErrorMessages::getMessage('err_0019'));
+            }
 
             return response()->json([
                 'success' => true,

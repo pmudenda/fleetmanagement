@@ -469,7 +469,7 @@
                     <div class="col pl-0">
                         <label for="inspectionDate" class="fs-6 fw-semibold form-label reqd col-md-5"
                                style="padding-right: 0px;">
-                            Motor Vehicle Certificate:
+                            Motor Vehicle Certificate (White Book):
                             <small class="text-danger">.PDF, JPG, JPEG, PNG, BMP</small>
                         </label>
                         <div class="col-md-7 fv-row">
