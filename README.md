@@ -24,15 +24,14 @@ ZFM is a web based fleet & logistics management system built using laravel frame
 -  php artisan vendor:publish --tag=oracle
 - [ php artisan migrate:fresh --seed]()
 - [ php artisan adldap:import ]()
-- [chmod -R 755 storage]() 
-- sudo chown -R apache:apache /var/www/html/project_name
-- sudo chmod 2775 /var/www/html/project_name
-- find /var/www/html/project_name -type d -exec sudo chmod 2775 {} \;
-- find /var/www/html/project_name -type f -exec sudo chmod 0664 {} \;
-- if above cmd doesnt not work use: sudo chmod -R ugo+rw storage
-- [ chmod -R 755 vendor]()
-- [ chmod -R 644 bootstrap/cache]()
--
+## Folder Permissions
+- change directory to application root directory
+1. sudo chown -R $USER:apache . 	
+2. sudo find . -type f -exec chmod 664 {} \;    	
+3. sudo find . -type d -exec chmod 775 {} \;
+4. sudo chown -R apache storage bootstrap/cache 
+5. sudo chmod -R ug+rwx storage bootstrap/cache
+
 ## Updating Existing Installation
 - [ php artisan migrate]()
 - [ php artisan db:seed --class= {SeederClassName}]() - replace {SeederClassName} with actual class name e.g UserSeeder
@@ -92,6 +91,9 @@ To Be Advised By Cyber-Security
 ## License
 021109558968407878
 The ZFMS is propitiatory software developed for use under strict [license]().
+
+# run the command to install redis server
+redis-server
 
 
 

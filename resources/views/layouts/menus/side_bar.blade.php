@@ -642,7 +642,7 @@
 
                                                 <li class="nav-item">
                                                     <a class="nav-link"
-                                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'accident_types']) }}">
+                                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'accident-types']) }}">
                                                         <span class="menu-bullet">
                                                             <span class="bullet bullet-dot"></span>
                                                         </span>
