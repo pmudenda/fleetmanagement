@@ -290,7 +290,7 @@ class ProcurementSystemIntegrationService
             $system_origin = SystemOfOrigin::ZESCOFleetMaster;
             $user = auth()->user()->staff_no;
 
-            Log::info(':p_wkshp_reference '. $workshop_reference);
+            Log::info(':p_reference '. $workshop_reference);
             Log::info(':p_reg_no '. $reg_no);
             Log::info(':p_store_code '. $store_code);
             Log::info(':p_user_requesting '. $user);
@@ -305,10 +305,10 @@ class ProcurementSystemIntegrationService
 
             $pdo = DB::getPdo();
 
-            $stmt = $pdo->prepare("begin :result := fn_create_pur_process(:p_wkshp_reference,:p_reg_no,
+            $stmt = $pdo->prepare("begin :result := fn_create_pur_process(:p_reference,:p_reg_no,
             :p_store_code,:p_user_requesting,:p_job_card_no,:p_system_origin,:p_form_order,
             :p_req_account,:p_delivery_site,:p_transaction_type,:p_current_user); end;");
-            $stmt->bindParam(':p_wkshp_reference', $workshop_reference);
+            $stmt->bindParam(':p_reference', $workshop_reference);
             $stmt->bindParam(':p_reg_no', $reg_no);
             $stmt->bindParam(':p_store_code', $store_code);
             $stmt->bindParam(':p_user_requesting', $user);
