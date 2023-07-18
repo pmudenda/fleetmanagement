@@ -72,7 +72,7 @@
                                     class="form-select form-select-sm"
                                     name="purchase_office"
                                     id="purchase_office">
-                                    <option value="{{$officeDetails->purchase_office_area ?? ''}}">
+                                    <option value="{{$officeDetails->purchase_office_code ?? ''}}">
                                         {{$officeDetails->purchase_office ?? ''}}
                                     </option>
                                 </select>
