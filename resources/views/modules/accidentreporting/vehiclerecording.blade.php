@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @push('styles')
     <link href="{{asset("libs/steps/jquery-steps.css")}}" rel="stylesheet" type="text/css"/>
+
     <style>
         .error{
             color: red;
@@ -55,12 +56,24 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="registrationNo">Registration No*:</label>
-                                    <div class="regInput">
-                                        <input name="registrationNo" type="text"
-                                               class="form-control required"
-                                               id="registrationNo" placeholder="AAA0000" required>
-                                        {{--                                <button id="vehicleQuery" class="btn btn-outline-success">Query</button>--}}
-                                        {{--                                <button id="vehicleClear" class="btn btn-outline-success">Clear</button>--}}
+                                    <div class="input-group">
+                                        <input name="registrationNo"
+                                               type="text"
+                                               value="{{$registration ?? ''}}"
+                                               data-action="{{route('cleanup.vehicle.find')}}"
+                                               class="form-control form-control-sm required"
+                                               id="registrationNo"
+                                               placeholder=""
+                                               required/>
+                                        <div class="input-group-addon">
+                                            <button type="button"
+                                                    title="Search Vehicle Button"
+                                                    id="vehicleSearchBtn"
+                                                    name="vehicleSearchBtn"
+                                                    class="btn btn-success btn-sm border-radius-0">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
                                     </div>
 
                                     @error('registrationNo')
@@ -117,9 +130,6 @@
                                     <label for="ownerAddress">Type of Accident*:</label>
                                     <select id="accidentType" name="accidentType" class="form-control required">
                                         <option value="none">Select Incident type</option>
-                                        <option value="one">One</option>
-                                        <option value="two">two</option>
-                                        <option value="three">two</option>
                                     </select>
                                     @error('accidentType')
                                     <p>{{$message}}</p>
@@ -132,7 +142,6 @@
                                 <label for="ownerAddress">Nature of accident*:</label>
                                 <select id="accidentNature" name="accidentNature" class="form-control required">
                                     <option value="none">Select Incident Nature</option>
-
                                 </select>
                                 @error('accidentNature')
                                 <p>{{$message}}</p>
@@ -154,7 +163,16 @@
                             <div class="col-md-6">
                                 <div class="form-group ">
                                     <label for="date">Date*:</label>
-                                    <input name="date" type="date" class="form-control required" id="date" placeholder="00/00/0000" required>
+                                    <div class="input-group">
+                                        <input name="date" type="date" class="form-control required" onkeydown="return false" id="accident-date"
+                                               placeholder="00/00/0000"
+                                               max="{{date('Y-m-d', strtotime( \Carbon\Carbon::now()))}}"
+                                               min="{{date('Y-m-d', strtotime($minDate))}}"
+                                               required>
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
                                 </div>
                                 @error('date')
                                 <p>{{$message}}</p>
@@ -187,14 +205,14 @@
 
                             <div class="col-md-6 options policeNotification">
                                 <p class="test">Police Notified: </p>
-                                <div class="options-inner policeNotification-options-inner">
+                                <label class="checkbox-inline mr-5">
                                     <input type="radio" id="policeNotification-yes" name="policeNotified" value="yes" >
                                     <label for="policeNotification-yes">Yes</label>
-                                </div>
-                                <div class="options-inner policeNotification-options-inner">
+                                </label>
+                                <label class="checkbox-inline ml-2">
                                     <input type="radio" id="policeNotification-no" name="policeNotified" value="no" >
                                     <label for="policeNotification-no">No</label>
-                                </div>
+                                </label>
                                 @error('policeNotified')
                                 <p>{{$message}}</p>
 
@@ -217,9 +235,25 @@
                                 <div class="form-group">
                                     <label for="staffNo">Staff Number:</label>
                                     <div class="regInput">
-                                        <input name="staffNumber" type="text" class="form-control required" id="staffNo" placeholder="Enter Staff Number" required>
-                                        {{--                                <button id="staffQuery" class="btn btn-outline-success">Query</button>--}}
-                                        {{--                                <button id="staffClear" class="btn btn-outline-success">Clear</button>--}}
+                                        <div class="input-group">
+                                            <input type="text"
+                                                   list="employee_list"
+                                                   data-action="{{route('driver.search')}}"
+                                                   class="form-control form-control-sm"
+                                                   autocapitalize="characters"
+                                                   id="driver_staff_number"
+                                                   placeholder=""
+                                                   name="driver_staff_number"/>
+                                            <div class="input-group-addon">
+                                                <button type="button" id="employeeSearchBtn"
+                                                        name="employeeSearchBtn"
+                                                        class="btn btn-success btn-sm border-radius-0">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                            <datalist id="employee_list">
+                                            </datalist>
+                                        </div>
                                     </div>
                                 </div>
                                 @error('staffNumber')
@@ -230,8 +264,12 @@
 
                             <div class="col-md-6">
                                 <div class="form-group ">
-                                    <label for="driverName">Name:</label>
-                                    <input name="driverName" type="text" class="form-control required" id="driverName" placeholder="Enter Driver Name" >
+                                    <label for="driver_name">Name:</label>
+                                    <input name="driver_name" type="text"
+                                           class="form-control required"
+                                           readonly
+                                           id="driver_name"
+                                           placeholder="" >
                                 </div>
                                 @error('driverName')
                                 <p>{{$message}}</p>
@@ -242,7 +280,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="driverEmail">Email</label>
-                                    <input name="driverEmail" type="text" class="form-control required" id="driverEmail" placeholder="Enter Driver Email" required>
+                                    <input name="driverEmail" type="text"
+                                           readonly
+                                           class="form-control required"
+                                           id="driverEmail"
+                                           placeholder="Enter Driver Email" required>
                                 </div>
                                 @error('driverEmail')
                                 <p>{{$message}}</p>
@@ -253,7 +295,10 @@
                             <div class="col-md-6">
                                 <div class="form-group ">
                                     <label for="phoneNo">Phone No:</label>
-                                    <input name="phoneNo" type="text" class="form-control required" id="phoneNo" placeholder="Enter Phone No" required>
+                                    <input name="phoneNo" type="text"
+                                           class="form-control required"
+                                           id="phoneNo"
+                                           placeholder="Enter Phone No" required>
                                 </div>
                                 @error('phoneNo')
                                 <p>{{$message}}</p>
@@ -264,18 +309,26 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="driverAge">Age*:</label>
-                                    <input name="age" type="text" class="form-control required" id="driverAge" placeholder="Enter Driver Age" required>
+                                    <input name="age" type="text"
+                                           class="form-control required"
+                                           id="driverAge"
+                                           placeholder="Enter Driver Age"
+                                           required>
                                 </div>
                                 @error('driverAge')
                                 <p>{{$message}}</p>
-
                                 @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="driverPosition">Position*:</label>
-                                    <input name="driverPosition" type="text" class="form-control required" id="driverPosition" placeholder="Enter Driver Position" required>
+                                    <input name="driverPosition" type="text"
+                                           class="form-control required"
+                                           readonly
+                                           id="driverPosition"
+                                           placeholder="Enter Driver Position"
+                                           required>
                                 </div>
                             </div>
                             @error('driverPosition')
@@ -288,35 +341,56 @@
 
                 </form>
 
-                <div class="modal fade" id="errorDisplay" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">OOOPS Erro</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
 
-                            </div>
-                            <div class="modal-footer">
-
-                                <button type="button" class="btn btn-danger">Okay</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <input type="hidden" name="vehicle_details" id="vehicle_details" value="{{route('requisition.vehicle.details')}}">
 
             </div>
         </div>
+        <x-employee-search-modal/>
+
     </section>
     <input type="hidden" value="{{route('accident.types')}}" id="accident_types_endpoint">
     <input type="hidden" value="{{route('accident.natures')}}" id="accident_natures_endpoint">
     @push('scripts')
+        <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
         <script src="{{asset("libs/steps/jquery.steps.min.js")}}"></script>
-        {{--<script src="{{"application/modules/accidentreporting/js/index.js"}}"></script>--}}
         <script>
             (function(tmsApp, $){
+
+                $(document).off().on('click', '[data-confirm-selection="true"]', function (event) {
+
+                    console.log(event)
+                    // let _modal = $("#searchEmployeeModal");
+                    //
+                    // const {assignmenttype, inputfield, field} = window.supportData;
+                    //
+                    // let selectedUser = $("input[name='users[]']:checked");
+                    // if (!selectedUser || selectedUser.length === 0) {
+                    //     _modal.find(".errorMsg").html('<div class="alert alert-danger">You have not selected any user</div>');
+                    //     return;
+                    // }
+                    // let name = '';
+                    // let recordId = '';
+                    //
+                    // $.each(selectedUser, function (index, element) {
+                    //     if (name === '') {
+                    //         name += element['dataset']['name']
+                    //         recordId += element['dataset']['userid'];
+                    //     } else {
+                    //         name += ',' + element['dataset']['name']
+                    //         recordId += ',' + element['dataset']['userid'];
+                    //     }
+                    // });
+                    //
+                    // if (assignmenttype === 'multiple') {
+                    //     name += ',' + $('input[name="' + inputfield + '"]').val();
+                    //     recordId += ',' + $('input[name="' + inputfield + 'Id"]').val();
+                    // }
+                    //
+                    // $('input[name="' + inputfield + '"]').val(name).trigger('change');
+                    // $('input[name="' + inputfield + 'Id"]').val(recordId).trigger('change');
+                    // _modal.modal('hide');
+                });
 
                 function initializeFormWizard() {
                     let formWizard = $('#my-form');
@@ -468,9 +542,45 @@
                     initializeFormWizard()
                 });
 
+                function fetchVehicleDetails(reg) {
+                    $.ajax({
+                        url: $('[name="vehicle_details"]').val(),
+                        data: {
+                            'vehicle_registration': reg
+                        },
+                        method: 'GET',
+                        success: function (response) {
+                            // Code to execute when the AJAX request succeeds
+
+
+                            if (response.success === 'true' || response.success) {
+                                const vehicleDetails = response.payload.vehicle;
+
+                                console.log(vehicleDetails)
+                                let vehicleModel = document.getElementById("modelNo")
+                                let vehicleMake = document.getElementById("vehicleMake")
+                                let chassisNo = document.getElementById("model_name")
+
+                                vehicleModel.setAttribute("disabled", true)
+                                vehicleMake.setAttribute("disabled", true)
+                                chassisNo.setAttribute("disabled", true)
+
+
+                                vehicleModel.value = vehicleDetails.model_code;
+                                vehicleMake.value = vehicleDetails.brand_name
+                                chassisNo.value = vehicleDetails.model_name
+                            } else {
+                                launchErrorModal(response.message, "errorDisplay")
+                            }
+
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            // Code to execute when the AJAX request fails
+                        }
+                    });
+                }
+
                 $(document).ready(function () {
-
-
 
                     function getAccidentTypes() {
                         fetch(document.querySelector('#accident_types_endpoint').value)
@@ -539,35 +649,16 @@
 
                     getAccidentNatures();
 
-                    getAccidentTypes();
+                    getAccidentTypes()
 
                     Inputmask({
                         "mask": "A{2,3} 9{1,4}"
                     }).mask("#registrationNo");
 
-                    $('.actions li a').addClass('btn btn-success')
-                    $(".steps ul").addClass("d-flex justify-content-center")
-                    $(".actions ul").addClass("d-flex justify-content-end")
+                   // $('.actions li a').addClass('btn btn-success')
+                   // $(".steps ul").addClass("d-flex justify-content-center")
+                   // $(".actions ul").addClass("d-flex justify-content-end")
 
-
-                    // Registration No
-                    // $('#vehicleQuery').click(function () {
-                    //     let regValue = document.getElementById("registrationNo").value
-                    //     $.ajax({
-                    //         url: '/vehicledetails/' + regValue,
-                    //         type: "GET",
-                    //         dataType: 'json',
-                    //         success: function (response) {
-                    //
-                    //
-                    //
-                    //         },
-                    //         error: function (xhr, status, error) {
-                    //
-                    //         }
-                    //
-                    //     })
-                    // })
 
                     $("#vehicleClear").click(function () {
 
@@ -584,48 +675,22 @@
                         chassisNo.value = ""
                     })
 
-                    $('#registrationNo').on('keyup paste enter', function () {
-                        console.log(this.value);
+                    $('#vehicleSearchBtn').on('click enter', function () {
+                       const reg = $('#registrationNo').val();
+                        if (!reg || reg.replaceAll('_', '').replaceAll(" ",'').length < 4) {
+                            return;
+                        }
+
+                        fetchVehicleDetails(reg);
+                    });
+
+                    $('#registrationNo').on('paste enter', function () {
                         if (!this.value || this.value.replaceAll('_', '').replaceAll(" ",'').length < 4) {
                             return;
                         }
 
-                        var query = $(this).val();
-                        $.ajax({
-                            url: $('[name="vehicle_details"]').val(),
-                            data: {
-                              'vehicle_registration':this.value
-                            },
-                            method: 'GET',
-                            success: function(response) {
-                                // Code to execute when the AJAX request succeeds
-
-
-                                if (response.success === 'true' || response.success) {
-                                    const vehicleDetails = response.payload.vehicle;
-
-                                    console.log(vehicleDetails)
-                                    let vehicleModel = document.getElementById("modelNo")
-                                    let vehicleMake = document.getElementById("vehicleMake")
-                                    let chassisNo = document.getElementById("model_name")
-
-                                    vehicleModel.setAttribute("disabled", true)
-                                    vehicleMake.setAttribute("disabled", true)
-                                    chassisNo.setAttribute("disabled", true)
-
-
-                                    vehicleModel.value = vehicleDetails.model_code;
-                                    vehicleMake.value = vehicleDetails.brand_name
-                                    chassisNo.value = vehicleDetails.model_name
-                                } else {
-                                    launchErrorModal(response.message, "errorDisplay")
-                                }
-
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                // Code to execute when the AJAX request fails
-                            }
-                        });
+                        const query = $(this).val();
+                        fetchVehicleDetails(query);
                     });
 
 
@@ -651,7 +716,8 @@
                         })
                     })
 
-                    $('#staffNo').on('change', function() {
+                    $('#staffNo').on('keyup paste enter', function () {
+
                         var query = $(this).val();
                         $.ajax({
                             url: '/staffData/' + query,
@@ -776,7 +842,6 @@
 
 
             })(window.tmsApp, jQuery);
-
         </script>
     @endpush
 

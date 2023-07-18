@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AccidentReporting;
 use App\Enums\ConfigurationTypes;
 use App\Http\Controllers\Controller;
 use App\Models\configurations\GeneralTableConfiguration;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PHPUnit\Exception;
@@ -12,14 +13,19 @@ use PHPUnit\Exception;
 class VehicleRecording extends Controller
 {
     function index(){
-        return view("modules.accidentreporting.vehiclerecording");
+        $minDate= Carbon::now()->subtract('year', 10);
+
+        return view("modules.accidentreporting.vehiclerecording")
+            ->with(compact(
+                'minDate'
+            ));
     }
 
     function accidentTypes()
     {
 
         try {
-            $data = GeneralTableConfiguration::where('type', '=', ConfigurationTypes::ACCIDENT_NATURE->value)->get();
+            $data = GeneralTableConfiguration::where('type', '=', ConfigurationTypes::ACCIDENT_TYPES->value)->get();
 
             return response()->json([
                 'state' => 'successful',
