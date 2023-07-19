@@ -56,6 +56,17 @@
                                 </a>
                             </li>
 
+                            <li class="nav-item" role="presentation" data-tab="tms_engine_details_tab">
+                                <a @if($step < 4 ) disabled="disabled"
+                                   @endif class="nav-link text-active-primary pb-5 @if($step == 4) active @endif"
+                                   data-bs-toggle="tab"
+                                   href="#tms_access_checkin_tab" aria-selected="false" role="tab"
+                                   tabindex="-1">
+                                    @include('layouts.partials.engine_icon')
+                                    Step 3: Accessories Check-in
+                                </a>
+                            </li>
+
                             <li class="nav-item" role="presentation" data-tab="tms_costing_valuation_tab">
                                 <a class="nav-link text-active-primary pb-5"
                                    data-bs-toggle="tab"
