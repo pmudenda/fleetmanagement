@@ -1635,4 +1635,128 @@
 
         })(window.tmsApp || {}, jQuery)
     </script>
+
+
+
+    <!--  -->
+    <script type="text/javascript">
+
+        //ROUND OFF FUNCTION
+        Number.prototype.round = function(places) {
+            return +(Math.round(this + "e+" + places)  + "e-" + places);
+        }
+
+        function getvalues() {
+            var inps = document.getElementsByName('amount[]');
+            var total = 0;
+            for (var i = 0; i < inps.length; i++) {
+                var inp = inps[i];
+                total = total + parseFloat(inp.value || 0);
+            }
+            total =  total.round(2);
+
+            if (!isNaN(total)) {
+                //check if petty cash is below 2000
+                if (total > 2000) {
+                    $('#submit_possible').hide();
+                    $('#submit_not_possible').show();
+                } else if (total == 0) {
+                    $('#submit_not_possible').hide();
+                    $('#submit_possible').hide();
+                } else {
+                    $('#submit_not_possible').hide();
+                    $('#submit_possible').show();
+                }
+                //set value
+                document.getElementById('total-payment').value = total;
+            }
+        }
+
+
+        // Navigation Script Starts Here
+        $(document).ready(function () {
+
+            //first hide the buttons
+            $('#submit_possible').hide();
+            $('#submit_not_possible').hide();
+
+        });
+
+    </script>
+
+
+    <SCRIPT language="javascript">
+        function addRow(tableID) {
+
+            var table = document.getElementById(tableID);
+
+            var rowCount = table.rows.length;
+            var row = table.insertRow(rowCount);
+
+            var colCount = table.rows[0].cells.length;
+
+            for (var i = 0; i < colCount; i++) {
+
+                var newcell = row.insertCell(i);
+
+                newcell.innerHTML = table.rows[0].cells[i].innerHTML;
+                //alert(newcell.childNodes);
+                switch (newcell.childNodes[0].type) {
+                    case "text":
+                        newcell.childNodes[0].value = "";
+                        break;
+                    case "checkbox":
+                        newcell.childNodes[0].checked = false;
+                        break;
+                    case "select-one":
+                        newcell.childNodes[0].selectedIndex = 0;
+                        break;
+                }
+            }
+        }
+
+        function deleteRow(tableID) {
+            try {
+                var table = document.getElementById(tableID);
+                var rowCount = table.rows.length;
+
+                for (var i = 0; i < rowCount; i++) {
+                    var row = table.rows[i];
+                    var chkbox = row.cells[0].childNodes[0];
+                    if (null != chkbox && true == chkbox.checked) {
+                        if (rowCount <= 1) {
+                            alert("Cannot delete all the rows.");
+                            break;
+                        }
+                        table.deleteRow(i);
+                        rowCount--;
+                        i--;
+                    }
+                }
+                getvalues();
+            } catch (e) {
+                alert(e);
+            }
+        }
+
+    </SCRIPT>
+
+
+    <script>
+        $(document).ready(function () {
+            $("#divSubmit_hide").hide();
+            //disable the submit button
+            $("#btnSubmit").on('click', function () {
+                $("#create_form").submit(function (e) {
+                    e.preventDefault()
+                    //do something here
+                    $("#divSubmit_show").hide();
+                    $("#divSubmit_hide").show();
+                    //continue submitting
+                    e.currentTarget.submit();
+                });
+            });
+        });
+    </script>
+
 @endpush
