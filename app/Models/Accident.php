@@ -9,6 +9,7 @@ class Accident extends Model
 {
     protected $table = 'VM_ACCIDENT';
     protected $fillable = [
+        'reported_by',
         'reference',
         'area',
         'vehicle_reg_no',

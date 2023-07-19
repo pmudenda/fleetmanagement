@@ -21,11 +21,12 @@ return new class extends Migration
             $table->timestamp('time_of_accident');
             $table->timestamp('date_reported');
             $table->timestamp('time_reported');
-            $table->string('nature_of_accident', 4);
-            $table->string('type_of_accident', 4);
-            $table->string('guilty', 2);
+            $table->string('nature_of_accident', 10);
+            $table->string('type_of_accident', 10);
+            $table->string('guilty', 3);
             $table->string('location');
             $table->string('death');
+            $table->string('reported_by', 10);
             $table->integer('num_passengers');
             $table->double('mileage', 20, 2);
             $table->string('other_people_involved', 3);

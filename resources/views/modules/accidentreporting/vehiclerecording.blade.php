@@ -512,7 +512,9 @@
                                 function (response) {
                                     if (response.state === 'success') {
 
-                                        tmsApp.showSystemMessage('Accident Recording', response.message, null, 'success')
+                                        tmsApp.showSystemMessage('Accident Recording', response.message, function () {
+                                            window.location.reload();
+                                        }, 'success')
                                     } else {
                                         tmsApp.showSystemMessage('Accident Recording', response.message, null, 'error');
                                     }

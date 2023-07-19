@@ -7,6 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AccidentRecordingRequest;
 use App\Models\Accident;
 use App\Models\configurations\GeneralTableConfiguration;
+use App\Services\FileUploads\FileUploadService;
+use App\Services\Requisitions\FuelRequisitionService;
+use App\Services\Requisitions\WorkshopRequisitionService;
+use App\Services\Workflow\DocumentNumberGenerationService;
+use App\Services\WorkShopManagement\WorkshopService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -14,6 +19,16 @@ use PHPUnit\Exception;
 
 class VehicleRecording extends Controller
 {
+    private readonly FileUploadService $fileUploadService;
+
+    private DocumentNumberGenerationService $numberGeneratorService;
+
+    public function __construct(DocumentNumberGenerationService $numberGeneratorService,
+                                FileUploadService               $fileUploadService)
+    {
+        $this->numberGeneratorService = $numberGeneratorService;
+        $this->fileUploadService = $fileUploadService;
+    }
     function index(){
         $minDate= Carbon::now()->subtract('year', 10);
 
@@ -25,19 +40,20 @@ class VehicleRecording extends Controller
 
     function store(AccidentRecordingRequest $request)
     {
-
-
         try {
+            $user = auth()->user();
 
+            $reference = $this->numberGeneratorService->generateReferenceNumber('ACC_RPT');
             Accident::create([
-                'reference' => 'someRef',
+                'reported_by' => $user->staff_no,
+                'reference' => $reference,
                 'area' => $request->validated('area'),
                 'vehicle_reg_no' => $request->validated('registrationNo'),
                 'driver' => $request->validated('driver_staff_number'),
-                'date_of_accident' => $request->validated('date'),
-                'time_of_accident' => $request->validated('time'),
+                'date_of_accident' => Carbon::parse( $request->validated('date')),
+                'time_of_accident' => Carbon::parse($request->validated('time')),
                 'date_reported' => Carbon::now()->format('Y-m-d'),
-                'time_reported' => Carbon::now()->format('H:i:s'),
+                'time_reported' => Carbon::now(),
                 'nature_of_accident' => $request->validated('accidentNature'),
                 'type_of_accident' => $request->validated('accidentType'),
                 'guilty' => $request->validated('guilty'),
@@ -53,18 +69,26 @@ class VehicleRecording extends Controller
                 'driver_experience' => $request->validated('experience'),
             ]);
 
+            if($request->hasFile('accident_rpt')) {
+                $this->fileUploadService->uploadFile($request,
+                    'accident_rpt',
+                    'VehicleAccident',
+                    $reference,
+                    'Police Report',
+                    'Report',
+                    $user
+                );
+            }
+
             return response()->json([
                 'state' => 'success',
                 'message' => 'Successfully Recorded An Accident',
             ]);
         } catch (\Exception $e) {
-
-
-
+            Log::error($e);
             return response()->json([
                 'state' => 'failure',
                 'message' => 'Failed To record Recorded An Accident',
-
             ]);
         }
 

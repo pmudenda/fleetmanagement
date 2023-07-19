@@ -42,6 +42,7 @@ class AccidentRecordingRequest extends FormRequest
             'driver_staff_number' => 'required',
             'driver_name' => 'required',
             'experience' => 'required',
+            'num_passengers' => 'required'
         ];
     }
 }
