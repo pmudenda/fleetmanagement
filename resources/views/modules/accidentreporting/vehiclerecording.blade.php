@@ -3,9 +3,10 @@
     <link href="{{asset("libs/steps/jquery-steps.css")}}" rel="stylesheet" type="text/css"/>
 
     <style>
-        .error{
+        .error {
             color: red;
         }
+
         .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
             border-color: orange;
         }
@@ -27,26 +28,27 @@
             <div class="card-header">
                 <div class="card-title">
                     <h4>Accident Record</h4>
-                  {{--  @if(!empty($details) && !empty($details->job_card_no))
-                        <span class="ml-2 indicator-pill whitespace-nowrap green">
-                            <span>Saved</span>
-                        </span>
-                    @else
-                        <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
-                    @endif--}}
+                    {{--  @if(!empty($details) && !empty($details->job_card_no))
+                          <span class="ml-2 indicator-pill whitespace-nowrap green">
+                              <span>Saved</span>
+                          </span>
+                      @else
+                          <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
+                      @endif--}}
                 </div>
-        {{--        @if(!empty($details) && !empty($details->job_card_no))
-                    <div class="card-toolbar justify-content-end">
-                        JOB CARD NUMBER: <span class="text-orange">{{ $details->job_card_no ?? '' }}</span>
-                    </div>
-                @endif
---}}
+                {{--        @if(!empty($details) && !empty($details->job_card_no))
+                            <div class="card-toolbar justify-content-end">
+                                JOB CARD NUMBER: <span class="text-orange">{{ $details->job_card_no ?? '' }}</span>
+                            </div>
+                        @endif
+        --}}
             </div>
 
             <div class="card-body pb-4 min-h-600px pt-0">
                 <x-error-view/>
                 <label class="app-required-marker"></label>
-                <form name="saveRecord" id="my-form" class="form-wrapper" action="" method="POST">
+                <form name="saveRecord" id="my-form" class="form-wrapper" action="{{route('accident.store')}}"
+                      method="POST">
                     @csrf
                     <h3 class="step-top step1-top">Vehicle Details</h3>
                     <section class="section first-section mx-auto">
@@ -85,21 +87,15 @@
                             </div>
 
                             <div class="col-md-6">
-                                <div class="form-group ">
-                                    <label for="modelNo">Model*:</label>
-                                    <input  name="modelNo" type="text" class="form-control disableVehicle" id="modelNo" placeholder="Enter Model Number" required>
-                                    @error('modelNo')
-                                    <p>{{$message}}</p>
-
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="vehicleMake">Make:</label>
-                                    <input name="vehicleMake" type="text" class="form-control disableVehicle" id="vehicleMake" placeholder="Enter Vehicle Make" required>
-                                    @error('vehicleMake')
+                                    <label for="vehicleMake">Insured:</label>
+                                    <select name="insured" type="text" class="form-control disableVehicle"
+                                            id="insurance_state" required>
+                                        <option selected disabled>Select Insurance State</option>
+                                        <option value="YES">Yes</option>
+                                        <option value="NO">No</option>
+                                    </select>
+                                    @error('insured')
                                     <p>{{$message}}</p>
 
                                     @enderror
@@ -108,11 +104,11 @@
 
                             <div class="col-md-6">
                                 <div class="form-group ">
-                                    <label for="model_name">Chassis No*:</label>
-                                    <input name="model_name" type="text" class="form-control disableVehicle" id="model_name" placeholder="Enter Model Name" required>
-                                    @error('model_name')
+                                    <label for="mileage">Mileage*:</label>
+                                    <input name="mileage" type="text" class="form-control disableVehicle"
+                                           id="mileage" placeholder="Enter Mileage" required>
+                                    @error('mileage')
                                     <p>{{$message}}</p>
-
                                     @enderror
                                 </div>
                             </div>
@@ -152,7 +148,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="peopleInvolved">Number of people involved:</label>
-                                    <input name="peopleInvolved" type="number" class="form-control required" id="peopleInvolved" placeholder="Enter Number of people Involved" required>
+                                    <input name="peopleInvolved" type="number" class="form-control required"
+                                           id="peopleInvolved" placeholder="Enter Number of people Involved" required>
                                 </div>
                                 @error('peopleInvolved')
                                 <p>{{$message}}</p>
@@ -161,10 +158,132 @@
                             </div>
 
                             <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="vehicleMake">Other People Involved:</label>
+                                    <select name="other_people_involved" type="text" class="form-control disableVehicle"
+                                            id="insurance_state" required>
+                                        <option selected disabled>-- Select --</option>
+                                        <option value="YES">Yes</option>
+                                        <option value="NO">No</option>
+                                    </select>
+                                    @error('other_people_involved')
+                                    <p>{{$message}}</p>
+
+                                    @enderror
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="num_passengers">Number of Passengers:</label>
+                                    <input name="num_passengers" type="number" class="form-control required"
+                                           id="num_passengers" placeholder="Enter Number of Passengers" required>
+                                </div>
+                                @error('num_passengers')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="other_vehicle_involved">Other Vehicles Involved:</label>
+                                    <select name="other_vehicle_involved" type="text" class="form-control disableVehicle"
+                                            id="other_vehicle_involved" required>
+                                        <option selected disabled>-- Select --</option>
+                                        <option value="YES">Yes</option>
+                                        <option value="NO">No</option>
+                                    </select>
+                                    @error('property')
+                                    <p>{{$message}}</p>
+
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="death">Death:</label>
+                                    <select name="death" type="text" class="form-control disableVehicle"
+                                            id="death" required>
+                                        <option selected disabled>-- Select --</option>
+                                        <option value="YES">Yes</option>
+                                        <option value="NO">No</option>
+                                    </select>
+                                    @error('property')
+                                    <p>{{$message}}</p>
+
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="day_of_week">Day Of The Week:</label>
+                                    <select name="day_of_week"  class="form-control required"
+                                            id="day_of_week" required>
+                                        <option selected disabled>Select Day Of Week</option>
+                                        <option value="Monday">Monday</option>
+                                        <option value="Tuesday">Tuesday</option>
+                                        <option value="Wednesday">Wednesday</option>
+                                        <option value="Thursday">Thursday</option>
+                                        <option value="Friday">Friday</option>
+                                        <option value="Saturday">Saturday</option>
+                                        <option value="Sunday">Sunday</option>
+                                    </select>
+                                </div>
+                                @error('num_passengers')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="location">Location:</label>
+                                    <input name="location" type="number" class="form-control required" id="location"
+                                           placeholder="Enter The Location Of The Accident" required>
+                                </div>
+                                @error('peopleInvolved')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="area">Area:</label>
+                                    <input name="area" type="number" class="form-control required" id="location"
+                                           placeholder="Enter The Area Of The Accident" required>
+                                </div>
+                                @error('peopleInvolved')
+                                <p>{{$message}}</p>
+
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="property">Property Damage:</label>
+                                    <select name="property" type="text" class="form-control disableVehicle"
+                                            id="property" required>
+                                        <option selected disabled>-- Select --</option>
+                                        <option value="YES">Yes</option>
+                                        <option value="NO">No</option>
+                                    </select>
+                                    @error('property')
+                                    <p>{{$message}}</p>
+
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
                                 <div class="form-group ">
                                     <label for="date">Date*:</label>
                                     <div class="input-group">
-                                        <input name="date" type="date" class="form-control required" onkeydown="return false" id="accident-date"
+                                        <input name="date" type="date" class="form-control required"
+                                               onkeydown="return false" id="accident-date"
                                                placeholder="00/00/0000"
                                                max="{{date('Y-m-d', strtotime( \Carbon\Carbon::now()))}}"
                                                min="{{date('Y-m-d', strtotime($minDate))}}"
@@ -183,45 +302,30 @@
                             <div class="col-md-6">
                                 <div class="form-group ">
                                     <label for="time">Time*:</label>
-                                    <input name="time" type="time" class="form-control required" id="time" placeholder="00:00" required>
+                                    <input name="time" type="time" class="form-control required" id="time"
+                                           placeholder="00:00" required>
                                 </div>
                                 @error('time')
                                 <p>{{$message}}</p>
 
                                 @enderror
                             </div>
-
-                            <div class="col-md-12">
-                                <div class="form-group ">
-                                    <label for="accidentDescription">Description Of Accident:</label>
-                                    <textarea  class="form-control" id="description" name="description" rows="5" cols="20"></textarea>
-                                    @error('description')
-                                    <p>{{$message}}</p>
-
-                                    @enderror
-
-                                </div>
-                            </div>
-
                             <div class="col-md-6 options policeNotification">
-                                <p class="test">Police Notified: </p>
+                                <p class="test">Guilty: </p>
                                 <label class="checkbox-inline mr-5">
-                                    <input type="radio" id="policeNotification-yes" name="policeNotified" value="yes" >
+                                    <input type="radio" id="policeNotification-yes" name="guilty" value="yes">
                                     <label for="policeNotification-yes">Yes</label>
                                 </label>
                                 <label class="checkbox-inline ml-2">
-                                    <input type="radio" id="policeNotification-no" name="policeNotified" value="no" >
+                                    <input type="radio" id="policeNotification-no" name="guilty" value="no">
                                     <label for="policeNotification-no">No</label>
                                 </label>
-                                @error('policeNotified')
+                                @error('guilty')
                                 <p>{{$message}}</p>
 
                                 @enderror
 
                             </div>
-
-
-
 
 
                         </div>
@@ -269,7 +373,7 @@
                                            class="form-control required"
                                            readonly
                                            id="driver_name"
-                                           placeholder="" >
+                                           placeholder="">
                                 </div>
                                 @error('driverName')
                                 <p>{{$message}}</p>
@@ -277,42 +381,15 @@
                                 @enderror
                             </div>
 
+
+
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="driverEmail">Email</label>
-                                    <input name="driverEmail" type="text"
+                                    <label for="yearsOfActivity">Years Of Activity*:</label>
+                                    <input name="experience" type="text"
+                                           class="form-control required"
+                                           id="yearsOfActivity"
                                            readonly
-                                           class="form-control required"
-                                           id="driverEmail"
-                                           placeholder="Enter Driver Email" required>
-                                </div>
-                                @error('driverEmail')
-                                <p>{{$message}}</p>
-
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group ">
-                                    <label for="phoneNo">Phone No:</label>
-                                    <input name="phoneNo" type="text"
-                                           class="form-control required"
-                                           id="phoneNo"
-                                           placeholder="Enter Phone No" required>
-                                </div>
-                                @error('phoneNo')
-                                <p>{{$message}}</p>
-
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="driverAge">Age*:</label>
-                                    <input name="age" type="text"
-                                           class="form-control required"
-                                           id="driverAge"
-                                           placeholder="Enter Driver Age"
                                            required>
                                 </div>
                                 @error('driverAge')
@@ -320,21 +397,7 @@
                                 @enderror
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="driverPosition">Position*:</label>
-                                    <input name="driverPosition" type="text"
-                                           class="form-control required"
-                                           readonly
-                                           id="driverPosition"
-                                           placeholder="Enter Driver Position"
-                                           required>
-                                </div>
-                            </div>
-                            @error('driverPosition')
-                            <p>{{$message}}</p>
 
-                            @enderror
 
                         </div>
                     </section>
@@ -342,7 +405,8 @@
                 </form>
 
 
-                <input type="hidden" name="vehicle_details" id="vehicle_details" value="{{route('requisition.vehicle.details')}}">
+                <input type="hidden" name="vehicle_details" id="vehicle_details"
+                       value="{{route('requisition.vehicle.details')}}">
 
             </div>
         </div>
@@ -355,7 +419,8 @@
         <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
         <script src="{{asset("libs/steps/jquery.steps.min.js")}}"></script>
         <script>
-            (function(tmsApp, $){
+            (function (tmsApp, $) {
+
 
                 $(document).off().on('click', '[data-confirm-selection="true"]', function (event) {
 
@@ -432,7 +497,6 @@
                                 form.steps("next");
                             }
 
-                            // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
                             if (currentIndex === 2 && priorIndex === 3) {
                                 form.steps("previous");
                             }
@@ -441,84 +505,28 @@
                             form.validate().settings.ignore = ":disabled";
                             return form.valid();
                         },
-                        onFinished: function (){
-                            let form = $(this);
+                        onFinished: function () {
+                            let formData = new FormData(formWizard[0]);
 
-                            let formData = {
-                                accidentNature :document.getElementById("accidentNature").value,
-                                accidentType :document.getElementById("accidentType").value,
-                                peopleInvolved :document.getElementById("peopleInvolved").value,
-                                date :document.getElementById("date").value,
-                                time :document.getElementById("time").value,
-                                description :document.getElementById("description").value,
-                                policeNotified: $('input[name="policeNotified"]:checked').val(),
-                                staffNumber :document.getElementById("staffNo").value,
-                                driverName :document.getElementById("driverName").value,
-                                driverEmail :document.getElementById("driverEmail").value,
-                                phoneNo :document.getElementById("phoneNo").value,
-                                age :document.getElementById("driverAge").value,
-                                driverPosition :document.getElementById("driverPosition").value,
-                                registrationNo :document.getElementById("registrationNo").value,
-                                modelNo :document.getElementById("modelNo").value,
-                                vehicleMake :document.getElementById("vehicleMake").value,
-                                chassisNo :document.getElementById("chassisNo").value
-                            }
+                            tmsApp.asyncPostFormData(formWizard.attr('action'), formData,
+                                function (response) {
+                                    if (response.state === 'success') {
 
-
-                            $.ajax({
-                                url: form.attr('action'),
-                                type: 'POST',
-                                data: formData,
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                success: function (response) {
-                                    console.log(response)
-
-
-                                    if (response.status === 'success') {
-                                        console.log(response)
-                                        launchErrorModal(response.message, "errorDisplay", true)
-
+                                        tmsApp.showSystemMessage('Accident Recording', response.message, null, 'success')
                                     } else {
-                                        launchErrorModal(response.message, "errorDisplay")
+                                        tmsApp.showSystemMessage('Accident Recording', response.message, null, 'error');
                                     }
 
-                                },
-                                error: function () {
-
-                                },
-
-                            })
-
-
-                            function launchErrorModal(message, id, done) {
-                                var modalElement = document.getElementById(id);
-                                var modal = new bootstrap.Modal(modalElement);
-                                modal.show();
-
-                                var modalBody = modalElement.querySelector(".modal-body");
-                                modalBody.innerHTML = message;
-
-                                var modalButton = modalElement.querySelector(".btn-danger");
-                                modalButton.addEventListener("click", function () {
-
-                                    if (done){
-                                        location.reload()
-                                    }
-
-                                    modal.hide();
-                                });
-                            }
+                                }, function (jqXHR, textStatus, errorThrown) {
+                                    tmsApp.showErrorMessages(jqXHR, 'Accident Recording');
+                                }, 'POST');
                         },
 
                     }).validate({
                         errorPlacement: function errorPlacement(error, element) {
                             error.insertAfter(element);
                         },
-                        rules: {
-
-                        },
+                        rules: {},
                         messages: {
                             accidentType: {
                                 required: "Accident Type is required when reporting"
@@ -556,21 +564,75 @@
                             if (response.success === 'true' || response.success) {
                                 const vehicleDetails = response.payload.vehicle;
 
-                                console.log(vehicleDetails)
-                                let vehicleModel = document.getElementById("modelNo")
-                                let vehicleMake = document.getElementById("vehicleMake")
-                                let chassisNo = document.getElementById("model_name")
+                                let mileage = document.getElementById("mileage")
+                                let insured = document.getElementById("insurance_state")
 
-                                vehicleModel.setAttribute("disabled", true)
-                                vehicleMake.setAttribute("disabled", true)
-                                chassisNo.setAttribute("disabled", true)
+                                mileage.setAttribute("readonly", true)
+                                insured.setAttribute("readonly", true)
 
 
-                                vehicleModel.value = vehicleDetails.model_code;
-                                vehicleMake.value = vehicleDetails.brand_name
-                                chassisNo.value = vehicleDetails.model_name
+                                // mileage.value = vehicleDetails.insure;
+                                mileage.value = vehicleDetails.current_odometer_reading
+
+                                tmsApp.showSystemMessage('', response.message, null, 'success')
                             } else {
-                                launchErrorModal(response.message, "errorDisplay")
+                                tmsApp.showSystemMessage('', response.message, null, 'error')
+
+                            }
+
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            // Code to execute when the AJAX request fails
+                        }
+                    });
+                }
+
+                function getYearsDifferenceFromNow(targetDate) {
+                    // Create a Date object for the specific target date
+                    const targetDateTime = new Date(targetDate);
+
+                    // Get the current date and time
+                    const now = new Date();
+
+                    // Calculate the difference in milliseconds
+                    const difference_ms = targetDateTime.getTime() - now.getTime();
+
+                    // Convert the difference to years
+                    const yearsDifference = difference_ms / (1000 * 60 * 60 * 24 * 365.25);
+
+                    return Math.floor(yearsDifference);
+                }
+
+                function fetchDriverDetails(searchCriteria, url) {
+                    $.ajax({
+                        url: url,
+                        data: {
+                            'searchCriteria': searchCriteria
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), 'content-type': 'text/json'
+                        },
+                        method: 'POST',
+                        success: function (response) {
+                            // Code to execute when the AJAX request succeeds
+
+
+                            if (response.success === 'true' || response.success) {
+                                const driverDetails = response.payload;
+
+
+                                let driverName = document.getElementById("driver_name")
+                                let yearsOfActivity = document.getElementById("yearsOfActivity")
+
+
+
+                                driverName.value = driverDetails.name;
+                                yearsOfActivity.value = getYearsDifferenceFromNow(driverDetails.license_date_issued) * -1
+                                tmsApp.showSystemMessage('Driver Search', response.message, null, 'success')
+
+                            } else {
+                                tmsApp.showSystemMessage('Driver Search', response.message, null, 'error')
+
                             }
 
                         },
@@ -581,6 +643,14 @@
                 }
 
                 $(document).ready(function () {
+                    $(document).on('click', '#employeeSearchBtn', function (event) {
+
+                        let $driverCtrl = $('#driver_staff_number');
+
+                        fetchDriverDetails($driverCtrl.val(), $driverCtrl.attr('data-action'))
+
+                    });
+
 
                     function getAccidentTypes() {
                         fetch(document.querySelector('#accident_types_endpoint').value)
@@ -655,10 +725,6 @@
                         "mask": "A{2,3} 9{1,4}"
                     }).mask("#registrationNo");
 
-                   // $('.actions li a').addClass('btn btn-success')
-                   // $(".steps ul").addClass("d-flex justify-content-center")
-                   // $(".actions ul").addClass("d-flex justify-content-end")
-
 
                     $("#vehicleClear").click(function () {
 
@@ -676,8 +742,8 @@
                     })
 
                     $('#vehicleSearchBtn').on('click enter', function () {
-                       const reg = $('#registrationNo').val();
-                        if (!reg || reg.replaceAll('_', '').replaceAll(" ",'').length < 4) {
+                        const reg = $('#registrationNo').val();
+                        if (!reg || reg.replaceAll('_', '').replaceAll(" ", '').length < 4) {
                             return;
                         }
 
@@ -685,7 +751,7 @@
                     });
 
                     $('#registrationNo').on('paste enter', function () {
-                        if (!this.value || this.value.replaceAll('_', '').replaceAll(" ",'').length < 4) {
+                        if (!this.value || this.value.replaceAll('_', '').replaceAll(" ", '').length < 4) {
                             return;
                         }
 
@@ -696,25 +762,6 @@
 
                     // Staff Number
 
-                    $('#staffQuery').click(function () {
-                        let staffNo = document.getElementById("staffNo").value
-                        $.ajax({
-                            url: '/staffData/' + staffNo,
-                            type: "GET",
-                            dataType: 'json',
-                            success: function (response) {
-                                // console.log(response)
-
-
-
-
-                            },
-                            error: function (xhr, status, error) {
-
-                            }
-
-                        })
-                    })
 
                     $('#staffNo').on('keyup paste enter', function () {
 
@@ -722,7 +769,7 @@
                         $.ajax({
                             url: '/staffData/' + query,
                             method: 'GET',
-                            success: function(response) {
+                            success: function (response) {
                                 // Code to execute when the AJAX request succeeds
                                 if (response.status === 'success') {
                                     let driverDetails = response.data;
@@ -752,7 +799,7 @@
                                 }
 
                             },
-                            error: function(jqXHR, textStatus, errorThrown) {
+                            error: function (jqXHR, textStatus, errorThrown) {
                                 // Code to execute when the AJAX request fails
                             }
                         });
@@ -782,7 +829,6 @@
                     // })
 
 
-
                     // Need to create a post request for the data ---> ended here
                     //
                     // Submit form
@@ -791,28 +837,27 @@
                     //     e.preventDefault()
                     //     e.stopPropagation()
                     //
+                    //     let formData = new FormData(this);
+                    //     // let formData = {
+                    //     //     driverName: document.getElementById("driverName"),
+                    //     //     driverEmail: document.getElementById("driverEmail"),
+                    //     //     age: document.getElementById("driverAge"),
+                    //     //     driverPosition: document.getElementById("driverPosition"),
+                    //     //     phoneNo: document.getElementById("phoneNo"),
+                    //     //     vehicleModel: document.getElementById("modelNo"),
+                    //     //     vehicleMake: document.getElementById("vehicleMake"),
+                    //     //     chassisNo: document.getElementById("chassisNo"),
+                    //     //     accidentType: document.getElementById("accidentType"),
+                    //     //     accidentNature: document.getElementById("accidentNature"),
+                    //     //     peopleInvolved: document.getElementById("peopleInvolved"),
+                    //     //     date: document.getElementById("date"),
+                    //     //     time: document.getElementById("time"),
+                    //     //     description: document.getElementById("description"),
+                    //     //     policeNotified: document.getElementById("policeNotified")
+                    //     // }
                     //
-                    //     let formData = {
-                    //         driverName: document.getElementById("driverName"),
-                    //         driverEmail: document.getElementById("driverEmail"),
-                    //         age: document.getElementById("driverAge"),
-                    //         driverPosition: document.getElementById("driverPosition"),
-                    //         phoneNo: document.getElementById("phoneNo"),
-                    //         vehicleModel: document.getElementById("modelNo"),
-                    //         vehicleMake: document.getElementById("vehicleMake"),
-                    //         chassisNo: document.getElementById("chassisNo"),
-                    //         accidentType: document.getElementById("accidentType"),
-                    //         accidentNature: document.getElementById("accidentNature"),
-                    //         peopleInvolved: document.getElementById("peopleInvolved"),
-                    //         date: document.getElementById("date"),
-                    //         time: document.getElementById("time"),
-                    //         description: document.getElementById("description"),
-                    //         policeNotified: document.getElementById("policeNotified")
-                    //     }
-                    //
-                    //     console.log(document.getElementById("saveRecord").getAttribute())
                     //     $.ajax({
-                    //         url: document.getElementById("saveRecord").getAttribute(),
+                    //         url: $(this).attr('action'),
                     //         type: 'POST',
                     //         data: formData,
                     //         headers: {
@@ -823,9 +868,9 @@
                     //
                     //             if (response.status === 'success') {
                     //                 console.log(response)
-                    //                 launchErrorModal(response.message, "errorDisplay")
+                    //
                     //             } else {
-                    //                 launchErrorModal(response.message, "errorDisplay")
+                    //
                     //             }
                     //
                     //         },

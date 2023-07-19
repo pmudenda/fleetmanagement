@@ -44,6 +44,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/accidentnatures', [VehicleRecording::class, 'accidentNatures'])->name('accident.natures');
 
+    Route::post('/accidentrecording', [VehicleRecording::class, 'store'])->name('accident.store');
+
     //SESSION EXPIRE
     Route::post('getStatus', function () {
         $user = Auth()->user();

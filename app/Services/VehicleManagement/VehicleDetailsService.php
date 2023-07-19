@@ -52,6 +52,7 @@ class VehicleDetailsService
         where('VM_VEHICLE_HEADER.registration_number', $vehicle_registration)
             ->leftJoin('CONFIG_STATUSES', 'VM_VEHICLE_HEADER.status', '=', 'CONFIG_STATUSES.code')
             ->leftJoin('VM_ASSIGNMENTS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ASSIGNMENTS.vehicle_header_id')
+            ->leftJoin('VM_CHASSIS_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_CHASSIS_DETAILS.vehicle_header_id')
             ->leftJoin('VM_ENGINE_DETAILS',
                 'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
             ->where('CONFIG_STATUSES.MODULE', '=', Modules::Vehicle)

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\AccidentReporting;
 
 use App\Enums\ConfigurationTypes;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AccidentRecordingRequest;
+use App\Models\Accident;
 use App\Models\configurations\GeneralTableConfiguration;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,6 +21,53 @@ class VehicleRecording extends Controller
             ->with(compact(
                 'minDate'
             ));
+    }
+
+    function store(AccidentRecordingRequest $request)
+    {
+
+
+        try {
+
+            Accident::create([
+                'reference' => 'someRef',
+                'area' => $request->validated('area'),
+                'vehicle_reg_no' => $request->validated('registrationNo'),
+                'driver' => $request->validated('driver_staff_number'),
+                'date_of_accident' => $request->validated('date'),
+                'time_of_accident' => $request->validated('time'),
+                'date_reported' => Carbon::now()->format('Y-m-d'),
+                'time_reported' => Carbon::now()->format('H:i:s'),
+                'nature_of_accident' => $request->validated('accidentNature'),
+                'type_of_accident' => $request->validated('accidentType'),
+                'guilty' => $request->validated('guilty'),
+                'location' => $request->validated('location'),
+                'death' => $request->validated('death'),
+                'num_passengers' => $request->validated('num_passengers'),
+                'mileage' => $request->validated('mileage'),
+                'other_people_involved' => $request->validated('other_people_involved'),
+                'day_of_week' => $request->validated('day_of_week'),
+                'other_vehicle_involved' => $request->validated('other_vehicle_involved'),
+                'property' => $request->validated('property'),
+                'vehicle_insured' => $request->validated('insured'),
+                'driver_experience' => $request->validated('experience'),
+            ]);
+
+            return response()->json([
+                'state' => 'success',
+                'message' => 'Successfully Recorded An Accident',
+            ]);
+        } catch (\Exception $e) {
+
+
+
+            return response()->json([
+                'state' => 'failure',
+                'message' => 'Failed To record Recorded An Accident',
+
+            ]);
+        }
+
     }
 
     function accidentTypes()
