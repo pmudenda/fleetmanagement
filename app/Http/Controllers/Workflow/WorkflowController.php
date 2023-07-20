@@ -89,6 +89,9 @@ class WorkflowController extends Controller
 
             if ($nextStepId == 100) {
                 $this->fuelRequisitionService->createStoresRequisition($request->get('reference'));
+
+                $this->workshopRequisitionService->updateStatus($reference, StatusHelper::authorised());
+
             }else{
                 $status = '';
                 switch (strtolower(trim($request->get('Approved')))) {
@@ -187,6 +190,9 @@ class WorkflowController extends Controller
                     default:
                         throw new MaterialReservationException("ITEM TYPE NOT");
                 }
+
+                $this->workshopRequisitionService->updateStatus($reference, StatusHelper::authorised());
+
             }else{
                 $message = 'Request Approved and Submitted to the next authority ';
                 $status = '';

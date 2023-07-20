@@ -70,9 +70,11 @@ class VehicleOnBoardingController extends Controller
         $reference = $request->get('reference') ?? 0;
         $vehicle = null;
         $vehicleDocuments = [];
+        $enteredAccessories = [];
         $accessories = Accessory::where('status', '=', StatusHelper::active())->get();
         if (empty($reference) && $reference != 0) {
             $vehicle = $this->vehicleDetailsService->getVehicleDetails($reference);
+            $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$reference)->get();
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
         }
         $viewName = 'modules.vehicleManagement.details.view';
@@ -81,6 +83,7 @@ class VehicleOnBoardingController extends Controller
             ->with(compact(
                 'reference',
                 'accessories',
+                'enteredAccessories',
                 'vehicle',
                 'vehicleDocuments'));
     }
@@ -116,6 +119,7 @@ class VehicleOnBoardingController extends Controller
     {
         $vehicle = null;
         $vehicleDocuments = [];
+        $enteredAccessories = [];
 
         try {
             if ($request->has('reference')) {
@@ -137,13 +141,12 @@ class VehicleOnBoardingController extends Controller
             Log::debug(' Reference after onboarding ' . $reference);
             if (!empty($reference) && $reference != 0) {
                 $vehicle = $this->vehicleDetailsService->getVehicleDetails((int)$reference);
+                $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$reference)->get();
                 $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments((int)$reference);
             }
 
             $viewName = "modules.vehicleManagement.onboarding.start";
-
             $accessories = Accessory::where('status', '=', StatusHelper::active())->get();
-            $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$reference)->get();
 
             return view($viewName)
                 ->with(compact(

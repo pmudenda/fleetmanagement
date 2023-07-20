@@ -203,7 +203,7 @@
             }).off('select2:select').on('select2:select', function (e) {
                 let article = e.params['data'];
                 const row = $(e.currentTarget).closest('tr');
-                if(document.querySelector('[name="stockItemCode"]').value == $("#itemType").val()){
+                if (document.querySelector('[name="stockItemCode"]').value == $("#itemType").val()) {
 
                     if (!article?.price_map) {
                         const description = article?.technical_specifications ? article?.technical_specifications : "";
@@ -1214,19 +1214,15 @@
                 if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
                     showStockItemControls();
                     $('.quantity').attr('readonly', false);
-                }
-                else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
+                } else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
                     showSupplierControls();
                     $('.quantity').attr('readonly', 'readonly');
                     $('.quantity').val(1);
-                }
-                else if (selectedItemType == document.querySelector('[name="nonStockItemCode"]').value) {
+                } else if (selectedItemType == document.querySelector('[name="nonStockItemCode"]').value) {
                     showSupplierControls();
                     $('.quantity').attr('readonly', false);
                     $('[name="unit_price"]').attr('readonly', false);
-                    //$('.quantity').val(1);
-                }
-                else {
+                } else {
                     showSupplierControls();
                     $('.quantity').attr('readonly', false);
                 }
@@ -1422,60 +1418,58 @@
                 });
 
                 $(document).off('click', 'button[value="addRow"][data-table-id]')
-                    .on('click',
-                        'button[value="addRow"][data-table-id]',
-                        function () {
-                            let tableId = $(this).data('tableId');
+                    .on('click', 'button[value="addRow"][data-table-id]', function () {
+                        let tableId = $(this).data('tableId');
 
-                            function reinitializeSelect2($_defect_sel) {
-                                if ($_defect_sel) {
-                                    $($_defect_sel).removeClass('select2-hidden-accessible');
-                                    $($_defect_sel).select2({
-                                        theme: "bootstrap4",
-                                        width: "resolve",
-                                    });
-                                }
+                        function reinitializeSelect2($_defect_sel) {
+                            if ($_defect_sel) {
+                                $($_defect_sel).removeClass('select2-hidden-accessible');
+                                $($_defect_sel).select2({
+                                    theme: "bootstrap4",
+                                    width: "resolve",
+                                });
                             }
+                        }
 
-                            if (tableId === "part8") {
-                                if ($('.select_2_control').data('select2')) {
-                                    $('.select_2_control').select2('destroy');
-                                }
+                        if (tableId === "part8") {
+                            if ($('.select_2_control').data('select2')) {
+                                $('.select_2_control').select2('destroy');
                             }
+                        }
 
-                            Table.addRow($('table#' + tableId));
-                            let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
+                        Table.addRow($('table#' + tableId));
+                        let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
 
-                            lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
-                            lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
-                            lastRow.find('[name="quantity"]').val('').attr('readonly', false);
-                            lastRow.find('[name="articles"]').attr('readonly', false);
-                            lastRow.find('[name="unit_of_measure"]').val('');
-                            lastRow.find('[name="unit_price"]').val('');
-                            lastRow.find('[name="total_price"]').val('');
-                            lastRow.find('#unit_price').text('');
+                        lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
+                        lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
+                        lastRow.find('[name="quantity"]').val('').attr('readonly', false);
+                        lastRow.find('[name="articles"]').attr('readonly', false);
+                        lastRow.find('[name="unit_of_measure"]').val('');
+                        lastRow.find('[name="unit_price"]').val('');
+                        lastRow.find('[name="total_price"]').val('');
+                        lastRow.find('#unit_price').text('');
 
-                            if (tableId === "part8") {
-                                let row = lastRow[0];
-                                $(row).find('.select2-container').remove();
-                                let $_defect_sel = $(".select_2_control");
-                                reinitializeSelect2($_defect_sel);
-                            }
+                        if (tableId === "part8") {
+                            let row = lastRow[0];
+                            $(row).find('.select2-container').remove();
+                            let $_defect_sel = $(".select_2_control");
+                            reinitializeSelect2($_defect_sel);
+                        }
 
-                            if (tableId === "material_table") {
-                                let row = lastRow[0];
-                                $(row).find('.select2-container').remove();
-                                $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+                        if (tableId === "material_table") {
+                            let row = lastRow[0];
+                            $(row).find('.select2-container').remove();
+                            $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
 
-                                let article = $(row).find('input.articleCode').val();
-                                console.log('Article on line', article)
-                                let $_defect_sel = $(row).find(".articlesDropDownList");
-                                let $_defect_sel_ = $(row).find(".DropDownList");
-                                initArticleSelector($_defect_sel);
-                                initArticleSelector($_defect_sel_);
-                                //getArticleDetails(article, $_defect_sel);
-                            }
-                        });
+                            let article = $(row).find('input.articleCode').val();
+                            console.log('Article on line', article)
+                            let $_defect_sel = $(row).find(".articlesDropDownList");
+                            let $_defect_sel_ = $(row).find(".DropDownList");
+                            initArticleSelector($_defect_sel);
+                            initArticleSelector($_defect_sel_);
+                            //getArticleDetails(article, $_defect_sel);
+                        }
+                    });
 
                 $(document).on('click', 'button[value="deleteRow"]', function (e) {
                     e.preventDefault();
@@ -1642,18 +1636,18 @@
     <script type="text/javascript">
 
         //ROUND OFF FUNCTION
-        Number.prototype.round = function(places) {
-            return +(Math.round(this + "e+" + places)  + "e-" + places);
+        Number.prototype.round = function (places) {
+            return +(Math.round(this + "e+" + places) + "e-" + places);
         }
 
         function getvalues() {
-            var inps = document.getElementsByName('amount[]');
-            var total = 0;
-            for (var i = 0; i < inps.length; i++) {
-                var inp = inps[i];
+            const inps = document.getElementsByName('amount[]');
+            let total = 0;
+            for (let i = 0; i < inps.length; i++) {
+                const inp = inps[i];
                 total = total + parseFloat(inp.value || 0);
             }
-            total =  total.round(2);
+            total = total.round(2);
 
             if (!isNaN(total)) {
                 //check if petty cash is below 2000
@@ -1688,28 +1682,28 @@
     <SCRIPT language="javascript">
         function addRow(tableID) {
 
-            var table = document.getElementById(tableID);
+            const table = document.getElementById(tableID);
 
-            var rowCount = table.rows.length;
-            var row = table.insertRow(rowCount);
+            const rowCount = table.rows.length;
+            const row = table.insertRow(rowCount);
 
-            var colCount = table.rows[0].cells.length;
+            const colCount = table.rows[0].cells.length;
 
-            for (var i = 0; i < colCount; i++) {
+            for (let i = 0; i < colCount; i++) {
 
-                var newcell = row.insertCell(i);
+                const newCell = row.insertCell(i);
 
-                newcell.innerHTML = table.rows[0].cells[i].innerHTML;
-                //alert(newcell.childNodes);
-                switch (newcell.childNodes[0].type) {
+                newCell.innerHTML = table.rows[0].cells[i].innerHTML;
+
+                switch (newCell.childNodes[0].type) {
                     case "text":
-                        newcell.childNodes[0].value = "";
+                        newCell.childNodes[0].value = "";
                         break;
                     case "checkbox":
-                        newcell.childNodes[0].checked = false;
+                        newCell.childNodes[0].checked = false;
                         break;
                     case "select-one":
-                        newcell.childNodes[0].selectedIndex = 0;
+                        newCell.childNodes[0].selectedIndex = 0;
                         break;
                 }
             }
@@ -1717,12 +1711,12 @@
 
         function deleteRow(tableID) {
             try {
-                var table = document.getElementById(tableID);
-                var rowCount = table.rows.length;
+                const table = document.getElementById(tableID);
+                let rowCount = table.rows.length;
 
-                for (var i = 0; i < rowCount; i++) {
-                    var row = table.rows[i];
-                    var chkbox = row.cells[0].childNodes[0];
+                for (let i = 0; i < rowCount; i++) {
+                    const row = table.rows[i];
+                    const chkbox = row.cells[0].childNodes[0];
                     if (null != chkbox && true == chkbox.checked) {
                         if (rowCount <= 1) {
                             alert("Cannot delete all the rows.");

@@ -26,7 +26,7 @@ return new class extends Migration {
             $table->string('stf_number', 255)->nullable();
             $table->string('requested_by')->nullable();
             $table->string('system_of_origin');
-            $table->string('requisition_no');
+            $table->string('requisition_no')->nullable();
             $table->string('stores_resrv_no')->nullable();
             $table->string('delivery_site')->nullable();
             $table->string('subject')->nullable();

@@ -21,8 +21,8 @@ use App\Models\MaterialHeader;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\WorkShopComment;
-use App\Models\WorkShopManagement\WorkShopMaterialHeader;
 use App\Models\WorkShopManagement\WorkShopMaterial;
+use App\Models\WorkShopManagement\WorkShopMaterialHeader;
 use App\Models\WorkShopManagement\WorkShopServiceModel;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
@@ -382,6 +382,7 @@ class WorkshopRequisitionService
             throw new FuelRequisitionException($results);
         }
 
+
         Log::info("Stores Requisition Generated with document " . $results);
     }
 
@@ -535,9 +536,9 @@ class WorkshopRequisitionService
 
             $activeRequests = DB::table("gen_material_headers")
                 ->join("gen_material_details",
-                'gen_material_headers.req_no',
-                '=',
-                'gen_material_details.req_no')
+                    'gen_material_headers.req_no',
+                    '=',
+                    'gen_material_details.req_no')
                 ->where('gen_material_details.material_code', '=', $item['service_article'])
                 ->where('gen_material_details.reg_no', '=', $registrationNumber)
                 ->whereIn('gen_material_headers.status', [
@@ -710,7 +711,7 @@ class WorkshopRequisitionService
         $requisitionDetail = self::getReservationDetail($workshop_reference);
 
         $materialHeader = WorkShopMaterialHeader::where('form_order', '=', $requisitionDetail->form_order)
-            ->where('item_type_code','=', RequisitionItemTypes::NonStockItemCode)
+            ->where('item_type_code', '=', RequisitionItemTypes::NonStockItemCode)
             ->first();
 
         $results = $this->procurementService->createPurchaseProcess(
@@ -732,7 +733,10 @@ class WorkshopRequisitionService
             throw new FuelRequisitionException($results);
         }*/
 
+        self::updateStPur($requisitionDetail->req_no, $results);
+
         Log::info("Purchase Process Document document " . $results);
+
     }
 
     /**
@@ -743,7 +747,7 @@ class WorkshopRequisitionService
         $requisitionDetail = self::getReservationDetail($workshop_reference);
 
         $materialHeader = WorkShopMaterialHeader::where('form_order', '=', $requisitionDetail->form_order)
-            ->where('item_type_code','=', RequisitionItemTypes::ServiceItemCode)
+            ->where('item_type_code', '=', RequisitionItemTypes::ServiceItemCode)
             ->first();
 
         $results = $this->procurementService->createPurchaseProcess(
@@ -761,11 +765,13 @@ class WorkshopRequisitionService
             throw new FuelRequisitionException("Purchase Process Could Not Be Started ");
         }
 
-       if (!str_contains($results, 'N01')) {
+        if (!str_contains($results, 'N01')) {
             throw new FuelRequisitionException($results);
-       }
+        }
 
-        Log::info("Purchase Process Document document " . $results);
+        self::updateStPur($requisitionDetail->req_no, $results);
+
+        Log::info("Purchase Process Document" . $results);
     }
 
     public function updateStatus(mixed $reference, string $status): void
@@ -773,6 +779,14 @@ class WorkshopRequisitionService
         DB::beginTransaction();
         MaterialHeader::where('req_no', $reference)
             ->update(['status' => $status]);
+        DB::commit();
+    }
+
+    public function updateStPur(mixed $reference, string $stPur): void
+    {
+        DB::beginTransaction();
+        MaterialHeader::where('req_no', $reference)
+            ->update(['st_pur' => $stPur, 'proc_ref' => $stPur]);
         DB::commit();
     }
 }
