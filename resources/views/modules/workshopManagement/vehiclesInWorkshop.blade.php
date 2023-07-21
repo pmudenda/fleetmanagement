@@ -80,15 +80,15 @@
                                             <td>
                                                 {{++$key}}
                                                 @if(Carbon::now()->isBefore(Carbon::parse($workshop->expected_date_out)))
-                                                    <span class="badge badge-success p-2">
+                                                    <span class="badge badge-success p-2" style="width: 20px;height: 20px; border-radius: 50%;">
                                                         <p></p>
                                                     </span>
                                                 @elseif(Carbon::now()->isAfter(Carbon::parse($workshop->expected_date_out)))
-                                                    <span class="badge badge-danger p-2">
+                                                    <span class="badge badge-danger p-2" style="width: 20px;height: 20px; border-radius: 50%;">
                                                         <p></p>
                                                     </span>
                                                 @elseif(Carbon::now()->addDays(3)->eq(Carbon::parse($workshop->expected_date_out)))
-                                                    <span class="badge badge-warning p-2">
+                                                    <span class="badge badge-warning p-2" style="width: 20px;height: 20px; border-radius: 50%;">
                                                         <p></p>
                                                     </span>
                                                 @endif
