@@ -24,6 +24,7 @@ class VehicleDetailsService
                 'VM_ASSIGNMENTS.*',
                 'VM_ENGINE_DETAILS.fuel_allocation',
                 'CONFIG_STATUSES.name as status_name',
+                'VM_VEHICLE_HEADER.created_name as onboarded_by',
                 'VM_ENGINE_DETAILS.fuel_types'
             )->get();
     }

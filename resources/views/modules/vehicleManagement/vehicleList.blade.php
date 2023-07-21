@@ -114,14 +114,14 @@
 
                                 <td>
                                     <a href="#" class="text-gray-800 text-hover-primary mb-1">
-                                        {{$vehicle->created_by_name}}
+                                        {{$vehicle->onboarded_by}}
                                     </a>
                                 </td>
 
                                 <td>
                                     @if($vehicle->status == '01')
                                         <div class="badge badge-light-success">
-                                            Active
+                                            ACTIVE
                                         </div>
                                     @elseif($vehicle->status == '02')
                                         <div class="badge badge-light-danger">
@@ -129,14 +129,14 @@
                                         </div>
                                     @else
                                         <div class="badge badge-light-warning">
-                                            Onboarding
+                                            {{$vehicle->status_name}}
                                         </div>
                                     @endif
                                 </td>
                                 <td>
                                     @if($vehicle->on_boarding_status == '030')
                                         <div class="badge badge-light-success">
-                                            Complete
+                                            COMPLETE
                                         </div>
                                     @else
                                         @if ($vehicle->on_boarding_status == '100')
@@ -144,20 +144,19 @@
                                                 Pending General Data Entry
                                             </div>
                                         @elseif ($vehicle->on_boarding_status == '101')
-                                            <div class="badge badge-light-warning">
+                                            <div style="text-transform: capitalize" class="badge badge-light-warning">
                                                 Pending Technical Data Entry
                                             </div>
                                         @elseif ($vehicle->on_boarding_status == "102")
-                                            <div class="badge badge-light-warning">
+                                            <div style="text-transform: capitalize"  class="badge badge-light-warning">
                                                 Pending Accessories Checkin
                                             </div>
                                         @elseif ($vehicle->on_boarding_status == "103")
-
-                                            <div class="badge badge-light-warning">
+                                            <div style="text-transform: capitalize"  class="badge badge-light-warning">
                                                 Pending Costing Data Entry
                                             </div>
                                         @elseif ($vehicle->on_boarding_status == "104")
-                                            <div class="badge badge-light-warning">
+                                            <div style="text-transform: capitalize"  class="badge badge-light-warning">
                                                 Pending Assignment
                                             </div>
                                         @endif
