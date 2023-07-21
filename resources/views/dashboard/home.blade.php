@@ -17,7 +17,7 @@
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3 class="text-white">{{VehicleHeader::get()->count()}}</h3>
+                            <h3 class="text-white">{{$vehicleData->count()}}</h3>
                             <p>Total Fleet</p>
                         </div>
                         <div class="icon">
