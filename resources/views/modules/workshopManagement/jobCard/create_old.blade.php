@@ -50,7 +50,7 @@
                     @csrf
                     <h1>Job Card Details</h1>
                     <div>
-                        @include('modules.requisitions.jobCard.tabs.partsSelection')
+                        @include('modules.workshopManagement.jobCard.tabs.partsSelection')
                     </div>
 
                     <h1>Accessories Checkin & Movement</h1>

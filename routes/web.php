@@ -246,7 +246,7 @@ Route::get('parts-selection', function (Request $request) {
     $defects = [];
     $comments = [];
 
-    $view_name = 'modules.requisitions.jobCard.create_old';
+    $view_name = 'modules.workshopManagement.jobCard.create_old';
 
     return view($view_name)->with(
         compact(

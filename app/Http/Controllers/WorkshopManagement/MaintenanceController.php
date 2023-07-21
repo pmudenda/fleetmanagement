@@ -98,7 +98,7 @@ class MaintenanceController extends Controller
             $services
             ) = $this->getJobCardCreationData($request);
 
-        $view_name = 'modules.requisitions.jobCard.create';
+        $view_name = 'modules.workshopManagement.jobCard.create';
 
         return view($view_name)
             ->with(
@@ -144,7 +144,7 @@ class MaintenanceController extends Controller
 
         $approvalHistory = [];
 
-        return view('modules.requisitions.jobCard.show')
+        return view('modules.workshopManagement.jobCard.show')
             ->with(compact(
                 'user',
                 'requisitionTypes',
@@ -262,7 +262,7 @@ class MaintenanceController extends Controller
             $services
             ) = $this->getJobCardCreationData($request);
 
-        return view('modules.requisitions.jobCard.create')
+        return view('modules.workshopManagement.jobCard.create')
             ->with(
                 compact(
                     'repairTypes',
@@ -302,7 +302,7 @@ class MaintenanceController extends Controller
             $services
             ) = $this->getJobCardCreationData($request);
 
-        return view('modules.requisitions.jobCard.create')
+        return view('modules.workshopManagement.jobCard.create')
             ->with(
                 compact(
                     'repairTypes',
