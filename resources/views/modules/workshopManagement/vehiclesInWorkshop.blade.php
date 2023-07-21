@@ -158,47 +158,45 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <table id="filterProperty" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Email</th>
-                        </tr>
-                        </thead>
                         <tbody>
                         <tr>
-                            <td>John</td>
-                            <td>Doe</td>
-                            <td>john@example.com</td>
-                        </tr>
-                        <tr>
-                            <td>Mary</td>
-                            <td>Moe</td>
-                            <td>mary@example.com</td>
-                        </tr>
-                        <tr>
-                            <td>July</td>
-                            <td>Dooley</td>
-                            <td>july@example.com</td>
+                            <td>
+                                <select class="form-select" name="property">
+                                    <option value="workshopSection" >Section</option>
+                                    <option value="workshop" >Workshop</option>
+                                    <option value="dateIn" >Date In</option>
+                                    <option value="dateOut" >Date Out</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" name="operator">
+                                    <option value="=">Is</option>
+                                    <option value="<>">Is not</option>
+                                    <option value=">">Is After</option>
+                                    <option value="<">Is Before</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" name="value">
+                                </select>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
                     <button type="button"
                             data-table-id="filterProperty"
-                            class="btn btn-sm btn-outline-primary add pull-right"
+                            class="btn btn-sm btn-primary add pull-left"
                             value="addRow">
                         <i class="fa fa-plus"></i> Add Property
                     </button>
                     <div class="clearfix"></div>
                 </div>
 
-                <!-- Modal footer -->
                 <div class="modal-footer justify-content-end">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     <button type="button"
                             class="btn btn-sm btn-success"
-                            value="applyFilter">
-                        <i class="fa fa-plus"></i> Apply Filter
+                            value="applyFilter"> Apply Filter
                     </button>
                 </div>
 
@@ -346,7 +344,7 @@
     <script>
         (function (tmsApp) {
             let editRecordModalEl = document.querySelector('#editRecordModal')
-            let addRecordModalEl = document.querySelector('#createRecordModal')
+            //let addRecordModalEl = document.querySelector('#createRecordModal')
 
             tmsApp.initDatatable("#listTable", true);
 
@@ -359,15 +357,15 @@
                  document.querySelector('[name="editRecordForm"]').reset();
              });*/
 
-            addRecordModalEl.addEventListener('hidden.bs.modal', function (event) {
+            /*addRecordModalEl.addEventListener('hidden.bs.modal', function (event) {
                 document.querySelector('[name="addRecordForm"]').reset();
-            });
+            });*/
 
-            $(document).on('click', '[data-kt-action="edit"]', function () {
+            /*$(document).on('click', '[data-kt-action="edit"]', function () {
                 $('#modalTitle').text('Edit Workshop');
                 addRecordModalEl.show();
                 console.log(JSON.parse(this.getAttribute('data-model')));
-            });
+            });*/
 
             $('input[name="name"]').on('paste keyup', function () {
                 this.value = this.value.toLocaleUpperCase();
