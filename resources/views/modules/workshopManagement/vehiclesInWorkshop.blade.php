@@ -157,7 +157,7 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <table class="table table-striped">
+                    <table id="filterProperty" class="table table-striped">
                         <thead>
                         <tr>
                             <th>Firstname</th>
@@ -184,19 +184,19 @@
                         </tbody>
                     </table>
                     <button type="button"
-                            data-table-id="part8"
-                            class="btn btn-sm btn-primary add pull-right"
+                            data-table-id="filterProperty"
+                            class="btn btn-sm btn-outline-primary add pull-right"
                             value="addRow">
-                        <i class="fa fa-plus"></i> Add Row
+                        <i class="fa fa-plus"></i> Add Property
                     </button>
                     <div class="clearfix"></div>
                 </div>
 
                 <!-- Modal footer -->
-                <div class="modal-footer">
+                <div class="modal-footer justify-content-end">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     <button type="button"
-                            class="btn btn-sm btn-success pull-right"
+                            class="btn btn-sm btn-success"
                             value="applyFilter">
                         <i class="fa fa-plus"></i> Apply Filter
                     </button>
@@ -388,7 +388,7 @@
                         }
                     }
 
-                    if (tableId === "part8") {
+                    if (tableId === "filterProperty") {
                         if ($('.select_2_control').data('select2')) {
                             $('.select_2_control').select2('destroy');
                         }
@@ -399,7 +399,7 @@
 
                     lastRow.find('[name="registrationNumber"]').val('');
 
-                    if (tableId === "part8") {
+                    if (tableId === "filterProperty") {
                         let row = lastRow[0];
                         $(row).find('.select2-container').remove();
                         let $_defect_sel = $('[name="organizationalUnit"]');
@@ -427,11 +427,11 @@
                         Table.deleteRow(tableRow);
                         e.preventDefault();
                         e.stopPropagation();
-                        if (!valueId || valueId == "0") {
+                        if (!valueId || valueId === "0") {
                             return;
                         }
                         let dataUrl = "";
-                        if (tableId === 'part8') {
+                        if (tableId === 'filterProperty') {
                             dataUrl = document.querySelector('[name="deleteDefectUrl"]').value;
                         } else {
                             dataUrl = document.querySelector('[name="deleteMaterialUrl"]').value;
