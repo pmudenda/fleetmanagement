@@ -280,6 +280,46 @@ class MaintenanceController extends Controller
                 )
             );
     }
+    public function exitWorkShop(Request $request): View
+    {
+        $isValidSignature = $request->hasValidSignature();
+
+        if (!$isValidSignature) {
+            abort(401);
+        }
+
+        list($step,
+            $repairTypes,
+            $accessories_checked_in,
+            $accessories,
+            $details,
+            $workshop_sections,
+            $defects,
+            $comments,
+            $officeDetails,
+            $materials,
+            $materialsHeader,
+            $services
+            ) = $this->getJobCardCreationData($request);
+
+        return view('modules.workshopManagement.exitFromWorkshop')
+            ->with(
+                compact(
+                    'repairTypes',
+                    'accessories',
+                    'details',
+                    'accessories_checked_in',
+                    'step',
+                    'workshop_sections',
+                    'defects',
+                    'comments',
+                    'officeDetails',
+                    'materials',
+                    'materialsHeader',
+                    'services'
+                )
+            );
+    }
 
     public function defectsTab(Request $request): Application|\Illuminate\Contracts\View\View|Factory|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
