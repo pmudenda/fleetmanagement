@@ -139,7 +139,35 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+
                             <li class="nav-item">
+                                <a href="{{URL::signedRoute('jobCard.requisition',['step'=> 1])}}"
+                                   class="nav-link">
+                                    <i class="fas fa-plus nav-icon"></i>
+                                    <p>
+                                        Job Card
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{URL::signedRoute('jobCard.list',['step'=> 1])}}"
+                                   class="nav-link">
+                                    <i class="fas fa-plus nav-icon"></i>
+                                    <p>
+                                        In Workshop
+                                    </p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ URL::signedRoute('list.workshop.requisition') }}">
+                                    <i class="fas fa-list nav-icon"></i>
+                                    <p>Workshop Requests</p>
+                                </a>
+                            </li>
+
+                            {{--<li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-circle"></i>
                                     <p>
@@ -148,35 +176,8 @@
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview pl-3">
-
-                                    <li class="nav-item">
-                                        <a href="{{URL::signedRoute('jobCard.requisition',['step'=> 1])}}"
-                                           class="nav-link">
-                                            <i class="fas fa-plus nav-icon"></i>
-                                            <p>
-                                                Job Card
-                                            </p>
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="{{URL::signedRoute('jobCard.list',['step'=> 1])}}"
-                                           class="nav-link">
-                                            <i class="fas fa-plus nav-icon"></i>
-                                            <p>
-                                                In Workshop
-                                            </p>
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ URL::signedRoute('list.workshop.requisition') }}">
-                                            <i class="fas fa-list nav-icon"></i>
-                                            <p>Workshop Requests</p>
-                                        </a>
-                                    </li>
                                 </ul>
-                            </li>
+                            </li>--}}
 
 
                         </ul>
@@ -196,7 +197,7 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-circle"></i>
                             <p>
-                                Requisitions
+                                Fuel Management
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
@@ -227,6 +228,20 @@
                                 </ul>
                             </li>
 
+                            @can(config('rights.set_vehicle_fuel_allocation'))
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       href="{{ URL::signedRoute('vehicle.fuel.allocation') }}">
+                                                            <span class="menu-bullet">
+                                                                <span class="bullet bullet-dot">
+                                                                </span>
+                                                            </span>
+                                        <p class="menu-title">
+                                            Fuel Allocation
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
 
                             {{--<li class="nav-item">
                                 <a href="#" class="nav-link">
@@ -551,21 +566,6 @@
                                                             </span>
                                                             <p class="menu-title">
                                                                 Body Types
-                                                            </p>
-                                                        </a>
-                                                    </li>
-                                                @endcan
-
-                                                @can(config('rights.set_vehicle_fuel_allocation'))
-                                                    <li class="nav-item">
-                                                        <a class="nav-link"
-                                                           href="{{ URL::signedRoute('vehicle.fuel.allocation') }}">
-                                                            <span class="menu-bullet">
-                                                                <span class="bullet bullet-dot">
-                                                                </span>
-                                                            </span>
-                                                            <p class="menu-title">
-                                                                Fuel Allocation
                                                             </p>
                                                         </a>
                                                     </li>
