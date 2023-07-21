@@ -125,6 +125,13 @@
                                                                 Open
                                                             </a>
                                                         </li>
+                                                        <li>
+                                                            <a class="dropdown-item"
+                                                               data-kt-action="exit"
+                                                               href="{{URL::signedRoute('accessories.job.card',['step'=> '1', 'reference'=>$workshop->job_card_no])}}">
+                                                                Exit
+                                                            </a>
+                                                        </li>
                                                         {{--@endcan--}}
                                                     </ul>
                                                 </div>
@@ -489,6 +496,32 @@
                         )
                     });
 
+                return false;
+            });
+
+            $(document).on('click', 'button[value="applyFilter"]', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                // Declare variables
+                let input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("myTable");
+                tr = table.getElementsByTagName("tr");
+
+                // Loop through all table rows, and hide those who don't match the search query
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
                 return false;
             });
 
