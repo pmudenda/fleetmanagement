@@ -183,14 +183,27 @@
                         </tr>
                         </tbody>
                     </table>
+                    <button type="button"
+                            data-table-id="part8"
+                            class="btn btn-sm btn-primary add pull-right"
+                            value="addRow">
+                        <i class="fa fa-plus"></i> Add Row
+                    </button>
+                    <div class="clearfix"></div>
                 </div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button"
+                            class="btn btn-sm btn-success pull-right"
+                            value="applyFilter">
+                        <i class="fa fa-plus"></i> Apply Filter
+                    </button>
                 </div>
 
             </div>
+
         </div>
     </div>
     </div>
@@ -358,7 +371,124 @@
 
             $('input[name="name"]').on('paste keyup', function () {
                 this.value = this.value.toLocaleUpperCase();
-            })
+            });
+
+
+            $(document).off('click', 'button[value="addRow"][data-table-id]')
+                .on('click', 'button[value="addRow"][data-table-id]', function () {
+                    let tableId = $(this).data('tableId');
+
+                    function reinitializeSelect2($_defect_sel) {
+                        if ($_defect_sel) {
+                            $($_defect_sel).removeClass('select2-hidden-accessible');
+                            $($_defect_sel).select2({
+                                theme: "bootstrap4",
+                                width: "resolve",
+                            });
+                        }
+                    }
+
+                    if (tableId === "part8") {
+                        if ($('.select_2_control').data('select2')) {
+                            $('.select_2_control').select2('destroy');
+                        }
+                    }
+
+                    Table.addRow($('table#' + tableId));
+                    let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
+
+                    lastRow.find('[name="registrationNumber"]').val('');
+
+                    if (tableId === "part8") {
+                        let row = lastRow[0];
+                        $(row).find('.select2-container').remove();
+                        let $_defect_sel = $('[name="organizationalUnit"]');
+                        reinitializeSelect2($_defect_sel);
+                    }
+                    let $_defect_sel = $('[name="organizationalUnit"]');
+                    reinitializeSelect2($_defect_sel);
+                });
+
+            $(document).on('click', 'button[value="deleteRow"]', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                let btnEl = $(this);
+                let tableId = $(this).closest('table').attr('id');
+                let valueId = $(this).attr('data-value');
+                let tableRow = btnEl.closest('tr');
+                let table = btnEl.closest('table');
+                tmsApp.confirm(
+                    "Are you sure ?",
+                    "The data entered on this line will be cleared out, if not saved already, you will not be able to recover it",
+                    "Yes",
+                    "No",
+                    function () {
+                        Table.deleteRow(tableRow);
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (!valueId || valueId == "0") {
+                            return;
+                        }
+                        let dataUrl = "";
+                        if (tableId === 'part8') {
+                            dataUrl = document.querySelector('[name="deleteDefectUrl"]').value;
+                        } else {
+                            dataUrl = document.querySelector('[name="deleteMaterialUrl"]').value;
+                        }
+
+                        let formData = new FormData();
+                        formData.append('record_id', valueId);
+
+                        tmsApp.asyncPostFormData(
+                            dataUrl,
+                            formData,
+                            function (asyncResponse) {
+                                if (asyncResponse['state'] !== 'success') {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        toastr.error(
+                                            asyncResponse.message
+                                        );
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+
+                                    setTimeout(function () {
+                                            tmsApp.systemError(
+                                                'System Configuration',
+                                                asyncResponse['message'],
+                                                function () {
+                                                }, 'error');
+                                        },
+                                        300);
+                                    return;
+                                }
+
+                                if (asyncResponse['state'] == 'success') {
+                                    const entry = asyncResponse.payload;
+                                    tmsApp.showSystemMessage(
+                                        'System Configuration',
+                                        asyncResponse['message'],
+                                        function () {
+                                            window.location.reload();
+                                        },
+                                        'success'
+                                    );
+                                }
+                            },
+                            function (xhr, settings, error) {
+                                setTimeout(
+                                    function () {
+                                        tmsApp.showErrorMessages(xhr, 'System Configuration');
+                                    },
+                                    300);
+                            },
+                            'POST',
+                        )
+                    });
+
+                return false;
+            });
 
         })(window.tmsApp || {});
     </script>

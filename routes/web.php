@@ -146,6 +146,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('save/workshop/services/requisition', [MaintenanceController::class, 'processWorkShopServices'])->name('process.service.requisition');
         // supporting
         Route::get('requisitions/jobCard/list', [MaintenanceController::class, 'list'])->name('jobCard.list');
+
         Route::post('requisitions/jobCard', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
 
         //delete defect
