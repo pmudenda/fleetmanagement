@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ConfigHelper;
 use App\Helpers\StatusHelper;
+use App\Models\reference\TMSDataCleanUp;
+use App\Models\VehicleManagement\VehicleHeader;
 use App\Models\Workflow\WorkflowTaskHeader;
+use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\WorkflowService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -36,7 +39,7 @@ class HomeController extends Controller
         $user = auth()->user();
 
         $approvalTasks = $this->workflowService->getMyApprovalTasks($user->staff_no);
-
-        return view('dashboard.home')->with(compact('approvalTasks'));
+        $vehicleData = VehicleDetailsService::getAllVehicles();
+        return view('dashboard.home')->with(compact('approvalTasks', 'vehicleData'));
     }
 }

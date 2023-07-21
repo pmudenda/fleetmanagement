@@ -6,10 +6,28 @@ use App\Enums\Modules;
 use App\Helpers\StatusHelper;
 use App\Models\general\File;
 use App\Models\VehicleManagement\VehicleAccessory;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class VehicleDetailsService
 {
+    public static function getAllVehicles(): Collection
+    {
+        return DB::table('VM_VEHICLE_HEADER')
+            ->leftJoin('CONFIG_STATUSES', 'VM_VEHICLE_HEADER.status', '=', 'CONFIG_STATUSES.code')
+            ->leftJoin('VM_ASSIGNMENTS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ASSIGNMENTS.vehicle_header_id')
+            ->leftJoin('VM_CHASSIS_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_CHASSIS_DETAILS.vehicle_header_id')
+            ->leftJoin('VM_ENGINE_DETAILS',
+                'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
+            ->where('CONFIG_STATUSES.MODULE', '=', Modules::Vehicle)
+            ->select('VM_VEHICLE_HEADER.*',
+                'VM_ASSIGNMENTS.*',
+                'VM_ENGINE_DETAILS.fuel_allocation',
+                'CONFIG_STATUSES.name as status_name',
+                'VM_ENGINE_DETAILS.fuel_types'
+            )->get();
+    }
+
     public function getVehicleDetails($ref): object|null
     {
         if (empty($ref)) {

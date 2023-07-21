@@ -314,13 +314,13 @@
                 let legendData = [];
                 let valueObject = {};
                 for (const vehicle of window['vehicleData']) {
-                    if (legendData.indexOf(vehicle['vehicle_status']) === -1) {
-                        legendData.push(vehicle['vehicle_status']);
+                    if (legendData.indexOf(vehicle['status_name']) === -1) {
+                        legendData.push(vehicle['status_name']);
                     }
-                    if (valueObject.hasOwnProperty(vehicle['vehicle_status'])) {
-                        valueObject[vehicle['vehicle_status']] += 1;
+                    if (valueObject.hasOwnProperty(vehicle['status_name'])) {
+                        valueObject[vehicle['status_name']] += 1;
                     } else {
-                        valueObject[vehicle['vehicle_status']] = 1;
+                        valueObject[vehicle['status_name']] = 1;
                     }
                 }
 

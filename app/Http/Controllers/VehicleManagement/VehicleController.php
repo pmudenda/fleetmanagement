@@ -4,6 +4,7 @@ namespace App\Http\Controllers\VehicleManagement;
 
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
+use App\Enums\Modules;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\configurations\Accessory;
@@ -16,6 +17,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class VehicleController extends Controller
@@ -128,7 +130,8 @@ class VehicleController extends Controller
 
     public function list(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $vehicleList = VehicleHeader::get();
+        // $vehicleList = VehicleHeader::get();
+        $vehicleList = VehicleDetailsService::getAllVehicles();
         return view('modules.vehicleManagement.vehicleList')
             ->with(compact('vehicleList'));
     }
