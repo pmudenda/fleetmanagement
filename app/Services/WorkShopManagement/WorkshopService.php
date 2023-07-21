@@ -7,6 +7,7 @@ use App\Enums\Modules;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\JobCardRequest;
 use App\Http\Requests\VehicleDefectsRequest;
+use App\Http\Requests\WorkshopExitRequest;
 use App\Models\configurations\Accessory;
 use App\Models\configurations\GeneralTableConfiguration;
 use App\Models\VehicleManagement\VehicleHeader;
@@ -212,5 +213,9 @@ class WorkshopService
         VehicleHeader::where('registration_number', $veh_reg)
             ->update(['status' => StatusHelper::vehicleInWorkshop()]);
         //DB::commit();
+    }
+
+    public function exitVehicleFromWorkShop(WorkshopExitRequest $request)
+    {
     }
 }

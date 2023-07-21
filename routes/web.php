@@ -140,31 +140,33 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('jobCard/job-card/accessories', [MaintenanceController::class, 'accessoriesTab'])->name('accessories.job.card');
 
+            // supporting
+            Route::get('requisitions/jobCard/list', [MaintenanceController::class, 'list'])->name('jobCard.list');
+
+            Route::post('requisitions/jobCard', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
+
+            //delete defect
+            Route::post('/deleteRecord', [MaintenanceController::class, "deleteRecord"])->name('delete.defect.record');
+
+            Route::post('/deleteMaterialRecord', [MaintenanceController::class, "deleteMaterialRecord"])->name('delete.material.record');
+
+            Route::post('save/job/card', [MaintenanceController::class, 'processJobCard'])->name('process.job_card');
+
+            Route::post('save/job/card/accessories', [MaintenanceController::class, 'processJobCardAccessories'])->name('job_card.accessories.checkin');
+
+            Route::post('save/job-card/defects', [MaintenanceController::class, 'processJobCardDefects'])->name('defects.job_card');
+
+            Route::post('save/workshop/requisition', [MaintenanceController::class, 'processWorkShopMaterials'])->name('process.requisition');
+
+            Route::post('save/workshop/services/requisition', [MaintenanceController::class, 'processWorkShopServices'])->name('process.service.requisition');
+
             Route::get('jobCard/job-card/defects', [MaintenanceController::class, 'defectsTab'])->name('defects.job.card');
 
-            Route::get('vehicle-in-workshop', [MaintenanceController::class, 'exitWorkShop'])->name('exit.from.card');
+            Route::get('exit/vehicle/from/workshop', [MaintenanceController::class, 'exitWorkShop'])->name('exit.from.card');
+
+            Route::get('save/exit/vehicle/from/workshop', [MaintenanceController::class, 'processExitFromWorkShop'])->name('save.exit.from.workshop');
 
         });
-
-        Route::post('save/job/card', [MaintenanceController::class, 'processJobCard'])->name('process.job_card');
-
-        Route::post('save/job/card/accessories', [MaintenanceController::class, 'processJobCardAccessories'])->name('job_card.accessories.checkin');
-
-        Route::post('save/job-card/defects', [MaintenanceController::class, 'processJobCardDefects'])->name('defects.job_card');
-
-        Route::post('save/workshop/requisition', [MaintenanceController::class, 'processWorkShopMaterials'])->name('process.requisition');
-
-        Route::post('save/workshop/services/requisition', [MaintenanceController::class, 'processWorkShopServices'])->name('process.service.requisition');
-
-        // supporting
-        Route::get('requisitions/jobCard/list', [MaintenanceController::class, 'list'])->name('jobCard.list');
-
-        Route::post('requisitions/jobCard', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
-
-        //delete defect
-        Route::post('/deleteRecord', [MaintenanceController::class, "deleteRecord"])->name('delete.defect.record');
-
-        Route::post('/deleteMaterialRecord', [MaintenanceController::class, "deleteMaterialRecord"])->name('delete.material.record');
 
 
         Route::get('/workshop/requisition', function () {
@@ -175,6 +177,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         // STORES REQUISITIONS
         Route::get('/workshop/approve', [MaintenanceController::class, 'show'])->name('show.workshop.requisition');
+
         Route::post('/workflow/stores/requisition/approve', [WorkflowController::class, 'processStoresRequisitionApproval'])->name('stores.requisition.approve');
 
 

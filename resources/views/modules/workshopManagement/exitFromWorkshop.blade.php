@@ -38,7 +38,7 @@
 @section('content')
 
     <x-content-header
-        :activeCrumb="'New Job Card'"
+        :activeCrumb="'Exit Vehicle Workshop'"
         :linkText="'Job Card'"
         :pageTitle="'Workshop Management'"/>
 
@@ -46,14 +46,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <h4>Workshop Job Card</h4>
-                    @if(!empty($details) && !empty($details->job_card_no))
-                        <span class="ml-2 indicator-pill whitespace-nowrap green">
-                            <span>Saved</span>
-                        </span>
-                    @else
-                        <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
-                    @endif
+                    <h4>Exit Vehicle From Workshop</h4>
                 </div>
                 @if(!empty($details) && !empty($details->job_card_no))
                     <div class="card-toolbar justify-content-end">
@@ -70,7 +63,7 @@
                 <label class="app-required-marker"></label>
                 <form name="jobCardForm"
                       id="jobCardForm"
-                      action="{{route('save.workshop.requisition')}}"
+                      action="{{route('exit.vehicle.workshop.requisition')}}"
                       method="post">
                     @csrf
                     <h1>Details</h1>

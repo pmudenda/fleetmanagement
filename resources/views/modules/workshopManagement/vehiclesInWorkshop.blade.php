@@ -78,6 +78,8 @@
                                         <tr>
                                             <td>
                                                 {{++$key}}
+
+                                                <span class="badge badge-success p-2"></span>
                                             </td>
                                             <td>
                                                 {{$workshop->reg_no ?? '--'}}

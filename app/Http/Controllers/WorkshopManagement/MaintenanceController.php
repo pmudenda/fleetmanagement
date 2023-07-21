@@ -13,6 +13,7 @@ use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCardRequest;
 use App\Http\Requests\VehicleDefectsRequest;
+use App\Http\Requests\WorkshopExitRequest;
 use App\Http\Requests\WorkshopRequisitionRequest;
 use App\Http\Requests\WorkshopServiceRequisitionRequest;
 use App\Models\configurations\Accessory;
@@ -384,6 +385,29 @@ class MaintenanceController extends Controller
                     'success' => true,
                     'payload' => $response,
                     'redirectUrl' => URL::signedRoute('accessories.job.card', ['step' => 2, 'reference' => $response->job_card_no]),
+                ]
+            );
+        } catch (\Exception $e) {
+            Log::error($e);
+            return response()->json(
+                [
+                    'success' => false,
+                    'payload' => [],
+                    'message' => ErrorMessages::getMessage('err_0005')
+                ]
+            );
+        }
+    }
+
+    public function processExitFromWorkShop(WorkshopExitRequest $request): JsonResponse
+    {
+        try {
+            $response = $this->workshopService->exitVehicleFromWorkShop($request);
+            return response()->json(
+                [
+                    'success' => true,
+                    'payload' => $response,
+                    'redirectUrl' => URL::signedRoute('jobCard.list'),
                 ]
             );
         } catch (\Exception $e) {
