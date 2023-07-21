@@ -63,7 +63,7 @@
                 <label class="app-required-marker"></label>
                 <form name="jobCardForm"
                       id="jobCardForm"
-                      action="{{route('exit.vehicle.workshop.requisition')}}"
+                      action="{{route('save.exit.from.workshop')}}"
                       method="post">
                     @csrf
                     <h1>Details</h1>
