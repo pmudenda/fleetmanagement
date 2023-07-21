@@ -87,7 +87,7 @@
                                                     <span class="badge badge-danger p-2">
                                                         <p></p>
                                                     </span>
-                                                @elseif(Carbon::now()->addDays(3) == Carbon::parse($workshop->expected_date_out))
+                                                @elseif(Carbon::now()->addDays(3)->eq(Carbon::parse($workshop->expected_date_out)))
                                                     <span class="badge badge-warning p-2">
                                                         <p></p>
                                                     </span>
