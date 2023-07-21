@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
 
@@ -78,8 +79,19 @@
                                         <tr>
                                             <td>
                                                 {{++$key}}
-
-                                                <span class="badge badge-success p-2"></span>
+                                                @if($workshop->expected_date_out->isAfter(Carbon::now()))
+                                                    <span class="badge badge-success p-2">
+                                                        <p></p>
+                                                    </span>
+                                                @elseif(Carbon::parse($workshop->expected_date_out)->isBefore(Carbon::now()))
+                                                    <span class="badge badge-danger p-2">
+                                                        <p></p>
+                                                    </span>
+                                                @elseif(Carbon::now()->addDays(3) == Carbon::parse($workshop->expected_date_out))
+                                                    <span class="badge badge-warning p-2">
+                                                        <p></p>
+                                                    </span>
+                                                @endif
                                             </td>
                                             <td>
                                                 {{$workshop->reg_no ?? '--'}}
@@ -176,9 +188,9 @@
                                     <option value="" disabled>--Select--</option>
                                     <option value="userUnit">User Unit</option>
                                     <option value="workshopSection">Section</option>
-                                    <option value="workshop" >Workshop</option>
-                                    <option value="dateIn" >Date In</option>
-                                    <option value="dateOut" >Date Out</option>
+                                    <option value="workshop">Workshop</option>
+                                    <option value="dateIn">Date In</option>
+                                    <option value="dateOut">Date Out</option>
                                 </select>
                             </td>
                             <td>
