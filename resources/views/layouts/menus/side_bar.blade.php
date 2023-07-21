@@ -49,7 +49,7 @@
                 @canany($vehicleManagementPermissions)
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-truck-pickup"></i>
+                            <i class="nav-icon fas fa-truck-pickup" style="font-size: 20px;"></i>
                             <p>
                                 Vehicle Management
                                 <i class="right fas fa-angle-left"></i>
@@ -195,7 +195,7 @@
                 @canany($requisitionsPermissions)
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-circle"></i>
+                            <i class="nav-icon fas fa-gas-pump" style="font-size: 20px;"></i>
                             <p>
                                 Fuel Management
                                 <i class="right fas fa-angle-left"></i>
@@ -772,7 +772,7 @@
                 @canany($reportsPermissions)
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-chart-bar"></i>
+                            <i class="nav-icon fas fa-chart-bar" style="font-size: 20px;"></i>
                             <p>
                                 Reports
                                 <i class="right fas fa-angle-left"></i>
