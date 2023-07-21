@@ -79,11 +79,11 @@
                                         <tr>
                                             <td>
                                                 {{++$key}}
-                                                @if($workshop->expected_date_out->isAfter(Carbon::now()))
+                                                @if(Carbon::now()->isBefore(Carbon::parse($workshop->expected_date_out)))
                                                     <span class="badge badge-success p-2">
                                                         <p></p>
                                                     </span>
-                                                @elseif(Carbon::parse($workshop->expected_date_out)->isBefore(Carbon::now()))
+                                                @elseif(Carbon::now()->isAfter(Carbon::parse($workshop->expected_date_out)))
                                                     <span class="badge badge-danger p-2">
                                                         <p></p>
                                                     </span>
