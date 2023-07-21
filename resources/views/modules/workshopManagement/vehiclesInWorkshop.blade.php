@@ -78,7 +78,7 @@
                                     @foreach($workshopsVehicleList as $key => $workshop)
                                         <tr>
                                             <td>
-                                                {{++$key}}
+                                               {{-- {{++$key}}--}}
                                                 @if(Carbon::now()->isBefore(Carbon::parse($workshop->expected_date_out)))
                                                     <span class="badge badge-success p-2" style="width: 20px;height: 20px; border-radius: 50%;">
                                                         <p></p>
