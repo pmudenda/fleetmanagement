@@ -232,13 +232,8 @@
                                 <li class="nav-item">
                                     <a class="nav-link"
                                        href="{{ URL::signedRoute('vehicle.fuel.allocation') }}">
-                                                            <span class="menu-bullet">
-                                                                <span class="bullet bullet-dot">
-                                                                </span>
-                                                            </span>
-                                        <p class="menu-title">
-                                            Fuel Allocation
-                                        </p>
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Fuel Allocation</p>
                                     </a>
                                 </li>
                             @endcan
