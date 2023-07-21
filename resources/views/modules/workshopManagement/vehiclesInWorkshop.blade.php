@@ -122,14 +122,14 @@
                                                             <a class="dropdown-item"
                                                                data-kt-action="edit"
                                                                href="{{URL::signedRoute('accessories.job.card',['step'=> '1', 'reference'=>$workshop->job_card_no])}}">
-                                                                Open
+                                                                Open Job Card
                                                             </a>
                                                         </li>
                                                         <li>
                                                             <a class="dropdown-item"
                                                                data-kt-action="exit"
                                                                href="{{URL::signedRoute('accessories.job.card',['step'=> '1', 'reference'=>$workshop->job_card_no])}}">
-                                                                Exit
+                                                                Exit From Workshop
                                                             </a>
                                                         </li>
                                                         {{--@endcan--}}
