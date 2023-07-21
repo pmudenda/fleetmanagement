@@ -75,21 +75,21 @@
                     @csrf
                     <h1>Details</h1>
                     <section>
-                        @include('modules.requisitions.maintenance.tabs.job_card_header')
+                        @include('modules.requisitions.jobCard.tabs.job_card_header')
                     </section>
 
                     <h1>Accessories</h1>
                     <section>
-                        @include('modules.requisitions.maintenance.tabs.accessories')
+                        @include('modules.requisitions.jobCard.tabs.accessories')
                     </section>
 
                     <h1>Defects</h1>
                     <section>
-                        @include('modules.requisitions.maintenance.tabs.defects')
+                        @include('modules.requisitions.jobCard.tabs.defects')
                     </section>
                     <h1>Spares & Services</h1>
                     <section>
-                        @include('modules.requisitions.maintenance.tabs.partsSelection')
+                        @include('modules.requisitions.jobCard.tabs.partsSelection')
                     </section>
 
                 </form>

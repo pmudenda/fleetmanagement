@@ -17,13 +17,13 @@
     </ul><!-- Tab panes -->
     <div class="tab-content">
         <div class="tab-pane active" id="tabs-1" role="tabpanel">
-            @include('modules.requisitions.maintenance.tabs.materials')
+            @include('modules.workshopManagement.jobCard.tabs.materials')
         </div>
         <div class="tab-pane" id="tabs-2" role="tabpanel">
-            @include('modules.requisitions.maintenance.tabs.services')
+            @include('modules.workshopManagement.jobCard.tabs.services')
         </div>
         <div class="tab-pane" id="tabs-3" role="tabpanel">
-            @include('modules.requisitions.maintenance.tabs.labour')
+            @include('modules.workshopManagement.jobCard.tabs.labour')
         </div>
     </div>
 </div>

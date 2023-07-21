@@ -47,7 +47,7 @@
                                     Filter
                                 </button>
                                 {{--@can(config('rights.create_workshop'))@endcan--}}
-                                <a href="{{URL::signedRoute('maintenance.requisition')}}"
+                                <a href="{{URL::signedRoute('jobCard.requisition')}}"
                                    class="btn btn-sm btn-success float-right">
                                     <i class="fas fa-user-plus"></i>
                                     Create Job Card

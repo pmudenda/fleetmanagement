@@ -32,7 +32,6 @@ use Illuminate\Support\Facades\URL;
 
 class VehicleOnBoardingController extends Controller
 {
-
     private OnBoardingService $onBoardingService;
     private VehicleDetailsService $vehicleDetailsService;
 
@@ -270,7 +269,6 @@ class VehicleOnBoardingController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
-            //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -325,7 +323,6 @@ class VehicleOnBoardingController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
-            //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }
@@ -351,7 +348,6 @@ class VehicleOnBoardingController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage('err_0005');
-            //'Sorry, some errors were detected while processing your request, please try again later.';
             if ($e instanceof VehicleOnBoardingException) {
                 $message = $e->getMessage();
             }

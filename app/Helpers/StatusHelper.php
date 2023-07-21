@@ -114,27 +114,22 @@ class StatusHelper
         return "39";
     }
 
-
-    public static function vehicleHandedOver(): string
-    {
-        return "03";
-    }
-
-    public static function vehicleInactive(): string
-    {
-        return "03";
-    }
+    /* VEHICLE STATUS */
 
     public static function vehicleActive(): string
     {
         return "01";
     }
 
-    public static function vehicleStolen(): string
+    public static function vehicleInactive(): string
     {
-        return "07";
+        return "02";
     }
 
+    public static function vehicleHandedOver(): string
+    {
+        return "03";
+    }
 
     public static function vehicleGrounded(): string
     {
@@ -149,6 +144,11 @@ class StatusHelper
     public static function vehicleScrap(): string
     {
         return "06";
+    }
+
+    public static function vehicleStolen(): string
+    {
+        return "07";
     }
 
     public static function vehicleDisposed(): string

@@ -350,7 +350,7 @@ class WorkshopRequisitionService
         return response()->json([
             'success' => true,
             'message' => 'Requisition ' . $requisition_reference_number . ' Generated and submitted to the next authority for Authorisation',
-            'redirectUrl' => URL::signedRoute('maintenance.list'),
+            'redirectUrl' => URL::signedRoute('jobCard.list'),
         ]);
     }
 
@@ -699,7 +699,7 @@ class WorkshopRequisitionService
         return response()->json([
             'success' => true,
             'message' => 'Requisition ' . $purchase_process_reference . ' Generated and submitted to the next authority for Authorisation',
-            'redirectUrl' => URL::signedRoute('maintenance.list'),
+            'redirectUrl' => URL::signedRoute('jobCard.list'),
         ]);
     }
 

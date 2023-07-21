@@ -230,7 +230,7 @@ class OnBoardingService
                 'created_by' => $user->id,
                 'created_name' => $user->name,
                 'on_boarding_status' => StatusHelper::PendingGeneralDataEntry(),
-                'statue' => StatusHelper::new(),
+                'status' => StatusHelper::vehicleInactive(),
                 'registration_type' => $request->registration_type
             ]);
 

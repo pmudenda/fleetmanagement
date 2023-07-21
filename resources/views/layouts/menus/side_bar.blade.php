@@ -150,7 +150,7 @@
                                 <ul class="nav nav-treeview pl-3">
 
                                     <li class="nav-item">
-                                        <a href="{{URL::signedRoute('maintenance.requisition',['step'=> 1])}}"
+                                        <a href="{{URL::signedRoute('jobCard.requisition',['step'=> 1])}}"
                                            class="nav-link">
                                             <i class="fas fa-plus nav-icon"></i>
                                             <p>
@@ -160,7 +160,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="{{URL::signedRoute('maintenance.list',['step'=> 1])}}"
+                                        <a href="{{URL::signedRoute('jobCard.list',['step'=> 1])}}"
                                            class="nav-link">
                                             <i class="fas fa-plus nav-icon"></i>
                                             <p>
@@ -236,7 +236,7 @@
                             </li>--}}
 
                             {{--<li class="nav-item">
-                                <a href="{{URL::signedRoute('maintenance.requisition', ['step'=> 1])}}" class="nav-link">
+                                <a href="{{URL::signedRoute('jobCard.requisition', ['step'=> 1])}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Maintenance Requisition</p>
                                 </a>
@@ -797,7 +797,7 @@
                                 </a>
                             </li>--}}
                             {{--<li class="nav-item">
-                                <a href="{{URL::signedRoute('maintenance.requisition', ['step'=> 1])}}" class="nav-link">
+                                <a href="{{URL::signedRoute('jobCard.requisition', ['step'=> 1])}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Maintenance Requisition</p>
                                 </a>

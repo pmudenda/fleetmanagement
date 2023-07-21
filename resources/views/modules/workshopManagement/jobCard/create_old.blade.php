@@ -50,7 +50,7 @@
                     @csrf
                     <h1>Job Card Details</h1>
                     <div>
-                        @include('modules.requisitions.maintenance.tabs.partsSelection')
+                        @include('modules.requisitions.jobCard.tabs.partsSelection')
                     </div>
 
                     <h1>Accessories Checkin & Movement</h1>
@@ -88,7 +88,7 @@
     </script>
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script src="{{asset("libs/steps/jquery.steps.js")}}"></script>
-    {{--<script src="{{asset("application/modules/maintenance/job.card.js")}}"></script>--}}
+    {{--<script src="{{asset("application/modules/jobCard/job.card.js")}}"></script>--}}
 {{--    <script src="{{asset('assets/js/system/project_code.js').'?v='.Carbon::now()->format('his')}}"></script>--}}
     <script>
         (function (tmsApp, $) {

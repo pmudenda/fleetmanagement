@@ -794,7 +794,7 @@
             window.history.pushState('','',baseUrl+moduleName+'/');
 
         }
-        if(moduleName == 'maintenance'){
+        if(moduleName == 'jobCard'){
             var modulebase=baseUrl+moduleName+'/'+segment[5];
 
             if(segment[5] == 'Maintenance' && segment[6] == 'index'){

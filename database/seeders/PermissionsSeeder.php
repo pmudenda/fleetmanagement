@@ -48,7 +48,7 @@ class PermissionsSeeder extends Seeder
 
         // Fuel Requisitions
         Permission::firstOrCreate(['description' => 'Allows User to requisition for fuel', 'name' => 'requisition_fuel', 'slug' => 'requisition_fuel']);
-        Permission::firstOrCreate(['description' => 'Allows user to requisition for maintenance spares', 'name' => 'requisition_spares', 'slug' => 'requisition_spares']);
+        Permission::firstOrCreate(['description' => 'Allows user to requisition for jobCard spares', 'name' => 'requisition_spares', 'slug' => 'requisition_spares']);
         Permission::firstOrCreate(['description' => 'Allows User to approve fuel requisition', 'name' => 'approve_fuel_requisition', 'slug' => 'approve_fuel_requisition']);
 
 

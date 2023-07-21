@@ -45,7 +45,7 @@
     <!--To be loaded on specific pages-->
     <link href="{{asset('application/modules/costManagement/assets/css/style.css')}}" rel="stylesheet">
     <link href="{{asset('application/modules/employeeManagement/assets/css/style.css')}}" rel="stylesheet">
-    <link href="{{asset('application/modules/maintenance/assets/css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('application/modules/jobCard/assets/css/style.css')}}" rel="stylesheet">
     <link href="{{asset('application/modules/purchase/assets/css/style.css')}}" rel="stylesheet">
     <link href="{{asset('application/modules/refueling/assets/css/style.css')}}" rel="stylesheet">
     <link href="{{asset('application/modules/reports/assets/css/style.css')}}" rel="stylesheet">
@@ -306,7 +306,7 @@
                     window.history.pushState('', '', baseUrl + moduleName + '/');
                     break;
 
-                case 'maintenance':
+                case 'jobCard':
                     var modulebase = baseUrl + moduleName + '/' + segment[5];
 
                     if (segment[5] == 'Maintenance' && segment[6] == 'index') {
@@ -721,7 +721,7 @@
 </script>
 <script src="{{asset('application/modules/employeeManagement/assets/js/script.js')}}"
         type="text/javascript"></script>
-<script src="{{asset('application/modules/maintenance/assets/js/script.js')}}"
+<script src="{{asset('application/modules/jobCard/assets/js/script.js')}}"
         type="text/javascript"></script>
 <script src="{{asset('application/modules/purchase/assets/js/script.js')}}"
         type="text/javascript"></script>

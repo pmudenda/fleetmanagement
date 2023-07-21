@@ -133,9 +133,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('fuel-levels/list/json', [MaintenanceController::class, 'getFuelLevels'])->name('fuels.levels');
 
         /** Job Card Processing **/
-        Route::get('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('maintenance.requisition');
-        Route::get('requisitions/maintenance/job-card/accessories', [MaintenanceController::class, 'accessoriesTab'])->name('accessories.job.card');
-        Route::get('requisitions/maintenance/job-card/defects', [MaintenanceController::class, 'defectsTab'])->name('defects.job.card');
+        Route::get('requisitions/jobCard', [MaintenanceController::class, 'create'])->name('jobCard.requisition');
+        Route::get('requisitions/jobCard/job-card/accessories', [MaintenanceController::class, 'accessoriesTab'])->name('accessories.job.card');
+        Route::get('requisitions/jobCard/job-card/defects', [MaintenanceController::class, 'defectsTab'])->name('defects.job.card');
 
         Route::post('save/job/card', [MaintenanceController::class, 'processJobCard'])->name('process.job_card');
         Route::post('save/job/card/accessories', [MaintenanceController::class, 'processJobCardAccessories'])->name('job_card.accessories.checkin');
@@ -145,8 +145,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('save/workshop/services/requisition', [MaintenanceController::class, 'processWorkShopServices'])->name('process.service.requisition');
         // supporting
-        Route::get('requisitions/maintenance/list', [MaintenanceController::class, 'list'])->name('maintenance.list');
-        Route::post('requisitions/maintenance', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
+        Route::get('requisitions/jobCard/list', [MaintenanceController::class, 'list'])->name('jobCard.list');
+        Route::post('requisitions/jobCard', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
 
         //delete defect
         Route::post('/deleteRecord', [MaintenanceController::class, "deleteRecord"])->name('delete.defect.record');
@@ -246,7 +246,7 @@ Route::get('parts-selection', function (Request $request) {
     $defects = [];
     $comments = [];
 
-    $view_name = 'modules.requisitions.maintenance.create_old';
+    $view_name = 'modules.requisitions.jobCard.create_old';
 
     return view($view_name)->with(
         compact(

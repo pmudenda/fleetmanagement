@@ -84,10 +84,12 @@ class WorkshopService
             'created_by' => $user->id
         ];
 
+        DB::beginTransaction();
         $jobCardHeader = JobCardHeader::create($data);
 
         $this->moveVehicleToWorkShop($jobCardHeader->veh_reg);
 
+        DB::commit();
         return $jobCardHeader;
     }
 
@@ -179,7 +181,6 @@ class WorkshopService
             ->leftJoin('CONFIG_WORKSHOP', 'WM_JOB_CARD_HEADER.receiving_section', '=', 'CONFIG_WORKSHOP.workshop_code')
             ->where('CONFIG_GENERAL_TABLES.type', '=', ConfigurationTypes::WORK_SHOP_SECTION)
             ->where('config.type', '=', ConfigurationTypes::REPAIR_TYPE)
-            //->where('config.code', '=', )
             ->select('WM_JOB_CARD_HEADER.*',
                 'CONFIG_WORKSHOP.workshop_name',
                 'config.name as repair_type_name',
@@ -207,7 +208,9 @@ class WorkshopService
 
     private function moveVehicleToWorkShop($veh_reg): void
     {
+        //DB::beginTransaction();
         VehicleHeader::where('registration_number', $veh_reg)
             ->update(['status' => StatusHelper::vehicleInWorkshop()]);
+        //DB::commit();
     }
 }

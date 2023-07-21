@@ -98,7 +98,7 @@ class MaintenanceController extends Controller
             $services
             ) = $this->getJobCardCreationData($request);
 
-        $view_name = 'modules.requisitions.maintenance.create';
+        $view_name = 'modules.requisitions.jobCard.create';
 
         return view($view_name)
             ->with(
@@ -144,7 +144,7 @@ class MaintenanceController extends Controller
 
         $approvalHistory = [];
 
-        return view('modules.requisitions.maintenance.show')
+        return view('modules.requisitions.jobCard.show')
             ->with(compact(
                 'user',
                 'requisitionTypes',
@@ -245,7 +245,7 @@ class MaintenanceController extends Controller
         }
 
         if (!$request->has('step')) {
-            return redirect(URL::signedRoute('maintenance.requisition', ['step' => 1]));
+            return redirect(URL::signedRoute('jobCard.requisition', ['step' => 1]));
         }
 
         list($step,
@@ -262,7 +262,7 @@ class MaintenanceController extends Controller
             $services
             ) = $this->getJobCardCreationData($request);
 
-        return view('modules.requisitions.maintenance.create')
+        return view('modules.requisitions.jobCard.create')
             ->with(
                 compact(
                     'repairTypes',
@@ -302,7 +302,7 @@ class MaintenanceController extends Controller
             $services
             ) = $this->getJobCardCreationData($request);
 
-        return view('modules.requisitions.maintenance.create')
+        return view('modules.requisitions.jobCard.create')
             ->with(
                 compact(
                     'repairTypes',
