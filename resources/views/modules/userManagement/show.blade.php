@@ -449,9 +449,60 @@
                     });
             });
 
-
             $(document).on('click', "#syncUserData", function () {
                 const url = this.getAttribute('data-href');
+                let formData = new FormData();
+
+                tmsApp.asyncPostFormData(
+                    url,
+                    formData,
+                    function (asyncResponse) {
+                        if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
+                            setTimeout(function () {
+                                tmsApp.showSystemMessage(
+                                    'Fuel Requisition',
+                                    asyncResponse['message'],
+                                    function () {
+                                        window.location.href = asyncResponse["redirectUrl"]
+                                    },
+                                    'success'
+                                );
+                            }, 300);
+                        } else {
+                            if (asyncResponse.hasOwnProperty('errors')) {
+                                tmsApp.printErrorMsg(asyncResponse.errors);
+                                return
+                            }
+                            setTimeout(function () {
+                                tmsApp.systemError(
+                                    'Fuel Requisition',
+                                    asyncResponse['message'],
+                                    function () {
+                                    }, 'error');
+                            }, 300);
+                        }
+                    },
+                    function (xhr, settings, errorThrown) {
+                        console.log(errorThrown)
+                        setTimeout(function () {
+                            if ('responseJSON' in xhr) {
+                                if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                    tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                }
+                                if (xhr.responseJSON.hasOwnProperty('message')) {
+                                    tmsApp.systemError(
+                                        'Fuel Requisition',
+                                        xhr.responseJSON['message']
+                                    );
+                                }
+                                return;
+                            }
+
+                            tmsApp.systemError(
+                                'Fuel Requisition',
+                                'We could not complete processing your request, please try again later');
+                        }, 300)
+                    });
             });
         })(window.tmsApp || {});
     </script>
