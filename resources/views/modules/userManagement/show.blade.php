@@ -193,7 +193,7 @@
                         @endif
                     </div>
                 </div>
-                @php  dd(auth()->user()->can('edit articles')) @endphp
+                @php  dd(auth()->user()->can(config('rights.user_update'))) @endphp
                 <!--RIGHT COLUMN-->
                 <div class="col-xs-12 col-sm-7 pl-0">
                     <div class="card">
@@ -206,7 +206,7 @@
                                     </a>
                                 </li>
 
-                                @canany(['rights.user_update'])
+                                @canany([config('rights.user_update')])
                                     <li class="card-title">
                                         <a class="nav-link"
                                            href="#userInfoUpdate"
