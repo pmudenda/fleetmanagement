@@ -25,7 +25,7 @@
                    class="form-control"
                    name="phone" required
                    placeholder="extension"
-                   value="{{ $user->extension }}" />
+                   value="{{ $user->extension }}"/>
         </div>
     </div>
 
@@ -128,12 +128,12 @@
                         Update
                     </button>
 
-                    <a href="javascript:void(0);"
-                       id="syncUserData"
-                       data-href="{{ route('user.sync') }}"
-                       class="btn btn-sm btn-default">
+                    <button type="button"
+                            id="syncUserData"
+                            data-href="{{ route('user.sync') }}"
+                            class="btn btn-sm btn-default">
                         Sync <i class="fas fa-sync"></i>
-                    </a>
+                    </button>
                 </div>
             </div>
         @endcanany
