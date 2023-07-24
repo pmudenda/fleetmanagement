@@ -464,7 +464,7 @@
                                     'Fuel Requisition',
                                     asyncResponse['message'],
                                     function () {
-                                        window.location.href = asyncResponse["redirectUrl"]
+                                        window.location.reload();
                                     },
                                     'success'
                                 );
