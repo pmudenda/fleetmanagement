@@ -8,8 +8,8 @@ use App\Models\Security\User;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class UserService
 {
@@ -71,7 +71,10 @@ class UserService
                 ->where('con_st_code', '=', 'ACT')
                 ->first();
 
+            Log::info('Syncing User Data For ' . $employee->staff_no);
+
             if (!empty($employee)) {
+                DB::beginTransaction();
                 User::where('staff_no', '=', $user->staff_no)
                     ->update(
                         [
@@ -107,6 +110,7 @@ class UserService
                             'affiliated_union' => $employee->affiliated_union ?? "--",
                         ]
                     );
+                DB::commit();
             } else {
                 Log::info('User Not Found ! ');
             }
