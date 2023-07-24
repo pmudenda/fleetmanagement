@@ -113,14 +113,17 @@
     </div>
 
 
-    <div class="form-group row">
+    <div class="form-group row justify-content-end">
         @canany([config('rights.user_update')])
-            <div class="offset-sm-2 col-sm-4">
-                <button type="submit" class="btn btn-danger">Update</button>
+            <div class="">
+                <button type="submit" class="btn btn-danger">
+                    Update
+                </button>
             </div>
-            <div class="offset-sm-5 col-sm-1" style="align-content: end">
-                <a href="#"
-                   class="btn btn-default"> Sync <i class="fas fa-sync"></i> </a>
+            <div>
+                <a href="#" class="btn btn-default">
+                    Sync <i class="fas fa-sync"></i>
+                </a>
             </div>
         @endcanany
     </div>
