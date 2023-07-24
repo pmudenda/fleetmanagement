@@ -119,7 +119,7 @@
                                             </td>
                                             @can(config('rights.user_show'))
                                                 <td>
-                                                    <a href="{{route('user.show', $user->id)}}"
+                                                    <a href="{{URL::signedRoute('user.show', $user->id)}}"
                                                        class="btn btn-sm btn-success m-1">
                                                         <i class="fas fa-eye">Details</i>
                                                     </a>

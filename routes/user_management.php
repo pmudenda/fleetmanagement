@@ -18,6 +18,7 @@ Route::group(['prefix' => 'user-management'], function () {
     Route::resource('/user', UsersController::class);
 
     Route::post('/get-employee-data', [UsersController::class, 'search'])->name('user.search');
+
     Route::post('user/attach', [UsersController::class, 'attach'])->name('user.attach');
     Route::post('user/detach', [UsersController::class, 'detach'])->name('user.detach');
 

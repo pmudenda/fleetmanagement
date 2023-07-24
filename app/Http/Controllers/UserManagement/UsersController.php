@@ -222,9 +222,13 @@ class UsersController extends Controller
 
     }
 
-    public function show(User $user): Factory|View|Application
+    public function show(Request $request): Factory|View|Application
     {
-        $user = User::where('id', '=', $user->id)->first();
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
+        $user = User::where('id', '=', $request->id)->first();
         $roles = Role::all();
         return view('modules.userManagement.show')
             ->with(compact(
@@ -313,6 +317,10 @@ class UsersController extends Controller
 
     public function profile(Request $request): View|\Illuminate\Foundation\Application|Factory|Application
     {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
         if (empty($request->get('key'))) {
             return redirect(route('users.list'));
         }
