@@ -193,7 +193,7 @@
                         @endif
                     </div>
                 </div>
-{{dd('config.rights')}}
+{{dd(config('rights'))}}
                 <!--RIGHT COLUMN-->
                 <div class="col-xs-12 col-sm-7 pl-0">
                     <div class="card">
