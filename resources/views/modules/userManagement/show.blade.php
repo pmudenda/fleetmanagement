@@ -193,7 +193,7 @@
                         @endif
                     </div>
                 </div>
-                <?php echo @can(config('rights.user_update')) ?>
+                @php echo @can(config('rights.user_update')) @endphp
                 <!--RIGHT COLUMN-->
                 <div class="col-xs-12 col-sm-7 pl-0">
                     <div class="card">
