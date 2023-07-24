@@ -107,7 +107,7 @@
         </label>
         <div class="col-sm-10">
             @can(config('rights.user_update'))
-                <select class="form-control" id="area"
+                <select class="form-select" id="area"
                         name="area">
                     @foreach(Area::get() as $area)
                         @if($area->area == $user->area_code)
@@ -118,7 +118,7 @@
                     @endforeach
                 </select>
             @else
-                <select disabled class="form-select" id="area"
+                <select disabled class="form-control" id="area"
                         name="area">
                     @foreach(Area::get() as $area)
                         @if($area->area == $user->area_code)
