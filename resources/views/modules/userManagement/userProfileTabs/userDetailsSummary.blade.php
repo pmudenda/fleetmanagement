@@ -1,7 +1,7 @@
 <div class="post">
     <div class="user-block">
         <div class="username ml-1">
-            <a href="javascropt:void(0);">COMPANY</a>
+            <a href="javascript:void(0);">COMPANY</a>
         </div>
     </div>
     <!-- /. user-block -->
@@ -10,9 +10,11 @@
             <p class="text-muted">
                 <b>Directorate:</b> {{ $user->directorate ?? '--' }}
             </p>
-            {{-- <p class="text-muted">
-                 <b>PayPoint:</b> {{ $user->pay_point->name ?? '' }}
-             </p>--}}
+            {{--
+                <p class="text-muted">
+                    <b>PayPoint:</b> {{ $user->pay_point->name ?? '' }}
+                </p>
+             --}}
             <p class="text-muted"><b>Location:</b> {{ $user->functional_section ?? '' }}</p>
             <p class="text-muted"><b>Area:</b> {{ $user->area_code ?? '' }}</p>
         </div>
@@ -22,7 +24,8 @@
                     User Unit:
                 </b>
                 @if (Auth::user()->type_id == config('constants.user_types.developer') ||
-                    Auth::user()->type_id == config('constants.user_types.mgt'))
+                    Auth::user()->type_id == config('constants.user_types.mgt')
+                    )
                     <a href="{{ route('logout') }}" class="text-dark"
                        onclick="event.preventDefault(); document.getElementById('search-form12').submit();">
                         {{ $user->user_unit ?? ''}}
@@ -92,7 +95,8 @@
                 <p class="text-muted">
                     <b>
                         Acting Position:
-                    </b> {{ $user_acting->acting_position ?? '' }}
+                    </b>
+                    {{ $user_acting->acting_position ?? '' }}
                 </p>
             </div>
         @endif
@@ -114,20 +118,26 @@
                 <strong>Staff No.:</strong>
                 {{ $user->supervisor_code ?? '' }}
             </p>
-            {{--<p class="text-muted">
-                <strong>Category:</strong>
-                {{ $user->grade->category->name ?? '' }}
-            </p>--}}
-            {{--     <p class="text-muted">
+            {{--
+                <p class="text-muted">
+                    <strong>Category:</strong>
+                    {{ $user->grade->category->name ?? '' }}
+                </p>
+            --}}
+            {{--
+                <p class="text-muted">
                      <strong>User Position:</strong>
                      {{ $user->job_title ?? '' }}
-                 </p>--}}
-            {{-- <p class="text-muted ">
-                 <strong class="text-orange ">
-                     Job Code:
-                 </strong>
-                 {{ $user->job_code ?? '' }}
-             </p>--}}
+                 </p>
+             --}}
+            {{--
+                <p class="text-muted ">
+                     <strong class="text-orange ">
+                         Job Code:
+                     </strong>
+                     {{ $user->job_code ?? '' }}
+                </p>
+             --}}
         </div>
 
         @if(!empty($user_acting->acting_date_from))
@@ -138,16 +148,20 @@
                     To
                     {{ Carbon\Carbon::parse($user_acting->acting_date_to ?? '0')->format('d-M-Y') ?? ('' ?? '') }}
                 </p>
-                <p class="text-muted"><b>Acting Grade:</b>
+                <p class="text-muted">
+                    <b>Acting Grade:</b>
                     {{ $user_acting->grade->name ?? '' }}
                 </p>
                 <p class="text-muted">
                     <b>Acting Category:</b>
                     {{ $user_acting->grade->category->name ?? '' }}
                 </p>
-                <p class="text-muted"><b>
+                <p class="text-muted">
+                    <b>
                         Acting
-                        Position:</b> {{ $user_acting->acting_position ?? '' }}
+                        Position:
+                    </b>
+                    {{ $user_acting->acting_position ?? '' }}
                 </p>
             </div>
         @endif
