@@ -59,6 +59,7 @@ class UserService
     {
         $id = $userId;
         //(int)ParameterEncryption::decrypt();
+        Log::info('Start Syncing User Data '. $userId);
         self::sync($id);
     }
 
