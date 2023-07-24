@@ -116,12 +116,12 @@
     <div class="form-group justify-content-end">
         @canany([config('rights.user_update')])
             <div class="col-md-12">
-                <div class="justify-content-end">
-                    <button type="submit" class="btn btn-success">
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-sm btn-success">
                         Update
                     </button>
 
-                    <a href="#" class="btn btn-default">
+                    <a href="#" class="btn btn-sm btn-default">
                         Sync <i class="fas fa-sync"></i>
                     </a>
                 </div>
