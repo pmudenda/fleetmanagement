@@ -41,4 +41,24 @@ class SystemMessages
             "The vehicle @reg is in Workshop. Please Contact Fleet Master
                             System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com";
     }
+
+    public static function userUpdateFailed(): string
+    {
+        return 'User Details Failed to Updated!';
+    }
+
+    public static function userUpdateSuccessful(): string
+    {
+        return 'User Details Updated Successfully';
+    }
+
+    public static function roleAssignedSuccessful(): string
+    {
+        return 'Role Successfully detached..';
+    }
+
+    public static function userCreateSuccessful(): string
+    {
+        return 'User Defined successfully..';
+    }
 }

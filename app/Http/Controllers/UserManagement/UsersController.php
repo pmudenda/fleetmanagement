@@ -4,6 +4,7 @@ namespace App\Http\Controllers\UserManagement;
 
 use _HumbugBoxbdf58a3ca165\Symfony\Component\Config\Definition\Exception\Exception;
 use App\Constants\ErrorMessages;
+use App\Constants\SystemMessages;
 use App\Exceptions\UserNotActiveException;
 use App\Exceptions\UserOnBoardingException;
 use App\Exceptions\UserUnitUpdateException;
@@ -80,7 +81,6 @@ class UsersController extends Controller
         try {
 
             $validateWithHCMS = true;
-            //will be profile assigned
             DB::beginTransaction();
             if ($validateWithHCMS) {
                 try {
@@ -204,7 +204,7 @@ class UsersController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Employee has successfully been created..'
+                'message' => SystemMessages::userCreateSuccessful()
             ]);
 
         } catch (\Exception $ex) {
@@ -246,7 +246,7 @@ class UsersController extends Controller
             return redirect()->back()->with('message', 'User Successfully Added To Selected Groups ..');
         } catch (\Exception $e) {
             Log::error($e);
-            return redirect()->back()->with('error', 'User Could Not Be Added To Groups..');
+            return redirect()->back()->with('error', 'Role Could Not Be Assigned To User..');
         }
     }
 
@@ -254,7 +254,7 @@ class UsersController extends Controller
     {
         $user = User::find($request->id);
         $user->roles()->detach($request->role_id);
-        return redirect()->back()->with('message', 'Role Successfully detached..');
+        return redirect()->back()->with('message', SystemMessages::roleAssignedSuccessful());
     }
 
     public function update(UserProfileUpdate $request): JsonResponse
@@ -264,11 +264,11 @@ class UsersController extends Controller
             // ActivityLogsService::store($request, 'Updating of User', 'update', ' user updated');
             return response()->json([
                 'state' => 'success',
-                'message' => 'User Details Updated Successfully'
+                'message' => SystemMessages::userUpdateSuccessful()
             ]);
         } catch (Exception $e) {
-            $message = 'User Details Failed to Updated!';
-            Log::info('User Details Failed to Updated!. ERROR Message : ');
+            $message = SystemMessages::userUpdateFailed();
+            Log::info($message);
             Log::error($e);
             return response()->json([
                 'state' => 'error',
@@ -332,11 +332,11 @@ class UsersController extends Controller
             UserService::syncEmployeeFullDetails($request->userId);
             return response()->json([
                 'state' => 'success',
-                'message' => 'User Details Updated Successfully'
+                'message' => SystemMessages::userUpdateSuccessful()
             ]);
         } catch (Exception $e) {
-            $message = 'User Details Failed to Updated!';
-            Log::info('User Details Failed to Updated!. ERROR Message : ');
+            $message = SystemMessages::userUpdateFailed();
+            Log::info($message);
             Log::error($e);
             return response()->json([
                 'state' => 'error',
