@@ -83,6 +83,11 @@ class UserService
                             'con_st_code' => StatusHelper::active(),
                             'email' => $employee->staff_email,
                             'functional_section' => $employee->functional_section,
+
+                            'directorate' => $employee->directorate,
+                            //'area_code' => $request->get('business_area'),
+                            'user_unit' => $employee->functional_section,
+
                             'bu_code' => $employee->bu_code,
                             'cc_code' => $employee->cc_code,
                             'staff_no' => $employee->con_per_no,
