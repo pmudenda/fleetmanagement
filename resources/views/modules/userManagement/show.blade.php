@@ -205,8 +205,7 @@
                                         Details
                                     </a>
                                 </li>
-                                {{dd(config('rights'))}}
-                                @canany('rights.user_update')
+                                @canany(['rights.user_update'])
                                     <li class="card-title">
                                         <a class="nav-link"
                                            href="#userInfoUpdate"
