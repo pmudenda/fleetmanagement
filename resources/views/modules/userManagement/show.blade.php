@@ -386,8 +386,8 @@
     @include('layouts.partials.dataTableScripts')
     <!-- page script -->
     <script>
-        (function (appInstance) {
-            appInstance.initDatatable("#groupsTable", false);
+        (function (tmsApp) {
+            tmsApp.initDatatable("#groupsTable", false);
 
             $(document).on('submit', 'form[name="updateDataUpdate"]', function (e) {
                 e.preventDefault();

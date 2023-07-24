@@ -228,7 +228,7 @@
                                 </ul>
                             </li>
 
-                            @can(config('rights.set_vehicle_fuel_allocation'))
+                            {{--@can(config('rights.set_vehicle_fuel_allocation'))
                                 <li class="nav-item">
                                     <a class="nav-link"
                                        href="{{ URL::signedRoute('vehicle.fuel.allocation') }}">
@@ -236,7 +236,7 @@
                                         <p>Fuel Allocation</p>
                                     </a>
                                 </li>
-                            @endcan
+                            @endcan--}}
 
                             {{--<li class="nav-item">
                                 <a href="#" class="nav-link">
