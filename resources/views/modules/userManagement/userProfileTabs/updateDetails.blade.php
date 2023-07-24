@@ -3,7 +3,7 @@
       action="{{ route('user.update') }}">
     @csrf
     <div class="form-group row">
-        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+        <label for="inputName" class="col-sm-2 col-form-label">Name:</label>
         <div class="col-sm-10">
             <input type="text" class="form-control" name="name" required
                    placeholder="Name" value="{{ $user->name }}">
@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+        <label for="inputEmail" class="col-sm-2 col-form-label">Email:</label>
         <div class="col-sm-10">
             <input type="email" class="form-control" name="email" required
                    placeholder="Email" value="{{ $user->email }}">
@@ -19,7 +19,7 @@
     </div>
 
     <div class="form-group row">
-        <label for="inputName2" class="col-sm-2 col-form-label">Extension</label>
+        <label for="inputName2" class="col-sm-2 col-form-label">Extension:</label>
         <div class="col-sm-10">
             <input type="text"
                    class="form-control"
@@ -90,7 +90,7 @@
 
 
     <div class="form-group row">
-        <label for="inputName2" class="col-sm-2 col-form-label">Man No</label>
+        <label for="inputName2" class="col-sm-2 col-form-label">Man No:</label>
         <div class="col-sm-10">
             <input disabled type="text"
                    class="form-control"
@@ -103,7 +103,7 @@
 
     <div class="form-group row">
         <label for="inputExperience" class="col-sm-2 col-form-label">
-            Area
+            Business Area:
         </label>
         <div class="col-sm-10">
             @can(config('rights.user_update'))
@@ -133,6 +133,69 @@
         </div>
     </div>
 
+    <div class="form-group row">
+        <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3"
+               for="mobile_no">Supervisor:</label>
+        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+            @canany([config('rights.user_update')])
+                <div class="input-group">
+                    <input type="text"
+                           id="staff_supervisor"
+                           name="staff_supervisor"
+                           data-bs-toggle="modal"
+                           autocomplete="off"
+                           data-bs-target="#searchEmployeeModal"
+                           data-assignmenttype="single"
+                           data-inputfield="staff_supervisor"
+                           class="form-control form-control-sm"/>
+
+                    <input type="hidden"
+                           data-assignmenttype="single"
+                           data-inputfield="staff_supervisorId"
+                           id="staff_supervisorId"
+                           name="staff_supervisorId"/>
+                    <div class="input-group-append">
+                        <div
+                            data-assignmenttype="single"
+                            data-inputfield="staff_supervisor"
+                            data-field="userSelection"
+                            class="input-group-text">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <div style="cursor: pointer;"
+                             title="clear selection"
+                             data-action="clearUsers"
+                             class="input-group-text">
+                            <i data-action="clearUsers"
+                               class="fa fa-eraser"></i>
+                        </div>
+                    </div>
+                </div>
+            @endcanany
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
+               for="user_profile">Profile:</label>
+        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+            <select name="user_profile" id="user_profile"
+                    class="form-control form-select-sm"
+                    required>
+                <option value>--Choose Profile--</option>
+                @foreach ($roles as $groupName)
+                    @if($groupName == auth()->user()->roles()->first()->id)
+                        <option selected
+                                value="{{$groupName->id}}">{{$groupName->description}}</option>
+                    @else
+                        <option
+                            value="{{$groupName->id}}">{{$groupName->description}}</option>
+                    @endif
+                @endforeach
+            </select>
+        </div>
+    </div>
+
 
     <div class="form-group justify-content-end">
         @canany([config('rights.user_update')])
@@ -155,3 +218,4 @@
         @endcanany
     </div>
 </form>
+<x-employee-search-modal/>

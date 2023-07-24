@@ -384,6 +384,7 @@
 @push('scripts')
     <!-- DataTables  & Plugins -->
     @include('layouts.partials.dataTableScripts')
+    <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
     <!-- page script -->
     <script>
         (function (tmsApp) {
