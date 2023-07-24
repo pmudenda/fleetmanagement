@@ -106,14 +106,30 @@
             Area
         </label>
         <div class="col-sm-10">
-            <select disabled class="form-control" id="division_select"
-                    name="user_division_id">
-                {{--<option value="{{ $user->division->id ?? '' }}  ">
-                    {{ $user->division->name ?? '' }} </option>--}}
-                @foreach(Area::get() as $area)
-                    <option value="{{$area->area}}">{{$area->description}}</option>
-                @endforeach
-            </select>
+            @can(config('rights.user_update'))
+                <select disabled class="form-control" id="area"
+                        name="area">
+                    @foreach(Area::get() as $area)
+                        @if($area->area == $user->area_code)
+                            <option value="{{$area->area}}">{{$area->description}}</option>
+                        @else
+                            <option value="{{$area->area}}">{{$area->description}}</option>
+                        @endif
+                    @endforeach
+                </select>
+            @else
+                <select class="form-select" id="area"
+                        name="area">
+                    @foreach(Area::get() as $area)
+                        @if($area->area == $user->area_code)
+                            <option value="{{$area->area}}">{{$area->description}}</option>
+                        @else
+                            <option value="{{$area->area}}">{{$area->description}}</option>
+                        @endif
+                    @endforeach
+                </select>
+            @endcan
+
         </div>
     </div>
 

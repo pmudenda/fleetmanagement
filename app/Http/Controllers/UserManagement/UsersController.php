@@ -11,6 +11,7 @@ use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Main\ActivityLogsController;
 use App\Http\Requests\UserOnboardingRequest;
+use App\Http\Requests\UserSync;
 use App\Models\general\BusinessUnit;
 use App\Models\general\CostCenter;
 use App\Models\Main\ConfigWorkFlow;
@@ -298,27 +299,7 @@ class UsersController extends Controller
 
             $searchParam = strtoupper(trim($request->searchCriteria));
 
-            if (str_starts_with($searchParam, 'C7') || str_starts_with($searchParam, '7')) {
-                $dataset = PHCMSEmployee::select('*')
-                    ->where('con_per_no', $searchParam)
-                    ->where('con_st_code', '=', 'ACT')
-                    ->whereNull('alt_per_no')
-                    ->first();
-            } else {
-                $dataset = PHCMSEmployee::select('*')
-                    ->where('name', 'LIKE', "%{$searchParam}%")
-                    ->where('con_st_code', '=', 'ACT')
-                    ->where(function ($query) {
-                        $query->where('con_per_no', 'LIKE', "C7%")
-                            ->orWhere('con_per_no', 'LIKE', "7%");
-                    })
-                    ->get();
-
-            }
-
-            if (empty($dataset)) {
-                throw new UserNotActiveException(ErrorMessages::getMessage('err_0019'));
-            }
+            $dataset =  UserService::searchEmployee($searchParam);
 
             return response()->json([
                 'success' => true,
@@ -355,7 +336,7 @@ class UsersController extends Controller
 
     }
 
-    public function sync(Request $request): JsonResponse
+    public function sync(UserSync $request): JsonResponse
     {
         try {
             Log::info('User Data Update: User Id '. $request->userId);

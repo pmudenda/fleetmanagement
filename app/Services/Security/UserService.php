@@ -2,6 +2,8 @@
 
 namespace App\Services\Security;
 
+use App\Constants\ErrorMessages;
+use App\Exceptions\UserNotActiveException;
 use App\Exceptions\UserNotFoundException;
 use App\Helpers\StatusHelper;
 use App\Models\reference\PHCMSEmployee;
@@ -60,7 +62,7 @@ class UserService
     {
         $id = $userId;
         //(int)ParameterEncryption::decrypt();
-        Log::info('Start Syncing Data '. $userId);
+        Log::info('Start Syncing Data ' . $userId);
         self::sync($id);
     }
 
@@ -76,52 +78,72 @@ class UserService
             Log::info('Syncing User Data For ' . $employee->con_per_no);
 
             if (!empty($employee)) {
-                DB::beginTransaction();
-                User::where('staff_no', '=', $user->staff_no)
-                    ->update(
-                        [
-                            'con_st_code' => StatusHelper::active(),
-                            'email' => $employee->staff_email,
-                            'functional_section' => $employee->functional_section,
-
-                            'directorate' => $employee->directorate,
-                            //'area_code' => $request->get('business_area'),
-                            'user_unit' => $employee->functional_section,
-
-                            'bu_code' => $employee->bu_code,
-                            'cc_code' => $employee->cc_code,
-                            'staff_no' => $employee->con_per_no,
-                            'name' => $employee->name,
-                            'nrc' => $employee->nrc,
-                            'mobile_no' => $employee->mobile_no,
-                            'group_type' => $employee->group_type,
-                            'job_title' => $employee->job_title,
-                            'grade' => $employee->grade,
-                            'location' => $employee->location ?? $employee->functional_section,
-                            'pay_point' => $employee->pay_point,
-                            'job_code' => $employee->job_code ?? "--",
-                        ]
-                    );
-                DB::commit();
-            } else {
                 throw new UserNotFoundException("User Not Found");
             }
+
+            DB::beginTransaction();
+            User::where('staff_no', '=', $user->staff_no)
+                ->update(
+                    [
+                        'con_st_code' => StatusHelper::active(),
+                        'email' => $employee->staff_email,
+                        'functional_section' => $employee->functional_section,
+                        'directorate' => $employee->directorate,
+                        'user_unit' => $employee->functional_section,
+                        'bu_code' => $employee->bu_code,
+                        'cc_code' => $employee->cc_code,
+                        'staff_no' => $employee->con_per_no,
+                        'name' => $employee->name,
+                        'nrc' => $employee->nrc,
+                        'mobile_no' => $employee->mobile_no,
+                        'group_type' => $employee->group_type,
+                        'job_title' => $employee->job_title,
+                        'grade' => $employee->grade,
+                        'location' => $employee->location ?? $employee->functional_section,
+                        'pay_point' => $employee->pay_point,
+                        'job_code' => $employee->job_code ?? "--",
+                    ]
+                );
+            DB::commit();
+
+
         } catch (QueryException $exception) {
             Log::info('Query For User Details Failed');
             Log::error($exception);
         } catch (Exception $e) {
-            try {
-                /*SystemErrorModel::create([
-                    'class' => $e->getFile(),
-                    'function' => $e->getLine(),
-                    'msg' => str_split($e->getMessage(), 254),
-                    'type' => $e->getCode(),
-                    'user' => 'PHRIS_IPA_VIEW',
-                ]);*/
-            } catch (Exception $e) {
-                Log::info('Error Occurred while Attempting to access PHRIS View');
-            }
+            Log::info('Error Occurred while Attempting to access PHRIS View');
+            Log::error($e);
         }
+    }
+
+    /**
+     * @throws UserNotActiveException
+     */
+    public static function searchEmployee(string $searchParam)
+    {
+        if (str_starts_with($searchParam, 'C7') || str_starts_with($searchParam, '7')) {
+            $dataset = PHCMSEmployee::select('*')
+                ->where('con_per_no', $searchParam)
+                ->where('con_st_code', '=', 'ACT')
+                ->whereNull('alt_per_no')
+                ->first();
+        } else {
+            $dataset = PHCMSEmployee::select('*')
+                ->where('name', 'LIKE', "%{$searchParam}%")
+                ->where('con_st_code', '=', 'ACT')
+                ->where(function ($query) {
+                    $query->where('con_per_no', 'LIKE', "C7%")
+                        ->orWhere('con_per_no', 'LIKE', "7%");
+                })
+                ->get();
+
+        }
+
+        if (empty($dataset)) {
+            throw new UserNotActiveException(ErrorMessages::getMessage('err_0019'));
+        }
+
+        return $dataset;
     }
 
 }
