@@ -16,7 +16,13 @@
                 </p>
              --}}
             <p class="text-muted"><b>Location:</b> {{ $user->functional_section ?? '' }}</p>
-            <p class="text-muted"><b>Area:</b> {{ $user->area_code ?? '' }}</p>
+            <p class="text-muted"><b>Area:</b>
+                @foreach(Area::get() as $area)
+                    @if($area->area == $user->area_code)
+                        <option value="{{$area->area}}">{{$area->description}}</option>
+                    @endif
+                @endforeach
+            </p>
         </div>
         <div class="col-6">
             <p class="text-muted">

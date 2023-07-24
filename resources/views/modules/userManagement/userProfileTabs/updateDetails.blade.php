@@ -5,15 +5,22 @@
     <div class="form-group row">
         <label for="inputName" class="col-sm-2 col-form-label">Name:</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" name="name" required
-                   placeholder="Name" value="{{ $user->name }}">
+            <input type="text"
+                   class="form-control"
+                   name="name"
+                   required
+                   placeholder="Name"
+                   value="{{ $user->name }}">
             <input type="hidden" id="userId" name="userId" required value="{{ $user->id}}">
         </div>
     </div>
     <div class="form-group row">
         <label for="inputEmail" class="col-sm-2 col-form-label">Email:</label>
         <div class="col-sm-10">
-            <input type="email" class="form-control" name="email" required
+            <input type="email"
+                   class="form-control"
+                   name="email"
+                   required
                    placeholder="Email" value="{{ $user->email }}">
         </div>
     </div>
@@ -23,7 +30,7 @@
         <div class="col-sm-10">
             <input type="text"
                    class="form-control"
-                   name="phone" required
+                   name="phone"
                    placeholder="extension"
                    value="{{ $user->extension }}"/>
         </div>
@@ -38,29 +45,6 @@
         </div>
     </div>--}}
 
-    {{--
-         <div class="form-group row">
-              <label for="inputExperience" class="col-sm-2 col-form-label">
-                  User Type
-              </label>
-          <div class="col-sm-10">
-              <select class="form-control" name="user_type_id" required>
-                  <option value="{{ $user->user_type->id ?? '' }} ">
-                      {{ $user->user_type->name ?? 'Please Select User Type' }}
-                  </option>
-
-                  @if (\Illuminate\Support\Facades\Auth::user()->id != $user->id)
-                      @if (Auth::user()->type_id == config('constants.user_types.developer'))
-                          @foreach ($user_types as $item)
-                              <option value="{{ $item->id }}">{{ $item->name }}
-                              </option>
-                          @endforeach
-                      @endif
-                  @endif
-              </select>
-          </div>
-      </div>
-      --}}
     {{--<div class="form-group row">
         <label for="inputName2" class="col-sm-2 col-form-label text-orange">
             User Unit
@@ -84,7 +68,6 @@
                     @endforeach
                 @endif
             </select>
-
         </div>
     </div>--}}
 
@@ -107,7 +90,7 @@
         </label>
         <div class="col-sm-10">
             @can(config('rights.user_update'))
-                <select class="form-select" id="area"
+                <select required class="form-select" id="area"
                         name="area">
                     @foreach(Area::get() as $area)
                         @if($area->area == $user->area_code)
