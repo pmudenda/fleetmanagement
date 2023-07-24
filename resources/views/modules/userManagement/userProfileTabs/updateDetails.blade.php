@@ -17,13 +17,17 @@
                    placeholder="Email" value="{{ $user->email }}">
         </div>
     </div>
-    {{--<div class="form-group row">
+
+    <div class="form-group row">
         <label for="inputName2" class="col-sm-2 col-form-label">Extension</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" name="phone" required
-                   placeholder="extension" value="{{ $user->extension }}">
+            <input type="text"
+                   class="form-control"
+                   name="phone" required
+                   placeholder="extension"
+                   value="{{ $user->extension }}" />
         </div>
-    </div>--}}
+    </div>
 
     {{--<div class="form-group row">
         <label for="inputjob_code" class="col-sm-2 col-form-label">Job
@@ -57,7 +61,7 @@
           </div>
       </div>
       --}}
-    <div class="form-group row">
+    {{--<div class="form-group row">
         <label for="inputName2" class="col-sm-2 col-form-label text-orange">
             User Unit
         </label>
@@ -69,8 +73,8 @@
                     :
                     {{ $user->user_unit->user_unit_code ?? 'Please Select User Unit' }}
                 </option>
-                {{--Auth::user()->type_id == config('constants.user_types.developer')--}}
-                {{--@if (Auth::user()->id == $user->id ||
+                Auth::user()->type_id == config('constants.user_types.developer')
+                @if (Auth::user()->id == $user->id ||
                      \App\Helpers\Authorise::hasDeveloperUserType(Auth::user()))
                     @foreach ($user_unit_new as $item)
                         <option value="{{ $item->id }}">
@@ -78,11 +82,11 @@
                             : {{ $item->user_unit_code }}
                         </option>
                     @endforeach
-                @endif--}}
+                @endif
             </select>
 
         </div>
-    </div>
+    </div>--}}
 
 
     <div class="form-group row">
@@ -120,7 +124,7 @@
                 <div class="d-flex justify-content-end">
                     <button type="submit"
                             id="updateUserData"
-                            class="btn btn-sm btn-success">
+                            class="btn btn-sm btn-success mr-3">
                         Update
                     </button>
 
