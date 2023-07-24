@@ -20,7 +20,7 @@
             <p class="text-muted"><b>Area:</b>
                 @foreach(Area::get() as $area)
                     @if($area->area == $user->area_code)
-                        <option value="{{$area->area}}">{{$area->description}}</option>
+                        <b value="{{$area->area}}">{{$area->description}}</b>
                     @endif
                 @endforeach
             </p>
