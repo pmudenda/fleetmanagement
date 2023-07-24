@@ -452,7 +452,7 @@
             $(document).on('click', "#syncUserData", function () {
                 const url = this.getAttribute('data-href');
                 let formData = new FormData();
-
+                formData.append('userId', document.querySelector('[name="userId"]').value);
                 tmsApp.asyncPostFormData(
                     url,
                     formData,
