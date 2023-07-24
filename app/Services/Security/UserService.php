@@ -62,7 +62,7 @@ class UserService
         self::sync($id);
     }
 
-    public function sync($id): void
+    public static function sync($id): void
     {
         try {
             $user = User::find($id);
