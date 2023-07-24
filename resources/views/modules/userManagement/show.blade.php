@@ -193,7 +193,7 @@
                         @endif
                     </div>
                 </div>
-                @php @can(config('rights.user_update')) @endphp
+                @php  auth()->user()->can('edit articles') @endphp
                 <!--RIGHT COLUMN-->
                 <div class="col-xs-12 col-sm-7 pl-0">
                     <div class="card">
