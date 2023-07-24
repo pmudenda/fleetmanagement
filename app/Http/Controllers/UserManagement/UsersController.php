@@ -6,15 +6,19 @@ use _HumbugBoxbdf58a3ca165\Symfony\Component\Config\Definition\Exception\Excepti
 use App\Constants\ErrorMessages;
 use App\Exceptions\UserNotActiveException;
 use App\Exceptions\UserOnBoardingException;
+use App\Exceptions\UserUnitUpdateException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Main\ActivityLogsController;
 use App\Http\Requests\UserOnboardingRequest;
 use App\Models\general\BusinessUnit;
 use App\Models\general\CostCenter;
+use App\Models\Main\ConfigWorkFlow;
 use App\Models\reference\PHCMSEmployee;
 use App\Models\Security\Role;
 use App\Models\Security\User;
 use App\Services\Security\ParameterEncryption;
+use App\Services\Security\UserService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -25,6 +29,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 
 class UsersController extends Controller
@@ -259,6 +264,22 @@ class UsersController extends Controller
         DB::update('update SEC_USERS set name = ? where id = ?', [$name, $id]);
         echo "Record updated successfully.<br/>";
         echo '<a href = "/edit-records">Click Here</a> to go back.';
+
+        $model = User::find($id);
+        $model->name = $request->name;
+        //$model->email = $request->email;
+        $model->extension = $request->extension;
+        $model->type_id = $request->user_type_id;
+        //$model->job_code = $request->job_code ?? $model->job_code;
+
+        DB::transaction(function () use ($model) {
+            $model->save();
+        });
+
+        //log the activity
+        // ActivityLogsController::store($request, 'Updating of User', 'update', ' user updated', $model->staff_no);
+
+        //return Redirect::back()->with('message', 'Details for ' . $model->name . ' have been Updated successfully');
     }
 
 
@@ -327,5 +348,30 @@ class UsersController extends Controller
         return view('modules.userManagement.show')
             ->with(compact('user', 'roles'));
 
+    }
+
+    public static function sync($id)
+    {
+        try {
+            //  UserService::updateEmployeeUserUnit($id);
+            UserService::updateEmployeeFullDetails($id);
+
+            //return detains
+            return redirect()->back()->with('message', 'User Details Updated Successfully');
+
+
+        } catch (Exception $e) {
+
+            $message = 'User Details Failed to Updated!';
+            if($e instanceof UserUnitUpdateException){
+                $message = $e->getMessage();
+            }
+            // You can check get the details of the error using `errorInfo`:
+            $errorInfo = $e->getMessage();
+            Log::info('User Details Failed to Updated!. ERROR Message : ');
+            Log::error($e);
+            Log::info($errorInfo);
+            return redirect()->back()->with('error', $message);
+        }
     }
 }

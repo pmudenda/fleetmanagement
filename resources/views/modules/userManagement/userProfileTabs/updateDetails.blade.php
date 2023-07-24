@@ -1,6 +1,6 @@
 @php use App\Models\reference\Area; @endphp
 <form class="form-horizontal" method="post"
-      action="#">
+      action="{{ route('user.update', $user->id) }}">
     @csrf
     <div class="form-group row">
         <label for="inputName" class="col-sm-2 col-form-label">Name</label>
@@ -121,7 +121,7 @@
                         Update
                     </button>
 
-                    <a href="#" class="btn btn-sm btn-default">
+                    <a href="{{ route('user.sync', $user->id) }}" class="btn btn-sm btn-default">
                         Sync <i class="fas fa-sync"></i>
                     </a>
                 </div>
