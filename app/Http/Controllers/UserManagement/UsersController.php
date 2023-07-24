@@ -11,6 +11,7 @@ use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Main\ActivityLogsController;
 use App\Http\Requests\UserOnboardingRequest;
+use App\Http\Requests\UserProfileUpdate;
 use App\Http\Requests\UserSync;
 use App\Models\general\BusinessUnit;
 use App\Models\general\CostCenter;
@@ -18,6 +19,7 @@ use App\Models\Main\ConfigWorkFlow;
 use App\Models\reference\PHCMSEmployee;
 use App\Models\Security\Role;
 use App\Models\Security\User;
+use App\Services\Logging\ActivityLogsService;
 use App\Services\Security\ParameterEncryption;
 use App\Services\Security\UserService;
 use Illuminate\Contracts\Foundation\Application;
@@ -73,7 +75,6 @@ class UsersController extends Controller
             ->with(compact('roles', 'businessUnits', 'costCenters'));
     }
 
-
     public function store(UserOnboardingRequest $request): JsonResponse
     {
         try {
@@ -94,7 +95,7 @@ class UsersController extends Controller
                     throw new UserOnBoardingException(
                         "User Failed to be created because the Staff number (" . $request->staff_number . ") could not be verified with PHCMS.");
                 }
-                $employee = User::firstOrCreate(
+                $user = User::firstOrCreate(
                     [
                         'staff_no' => $request->staff_number,
                     ],
@@ -167,7 +168,7 @@ class UsersController extends Controller
                     ]
                 );
             } else {
-                $employee = User::firstOrCreate(
+                $user = User::firstOrCreate(
                     [
                         'staff_no' => $request->staff_number,
                     ],
@@ -196,7 +197,7 @@ class UsersController extends Controller
             }
 
             if ($request->has('user_profile') || !empty($request->get('user_profile'))) {
-                $employee->roles()->syncWithoutDetaching((int)$request->get('user_profile'));
+                $user->roles()->syncWithoutDetaching((int)$request->get('user_profile'));
             }
 
             DB::commit();
@@ -232,7 +233,6 @@ class UsersController extends Controller
             ));
     }
 
-
     public function edit($id)
     {
         //
@@ -257,35 +257,24 @@ class UsersController extends Controller
         return redirect()->back()->with('message', 'Role Successfully detached..');
     }
 
-
-    public function update(Request $request): void
+    public function update(UserProfileUpdate $request): JsonResponse
     {
-        $name = $request->input('stud_name');
-        $id = $request->input('userId');
-
-        DB::beginTransaction();
-
-        echo "Record updated successfully.<br/>";
-        echo '<a href = "/edit-records">Click Here</a> to go back.';
-
-        $model = User::find($id);
-        $model->name = $request->name;
-        //$model->email = $request->email;
-        // $model->extension = $request->extension;
-        // $model->type_id = $request->user_type_id;
-        //$model->job_code = $request->job_code ?? $model->job_code;
-        User::where('id', $id)
-            ->update(
-                [
-                    'name' => $name
-                ]
-            );
-
-        DB::commit();
-
-        // log the activity
-        // ActivityLogsService::store($request, 'Updating of User', 'update', ' user updated', $model->staff_no);
-        //return Redirect::back()->with('message', 'Details for ' . $model->name . ' have been Updated successfully');
+        try {
+            UserService::updateUserDetails($request);
+            // ActivityLogsService::store($request, 'Updating of User', 'update', ' user updated');
+            return response()->json([
+                'state' => 'success',
+                'message' => 'User Details Updated Successfully'
+            ]);
+        } catch (Exception $e) {
+            $message = 'User Details Failed to Updated!';
+            Log::info('User Details Failed to Updated!. ERROR Message : ');
+            Log::error($e);
+            return response()->json([
+                'state' => 'error',
+                'error' => $message
+            ]);
+        }
     }
 
 
@@ -299,7 +288,7 @@ class UsersController extends Controller
 
             $searchParam = strtoupper(trim($request->searchCriteria));
 
-            $dataset =  UserService::searchEmployee($searchParam);
+            $dataset = UserService::searchEmployee($searchParam);
 
             return response()->json([
                 'success' => true,
@@ -339,7 +328,7 @@ class UsersController extends Controller
     public function sync(UserSync $request): JsonResponse
     {
         try {
-            Log::info('User Data Update: User Id '. $request->userId);
+            Log::info('User Data Update: User Id ' . $request->userId);
             UserService::syncEmployeeFullDetails($request->userId);
             return response()->json([
                 'state' => 'success',
@@ -347,7 +336,6 @@ class UsersController extends Controller
             ]);
         } catch (Exception $e) {
             $message = 'User Details Failed to Updated!';
-            $errorInfo = $e->getMessage();
             Log::info('User Details Failed to Updated!. ERROR Message : ');
             Log::error($e);
             return response()->json([

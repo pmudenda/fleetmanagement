@@ -6,6 +6,7 @@ use App\Constants\ErrorMessages;
 use App\Exceptions\UserNotActiveException;
 use App\Exceptions\UserNotFoundException;
 use App\Helpers\StatusHelper;
+use App\Http\Requests\UserProfileUpdate;
 use App\Models\reference\PHCMSEmployee;
 use App\Models\Security\User;
 use Exception;
@@ -39,9 +40,6 @@ class UserService
 
 
         foreach ($employees as $employee) {
-
-            dd($employee->phone);
-
 //            User::find($employee->id)->update([
 //                'con_st_code' => $employee->employee_status
 //            ]);
@@ -61,7 +59,7 @@ class UserService
     public static function syncEmployeeFullDetails($userId): void
     {
         $id = $userId;
-        //(int)ParameterEncryption::decrypt();
+        //(int) ParameterEncryption::decrypt();
         Log::info('Start Syncing Data ' . $userId);
         self::sync($id);
     }
@@ -144,6 +142,31 @@ class UserService
         }
 
         return $dataset;
+    }
+
+    public static function updateUserDetails(UserProfileUpdate $request): void
+    {
+        DB::beginTransaction();
+
+        $id = $request->input('userId');
+
+        User::where('id', '=', $id)
+            ->update(
+                [
+                    'area_code' => $request->get('area'),
+                    'supervisor_code' => $request->get('staff_supervisorId'),
+                    'supervisor_name' => $request->get('staff_supervisor'),
+                    'name' => $request->get('name')
+                ]
+            );
+
+        if ($request->has('user_profile') || !empty($request->get('user_profile'))) {
+            $user = User::where('id','=', $id)->first();
+            $user->roles()->syncWithoutDetaching((int)$request->get('user_profile'));
+        }
+
+        DB::commit();
+
     }
 
 }
