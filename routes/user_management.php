@@ -21,9 +21,9 @@ Route::group(['prefix' => 'user-management'], function () {
     Route::post('user/attach', [UsersController::class, 'attach'])->name('user.attach');
     Route::post('user/detach', [UsersController::class, 'detach'])->name('user.detach');
 
-    Route::get('sync/{id}', [UsersController::class, 'sync'])->name('user.sync');
+    Route::get('user/sync', [UsersController::class, 'sync'])->name('user.sync');
 
-    Route::post('update/{id}', [UsersController::class, 'update'])->name('user.update');
+    Route::post('user/update', [UsersController::class, 'update'])->name('user.update');
 });
 
 

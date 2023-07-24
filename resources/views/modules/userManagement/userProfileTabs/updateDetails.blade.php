@@ -1,12 +1,13 @@
 @php use App\Models\reference\Area; @endphp
-<form class="form-horizontal" method="post"
-      action="{{ route('user.update', $user->id) }}">
+<form class="form-horizontal" name="updateDataUpdate" method="post"
+      action="{{ route('user.update') }}">
     @csrf
     <div class="form-group row">
         <label for="inputName" class="col-sm-2 col-form-label">Name</label>
         <div class="col-sm-10">
             <input type="text" class="form-control" name="name" required
                    placeholder="Name" value="{{ $user->name }}">
+            <input type="hidden" id="userId" name="userId" required value="{{ $user->id}}">
         </div>
     </div>
     <div class="form-group row">
@@ -117,11 +118,16 @@
         @canany([config('rights.user_update')])
             <div class="col-md-12">
                 <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-sm btn-success">
+                    <button type="submit"
+                            id="updateUserData"
+                            class="btn btn-sm btn-success">
                         Update
                     </button>
 
-                    <a href="{{ route('user.sync', $user->id) }}" class="btn btn-sm btn-default">
+                    <a href="javascript:void(0);"
+                       id="syncUserData"
+                       data-href="{{ route('user.sync') }}"
+                       class="btn btn-sm btn-default">
                         Sync <i class="fas fa-sync"></i>
                     </a>
                 </div>

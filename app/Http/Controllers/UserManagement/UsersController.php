@@ -17,6 +17,7 @@ use App\Models\Main\ConfigWorkFlow;
 use App\Models\reference\PHCMSEmployee;
 use App\Models\Security\Role;
 use App\Models\Security\User;
+use App\Services\Logging\ActivityLogsService;
 use App\Services\Security\ParameterEncryption;
 use App\Services\Security\UserService;
 use Illuminate\Contracts\Foundation\Application;
@@ -29,7 +30,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 
 class UsersController extends Controller
@@ -258,27 +258,33 @@ class UsersController extends Controller
     }
 
 
-    public function update(Request $request, $id): void
+    public function update(Request $request): void
     {
         $name = $request->input('stud_name');
-        DB::update('update SEC_USERS set name = ? where id = ?', [$name, $id]);
+        $id = $request->input('userId');
+
+        DB::beginTransaction();
+
         echo "Record updated successfully.<br/>";
         echo '<a href = "/edit-records">Click Here</a> to go back.';
 
         $model = User::find($id);
         $model->name = $request->name;
         //$model->email = $request->email;
-        $model->extension = $request->extension;
-        $model->type_id = $request->user_type_id;
+        // $model->extension = $request->extension;
+        // $model->type_id = $request->user_type_id;
         //$model->job_code = $request->job_code ?? $model->job_code;
+        User::where('id', $id)
+            ->update(
+            [
+                'name' => $name
+            ]
+        );
 
-        DB::transaction(function () use ($model) {
-            $model->save();
-        });
+        DB::commit();
 
-        //log the activity
-        // ActivityLogsController::store($request, 'Updating of User', 'update', ' user updated', $model->staff_no);
-
+        // log the activity
+        // ActivityLogsService::store($request, 'Updating of User', 'update', ' user updated', $model->staff_no);
         //return Redirect::back()->with('message', 'Details for ' . $model->name . ' have been Updated successfully');
     }
 
@@ -350,28 +356,29 @@ class UsersController extends Controller
 
     }
 
-    public static function sync($id)
+    public function sync(Request $request): JsonResponse
     {
         try {
-            //  UserService::updateEmployeeUserUnit($id);
-            UserService::updateEmployeeFullDetails($id);
 
-            //return detains
-            return redirect()->back()->with('message', 'User Details Updated Successfully');
+            UserService::updateEmployeeFullDetails($request->userId);
 
-
+            return response()->json([
+                'message' => 'User Details Updated Successfully'
+            ]);
         } catch (Exception $e) {
 
             $message = 'User Details Failed to Updated!';
-            if($e instanceof UserUnitUpdateException){
+            /*if($e instanceof UserUnitUpdateException){
                 $message = $e->getMessage();
-            }
+            }*/
             // You can check get the details of the error using `errorInfo`:
             $errorInfo = $e->getMessage();
             Log::info('User Details Failed to Updated!. ERROR Message : ');
             Log::error($e);
             Log::info($errorInfo);
-            return redirect()->back()->with('error', $message);
+            return response()->json([
+                'error' => $message
+            ]);
         }
     }
 }

@@ -62,6 +62,10 @@ class UserService
 
     }
 
+    public static function updateEmployeeFullDetails($id)
+    {
+    }
+
     public function sync($id)
     {
         try {
