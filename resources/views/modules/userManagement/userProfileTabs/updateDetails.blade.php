@@ -176,7 +176,6 @@
     </div>
 
     <div class="form-group row">
-        {{dd(auth()->user()->roles()->first()->id)}}
         <label class="col-xs-12 col-sm-6 col-md-5 col-lg-3 field-required"
                for="user_profile">Profile: </label>
         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -184,8 +183,8 @@
                     class="form-control form-select-sm"
                     required>
                 <option value>--Choose Profile--</option>
-                @foreach ($roles as $groupName)
-                    @if($groupName == 'default')
+                @foreach ($roles as auth()->user()->roles()->first()->id)
+                    @if($groupName->id == 'default')
                         <option selected
                                 value="{{$groupName->id}}">{{$groupName->description}}</option>
                     @else
