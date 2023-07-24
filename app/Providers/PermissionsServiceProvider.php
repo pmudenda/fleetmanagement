@@ -45,6 +45,16 @@ class PermissionsServiceProvider extends ServiceProvider
         Blade::directive('endrole', function ($role) {
             return "endif;"; //return this endif statement inside php tag
         });
+
+        Blade::directive('hasrole', function ($arguments) {
+            $roles = explode('|', $arguments);
+
+            return "<?php if (auth()->check() && in_array(auth()->user()->roles, {$roles})): ?>";
+        });
+
+        Blade::directive('endhasrole', function () {
+            return '<?php endif; ?>';
+        });
     }
 
 }

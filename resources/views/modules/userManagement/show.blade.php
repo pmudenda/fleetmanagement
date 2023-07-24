@@ -193,7 +193,7 @@
                         @endif
                     </div>
                 </div>
-
+{{dd('config.rights')}}
                 <!--RIGHT COLUMN-->
                 <div class="col-xs-12 col-sm-7 pl-0">
                     <div class="card">
@@ -205,6 +205,7 @@
                                         Details
                                     </a>
                                 </li>
+
                                 @canany(['rights.user_update'])
                                     <li class="card-title">
                                         <a class="nav-link"
@@ -242,7 +243,7 @@
                                     @include('modules.userManagement.userProfileTabs.userDetailsSummary')
                                 </div>
 
-                                @canany('rights.user_update')
+                                @canany(['rights.user_update'])
                                     <div class="tab-pane" id="userInfoUpdate">
                                         @include('modules.userManagement.userProfileTabs.updateDetails')
                                     </div>
