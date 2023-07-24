@@ -358,7 +358,7 @@ class UsersController extends Controller
     public function sync(Request $request): JsonResponse
     {
         try {
-            Log::info('User Data Update'. $request->userId);
+            Log::info('User Data Update: User Id '. $request->userId);
             UserService::syncEmployeeFullDetails($request->userId);
             return response()->json([
                 'state' => 'success',

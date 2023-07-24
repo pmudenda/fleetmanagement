@@ -2,6 +2,7 @@
 
 namespace App\Services\Security;
 
+use App\Exceptions\UserNotFoundException;
 use App\Helpers\StatusHelper;
 use App\Models\reference\PHCMSEmployee;
 use App\Models\Security\User;
@@ -59,7 +60,7 @@ class UserService
     {
         $id = $userId;
         //(int)ParameterEncryption::decrypt();
-        Log::info('Start Syncing User Data '. $userId);
+        Log::info('Start Syncing Data '. $userId);
         self::sync($id);
     }
 
@@ -72,7 +73,7 @@ class UserService
                 ->where('con_st_code', '=', 'ACT')
                 ->first();
 
-            Log::info('Syncing User Data For ' . $employee->staff_no);
+            Log::info('Syncing User Data For ' . $employee->con_per_no);
 
             if (!empty($employee)) {
                 DB::beginTransaction();
@@ -98,7 +99,7 @@ class UserService
                     );
                 DB::commit();
             } else {
-                Log::info('User Not Found ! ');
+                throw new UserNotFoundException("User Not Found");
             }
         } catch (QueryException $exception) {
             Log::info('Query For User Details Failed');
