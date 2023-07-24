@@ -205,6 +205,7 @@
                                         Details
                                     </a>
                                 </li>
+                                {{dd(config('rights'))}}
                                 @canany('rights.user_update')
                                     <li class="card-title">
                                         <a class="nav-link"
@@ -318,8 +319,6 @@
     @endforeach
 
     <!-- Device Delete Modal -->
-
-
     <div class="modal fade" id="addUserToGroup" tabindex="-1" role="dialog"
          aria-labelledby="addUserToGroupTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
