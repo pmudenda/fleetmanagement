@@ -33,10 +33,11 @@
         </div>
     </div>--}}
 
-    {{--  <div class="form-group row">
-          <label for="inputExperience" class="col-sm-2 col-form-label">
-              User Type
-          </label>
+    {{--
+         <div class="form-group row">
+              <label for="inputExperience" class="col-sm-2 col-form-label">
+                  User Type
+              </label>
           <div class="col-sm-10">
               <select class="form-control" name="user_type_id" required>
                   <option value="{{ $user->user_type->id ?? '' }} ">
@@ -53,7 +54,8 @@
                   @endif
               </select>
           </div>
-      </div>--}}
+      </div>
+      --}}
     <div class="form-group row">
         <label for="inputName2" class="col-sm-2 col-form-label text-orange">
             User Unit
@@ -112,7 +114,7 @@
 
 
     <div class="form-group row">
-        @if (Auth::user()->id == $user->id || Auth::user()->type_id == config('constants.user_types.developer'))
+        @canany([config('rights.user_update')])
             <div class="offset-sm-2 col-sm-4">
                 <button type="submit" class="btn btn-danger">Update</button>
             </div>
@@ -120,6 +122,6 @@
                 <a href="#"
                    class="btn btn-default"> Sync <i class="fas fa-sync"></i> </a>
             </div>
-        @endif
+        @endcanany
     </div>
 </form>
