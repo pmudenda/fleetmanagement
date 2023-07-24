@@ -222,13 +222,13 @@ class UsersController extends Controller
 
     }
 
-    public function show(Request $request): Factory|View|Application
+    public function show(Request $request, $id): Factory|View|Application
     {
         if (!$request->hasValidSignature()) {
             abort(401);
         }
 
-        $user = User::where('id', '=', $request->id)->first();
+        $user = User::where('id', '=', $id)->first();
         $roles = Role::all();
         return view('modules.userManagement.show')
             ->with(compact(
