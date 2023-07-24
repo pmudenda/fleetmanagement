@@ -1441,13 +1441,22 @@
                         let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
 
                         lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
+
                         lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
                         lastRow.find('[name="quantity"]').val('').attr('readonly', false);
                         lastRow.find('[name="articles"]').attr('readonly', false);
                         lastRow.find('[name="unit_of_measure"]').val('');
                         lastRow.find('[name="unit_price"]').val('');
                         lastRow.find('[name="total_price"]').val('');
+
                         lastRow.find('#unit_price').text('');
+
+                        lastRow.find('[name="service_article"]').val('');
+                        lastRow.find('[name="serviceArticleCode"]').val('');
+                        lastRow.find('[name="service_technical_specification"]').val('');
+                        lastRow.find('[name="service_unit_price"]').val('');
+                        lastRow.find('[name="service_unit_of_measure"]').val('');
+                        lastRow.find('[name="service_total_price"]').val('');
 
                         if (tableId === "part8") {
                             let row = lastRow[0];

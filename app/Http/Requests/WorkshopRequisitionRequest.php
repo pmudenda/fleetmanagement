@@ -23,13 +23,13 @@ class WorkshopRequisitionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'item.*.articles' => 'required|string',
-            'item.*.quantity' => 'required|numeric',
-            'item.*.registration' => 'required|string',
-            'item.*.technical_specification' => 'required|string',
-            'item.*.total_price' => 'required|numeric',
-            'item.*.unit_of_measure' => 'required|string',
-            'item.*.unit_price' => 'required|numeric',
+            'items.*.articles' => 'required|string',
+            'items.*.quantity' => 'required|numeric',
+            'items.*.registration' => 'required|string',
+            'items.*.technical_specification' => 'required|string',
+            'items.*.total_price' => 'required|numeric',
+            'items.*.unit_of_measure' => 'required|string',
+            'items.*.unit_price' => 'required|numeric',
 
             'job_card_no' => 'required|string',
             'workshop_reference' => 'required|string',

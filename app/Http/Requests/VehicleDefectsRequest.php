@@ -23,11 +23,11 @@ class VehicleDefectsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'item.*.date_def' => 'required',
-            'item.*.defect' => 'required',
-            'item.*.defectCategory' => 'required',
-            'item.*.vehicleSystem' => 'required',
-            'item.*.workshopSection' => 'required',
+            'items.*.date_def' => 'required',
+            'items.*.defect' => 'required',
+            'items.*.defectCategory' => 'required',
+            'items.*.vehicleSystem' => 'required',
+            'items.*.workshopSection' => 'required',
             'workshop_reference' => 'required|string|max:20',
             'modelName' => 'required',
             'remarks' => 'nullable|string|max:255'

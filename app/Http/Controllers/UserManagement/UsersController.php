@@ -268,38 +268,29 @@ class UsersController extends Controller
 
     public function search(Request $request): JsonResponse
     {
-        //$development = false;
         try {
 
-            /*if ($development) {
-                $searchParam = $request->searchCriteria;
-                $apiURL = 'http://dev.zesco.co.zm/ezesco_forms/public/api/users';
-                $headers = [
-                    'Content-Type' => 'application/json',
-                ];
-                $response = Http::withHeaders($headers)->get($apiURL, [
-                    'staff_number' => $searchParam,
-                ]);
-
-                return response()->json([
-                    'success' => true,
-                    'payload' => $response->json()
-                ]);
-            }*/
-
             $searchParam = strtoupper(trim($request->searchCriteria));
-            $dataset = PHCMSEmployee::select('*')
-                ->where('con_per_no', $searchParam)
-                ->orWhere('name', 'LIKE', "%{$searchParam}%")
-                ->where('con_st_code', '=', 'ACT')
-                ->first();
 
-            if (empty($dataset)) {
-                //$dataset = [];
-                throw new UserNotActiveException(ErrorMessages::getMessage('err_0019'));
+            if (str_starts_with($searchParam, 'C7') || str_starts_with($searchParam, '7')) {
+                $dataset = PHCMSEmployee::select('*')
+                    ->where('con_per_no', $searchParam)
+                    ->where('con_st_code', '=', 'ACT')
+                    ->whereNull('alt_per_no')
+                    ->first();
+            } else {
+                $dataset = PHCMSEmployee::select('*')
+                    ->where('name', 'LIKE', "%{$searchParam}%")
+                    ->where('con_st_code', '=', 'ACT')
+                    ->where(function ($query) {
+                        $query->where('con_per_no', 'LIKE', "C7%")
+                            ->orWhere('con_per_no', 'LIKE', "7%");
+                    })
+                    ->get();
+
             }
 
-            if ($dataset->con_st_code != 'ACT') {
+            if (empty($dataset)) {
                 throw new UserNotActiveException(ErrorMessages::getMessage('err_0019'));
             }
 

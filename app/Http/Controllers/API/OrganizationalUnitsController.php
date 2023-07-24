@@ -20,6 +20,7 @@ class OrganizationalUnitsController extends Controller
             $query = OrganizationalUnit::query();
 
             $query->where('status', StatusHelper::organizationStructureActive());
+            $query->whereNotNull('cc_code');
 
             if (!$request->get('include_nulls')) {
                 $query->whereNotNull('description');
