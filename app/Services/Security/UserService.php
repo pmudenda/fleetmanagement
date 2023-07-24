@@ -107,8 +107,8 @@ class UserService
                             'location' => $employee->location ?? $employee->functional_section,
                             'pay_point' => $employee->pay_point,
                             'job_code' => $employee->job_code ?? "--",
-                            //'station' => $employee_phcms->station ?? "--",
-                            'affiliated_union' => $employee->affiliated_union ?? "--",
+                            // 'station' => $employee_phcms->station ?? "--",
+                            // 'affiliated_union' => $employee->affiliated_union ?? "--",
                         ]
                     );
                 DB::commit();

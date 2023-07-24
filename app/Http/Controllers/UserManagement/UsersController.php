@@ -106,11 +106,6 @@ class UsersController extends Controller
                     'phone' => $request->mobile_no,
 
                     'functional_section' => $request->user_unit,
-                    //'name' => $request->name,
-                    //'staff_no' => $request->staff_number,
-                    //'mobile_no' => $request->mobile_no,
-                    //'grade' => $request->grade,
-                    //'job_title' => $request->job_title,
                     'bu_code' => $request->business_unit_code,
                     'cc_code' => $request->cost_center_code,
                     'directorate' => $request->directorate,
@@ -129,18 +124,24 @@ class UsersController extends Controller
                     'group_type' => $employee_phcms->group_type,
                     'job_title' => $employee_phcms->job_title,
                     'grade' => $employee_phcms->grade,
+                    'location' => $employee_phcms->location ?? $employee_phcms->functional_section,
+                    'pay_point' => $employee_phcms->pay_point,
+                    'job_code' => $employee_phcms->job_code ?? "--",
+                    'area_code' => $request->get('business_area'),
+                    'guid' => Str::uuid()
 
+                    //'name' => $request->name,
+                    //'staff_no' => $request->staff_number,
+                    //'mobile_no' => $request->mobile_no,
+                    //'grade' => $request->grade,
+                    //'job_title' => $request->job_title,
                     //'functional_section' => $employee_phcms->functional_section,
                     //'directorate' => $employee_phcms->directorate,
                     //'bu_code' => $employee_phcms->bu_code,
                     //'cc_code' => $employee_phcms->cc_code,
                     //'email' => $employee_phcms->staff_email,
-                    'location' => $employee_phcms->location ?? $employee_phcms->functional_section,
-                    'pay_point' => $employee_phcms->pay_point,
-                    'job_code' => $employee_phcms->job_code ?? "--",
-                    //'station' => $employee_phcms->station ?? "--",
-                    'affiliated_union' => $employee_phcms->affiliated_union ?? "--",
-                    'area_code' => $request->get('business_area'),
+                    // 'station' => $employee_phcms->station ?? "--",
+                    // 'affiliated_union' => $employee_phcms->affiliated_union ?? "--",
                     //'extension' => '',
                     //'sex' => $request->gender,
                     //'nrc' => $request->nrc,
@@ -153,7 +154,6 @@ class UsersController extends Controller
                     //'pay_point',
                     //'job_code',
                     //'user_unit_code',
-
                     //'user_unit_id',
                     //'positions_id',
                     //'user_region_id',
@@ -162,7 +162,6 @@ class UsersController extends Controller
                     //'station',
                     //'last_login',
                     //'total_logins',
-                    'guid' => Str::uuid()
                 ]
             );
 
