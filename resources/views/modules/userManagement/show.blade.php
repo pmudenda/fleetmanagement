@@ -457,7 +457,8 @@
                     url,
                     formData,
                     function (asyncResponse) {
-                        if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
+
+                        if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
                             setTimeout(function () {
                                 tmsApp.showSystemMessage(
                                     'Fuel Requisition',
