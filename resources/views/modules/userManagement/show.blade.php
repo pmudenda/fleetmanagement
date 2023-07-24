@@ -287,7 +287,6 @@
                             <div class="card-body">
                                 <div class="row">
                                     <span class="text-danger">Are you sure you want to detach?</span>
-
                                 </div>
 
                                 <div class="row">
@@ -406,8 +405,7 @@
                                     'Fuel Requisition',
                                     asyncResponse['message'],
                                     function () {
-                                        window.location.href = asyncResponse["redirectUrl"]
-                                        //window.location.reload();
+                                        window.location.reload();
                                     },
                                     'success'
                                 );
