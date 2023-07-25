@@ -75,25 +75,37 @@
                     <th>Evaluation</th>
                 </tr>
                 </thead>
-
                 <tr>
-                    <td>{{config('rights.create_job_card')}}  (Create Job Card)</td>
-                    <td>{{auth()->user()->can(config('rights.create_job_card'))}}</td>
+                    <td>{{config('rights.role_create') }}  (Create Job Card)</td>
+                    <td>{{dd(auth()->user()->can(config('rights.role_create')))}}</td>
                 </tr>
 
                 <tr>
-                    <td>{{config('rights.view_job_card')}}  (View Job Card)</td>
-                    <td>{{(auth()->user()->can(config('rights.view_job_card')))}}</td>
+                    <td>{{config('rights.role_access')}}  (View Job Card)</td>
+                    <td>{{(auth()->user()->can(config('rights.role_access'))}}</td>
                 </tr>
 
                 <tr>
-                    <td>{{config('rights.view_job_card')}}  (View Job Card)</td>
-                    <td>{{(auth()->user()->can(config('rights.view_job_card')))}}</td>
+                    <td>{{ config('rights.role_show')}}  (View Job Card)</td>
+                    <td>{{(auth()->user()->can( config('rights.role_show')))}}</td>
                 </tr>
 
                 <tr>
-                    <td>{{ config('rights.requisition_fuel')}}  (Request Fuel)</td>
-                    <td>{{(auth()->user()->can(config('rights.requisition_fuel')))}}</td>
+                    <td>{{ config('rights.role_edit')}}  (Request Fuel)</td>
+                    <td>{{(auth()->user()->can(config('rights.role_edit')))}}</td>
+                </tr>
+
+                <tr>
+                    <td>{{ config('rights.role_destroy') }}  (Request Fuel)</td>
+                    <td>{{(auth()->user()->can(config('rights.role_destroy')))}}</td>
+                </tr>
+
+                <tr>
+                    <td>{{ config('rights.role_attach') }}  (Request Fuel)</td>
+                    <td>{{(auth()->user()->can(config('rights.role_attach')))}}</td>
+                </tr>     <tr>
+                    <td>{{ config('rights.role_detach') }}  (Request Fuel)</td>
+                    <td>{{(auth()->user()->can(config('rights.role_detach')))}}</td>
                 </tr>
 
             </table>
