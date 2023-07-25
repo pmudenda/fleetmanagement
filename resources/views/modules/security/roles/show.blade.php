@@ -174,7 +174,6 @@
                     <div class="card-body">
                         <div class="row">
                             <span class="text-danger">Select Permissions to Attach</span>
-
                         </div>
 
                         <table id="example1" class="table ">
@@ -189,14 +188,14 @@
                             @foreach($permissions->whereNotIn( 'id', $role->permissions->pluck('id')->toArray()) as $item)
                                 <tr>
                                     <td>
-                                        <input type="checkbox" id="permission_ids" name="permission_ids[]"
+                                        <input type="checkbox"
+                                               id="permission_ids"
+                                               name="permission_ids[]"
                                                value="{{$item->id}}">
-
                                     </td>
                                     <td>
-                                        {{$item->name}}
+                                        {{$item->description}}
                                     </td>
-
                                 </tr>
                             @endforeach
                             </tbody>
@@ -204,7 +203,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         @can(config('rights.permission_attach'))
                             <button type="submit" class="btn btn-success">Attach</button>
                         @endcan
