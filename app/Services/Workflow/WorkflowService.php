@@ -187,7 +187,7 @@ class WorkflowService
         }
 
         Log::info("Action Passed is " . $action);
-        Log::info("Action  Taken " . $actionTaken);
+        Log::info("Action Taken " . $actionTaken);
 
         switch ($action) {
             case 1:
@@ -215,12 +215,14 @@ class WorkflowService
                     $task_detail->save();
                 DB::commit();
                 return ["0","0"];
-                break;
             case 3:
 
                 // approved
                 //check if the current step is final step .CurrentStep.IsFinalStep == 1
-                if ($current_step->is_final_step || $current_step->is_final_step == '1' || $current_step->is_final_step == 1) {
+                if ($current_step->is_final_step
+                    || $current_step->is_final_step == '1'
+                    || $current_step->is_final_step == 1)
+                {
                     DB::beginTransaction();
                     Log::info("Final Step Approving and Ending Process");
 
@@ -259,15 +261,13 @@ class WorkflowService
                 if (empty($next_step)) {
                     throw new WorkflowTaskCreationFailedException("Approval Process Next State Record Not Found", 102);
                 }
-                //get to next step
 
+                // get to next step
                 /*if ($next_step == null) {
                     $task_detail->current_step_id = null;
                     $task_detail->actionong_officer = null;
                     $task_detail->save();
-
                     self::closePreviousTasks($task_detail);
-
                     return $task_detail;
                 }*/
 

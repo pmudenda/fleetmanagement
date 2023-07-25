@@ -358,7 +358,7 @@ class WorkshopRequisitionService
     /**
      * @throws FuelRequisitionException
      */
-    public function createWorkshopMaterialStoresReservation(mixed $req_no): void
+    public function createWorkshopMaterialStoresReservation(mixed $req_no): mixed
     {
         $requisitionDetail = self::getReservationDetail($req_no);
 
@@ -383,7 +383,9 @@ class WorkshopRequisitionService
         }
 
 
-        Log::info("Stores Requisition Generated with document " . $results);
+        Log::info("Stores Reservation Generated with document " . $results);
+
+        return $results;
     }
 
     public function getWorkShopReservationDetails(mixed $req_no): array
@@ -706,7 +708,7 @@ class WorkshopRequisitionService
     /**
      * @throws FuelRequisitionException
      */
-    public function createWorkshopNonStockPurchaseProcess($workshop_reference): void
+    public function createWorkshopNonStockPurchaseProcess($workshop_reference): mixed
     {
         $requisitionDetail = self::getReservationDetail($workshop_reference);
 
@@ -729,7 +731,7 @@ class WorkshopRequisitionService
             throw new FuelRequisitionException("Purchase Process Could Not Be Started ");
         }
 
-        /*if (!str_contains($results, 'J02')) {
+       /* if (!str_contains($results, 'J02')) {
             throw new FuelRequisitionException($results);
         }*/
 
@@ -737,12 +739,13 @@ class WorkshopRequisitionService
 
         Log::info("Purchase Process Document document " . $results);
 
+        return $results;
     }
 
     /**
      * @throws FuelRequisitionException
      */
-    public function createWorkshopServicePurchaseProcess(mixed $workshop_reference): void
+    public function createWorkshopServicePurchaseProcess(mixed $workshop_reference): mixed
     {
         $requisitionDetail = self::getReservationDetail($workshop_reference);
 
@@ -772,6 +775,8 @@ class WorkshopRequisitionService
         self::updateStPur($requisitionDetail->req_no, $results);
 
         Log::info("Purchase Process Document" . $results);
+
+        return $results;
     }
 
     public function updateStatus(mixed $reference, string $status): void

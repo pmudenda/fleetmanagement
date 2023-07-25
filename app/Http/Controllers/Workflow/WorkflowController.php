@@ -154,17 +154,17 @@ class WorkflowController extends Controller
                 case 'approve':
                     $action = WorkflowActions::approve();
                     $actionTaken = "Approved";
-                    $message = 'Request Approved Successfully';
+                    $message = 'Request Approved Successfully.';
                     break;
                 case 'reject':
                     $action = WorkflowActions::rejected();
                     $actionTaken = "Rejected";
-                    $message = 'Request Rejected';
+                    $message = 'Request Rejected.';
                     break;
                 case 'send_back':
                     $action = WorkflowActions::sendBack();
                     $actionTaken = "SendBack";
-                    $message = 'Request Sent Back To Originator';
+                    $message = 'Request Sent Back To Originator.';
                     break;
             }
 
@@ -176,16 +176,19 @@ class WorkflowController extends Controller
                 $request->get('Comments')
             );
 
-            if ($nextStepId == 100) {
+            if ($nextStepId == 100 && $action == WorkflowActions::approve()) {
                 switch ($requisitionDetail->item_type) {
                     case RequisitionItemTypes::Service:
-                        $this->workshopRequisitionService->createWorkshopServicePurchaseProcess($request->get('reference'));
+                        $purchaseProcessNumber = $this->workshopRequisitionService->createWorkshopServicePurchaseProcess($request->get('reference'));
+                        $message = $message . ' Purchase Process No.: '. $purchaseProcessNumber;
                         break;
                     case RequisitionItemTypes::NonStockItem:
-                    $this->workshopRequisitionService->createWorkshopNonStockPurchaseProcess($request->get('reference'));
+                        $purchaseProcessNumber = $this->workshopRequisitionService->createWorkshopNonStockPurchaseProcess($request->get('reference'));
+                        $message = $message . ' Purchase Process No.: '. $purchaseProcessNumber;
                         break;
                     case RequisitionItemTypes::StockItem:
-                        $this->workshopRequisitionService->createWorkshopMaterialStoresReservation($request->get('reference'));
+                        $reservationNumber = $this->workshopRequisitionService->createWorkshopMaterialStoresReservation($request->get('reference'));
+                        $message = $message . ' Stores Reservation No.: '. $reservationNumber;
                         break;
                     default:
                         throw new MaterialReservationException("ITEM TYPE NOT");
@@ -194,13 +197,15 @@ class WorkflowController extends Controller
                 $this->workshopRequisitionService->updateStatus($reference, StatusHelper::authorised());
 
             }else{
-                $message = 'Request Approved and Submitted to the next authority ';
+
                 $status = '';
                 switch (strtolower(trim($request->get('Approved')))) {
                     case 'approve':
+                        $message = 'Request Approved and Submitted to the Next Authority For Approval';
                         $status = StatusHelper::partiallyAuthorised();
                         break;
                     case 'reject':
+                        $message = 'Request Rejected';
                         $status = StatusHelper::rejected();
                         break;
                 }

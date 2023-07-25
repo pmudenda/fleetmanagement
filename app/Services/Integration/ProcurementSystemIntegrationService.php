@@ -253,6 +253,7 @@ class ProcurementSystemIntegrationService
             if (str_starts_with($rawJNumber, '0')) {
                 return substr($rawJNumber, 1);
             }
+
             return $rawJNumber;
 
         } catch (\Exception $e) {
