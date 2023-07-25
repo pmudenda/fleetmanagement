@@ -33,7 +33,7 @@
 
             <div class="card-bod pb-4 min-h-600px pt-0">
 
-                <x-error-view/>
+                <x-error-view></x-error-view>
 
                 <form name="fuelRequisitionForm"
                       id="fuelRequisitionForm"

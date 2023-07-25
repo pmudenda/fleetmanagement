@@ -34,26 +34,7 @@
     <!-- Main content -->
     <section class="content">
 
-        @if(session()->has('message'))
-            <div class="alert alert-success alert-dismissible">
-                <p class="lead"> {!! session()->get('message') !!}</p>
-            </div>
-        @endif
-        @if(session()->has('error'))
-            <div class="alert alert-info alert-dismissible">
-                <p class="lead"> {!! session()->get('error') !!}</p>
-            </div>
-        @endif
-
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        <x-error-view></x-error-view>
 
         <div class="container-fluid">
 
@@ -66,9 +47,23 @@
                     <div class="col-md-6 col-lg-6 col-sm-12">
                         <div class="card card-solid">
                             <div class="card-body">
-                                <h3 class="my-3 text-uppercase">{{$role->name}} DETAILS</h3>
-
-                                <div class="col-sm-12 invoice-col">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <h3 class="my-3 text-uppercase">{{$role->description}} DETAILS</h3>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 pl-0">
+                                    <div class="text-center">
+                                        <a href="#">
+                                            <i class="nav-icon fas fa-shield-alt " style="font-size:100px;"></i>
+                                            {{--<img class="profile-user-img img-fluid img-circle"
+                                                 width="100%"
+                                                 src="http://fm-dev.zesco.co.zm/assets/media/avatars/avatar.png"
+                                                 alt="Image not found" title="Click Here to Edit Image"
+                                                 data-toggle="modal"
+                                                 data-target="#modal-edit-profile">--}}
+                                        </a>
+                                    </div>
                                     <table>
                                         <tr>
                                             <th>Name</th>
