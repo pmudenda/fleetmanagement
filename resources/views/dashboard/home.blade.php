@@ -83,7 +83,7 @@
 
                 <tr>
                     <td>{{config('rights.view_job_card')}}  (View Job Card)</td>
-                    <td>{{dd(auth()->user()->can(config('rights.view_job_card')))}}</td>
+                    <td>{{(auth()->user()->can(config('rights.view_job_card')))}}</td>
                 </tr>
 
                 <tr>
