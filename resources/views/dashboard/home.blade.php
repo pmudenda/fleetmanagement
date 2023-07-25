@@ -82,30 +82,30 @@
 
                 <tr>
                     <td>{{config('rights.role_access')}}  (View Job Card)</td>
-                    <td>{{(auth()->user()->can(config('rights.role_access'))}}</td>
+                    <td>{{dd(auth()->user()->can(config('rights.role_access')))}}</td>
                 </tr>
 
                 <tr>
                     <td>{{ config('rights.role_show')}}  (View Job Card)</td>
-                    <td>{{(auth()->user()->can( config('rights.role_show')))}}</td>
+                    <td>{{dd(auth()->user()->can( config('rights.role_show')))}}</td>
                 </tr>
 
                 <tr>
                     <td>{{ config('rights.role_edit')}}  (Request Fuel)</td>
-                    <td>{{(auth()->user()->can(config('rights.role_edit')))}}</td>
+                    <td>{{dd(auth()->user()->can(config('rights.role_edit')))}}</td>
                 </tr>
 
                 <tr>
                     <td>{{ config('rights.role_destroy') }}  (Request Fuel)</td>
-                    <td>{{(auth()->user()->can(config('rights.role_destroy')))}}</td>
+                    <td>{{(ddauth()->user()->can(config('rights.role_destroy')))}}</td>
                 </tr>
 
                 <tr>
                     <td>{{ config('rights.role_attach') }}  (Request Fuel)</td>
-                    <td>{{(auth()->user()->can(config('rights.role_attach')))}}</td>
+                    <td>{{dd(auth()->user()->can(config('rights.role_attach')))}}</td>
                 </tr>     <tr>
                     <td>{{ config('rights.role_detach') }}  (Request Fuel)</td>
-                    <td>{{(auth()->user()->can(config('rights.role_detach')))}}</td>
+                    <td>{{dd(auth()->user()->can(config('rights.role_detach')))}}</td>
                 </tr>
 
             </table>
