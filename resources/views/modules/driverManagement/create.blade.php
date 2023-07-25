@@ -101,414 +101,416 @@
                                             </div>
                                         </div>
                                         <div class="card-body user-data pl-0">
-                                            <div class="row">
-                                                <div class="card-title pl-2">
-                                                    <h4>Employee Details</h4>
-                                                    <hr/>
-                                                </div>
-                                            </div>
                                             <div class="container-fluid mt-5">
                                                 <div class="row">
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                        for="staff_name">
-                                                                        Staff Number:
-                                                                    </label>
-                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <input type="text"
-                                                                               class="form-control form-control-sm"
-                                                                               id="employee_number"
-                                                                               name="employee_number"
-                                                                               required readonly/>
-                                                                    </div>
-                                                                </div>
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="card-title pl-2">
+                                                                <h4>Employee Details</h4>
+                                                                <hr/>
                                                             </div>
                                                         </div>
-                                                    </div>
-
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                        for="staff_name">
-                                                                        Name:
-                                                                    </label>
-                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <input type="text"
-                                                                               class="form-control form-control-sm"
-                                                                               id="driver_name"
-                                                                               name="driver_name"
-                                                                               required readonly/>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row" style="display: none;">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                        for="mobile_no">Grade:</label>
-                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <input type="text"
-                                                                               class="form-control form-control-sm"
-                                                                               id="grade"
-                                                                               readonly name="grade"
-                                                                               autocomplete="off"/>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                        for="staff_name">
-                                                                        Position:
-                                                                    </label>
-                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <input type="text"
-                                                                               class="form-control form-control-sm"
-                                                                               id="job_title"
-                                                                               name="job_title"
-                                                                               required
-                                                                               readonly>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--Directorate And Department-->
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                        for="department">
-                                                                        Department :
-                                                                    </label>
-                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <input type="text"
-                                                                               class="form-control form-control-sm"
-                                                                               id="department"
-                                                                               name="department"
-                                                                               readonly
-                                                                               required>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                        for="staff_name">
-                                                                        Location:
-                                                                    </label>
-                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <input type="hidden" name="cost_center_code">
-                                                                        <input type="hidden" name="nrc">
-
-                                                                        <input type="text"
-                                                                               class="form-control form-control-sm"
-                                                                               id="location"
-                                                                               name="location" required readonly/>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                        for="staff_name">
-                                                                        Is Driver by designation ?:
-                                                                    </label>
-                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <label class="inline-check">
-                                                                            <div class="form-check form-check-inline">
-                                                                                <input id="designated-driver-yes"
-                                                                                       type="radio"
-                                                                                       name="isDesignatedDriver"
-                                                                                       value="yes" disabled/>
-                                                                                <label
-                                                                                    for="designated-driver-yes">Yes</label>
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                for="staff_name">
+                                                                                Staff Number:
+                                                                            </label>
+                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <input type="text"
+                                                                                       class="form-control form-control-sm"
+                                                                                       id="employee_number"
+                                                                                       name="employee_number"
+                                                                                       required readonly/>
                                                                             </div>
-                                                                            <div class="form-check form-check-inline">
-                                                                                <input id="designated-driver-no"
-                                                                                       type="radio"
-                                                                                       checked
-                                                                                       name="isDesignatedDriver"
-                                                                                       value="no" disabled/>
-                                                                                <label
-                                                                                    for="designated-driver-no">No</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                for="staff_name">
+                                                                                Name:
+                                                                            </label>
+                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <input type="text"
+                                                                                       class="form-control form-control-sm"
+                                                                                       id="driver_name"
+                                                                                       name="driver_name"
+                                                                                       required readonly/>
                                                                             </div>
-                                                                        </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
 
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row" style="display: none;">
+                                                                        <div class="form-group row">
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                for="mobile_no">Grade:</label>
+                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <input type="text"
+                                                                                       class="form-control form-control-sm"
+                                                                                       id="grade"
+                                                                                       readonly name="grade"
+                                                                                       autocomplete="off"/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                for="staff_name">
+                                                                                Position:
+                                                                            </label>
+                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <input type="text"
+                                                                                       class="form-control form-control-sm"
+                                                                                       id="job_title"
+                                                                                       name="job_title"
+                                                                                       required
+                                                                                       readonly>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--Directorate And Department-->
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                for="department">
+                                                                                Department :
+                                                                            </label>
+                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <input type="text"
+                                                                                       class="form-control form-control-sm"
+                                                                                       id="department"
+                                                                                       name="department"
+                                                                                       readonly
+                                                                                       required>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                for="staff_name">
+                                                                                Location:
+                                                                            </label>
+                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <input type="hidden" name="cost_center_code">
+                                                                                <input type="hidden" name="nrc">
+
+                                                                                <input type="text"
+                                                                                       class="form-control form-control-sm"
+                                                                                       id="location"
+                                                                                       name="location" required readonly/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                for="staff_name">
+                                                                                Is Driver by designation ?:
+                                                                            </label>
+                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <label class="inline-check">
+                                                                                    <div class="form-check form-check-inline">
+                                                                                        <input id="designated-driver-yes"
+                                                                                               type="radio"
+                                                                                               name="isDesignatedDriver"
+                                                                                               value="yes" disabled/>
+                                                                                        <label
+                                                                                            for="designated-driver-yes">Yes</label>
+                                                                                    </div>
+                                                                                    <div class="form-check form-check-inline">
+                                                                                        <input id="designated-driver-no"
+                                                                                               type="radio"
+                                                                                               checked
+                                                                                               name="isDesignatedDriver"
+                                                                                               value="no" disabled/>
+                                                                                        <label
+                                                                                            for="designated-driver-no">No</label>
+                                                                                    </div>
+                                                                                </label>
+
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="row">
-                                            <div class="card-title pl-2">
-                                                <h4>License Details</h4>
-                                                <hr/>
-                                            </div>
-                                        </div>
-                                        <div class="card-body user-data pl-0 pt-0">
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="card-title pl-2">
+                                                                <h4>License Details</h4>
+                                                                <hr/>
+                                                            </div>
+                                                        </div>
 
-                                            <div class="container-fluid mt-5">
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                        for="staff_license">
-                                                                        License No:
-                                                                    </label>
-                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <input type="text"
-                                                                               class="form-control form-control-sm"
-                                                                               id="license_number" name="license_number"
-                                                                               required>
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                for="staff_license">
+                                                                                License No:
+                                                                            </label>
+                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <input type="text"
+                                                                                       class="form-control form-control-sm"
+                                                                                       id="license_number" name="license_number"
+                                                                                       required>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                for="staff_name">
+                                                                                Date Issued:
+                                                                            </label>
+                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <input type="date"
+                                                                                       max="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
+                                                                                       class="form-control form-control-sm"
+                                                                                       id="license_date_issued"
+                                                                                       name="license_date_issued" required>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                        for="staff_name">
-                                                                        Date Issued:
-                                                                    </label>
-                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <input type="date"
-                                                                               max="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
-                                                                               class="form-control form-control-sm"
-                                                                               id="license_date_issued"
-                                                                               name="license_date_issued" required>
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                for="staff_name">
+                                                                                Expiry Date:
+                                                                            </label>
+                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <input type="date"
+                                                                                       {{--min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"--}}
+                                                                                       class="form-control form-control-sm"
+                                                                                       id="license_date_expiry"
+                                                                                       name="license_date_expiry"
+                                                                                       required/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                for="staff_name">
+                                                                                License Category:
+                                                                            </label>
+                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <select
+                                                                                    id="license_class"
+                                                                                    name="license_class"
+                                                                                    class="form-select">
+                                                                                    @foreach($licenseClasses as $licenseClass)
+                                                                                        <option
+                                                                                            value="{{$licenseClass->code}}">{{$licenseClass->name}}</option>
+                                                                                    @endforeach
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
 
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                        for="staff_name">
-                                                                        Expiry Date:
-                                                                    </label>
-                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <input type="date"
-                                                                               {{--min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"--}}
-                                                                               class="form-control form-control-sm"
-                                                                               id="license_date_expiry"
-                                                                               name="license_date_expiry"
-                                                                               required/>
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                                for="staff_name">
+                                                                                Copy Of License:
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                        for="staff_name">
-                                                                        License Category:
-                                                                    </label>
-                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <select
-                                                                            id="license_class"
-                                                                            name="license_class"
-                                                                            class="form-select">
-                                                                            @foreach($licenseClasses as $licenseClass)
-                                                                                <option
-                                                                                    value="{{$licenseClass->code}}">{{$licenseClass->name}}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                                        for="staff_name">
-                                                                        Copy Of License:
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                        for="staff_name">
-                                                                        Front View:
-                                                                        <small class="text-danger">
-                                                                            JPG, JPEG,PNG, BMP
-                                                                        </small>
-                                                                    </label>
-                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <div class="card text-center py-5 my-2 pt-0">
-                                                                            <div class="form-group">
-                                                                                <p
-                                                                                    class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                                                                                    <button type="button"
-                                                                                            data-select="file"
-                                                                                            data-input="selectFrontViewFile"
-                                                                                            class="upload-file btn btn-sm btn-primary me-2">
-                                                                                        <i class="fas fa-cloud"></i>
-                                                                                        Upload Image
-                                                                                    </button>
-                                                                                    <input type="file" accept="image/*"
-                                                                                           style="display: none;"
-                                                                                           class="fileElem"
-                                                                                           id="license_front_view"
-                                                                                           name="license_front_view"/>
-                                                                                </p>
-                                                                                <div class="imagePreview"
-                                                                                     style="display: none;">
-                                                                                    <button type="button"
-                                                                                            class="btn btn-xs clearImage"
-                                                                                            style="top: 1px;
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                for="staff_name">
+                                                                                Front View:
+                                                                                <small class="text-danger">
+                                                                                    JPG, JPEG,PNG, BMP
+                                                                                </small>
+                                                                            </label>
+                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <div class="card text-center py-5 my-2 pt-0">
+                                                                                    <div class="form-group">
+                                                                                        <p
+                                                                                            class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+                                                                                            <button type="button"
+                                                                                                    data-select="file"
+                                                                                                    data-input="selectFrontViewFile"
+                                                                                                    class="upload-file btn btn-sm btn-primary me-2">
+                                                                                                <i class="fas fa-cloud"></i>
+                                                                                                Upload Image
+                                                                                            </button>
+                                                                                            <input type="file" accept="image/*"
+                                                                                                   style="display: none;"
+                                                                                                   class="fileElem"
+                                                                                                   id="license_front_view"
+                                                                                                   name="license_front_view"/>
+                                                                                        </p>
+                                                                                        <div class="imagePreview"
+                                                                                             style="display: none;">
+                                                                                            <button type="button"
+                                                                                                    class="btn btn-xs clearImage"
+                                                                                                    style="top: 1px;
                                             position: relative;
                                             right: 1px;
                                             float: right;
                                             padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                                                                                    </button>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
 
-                                                    <div class="col-xs-12 col-sm-6 col-md-5">
-                                                        <div class="container-fluid pl-0">
-                                                            <div class="row">
-                                                                <div class="form-group row">
-                                                                    <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                        for="staff_name">
-                                                                        Back View:
-                                                                        <small class="text-danger">
-                                                                            JPG, JPEG,PNG, BMP
-                                                                        </small>
-                                                                    </label>
-                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <div class="card text-center py-5 my-2 pt-0">
-                                                                            <div class="form-group">
-                                                                                <p
-                                                                                    class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                                                                                    <button type="button"
-                                                                                            data-select="file"
-                                                                                            data-input="selectFrontViewFile"
-                                                                                            class="upload-file btn btn-sm btn-primary me-2">
-                                                                                        <i class="fas fa-cloud"></i>
-                                                                                        Upload Image
-                                                                                    </button>
-                                                                                    <input type="file" accept="image/*"
-                                                                                           style="display: none;"
-                                                                                           class="fileElem"
-                                                                                           id="license_back_view"
-                                                                                           name="license_back_view"/>
-                                                                                </p>
-                                                                                <div class="imagePreview"
-                                                                                     style="display: none;">
-                                                                                    <button type="button"
-                                                                                            class="btn btn-xs clearImage"
-                                                                                            style="top: 1px;
+                                                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                                                <div class="container-fluid pl-0">
+                                                                    <div class="row">
+                                                                        <div class="form-group row">
+                                                                            <label
+                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                for="staff_name">
+                                                                                Back View:
+                                                                                <small class="text-danger">
+                                                                                    JPG, JPEG,PNG, BMP
+                                                                                </small>
+                                                                            </label>
+                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <div class="card text-center py-5 my-2 pt-0">
+                                                                                    <div class="form-group">
+                                                                                        <p
+                                                                                            class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+                                                                                            <button type="button"
+                                                                                                    data-select="file"
+                                                                                                    data-input="selectFrontViewFile"
+                                                                                                    class="upload-file btn btn-sm btn-primary me-2">
+                                                                                                <i class="fas fa-cloud"></i>
+                                                                                                Upload Image
+                                                                                            </button>
+                                                                                            <input type="file" accept="image/*"
+                                                                                                   style="display: none;"
+                                                                                                   class="fileElem"
+                                                                                                   id="license_back_view"
+                                                                                                   name="license_back_view"/>
+                                                                                        </p>
+                                                                                        <div class="imagePreview"
+                                                                                             style="display: none;">
+                                                                                            <button type="button"
+                                                                                                    class="btn btn-xs clearImage"
+                                                                                                    style="top: 1px;
                                             position: relative;
                                             right: 1px;
                                             float: right;
                                             padding: 2px;">
-                                                                                        <i class="fa fa-window-close"
-                                                                                           style="font-size: 20px;"></i>
-                                                                                    </button>
+                                                                                                <i class="fa fa-window-close"
+                                                                                                   style="font-size: 20px;"></i>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -521,6 +523,11 @@
                                             </div>
                                         </div>
 
+                                        {{--<div class="card-body user-data pl-0 pt-0">
+                                            <div class="container-fluid mt-5">
+                                            </div>
+                                        </div>
+                                        --}}
                                         <div class="row">
                                             <div class="card-title pl-2">
                                                 <h4>Permit Details</h4>
@@ -649,77 +656,77 @@
     <!-- page script -->
     <script>
         (function (tmsApp, $) {
-           /* function ImageUpload() {
-                const selector = '.fileElem';
+            /* function ImageUpload() {
+                 const selector = '.fileElem';
 
-                this.init = function () {
-                    $(document).on('click', '[data-select="file"]', function () {
-                        let fileInput = $(this).closest('p').find('input[type="file"]');
-                        $(fileInput).trigger('click');
-                    });
+                 this.init = function () {
+                     $(document).on('click', '[data-select="file"]', function () {
+                         let fileInput = $(this).closest('p').find('input[type="file"]');
+                         $(fileInput).trigger('click');
+                     });
 
-                    let fileSelects = [].slice.call(document.querySelectorAll(selector));
-                    fileSelects.map(function (fileSelect) {
-                        fileSelect.addEventListener("change",
-                            (e) => {
-                                preview(e);
-                            },
-                            false);
-                    });
+                     let fileSelects = [].slice.call(document.querySelectorAll(selector));
+                     fileSelects.map(function (fileSelect) {
+                         fileSelect.addEventListener("change",
+                             (e) => {
+                                 preview(e);
+                             },
+                             false);
+                     });
 
-                    function preview(event) {
-                        //$('#frame').src = URL.createObjectURL(event.target.files[0]);
-                        let uploadFile = $(event.target);
-                        let self = event.target;
-                        let files = !!self.files ? self.files : [];
-                        if (!files.length || !window.FileReader) return;
-                        // no file selected, or no FileReader support
+                     function preview(event) {
+                         //$('#frame').src = URL.createObjectURL(event.target.files[0]);
+                         let uploadFile = $(event.target);
+                         let self = event.target;
+                         let files = !!self.files ? self.files : [];
+                         if (!files.length || !window.FileReader) return;
+                         // no file selected, or no FileReader support
 
-                        if (/^image/.test(files[0].type)) {
-                            // only image file
-                            let reader = new FileReader();
-                            // instance of the FileReader
-                            reader.readAsDataURL(files[0]);
-                            // read the local file
+                         if (/^image/.test(files[0].type)) {
+                             // only image file
+                             let reader = new FileReader();
+                             // instance of the FileReader
+                             reader.readAsDataURL(files[0]);
+                             // read the local file
 
-                            reader.onloadend = function () {
-                                // set image data as background of div
-                                uploadFile.closest("div").find('.imagePreview').css({
-                                    "background-image": "url(" + this.result + ")", 'display': 'block'
-                                });
-                            }
+                             reader.onloadend = function () {
+                                 // set image data as background of div
+                                 uploadFile.closest("div").find('.imagePreview').css({
+                                     "background-image": "url(" + this.result + ")", 'display': 'block'
+                                 });
+                             }
 
-                            $(uploadFile).closest('div').find('p').addClass('d-none');
-                        } else {
-                            toastr.error('only image (.jpg, .jpeg, .png, .bmp) file types are allowed', 'Invalid File Format Selected')
-                        }
-                    }
+                             $(uploadFile).closest('div').find('p').addClass('d-none');
+                         } else {
+                             toastr.error('only image (.jpg, .jpeg, .png, .bmp) file types are allowed', 'Invalid File Format Selected')
+                         }
+                     }
 
-                    $(document).on('click', '.clearImage', function (event) {
-                        let btn = this;
-                        Swal.fire({
-                            text: "Are you sure you would like to remove the image?",
-                            icon: "warning",
-                            showCancelButton: true,
-                            buttonsStyling: false,
-                            confirmButtonText: "Yes, remove it!",
-                            cancelButtonText: "No, return",
-                            customClass: {
-                                confirmButton: "btn btn-primary", cancelButton: "btn btn-active-light"
-                            }
-                        }).then(function (result) {
-                            if (result.value) {
-                                $(btn).parent().css({
-                                    "background-image": "", 'display': 'none'
-                                });
-                                // find the upload btn and make visible
-                                $(btn).parent().parent().find('p').removeClass('d-none');
-                            }
-                        });
+                     $(document).on('click', '.clearImage', function (event) {
+                         let btn = this;
+                         Swal.fire({
+                             text: "Are you sure you would like to remove the image?",
+                             icon: "warning",
+                             showCancelButton: true,
+                             buttonsStyling: false,
+                             confirmButtonText: "Yes, remove it!",
+                             cancelButtonText: "No, return",
+                             customClass: {
+                                 confirmButton: "btn btn-primary", cancelButton: "btn btn-active-light"
+                             }
+                         }).then(function (result) {
+                             if (result.value) {
+                                 $(btn).parent().css({
+                                     "background-image": "", 'display': 'none'
+                                 });
+                                 // find the upload btn and make visible
+                                 $(btn).parent().parent().find('p').removeClass('d-none');
+                             }
+                         });
 
-                    });
-                }
-            }*/
+                     });
+                 }
+             }*/
 
             function verifyingDriverLicense() {
 

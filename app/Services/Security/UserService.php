@@ -75,7 +75,7 @@ class UserService
 
             Log::info('Syncing User Data For ' . $employee->con_per_no);
 
-            if (!empty($employee)) {
+            if (empty($employee)) {
                 throw new UserNotFoundException("User Not Found");
             }
 
