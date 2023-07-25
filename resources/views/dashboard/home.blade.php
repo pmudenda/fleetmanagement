@@ -78,22 +78,22 @@
 
                 <tr>
                     <td>{{config('rights.create_job_card')}}  (Create Job Card)</td>
-                    <td>{{(bool)auth()->user()->can(config('rights.create_job_card'))}}</td>
+                    <td>{{auth()->user()->can(config('rights.create_job_card'))}}</td>
                 </tr>
 
                 <tr>
                     <td>{{config('rights.view_job_card')}}  (View Job Card)</td>
-                    <td>{{(bool)auth()->user()->can(config('rights.view_job_card'))}}</td>
+                    <td>{{auth()->user()->can(config('rights.view_job_card'))}}</td>
                 </tr>
 
                 <tr>
                     <td>{{config('rights.view_job_card')}}  (View Job Card)</td>
-                    <td>{{(bool)auth()->user()->can(config('rights.view_job_card'))}}</td>
+                    <td>{{auth()->user()->can(config('rights.view_job_card'))}}</td>
                 </tr>
 
                 <tr>
                     <td>{{ config('rights.requisition_fuel')}}  (Request Fuel)</td>
-                    <td>{{(bool)auth()->user()->can(config('rights.requisition_fuel'))}}</td>
+                    <td>{{auth()->user()->can(config('rights.requisition_fuel'))}}</td>
                 </tr>
 
             </table>
