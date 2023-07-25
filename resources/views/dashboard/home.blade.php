@@ -26,18 +26,6 @@
                     </div>
                 </div>
 
-                @php
-                    $workshopPermissions = [
-                        config('rights.create_job_card'),
-                        config('rights.view_job_card'),
-                        config('rights.approve_fuel_requisition')
-                    ];
-                @endphp
-
-                {{config('rights.create_job_card') . ' ' .   auth()->user()->can(config('rights.create_job_card'))}}
-                {{config('rights.view_job_card'). ' ' .    auth()->user()->can(config('rights.view_job_card'))}}
-                {{config('rights.approve_fuel_requisition'). ' ' .   auth()->user()->can(config('rights.approve_fuel_requisition'))}}
-
                 <div class="col-lg-3 col-6">
 
                     <div class="small-box bg-info">
@@ -79,6 +67,36 @@
                 </div>
 
             </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Evaluation</th>
+                </tr>
+                </thead>
+
+                <tr>
+                    <td>{{config('rights.create_job_card')}}  (Create Job Card)</td>
+                    <td>{{(bool)auth()->user()->can(config('rights.create_job_card'))}}</td>
+                </tr>
+
+                <tr>
+                    <td>{{config('rights.view_job_card')}}  (View Job Card)</td>
+                    <td>{{(bool)auth()->user()->can(config('rights.view_job_card'))}}</td>
+                </tr>
+
+                <tr>
+                    <td>{{config('rights.view_job_card')}}  (View Job Card)</td>
+                    <td>{{(bool)auth()->user()->can(config('rights.view_job_card'))}}</td>
+                </tr>
+
+                <tr>
+                    <td>{{ config('rights.requisition_fuel')}}  (Request Fuel)</td>
+                    <td>{{(bool)auth()->user()->can(config('rights.requisition_fuel'))}}</td>
+                </tr>
+
+            </table>
 
             <div class="row mb-3">
                 <div class="col-md-3">

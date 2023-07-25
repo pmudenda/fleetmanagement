@@ -115,7 +115,7 @@
                     $workshopPermissions = [
                         config('rights.create_job_card'),
                         config('rights.view_job_card'),
-                        config('rights.approve_fuel_requisition')
+                        config('rights.approve_workshop_requisition')
                     ];
                 @endphp
                 @canany($workshopPermissions)
@@ -165,7 +165,7 @@
                                 </li>
                             @endcan
 
-                            @can( config('rights.approve_fuel_requisition'))
+                            @can( config('rights.approve_workshop_requisition'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ URL::signedRoute('list.workshop.requisition') }}">
                                         <i class="fas fa-list nav-icon"></i>
