@@ -64,7 +64,7 @@
                                     <thead>
                                     <tr>
                                         <th>Name</th>
-                                        {{dd( auth()->user()->can(config('rights.permission_revoke')) )}}
+                                        {{--{{dd( auth()->user()->can(config('rights.permission_revoke')) )}}--}}
                                         @can(config('rights.permission_revoke'))
                                             <th>Slug</th>
                                             <th>Action</th>
@@ -113,8 +113,6 @@
                                 @endcan
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
