@@ -76,7 +76,7 @@
                                                                     data-sent_data="{{$item}}"
                                                                     data-toggle="modal"
                                                                     data-target="#detach-permission{{$item->id}}">
-                                                                <i class="fas fa-trash"> Detach</i>
+                                                                <i class="fas fa-trash"></i> Revoke Permission
                                                             </button>
                                                         </div>
                                                     </div>
@@ -203,7 +203,10 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         @can(config('rights.permission_attach'))
-                            <button type="submit" class="btn btn-success">Attach</button>
+                            <button type="submit" class="btn btn-sm btn-success">
+                                <i class="fas fa-save"></i>
+                                Attach
+                            </button>
                         @endcan
                     </div>
                 </form>

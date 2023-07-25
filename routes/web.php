@@ -61,7 +61,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/home', [HomeController::class, 'dashboard'])->name('home');
 
-
     Route::group(['prefix' => 'security'], function () {
 
         /************ roles************/
@@ -122,7 +121,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('searchProjects', [ProjectsController::class, 'findProjectByCode'])->name('search.project');
 
-
     Route::group(['prefix' => 'workshop-management'], function () {
 
         Route::get('workshops/list', [WorkshopController::class, 'index'])->name('workshop.list');
@@ -165,6 +163,15 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('exit/vehicle/from/workshop', [MaintenanceController::class, 'exitWorkShop'])->name('exit.from.card');
 
             Route::get('save/exit/vehicle/from/workshop', [MaintenanceController::class, 'processExitFromWorkShop'])->name('save.exit.from.workshop');
+
+            Route::post('store', function (Request $request) {
+                return response()->json(
+                    [
+                        'state' => 'success',
+                        'payload' => $request->all()
+                    ]
+                );
+            })->name('petty.cash.store');
 
         });
 
