@@ -21,24 +21,15 @@
                                         class="form-select form-select-sm"
                                         name="serviceItemType"
                                         id="serviceItemType">
-                                        {{-- <option></option>
-                                       - <option @if($materialsHeader->item_type_code == '01') selected
-                                                 @endif value="01">STOCK ITEM
-                                         </option>
-                                         <option @if($materialsHeader->item_type_code == '02') selected
-                                                 @endif value="02">NON STOCK ITEM
-                                         </option>--}}
                                         <option value="03">SERVICE</option>
                                     </select>
                                 @else
                                     <select
                                         required
+                                        readonly="readonly"
                                         class="form-select form-select-sm"
                                         name="serviceItemType"
                                         id="serviceItemType">
-                                        {{--<option></option>
-                                        <option value="01">STOCK ITEM</option>
-                                        <option value="02">NON STOCK ITEM</option>--}}
                                         <option value="03">SERVICE</option>
                                     </select>
                                 @endif

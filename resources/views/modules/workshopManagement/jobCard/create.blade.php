@@ -781,7 +781,7 @@
                     if (form.valid()) {
                         tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
                             postData(
-                                $(form.find(bodyTag).get(window.global_currentIndex)).find('[data-model-name]').get(0),
+                                $('#services_table'),
                                 true
                             );
                         }, function () {
@@ -793,10 +793,12 @@
                     $('a[href="#finish"]').disableBtn();
                     if (form.valid()) {
                         tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
+
                             postData(
                                 $(form.find(bodyTag).get(window.global_currentIndex)).find('[data-model-name]').get(1),
                                 true
                             );
+
                         }, function () {
                         });
                     }
@@ -1454,21 +1456,34 @@
 
                         lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
 
-                        lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
-                        lastRow.find('[name="quantity"]').val('').attr('readonly', false);
-                        lastRow.find('[name="articles"]').attr('readonly', false);
-                        lastRow.find('[name="unit_of_measure"]').val('');
-                        lastRow.find('[name="unit_price"]').val('');
-                        lastRow.find('[name="total_price"]').val('');
+                        if (tableId === "material_table") {
+                            lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
+                            lastRow.find('[name="quantity"]').val('').attr('readonly', false);
+                            lastRow.find('[name="articles"]').attr('readonly', false);
+                            lastRow.find('[name="unit_of_measure"]').val('');
+                            lastRow.find('[name="unit_price"]').val('');
+                            lastRow.find('[name="total_price"]').val('');
 
-                        lastRow.find('#unit_price').text('');
+                            lastRow.find('#unit_price').text('');
+                        }
 
-                        lastRow.find('[name="service_article"]').val('');
-                        lastRow.find('[name="serviceArticleCode"]').val('');
-                        lastRow.find('[name="service_technical_specification"]').val('');
-                        lastRow.find('[name="service_unit_price"]').val('');
-                        lastRow.find('[name="service_unit_of_measure"]').val('');
-                        lastRow.find('[name="service_total_price"]').val('');
+                        if (tableId === "services_table") {
+                            // let row = lastRow[0];
+                            // $(row).find('.select2-container').remove();
+                            // $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+
+                            lastRow.find('[name="service_article"]').val('');
+                            // lastRow.find('[name="service_article"]')
+                            lastRow.find('[name="serviceArticleCode"]').val('');
+                            lastRow.find('[name="service_technical_specification"]').val('');
+                            lastRow.find('[name="service_unit_price"]').val('');
+                            lastRow.find('[name="service_unit_of_measure"]').val('');
+                            lastRow.find('[name="service_total_price"]').val('');
+                            // initServiceArticleSelector('.')
+                        }
+                        else{
+
+                        }
 
                         if (tableId === "part8") {
                             let row = lastRow[0];
@@ -1511,8 +1526,12 @@
                             e.preventDefault();
                             e.stopPropagation();
                             if (!valueId || valueId == "0") {
+                                // clear first row
                                 return;
                             }
+
+
+
                             let dataUrl = "";
                             if (tableId === 'part8') {
                                 dataUrl = document.querySelector('[name="deleteDefectUrl"]').value;
