@@ -98,6 +98,7 @@
 
             </table>
 
+            {{dd(config('rights'))}}
             <div class="row mb-3">
                 <div class="col-md-3">
                     <div class="card">
