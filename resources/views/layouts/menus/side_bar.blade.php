@@ -78,32 +78,32 @@
                             </li>
 
                             @can('CleanUpData')
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-circle"></i>
-                                    <p>
-                                        Data Clean Up
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview pl-3">
-                                    <li class="nav-item">
-                                        <a href="{{URL::signedRoute('vehicle.data.cleanup')}}" class="nav-link">
-                                            <i class="fas fa-circle nav-icon"></i>
-                                            <p>
-                                                By Vehicle Reg.
-                                            </p>
-                                        </a>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-circle"></i>
+                                        <p>
+                                            Data Clean Up
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview pl-3">
+                                        <li class="nav-item">
+                                            <a href="{{URL::signedRoute('vehicle.data.cleanup')}}" class="nav-link">
+                                                <i class="fas fa-circle nav-icon"></i>
+                                                <p>
+                                                    By Vehicle Reg.
+                                                </p>
+                                            </a>
 
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ URL::signedRoute('vehicle.migration.list') }}" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>By User Unit</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ URL::signedRoute('vehicle.migration.list') }}" class="nav-link">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>By User Unit</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
                             @endcan
 
                         </ul>
@@ -331,14 +331,7 @@
                 @endcanany
 
                 @php
-                    $securityPermissions = [
-                        config('rights.permission_access'),
-                        config('rights.permission_show'),
-                        config('rights.permission_edit'),
-                        config('rights.permission_destroy'),
-                        config('rights.permission_create'),
-                        config('rights.permission_attach'),
-                        config('rights.permission_revoke'),
+                    $profileRights =  [
                         config('rights.role_create'),
                         config('rights.role_access'),
                         config('rights.role_show'),
@@ -347,6 +340,16 @@
                         config('rights.role_attach'),
                         config('rights.role_detach')
                     ];
+                    $permissionRights = [
+                        config('rights.permission_access'),
+                        config('rights.permission_show'),
+                        config('rights.permission_edit'),
+                        config('rights.permission_destroy'),
+                        config('rights.permission_create'),
+                        config('rights.permission_attach'),
+                        config('rights.permission_revoke')
+                    ];
+                    $securityPermissions = array_merge($profileRights, $permissionRights);
                 @endphp
                 @canany($securityPermissions)
                     <li class="nav-item">
@@ -359,50 +362,36 @@
                         </a>
                         <ul class="nav nav-treeview pl-3">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fas fa-user-shield nav-icon"></i>
-                                    <p>
-                                        Profiles
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview pl-4">
-                                    @canany([
-                                        config('rights.role_create'),
-                                        config('rights.role_access'),
-                                        config('rights.role_show'),
-                                        config('rights.role_edit'),
-                                        config('rights.role_destroy'),
-                                        config('rights.role_attach'),
-                                        config('rights.role_detach')
-                                        ])
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ URL::signedRoute('roles.index') }}">
-                                                <i class="fas fa-list nav-icon"></i>
-                                                <p>List</p>
-                                            </a>
-                                        </li>
-                                    @endcanany
-                                    {{--  <li class="nav-item">
-                                          <a class="nav-link" href="{{ URL::signedRoute('roles.view') }}">
-                                              <span class="menu-bullet">
-                                                  <span class="bullet bullet-dot"></span>
-                                              </span>
-                                              <span class="menu-title">View Role</span>
-                                          </a>
-                                      </li>--}}
-                                </ul>
+                                @canany($profileRights)
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-user-shield nav-icon"></i>
+                                        <p>
+                                            Profiles
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview pl-4">
+                                        @canany($profileRights)
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ URL::signedRoute('roles.index') }}">
+                                                    <i class="fas fa-list nav-icon"></i>
+                                                    <p>List</p>
+                                                </a>
+                                            </li>
+                                        @endcanany
+                                        {{--  <li class="nav-item">
+                                              <a class="nav-link" href="{{ URL::signedRoute('roles.view') }}">
+                                                  <span class="menu-bullet">
+                                                      <span class="bullet bullet-dot"></span>
+                                                  </span>
+                                                  <span class="menu-title">View Role</span>
+                                              </a>
+                                          </li>--}}
+                                    </ul>
+                                @endcanany
                             </li>
 
-                            @canany([
-                                    config('rights.permission_access'),
-                                    config('rights.permission_show'),
-                                    config('rights.permission_edit'),
-                                    config('rights.permission_destroy'),
-                                    config('rights.permission_create'),
-                                    config('rights.permission_attach'),
-                                    config('rights.permission_revoke')
-                                    ])
+                            @canany($permissionRights)
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="fas fa-user-secret nav-icon"></i>
@@ -806,7 +795,7 @@
                        class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>
-                           Report Accident
+                            Report Accident
                         </p>
                     </a>
                 </li>
