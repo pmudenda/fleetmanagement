@@ -10,4 +10,12 @@ class Accessory extends Model
     use HasFactory;
 
     protected $table = 'CONFIG_ACCESSORIES';
+
+    protected $fillable = [
+        'created_by',
+        'name',
+        'code',
+        'status'
+    ];
+
 }
