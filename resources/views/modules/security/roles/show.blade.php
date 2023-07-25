@@ -21,12 +21,12 @@
 
                 <div class="col-md-4 col-lg-4 col-sm-4">
                     <div class="card card-solid">
-                        <div class="card-body">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    <h3 class="my-3 text-uppercase">{{$role->description}} DETAILS</h3>
-                                </div>
+                        <div class="card-header">
+                            <div class="card-title">
+                                <h3 class="my-3 text-uppercase">{{$role->description}} DETAILS</h3>
                             </div>
+                        </div>
+                        <div class="card-body">
                             <div class="col-sm-12 pl-0">
                                 <div class="text-center">
                                     <a href="#">
@@ -38,9 +38,7 @@
                             </div>
 
                         </div>
-                        <div class="tab-content p-3" id="nav-tabContent">
-
-                        </div>
+                        <div class="tab-content p-3" id="nav-tabContent"></div>
                     </div>
                 </div>
 
@@ -50,7 +48,7 @@
                             <h3 class="my-3 text-uppercase">Attached Permissions</h3>
 
                             <div class="table-responsive mt-10 ">
-                                <table id="example1" class="table">
+                                <table id="example1" class="table table-striped">
                                     <thead>
                                     <tr>
                                         <th>Name</th>
