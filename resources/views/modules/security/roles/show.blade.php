@@ -1,114 +1,83 @@
 @extends('layouts.app')
 @push('styles')
-<!-- DataTables -->
-<link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-<link rel="stylesheet"
-      href="{{ asset('dashboard/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-<link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet"
+          href="{{ asset('dashboard/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('dashboard/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endpush
 
 
 @section('content')
 
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark text-uppercase text-green ">ROLE DETAILS</h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        @can(config('rights.role_access'))
-                        <li class="breadcrumb-item"><a href="{{route('roles.index')}}">Roles</a></li>
-                        @endcan
-                        <li class="breadcrumb-item active">Role Details</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-
+    <x-content-header :pageTitle="'ROLE DETAILS'" :activeCrumb="'Role Details'" :link="'roles.index'"
+                      :linkText="'Roles'"/>
     <!-- Main content -->
     <section class="content">
-
         <x-error-view></x-error-view>
 
         <div class="container-fluid">
+            <div class="row">
 
-
-            <section class="content">
-
-
-                <div class="row">
-
-                    <div class="col-md-6 col-lg-6 col-sm-12">
-                        <div class="card card-solid">
-                            <div class="card-body">
-                                <div class="card-header">
-                                    <div class="card-title">
-                                        <h3 class="my-3 text-uppercase">{{$role->description}} DETAILS</h3>
-                                    </div>
+                <div class="col-md-4 col-lg-4 col-sm-4">
+                    <div class="card card-solid">
+                        <div class="card-body">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h3 class="my-3 text-uppercase">{{$role->description}} DETAILS</h3>
                                 </div>
-                                <div class="col-sm-12 pl-0">
-                                    <div class="text-center">
-                                        <a href="#">
-                                            <i class="nav-icon fas fa-shield-alt " style="font-size:100px;"></i>
-                                            {{--<img class="profile-user-img img-fluid img-circle"
-                                                 width="100%"
-                                                 src="http://fm-dev.zesco.co.zm/assets/media/avatars/avatar.png"
-                                                 alt="Image not found" title="Click Here to Edit Image"
-                                                 data-toggle="modal"
-                                                 data-target="#modal-edit-profile">--}}
-                                        </a>
-                                    </div>
-                                    <table>
-                                        <tr>
-                                            <th>Name</th>
-                                            <td>: {{$role->description }}</td>
-                                        </tr>
-                                        @can(config('rights.role_access'))
+                            </div>
+                            <div class="col-sm-12 pl-0">
+                                <div class="text-center">
+                                    <a href="#">
+                                        <i class="nav-icon fas fa-shield-alt " style="font-size:100px;"></i>
+                                    </a>
+                                </div>
+                                <table>
+                                    <tr>
+                                        <th>Name</th>
+                                        <td>: {{$role->description }}</td>
+                                    </tr>
+                                    @can(config('rights.role_access'))
                                         <tr>
                                             <th>Slug</th>
                                             <td>: {{$role->slug }}</td>
                                         </tr>
-                                        @endcan
-                                    </table>
-                                </div>
-
+                                    @endcan
+                                </table>
                             </div>
-                            <div class="tab-content p-3" id="nav-tabContent">
 
-                            </div>
+                        </div>
+                        <div class="tab-content p-3" id="nav-tabContent">
+
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-md-6 col-lg-6 col-sm-12">
-                        <div class="card card-solid">
-                            <div class="card-body">
-                                <h3 class="my-3 text-uppercase">Attached Permissions</h3>
+                <div class="col-md-6 col-lg-6 col-sm-12">
+                    <div class="card card-solid">
+                        <div class="card-body">
+                            <h3 class="my-3 text-uppercase">Attached Permissions</h3>
 
-                                <div class="table-responsive mt-10 ">
-                                    <table id="example1" class="table ">
-                                        <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            @can(config('rights.permission_revoke'))
+                            <div class="table-responsive mt-10 ">
+                                <table id="example1" class="table ">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        @can(config('rights.permission_revoke'))
                                             <th>Slug</th>
                                             <th>Action</th>
-                                            @endcan
-                                        </tr>
-                                        </thead>
-                                        <tbody>
+                                        @endcan
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
-                                        @foreach($role->permissions as $item)
-                                            <tr>
-                                                <td>
-                                                    {{$item->name}}
-                                                </td>
-                                                @can(config('rights.permission_revoke'))
+                                    @foreach($role->permissions as $item)
+                                        <tr>
+                                            <td>
+                                                {{$item->description}}
+                                            </td>
+                                            @can(config('rights.permission_revoke'))
                                                 <td>
                                                     {{$item->slug}}
                                                 </td>
@@ -124,33 +93,30 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                @endcan
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-
+                                            @endcan
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="tab-content p-3" id="nav-tabContent">
-                                <div class="col-12 ml-2">
-                                    @can(config('rights.role_attach'))
+
+                        </div>
+                        <div class="tab-content p-3" id="nav-tabContent">
+                            <div class="col-12 ml-2">
+                                @can(config('rights.role_attach'))
                                     <button type="button" data-toggle="modal"
                                             data-target="#attach-permission{{$role->id}}"
                                             title="To attach a Permission to this Role"
                                             class="btn btn-warning btn-sm">Attach
                                     </button>
-                                    @endcan
-                                </div>
+                                @endcan
                             </div>
-
-
                         </div>
+
+
                     </div>
                 </div>
-            </section>
-
-            <!-- /.row -->
+            </div>
         </div><!--/. container-fluid -->
     </section>
     <!-- /.content -->
@@ -189,20 +155,19 @@
                                 </div>
                             </div>
 
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                @can(config('rights.permission_revoke'))
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            @can(config('rights.permission_revoke'))
                                 <button type="submit" class="btn btn-danger">Detach</button>
-                                @endcan
-                            </div>
+                            @endcan
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
         <!-- /.col -->
     </div>
-
 
 @endforeach
 
@@ -255,7 +220,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         @can(config('rights.permission_attach'))
-                        <button type="submit" class="btn btn-success">Attach</button>
+                            <button type="submit" class="btn btn-success">Attach</button>
                         @endcan
                     </div>
                 </form>
@@ -269,82 +234,82 @@
 
 @push('scripts')
 
-<!-- DataTables  & Plugins -->
-<script src="{{ asset('dashboard/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{ asset('dashboard/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{ asset('dashboard/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{ asset('dashboard/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{ asset('dashboard/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-<script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{ asset('dashboard/plugins/jszip/jszip.min.js')}}"></script>
-<script src="{{ asset('dashboard/plugins/pdfmake/pdfmake.min.js')}}"></script>
-<script src="{{ asset('dashboard/plugins/pdfmake/vfs_fonts.js')}}"></script>
-<script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-<script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-<script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('dashboard/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('dashboard/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{ asset('dashboard/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{ asset('dashboard/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{ asset('dashboard/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+    <script src="{{ asset('dashboard/plugins/jszip/jszip.min.js')}}"></script>
+    <script src="{{ asset('dashboard/plugins/pdfmake/pdfmake.min.js')}}"></script>
+    <script src="{{ asset('dashboard/plugins/pdfmake/vfs_fonts.js')}}"></script>
+    <script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+    <script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+    <script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 
 
-<script>
-    let sliderImages = document.querySelectorAll('.slide'),
-        arrowLeft = document.querySelector('#arrow-left'),
-        arrowRight = document.querySelector('#arrow-right'),
-        current = 0;
+    <script>
+        let sliderImages = document.querySelectorAll('.slide'),
+            arrowLeft = document.querySelector('#arrow-left'),
+            arrowRight = document.querySelector('#arrow-right'),
+            current = 0;
 
-    // clear all images
-    function reset() {
-        for (let i = 0; i < sliderImages.length; i++) {
-            sliderImages[i].style.display = 'none';
+        // clear all images
+        function reset() {
+            for (let i = 0; i < sliderImages.length; i++) {
+                sliderImages[i].style.display = 'none';
+            }
         }
-    }
 
-    // initialise slider
-    function startSlide() {
-        reset();
-        sliderImages[0].style.display = 'block';
-    }
-
-    // show previous
-    function slideLeft() {
-        reset();
-        sliderImages[current - 1].style.display = 'block';
-        current--;
-    }
-
-    // show next
-    function slideRight() {
-        reset();
-        sliderImages[current + 1].style.display = 'block';
-        current++;
-    }
-
-    // left arrow click
-    arrowLeft.addEventListener('click', function () {
-        if (current === 0) {
-            current = sliderImages.length;
+        // initialise slider
+        function startSlide() {
+            reset();
+            sliderImages[0].style.display = 'block';
         }
-        slideLeft();
-    });
 
-    // right arrow click
-    arrowRight.addEventListener('click', function () {
-        if (current === sliderImages.length - 1) {
-            current = -1;
+        // show previous
+        function slideLeft() {
+            reset();
+            sliderImages[current - 1].style.display = 'block';
+            current--;
         }
-        slideRight();
-    });
 
-    startSlide();
-</script>
+        // show next
+        function slideRight() {
+            reset();
+            sliderImages[current + 1].style.display = 'block';
+            current++;
+        }
 
-<!-- page script -->
-<script>
-    $(function () {
+        // left arrow click
+        arrowLeft.addEventListener('click', function () {
+            if (current === 0) {
+                current = sliderImages.length;
+            }
+            slideLeft();
+        });
 
-        $("#example1").DataTable({
-            "responsive": true, "lengthChange": false, "autoWidth": false,
-            "buttons": []
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-</script>
+        // right arrow click
+        arrowRight.addEventListener('click', function () {
+            if (current === sliderImages.length - 1) {
+                current = -1;
+            }
+            slideRight();
+        });
+
+        startSlide();
+    </script>
+
+    <!-- page script -->
+    <script>
+        $(function () {
+
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": []
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
+    </script>
 
 @endpush
