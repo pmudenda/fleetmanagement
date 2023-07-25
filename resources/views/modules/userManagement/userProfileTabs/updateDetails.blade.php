@@ -1,9 +1,7 @@
 @php use App\Models\reference\Area; @endphp
 @php $allowUpdate = false;  @endphp
 @if(auth()->user()->can(config('rights.user_update')))
-    $allowUpdate = true;
-@else
-    $allowUpdate = false;
+    @php $allowUpdate = true;  @endphp
 @endif
 <form class="form-horizontal" name="updateDataUpdate" method="post"
       action="{{ route('user.update') }}">

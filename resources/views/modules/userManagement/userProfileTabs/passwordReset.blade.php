@@ -6,7 +6,7 @@
             <div class="form-group">
                 <label for="password"
                        class="col-form-label pl-2">
-                    {{ __('OTP') }}
+                    {{ __('One Time Password') }}
                 </label>
                 <div class="col-md-6 pl-0">
                     <input type="hidden" name="userId" value="{{ParameterEncryption::encrypt($user->id)}}">
