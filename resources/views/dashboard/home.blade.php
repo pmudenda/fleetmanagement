@@ -67,7 +67,7 @@
                 </div>
 
             </div>
-           {{ dd(config('rights.role_create')) }}
+           {{ dd(config('rights')) }}
             <table style="display: none;">
                 <thead>
                 <tr>
