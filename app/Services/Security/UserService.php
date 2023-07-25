@@ -162,7 +162,8 @@ class UserService
 
         if ($request->has('user_profile') || !empty($request->get('user_profile'))) {
             $user = User::where('id','=', $id)->first();
-            $user->roles()->syncWithoutDetaching((int)$request->get('user_profile'));
+            /// $user->roles()->syncWithoutDetaching((int)$request->get('user_profile'));
+            $user->roles()->syncRole((int)$request->get('user_profile'));
         }
 
         DB::commit();
