@@ -1,4 +1,10 @@
 @php use App\Models\reference\Area; @endphp
+@php $allowUpdate = false;  @endphp
+@if(auth()->user()->can(config('rights.user_update')))
+    $allowUpdate = true;
+@else
+    $allowUpdate = false;
+@endif
 <form class="form-horizontal" name="updateDataUpdate" method="post"
       action="{{ route('user.update') }}">
     @csrf
@@ -8,6 +14,9 @@
             <input type="text"
                    class="form-control"
                    name="name"
+                   @if(!$allowUpdate)
+                       readonly
+                   @endif
                    required
                    placeholder="Name"
                    value="{{ $user->name }}">
@@ -20,6 +29,9 @@
             <input type="email"
                    class="form-control"
                    name="email"
+                   @if(!$allowUpdate)
+                       readonly
+                   @endif
                    required
                    placeholder="Email" value="{{ $user->email }}">
         </div>
@@ -31,6 +43,9 @@
             <input type="text"
                    class="form-control"
                    name="phone"
+                   @if(!$allowUpdate)
+                       readonly
+                   @endif
                    placeholder="extension"
                    value="{{ $user->extension }}"/>
         </div>
@@ -79,6 +94,9 @@
                    class="form-control"
                    name="staff_no"
                    required
+                   @if(!$allowUpdate)
+                       readonly
+                   @endif
                    placeholder="Staff No"
                    value="{{ $user->staff_no }}">
         </div>
@@ -89,30 +107,20 @@
             Business Area:
         </label>
         <div class="col-sm-10">
-            @can(config('rights.user_update'))
-                <select required class="form-select" id="area"
-                        name="area">
-                    @foreach(Area::get() as $area)
-                        @if($area->area == $user->area_code)
-                            <option value="{{$area->area}}">{{$area->description}}</option>
-                        @else
-                            <option value="{{$area->area}}">{{$area->description}}</option>
-                        @endif
-                    @endforeach
-                </select>
-            @else
-                <select disabled class="form-control" id="area"
-                        name="area">
-                    @foreach(Area::get() as $area)
-                        @if($area->area == $user->area_code)
-                            <option value="{{$area->area}}">{{$area->description}}</option>
-                        @else
-                            <option value="{{$area->area}}">{{$area->description}}</option>
-                        @endif
-                    @endforeach
-                </select>
-            @endcan
-
+            <select @if(!$allowUpdate)
+                        disabled
+                    @endif
+                    class="@if($allowUpdate) form-select form-select-sm @else form-control  @endif"
+                    id="area"
+                    name="area">
+                @foreach(Area::get() as $area)
+                    @if($area->area == $user->area_code)
+                        <option value="{{$area->area}}">{{$area->description}}</option>
+                    @else
+                        <option value="{{$area->area}}">{{$area->description}}</option>
+                    @endif
+                @endforeach
+            </select>
         </div>
     </div>
 
@@ -124,7 +132,11 @@
                 <div class="input-group">
                     <input type="text"
                            id="staff_supervisor"
+                           @if(!$allowUpdate)
+                               readonly
+                           @endif
                            name="staff_supervisor"
+                           value="{{$user->supervisor_name ?? ''}}"
                            data-bs-toggle="modal"
                            autocomplete="off"
                            data-bs-target="#searchEmployeeModal"
@@ -133,25 +145,38 @@
                            class="form-control form-control-sm"/>
 
                     <input type="hidden"
+                           value="{{$user->supervisor_code ?? ''}}"
                            data-assignmenttype="single"
                            data-inputfield="staff_supervisorId"
                            id="staff_supervisorId"
                            name="staff_supervisorId"/>
                     <div class="input-group-append">
-                        <div
-                            data-assignmenttype="single"
-                            data-inputfield="staff_supervisor"
-                            data-field="userSelection"
-                            class="input-group-text">
-                            <i class="fa fa-user"></i>
-                        </div>
-                        <div style="cursor: pointer;"
-                             title="clear selection"
-                             data-action="clearUsers"
-                             class="input-group-text">
-                            <i data-action="clearUsers"
-                               class="fa fa-eraser"></i>
-                        </div>
+                        @if($allowUpdate)
+                            <div
+                                data-assignmenttype="single"
+                                data-inputfield="staff_supervisor"
+                                data-field="userSelection"
+                                class="input-group-text">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div style="cursor: pointer;"
+                                 title="clear selection"
+                                 data-action="clearUsers"
+                                 class="input-group-text">
+                                <i data-action="clearUsers"
+                                   class="fa fa-eraser"></i>
+                            </div>
+                        @else
+                            <div
+                                class="input-group-text">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div style="cursor: pointer;"
+                                 title="clear selection"
+                                 class="input-group-text">
+                                <i class="fa fa-eraser"></i>
+                            </div>
+                        @endif
                     </div>
                 </div>
             @endcanany
@@ -162,8 +187,13 @@
         <label class="col-sm-2 field-required col-form-label"
                for="user_profile">Profile: </label>
         <div class="col-sm-10">
-            <select name="user_profile" id="user_profile"
-                    class="form-select form-select-sm"
+            <select name="user_profile"
+                    id="user_profile"
+                    class=""
+                    @if(!$allowUpdate)
+                        disabled
+                    @endif
+                    class="@if($allowUpdate) form-select form-select-sm @else form-control  @endif"
                     required>
                 <option value>--Choose Profile--</option>
                 @foreach ($roles as $groupName)
