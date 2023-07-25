@@ -63,7 +63,7 @@ class RolesController extends Controller
     {
         $role = Role::find((int)$request->get('roleId'));
         $role->permissions()->syncWithoutDetaching($request->permission_ids);
-        return redirect()->back()->with('message', 'Permissions Successfully attached..');
+        return redirect()->back()->with('message', 'Permissions Assigned Successfully..');
     }
 
     public function detach(Request $request, $id): RedirectResponse
