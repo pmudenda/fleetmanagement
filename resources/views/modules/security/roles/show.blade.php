@@ -97,7 +97,7 @@
                                             title="To attach a Permission to this Role"
                                             class="btn btn-success btn-sm">
                                         <i class="fas fa-paper-plane"></i>
-                                        Attach
+                                        Assign Permission
                                     </button>
                                 @endcan
                             </div>
@@ -149,7 +149,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             @can(config('rights.permission_revoke'))
-                                <button type="submit" class="btn btn-danger">Detach</button>
+                                <button type="submit" class="btn btn-danger">Revoke Permission</button>
                             @endcan
                         </div>
                     </form>
