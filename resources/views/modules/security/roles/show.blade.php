@@ -216,8 +216,6 @@
     <!-- /.col -->
 </div>
 
-
-
 @push('scripts')
 
     <!-- DataTables  & Plugins -->
@@ -231,11 +229,6 @@
     <!-- page script -->
     <script>
         $(document).ready(function () {
-            $("#attachedPermissions").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": []
-            }).buttons().container().appendTo('#attachedPermissions .col-md-6:eq(0)');
-
             $('#attachedPermissions').DataTable({
                 /*"info": false,*/
                 'order': [],
