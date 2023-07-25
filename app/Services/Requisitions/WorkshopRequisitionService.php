@@ -731,9 +731,9 @@ class WorkshopRequisitionService
             throw new FuelRequisitionException("Purchase Process Could Not Be Started ");
         }
 
-       /* if (!str_contains($results, 'J02')) {
+        if (!str_contains($results, 'N01')) {
             throw new FuelRequisitionException($results);
-        }*/
+        }
 
         self::updateStPur($requisitionDetail->req_no, $results);
 
@@ -774,7 +774,7 @@ class WorkshopRequisitionService
 
         self::updateStPur($requisitionDetail->req_no, $results);
 
-        Log::info("Purchase Process Document" . $results);
+        Log::info("Purchase Process Document " . $results);
 
         return $results;
     }
