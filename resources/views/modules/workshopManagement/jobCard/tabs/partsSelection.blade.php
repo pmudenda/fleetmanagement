@@ -1,5 +1,5 @@
-@php use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use App\Models\reference\PurchaseOffice;use Carbon\Carbon;
-@endphp
+@php use App\Enums\RepairTypes; @endphp
+@php @endphp
 <div class="container-fluid">
     <input type="hidden"
            id="suppliersList"
@@ -8,9 +8,11 @@
         <li class="nav-item" style="list-style: none; width: 178px;">
             <a class="nav-link active" data-toggle="tab" href="#spares" role="tab">Spares</a>
         </li>
-        <li class="nav-item" style="list-style: none; width: 178px;">
-            <a class="nav-link" data-toggle="tab" href="#services" role="tab">Services</a>
-        </li>
+        @if($details->repair_type == RepairTypes::ContractedService->value)
+            <li class="nav-item" style="list-style: none; width: 178px;">
+                <a class="nav-link" data-toggle="tab" href="#services" role="tab">Services</a>
+            </li>
+        @endif
         <li class="nav-item" style="list-style: none; width: 178px;">
             <a class="nav-link" data-toggle="tab" href="#imprest" role="tab">Imprest Buys</a>
         </li>
@@ -22,9 +24,13 @@
         <div class="tab-pane active" id="spares" role="tabpanel">
             @include('modules.workshopManagement.jobCard.tabs.materials')
         </div>
-        <div class="tab-pane" id="services" role="tabpanel">
-            @include('modules.workshopManagement.jobCard.tabs.services')
-        </div>
+
+        @if($details->repair_type == RepairTypes::ContractedService->value)
+            <div class="tab-pane" id="services" role="tabpanel">
+                @include('modules.workshopManagement.jobCard.tabs.services')
+            </div>
+        @endif
+
         <div class="tab-pane" id="imprest" role="tabpanel">
             @include('modules.workshopManagement.jobCard.tabs.imprest_buy')
         </div>

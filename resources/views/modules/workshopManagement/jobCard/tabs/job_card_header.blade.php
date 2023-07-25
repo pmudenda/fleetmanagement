@@ -134,7 +134,6 @@
                                             class="form-select form-select-sm when_valid"
                                             required>
                                         <option></option>
-                                        {{-- <option value="{{$repairType->code}}">{{$repairType->name}}</option>--}}
                                         @foreach ($repairTypes as $repairType)
                                             @if(!empty($details))
                                                 @if($details->repair_type == $repairType->code)
@@ -147,7 +146,6 @@
                                             @else
                                                 <option
                                                     value="{{$repairType->code}}">{{$repairType->name}}</option>
-
                                             @endif
 
                                         @endforeach

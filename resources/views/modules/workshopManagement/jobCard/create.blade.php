@@ -1,5 +1,5 @@
 @php
-    use App\Helpers\StatusHelper;
+    use App\Enums\RepairTypes;use App\Helpers\StatusHelper;
     use Carbon\Carbon;
     use App\Enums\RequisitionItemTypes;
 @endphp
@@ -134,6 +134,13 @@
     <input type="hidden"
            value="{{RequisitionItemTypes::NonStockItemCode}}"
            id="nonStockItemCode" name="nonStockItemCode"/>
+
+    <input type="hidden"
+           value="{{RepairTypes::ContractedService->value}}"
+           id="contractedServiceRepair" name="contractedServiceRepair"/>
+    <input type="hidden"
+           value="{{RepairTypes::AccidentRepair->value}}"
+           id="accidentRepairs" name="accidentRepairs"/>
 @endsection
 @push('scripts')
     <script>
@@ -1404,7 +1411,7 @@
                 })
 
                 $(document).on('change', '#repairTypeDropdownList', function () {
-                    if (this.value === '001') {
+                    if (this.value === document.querySelector('[name="accidentRepairs"]').value) {
                         document.querySelector("#accidentRecordNo").classList.remove('d-none');
                     } else {
                         document.querySelector("#accidentRecordNo").classList.add('d-none');

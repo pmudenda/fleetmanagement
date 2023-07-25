@@ -343,17 +343,15 @@ class WorkflowService
 
                 $task_header->assigned_user = $assign_to_user->staff_no;
                 $task_header->save();
+
                 // new notification
-
                 //self::closePreviousTasks($task_detail);
-
                 // next step is present
                 $finalApproval = (bool)$next_step->is_final_step;
 
                 if ($finalApproval) {
                     // final approval
                     //_newConnectionService . Close($task_detail->reference);
-
                     //CreateUserNotification(taskDetail, "New Connection Request Work Task", nextStep?.ActionPage);
                 } else {
                     /*self::createUserNotification(
