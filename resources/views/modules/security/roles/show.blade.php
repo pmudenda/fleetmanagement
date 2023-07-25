@@ -238,7 +238,7 @@
                 "lengthChange": false,
                 "autoWidth": false,
                 'columnDefs': [],
-                "buttons": ["copy", "csv", "excel", "pdf", "print"]
+                "buttons": []
             }).buttons().container().appendTo('#attachedPermissions' + '_wrapper .col-md-6:eq(0)');
         });
     </script>
