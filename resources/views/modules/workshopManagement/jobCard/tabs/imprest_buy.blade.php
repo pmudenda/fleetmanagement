@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Auth; @endphp
 <section class="content">
     <!-- Default box -->
     <div class="card">
@@ -35,7 +36,7 @@
                                 <div class="col-lg-12 col-sm-12 "><label>Cost Center:</label></div>
                                 <div class="col-lg-12 col-sm-12 col-sm-12"><input type="text" name="cost_center"
                                                                                   class="form-control"
-                                                                                  value="{{ $user->cc_code}}"
+                                                                                  value="{{Auth::user()->cc_code}}"
                                                                                   readonly
                                                                                   required>
                                 </div>
@@ -55,9 +56,9 @@
                                 <div class="col-lg-12 col-sm-12 col-sm-12">
                                     <select name="projects_id" class="form-control">
                                         <option disabled>Select Project (Optional)</option>
-                                       {{-- @foreach($projects as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
-                                        @endforeach--}}
+                                        {{-- @foreach($projects as $item)
+                                             <option value="{{$item->id}}">{{$item->name}}</option>
+                                         @endforeach--}}
                                     </select>
                                 </div>
                             </div>
