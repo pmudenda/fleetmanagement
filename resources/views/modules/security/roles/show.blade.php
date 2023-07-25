@@ -60,10 +60,11 @@
                             <h3 class="my-3 text-uppercase">Attached Permissions</h3>
 
                             <div class="table-responsive mt-10 ">
-                                <table id="example1" class="table ">
+                                <table id="example1" class="table">
                                     <thead>
                                     <tr>
                                         <th>Name</th>
+                                        {{dd( auth()->user()->can(config('rights.permission_revoke')) )}}
                                         @can(config('rights.permission_revoke'))
                                             <th>Slug</th>
                                             <th>Action</th>
