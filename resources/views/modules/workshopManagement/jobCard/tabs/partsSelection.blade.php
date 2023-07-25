@@ -6,17 +6,20 @@
            value="{{route('suppliers.list')}}"/>
     <ul class="nav nav-tabs" role="tablist">
 
-        @if(RepairTypes::ContractedService->value != $details->repair_type ?? '')
-            <li class="nav-item" style="list-style: none; width: 178px;">
-                <a class="nav-link active" data-toggle="tab" href="#spares" role="tab">Spares</a>
-            </li>
+        @if(!empty($details))
+            @if(RepairTypes::ContractedService->value != $details->repair_type ?? '')
+                <li class="nav-item" style="list-style: none; width: 178px;">
+                    <a class="nav-link active" data-toggle="tab" href="#spares" role="tab">Spares</a>
+                </li>
+            @endif
+
+            @if(RepairTypes::ContractedService->value == $details->repair_type ?? '' )
+                <li class="nav-item" style="list-style: none; width: 178px;">
+                    <a class="nav-link" data-toggle="tab" href="#services" role="tab">Services</a>
+                </li>
+            @endif
         @endif
 
-        @if(RepairTypes::ContractedService->value == $details->repair_type ?? '' )
-            <li class="nav-item" style="list-style: none; width: 178px;">
-                <a class="nav-link" data-toggle="tab" href="#services" role="tab">Services</a>
-            </li>
-        @endif
 
         <li class="nav-item" style="list-style: none; width: 178px;">
             <a class="nav-link" data-toggle="tab" href="#imprest" role="tab">Imprest Buys</a>
@@ -27,16 +30,18 @@
         </li>
     </ul><!-- Tab panes -->
     <div class="tab-content">
-        @if(RepairTypes::ContractedService->value != $details->repair_type ?? '')
-            <div class="tab-pane active" id="spares" role="tabpanel">
-                @include('modules.workshopManagement.jobCard.tabs.materials')
-            </div>
-        @endif
+        @if(!empty($details))
+            @if(RepairTypes::ContractedService->value != $details->repair_type ?? '')
+                <div class="tab-pane active" id="spares" role="tabpanel">
+                    @include('modules.workshopManagement.jobCard.tabs.materials')
+                </div>
+            @endif
 
-        @if(RepairTypes::ContractedService->value == $details->repair_type ?? '' )
-            <div class="tab-pane" id="services" role="tabpanel">
-                @include('modules.workshopManagement.jobCard.tabs.services')
-            </div>
+            @if(RepairTypes::ContractedService->value == $details->repair_type ?? '' )
+                <div class="tab-pane" id="services" role="tabpanel">
+                    @include('modules.workshopManagement.jobCard.tabs.services')
+                </div>
+            @endif
         @endif
 
         <div class="tab-pane" id="imprest" role="tabpanel">
