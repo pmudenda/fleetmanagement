@@ -5,12 +5,14 @@
            id="suppliersList"
            value="{{route('suppliers.list')}}"/>
     <ul class="nav nav-tabs" role="tablist">
-        @if($details->repair_type != RepairTypes::ContractedService->value)
+
+        @if(RepairTypes::ContractedService->value != $details->repair_type ?? '')
             <li class="nav-item" style="list-style: none; width: 178px;">
                 <a class="nav-link active" data-toggle="tab" href="#spares" role="tab">Spares</a>
             </li>
         @endif
-        @if($details->repair_type == RepairTypes::ContractedService->value)
+
+        @if(RepairTypes::ContractedService->value == $details->repair_type ?? '' )
             <li class="nav-item" style="list-style: none; width: 178px;">
                 <a class="nav-link" data-toggle="tab" href="#services" role="tab">Services</a>
             </li>
@@ -25,13 +27,13 @@
         </li>
     </ul><!-- Tab panes -->
     <div class="tab-content">
-        @if($details->repair_type != RepairTypes::ContractedService->value)
+        @if(RepairTypes::ContractedService->value != $details->repair_type ?? '')
             <div class="tab-pane active" id="spares" role="tabpanel">
                 @include('modules.workshopManagement.jobCard.tabs.materials')
             </div>
         @endif
 
-        @if($details->repair_type == RepairTypes::ContractedService->value)
+        @if(RepairTypes::ContractedService->value == $details->repair_type ?? '' )
             <div class="tab-pane" id="services" role="tabpanel">
                 @include('modules.workshopManagement.jobCard.tabs.services')
             </div>
