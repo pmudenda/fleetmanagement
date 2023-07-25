@@ -57,26 +57,32 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ URL::signedRoute('new.vehicle') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>New Vehicle</p>
-                                </a>
-                            </li>
+                            @can(config('rights.on_board_vehicle'))
+                                <li class="nav-item">
+                                    <a href="{{ URL::signedRoute('new.vehicle') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>New Vehicle</p>
+                                    </a>
+                                </li>
+                            @endcan
 
-                            <li class="nav-item">
-                                <a href="{{ URL::signedRoute('view.vehicle.detail') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Vehicle Details</p>
-                                </a>
-                            </li>
+                            @can([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])
+                                <li class="nav-item">
+                                    <a href="{{ URL::signedRoute('view.vehicle.detail') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Vehicle Details</p>
+                                    </a>
+                                </li>
+                            @endcan
 
-                            <li class="nav-item">
-                                <a href="{{ URL::signedRoute('vehicles.list') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Vehicle List</p>
-                                </a>
-                            </li>
+                            @canany([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])
+                                <li class="nav-item">
+                                    <a href="{{ URL::signedRoute('vehicles.list') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Vehicle List</p>
+                                    </a>
+                                </li>
+                            @endcanany
 
                             @can('CleanUpData')
                                 <li class="nav-item">
@@ -115,7 +121,8 @@
                     $workshopPermissions = [
                         config('rights.create_job_card'),
                         config('rights.view_job_card'),
-                        config('rights.approve_workshop_requisition')
+                        config('rights.approve_workshop_requisition'),
+                        config('rights.requisition_spares'),
                     ];
                 @endphp
                 @canany($workshopPermissions)
@@ -165,7 +172,7 @@
                                 </li>
                             @endcan
 
-                            @can( config('rights.approve_workshop_requisition'))
+                            @can(config('rights.approve_workshop_requisition'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ URL::signedRoute('list.workshop.requisition') }}">
                                         <i class="fas fa-list nav-icon"></i>
@@ -180,7 +187,6 @@
                 @php
                     $requisitionsPermissions = [
                         config('rights.requisition_fuel'),
-                        config('rights.requisition_spares'),
                         config('rights.approve_fuel_requisition')
                     ];
                 @endphp
@@ -194,32 +200,37 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview pl-3">
-
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>
-                                        Fuel Requisitions
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview pl-4">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ URL::signedRoute('new.fuel.requisition') }}">
-                                            <i class="fas fa-plus nav-icon"></i>
-                                            <p>New</p>
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ URL::signedRoute('list.fuel.requisition') }}">
-                                            <i class="fas fa-list nav-icon"></i>
-                                            <p>List</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-
+                            @canany($requisitionsPermissions)
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Fuel Requisitions
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview pl-4">
+                                        @can(config('rights.requisition_fuel'))
+                                            <li class="nav-item">
+                                                <a class="nav-link"
+                                                   href="{{ URL::signedRoute('new.fuel.requisition') }}">
+                                                    <i class="fas fa-plus nav-icon"></i>
+                                                    <p>New</p>
+                                                </a>
+                                            </li>
+                                        @endcan
+                                        @canany([config('rights.requisition_fuel'),config('rights.approve_fuel_requisition')])
+                                            <li class="nav-item">
+                                                <a class="nav-link"
+                                                   href="{{ URL::signedRoute('list.fuel.requisition') }}">
+                                                    <i class="fas fa-list nav-icon"></i>
+                                                    <p>List</p>
+                                                </a>
+                                            </li>
+                                        @endcanany
+                                    </ul>
+                                </li>
+                            @endcanany
                             {{--@can(config('rights.set_vehicle_fuel_allocation'))
                                 <li class="nav-item">
                                     <a class="nav-link"
@@ -253,6 +264,8 @@
                         config('rights.view_user_detail'),
                         config('rights.view_user'),
                         config('rights.user_attach'),
+                        config('rights.add_driver'),
+                        config('rights.view_drivers'),
                     ];
                 @endphp
                 @canany($userManagementPermissions)
@@ -265,59 +278,70 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview pl-3">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-circle"></i>
-                                    <p>
-                                        Users
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview pl-3">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ URL::signedRoute('users.new') }}">
-                                            <i class="fas fa-user-plus nav-icon"></i>
-                                            <p class="menu-title">Add</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ URL::signedRoute('users.list') }}">
-                                            <i class="fas fa-users nav-icon"></i>
-                                            <p>
-                                                List
-                                            </p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                            @canany([config('rights.can_add_user'),config('rights.view_user')])
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-circle"></i>
+                                        <p>
+                                            Users
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview pl-3">
 
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-circle"></i>
-                                    <p>
-                                        Drivers
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview pl-3">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ URL::signedRoute('driver.list') }}">
-                                            <i class="fas fa-users nav-icon"></i>
-                                            <p>
-                                                List
-                                            </p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ URL::signedRoute('driver.create') }}">
-                                            <i class="fas fa-users nav-icon"></i>
-                                            <p>
-                                                OnBoarding
-                                            </p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                                        @can(config('rights.can_add_user'))
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ URL::signedRoute('users.new') }}">
+                                                    <i class="fas fa-user-plus nav-icon"></i>
+                                                    <p class="menu-title">Add</p>
+                                                </a>
+                                            </li>
+                                        @endcan
+                                        @can(config('rights.view_user'))
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ URL::signedRoute('users.list') }}">
+                                                    <i class="fas fa-users nav-icon"></i>
+                                                    <p>List</p>
+                                                </a>
+                                            </li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            @endcanany
+
+                            @canany([config('rights.add_driver'),config('rights.view_drivers')])
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="nav-icon fas fa-circle"></i>
+                                        <p>
+                                            Drivers
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview pl-3">
+                                        @can(config('rights.add_driver'))
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ URL::signedRoute('driver.create') }}">
+                                                    <i class="fas fa-user-plus nav-icon"></i>
+                                                    <p>
+                                                        OnBoarding
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcan
+                                        @can(config('rights.view_drivers'))
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ URL::signedRoute('driver.list') }}">
+                                                    <i class="fas fa-users nav-icon"></i>
+                                                    <p>
+                                                        List
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            @endcanany
                         </ul>
                     </li>
                 @endcanany
