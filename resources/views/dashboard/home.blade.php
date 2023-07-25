@@ -12,7 +12,7 @@
     <x-content-header :pageTitle="'Dashboard'"/>
     <section class="content">
         <div class="container-fluid">
-
+            {{dd(\auth()->user()->roles()->get())}}
             <div class="row">
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-success">
