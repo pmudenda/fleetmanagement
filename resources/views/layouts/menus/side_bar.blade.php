@@ -1,4 +1,5 @@
 @php use Illuminate\Support\Facades\Auth; @endphp
+{{dd(\auth()->user()->roles()->get())}}
 <aside class="main-sidebar sidebar-dark-primary sidebar-collapse elevation-4">
 
     <a href="{{ URL::signedRoute('home') }}" class="brand-link" style="background: var(--bs-zesco-secondary)">
