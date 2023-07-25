@@ -185,6 +185,7 @@
         <label class="col-sm-2 field-required col-form-label"
                for="user_profile">Profile: </label>
         <div class="col-sm-10">
+            {{dd($user->roles())}}
             <select name="user_profile"
                     id="user_profile"
                     @if(!$allowUpdate)
