@@ -13,9 +13,9 @@
                 </li>
             @endif
 
-            @if(RepairTypes::ContractedService->value == $details->repair_type ?? '')
+            @if(in_array($details->repair_type ?? '',[RepairTypes::ContractedService->value,RepairTypes::AccidentRepair->value, RepairTypes::GeneralService->value]))
                 <li class="nav-item" style="list-style: none; width: 178px;">
-                    <a class="nav-link" data-toggle="tab" href="#services" role="tab">Services</a>
+                    <a class="nav-link @if(RepairTypes::ContractedService->value == $details->repair_type ?? '') active @endif" data-toggle="tab" href="#services" role="tab">Services</a>
                 </li>
             @endif
         @endif
@@ -27,20 +27,22 @@
         <li class="nav-item" style="list-style: none; width: 178px; display: none;">
             <a class="nav-link" data-toggle="tab" href="#labour" role="tab">Labour</a>
         </li>
+
     </ul><!-- Tab panes -->
     <div class="tab-content">
         @if(!empty($details))
+
             @if(RepairTypes::ContractedService->value != $details->repair_type ?? '')
                 <div class="tab-pane active" id="spares" role="tabpanel">
                     @include('modules.workshopManagement.jobCard.tabs.materials')
                 </div>
             @endif
 
-            {{--@if(RepairTypes::ContractedService->value == $details->repair_type ?? '' || RepairTypes::AccidentRepair->value == $details->repair_type ?? '' )--}}
-                <div class="tab-pane" id="services" role="tabpanel">
-                    @include('modules.workshopManagement.jobCard.tabs.services')
-                </div>
-           {{-- @endif--}}
+                @if(in_array($details->repair_type ?? '',[RepairTypes::ContractedService->value,RepairTypes::AccidentRepair->value, RepairTypes::GeneralService->value]))
+            <div class="tab-pane @if(RepairTypes::ContractedService->value == $details->repair_type ?? '') active @endif" id="services" role="tabpanel">
+                @include('modules.workshopManagement.jobCard.tabs.services')
+            </div>
+                @endif
         @endif
 
         <div class="tab-pane" id="imprest" role="tabpanel">
