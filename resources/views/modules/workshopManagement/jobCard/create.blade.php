@@ -108,6 +108,8 @@
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
                 <input type="hidden" value="{{$details->veh_reg ?? ''}}" name="vehicle_registration"
                        id="vehicle_registration"/>
+                <input type="hidden" value="{{$details->veh_reg ?? ''}}" name="vehicle_reg_no"
+                       id="vehicle_reg_no"/>
                 {{--<input type="hidden" value="{{$details->workshop_doc_no ?? ''}}" name="workshop_reference"
                        id="workshop_reference"/>--}}
                 <input type="hidden" value="{{$details->wshp_act_code ?? ''}}" name="workshop_reference"
@@ -1155,14 +1157,13 @@
             }
 
             function setSelectedAccessories() {
-
                 $.each(selectedAccessories, function (index, element) {
                     $("input[name=field_" + element?.code + "][value=" + element?.is_present + "]").prop('checked', true);
                     $("input[name=comment_" + element.code + "]").val(element?.remarks);
                 });
             }
 
-            function autosave(form) {
+            /*function autosave(form) {
                 let time;
                 window.onload = resetTimer;
                 // DOM Events
@@ -1177,7 +1178,7 @@
                     clearTimeout(time);
                     time = setTimeout(work, 120000);
                 }
-            }
+            }*/
 
             function getVehicleDefectCategory(selectedValue, selectElem) {
                 if (!selectedValue) return;
@@ -1244,6 +1245,174 @@
                 if (selectedItemType) {
                     enableArticleSelectionWebUIControls();
                 }
+            }
+
+            function clearRows(table) {
+                if (table.attr('id') === 'services_table') {
+                    const regNo = $('[name="vehicle_reg_no"]').val();
+                    $(table).find('[name="vehicle_registration"]').val(regNo);
+                }
+            }
+
+            function addTableRow() {
+                function reinitializeSelect2($_defect_sel) {
+                    if ($_defect_sel) {
+                        $($_defect_sel).removeClass('select2-hidden-accessible');
+                        $($_defect_sel).select2({
+                            theme: "bootstrap4",
+                            width: "resolve",
+                        });
+                    }
+                }
+
+                if (tableId === "part8") {
+                    if ($('.select_2_control').data('select2')) {
+                        $('.select_2_control').select2('destroy');
+                    }
+                }
+
+                Table.addRow($('table#' + tableId));
+                let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
+
+                lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
+
+                if (tableId === "material_table") {
+                    lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
+                    lastRow.find('[name="quantity"]').val('').attr('readonly', false);
+                    lastRow.find('[name="articles"]').attr('readonly', false);
+                    lastRow.find('[name="unit_of_measure"]').val('');
+                    lastRow.find('[name="unit_price"]').val('');
+                    lastRow.find('[name="total_price"]').val('');
+
+                    lastRow.find('#unit_price').text('');
+                }
+
+                if (tableId === "services_table") {
+                    // let row = lastRow[0];
+                    // $(row).find('.select2-container').remove();
+                    // $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+
+                    lastRow.find('[name="service_article"]').val('');
+                    // lastRow.find('[name="service_article"]')
+                    lastRow.find('[name="serviceArticleCode"]').val('');
+                    lastRow.find('[name="service_technical_specification"]').val('');
+                    lastRow.find('[name="service_unit_price"]').val('');
+                    lastRow.find('[name="service_unit_of_measure"]').val('');
+                    lastRow.find('[name="service_total_price"]').val('');
+                    // initServiceArticleSelector('.')
+                } else {
+
+                }
+
+                if (tableId === "part8") {
+                    let row = lastRow[0];
+                    $(row).find('.select2-container').remove();
+                    let $_defect_sel = $(".select_2_control");
+                    reinitializeSelect2($_defect_sel);
+                }
+
+                if (tableId === "material_table") {
+                    let row = lastRow[0];
+                    $(row).find('.select2-container').remove();
+                    $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+
+                    let article = $(row).find('input.articleCode').val();
+                    console.log('Article on line', article)
+                    let $_defect_sel = $(row).find(".articlesDropDownList");
+                    let $_defect_sel_ = $(row).find(".DropDownList");
+                    initArticleSelector($_defect_sel);
+                    initArticleSelector($_defect_sel_);
+                    //getArticleDetails(article, $_defect_sel);
+                }
+            }
+
+            function deleteTableRow(eventSource) {
+
+                let btnEl = $(eventSource);
+                let tableId = $(this).closest('table').attr('id');
+                let valueId = $(this).attr('data-value');
+                let tableRow = btnEl.closest('tr');
+                let table = btnEl.closest('table');
+
+                tmsApp.confirm(
+                    "Are you sure ?",
+                    "The data entered on this line will be cleared out, if not saved already, you will not be able to recover it",
+                    "Yes",
+                    "No",
+                    function () {
+
+                        Table.deleteRow(tableRow);
+
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        if (!valueId || valueId === "0") {
+                            // clear first row
+                            if (tableId === 'services_table') {
+                                const regNo = $('[name="vehicle_reg_no"]').val();
+                                $(table).find('[name="vehicle_registration"]').val(regNo);
+                            }
+
+                            return;
+                        }
+
+
+                        let dataUrl = "";
+                        if (tableId === 'part8') {
+                            dataUrl = document.querySelector('[name="deleteDefectUrl"]').value;
+                        } else {
+                            dataUrl = document.querySelector('[name="deleteMaterialUrl"]').value;
+                        }
+
+                        let formData = new FormData();
+                        formData.append('record_id', valueId);
+
+                        tmsApp.asyncPostFormData(
+                            dataUrl,
+                            formData,
+                            function (asyncResponse) {
+                                if ('success' in asyncResponse && !asyncResponse.success) {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        toastr.error(
+                                            asyncResponse.message
+                                        );
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+
+                                    setTimeout(function () {
+                                            tmsApp.systemError(
+                                                'System Configuration',
+                                                asyncResponse['message'],
+                                                function () {
+                                                }, 'error');
+                                        },
+                                        300);
+                                    return;
+                                }
+
+                                if (asyncResponse.success) {
+                                    const entry = asyncResponse.payload;
+                                    tmsApp.showSystemMessage(
+                                        'System Configuration',
+                                        asyncResponse['message'],
+                                        function () {
+                                            clearRows(table);
+                                        },
+                                        'success'
+                                    );
+                                }
+                            },
+                            function (xhr, settings, error) {
+                                setTimeout(
+                                    function () {
+                                        tmsApp.showErrorMessages(xhr, 'System Configuration');
+                                    },
+                                    300);
+                            },
+                            'POST',
+                        )
+                    });
             }
 
             function initEventHandlers() {
@@ -1434,161 +1603,13 @@
                 $(document).off('click', 'button[value="addRow"][data-table-id]')
                     .on('click', 'button[value="addRow"][data-table-id]', function () {
                         let tableId = $(this).data('tableId');
-
-                        function reinitializeSelect2($_defect_sel) {
-                            if ($_defect_sel) {
-                                $($_defect_sel).removeClass('select2-hidden-accessible');
-                                $($_defect_sel).select2({
-                                    theme: "bootstrap4",
-                                    width: "resolve",
-                                });
-                            }
-                        }
-
-                        if (tableId === "part8") {
-                            if ($('.select_2_control').data('select2')) {
-                                $('.select_2_control').select2('destroy');
-                            }
-                        }
-
-                        Table.addRow($('table#' + tableId));
-                        let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
-
-                        lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
-
-                        if (tableId === "material_table") {
-                            lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
-                            lastRow.find('[name="quantity"]').val('').attr('readonly', false);
-                            lastRow.find('[name="articles"]').attr('readonly', false);
-                            lastRow.find('[name="unit_of_measure"]').val('');
-                            lastRow.find('[name="unit_price"]').val('');
-                            lastRow.find('[name="total_price"]').val('');
-
-                            lastRow.find('#unit_price').text('');
-                        }
-
-                        if (tableId === "services_table") {
-                            // let row = lastRow[0];
-                            // $(row).find('.select2-container').remove();
-                            // $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
-
-                            lastRow.find('[name="service_article"]').val('');
-                            // lastRow.find('[name="service_article"]')
-                            lastRow.find('[name="serviceArticleCode"]').val('');
-                            lastRow.find('[name="service_technical_specification"]').val('');
-                            lastRow.find('[name="service_unit_price"]').val('');
-                            lastRow.find('[name="service_unit_of_measure"]').val('');
-                            lastRow.find('[name="service_total_price"]').val('');
-                            // initServiceArticleSelector('.')
-                        }
-                        else{
-
-                        }
-
-                        if (tableId === "part8") {
-                            let row = lastRow[0];
-                            $(row).find('.select2-container').remove();
-                            let $_defect_sel = $(".select_2_control");
-                            reinitializeSelect2($_defect_sel);
-                        }
-
-                        if (tableId === "material_table") {
-                            let row = lastRow[0];
-                            $(row).find('.select2-container').remove();
-                            $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
-
-                            let article = $(row).find('input.articleCode').val();
-                            console.log('Article on line', article)
-                            let $_defect_sel = $(row).find(".articlesDropDownList");
-                            let $_defect_sel_ = $(row).find(".DropDownList");
-                            initArticleSelector($_defect_sel);
-                            initArticleSelector($_defect_sel_);
-                            //getArticleDetails(article, $_defect_sel);
-                        }
+                        addTableRow();
                     });
 
                 $(document).on('click', 'button[value="deleteRow"]', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
-
-                    let btnEl = $(this);
-                    let tableId = $(this).closest('table').attr('id');
-                    let valueId = $(this).attr('data-value');
-                    let tableRow = btnEl.closest('tr');
-                    let table = btnEl.closest('table');
-                    tmsApp.confirm(
-                        "Are you sure ?",
-                        "The data entered on this line will be cleared out, if not saved already, you will not be able to recover it",
-                        "Yes",
-                        "No",
-                        function () {
-                            Table.deleteRow(tableRow);
-                            e.preventDefault();
-                            e.stopPropagation();
-                            if (!valueId || valueId == "0") {
-                                // clear first row
-                                return;
-                            }
-
-
-
-                            let dataUrl = "";
-                            if (tableId === 'part8') {
-                                dataUrl = document.querySelector('[name="deleteDefectUrl"]').value;
-                            } else {
-                                dataUrl = document.querySelector('[name="deleteMaterialUrl"]').value;
-                            }
-
-                            let formData = new FormData();
-                            formData.append('record_id', valueId);
-
-                            tmsApp.asyncPostFormData(
-                                dataUrl,
-                                formData,
-                                function (asyncResponse) {
-                                    if ('success' in asyncResponse && !asyncResponse.success) {
-                                        if (asyncResponse.hasOwnProperty('errors')) {
-                                            toastr.error(
-                                                asyncResponse.message
-                                            );
-                                            tmsApp.printErrorMsg(asyncResponse.errors);
-                                            return
-                                        }
-
-                                        setTimeout(function () {
-                                                tmsApp.systemError(
-                                                    'System Configuration',
-                                                    asyncResponse['message'],
-                                                    function () {
-                                                    }, 'error');
-                                            },
-                                            300);
-                                        return;
-                                    }
-
-                                    if (asyncResponse.success) {
-                                        const entry = asyncResponse.payload;
-                                        tmsApp.showSystemMessage(
-                                            'System Configuration',
-                                            asyncResponse['message'],
-                                            function () {
-                                                //window.location.reload();
-                                            },
-                                            'success'
-                                        );
-                                    }
-                                },
-                                function (xhr, settings, error) {
-                                    setTimeout(
-                                        function () {
-                                            tmsApp.showErrorMessages(xhr, 'System Configuration');
-                                        },
-                                        300);
-                                },
-                                'POST',
-                            )
-                        });
-
+                    deleteTableRow(btnEl);
                     return false;
                 });
             }
