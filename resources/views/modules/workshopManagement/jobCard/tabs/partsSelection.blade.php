@@ -13,7 +13,7 @@
                 </li>
             @endif
 
-            @if(RepairTypes::ContractedService->value == $details->repair_type ?? '' || RepairTypes::AccidentRepair->value == $details->repair_type ?? '' )
+            @if(RepairTypes::ContractedService->value == $details->repair_type ?? '')
                 <li class="nav-item" style="list-style: none; width: 178px;">
                     <a class="nav-link" data-toggle="tab" href="#services" role="tab">Services</a>
                 </li>
@@ -36,11 +36,11 @@
                 </div>
             @endif
 
-            @if(RepairTypes::ContractedService->value == $details->repair_type ?? '' || RepairTypes::AccidentRepair->value == $details->repair_type ?? '' )
+            {{--@if(RepairTypes::ContractedService->value == $details->repair_type ?? '' || RepairTypes::AccidentRepair->value == $details->repair_type ?? '' )--}}
                 <div class="tab-pane" id="services" role="tabpanel">
                     @include('modules.workshopManagement.jobCard.tabs.services')
                 </div>
-            @endif
+           {{-- @endif--}}
         @endif
 
         <div class="tab-pane" id="imprest" role="tabpanel">
