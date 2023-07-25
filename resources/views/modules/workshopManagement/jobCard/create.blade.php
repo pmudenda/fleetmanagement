@@ -777,11 +777,11 @@
                 );
 
                 $(document).on('click', '#saveMaterials', function () {
-                    $('a[href="#finish"]').disableBtn();
+                    // $('a[href="#finish"]').disableBtn();
                     if (form.valid()) {
                         tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
                             postData(
-                                $('#services_table'),
+                                $('#material_table'),
                                 true
                             );
                         }, function () {
@@ -790,12 +790,12 @@
                 });
 
                 $(document).on('click', '#saveServices', function () {
-                    $('a[href="#finish"]').disableBtn();
+                    // $('a[href="#finish"]').disableBtn();
                     if (form.valid()) {
                         tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
 
                             postData(
-                                $(form.find(bodyTag).get(window.global_currentIndex)).find('[data-model-name]').get(1),
+                                $('#services_table'),
                                 true
                             );
 
