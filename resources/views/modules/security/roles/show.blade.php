@@ -72,7 +72,7 @@
                                                 <td>
                                                     <div class="row">
                                                         <div class="col-06">
-                                                            <button class="btn btn-sm btn-danger m-1"
+                                                            <button class="btn btn-sm btn-danger"
                                                                     data-sent_data="{{$item}}"
                                                                     data-toggle="modal"
                                                                     data-target="#detach-permission{{$item->id}}">
@@ -95,7 +95,9 @@
                                     <button type="button" data-toggle="modal"
                                             data-target="#attach-permission{{$role->id}}"
                                             title="To attach a Permission to this Role"
-                                            class="btn btn-warning btn-sm">Attach
+                                            class="btn btn-success btn-sm">
+                                        <i class="fas fa-paper-plane"></i>
+                                        Attach
                                     </button>
                                 @endcan
                             </div>
@@ -103,9 +105,8 @@
                     </div>
                 </div>
             </div>
-        </div><!--/. container-fluid -->
+        </div>
     </section>
-    <!-- /.content -->
 @endsection
 
 
@@ -113,7 +114,7 @@
     <!-- Device Delete Modal -->
     <div class="modal fade" id="detach-permission{{$item->id}}" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Detach Permission: {{$item->name}}</h5>
@@ -124,10 +125,10 @@
                 <div class="modal-body">
                     <form name="db2" method="post" action="{{route('roles.detach', $role->id )}}">
                         @csrf
+                        <input type="hidden" value="{{$role->id}}" name="roleId">
                         <div class="card-body">
                             <div class="row">
-                                <span class="text-danger">Are you sure you wan to detach?</span>
-
+                                <span class="text-danger">Are you sure you want to detach?</span>
                             </div>
 
                             <div class="row">
@@ -184,19 +185,19 @@
                             </tr>
                             </thead>
                             <tbody>
-                                @foreach($permissions->whereNotIn( 'id', $role->permissions->pluck('id')->toArray()) as $item)
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox"
-                                                   id="permission_ids"
-                                                   name="permission_ids[]"
-                                                   value="{{$item->id}}">
-                                        </td>
-                                        <td>
-                                            {{$item->description}}
-                                        </td>
-                                    </tr>
-                                @endforeach
+                            @foreach($permissions->whereNotIn( 'id', $role->permissions->pluck('id')->toArray()) as $item)
+                                <tr>
+                                    <td>
+                                        <input type="checkbox"
+                                               id="permission_ids"
+                                               name="permission_ids[]"
+                                               value="{{$item->id}}">
+                                    </td>
+                                    <td>
+                                        {{$item->description}}
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

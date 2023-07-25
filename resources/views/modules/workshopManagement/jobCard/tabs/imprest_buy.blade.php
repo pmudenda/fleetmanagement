@@ -35,7 +35,7 @@
                                 <div class="col-lg-12 col-sm-12 "><label>Cost Center:</label></div>
                                 <div class="col-lg-12 col-sm-12 col-sm-12"><input type="text" name="cost_center"
                                                                                   class="form-control"
-                                                                                  value="{{ $user->user_unit->user_unit_code}}"
+                                                                                  value="{{ $user->cc_code}}"
                                                                                   readonly
                                                                                   required>
                                 </div>
@@ -55,9 +55,9 @@
                                 <div class="col-lg-12 col-sm-12 col-sm-12">
                                     <select name="projects_id" class="form-control">
                                         <option disabled>Select Project (Optional)</option>
-                                        @foreach($projects as $item)
+                                       {{-- @foreach($projects as $item)
                                             <option value="{{$item->id}}">{{$item->name}}</option>
-                                        @endforeach
+                                        @endforeach--}}
                                     </select>
                                 </div>
                             </div>
@@ -88,7 +88,6 @@
                                         <TD>
                                             <INPUT type="checkbox" name="chk"/></TD>
                                         <TD>
-                                            {{--                                        <input type="text" name="name[]" class="form-control amount" placeholder="Item Details" id="name" required >--}}
                                             <textarea rows="4" type="text" name="name[]" class="form-control amount"
                                                       placeholder="Item Details / Description" id="name"
                                                       required></textarea>
