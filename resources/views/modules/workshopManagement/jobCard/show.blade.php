@@ -432,8 +432,8 @@
                         </div>
                     </div>
 
-                    @if(empty($requestDetails->proc_ref))
-                        @if(auth()->user()->staff_no != $requestDetails->requested_by)
+                    @if(!empty($workflowTask->assigned_user))
+                        @if(auth()->user()->staff_no == $workflowTask->assigned_user && empty($workflowTask->date_ended))
                             <div class="card-footer">
                                 <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
                                     <button type="button" id="approveRequisitionBtn"

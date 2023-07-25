@@ -15,6 +15,7 @@ use App\Models\general\OrganizationalUnit;
 use App\Models\RequisitionType;
 use App\Models\VehicleManagement\ChassisDetail;
 use App\Models\VehicleManagement\VehicleHeader;
+use App\Models\Workflow\WorkflowTaskHeader;
 use App\Services\Requisitions\FuelRequisitionService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -124,6 +125,9 @@ class FuelRequisitionController extends Controller
             abort(404);
         }
 
+
+        $workflowTask =  WorkflowTaskHeader::where('reference','=', $req_no)->first();
+
         //$costCenter = CostCenters::where('code_cost_center', $user->cc_code)->first();
         /*$organizationalUnit = OrganizationalUnits::where('code_unit', $requestDetails->cc_code)
             ->first();*/
@@ -141,7 +145,8 @@ class FuelRequisitionController extends Controller
                 //'organizationalUnit',
                 'requestDetails',
                 'daysToNextRefuel',
-                'approvalHistory'
+                'approvalHistory',
+                'workflowTask'
             ));
     }
 

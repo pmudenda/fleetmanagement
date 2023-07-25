@@ -20,6 +20,7 @@ use App\Models\configurations\Accessory;
 use App\Models\configurations\GeneralTableConfiguration;
 use App\Models\MaterialDetail;
 use App\Models\RequisitionType;
+use App\Models\Workflow\WorkflowTaskHeader;
 use App\Models\WorkShopManagement\VehicleDefect;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkShopMaterialHeader;
@@ -139,6 +140,8 @@ class MaintenanceController extends Controller
             abort(404);
         }
 
+        $workflowTask =  WorkflowTaskHeader::where('reference','=', $req_no)->first();
+
         $requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
 
         $daysToNextRefuel = config('settings.fuel_requisition_validity');
@@ -152,7 +155,8 @@ class MaintenanceController extends Controller
                 'requestDetails',
                 'details',
                 'daysToNextRefuel',
-                'approvalHistory'
+                'approvalHistory',
+                'workflowTask'
             ));
     }
 
