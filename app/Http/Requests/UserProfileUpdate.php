@@ -26,7 +26,7 @@ class UserProfileUpdate extends FormRequest
             'name' => 'required',
             'userId' => 'required',
             'email' => 'required',
-            'phone' => 'required',
+            'phone' => 'nullable|string',
             'area' => 'required',
             'staff_supervisor' => 'required',
             'staff_supervisorId' => 'required',
