@@ -197,6 +197,7 @@ class MaintenanceController extends Controller
             } else if ($itemType == RequisitionItemTypes::NonStockItemCode) {
                 $query->where(function ($q) use ($itemType) {
                     $q->where('spms_articles_view.code_group', '=', '40');
+                    $q->where('spms_articles_view.code_subgroup', '=', '07');
                 });
             } else if ($itemType == RequisitionItemTypes::ServiceItemCode) {
                 $query->where(function ($q) use ($itemType) {
