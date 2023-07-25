@@ -103,6 +103,7 @@
                 <input type="hidden" value="{{route('load.defects')}}" id="defectUrl"/>
                 <input type="hidden" value="{{route('load.workshop.section')}}" id="workShopSectionsUrl"/>
                 <input type="hidden" value="{{route('load.articles')}}" id="articlesUrl"/>
+                <input type="hidden" value="{{route('get.articles')}}" id="getArticlesUrl"/>
                 <input type="hidden" value="{{route('load.article.details')}}" id="articleDetailsUrl"/>
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
                 <input type="hidden" value="{{$details->veh_reg ?? ''}}" name="vehicle_registration"
@@ -124,13 +125,16 @@
            id="incompleteOnBoarding"/>
     <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop" id="vehicleInWorkshop"/>
     <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
+
     <input type="hidden"
            value="{{RequisitionItemTypes::StockItemCode}}"
            id="stockItemCode"
            name="stockItemCode"/>
+
     <input type="hidden"
            value="{{RequisitionItemTypes::ServiceItemCode}}"
            id="serviceItemCode" name="serviceItemCode"/>
+
     <input type="hidden"
            value="{{RequisitionItemTypes::NonStockItemCode}}"
            id="nonStockItemCode" name="nonStockItemCode"/>
@@ -138,6 +142,7 @@
     <input type="hidden"
            value="{{RepairTypes::ContractedService->value}}"
            id="contractedServiceRepair" name="contractedServiceRepair"/>
+
     <input type="hidden"
            value="{{RepairTypes::AccidentRepair->value}}"
            id="accidentRepairs" name="accidentRepairs"/>

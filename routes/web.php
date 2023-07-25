@@ -215,6 +215,9 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('load/procurement/articles', [MaintenanceController::class, 'searchArticle'])
     ->name('load.articles');
 
+Route::get('load/procurement/articles', [MaintenanceController::class, 'getArticlesByType'])
+    ->name('get.articles');
+
 Route::get('load/article/details', [ProcurementSystemIntegrationController::class, "getArticleDetails"])
     ->name('load.article.details');
 

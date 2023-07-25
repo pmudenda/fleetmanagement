@@ -174,43 +174,7 @@ class MaintenanceController extends Controller
 
             $search = trim(strtoupper($request->get('search')));
 
-            // SPMS ARTICLES VIEW
-            $query = DB::table('spms_articles_view')
-                ->leftJoin('units_view',
-                    'spms_articles_view.unit_measure',
-                    '=',
-                    'units_view.code_unit')
-                ->leftJoin('stock_management_view',
-                    'spms_articles_view.code_article',
-                    '=',
-                    'stock_management_view.code_article');
-
-            $itemType = $request->get('type_article');
-            $store_code = $request->get('store_code');
-
-            if ($itemType == RequisitionItemTypes::StockItemCode) {
-                $query->where(function ($q) use ($itemType, $store_code) {
-                    $q->whereIn('spms_articles_view.code_group',
-                        ['01', '04', '30']);
-                    //$q->where('spms_articles_view.code_subgroup', '=', '07');
-                    $q->where('stock_management_view.code_store', '=', $store_code);
-                });
-            } else if ($itemType == RequisitionItemTypes::NonStockItemCode) {
-                $query->where(function ($q) use ($itemType) {
-                    $q->where('spms_articles_view.code_group', '=', '40');
-                    $q->where('spms_articles_view.code_subgroup', '=', '07');
-                    $q->where('spms_articles_view.code_class', '=', '01');
-                });
-            } else if ($itemType == RequisitionItemTypes::ServiceItemCode) {
-                $query->where(function ($q) use ($itemType) {
-                    $q->where('spms_articles_view.code_group', '=', '41');
-                    $q->where('spms_articles_view.code_subgroup', '=', '02');
-                    $q->where('spms_articles_view.code_class', '=', '01');
-                });
-            }
-
-            $query->where('spms_articles_view.type_article', '=', $request->get('type_article'));
-            //->where('stock_management_view.level_type', '=', '02');
+            $query = $this->getArticlesQueryBuilder($request);
 
             $query->where(function ($query) use ($search) {
                 $query->orWhere('spms_articles_view.code_article', 'like', "%{$search}%")
@@ -228,7 +192,56 @@ class MaintenanceController extends Controller
                     'spms_articles_view.unit_measure',
                     'units_view.abbreviation as abbreviation',
                     'units_view.description as unit_measure_name'
-                )->get();
+                )
+                ->orderBy('spms_articles_view.description')
+                ->get();
+
+            return response()->json([
+                'success' => !empty($procurementArticles),
+                'items' => $procurementArticles,
+                'total_count' => $procurementArticles->count()
+            ]);
+
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'success' => false,
+                'items' => [],
+                'total_count' => 0,
+                'message' => ErrorMessages::getMessage('err_0005')
+            ]);
+        }
+    }
+
+
+    public function getArticlesByType(Request $request): JsonResponse
+    {
+        try {
+
+            if (empty($request->get('type_article'))) {
+                return response()->json([
+                    'success' => false,
+                    'items' => [],
+                    'total_count' => 0
+                ]);
+            }
+
+            $query = $this->getArticlesQueryBuilder($request);
+
+            $procurementArticles = $query
+                ->select(
+                    'spms_articles_view.code_article',
+                    'spms_articles_view.description',
+                    'spms_articles_view.technical_specifications',
+                    'spms_articles_view.price_map',
+                    'stock_management_view.price_map as price',
+                    'stock_management_view.stock_available as quantity_in_store',
+                    'spms_articles_view.unit_measure',
+                    'units_view.abbreviation as abbreviation',
+                    'units_view.description as unit_measure_name'
+                )
+                ->orderBy('spms_articles_view.description')
+                ->get();
 
             return response()->json([
                 'success' => !empty($procurementArticles),
@@ -641,5 +654,45 @@ class MaintenanceController extends Controller
                 'message' => "We could not complete processing your request to an error",
             ]);
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function getArticlesQueryBuilder(Request $request): \Illuminate\Database\Query\Builder
+    {
+        $query = DB::table('spms_articles_view')
+            ->leftJoin('units_view',
+                'spms_articles_view.unit_measure',
+                '=',
+                'units_view.code_unit')
+            ->leftJoin('stock_management_view',
+                'spms_articles_view.code_article',
+                '=',
+                'stock_management_view.code_article');
+
+        $itemType = $request->get('type_article');
+        $store_code = $request->get('store_code');
+
+        if ($itemType == RequisitionItemTypes::StockItemCode) {
+            $query->where(function ($q) use ($itemType, $store_code) {
+                $q->whereIn('spms_articles_view.code_group', ['01', '04', '30']);
+                $q->where('stock_management_view.code_store', '=', $store_code);
+            });
+        } else if ($itemType == RequisitionItemTypes::NonStockItemCode) {
+            $query->where(function ($q) use ($itemType) {
+                $q->where('spms_articles_view.code_group', '=', '40');
+                $q->where('spms_articles_view.code_subgroup', '=', '07');
+            });
+        } else if ($itemType == RequisitionItemTypes::ServiceItemCode) {
+            $query->where(function ($q) use ($itemType) {
+                $q->where('spms_articles_view.code_group', '=', '41');
+                $q->where('spms_articles_view.code_subgroup', '=', '02');
+            });
+        }
+
+        $query->where('spms_articles_view.type_article', '=', $request->get('type_article'));
+        return $query;
     }
 }
