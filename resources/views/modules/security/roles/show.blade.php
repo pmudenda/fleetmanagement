@@ -28,7 +28,7 @@
                         </div>
                         <div class="card-body">
                             <div class="col-sm-12 pl-0">
-                                <div class="text-center">
+                                <div class="text-center mb-5">
                                     <a href="#">
                                         <i class="nav-icon fas fa-shield-alt " style="font-size:100px;"></i>
                                     </a>

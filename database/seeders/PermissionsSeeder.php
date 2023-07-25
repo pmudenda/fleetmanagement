@@ -36,7 +36,7 @@ class PermissionsSeeder extends Seeder
 
         // User Management
         Permission::firstOrCreate(['description' => 'User Access', 'name' => 'user_access', 'slug' => 'user_access']);
-        Permission::firstOrCreate(['description' => 'User firstOrCreate', 'name' => 'user_create', 'slug' => 'user_create']);
+        Permission::firstOrCreate(['description' => 'Onboard User', 'name' => 'user_create', 'slug' => 'user_create']);
         Permission::firstOrCreate(['description' => 'Allows User to update another users details', 'name' => 'user_update', 'slug' => 'user_update']);
         Permission::firstOrCreate(['description' => 'User Destroy', 'name' => 'user_destroy', 'slug' => 'user_destroy']);
         Permission::firstOrCreate(['description' => 'Can View User', 'name' => 'user_show', 'slug' => 'user_show']);

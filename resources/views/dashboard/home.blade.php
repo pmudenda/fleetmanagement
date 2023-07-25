@@ -26,6 +26,18 @@
                     </div>
                 </div>
 
+                @php
+                    $workshopPermissions = [
+                        config('rights.create_job_card'),
+                        config('rights.view_job_card'),
+                        config('rights.approve_fuel_requisition')
+                    ];
+                @endphp
+
+                {{'rights.create_job_card ' .   auth()->user()->can(config('rights.create_job_card'))}}
+                {{'rights.view_job_card ' .   auth()->user()->can(config('rights.view_job_card'))}}
+                {{'rights.approve_fuel_requisition ' .   auth()->user()->can(config('rights.approve_fuel_requisition'))}}
+
                 <div class="col-lg-3 col-6">
 
                     <div class="small-box bg-info">
