@@ -59,7 +59,7 @@ class RolesController extends Controller
     }
 
 
-    public function attach(Request $request, $id): RedirectResponse
+    public function assignPermission(Request $request, $id): RedirectResponse
     {
         $role = Role::find($id);
         $role->permissions()->syncWithoutDetaching($request->permission_ids);

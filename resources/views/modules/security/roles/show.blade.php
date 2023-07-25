@@ -169,14 +169,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form name="db2" method="post" action="{{route('roles.attach', $role->id )}}">
+                <form name="db2" method="post" action="{{route('roles.assign.permission')}}">
                     @csrf
+                    <input type="hidden" value="{{$role->id}}" name="roleId">
                     <div class="card-body">
                         <div class="row">
                             <span class="text-danger">Select Permissions to Attach</span>
                         </div>
-
-                        <table id="example1" class="table ">
+                        <table id="permissionsTable" class="table">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -184,23 +184,21 @@
                             </tr>
                             </thead>
                             <tbody>
-
-                            @foreach($permissions->whereNotIn( 'id', $role->permissions->pluck('id')->toArray()) as $item)
-                                <tr>
-                                    <td>
-                                        <input type="checkbox"
-                                               id="permission_ids"
-                                               name="permission_ids[]"
-                                               value="{{$item->id}}">
-                                    </td>
-                                    <td>
-                                        {{$item->description}}
-                                    </td>
-                                </tr>
-                            @endforeach
+                                @foreach($permissions->whereNotIn( 'id', $role->permissions->pluck('id')->toArray()) as $item)
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox"
+                                                   id="permission_ids"
+                                                   name="permission_ids[]"
+                                                   value="{{$item->id}}">
+                                        </td>
+                                        <td>
+                                            {{$item->description}}
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -239,6 +237,18 @@
                 'columnDefs': [],
                 "buttons": []
             }).buttons().container().appendTo('#attachedPermissions' + '_wrapper .col-md-6:eq(0)');
+
+            $('#permissionsTable').DataTable({
+                /*"info": false,*/
+                'order': [],
+                "pageLength": 10,
+                "responsive": true,
+                "searchable": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                'columnDefs': [],
+                "buttons": []
+            }).buttons().container().appendTo('#permissionsTable' + '_wrapper .col-md-6:eq(0)');
         });
     </script>
 

@@ -65,7 +65,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'security'], function () {
 
         /************ roles************/
-        Route::post('/roles/attach/{id}', [RolesController::class, 'attach'])->name('roles.attach');
+
+        Route::post('/roles/assign/permission', [RolesController::class, 'assignPermission'])->name('roles.assign.permission');
+
         Route::post('/roles/detach/{id}', [RolesController::class, 'detach'])->name('roles.detach');
 
         Route::resource('roles', RolesController::class);
