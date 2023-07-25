@@ -194,7 +194,7 @@
                     required>
                 <option value>--Choose Profile--</option>
                 @foreach ($roles as $groupName)
-                    @if($groupName->id == auth()->user()->roles()->first()->id)
+                    @if($groupName->id == $user->roles()->first()->id)
                         <option selected
                                 value="{{$groupName->id}}">{{$groupName->description}}</option>
                     @else
