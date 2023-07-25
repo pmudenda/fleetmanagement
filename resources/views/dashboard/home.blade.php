@@ -68,7 +68,7 @@
 
             </div>
 
-            <table>
+            <table style="display: none;">
                 <thead>
                 <tr>
                     <th>Name</th>
@@ -93,12 +93,12 @@
 
                 <tr>
                     <td>{{ config('rights.requisition_fuel')}}  (Request Fuel)</td>
-                    <td>{{dd(auth()->user()->can(config('rights.requisition_fuel')))}}</td>
+                    <td>{{(auth()->user()->can(config('rights.requisition_fuel')))}}</td>
                 </tr>
 
             </table>
 
-            {{dd(config('rights'))}}
+
             <div class="row mb-3">
                 <div class="col-md-3">
                     <div class="card">
