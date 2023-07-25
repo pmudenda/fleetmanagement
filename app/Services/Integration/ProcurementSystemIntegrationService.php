@@ -302,23 +302,33 @@ class ProcurementSystemIntegrationService
             Log::info(':p_transaction_type '. $transaction_type);
             Log::info(':p_current_user '. $user);
 
-
             $pdo = DB::getPdo();
 
-            $stmt = $pdo->prepare("begin :result := fn_create_pur_process(:p_reference,:p_reg_no,
-            :p_store_code,:p_user_requesting,:p_job_card_no,:p_system_origin,:p_form_order,
-            :p_req_account,:p_delivery_site,:p_transaction_type,:p_current_user); end;");
+            $stmt = $pdo->prepare("begin :result := fn_create_pur_process(
+            :p_reference,
+            :p_reg_no,
+            :p_store_code,
+            :p_user_requesting,
+            :p_job_card_no,
+            :p_system_origin,
+            :p_form_order,
+            :p_req_account,
+            :p_delivery_site,
+            :p_transaction_type,
+            :p_current_user); end;");
+
             $stmt->bindParam(':p_reference', $workshop_reference);
             $stmt->bindParam(':p_reg_no', $reg_no);
             $stmt->bindParam(':p_store_code', $store_code);
             $stmt->bindParam(':p_user_requesting', $user);
             $stmt->bindParam(':p_job_card_no', $job_card_no);
             $stmt->bindParam(':p_system_origin', $system_origin);
-            $stmt->bindParam(':p_delivery_site', $delivery_site);
             $stmt->bindParam(':p_form_order', $form_order);
             $stmt->bindParam(':p_req_account', $account);
-            $stmt->bindParam(':p_current_user', $user);
+            $stmt->bindParam(':p_delivery_site', $delivery_site);
             $stmt->bindParam(':p_transaction_type', $transaction_type);
+            $stmt->bindParam(':p_current_user', $user);
+
             $stmt->bindParam(':result', $results, PDO::PARAM_STR, 2000);
             $stmt->execute();
 
