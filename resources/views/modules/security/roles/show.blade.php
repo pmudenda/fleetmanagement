@@ -48,7 +48,7 @@
                             <h3 class="my-3 text-uppercase">Attached Permissions</h3>
 
                             <div class="table-responsive mt-10 ">
-                                <table id="example1" class="table table-striped">
+                                <table id="attachedPermissions" class="table table-striped">
                                     <thead>
                                     <tr>
                                         <th>Name</th>
@@ -221,80 +221,32 @@
 @push('scripts')
 
     <!-- DataTables  & Plugins -->
-    <script src="{{ asset('dashboard/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/jszip/jszip.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/pdfmake/pdfmake.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/pdfmake/vfs_fonts.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-    <script src="{{ asset('dashboard/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
-
-
-    <script>
-        let sliderImages = document.querySelectorAll('.slide'),
-            arrowLeft = document.querySelector('#arrow-left'),
-            arrowRight = document.querySelector('#arrow-right'),
-            current = 0;
-
-        // clear all images
-        function reset() {
-            for (let i = 0; i < sliderImages.length; i++) {
-                sliderImages[i].style.display = 'none';
-            }
-        }
-
-        // initialise slider
-        function startSlide() {
-            reset();
-            sliderImages[0].style.display = 'block';
-        }
-
-        // show previous
-        function slideLeft() {
-            reset();
-            sliderImages[current - 1].style.display = 'block';
-            current--;
-        }
-
-        // show next
-        function slideRight() {
-            reset();
-            sliderImages[current + 1].style.display = 'block';
-            current++;
-        }
-
-        // left arrow click
-        arrowLeft.addEventListener('click', function () {
-            if (current === 0) {
-                current = sliderImages.length;
-            }
-            slideLeft();
-        });
-
-        // right arrow click
-        arrowRight.addEventListener('click', function () {
-            if (current === sliderImages.length - 1) {
-                current = -1;
-            }
-            slideRight();
-        });
-
-        startSlide();
-    </script>
-
+    @include('layouts.partials.dataTableScripts')
     <!-- page script -->
     <script>
-        $(function () {
-
-            $("#example1").DataTable({
+        (function (appInstance) {
+            //appInstance.initDatatable("#attachedPermissions", true, true, []);
+        })(window.tmsApp || {});
+    </script>
+    <!-- page script -->
+    <script>
+        $(document).ready(function () {
+            $("#attachedPermissions").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,
                 "buttons": []
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            }).buttons().container().appendTo('#attachedPermissions .col-md-6:eq(0)');
+
+            $('#attachedPermissions').DataTable({
+                /*"info": false,*/
+                'order': [],
+                "pageLength": 10,
+                "responsive": true,
+                "searchable": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                'columnDefs': [],
+                "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            }).buttons().container().appendTo('#attachedPermissions' + '_wrapper .col-md-6:eq(0)');
         });
     </script>
 

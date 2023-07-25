@@ -626,22 +626,10 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
      * @param hasExportOptions
      * @param searchable
      */
-    appInstance.initDatatable = function (selector, hasExportOptions, searchable, columnsOrderable = []) {
+    appInstance.initDatatable = function (selector, hasExportOptions, searchable, orderColumns = []) {
         if (typeof searchable === 'undefined') {
             searchable = false
         }
-
-        //[
-        //                     {
-        //                         orderable: false,
-        //                         targets: 0
-        //                     },
-        //                     {
-        //                         orderable: false,
-        //                         targets: 4
-        //                     }
-        //                 ]
-
         $(selector).DataTable({
             /*"info": false,*/
             'order': [],
@@ -650,7 +638,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
             "searchable": searchable,
             "lengthChange": false,
             "autoWidth": false,
-            'columnDefs': columnsOrderable,
+            'columnDefs': orderColumns,
             "buttons": hasExportOptions ? ["copy", "csv", "excel", "pdf", "print"] : []
         }).buttons().container().appendTo(selector + '_wrapper .col-md-6:eq(0)');
 
