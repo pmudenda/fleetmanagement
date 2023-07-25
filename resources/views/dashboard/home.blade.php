@@ -67,7 +67,7 @@
                 </div>
 
             </div>
-           {{ dd(config('rights')) }}
+
             <table style="display: none;">
                 <thead>
                 <tr>
@@ -76,7 +76,7 @@
                 </tr>
                 </thead>
                 <tr>
-                    <td>{{config('rights.role_create') }}  (Create Job Card)</td>
+                    <td>{{print(config('rights.role_create')) }}  (Create Job Card)</td>
                     <td>{{dd(auth()->user()->can(config('rights.role_create')))}}</td>
                 </tr>
 
@@ -110,7 +110,7 @@
 
             </table>
 
-
+            {{ dd(config('rights')) }}
             <div class="row mb-3">
                 <div class="col-md-3">
                     <div class="card">
