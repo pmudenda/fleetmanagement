@@ -7,7 +7,7 @@
       action="{{ route('user.update') }}">
     @csrf
     <div class="form-group row">
-        <label for="inputName" class="col-sm-2 col-form-label">Name:</label>
+        <label for="inputName" class="col-sm-2 col-form-label field-required">Name:</label>
         <div class="col-sm-10">
             <input type="text"
                    class="form-control"
@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="inputEmail" class="col-sm-2 col-form-label">Email:</label>
+        <label for="inputEmail" class="col-sm-2 col-form-label field-required">Email:</label>
         <div class="col-sm-10">
             <input type="email"
                    class="form-control"
@@ -101,7 +101,7 @@
     </div>
 
     <div class="form-group row">
-        <label for="inputExperience" class="col-sm-2 col-form-label">
+        <label for="inputExperience" class="col-sm-2 col-form-label field-required">
             Business Area:
         </label>
         <div class="col-sm-10">
@@ -187,7 +187,6 @@
         <div class="col-sm-10">
             <select name="user_profile"
                     id="user_profile"
-                    class=""
                     @if(!$allowUpdate)
                         disabled
                     @endif
