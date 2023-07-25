@@ -46,6 +46,7 @@
                         config('rights.edit_vehicle_details'),
                         ];
                 @endphp
+                {{auth()->user()->can(config('rights.permission_revoke'))}}
                 @canany($vehicleManagementPermissions)
                     <li class="nav-item">
                         <a href="#" class="nav-link">

@@ -53,7 +53,7 @@ class PermissionsSeeder extends Seeder
 
 
         // Workshop
-        Permission::firstOrCreate(['description' => 'firstOrCreate Workshop Section', 'name' => 'add_workshop_section', 'slug' => 'create_work_section']);
+        Permission::firstOrCreate(['description' => 'Create Workshop Section', 'name' => 'add_workshop_section', 'slug' => 'create_work_section']);
         Permission::firstOrCreate(['description' => 'Edit Workshop Section', 'name' => 'edit_workshop_section', 'slug' => 'edit_work_section']);
         Permission::firstOrCreate(['description' => 'View Workshop Section', 'name' => 'view_workshop_section', 'slug' => 'view_work_section']);
 
@@ -63,7 +63,7 @@ class PermissionsSeeder extends Seeder
         Permission::firstOrCreate(['description' => 'Permission Show', 'name' => 'permission_show', 'slug' => 'permission_show']);
         Permission::firstOrCreate(['description' => 'Can Edit Permission', 'name' => 'permission_edit', 'slug' => 'permission_edit']);
         Permission::firstOrCreate(['description' => 'Permission Destroy', 'name' => 'permission_destroy', 'slug' => 'permission_destroy']);
-        Permission::firstOrCreate(['description' => 'Can Permission firstOrCreate', 'name' => 'permission_create', 'slug' => 'permission_create']);
+        Permission::firstOrCreate(['description' => 'Create Permission', 'name' => 'permission_create', 'slug' => 'permission_create']);
         Permission::firstOrCreate(['description' => 'Assign Permission', 'name' => 'permission_attach', 'slug' => 'permission_attach']);
         Permission::firstOrCreate(['description' => 'Permission Detach', 'name' => 'permission_revoke', 'slug' => 'permission_revoke']);
 
@@ -73,7 +73,7 @@ class PermissionsSeeder extends Seeder
 
         // Roles | Profile -Security
         Permission::firstOrCreate(['description' => 'Can Detach Role To User ', 'name' => 'user_detach', 'slug' => 'user_detach']);
-        Permission::firstOrCreate(['description' => 'Can firstOrCreate Role', 'name' => 'role_create', 'slug' => 'role_create']);
+        Permission::firstOrCreate(['description' => 'Create Role', 'name' => 'role_create', 'slug' => 'role_create']);
         Permission::firstOrCreate(['description' => 'View System Role Access', 'name' => 'role_access', 'slug' => 'has_system_role_access']);
         Permission::firstOrCreate(['description' => 'Role Show', 'name' => 'role_show', 'slug' => 'can_role_show']);
         Permission::firstOrCreate(['description' => 'Edit User Role', 'name' => 'role_edit', 'slug' => 'role_edit']);

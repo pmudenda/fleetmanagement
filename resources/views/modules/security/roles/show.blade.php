@@ -33,18 +33,8 @@
                                         <i class="nav-icon fas fa-shield-alt " style="font-size:100px;"></i>
                                     </a>
                                 </div>
-                                <table>
-                                    <tr>
-                                        <th>Name</th>
-                                        <td>: {{$role->description }}</td>
-                                    </tr>
-                                    @can(config('rights.role_access'))
-                                        <tr>
-                                            <th>Slug</th>
-                                            <td>: {{$role->slug }}</td>
-                                        </tr>
-                                    @endcan
-                                </table>
+                                <h3 class="profile-username text-center">Name: {{ $role->description }}</h3>
+                                <h3 class="profile-username text-center">Slug: {{ $role->slug }}</h3>
                             </div>
 
                         </div>
@@ -64,7 +54,6 @@
                                     <thead>
                                     <tr>
                                         <th>Name</th>
-                                        {{--{{dd( auth()->user()->can(config('rights.permission_revoke')) )}}--}}
                                         @can(config('rights.permission_revoke'))
                                             <th>Slug</th>
                                             <th>Action</th>
