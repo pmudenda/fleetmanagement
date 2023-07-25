@@ -150,13 +150,15 @@
             <a class="nav-link" data-toggle="dropdown" href="#">
                 {{Auth::user()->name}}</a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a href="{{ route('profile',['key'=> ParameterEncryption::encrypt( Auth::user()->id) ]) }}"
+                <a href="{{URL::signedRoute('profile',['key'=> ParameterEncryption::encrypt( Auth::user()->id) ]) }}"
                    class="dropdown-item">
-                    <i class="fas fa-user-circle mr-2"></i> My Profile
+                    <i class="fas fa-user-circle mr-2"></i>
+                    My Profile
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                <a href="{{ route('logout') }}"
+                   class="dropdown-item"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt mr-2"></i> Logout
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
