@@ -78,7 +78,7 @@
 
                 <tr>
                     <td>{{config('rights.create_job_card')}}  (Create Job Card)</td>
-                    <td>{{auth()->user()->can(config('rights.create_job_card'))}}</td>
+                    <td>{{dd(auth()->user()->can(config('rights.create_job_card')))}}</td>
                 </tr>
 
                 <tr>
