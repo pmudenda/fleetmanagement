@@ -1,4 +1,4 @@
-@php use App\Helpers\StatusHelper;use App\Models\Driver;use App\Models\MaterialHeader;use App\Models\Security\User;use App\Models\VehicleManagement\VehicleHeader;use App\Models\Workflow\WorkflowTaskHeader;use Carbon\Carbon; @endphp
+@php use App\Helpers\StatusHelper;use App\Models\Driver;use App\Models\MaterialHeader;use App\Models\Security\User;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
 @push('styles')
@@ -34,9 +34,9 @@
                     ];
                 @endphp
 
-                {{'rights.create_job_card ' .   auth()->user()->can(config('rights.create_job_card'))}}
-                {{'rights.view_job_card ' .   auth()->user()->can(config('rights.view_job_card'))}}
-                {{'rights.approve_fuel_requisition ' .   auth()->user()->can(config('rights.approve_fuel_requisition'))}}
+                {{config('rights.create_job_card') . ' ' .   auth()->user()->can(config('rights.create_job_card'))}}
+                {{config('rights.view_job_card'). ' ' .    auth()->user()->can(config('rights.view_job_card'))}}
+                {{config('rights.approve_fuel_requisition'). ' ' .   auth()->user()->can(config('rights.approve_fuel_requisition'))}}
 
                 <div class="col-lg-3 col-6">
 
