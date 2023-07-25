@@ -123,7 +123,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form name="db2" method="post" action="{{route('roles.detach', $role->id )}}">
+                    <form name="db2" method="post" action="{{route('roles.revoke.permission')}}">
                         @csrf
                         <input type="hidden" value="{{$role->id}}" name="roleId">
                         <div class="card-body">
@@ -133,12 +133,15 @@
 
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12  form-group mt-4">
-                                    <label for="name"> Permission NAME: <span class="required">*</span></label>
+                                    <label for="name">Permission Name: <span class="required">*</span></label>
                                     <input type="text" class="form-control" value="{{$item->name}}" id="name"
                                            name="name" required>
-                                    <input type="text" hidden class="form-control" value="{{$item->id}}"
-                                           id="permission_id" name="permission_id" required readonly
-                                    >
+                                    <input type="hidden"
+                                           class="form-control"
+                                           value="{{$item->id}}"
+                                           id="permission_id"
+                                           name="permission_id"
+                                           required readonly/>
                                 </div>
                             </div>
 

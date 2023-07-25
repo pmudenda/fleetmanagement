@@ -84,28 +84,29 @@
                         </div>
                         <div class="col-lg-12  col-sm-12 ">
                             <div class="row">
-                                <TABLE id="dataTable" class="table table-striped ">
-                                    <TR>
-                                        <TD>
-                                            <INPUT type="checkbox" name="chk"/></TD>
-                                        <TD>
+                                <table id="dataTable" class="table table-striped ">
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" name="chk"/>
+                                        </td>
+                                        <td>
                                             <textarea rows="4" type="text" name="name[]" class="form-control amount"
                                                       placeholder="Item Details / Description" id="name"
                                                       required></textarea>
-                                        </TD>
-                                        <TD>
+                                        </td>
+                                        <td>
                                             <input type="number" step="any" id="amount" name="amount[]"
                                                    onchange="getvalues()"
                                                    class="form-control amount" placeholder="Amount [ZMW]">
-                                        </TD>
-                                    </TR>
-                                </TABLE>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
 
                         <div class="col-lg-12 col-sm-12 mb-3 ">
-                            <INPUT type="button" value="Add Row" onclick="addRow('dataTable')"/>
-                            <INPUT type="button" value="Delete Row" onclick="deleteRow('dataTable')"/>
+                            <input type="button" value="Add Row" onclick="addRow('dataTable')"/>
+                            <input type="button" value="Delete Row" onclick="deleteRow('dataTable')"/>
                         </div>
 
                         <div class="col-lg-6 col-sm-12 mb-3 ">
@@ -146,34 +147,68 @@
                         <input type="text" name="claimant_name" class="form-control"
                                value="{{Auth::user()->name}}" readonly required></div>
 
-                    <div class="col-lg-2 col-sm-12 text-left"><label>Signature:</label></div>
-                    <div class="col-lg-1 col-sm-12"><input type="text" name="sig_of_claimant" class="form-control"
-                                                           value="{{Auth::user()->staff_no}}" readonly required></div>
+                    <div class="col-lg-2 col-sm-12 text-left">
+                        <label>Signature:</label>
+                    </div>
+                    <div class="col-lg-1 col-sm-12">
+                        <input type="text"
+                               name="sig_of_claimant"
+                               class="form-control"
+                               value="{{Auth::user()->staff_no}}"
+                               readonly
+                               required/>
+                    </div>
                     <div class="col-lg-2 col-sm-12 text-left"><label>Date:</label></div>
 
-                    <div class="col-lg-2 col-sm-12"><input type="Date" name="date_claimant" class="form-control"
-                                                           value="{{date('Y-m-d')}}" readonly required>
+                    <div class="col-lg-2 col-sm-12">
+                        <input type="Date"
+                               name="date_claimant"
+                               class="form-control"
+                               value="{{date('Y-m-d')}}"
+                               readonly
+                               required/>
                     </div>
                 </div>
 
                 <div class="row mb-1">
-                    <div class="col-lg-2 col-sm-12"><label>Claim Authorised by:</label></div>
-                    <div class="col-lg-3 col-sm-12"><input type="text" name="claim_authorised_by" readonly
-                                                           class="form-control">
+                    <div class="col-lg-2 col-sm-12">
+                        <label>Claim Authorised by:</label>
                     </div>
-                    <div class="col-lg-2 col-sm-12 "><label>Signature:</label></div>
-                    <div class="col-lg-1 col-sm-12"><input type="text" name="sig_of_authorised" readonly
-                                                           class="form-control">
+                    <div class="col-lg-3 col-sm-12">
+                        <input type="text"
+                               name="claim_authorised_by"
+                               readonly
+                               class="form-control"
+                        />
                     </div>
-                    <div class="col-lg-2 col-sm-12  "><label>Date:</label></div>
-                    <div class="col-lg-2 col-sm-12"><input type="text" name="authorised_date" readonly
-                                                           class="form-control">
+                    <div class="col-lg-2 col-sm-12">
+                        <label>Signature:</label>
+                    </div>
+                    <div class="col-lg-1 col-sm-12">
+                        <input type="text"
+                               name="sig_of_authorised"
+                               readonly
+                               class="form-control"/>
+                    </div>
+                    <div class="col-lg-2 col-sm-12">
+                        <label>Date:</label>
+                    </div>
+                    <div class="col-lg-2 col-sm-12">
+                        <input type="text"
+                               name="authorised_date"
+                               readonly
+                               class="form-control"/>
                     </div>
                 </div>
                 <div class="row mb-1">
-                    <div class="col-lg-2 col-sm-12"><label>HR/Station Manager:</label></div>
-                    <div class="col-lg-3 col-sm-12"><input type="text" name="station_manager" readonly
-                                                           class="form-control">
+                    <div class="col-lg-2 col-sm-12">
+                        <label>HR/Station Manager:</label>
+                    </div>
+                    <div class="col-lg-3 col-sm-12">
+                        <input type="text"
+                               name="station_manager"
+                               readonly
+                               class="form-control" />
                     </div>
                     <div class="col-lg-2 col-sm-12 "><label>Signature:</label></div>
                     <div class="col-lg-1 col-sm-12"><input type="text" name="sig_of_station_manager" readonly
@@ -195,8 +230,6 @@
                                                            class="form-control">
                     </div>
                 </div>
-
-
                 <p><b>Note:</b> The system reference number is mandatory and is from
                     any of the systems at ZESCO such as a work request number from PEMS, Task
                     number from HQMS, Meeting Number from HQMS, Incident number from IMS etc.

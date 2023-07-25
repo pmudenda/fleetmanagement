@@ -514,6 +514,7 @@ class MaintenanceController extends Controller
 
         $repairTypes = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
             ->where('active', '=', 1)
+            ->orderBy('code')
             ->get();
 
         $accessories = Accessory::where('status', '=', StatusHelper::active())->get();
