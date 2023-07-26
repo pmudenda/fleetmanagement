@@ -1343,9 +1343,6 @@
 
                         Table.deleteRow(tableRow);
 
-                        e.preventDefault();
-                        e.stopPropagation();
-
                         if (!valueId || valueId === "0") {
                             // clear first row
                             if (tableId === 'services_table') {
