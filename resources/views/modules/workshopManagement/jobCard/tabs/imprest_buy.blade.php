@@ -12,7 +12,7 @@
                     <thead>
                     <tr>
                         <th width="33%" colspan="1" class="text-center"><a href="#"><img
-                                    src="{{ asset('dashboard/dist/img/zesco1.png')}}" title="ZESCO" alt="ZESCO"
+                                    src="{{ asset('asset/dist/img/zesco1.png')}}" title="ZESCO" alt="ZESCO"
                                     width="25%"></a></th>
                         <th width="33%" colspan="4" class="text-center">Petty Cash Voucher</th>
                         <th width="34%" colspan="1" class="p-3">Doc Number:<br>CO.14900.FORM.00165<br>Version: 3
