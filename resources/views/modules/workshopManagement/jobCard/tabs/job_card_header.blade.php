@@ -14,9 +14,9 @@
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <div class="input-group">
                                         <input type="text"
+                                               @if(!empty($details->reg_no)) readonly="readonly" @endif
                                                data-action="{{route('requisition.vehicle.details')}}"
                                                class="form-control form-control-sm"
-                                               {{--value="{{$details->veh_reg ?? ''}}"--}}
                                                value="{{$details->reg_no ?? ''}}"
                                                id="vehicle_registration"
                                                placeholder="Vehicle Reg e.g AAB 6757"
@@ -129,6 +129,7 @@
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <select name="repairType"
+                                            @if(!empty($details->reg_no)) readonly="readonly" @endif
                                             id="repairTypeDropdownList"
                                             data-value="{{$details->repair_type ?? ''}}"
                                             class="form-select form-select-sm when_valid"
@@ -137,15 +138,12 @@
                                         @foreach ($repairTypes as $repairType)
                                             @if(!empty($details))
                                                 @if($details->repair_type == $repairType->code)
-                                                    <option selected
-                                                            value="{{$repairType->code}}">{{$repairType->name}}</option>
+                                                    <option selected value="{{$repairType->code}}">{{$repairType->name}}</option>
                                                 @else
-                                                    <option
-                                                        value="{{$repairType->code}}">{{$repairType->name}}</option>
+                                                    <option disabled value="{{$repairType->code}}">{{$repairType->name}}</option>
                                                 @endif
                                             @else
-                                                <option
-                                                    value="{{$repairType->code}}">{{$repairType->name}}</option>
+                                                <option value="{{$repairType->code}}">{{$repairType->name}}</option>
                                             @endif
 
                                         @endforeach
