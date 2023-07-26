@@ -385,8 +385,85 @@ class WorkshopRequisitionService
 
         Log::info("Stores Reservation Generated with document " . $results);
 
+        self::updateStPur($requisitionDetail->req_no, $results);
+
         return $results;
     }
+
+    /**
+     * @throws FuelRequisitionException
+     */
+    public function createWorkshopNonStockPurchaseProcess($workshop_reference): mixed
+    {
+        $requisitionDetail = self::getReservationDetail($workshop_reference);
+
+        $materialHeader = WorkShopMaterialHeader::where('form_order', '=', $requisitionDetail->form_order)
+            ->where('item_type_code', '=', RequisitionItemTypes::NonStockItemCode)
+            ->first();
+
+        $results = $this->procurementService->createPurchaseProcess(
+            $workshop_reference,
+            $requisitionDetail->veh_reg_no,
+            $requisitionDetail->form_order,
+            Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
+            TransactionType::SERVICE_PURCHASE_REQUISITIONS,
+            $requisitionDetail->purchase_office,
+            $materialHeader->job_card_no,
+            $requisitionDetail->workshop_no
+        );
+
+        if (empty($results)) {
+            throw new FuelRequisitionException("Purchase Process Could Not Be Started ");
+        }
+
+        if (!str_contains($results, 'N01')) {
+            throw new FuelRequisitionException($results);
+        }
+
+        self::updateStPur($requisitionDetail->req_no, $results);
+
+        Log::info("Purchase Process Document document " . $results);
+
+        return $results;
+    }
+
+    /**
+     * @throws FuelRequisitionException
+     */
+    public function createWorkshopServicePurchaseProcess(mixed $workshop_reference): mixed
+    {
+        $requisitionDetail = self::getReservationDetail($workshop_reference);
+
+        $materialHeader = WorkShopMaterialHeader::where('form_order', '=', $requisitionDetail->form_order)
+            ->where('item_type_code', '=', RequisitionItemTypes::ServiceItemCode)
+            ->first();
+
+        $results = $this->procurementService->createPurchaseProcess(
+            $workshop_reference,
+            $requisitionDetail->veh_reg_no,
+            $requisitionDetail->form_order,
+            Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
+            TransactionType::SERVICE_PURCHASE_REQUISITIONS,
+            $requisitionDetail->purchase_office,
+            $materialHeader->job_card_no,
+            $requisitionDetail->workshop_no
+        );
+
+        if (empty($results)) {
+            throw new FuelRequisitionException("Purchase Process Could Not Be Started ");
+        }
+
+        if (!str_contains($results, 'N01')) {
+            throw new FuelRequisitionException($results);
+        }
+
+        self::updateStPur($requisitionDetail->req_no, $results);
+
+        Log::info("Purchase Process Document " . $results);
+
+        return $results;
+    }
+
 
     public function getWorkShopReservationDetails(mixed $req_no): array
     {
@@ -705,79 +782,6 @@ class WorkshopRequisitionService
         ]);
     }
 
-    /**
-     * @throws FuelRequisitionException
-     */
-    public function createWorkshopNonStockPurchaseProcess($workshop_reference): mixed
-    {
-        $requisitionDetail = self::getReservationDetail($workshop_reference);
-
-        $materialHeader = WorkShopMaterialHeader::where('form_order', '=', $requisitionDetail->form_order)
-            ->where('item_type_code', '=', RequisitionItemTypes::NonStockItemCode)
-            ->first();
-
-        $results = $this->procurementService->createPurchaseProcess(
-            $workshop_reference,
-            $requisitionDetail->veh_reg_no,
-            $requisitionDetail->form_order,
-            Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
-            TransactionType::SERVICE_PURCHASE_REQUISITIONS,
-            $requisitionDetail->purchase_office,
-            $materialHeader->job_card_no,
-            $requisitionDetail->workshop_no
-        );
-
-        if (empty($results)) {
-            throw new FuelRequisitionException("Purchase Process Could Not Be Started ");
-        }
-
-        if (!str_contains($results, 'N01')) {
-            throw new FuelRequisitionException($results);
-        }
-
-        self::updateStPur($requisitionDetail->req_no, $results);
-
-        Log::info("Purchase Process Document document " . $results);
-
-        return $results;
-    }
-
-    /**
-     * @throws FuelRequisitionException
-     */
-    public function createWorkshopServicePurchaseProcess(mixed $workshop_reference): mixed
-    {
-        $requisitionDetail = self::getReservationDetail($workshop_reference);
-
-        $materialHeader = WorkShopMaterialHeader::where('form_order', '=', $requisitionDetail->form_order)
-            ->where('item_type_code', '=', RequisitionItemTypes::ServiceItemCode)
-            ->first();
-
-        $results = $this->procurementService->createPurchaseProcess(
-            $workshop_reference,
-            $requisitionDetail->veh_reg_no,
-            $requisitionDetail->form_order,
-            Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
-            TransactionType::SERVICE_PURCHASE_REQUISITIONS,
-            $requisitionDetail->purchase_office,
-            $materialHeader->job_card_no,
-            $requisitionDetail->workshop_no
-        );
-
-        if (empty($results)) {
-            throw new FuelRequisitionException("Purchase Process Could Not Be Started ");
-        }
-
-        if (!str_contains($results, 'N01')) {
-            throw new FuelRequisitionException($results);
-        }
-
-        self::updateStPur($requisitionDetail->req_no, $results);
-
-        Log::info("Purchase Process Document " . $results);
-
-        return $results;
-    }
 
     public function updateStatus(mixed $reference, string $status): void
     {
