@@ -1254,7 +1254,7 @@
                 }
             }
 
-            function addTableRow() {
+            function addTableRow(tableId) {
                 function reinitializeSelect2($_defect_sel) {
                     if ($_defect_sel) {
                         $($_defect_sel).removeClass('select2-hidden-accessible');
@@ -1603,13 +1603,13 @@
                 $(document).off('click', 'button[value="addRow"][data-table-id]')
                     .on('click', 'button[value="addRow"][data-table-id]', function () {
                         let tableId = $(this).data('tableId');
-                        addTableRow();
+                        addTableRow(tableId);
                     });
 
                 $(document).on('click', 'button[value="deleteRow"]', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    deleteTableRow(btnEl);
+                    deleteTableRow(this);
                     return false;
                 });
             }
