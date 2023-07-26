@@ -451,9 +451,9 @@
             createVehicleByStatusPie();
         })(window.tmsApp || {});
 
+        /*
         let chartDom = document.getElementById('pie2');
         let myPieChart = echarts.init(chartDom);
-
         let pieOption = {
             legend: {},
             tooltip: {
@@ -534,9 +534,10 @@
                 });
             }
         });
+        myPieChart &&
+        myPieChart.setOption(pieOption);*/
 
-        // myPieChart &&
-        // myPieChart.setOption(pieOption);
+        /*
         let bar_chartDom = document.querySelector("#bar_chart");
         let bar_chart = echarts.init(bar_chartDom);
         let barCharOption = {
@@ -555,7 +556,6 @@
             yAxis: {},
             series: [{type: 'bar'}, {type: 'bar'}, {type: 'bar'}]
         };
-
-        //bar_chart.setOption(barCharOption)
+        bar_chart.setOption(barCharOption)*/
     </script>
 @endpush

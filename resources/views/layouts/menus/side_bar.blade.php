@@ -815,6 +815,16 @@
                         </p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{URL::signedRoute('e-toll.cards')}}"
+                       class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>
+                            e-Toll Cards
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
 

@@ -210,6 +210,10 @@ Route::group(['middleware' => 'auth'], function () {
         })->name('reports.fuel.requisitions');
     });
 
+    Route::get('e-toll/cards', function () {
+        return view('modules/tollCardManagement/index');
+    })->name('e-toll.cards');
+
 });
 
 Route::get('load/procurement/articles', [MaintenanceController::class, 'searchArticle'])
