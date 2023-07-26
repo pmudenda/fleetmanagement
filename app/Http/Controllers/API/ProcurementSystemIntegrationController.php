@@ -76,7 +76,8 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
     public function fuelTypes(): JsonResponse
     {
         return response()->json([
-            'payload' => Article::whereIn('code_article', ['300101-0002', '300101-0001'])
+            'payload' => Article::whereIn('code_article',
+                ['300101-0002', '300101-0001'])
                 ->get(['code_article', 'description'])
         ]);
     }
