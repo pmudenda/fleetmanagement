@@ -212,7 +212,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('e-toll/cards', function () {
         return view('modules/tollCardManagement/index');
-    })->name('e-toll.cards');
+    })->name('e-toll.card');
+
+    Route::post('save/e-toll/cards', function () {
+        return view('modules/tollCardManagement/index');
+    })->name('save.toll.card');
 
 });
 

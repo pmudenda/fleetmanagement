@@ -90,7 +90,8 @@ class WorkshopController extends Controller
 
         $requisition_type = "WORKSHOP";
         return view("modules.workshopManagement.list")
-            ->with(compact('requisitions','requisition_type'));
+            ->with(compact('requisitions',
+                'requisition_type'));
     }
 
     public function sections(): View

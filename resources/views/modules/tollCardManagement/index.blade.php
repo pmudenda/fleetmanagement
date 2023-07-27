@@ -29,8 +29,8 @@
 
 @section('content')
 
-    <x-content-header :pageTitle="'Driver On Boarding'" :activeCrumb="'OnBoarding'" :link="'home'"
-                      :linkText="'System Users'"/>
+    <x-content-header :pageTitle="'e-Toll Card On Boarding'" :activeCrumb="'OnBoarding'" :link="'e-toll.card'"
+                      :linkText="'e-Toll Card'"/>
 
     <!-- Main content -->
     <section class="content">
@@ -43,7 +43,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                <h4>Driver Management</h4>
+                                <h4>e-Toll Card Management</h4>
                             </div>
                             <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
                                 <button type="button" id="submitRequisitionBtn"
@@ -58,7 +58,7 @@
                             </div>
                         </div>
                         <div class="card-body p-2">
-                            <div class="table-responsive mt-10 ">
+                            <div style="display: none;" class="table-responsive mt-10 ">
 
                                 <div class="card-body py-4 min-h-600px pt-0">
                                     <label class="app-required-marker"></label>
@@ -120,7 +120,8 @@
                                                                                 for="staff_name">
                                                                                 Staff Number:
                                                                             </label>
-                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                                 <input type="text"
                                                                                        class="form-control form-control-sm"
                                                                                        id="employee_number"
@@ -148,7 +149,8 @@
                                                                                 for="staff_name">
                                                                                 Name:
                                                                             </label>
-                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                                 <input type="text"
                                                                                        class="form-control form-control-sm"
                                                                                        id="driver_name"
@@ -167,7 +169,8 @@
                                                                             <label
                                                                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                                 for="mobile_no">Grade:</label>
-                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                                 <input type="text"
                                                                                        class="form-control form-control-sm"
                                                                                        id="grade"
@@ -190,7 +193,8 @@
                                                                                 for="staff_name">
                                                                                 Position:
                                                                             </label>
-                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                                 <input type="text"
                                                                                        class="form-control form-control-sm"
                                                                                        id="job_title"
@@ -214,7 +218,8 @@
                                                                                 for="department">
                                                                                 Department :
                                                                             </label>
-                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                                 <input type="text"
                                                                                        class="form-control form-control-sm"
                                                                                        id="department"
@@ -238,14 +243,17 @@
                                                                                 for="staff_name">
                                                                                 Location:
                                                                             </label>
-                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                                <input type="hidden" name="cost_center_code">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <input type="hidden"
+                                                                                       name="cost_center_code">
                                                                                 <input type="hidden" name="nrc">
 
                                                                                 <input type="text"
                                                                                        class="form-control form-control-sm"
                                                                                        id="location"
-                                                                                       name="location" required readonly/>
+                                                                                       name="location" required
+                                                                                       readonly/>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -263,17 +271,21 @@
                                                                                 for="staff_name">
                                                                                 Is Driver by designation ?:
                                                                             </label>
-                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                                 <label class="inline-check">
-                                                                                    <div class="form-check form-check-inline">
-                                                                                        <input id="designated-driver-yes"
-                                                                                               type="radio"
-                                                                                               name="isDesignatedDriver"
-                                                                                               value="yes" disabled/>
+                                                                                    <div
+                                                                                        class="form-check form-check-inline">
+                                                                                        <input
+                                                                                            id="designated-driver-yes"
+                                                                                            type="radio"
+                                                                                            name="isDesignatedDriver"
+                                                                                            value="yes" disabled/>
                                                                                         <label
                                                                                             for="designated-driver-yes">Yes</label>
                                                                                     </div>
-                                                                                    <div class="form-check form-check-inline">
+                                                                                    <div
+                                                                                        class="form-check form-check-inline">
                                                                                         <input id="designated-driver-no"
                                                                                                type="radio"
                                                                                                checked
@@ -310,10 +322,12 @@
                                                                                 for="staff_license">
                                                                                 License No:
                                                                             </label>
-                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                                 <input type="text"
                                                                                        class="form-control form-control-sm"
-                                                                                       id="license_number" name="license_number"
+                                                                                       id="license_number"
+                                                                                       name="license_number"
                                                                                        required>
                                                                             </div>
                                                                         </div>
@@ -330,12 +344,14 @@
                                                                                 for="staff_name">
                                                                                 Date Issued:
                                                                             </label>
-                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                                 <input type="date"
                                                                                        max="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
                                                                                        class="form-control form-control-sm"
                                                                                        id="license_date_issued"
-                                                                                       name="license_date_issued" required>
+                                                                                       name="license_date_issued"
+                                                                                       required>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -353,7 +369,8 @@
                                                                                 for="staff_name">
                                                                                 Expiry Date:
                                                                             </label>
-                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                                 <input type="date"
                                                                                        {{--min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"--}}
                                                                                        class="form-control form-control-sm"
@@ -375,15 +392,16 @@
                                                                                 for="staff_name">
                                                                                 License Category:
                                                                             </label>
-                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                                 <select
                                                                                     id="license_class"
                                                                                     name="license_class"
                                                                                     class="form-select">
-                                                                                    @foreach($licenseClasses as $licenseClass)
-                                                                                        <option
-                                                                                            value="{{$licenseClass->code}}">{{$licenseClass->name}}</option>
-                                                                                    @endforeach
+                                                                                    {{-- @foreach($licenseClasses as $licenseClass)
+                                                                                         <option
+                                                                                             value="{{$licenseClass->code}}">{{$licenseClass->name}}</option>
+                                                                                     @endforeach--}}
                                                                                 </select>
                                                                             </div>
                                                                         </div>
@@ -430,8 +448,10 @@
                                                                                     JPG, JPEG,PNG, BMP
                                                                                 </small>
                                                                             </label>
-                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                                <div class="card text-center py-5 my-2 pt-0">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <div
+                                                                                    class="card text-center py-5 my-2 pt-0">
                                                                                     <div class="form-group">
                                                                                         <p
                                                                                             class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
@@ -442,7 +462,8 @@
                                                                                                 <i class="fas fa-cloud"></i>
                                                                                                 Upload Image
                                                                                             </button>
-                                                                                            <input type="file" accept="image/*"
+                                                                                            <input type="file"
+                                                                                                   accept="image/*"
                                                                                                    style="display: none;"
                                                                                                    class="fileElem"
                                                                                                    id="license_front_view"
@@ -479,8 +500,10 @@
                                                                                     JPG, JPEG,PNG, BMP
                                                                                 </small>
                                                                             </label>
-                                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                                <div class="card text-center py-5 my-2 pt-0">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                                <div
+                                                                                    class="card text-center py-5 my-2 pt-0">
                                                                                     <div class="form-group">
                                                                                         <p
                                                                                             class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
@@ -491,7 +514,8 @@
                                                                                                 <i class="fas fa-cloud"></i>
                                                                                                 Upload Image
                                                                                             </button>
-                                                                                            <input type="file" accept="image/*"
+                                                                                            <input type="file"
+                                                                                                   accept="image/*"
                                                                                                    style="display: none;"
                                                                                                    class="fileElem"
                                                                                                    id="license_back_view"
@@ -637,6 +661,343 @@
                                     </form>
                                 </div>
                             </div>
+
+                            <form class="" name="newTaskForm" action="{{route('save.toll.card')}}" id="newTaskForm"
+                                  method="post">
+                                @csrf
+                                <input type="hidden" name="relatedReference" id="relatedReference"
+                                       value="{{$relatedReference ?? ''}}"/>
+                                <div class="errorTxt"></div>
+                                <x-error-view></x-error-view>
+
+                                <label class="app-required-marker"></label>
+
+                                <fieldset style="" class="form-group border p-3">
+                                    <legend>General Information:</legend>
+                                    <table class="app_form_table table">
+                                        <tr>
+                                            <td>
+                                                <label class="app-field-label" data-field="taskOriginator">
+                                                    NRFA Batch Number <span class="text-danger">*</span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                    <span class="app-field-input" data-field="taskOriginator">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   id="batchNumber"
+                                                                   required
+                                                                   autocomplete="off"
+                                                                   name="batchNumber"
+                                                                   class="form-control"/>
+                                                            <div class="input-group-append">
+                                                                <button type="button" data-assignmenttype="single"
+                                                                        data-inputfield="taskOriginator"
+                                                                        data-field="userSelection"
+                                                                        class="input-group-text">
+                                                                    <i class="fa fc-day-number"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </span>
+                                            </td>
+                                            <td class="pl-5">
+                                                <label class="field-required app-field-label-">
+                                                    Scheme
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <span class="app-field-input" data-field="dateoriginated">
+                                                    <div class="input-group">
+                                                        <select
+                                                            name="cardScheme"
+                                                            class="form-select">
+                                                            <option value="ST">Standard</option>
+                                                        </select>
+                                                    </div>
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="app-field-label" data-field="specificlocationofia">
+                                                    Card Number <span class="text-danger">*</span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <div class="input-group date"
+                                                     id="date_opened"
+                                                     data-target-input="nearest">
+                                                    <input type="text" name="dateOpened" required id="dateOpened"
+                                                           autocomplete="off"
+                                                           class="form-control datetimepicker-opened"
+                                                           data-target="#dateOpened"/>
+                                                </div>
+                                            </td>
+                                            <td class="pl-5">
+                                                <label class="hq-field field-required" data-field="">
+                                                    Card Status
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <span class="app-field-input" data-field="">
+                                                     <div class="input-group">
+                                                        <select id="cardStatus"
+                                                                name="cardStatus"
+                                                                required
+                                                                class="form-select form-select-sm">
+                                                            <option disabled value=""></option>
+                                                            <option value="01">NEW</option>
+                                                            <option value="02">ASSIGNED</option>
+                                                        </select>
+                                                    </div>
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="app-field-label" data-field="specificlocationofia">
+                                                    Date Issued <span class="text-danger">*</span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <div class="input-group date"
+                                                     data-target-input="nearest">
+                                                    <input type="text" name="dateIssued" required id="dateIssued"
+                                                           autocomplete="off"
+                                                           class="form-control datetimepicker-input"/>
+                                                    <div class="input-group-append"
+                                                         data-target="#dateIssued"
+                                                         data-toggle="datetimepicker">
+                                                        <span type="button" data-action="datetimepicker"
+                                                              class="input-group-text ui-datepicker-trigger">
+                                                            <i data-action="datetimepicker" class="fa fa-calendar"></i>
+                                                        </span>
+                                                    </div>
+                                                    <button type="button" data-action="clearDate"
+                                                            class="input-group-text">
+                                                        <i data-action="clearDate" class="fa fa-eraser"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+
+                                            <td style="background: none;">
+                                                <label class="hq-field">
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <span class="hq-field">
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="app-field-label" data-field="specificlocationofia">
+                                                    Expiry Date <span class="text-danger">*</span>
+                                                </label>
+                                            </td>
+
+                                            <td>
+                                                <div class="input-group date" id="date_opened"
+                                                     data-target-input="nearest">
+                                                    <input type="text" name="dateOpened" required id="dateOpened"
+                                                           autocomplete="off"
+                                                           class="form-control datetimepicker-opened"
+                                                           data-target="#dateOpened"/>
+                                                    <div class="input-group-append" data-target="#dateOpened"
+                                                         data-action="dateOpenedPicker">
+                                                        <span type="button" data-action="dateOpenedPicker"
+                                                              class="input-group-text">
+                                                            <i data-action="dateOpenedPicker"
+                                                               class="fa fa-calendar"></i>
+                                                        </span>
+                                                    </div>
+                                                    <button type="button" data-action="clearDate"
+                                                            class="input-group-text">
+                                                        <i data-action="clearDate" class="fa fa-eraser"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+
+                                            <td style="background: none;">
+                                                <label class="hq-field-" data-field="">
+                                                </label>
+                                            </td>
+
+                                            <td>
+                                                <span class="hq-field-" data-field="">
+                                                </span>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>
+                                                <label class="app-field-label" data-field="specificlocationofia">
+                                                    Card Verification Value (<small>CVV</small>)
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <div class="input-group"
+                                                     id="date_opened"
+                                                     data-target-input="nearest">
+                                                    <input type="text" name="cvv" required
+                                                           id="cvv"
+                                                           autocomplete="off"
+                                                           class="form-control"
+                                                           data-target="#dateOpened"/>
+                                                    <div class="input-group-append">
+                                                        <span type="button" data-action="datetimepicker"
+                                                              class="input-group-text ui-datepicker-trigger">
+                                                            <i data-action="datetimepicker" class="fa fa-lock"></i>
+                                                        </span>
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                            <td class="pl-5">
+                                                <label class="hq-field field-required" data-field="">
+                                                    Mobile
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <span class="app-field-input" data-field="">
+                                                     <div class="input-group">
+                                                        <input type="tel" id="contactNumber"
+                                                               name="contactNumber"
+                                                               required
+                                                               class="form-control form-control-sm"/>
+                                                         <div class="input-group-append">
+                                                        <span type="button" data-action="datetimepicker"
+                                                              class="input-group-text ui-datepicker-trigger">
+                                                            <i data-action="datetimepicker" class="fa fa-phone"></i>
+                                                        </span>
+                                                    </div>
+                                                    </div>
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="field-required app-field-label-">
+                                                    Assigned To
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <span class="app-field-input" data-field="dateoriginated">
+                                                    <div class="input-group">
+                                                        <select
+                                                            name="cardScheme"
+                                                            class="form-select">
+                                                            <option value="ND">NORTHERN DIVISION</option>
+                                                            <option value="LR">LUSAKA</option>
+                                                        </select>
+                                                    </div>
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <td>
+                                            <label class="app-field-label" data-field="taskOriginator">
+                                                Responsible Officer <span class="text-danger">*</span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <span class="app-field-input" data-field="taskOriginator">
+                                                <div class="input-group">
+                                                    <input type="text"
+                                                           id="taskOriginator"
+                                                           required
+                                                           data-bs-toggle="modal"
+                                                           autocomplete="off"
+                                                           data-bs-target="#searchEmployeeModal"
+                                                           data-assignmenttype="single"
+                                                           data-inputfield="taskOriginator"
+                                                           name="taskOriginator"
+                                                           class="form-control"/>
+                                                    <input type="hidden"
+                                                           data-assignmenttype="single"
+                                                           data-inputfield="taskOriginatorId"
+                                                           id="taskOriginatorId"
+                                                           name="taskOriginatorId"/>
+                                                    <div class="input-group-append">
+                                                        <button type="button" data-assignmenttype="single"
+                                                                data-inputfield="taskOriginator"
+                                                                data-field="userSelection"
+                                                                class="input-group-text">
+                                                            <i class="fa fa-user"></i>
+                                                        </button>
+                                                        <button type="button" data-action="clearUsers"
+                                                                class="input-group-text">
+                                                            <i class="fa fa-eraser"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </td>
+
+                                        <tr>
+                                            <td colspan="4">
+                                                <label class="app-field-label" data-field="typeia">
+                                                    Comments
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="background: none;" colspan="4">
+                                                <span class="app-field-input">
+                                                    <textarea name="comments" id="comments"
+                                                              class="form-control"></textarea>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </fieldset>
+
+                                <!--Attachments FieldsSets-->
+
+                                <fieldset style="margin-top:30px;" class="form-group border p-3">
+                                    <legend>Attachments:</legend>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6">
+                        <span class="app-field-input" data-field="iaclassification">
+                                        <input type="file" id="supportingDocument" name="supportingDocument"
+                                               class="form-control"/>
+                        </span>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-3">
+                                            <div class="row pl-2 d-none">
+                            <span class="app-field-input" data-field="iaclassification">
+                                        <button type="button" id="btn_link" name="btnExternalLink"
+                                                class="btn btn-secondary toolbarButtonClick">
+                                             External Link <i class="fa fa-paperclip"></i>
+                                        </button>
+                                        <input type="hidden" name="externalLink" class="form-control"/>
+                                        <input type="hidden" name="externalLinkDescription" class="form-control"/>
+                            </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-3">
+                                            <div class="row pl-2 d-none">
+                           <span class="app-field-input" data-field="associateRecord">
+                                <button type="button"
+                                        data-bs-toggle="modal"
+                                        data-="" id="btn_reference"
+                                        class="btn btn-secondary toolbarButtonClick">
+                                  Associate Record  <i class="fa fa-history"></i>
+                                </button>
+                               <input type="hidden" name="internalLink" class="form-control"/>
+                           </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -989,66 +1350,14 @@
             });
 
             tmsApp.appFormValidator('form[name="tms_driver_definition"]',
-                {
-                    employee_number: {
-                        required: true,
-                        maxlength: 10,
-                        minlength: 5
-                    },
-                    name: {
-                        required: true
-                    },
-                    grade: {
-                        required: true
-                    },
-                    job_title: {
-                        required: true
-                    },
-                    location: {
-                        required: true
-                    },
-                    department: {
-                        required: true
-                    },
-                    license_number: {
-                        required: true
-                    },
-                    license_date_issued: {
-                        required: true
-                    },
-                    license_date_expiry: {
-                        required: true
-                    },
-                    license_class: {
-                        required: true
-                    },
-                    license_front_view: {
-                        required: true
-                    },
-                    license_back_view: {
-                        required: true
-                    },
-                    permit_number: {
-                        required: true
-                    },
-                    permit_date_issued: {
-                        required: true
-                    },
-                    permit_date_expiry: {
-                        required: true
-                    },
-                    permit_copy: {
-                        required: true
-                    }
-                },
-                {
-                    'employee_number': {
-                        required: "You have not provided employee staff number",
-                        maxlength: 'Staff number can not be more than 10 characters',
-                        minlength: 'Staff number can not be less than 5 characters'
-                    },
-                }
+                {},
+                {}
             );
+
+            $(".datetimepicker-input").datepicker({
+                minDate: new Date(),
+                dateFormat: 'dd/mm/yy',
+            });
 
 
         })(window.tmsApp, jQuery);

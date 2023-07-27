@@ -19,7 +19,7 @@
         </div>
 
         <div class="form-inline">
-            <div class="input-group"
+            {{--<div class="input-group"
                  data-widget="sidebar-search">
                 <input class="form-control form-control-sidebar"
                        type="search"
@@ -31,7 +31,7 @@
                         <i class="fas fa-search fa-fw"></i>
                     </button>
                 </div>
-            </div>
+            </div>--}}
         </div>
 
         <nav class="mt-2">
@@ -817,7 +817,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{URL::signedRoute('e-toll.cards')}}"
+                    <a href="{{URL::signedRoute('e-toll.card')}}"
                        class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>
