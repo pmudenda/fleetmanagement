@@ -17,38 +17,18 @@ use Illuminate\Support\Facades\Log;
 
 class UserService
 {
-    /**
-     * get currently logged in user
-     *
-     **/
-    public static function getLoggedInUser()
-    {
-        return Auth::user();
-    }
-
     public static function synchronizeData()
     {
-//        $employees = User::select('ipa_phris_view.con_per_no', 'ipa_phris_view.con_st_code', 'users.id')
-//            ->join('ipa_phris_view', 'ipa_phris_view.con_per_no', '=', 'users.staff_no')
-//            ->whereRaw('users.con_st_code != ipa_phris_view.con_st_code')
-//            ->get();
-
         $employees = User::select('*')
             ->join('ipa_phris_view', 'ipa_phris_view.con_per_no', '=', 'users.staff_no')
-//            ->whereRaw('users.con_st_code != ipa_phris_view.con_st_code')
             ->get();
 
 
         foreach ($employees as $employee) {
-//            User::find($employee->id)->update([
-//                'con_st_code' => $employee->employee_status
-//            ]);
-
             //Remove profiles
             if ($employee->employee_status == config('constants.phris_user_not_active')) {
                 // find the user
                 $user = User::find($employee->id);
-
             }
 
             log::info('Update Successful' . $employee->id);

@@ -1005,18 +1005,20 @@
 
         </div>
     </section>
-
+    <x-employee-search-modal/>
     <input type="hidden" value="{{route('license.details.verification')}}" id="rtsaLicenseVerificationEndPoint">
 @endsection
 
 @push('scripts')
-
+    <script
+        src="{{asset('application/modules/userManagement/employee.search.js').'?v='.\Carbon\Carbon::now()->format('his')}}"></script>
     <!-- DataTables  & Plugins -->
     @include('layouts.partials.dataTableScripts')
     <script src="{{asset('libs/imageUpload/imageUpload.js')}}"></script>
     <!-- page script -->
     <script>
         (function (tmsApp, $) {
+
             /* function ImageUpload() {
                  const selector = '.fileElem';
 
