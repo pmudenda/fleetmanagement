@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AccidentReporting\VehicleRecording;
+use App\Http\Controllers\AccidentReporting\VehicleRecordingController;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ChargeOutRateController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
@@ -36,13 +36,15 @@ Route::post('logout', [HomeController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/vehiclerecording', [VehicleRecording::class, 'index'])->name('accident.reporting');
+    Route::get('/accident/report', [VehicleRecordingController::class, 'create'])->name('accident.reporting');
 
-    Route::get('/accidenttypes', [VehicleRecording::class, 'accidentTypes'])->name('accident.types');
+    Route::get('/accident/list', [VehicleRecordingController::class, 'list'])->name('accident.list');
 
-    Route::get('/accidentnatures', [VehicleRecording::class, 'accidentNatures'])->name('accident.natures');
+    Route::get('/accident/types', [VehicleRecordingController::class, 'accidentTypes'])->name('accident.types');
 
-    Route::post('/accidentrecording', [VehicleRecording::class, 'store'])->name('accident.store');
+    Route::get('/accident/natures', [VehicleRecordingController::class, 'accidentNatures'])->name('accident.natures');
+
+    Route::post('/accident/save/report', [VehicleRecordingController::class, 'store'])->name('accident.store');
 
     //SESSION EXPIRE
     Route::post('getStatus', function () {
@@ -215,9 +217,14 @@ Route::group(['middleware' => 'auth'], function () {
     })->name('e-toll.card');
 
     Route::post('save/e-toll/cards', function () {
-        return view('modules/tollCardManagement/index');
-    })->name('save.toll.card');
+        return response()->json([
 
+        ]);
+    })->name('e-toll.card.save');
+
+    Route::get('e-toll/cards/list', function () {
+        return view('modules/tollCardManagement/index');
+    })->name('e-toll.card.list');
 });
 
 Route::get('load/procurement/articles', [MaintenanceController::class, 'searchArticle'])

@@ -662,7 +662,7 @@
                                 </div>
                             </div>
 
-                            <form class="" name="newTaskForm" action="{{route('save.toll.card')}}" id="newTaskForm"
+                            <form class="" name="newTaskForm" action="{{route('e-toll.card.save')}}" id="newTaskForm"
                                   method="post">
                                 @csrf
                                 <input type="hidden" name="relatedReference" id="relatedReference"

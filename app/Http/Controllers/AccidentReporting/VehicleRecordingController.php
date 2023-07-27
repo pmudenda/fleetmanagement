@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PHPUnit\Exception;
 
-class VehicleRecording extends Controller
+class VehicleRecordingController extends Controller
 {
     private readonly FileUploadService $fileUploadService;
 
@@ -29,10 +29,10 @@ class VehicleRecording extends Controller
         $this->numberGeneratorService = $numberGeneratorService;
         $this->fileUploadService = $fileUploadService;
     }
-    function index(){
+    function create(){
         $minDate= Carbon::now()->subtract('year', 10);
 
-        return view("modules.accidentreporting.vehiclerecording")
+        return view("modules.accidentReporting.create")
             ->with(compact(
                 'minDate'
             ));
