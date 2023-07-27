@@ -39,6 +39,7 @@
           href="{{asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('libs/session.timeout/session.timeout.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/asyncLoader.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/jquery-ui.css')}}"/>
     <style>
         .nav-link {
             padding: 0.65rem 1rem;
