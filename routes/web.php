@@ -13,7 +13,14 @@ use App\Http\Controllers\Security\RolesController;
 use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkshopManagement\MaintenanceController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
+use App\Http\Requests\ETollCardRequest;
+use App\Models\ETollCard;
+use App\Services\FileUploads\FileUploadService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -216,10 +223,52 @@ Route::group(['middleware' => 'auth'], function () {
         return view('modules/tollCardManagement/index');
     })->name('e-toll.card');
 
-    Route::post('save/e-toll/cards', function () {
-        return response()->json([
+    Route::post('save/e-toll/cards', function (ETollCardRequest $request) {
 
-        ]);
+        try {
+            $user = Auth::user();
+            DB::beginTransaction();
+            $model = ETollCard::create([
+                'batchNumber' => $request->get('batchNumber'),
+                'cardScheme' => $request->get('cardScheme'),
+                'cardNumber' => $request->get('cardNumber'),
+                'cardStatus' => $request->get('cardStatus'),
+                'dateIssued' => Carbon::parse($request->get('dateIssued')),
+                'expiryDate' => Carbon::parse($request->get('expiryDate')),
+                'cvv' => $request->get('cvv'),
+                'contactNumber' => $request->get('contactNumber'),
+                'assignedTo' => $request->get('assignedTo'),
+                'responseHead' => $request->get('responseHead'),
+                'responseHeadId' => $request->get('responseHeadId'),
+                'comments' => $request->get('comments'),
+                'created_by' => $user->staff_no
+            ]);
+
+            FileUploadService::uploadFile(
+                $request,
+                'supportingDocument',
+                'eTollCard',
+                $model->id,
+                'eTollCard',
+                'eTollCard',
+                $user
+            );
+
+            DB::commit();
+
+            return response()->json([
+                'payload' => [],
+                'state' => 'success'
+            ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'payload' => [],
+                'state' => 'failed'
+            ]);
+        }
+
+
     })->name('e-toll.card.save');
 
     Route::get('e-toll/cards/list', function () {

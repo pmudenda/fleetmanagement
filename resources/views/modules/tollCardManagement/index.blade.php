@@ -72,7 +72,7 @@
                                     <table class="app_form_table table">
                                         <tr>
                                             <td>
-                                                <label class="app-field-label" data-field="taskOriginator">
+                                                <label class="app-field-label">
                                                     NRFA Batch Number <span class="text-danger">*</span>
                                                 </label>
                                             </td>
@@ -279,10 +279,11 @@
                                                 </label>
                                             </td>
                                             <td>
-                                                <div class="app-field-input" data-field="dateoriginated">
+                                                <div class="app-field-input">
                                                     <div class="input-group">
                                                         <select
-                                                            name="cardScheme"
+                                                            id="assignedTo"
+                                                            name="assignedTo"
                                                             class="form-select">
                                                             <option value="ND">NORTHERN DIVISION</option>
                                                             <option value="LR">LUSAKA</option>
@@ -293,12 +294,12 @@
                                         </tr>
 
                                         <td>
-                                            <label class="app-field-label" data-field="taskOriginator">
+                                            <label class="app-field-label" data-field="responseHead">
                                                 Responsible Officer <span class="text-danger">*</span>
                                             </label>
                                         </td>
                                         <td>
-                                            <div class="app-field-input" data-field="taskOriginator">
+                                            <div class="app-field-input" data-field="responseHead">
                                                 <div class="input-group">
                                                     <input type="text"
                                                            id="taskOriginator"
@@ -307,17 +308,17 @@
                                                            autocomplete="off"
                                                            data-bs-target="#searchEmployeeModal"
                                                            data-assignmenttype="single"
-                                                           data-inputfield="taskOriginator"
-                                                           name="taskOriginator"
+                                                           data-inputfield="responseHead"
+                                                           name="responseHead"
                                                            class="form-control"/>
                                                     <input type="hidden"
                                                            data-assignmenttype="single"
-                                                           data-inputfield="taskOriginatorId"
-                                                           id="taskOriginatorId"
-                                                           name="taskOriginatorId"/>
+                                                           data-inputfield="responseHeadId"
+                                                           id="responseHeadId"
+                                                           name="responseHeadId"/>
                                                     <div class="input-group-append">
                                                         <button type="button" data-assignmenttype="single"
-                                                                data-inputfield="taskOriginator"
+                                                                data-inputfield="responseHead"
                                                                 data-field="userSelection"
                                                                 class="input-group-text">
                                                             <i class="fa fa-user"></i>
@@ -431,7 +432,7 @@
                 $('.print-error-msg').css('display', 'none');
                 let formData = new FormData($form);
                 tmsApp.confirm(
-                    'Driver onboarding',
+                    'eToll Card onboarding',
                     'Are you sure you want to onboard this driver ?',
                     'Yes',
                     'No',
@@ -444,7 +445,7 @@
                                 if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                                     setTimeout(function () {
                                         tmsApp.showSystemMessage(
-                                            'Driver onboarding',
+                                            'eToll Card onboarding',
                                             asyncResponse['message'],
                                             function () {
                                                 window.location.href = asyncResponse["redirectUrl"]
@@ -459,7 +460,7 @@
                                     }
                                     setTimeout(function () {
                                         tmsApp.systemError(
-                                            'Driver onboarding',
+                                            'eToll Card onboarding',
                                             asyncResponse['message'],
                                             function () {
                                             }, 'error');
@@ -475,7 +476,7 @@
                                         }
                                         if (xhr.responseJSON.hasOwnProperty('message')) {
                                             tmsApp.systemError(
-                                                'Driver onboarding',
+                                                'eToll Card onboarding',
                                                 xhr.responseJSON['message']
                                             );
                                         }
@@ -483,7 +484,7 @@
                                     }
 
                                     tmsApp.systemError(
-                                        'Driver onboarding',
+                                        'eToll Card onboarding',
                                         'We could not complete processing your request, please try again later');
                                 }, 300)
                             }
