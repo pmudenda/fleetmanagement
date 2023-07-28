@@ -244,15 +244,18 @@ Route::group(['middleware' => 'auth'], function () {
                 'created_by' => $user->staff_no
             ]);
 
-            FileUploadService::uploadFile(
-                $request,
-                'supportingDocument',
-                'eTollCard',
-                $model->id,
-                'eTollCard',
-                'eTollCard',
-                $user
-            );
+
+            if (!empty($request->allFiles())) {
+                FileUploadService::uploadFile(
+                    $request,
+                    'supportingDocument',
+                    'eTollCard',
+                    $model->id,
+                    'eTollCard',
+                    'eTollCard',
+                    $user
+                );
+            }
 
             DB::commit();
 

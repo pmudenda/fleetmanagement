@@ -12,14 +12,34 @@
             <a href="#" class="nav-link">Document</a>
         </li>--}}
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Documents
+            <a class="nav-link dropdown-toggle" href="#"
+               id="navbarDropdown"
+               role="button"
+               data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                Documents Check
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Document Audit Trail</a>
-                <a class="dropdown-item" href="#">Document Follow Up</a>
+                <a class="dropdown-item"
+                   data-toggle="modal"
+                   data-target="#modal-auditTrail"
+                   href="#">
+                    Document Audit Trail
+                </a>
+                <a class="dropdown-item"
+                   data-toggle="modal"
+                   data-target="#modal-followUp"
+                   href="#">
+                    Document Follow Up
+                </a>
+
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Document Task Tracking</a>
+                <a class="dropdown-item"
+                   data-toggle="modal"
+                   data-target="#modal-taskFollowUp"
+                   href="#">
+                    Document Task Tracking
+                </a>
             </div>
         </li>
     </ul>

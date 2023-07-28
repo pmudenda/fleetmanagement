@@ -91,7 +91,8 @@
     <div aria-live="polite" aria-atomic="true" class="position-relative">
         <div class="toast-container position-fixed top-0 end-0 p-3">
 
-            <div id="liveToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div id="liveToast" class="toast align-items-center text-bg-primary border-0" role="alert"
+                 aria-live="assertive" aria-atomic="true">
                 {{--<div class="toast-header">
                     <strong class="me-auto">System Message</strong>
                     <small>now</small>
@@ -104,7 +105,201 @@
         </div>
     </div>
 
+    <div class="modal" id="modal-auditTrail">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        Document Audit Trail
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <table id="filterProperty" class="table">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <select class="form-select" name="property">
+                                    <option value="" disabled>--Select--</option>
+                                    <option value="userUnit">User Unit</option>
+                                    <option value="workshopSection">Section</option>
+                                    <option value="workshop">Workshop</option>
+                                    <option value="dateIn">Date In</option>
+                                    <option value="dateOut">Date Out</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" name="operator">
+                                    <option value="=">Is</option>
+                                    <option value="<>">Is not</option>
+                                    <option value=">">Is After</option>
+                                    <option value="<">Is Before</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" name="filterValue">
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button type="button"
+                            data-table-id="filterProperty"
+                            class="btn btn-sm btn-primary add pull-left"
+                            value="addRow">
+                        <i class="fa fa-plus"></i> Add Property
+                    </button>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="modal-footer justify-content-end">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button"
+                            class="btn btn-sm btn-success"
+                            value="applyFilter"> Apply Filter
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal" id="modal-followUp">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        Document Follow Up
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <table id="filterProperty" class="table">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <select class="form-select" name="property">
+                                    <option value="" disabled>--Select--</option>
+                                    <option value="userUnit">User Unit</option>
+                                    <option value="workshopSection">Section</option>
+                                    <option value="workshop">Workshop</option>
+                                    <option value="dateIn">Date In</option>
+                                    <option value="dateOut">Date Out</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" name="operator">
+                                    <option value="=">Is</option>
+                                    <option value="<>">Is not</option>
+                                    <option value=">">Is After</option>
+                                    <option value="<">Is Before</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" name="filterValue">
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button type="button"
+                            data-table-id="filterProperty"
+                            class="btn btn-sm btn-primary add pull-left"
+                            value="addRow">
+                        <i class="fa fa-plus"></i> Add Property
+                    </button>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="modal-footer justify-content-end">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button"
+                            class="btn btn-sm btn-success"
+                            value="applyFilter"> Apply Filter
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal" id="modal-taskFollowUp">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        Document Task Tracking
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <table id="filterProperty" class="table">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <select class="form-select" name="property">
+                                    <option value="" disabled>--Select--</option>
+                                    <option value="userUnit">User Unit</option>
+                                    <option value="workshopSection">Section</option>
+                                    <option value="workshop">Workshop</option>
+                                    <option value="dateIn">Date In</option>
+                                    <option value="dateOut">Date Out</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" name="operator">
+                                    <option value="=">Is</option>
+                                    <option value="<>">Is not</option>
+                                    <option value=">">Is After</option>
+                                    <option value="<">Is Before</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" name="filterValue">
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button type="button"
+                            data-table-id="filterProperty"
+                            class="btn btn-sm btn-primary add pull-left"
+                            value="addRow">
+                        <i class="fa fa-plus"></i> Add Property
+                    </button>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="modal-footer justify-content-end">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button"
+                            class="btn btn-sm btn-success"
+                            value="applyFilter"> Apply Filter
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
 </div>
+
 <audio preload="auto" id="sound-email" volume=0.1>
     <source src="{{asset('assets/sounds/email.mp3')}}"/>
 </audio>

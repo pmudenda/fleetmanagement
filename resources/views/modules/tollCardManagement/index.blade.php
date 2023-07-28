@@ -433,7 +433,7 @@
                 let formData = new FormData($form);
                 tmsApp.confirm(
                     'eToll Card onboarding',
-                    'Are you sure you want to onboard this driver ?',
+                    'Are you sure you want to onboard the data ?',
                     'Yes',
                     'No',
                     function () {
@@ -442,13 +442,13 @@
                             formData,
                             function (asyncResponse) {
 
-                                if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
+                                if (asyncResponse.hasOwnProperty('state') && asyncResponse['state'] === 'success') {
                                     setTimeout(function () {
                                         tmsApp.showSystemMessage(
-                                            'eToll Card onboarding',
+                                            'eToll Card Saved',
                                             asyncResponse['message'],
                                             function () {
-                                                window.location.href = asyncResponse["redirectUrl"]
+                                                window.location.reload();
                                             },
                                             'success'
                                         );
@@ -484,7 +484,7 @@
                                     }
 
                                     tmsApp.systemError(
-                                        'eToll Card onboarding',
+                                        'eToll Card Saving',
                                         'We could not complete processing your request, please try again later');
                                 }, 300)
                             }
