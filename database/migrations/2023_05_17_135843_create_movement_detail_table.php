@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string('stf_number', 255)->nullable();
             $table->string('veh_reg_no', 10)->nullable();
             $table->string('authorised_by', 255)->nullable();
+            $table->string('ind', 20)->nullable();
+            $table->string('store_code', 20)->nullable();
             $table->timestamps();
         });
     }

@@ -7,19 +7,19 @@
     <input type="hidden" name="headerId" value="{{$reference}}"/>
     <input type="hidden" name="costAndValuationId" value="{{$vehicle->costAndValuationId ?? 0}}"/>
 
-    <x-error-view />
+    <x-error-view/>
     <div class="container-fluid mt-5">
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-5">
                 <div class="container-fluid pl-0">
-                 {{--   <div class="row">
-                        <div class="form-group row pl-0">
+                    {{--   <div class="row">
+                           <div class="form-group row pl-0">
 
-                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                               <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
 
-                            </div>
-                        </div>
-                    </div>--}}
+                               </div>
+                           </div>
+                       </div>--}}
 
                     {{--<div class="row">
                         <div class="form-group row">
@@ -154,7 +154,7 @@
                 <div class="control-input-wrapper">
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
-                            <div>
+                            <div class="input-group">
                                 <input type="number" min="1990" max="{{date('Y')}}" step="1"
                                        class="input-with-feedback form-control bold number_input view_mode"
                                        maxlength="4"
@@ -162,6 +162,11 @@
                                        id="yearOfPurchase"
                                        data-doctype="CostingDetails"
                                        autocomplete="off">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-calender"></i>
+                                    </span>
+                                </div>
                             </div>
 
                         </div>
@@ -182,9 +187,7 @@
                 <div class="control-input-wrapper">
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
-                            <div>
-                               {{-- v-model="costingAndValuation.bookValue"--}}
-                                {{--onchange="formatBookValueAsMoney(this)"--}}
+                            <div class="input-group">
                                 <input type="text"
                                        class="input-with-feedback form-control bold view_mode"
                                        id="bookValue"
@@ -193,6 +196,14 @@
                                        placeholder=""
                                        data-doctype="CostingDetails"
                                        autocomplete="off"/>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <select name="bookValueCurrency" class="form-select form-select-sm">
+                                            <option value="ZMW">ZMW</option>
+                                            <option value="USD">USD</option>
+                                        </select>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -212,7 +223,7 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div>
-                               {{-- v-model="costingAndValuation.assetNumber"--}}
+
                                 <input type="text"
                                        class="input-with-feedback form-control bold view_mode"
                                        maxlength="140"

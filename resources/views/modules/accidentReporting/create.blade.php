@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @push('styles')
     <link href="{{asset("libs/steps/jquery-steps.css")}}" rel="stylesheet" type="text/css"/>
-
     <style>
         .error {
             color: red;
@@ -28,20 +27,23 @@
             <div class="card-header">
                 <div class="card-title">
                     <h4>Accident Record</h4>
-                    {{--  @if(!empty($details) && !empty($details->job_card_no))
-                          <span class="ml-2 indicator-pill whitespace-nowrap green">
-                              <span>Saved</span>
-                          </span>
-                      @else
-                          <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
-                      @endif--}}
+                    {{--
+                          @if(!empty($details) && !empty($details->job_card_no))
+                              <span class="ml-2 indicator-pill whitespace-nowrap green">
+                                  <span>Saved</span>
+                              </span>
+                          @else
+                              <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
+                          @endif
+                     --}}
                 </div>
-                {{--        @if(!empty($details) && !empty($details->job_card_no))
+                {{--
+                        @if(!empty($details) && !empty($details->job_card_no))
                             <div class="card-toolbar justify-content-end">
                                 JOB CARD NUMBER: <span class="text-orange">{{ $details->job_card_no ?? '' }}</span>
                             </div>
                         @endif
-        --}}
+                 --}}
             </div>
 
             <div class="card-body pb-4 min-h-600px pt-0">
@@ -421,9 +423,7 @@
         <script>
             (function (tmsApp, $) {
 
-
                 $(document).off().on('click', '[data-confirm-selection="true"]', function (event) {
-
                     console.log(event)
                     // let _modal = $("#searchEmployeeModal");
                     //
@@ -523,8 +523,8 @@
                                     tmsApp.showErrorMessages(jqXHR, 'Accident Recording');
                                 }, 'POST');
                         },
-
-                    }).validate({
+                    })
+                        .validate({
                         errorPlacement: function errorPlacement(error, element) {
                             error.insertAfter(element);
                         },
@@ -544,8 +544,6 @@
                             }
                         }
                     });
-                    //});
-                    // })
                 }
 
                 $(function () {
@@ -748,7 +746,6 @@
                         if (!reg || reg.replaceAll('_', '').replaceAll(" ", '').length < 4) {
                             return;
                         }
-
                         fetchVehicleDetails(reg);
                     });
 
