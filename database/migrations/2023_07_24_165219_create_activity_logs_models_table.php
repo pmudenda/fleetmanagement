@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('SEC_AUDIT_LOG', function (Blueprint $table) {
             $table->id();
-            $table->id();
             $table->integer('user_id')->nullable();
             $table->string('staff_no')->nullable();
             $table->string('username')->nullable();

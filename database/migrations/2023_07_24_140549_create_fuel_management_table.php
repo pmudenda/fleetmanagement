@@ -28,9 +28,9 @@ return new class extends Migration {
             $table->decimal('quantity', 19, 4)->nullable();
             $table->decimal('price', 19, 4)->nullable();
             $table->decimal('amount', 19, 4)->nullable();
-            $table->integer('odometer', 19)->nullable();
-            $table->integer('pump_start', 19)->nullable();
-            $table->integer('pump_end', 19)->nullable();
+            $table->integer('odometer')->nullable();
+            $table->decimal('pump_start')->nullable();
+            $table->decimal('pump_end')->nullable();
             $table->string('status', 15);
             $table->string('business_unit', 8)->nullable();
             $table->string('user_unit', 15)->nullable();
@@ -46,6 +46,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('fuel_management');
+        Schema::dropIfExists('VM_FUEL_ISSUE');
     }
 };
