@@ -117,53 +117,101 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <table id="filterProperty" class="table">
-                        <tbody>
-                        <tr>
-                            <td>
-                                <select class="form-select" name="property">
-                                    <option value="" disabled>--Select--</option>
-                                    <option value="userUnit">User Unit</option>
-                                    <option value="workshopSection">Section</option>
-                                    <option value="workshop">Workshop</option>
-                                    <option value="dateIn">Date In</option>
-                                    <option value="dateOut">Date Out</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-select" name="operator">
-                                    <option value="=">Is</option>
-                                    <option value="<>">Is not</option>
-                                    <option value=">">Is After</option>
-                                    <option value="<">Is Before</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-select" name="filterValue">
-                                </select>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <button type="button"
-                            data-table-id="filterProperty"
-                            class="btn btn-sm btn-primary add pull-left"
-                            value="addRow">
-                        <i class="fa fa-plus"></i> Add Property
-                    </button>
-                    <div class="clearfix"></div>
-                </div>
+                <form>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <div class="row">
+                                    <label for="documentType" class="col-4 form-label">Document Type:</label>
+                                    <div class="col-8">
+                                        <select class="form-select" id="documentType" name="documentType">
+                                            <option value="PR">PURCHASE REQUISITION</option>
+                                            <option value="PO">PURCHASE ORDER</option>
+                                            <option value="TND">TENDER</option>
+                                            <option value="GRN">GOODS RECEIPT</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <div class="row">
+                                    <label for="documentNumber" class="col-4 form-label">Document No.</label>
+                                    <div class="col-8">
+                                        <input class="form-control" name="documentNumber"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <div class="row">
+                                    <label class="form-label col-4">Document Status</label>
+                                    <div class="col-8">
+                                        <select class="form-select" id="documentType" name="documentType">
+                                            <option value="">--Select--</option>
+                                            <option value="userUnit">User Unit</option>
+                                            <option value="workshopSection">Section</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <div class="row">
+                                    <label class="form-label col-4">Responsible No.</label>
+                                    <div class="col-8">
+                                        <input class="form-control" name="operator"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6"></div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="form-label col-4">Period</label>
+                            <div class="col-8 row pr-0">
+                                <div class="col-6">
+                                    <label class="form-label">From.</label>
+                                    <div class="input-group">
+                                        <input class="form-control" name="periodFrom"/>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-calendar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                <div class="modal-footer justify-content-end">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button"
-                            class="btn btn-sm btn-success"
-                            value="applyFilter"> Apply Filter
-                    </button>
-                </div>
+                                </div>
+                                <div class="col-6 pr-0">
+                                    <label class="form-label">To.</label>
+                                    <div class="input-group">
+                                        <input class="form-control" name="periodTo"/>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-calendar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="modal-footer justify-content-end">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button"
+                                class="btn btn-sm btn-success"
+                                value="applyFilter">
+                            <i class="fas fa-hand-grab-o"></i>
+                            Get
+                        </button>
+                    </div>
+                </form>
             </div>
 
         </div>
@@ -181,54 +229,77 @@
                     </h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
+                <form>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <div class="row">
+                                    <label for="documentType" class="col-4 form-label">Document Type:</label>
+                                    <div class="col-8">
+                                        <select class="form-select" id="documentType" name="documentType">
+                                            <option value="PR">PURCHASE REQUISITION</option>
+                                            <option value="PO">PURCHASE ORDER</option>
+                                            <option value="TND">TENDER</option>
+                                            <option value="GRN">GOODS RECEIPT</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <div class="row">
+                                    <label for="documentNumber" class="col-4 form-label">Document No.</label>
+                                    <div class="col-8">
+                                        <input class="form-control" name="documentNumber"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <table id="filterProperty" class="table">
-                        <tbody>
-                        <tr>
-                            <td>
-                                <select class="form-select" name="property">
-                                    <option value="" disabled>--Select--</option>
-                                    <option value="userUnit">User Unit</option>
-                                    <option value="workshopSection">Section</option>
-                                    <option value="workshop">Workshop</option>
-                                    <option value="dateIn">Date In</option>
-                                    <option value="dateOut">Date Out</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-select" name="operator">
-                                    <option value="=">Is</option>
-                                    <option value="<>">Is not</option>
-                                    <option value=">">Is After</option>
-                                    <option value="<">Is Before</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-select" name="filterValue">
-                                </select>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <button type="button"
-                            data-table-id="filterProperty"
-                            class="btn btn-sm btn-primary add pull-left"
-                            value="addRow">
-                        <i class="fa fa-plus"></i> Add Property
-                    </button>
-                    <div class="clearfix"></div>
-                </div>
+                        <div class="row mb-2">
+                            <label class="form-label col-4">Period</label>
+                            <div class="col-8 row pr-0">
+                                <div class="col-6">
+                                    <label class="form-label">From.</label>
+                                    <div class="input-group">
+                                        <input class="form-control" name="periodFrom"/>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-calendar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                <div class="modal-footer justify-content-end">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button"
-                            class="btn btn-sm btn-success"
-                            value="applyFilter"> Apply Filter
-                    </button>
-                </div>
+                                </div>
+                                <div class="col-6 pr-0">
+                                    <label class="form-label">To.</label>
+                                    <div class="input-group">
+                                        <input class="form-control" name="periodTo"/>
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-calendar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="modal-footer justify-content-end">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button"
+                                class="btn btn-sm btn-success"
+                                value="applyFilter">
+                            <i class="fas fa-hand-grab-o"></i>
+                            Get
+                        </button>
+                    </div>
+                </form>
             </div>
 
         </div>

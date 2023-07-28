@@ -186,19 +186,38 @@ Route::group(['middleware' => 'auth'], function () {
 
         });
 
+        Route::get('/bookings/list', function () {
 
-        Route::get('/workshop/requisition', function () {
-            return "Requisition Will Show Here";
-        })->name('show.workshop.requisition');
+            return "Requisitions here";
 
-        Route::get('/workshop/requisitions/list', [WorkshopController::class, 'requisitions'])->name('list.workshop.requisition');
+        })->name('list.booking');
+
+        Route::get('/workshop/booking', function () {
+            $details = [];
+            $materials = [];
+            $materialsHeader = null;
+            $services = collect([]);
+            $view_name = 'modules.workshopManagement.booking.create';
+
+            return view($view_name)
+                ->with(compact(
+                    'details',
+                    'materials',
+                    'materialsHeader',
+                    'services'
+                ));
+
+        })->name('new.booking');
+
+        Route::get('/workshop/requisitions/list', [WorkshopController::class, 'requisitions'])
+            ->name('list.workshop.requisition');
 
         // STORES REQUISITIONS
-        Route::get('/workshop/approve', [MaintenanceController::class, 'show'])->name('show.workshop.requisition');
+        Route::get('/workshop/approve', [MaintenanceController::class, 'show'])
+            ->name('show.workshop.requisition');
 
-        Route::post('/workflow/stores/requisition/approve', [WorkflowController::class, 'processStoresRequisitionApproval'])->name('stores.requisition.approve');
-
-
+        Route::post('/workflow/stores/requisition/approve', [WorkflowController::class, 'processStoresRequisitionApproval'])
+            ->name('stores.requisition.approve');
     });
 
     Route::group(['prefix' => 'driver-management'], function () {
@@ -220,7 +239,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::get('e-toll/cards', function () {
-        return view('modules/tollCardManagement/index');
+        return view('modules/tollCardManagement/create');
     })->name('e-toll.card');
 
     Route::post('save/e-toll/cards', function (ETollCardRequest $request) {

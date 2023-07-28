@@ -148,29 +148,70 @@
                         </a>
                         <ul class="nav nav-treeview">
 
-                            @can(config('rights.create_job_card'))
+                            @canany([config('rights.create_job_card'),config('rights.view_job_card')])
                                 <li class="nav-item">
-                                    <a href="{{URL::signedRoute('jobCard.requisition',['step'=> 1])}}"
-                                       class="nav-link">
-                                        <i class="fas fa-plus nav-icon"></i>
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
                                         <p>
                                             Job Card
+                                            <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
-                                </li>
-                            @endcan
+                                    <ul class="nav nav-treeview pl-4">
+                                        @can(config('rights.create_job_card'))
+                                            <li class="nav-item">
+                                                <a href="{{URL::signedRoute('jobCard.requisition',['step'=> 1])}}"
+                                                   class="nav-link">
+                                                    <i class="fas fa-plus nav-icon"></i>
+                                                    <p>New</p>
+                                                </a>
+                                            </li>
+                                        @endcan
 
-                            @can(config('rights.view_job_card'))
-                                <li class="nav-item">
-                                    <a href="{{URL::signedRoute('jobCard.list',['step'=> 1])}}"
-                                       class="nav-link">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>
-                                            In Workshop
-                                        </p>
-                                    </a>
+                                        @can(config('rights.view_job_card'))
+                                            <li class="nav-item">
+                                                <a href="{{URL::signedRoute('jobCard.list',['step'=> 1])}}"
+                                                   class="nav-link">
+                                                    <i class="fas fa-list nav-icon"></i>
+                                                    <p>
+                                                        In Workshop
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcan
+                                    </ul>
                                 </li>
-                            @endcan
+                            @endcanany
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>
+                                        Booking
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview pl-4">
+                                    {{--@can(config('rights.requisition_fuel'))--}}
+                                    <li class="nav-item">
+                                        <a class="nav-link"
+                                           href="{{ URL::signedRoute('new.booking') }}">
+                                            <i class="fas fa-plus nav-icon"></i>
+                                            <p>New</p>
+                                        </a>
+                                    </li>
+                                    {{--@endcan--}}
+                                    {{-- @canany([config('rights.requisition_fuel'),config('rights.approve_fuel_requisition')])--}}
+                                    <li class="nav-item">
+                                        <a class="nav-link"
+                                           href="{{ URL::signedRoute('list.booking') }}">
+                                            <i class="fas fa-list nav-icon"></i>
+                                            <p>List</p>
+                                        </a>
+                                    </li>
+                                    {{-- @endcanany--}}
+                                </ul>
+                            </li>
 
                             @can(config('rights.approve_workshop_requisition'))
                                 <li class="nav-item">

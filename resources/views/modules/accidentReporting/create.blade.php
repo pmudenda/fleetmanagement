@@ -19,9 +19,9 @@
 @endpush
 @section('content')
     <x-content-header
-            :activeCrumb="'New Accident'"
-            :linkText="'Report'"
-            :pageTitle="'Accident Reporting'"/>
+        :activeCrumb="'New Accident'"
+        :linkText="'Report'"
+        :pageTitle="'Accident Reporting'"/>
     <section class="content">
         <div class="card">
             <div class="card-header">
@@ -89,7 +89,8 @@
                             </div>
 
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <input type="hidden" name="insured" value="Y"/>
+                                {{--<div class="form-group">
                                     <label for="vehicleMake">Insured:</label>
                                     <select name="insured" type="text" class="form-control disableVehicle"
                                             id="insurance_state" required>
@@ -99,9 +100,8 @@
                                     </select>
                                     @error('insured')
                                     <p>{{$message}}</p>
-
                                     @enderror
-                                </div>
+                                </div>--}}
                             </div>
 
                             <div class="col-md-6">
@@ -143,7 +143,6 @@
                                 </select>
                                 @error('accidentNature')
                                 <p>{{$message}}</p>
-
                                 @enderror
                             </div>
 
@@ -170,7 +169,6 @@
                                     </select>
                                     @error('other_people_involved')
                                     <p>{{$message}}</p>
-
                                     @enderror
                                 </div>
                             </div>
@@ -191,7 +189,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="other_vehicle_involved">Other Vehicles Involved:</label>
-                                    <select name="other_vehicle_involved" type="text" class="form-control disableVehicle"
+                                    <select name="other_vehicle_involved" type="text"
+                                            class="form-control disableVehicle"
                                             id="other_vehicle_involved" required>
                                         <option selected disabled>-- Select --</option>
                                         <option value="YES">Yes</option>
@@ -223,7 +222,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="day_of_week">Day Of The Week:</label>
-                                    <select name="day_of_week"  class="form-control required"
+                                    <select name="day_of_week" class="form-control required"
                                             id="day_of_week" required>
                                         <option selected disabled>Select Day Of Week</option>
                                         <option value="Monday">Monday</option>
@@ -384,7 +383,6 @@
                             </div>
 
 
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="yearsOfActivity">Years Of Activity*:</label>
@@ -398,7 +396,6 @@
                                 <p>{{$message}}</p>
                                 @enderror
                             </div>
-
 
 
                         </div>
@@ -525,25 +522,25 @@
                         },
                     })
                         .validate({
-                        errorPlacement: function errorPlacement(error, element) {
-                            error.insertAfter(element);
-                        },
-                        rules: {},
-                        messages: {
-                            accidentType: {
-                                required: "Accident Type is required when reporting"
+                            errorPlacement: function errorPlacement(error, element) {
+                                error.insertAfter(element);
                             },
-                            registrationNo: {
-                                required: "Vehicle Registration is required"
-                            },
-                            vehicleMake: {
-                                required: "Vehicle Make is required"
-                            },
-                            vehicleModel: {
-                                required: "Vehicle Model is required"
+                            rules: {},
+                            messages: {
+                                accidentType: {
+                                    required: "Accident Type is required when reporting"
+                                },
+                                registrationNo: {
+                                    required: "Vehicle Registration is required"
+                                },
+                                vehicleMake: {
+                                    required: "Vehicle Make is required"
+                                },
+                                vehicleModel: {
+                                    required: "Vehicle Model is required"
+                                }
                             }
-                        }
-                    });
+                        });
                 }
 
                 $(function () {
@@ -559,27 +556,25 @@
                         method: 'GET',
                         success: function (response) {
                             // Code to execute when the AJAX request succeeds
-
-
-                            if (response.success === 'true' || response.success) {
-                                const vehicleDetails = response.payload.vehicle;
-
-                                let mileage = document.getElementById("mileage")
-                                let insured = document.getElementById("insurance_state")
-
-                                mileage.setAttribute("readonly", true)
-                                insured.setAttribute("readonly", true)
-
-
-                                // mileage.value = vehicleDetails.insure;
-                                mileage.value = vehicleDetails.current_odometer_reading
-
-                                tmsApp.showSystemMessage('', response.message, null, 'success')
-                            } else {
-                                tmsApp.showSystemMessage('', response.message, null, 'error')
-
+                            if (!response.success) {
+                                //tmsApp.showSystemMessage('', response.message, null, 'error')
+                                tmsApp.showToast(response['message'], 'error');
+                                return;
                             }
 
+                            const vehicleDetails = response.payload.vehicle;
+
+                            let mileage = document.getElementById("mileage");
+                            let insured = document.getElementById("insurance_state");
+
+                            mileage.setAttribute("readonly", 'readonly');
+                            insured.setAttribute("readonly", 'readonly');
+
+
+                            // mileage.value = vehicleDetails.insure;
+                            mileage.value = vehicleDetails['current_odometer_reading'];
+
+                            tmsApp.showSystemMessage('', response.message, null, 'success');
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             // Code to execute when the AJAX request fails
@@ -623,7 +618,6 @@
 
                                 let driverName = document.getElementById("driver_name")
                                 let yearsOfActivity = document.getElementById("yearsOfActivity")
-
 
 
                                 driverName.value = driverDetails.name;

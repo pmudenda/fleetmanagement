@@ -38,7 +38,7 @@
                    data-toggle="modal"
                    data-target="#modal-taskFollowUp"
                    href="#">
-                    Document Task Tracking
+                    Task Tracking
                 </a>
             </div>
         </li>

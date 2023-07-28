@@ -77,7 +77,7 @@ class VehicleController extends Controller
         try {
             if (empty($request->vehicle_registration)) {
                 return response()->json([
-                    'success' => 'false',
+                    'success' => false,
                     'statusDescription' => 'Bad Request',
                     'message' => 'Missing required parameter'
                 ]);
@@ -88,7 +88,7 @@ class VehicleController extends Controller
 
             if (empty($vehicle)) {
                 return response()->json([
-                    'success' => 'false',
+                    'success' => false,
                     'statusDescription' => 'Not Found',
                     'message' => 'Vehicle not found'
                 ]);
@@ -122,7 +122,7 @@ class VehicleController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             return response()->json([
-                'success' => 'false',
+                'success' => false,
                 'message' => ErrorMessages::getMessage('err_0005')
             ]);
         }
