@@ -6,10 +6,21 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="{{route('home')}}" class="nav-link">Home</a>
+            <a href="{{route('home')}}" class="nav-link">System Dashboard</a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Contact</a>
+        {{--<li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Document</a>
+        </li>--}}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Documents
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Document Audit Trail</a>
+                <a class="dropdown-item" href="#">Document Follow Up</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Document Task Tracking</a>
+            </div>
         </li>
     </ul>
 
