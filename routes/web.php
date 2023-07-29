@@ -312,20 +312,6 @@ Route::get('load/article/details', [ProcurementSystemIntegrationController::clas
 Route::post('get/workshop/store-purchase-office', [MaintenanceController::class, 'getStoreAndPurchaseOffice'])
     ->name('get.store.purchase_office');
 
-Route::get('barcodes', function (Request $request) {
-
-    /* if (!$request->has('data')) {
-         return "No Data Supplied";
-     }
-     $service = new OnBoardingService();
-     $barCodeImagePath = $service->generateBarCode(
-         new VehicleHeader(
-             ['registration_number' => $request->get('data')]
-         )
-     );
-     return '<img alt="testing" src="' . asset('storage/' . $barCodeImagePath) . '"/>';*/
-})->name('barcode.generate');
-
 Route::get('test', function (Request $request) {
 
     (config('rights.role_create'))

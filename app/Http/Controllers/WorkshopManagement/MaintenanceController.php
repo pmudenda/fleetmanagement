@@ -700,6 +700,7 @@ class MaintenanceController extends Controller
 
     public function getStoreAndPurchaseOffice(Request $request): JsonResponse
     {
+        Log::info($request->all());
         try {
             if (!$request->has('workshop_code')) {
                 return response()->json([
