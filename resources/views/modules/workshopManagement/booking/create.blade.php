@@ -61,6 +61,10 @@
                         RESERVATION NUMBER: <span class="text-orange">{{ $details->job_card_no ?? '' }}</span>
                     </div>
                 @endif
+
+                <div class="card-toolbar justify-content-end">
+                    RESERVATION NUMBER: <span class="text-orange">ZFMREF9999999999999</span>
+                </div>
             </div>
 
             <div class="card-body pb-4 min-h-600px pt-0">
@@ -74,34 +78,296 @@
                       method="post">
                     @csrf
 
-                    <div class="row">
-                        <div class="form-group row">
-                            <label
-                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                for="staff_no">Registration #:
-                            </label>
-                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                <div class="input-group">
-                                    <input type="text"
-                                           @if(!empty($details->reg_no)) readonly="readonly" @endif
-                                           data-action="{{route('requisition.vehicle.details')}}"
-                                           class="form-control form-control-sm"
-                                           value="{{$details->reg_no ?? ''}}"
-                                           id="vehicle_registration"
-                                           placeholder="Vehicle Reg e.g AAB 6757"
-                                           name="vehicle_registration" required />
-                                    <div class="input-group-addon">
-                                        <button type="button"
-                                                id="vehicleSearchBtn"
-                                                name="vehicleSearchBtn"
-                                                class="btn btn-success btn-sm border-radius-0">
-                                            <i class="fas fa-search"></i>
-                                        </button>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="container-fluid pl-0">
+                                    <div class="row">
+                                        <div class="form-group row">
+                                            <label
+                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                for="staff_no">Registration No.:
+                                            </label>
+                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                <div class="input-group">
+                                                    <input type="text"
+                                                           @if(!empty($details->reg_no)) readonly="readonly" @endif
+                                                           data-action="{{route('requisition.vehicle.details')}}"
+                                                           class="form-control form-control-sm"
+                                                           value="{{$details->reg_no ?? ''}}"
+                                                           id="vehicle_registration"
+                                                           placeholder="Vehicle Reg e.g AAB 6757"
+                                                           name="vehicle_registration" required/>
+                                                    <div class="input-group-addon">
+                                                        <button type="button"
+                                                                id="vehicleSearchBtn"
+                                                                name="vehicleSearchBtn"
+                                                                class="btn btn-success btn-sm border-radius-0">
+                                                            <i class="fas fa-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <input type="hidden" value="{{$details->job_card_no ?? 0}}"
+                                                       name="job_card_number"/>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="container-fluid pl-0">
+                                    <div class="row">
+                                        <div class="form-group row">
+                                            <label
+                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required">
+                                                Store Reservation No.:
+                                            </label>
+                                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                <span class="text-orange">J02LR26889</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="container-fluid pl-0">
+                                    <div class="row">
+                                        <input type="hidden" value="{{$materialsHeader->id ?? 0 }}"
+                                               name="materialHeaderId">
+                                        <div class="form-group row">
+                                            <label
+                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                for="staff_no">Item Type:
+                                            </label>
+                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                @if(!empty($materialsHeader))
+                                                    <select
+                                                        data-value="{{$materialsHeader->item_type_code ?? ''}}"
+                                                        readonly="readonly"
+                                                        class="form-select form-select-sm"
+                                                        name="itemType"
+                                                        id="itemType">
+                                                        <option></option>
+                                                        <option @if($materialsHeader->item_type_code == '01') selected
+                                                                @endif value="01">STOCK ITEM
+                                                        </option>
+                                                        <option @if($materialsHeader->item_type_code == '02') selected
+                                                                @endif value="02">NON STOCK ITEM
+                                                        </option>
+                                                        <option @if($materialsHeader->item_type_code == '03') selected
+                                                                @endif value="03">SERVICE
+                                                        </option>
+                                                    </select>
+                                                @else
+                                                    <select
+                                                        required
+                                                        class="form-select form-select-sm"
+                                                        name="itemType"
+                                                        id="itemType">
+                                                        <option></option>
+                                                        <option value="01">STOCK ITEM</option>
+                                                        <option value="02">NON STOCK ITEM</option>
+                                                        <option value="03">SERVICE</option>
+                                                    </select>
+                                                @endif
 
-                                <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
+                                                <input type="hidden" value="{{$details->job_card_no ?? 0}}"
+                                                       name="job_card_number"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="container-fluid pl-0">
+                                    <div class="row">
+                                        <div class="form-group row">
+                                            <label
+                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                for="staff_no">Purchase Office:
+                                            </label>
+                                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                <select
+                                                    data-value=""
+                                                    required
+                                                    class="form-select form-select-sm"
+                                                    name="purchase_office"
+                                                    id="purchase_office">
+                                                    <option value="{{$officeDetails->purchase_office_code ?? ''}}">
+                                                        {{$officeDetails->purchase_office ?? ''}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="container-fluid pl-0">
+                                    <div class="row">
+                                        <div class="form-group row">
+                                            <div
+                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                <div class="control-input">
+                                                    <div class="link-field ui-front"
+                                                         style="position: relative;">
+                                                        <label for="workshop_code"
+                                                               class="form-check-inline field-required">
+                                                            Workshop:
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                <select
+                                                    data-value="{{$details->workshop_code ?? ''}}"
+                                                    required
+                                                    class="form-select form-select-sm"
+                                                    name="workshop"
+                                                    autocomplete="off"
+                                                    id="workshop">
+                                                </select>
+                                                {{--<input type="text"
+                                                       readonly
+                                                       value="{{$officeDetails->workshop_name ?? 0}}"
+                                                       class="form-control form-control-sm"/>
+                                                <input type="hidden"
+                                                       name="workshop_code"
+                                                       value="{{$officeDetails->workshop_code ?? 0}}"/>--}}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="container-fluid pl-0">
+                                    <div class="row">
+                                        <div class="form-group row">
+                                            <label
+                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                for="job_card_no">
+                                                Request Date:
+                                            </label>
+                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                @if($details)
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
+                                                           id="request_date"
+                                                           readonly
+                                                           value="{{Carbon::parse($details->date_in)->format('d/m/Y')}}"
+                                                           name="request_date"
+                                                           required>
+                                                @else
+                                                    <input type="text"
+                                                           class="form-control form-control-sm"
+                                                           id="request_date"
+                                                           readonly
+                                                           value="{{Carbon::parse(Carbon::now())->format('d/m/Y')}}"
+                                                           name="request_date"
+                                                           required>
+                                                @endif
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="container-fluid pl-0">
+                                    <div class="row">
+
+                                        <div id="supplierContainer" style="display: none;" class="form-group row">
+                                            <div
+                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                <div class="control-input">
+                                                    <div class="link-field ui-front"
+                                                         style="position: relative;">
+                                                        <label class="form-check-inline field-required">
+                                                            Suppliers
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                <select
+                                                    data-value="{{$materialsHeader->supplier_code ?? ''}}"
+                                                    class="form-select form-select-sm"
+                                                    name="supplier"
+                                                    autocomplete="off"
+                                                    id="supplier">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div id="storeContainer" style="display: none;" class="form-group row">
+                                            <label
+                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                for="staff_name">
+                                                Store:
+                                            </label>
+                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                <input type="hidden"
+                                                       id="store_code"
+                                                       value="{{$officeDetails->store_code ?? ''}}"
+                                                       name="store_code"/>
+                                                <input type="text"
+                                                       class="form-control form-control-sm"
+                                                       readonly
+                                                       id="store_name"
+                                                       value="{{$officeDetails->store_code ?? ''}}:{{$officeDetails->store_name ?? ''}}"
+                                                       placeholder=""
+                                                       name="store_name"/>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                <div class="container-fluid pl-0">
+                                    <div class="row">
+                                        <div class="form-group row">
+                                            <label
+                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                for="staff_no">Collection Date:
+                                            </label>
+                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                @if($materialsHeader)
+                                                    <input type="date"
+                                                           class="form-control form-control-sm"
+                                                           id="date_expected"
+                                                           min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                           value="{{date('Y-m-d', strtotime(Carbon::parse($materialsHeader->collection_date)->format('Y-m-d')))}}"
+                                                           name="date_expected"
+                                                    />
+
+                                                @else
+                                                    <input type="date"
+                                                           class="form-control form-control-sm"
+                                                           id="date_expected"
+                                                           min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                           value="{{date('Y-m-d', strtotime(Carbon::now()->addDays(7)))}}"
+                                                           name="date_expected"
+                                                    />
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -121,243 +387,6 @@
                         <div class="tab-pane active" id="spares" role="tabpanel">
                             {{--@include('modules.workshopManagement.jobCard.tabs.materials')--}}
                             <div class="row pt-5">
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <input type="hidden" value="{{$materialsHeader->id ?? 0 }}" name="materialHeaderId">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Item Type:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            @if(!empty($materialsHeader))
-                                                                <select
-                                                                    data-value="{{$materialsHeader->item_type_code ?? ''}}"
-                                                                    readonly="readonly"
-                                                                    class="form-select form-select-sm"
-                                                                    name="itemType"
-                                                                    id="itemType">
-                                                                    <option></option>
-                                                                    <option @if($materialsHeader->item_type_code == '01') selected
-                                                                            @endif value="01">STOCK ITEM
-                                                                    </option>
-                                                                    <option @if($materialsHeader->item_type_code == '02') selected
-                                                                            @endif value="02">NON STOCK ITEM
-                                                                    </option>
-                                                                    {{-- <option @if($materialsHeader->item_type_code == '03') selected
-                                                                             @endif value="03">SERVICE
-                                                                     </option>--}}
-                                                                </select>
-                                                            @else
-                                                                <select
-                                                                    required
-                                                                    class="form-select form-select-sm"
-                                                                    name="itemType"
-                                                                    id="itemType">
-                                                                    <option></option>
-                                                                    <option value="01">STOCK ITEM</option>
-                                                                    <option value="02">NON STOCK ITEM</option>
-                                                                    {{--<option value="03">SERVICE</option>--}}
-                                                                </select>
-                                                            @endif
-
-                                                            <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Purchase Office:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                            <select
-                                                                data-value=""
-                                                                required
-                                                                class="form-select form-select-sm"
-                                                                name="purchase_office"
-                                                                id="purchase_office">
-                                                                <option value="{{$officeDetails->purchase_office_code ?? ''}}">
-                                                                    {{$officeDetails->purchase_office ?? ''}}
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <div
-                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <label for="workshop_code" class="form-check-inline field-required">
-                                                                        Workshop:
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select
-                                                                data-value="{{$details->workshop_code ?? ''}}"
-                                                                required
-                                                                class="form-select form-select-sm"
-                                                                name="workshop"
-                                                                autocomplete="off"
-                                                                id="workshop">
-                                                            </select>
-                                                            {{--<input type="text"
-                                                                   readonly
-                                                                   value="{{$officeDetails->workshop_name ?? 0}}"
-                                                                   class="form-control form-control-sm"/>
-                                                            <input type="hidden"
-                                                                   name="workshop_code"
-                                                                   value="{{$officeDetails->workshop_code ?? 0}}"/>--}}
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                                            for="job_card_no">
-                                                            Request Date:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            @if($details)
-                                                                <input type="text"
-                                                                       class="form-control form-control-sm"
-                                                                       id="request_date"
-                                                                       readonly
-                                                                       value="{{Carbon::parse($details->date_in)->format('d/m/Y')}}"
-                                                                       name="request_date"
-                                                                       required>
-                                                            @else
-                                                                <input type="text"
-                                                                       class="form-control form-control-sm"
-                                                                       id="request_date"
-                                                                       readonly
-                                                                       value="{{Carbon::parse(Carbon::now())->format('d/m/Y')}}"
-                                                                       name="request_date"
-                                                                       required>
-                                                            @endif
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-
-                                                    <div id="supplierContainer" style="display: none;" class="form-group row">
-                                                        <div
-                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <label class="form-check-inline field-required">
-                                                                        Suppliers
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select
-                                                                data-value="{{$materialsHeader->supplier_code ?? ''}}"
-                                                                class="form-select form-select-sm"
-                                                                name="supplier"
-                                                                autocomplete="off"
-                                                                id="supplier">
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div id="storeContainer" style="display: none;" class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
-                                                            Store:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <input type="hidden"
-                                                                   id="store_code"
-                                                                   value="{{$officeDetails->store_code ?? ''}}"
-                                                                   name="store_code"/>
-                                                            <input type="text"
-                                                                   class="form-control form-control-sm"
-                                                                   readonly
-                                                                   id="store_name"
-                                                                   value="{{$officeDetails->store_code ?? ''}}:{{$officeDetails->store_name ?? ''}}"
-                                                                   placeholder=""
-                                                                   name="store_name"/>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Collection Date:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            @if($materialsHeader)
-                                                                <input type="date"
-                                                                       class="form-control form-control-sm"
-                                                                       id="date_expected"
-                                                                       min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                                       value="{{date('Y-m-d', strtotime(Carbon::parse($materialsHeader->collection_date)->format('Y-m-d')))}}"
-                                                                       name="date_expected"
-                                                                />
-
-                                                            @else
-                                                                <input type="date"
-                                                                       class="form-control form-control-sm"
-                                                                       id="date_expected"
-                                                                       min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                                       value="{{date('Y-m-d', strtotime(Carbon::now()->addDays(7)))}}"
-                                                                       name="date_expected"
-                                                                />
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <hr style="color: orange;"/>
                                 <div class="col-xs-12 col-sm-12 col-md-12 px-0">
                                     <div class="row">
@@ -449,7 +478,8 @@
                                                             </td>
 
                                                             <td>
-                                                                <span id="total_price">{{$material->amount ?? ''}}</span>
+                                                                <span
+                                                                    id="total_price">{{$material->amount ?? ''}}</span>
                                                                 <input name="total_price"
                                                                        type="hidden"
                                                                        required
@@ -460,7 +490,8 @@
 
                                                             <td class="view-mode">
                                                                 <button type="button"
-                                                                        @if($material->status == StatusHelper::authorised()) disabled @endif
+                                                                        @if($material->status == StatusHelper::authorised()) disabled
+                                                                        @endif
                                                                         data-value="{{$material->id ?? '0'}}"
                                                                         value="deleteRow"
                                                                         class="btn btn-danger p-2">
@@ -550,10 +581,12 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td class="text-right"><strong>TOTAL</strong></td>
-                                                    <td class="text-right"><b id="quantityTotal" class="input-number">0</b></td>
+                                                    <td class="text-right"><b id="quantityTotal"
+                                                                              class="input-number">0</b></td>
                                                     <td></td>
                                                     <td class="text-right"><strong>TOTAL</strong></td>
-                                                    <td class="text-right"><b id="itemsTotal" class="input-number">0.00</b></td>
+                                                    <td class="text-right"><b id="itemsTotal"
+                                                                              class="input-number">0.00</b></td>
                                                     <td></td>
                                                 </tr>
                                                 </tfoot>
@@ -633,7 +666,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
                         <div
@@ -641,242 +673,6 @@
                             id="services" role="tabpanel">
                             {{--@include('modules.workshopManagement.jobCard.tabs.services')--}}
                             <div class="row pt-5">
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <input type="hidden" value="{{$materialsHeader->id ?? 0 }}" name="materialHeaderId">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Item Type:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            @if(!empty($materialsHeader))
-                                                                <select
-                                                                    data-value="{{$materialsHeader->item_type_code ?? ''}}"
-                                                                    readonly="readonly"
-                                                                    class="form-select form-select-sm"
-                                                                    name="serviceItemType"
-                                                                    id="serviceItemType">
-                                                                    <option value="03">SERVICE</option>
-                                                                </select>
-                                                            @else
-                                                                <select
-                                                                    required
-                                                                    readonly="readonly"
-                                                                    class="form-select form-select-sm"
-                                                                    name="serviceItemType"
-                                                                    id="serviceItemType">
-                                                                    <option value="03">SERVICE</option>
-                                                                </select>
-                                                            @endif
-
-                                                            <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
-                                                            <input type="hidden"
-                                                                   value="{{RequisitionItemTypes::StockItemCode}}"
-                                                                   id="stockItemCode"
-                                                                   name="stockItemCode"/>
-                                                            <input type="hidden"
-                                                                   value="{{RequisitionItemTypes::ServiceItemCode}}"
-                                                                   id="serviceItemCode" name="serviceItemCode"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Purchase Office:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                            <select
-                                                                data-value=""
-                                                                required
-                                                                class="form-select form-select-sm"
-                                                                name="purchase_office"
-                                                                id="purchase_office">
-                                                                <option value="{{$officeDetails->purchase_office_code ?? ''}}">
-                                                                    {{$officeDetails->purchase_office ?? ''}}
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <div
-                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <label for="workshop_code" class="form-check-inline field-required">
-                                                                        Workshop:
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select
-                                                                data-value="{{$details->workshop_code ?? ''}}"
-                                                                required
-                                                                class="form-select form-select-sm"
-                                                                name="workshop"
-                                                                autocomplete="off"
-                                                                id="workshop">
-                                                            </select>
-                                                           {{-- <input type="text"
-                                                                   readonly
-                                                                   value="{{$officeDetails->workshop_name ?? 0}}"
-                                                                   class="form-control form-control-sm"/>
-                                                            <input type="hidden"
-                                                                   name="workshop_code"
-                                                                   value="{{$officeDetails->workshop_code ?? 0}}"/>--}}
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                                            for="job_card_no">
-                                                            Request Date:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            @if($details)
-                                                                <input type="text"
-                                                                       class="form-control form-control-sm"
-                                                                       id="request_date"
-                                                                       readonly
-                                                                       value="{{Carbon::parse($details->date_in)->format('d/m/Y')}}"
-                                                                       name="request_date"
-                                                                       required>
-                                                            @else
-                                                                <input type="text"
-                                                                       class="form-control form-control-sm"
-                                                                       id="request_date"
-                                                                       readonly
-                                                                       value="{{Carbon::parse(Carbon::now())->format('d/m/Y')}}"
-                                                                       name="request_date"
-                                                                       required>
-                                                            @endif
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-
-                                                    <div id="supplierContainer" class="form-group row">
-                                                        <div
-                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <label class="form-check-inline field-required">
-                                                                        Suppliers
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select
-                                                                data-value="{{$materialsHeader->supplier_code ?? ''}}"
-                                                                class="form-select form-select-sm"
-                                                                name="service_supplier"
-                                                                autocomplete="off"
-                                                                id="service_supplier">
-                                                            </select>
-                                                            @if($services && $services->isNotEmpty())
-                                                                <input type="text" class="form-control"
-                                                                       value="{{$services[0]->supplier_code}}">
-                                                            @endif
-                                                        </div>
-                                                    </div>
-
-                                                    {{--<div id="storeContainer" style="display: none;" class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
-                                                            Store:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <input type="hidden"
-                                                                   id="store_code"
-                                                                   value="{{$officeDetails->store_code ?? ''}}"
-                                                                   name="store_code"/>
-                                                            <input type="text"
-                                                                   class="form-control form-control-sm"
-                                                                   id="store_name"
-                                                                   value="{{$officeDetails->store_code ?? ''}}:{{$officeDetails->store_name ?? ''}}"
-                                                                   placeholder=""
-                                                                   name="store_name"/>
-                                                        </div>
-                                                    </div>--}}
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Collection Date:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            @if($materialsHeader)
-                                                                <input type="date"
-                                                                       class="form-control form-control-sm"
-                                                                       id="date_expected"
-                                                                       min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                                       value="{{date('Y-m-d', strtotime(Carbon::parse($materialsHeader->collection_date)->format('Y-m-d')))}}"
-                                                                       name="date_expected"
-                                                                />
-
-                                                            @else
-                                                                <input type="date"
-                                                                       class="form-control form-control-sm"
-                                                                       id="date_expected"
-                                                                       min="{{date('Y-m-d', strtotime(Carbon::now()->addDays(7)))}}"
-                                                                       value="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                                       name="date_expected"
-                                                                />
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <hr style="color: orange;"/>
                                 <div class="col-xs-12 col-sm-12 col-md-12 px-0">
                                     <div class="row">
@@ -1065,19 +861,23 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td class="text-right"><strong>TOTAL</strong></td>
-                                                    <td class="text-right"><b id="serviceQuantityTotal" class="input-number">0</b></td>
+                                                    <td class="text-right">
+                                                        <b id="serviceQuantityTotal" class="input-number">
+                                                            0
+                                                        </b>
+                                                    </td>
                                                     <td></td>
                                                     <td class="text-right"><strong>TOTAL</strong></td>
-                                                    <td class="text-right"><b id="serviceTotalPrice" class="input-number">0.00</b></td>
+                                                    <td class="text-right"><b id="serviceTotalPrice"
+                                                                              class="input-number">0.00</b></td>
                                                     <td></td>
                                                 </tr>
                                                 </tfoot>
-
                                             </table>
                                             <button type="button"
                                                     data-table-id="services_table"
                                                     class="btn btn-sm btn-primary add pull-right"
-                                                    value="addRow">
+                                                    value="insertRow">
                                                 <i class="fa fa-plus"></i>
                                                 Add Row
                                             </button>
@@ -1121,7 +921,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <table class="mt-10">
+                                    {{--<table class="mt-10">
                                         <tbody>
                                         <tr>
                                             <td class="text-right">
@@ -1133,7 +933,7 @@
                                             <td></td>
                                         </tr>
                                         </tbody>
-                                    </table>
+                                    </table>--}}
                                     <div class="col-12 text-right">
                                         <div>
                                             <button type="button"
@@ -1542,11 +1342,11 @@
                     }
 
                     if (window['selectedAccessories']) {
-                        setSelectedAccessories();
+                        // setSelectedAccessories();
                     }
 
                     if (window['defects']) {
-                        dataFiler();
+                        // dataFiler();
                     }
 
                     if (window['materials']) {
@@ -1554,7 +1354,7 @@
                         $('[name="quantity"]').change();
                     }
 
-                    findDriver();
+                    //findDriver();
 
                     findVehicle("InWorkshop");
 
@@ -1952,7 +1752,7 @@
                     });
             }
 
-            function loadData(key, url, selectElem) {
+            /*function loadData(key, url, selectElem) {
                 fetch(url)
                     .then(response => response.json())
                     .then(response => {
@@ -1976,7 +1776,7 @@
                         toastr.error(
                             'Connection error. Could not retrieve data, some feature might not work.')
                     });
-            }
+            }*/
 
             function removeSubmissionAndDetailsOptions() {
                 let elements = document.querySelectorAll('.when_valid');
@@ -2091,59 +1891,7 @@
                 )
             }
 
-            function findDriver() {
-                const staff_number = document.querySelector('#driver_staff_number').value;
-                if (!staff_number) {
-                    return;
-                }
-
-                let formData = new FormData();
-                formData.append('searchCriteria', staff_number);
-
-                fetch(
-                    document.querySelector("#driver_staff_number").getAttribute('data-action'),
-                    {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        body: formData,
-                        referrer: window.baseUrl,
-                        mode: 'cors',
-                        credentials: 'same-origin',
-                    }
-                )
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-
-                        return response.json();
-                    })
-                    .then(response => {
-
-                        if (!response.success || response.payload.length == 0) {
-                            tmsApp.systemError('Driver Verification', response['message']);
-                            return;
-                        }
-
-                        let optionListStr = '';
-                        if (Array.isArray(response.payload)) {
-                            response.payload.forEach(function (item) {
-                                optionListStr += `<option value="${item['con_per_no']}">${item['con_per_no']} =>${item.name}</option>`;
-                            })
-
-                            $('#employee_list').html(optionListStr);
-                            return;
-                        }
-
-                        document.querySelector('#driver_name').value = response.payload.name;
-                    })
-                    .catch(function (xhr, settings, error) {
-                        tmsApp.showErrorMessages(xhr, 'Driver Validation');
-                    });
-            }
-
+            /*Find driver*/
             function eventHandler(element, e) {
 
                 switch (element.name) {
@@ -2212,46 +1960,14 @@
                 }
             }
 
-            function setSelectedAccessories() {
-                $.each(selectedAccessories, function (index, element) {
-                    $("input[name=field_" + element?.code + "][value=" + element?.is_present + "]").prop('checked', true);
-                    $("input[name=comment_" + element.code + "]").val(element?.remarks);
-                });
-            }
-
-            /*function autosave(form) {
-                let time;
-                window.onload = resetTimer;
-                // DOM Events
-                document.onchange = resetTimer;
-                document.onkeyup = resetTimer;
-
-                function work() {
-                    //validateFormElements(form);
+            function tableHasItems() {
+                let inputs = $("#material_table > tbody").find('.articleCode');
+                for (const input of inputs) {
+                    if (input.value > "") {
+                        return true;
+                    }
                 }
-
-                function resetTimer() {
-                    clearTimeout(time);
-                    time = setTimeout(work, 120000);
-                }
-            }*/
-
-            function getVehicleDefectCategory(selectedValue, selectElem) {
-                if (!selectedValue) return;
-                loadData(
-                    'WCT',
-                    document.querySelector('#defectCategoryUrl').value + '?key=' + selectedValue,
-                    selectElem
-                );
-            }
-
-            function getVehicleDefects(selectedValue, selectElem) {
-                if (!selectedValue) return;
-                loadData(
-                    'WDF',
-                    document.querySelector('#defectUrl').value + '?key=' + selectedValue,
-                    selectElem
-                );
+                return false;
             }
 
             function showSupplierControls() {
@@ -2268,16 +1984,6 @@
 
                 document.querySelector('#storeContainer').style.display = null;
                 document.querySelector('[name="store_code"]').setAttribute('required', 'required');
-            }
-
-            function tableHasItems() {
-                let inputs = $("#material_table > tbody").find('.articleCode');
-                for (const input of inputs) {
-                    if (input.value > "") {
-                        return true;
-                    }
-                }
-                return false;
             }
 
             function changeRequestType(selectedItemType) {
@@ -2307,6 +2013,81 @@
                 if (table.attr('id') === 'services_table') {
                     const regNo = $('[name="vehicle_reg_no"]').val();
                     $(table).find('[name="vehicle_registration"]').val(regNo);
+                }
+            }
+
+            function insertTableRow(tableId) {
+                function reinitializeSelect2($_defect_sel) {
+                    if ($_defect_sel) {
+                        $($_defect_sel).removeClass('select2-hidden-accessible');
+                        $($_defect_sel).select2({
+                            theme: "bootstrap4",
+                            width: "resolve",
+                        });
+                    }
+                }
+
+                if (tableId === "part8") {
+                    if ($('.select_2_control').data('select2')) {
+                        $('.select_2_control').select2('destroy');
+                    }
+                }
+
+                //Table.addRow();
+
+                $('table#' + tableId).find('tbody').append(table);
+
+                let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
+
+                lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
+
+                if (tableId === "material_table") {
+                    lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
+                    lastRow.find('[name="quantity"]').val('').attr('readonly', false);
+                    lastRow.find('[name="articles"]').attr('readonly', false);
+                    lastRow.find('[name="unit_of_measure"]').val('');
+                    lastRow.find('[name="unit_price"]').val('');
+                    lastRow.find('[name="total_price"]').val('');
+
+                    lastRow.find('#unit_price').text('');
+                }
+
+                if (tableId === "services_table") {
+                    // let row = lastRow[0];
+                    // $(row).find('.select2-container').remove();
+                    // $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+
+                    lastRow.find('[name="service_article"]').val('');
+                    // lastRow.find('[name="service_article"]')
+                    lastRow.find('[name="serviceArticleCode"]').val('');
+                    lastRow.find('[name="service_technical_specification"]').val('');
+                    lastRow.find('[name="service_unit_price"]').val('');
+                    lastRow.find('[name="service_unit_of_measure"]').val('');
+                    lastRow.find('[name="service_total_price"]').val('');
+                    // initServiceArticleSelector('.')
+                } else {
+
+                }
+
+                if (tableId === "part8") {
+                    let row = lastRow[0];
+                    $(row).find('.select2-container').remove();
+                    let $_defect_sel = $(".select_2_control");
+                    reinitializeSelect2($_defect_sel);
+                }
+
+                if (tableId === "material_table") {
+                    let row = lastRow[0];
+                    $(row).find('.select2-container').remove();
+                    $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+
+                    let article = $(row).find('input.articleCode').val();
+                    console.log('Article on line', article)
+                    let $_defect_sel = $(row).find(".articlesDropDownList");
+                    let $_defect_sel_ = $(row).find(".DropDownList");
+                    initArticleSelector($_defect_sel);
+                    initArticleSelector($_defect_sel_);
+                    //getArticleDetails(article, $_defect_sel);
                 }
             }
 
@@ -2495,25 +2276,24 @@
                     changeRequestType(selectedItemType);
                 });
 
-                $(document).on('change', 'select[name="vehicleSystem"]', function () {
+                /*$(document).on('change', 'select[name="vehicleSystem"]', function () {
                     if (!this.value) return;
                     const tr = $(this).closest('tr');
                     let selectElem = tr.find('select[name="defectCategory"]');
                     getVehicleDefectCategory(this.value, selectElem);
-                });
+                });*/
 
-                $(document).on('change', 'select[name="defectCategory"]', function () {
+                /*$(document).on('change', 'select[name="defectCategory"]', function () {
                     if (!this.value) return;
                     const tr = $(this).closest('tr');
                     let selectElem = tr.find('select[name="defect"]');
                     getVehicleDefects(this.value, selectElem);
-                })
+                })*/
 
                 $(document).on('keyup paste', '[name="vehicle_registration"]', function () {
                     if (!this.value || this.value.replace('_', '').length < 4) {
                         return;
                     }
-
                     removeSubmissionAndDetailsOptions();
                     findVehicle();
                 });
@@ -2526,7 +2306,7 @@
                     findVehicle();
                 });
 
-                setTimeout(function () {
+                /*setTimeout(function () {
                     $(document).on('keyup paste', '#driver_staff_number', function () {
                         if (!this.value) {
                             return;
@@ -2537,9 +2317,9 @@
 
                         findDriver();
                     });
-                }, 300);
+                }, 300);*/
 
-                setTimeout(function () {
+                /*setTimeout(function () {
                     $(document).on('click', '#employeeSearchBtn', function () {
                         if (!document.querySelector("#driver_staff_number").value
                             || document.querySelector("#driver_staff_number").value.length < 5) {
@@ -2549,7 +2329,7 @@
 
                         findDriver();
                     });
-                }, 300);
+                }, 300);*/
 
                 /*****************************Event Handlers*****************************************/
 
@@ -2639,19 +2419,100 @@
                     );
                 })
 
-                $(document).on('change', '#repairTypeDropdownList', function () {
+                /*$(document).on('change', '#repairTypeDropdownList', function () {
                     if (this.value === document.querySelector('[name="accidentRepairs"]').value) {
                         document.querySelector("#accidentRecordNo").classList.remove('d-none');
                     } else {
                         document.querySelector("#accidentRecordNo").classList.add('d-none');
                     }
-                });
+                });*/
 
                 $(document).on('change', 'input', function (e) {
                     eventHandler(this, e);
                 }).on('keyup', 'input,textarea', function (e) {
                     eventHandler(this, e);
                 });
+
+                let tableRowTemplate = `<tr class="increment">
+                                                        <td class="showNumber">
+                                                            <input
+                                                                readonly="readonly"
+                                                                name="vehicle_registration"
+                                                                required
+                                                                value=""
+                                                                class="form-control form-control-sm vehicle_registration"/>
+                                                        </td>
+                                                        <td>
+                                                            <select
+                                                                name="service_article"
+                                                                required
+                                                                data-value=""
+                                                                class="form-control form-control-sm servicesArticlesDropDownList">
+                                                                <option></option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                name="serviceArticleCode"
+                                                                required
+                                                                readonly
+                                                                class="form-control form-control-sm serviceArticleCode"/>
+                                                        </td>
+                                                        <td>
+                                                            <input
+                                                                name="service_technical_specification"
+                                                                required
+                                                                class="form-control form-control-sm service_technical_specification"/>
+                                                        </td>
+
+                                                        <td>
+                                                            <input
+                                                                readonly
+                                                                type="text"
+                                                                min="1"
+                                                                value="1"
+                                                                max="1"
+                                                                name="service_quantity"
+                                                                required
+                                                                class="form-control form-control-sm service_quantity number_input"/>
+                                                        </td>
+
+                                                        <td>
+                                                            <input
+                                                                name="service_unit_of_measure"
+                                                                required
+                                                                readonly
+                                                                class="form-control form-control-sm unit_of_measure"/>
+                                                        </td>
+
+                                                        <td>
+                                                            <input name="service_unit_price"
+                                                                   required
+                                                                   class="form-control form-control-sm service_unit_price"/>
+                                                        </td>
+
+                                                        <td>
+                                                            <input name="service_total_price"
+                                                                   required
+                                                                   readonly
+                                                                   class="form-control form-control-sm service_total_price"/>
+                                                        </td>
+
+                                                        <td class="view-mode">
+                                                            <button type="button"
+                                                                    data-value="0"
+                                                                    value="deleteRow"
+                                                                    class="btn btn-danger p-2">
+                                                                <i class="fas fa-trash m-0"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>`;
+
+                $(document).off('click', 'button[value="addRow"][data-table-id]')
+                    .on('click', 'button[value="addRow"][data-table-id]', function () {
+                        let tableId = $(this).data('tableId');
+                        addTableRow(tableId);
+                    });
 
                 $(document).off('click', 'button[value="addRow"][data-table-id]')
                     .on('click', 'button[value="addRow"][data-table-id]', function () {
@@ -2705,13 +2566,11 @@
                 });
             }
 
-            initializeFormWizard();
-
             getWorkshops();
 
             getFuelLevels();
 
-            loadData('VEH_SYS', document.querySelector('#systemsUrl').value + '?key=VEH_SYS', $('select[name="vehicleSystem"]'));
+            // loadData('VEH_SYS', document.querySelector('#systemsUrl').value + '?key=VEH_SYS', $('select[name="vehicleSystem"]'));
 
             initEventHandlers();
 

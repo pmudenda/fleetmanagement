@@ -217,7 +217,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ URL::signedRoute('list.workshop.requisition') }}">
                                         <i class="fas fa-list nav-icon"></i>
-                                        <p>Workshop Requisitions</p>
+                                        <p>Requisitions</p>
                                     </a>
                                 </li>
                             @endcan
