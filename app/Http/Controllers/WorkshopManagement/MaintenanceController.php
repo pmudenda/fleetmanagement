@@ -32,6 +32,7 @@ use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\WorkShopManagement\WorkshopService;
 use Exception;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -659,9 +660,9 @@ class MaintenanceController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Database\Query\Builder
+     * @return Builder
      */
-    public function getArticlesQueryBuilder(Request $request): \Illuminate\Database\Query\Builder
+    public function getArticlesQueryBuilder(Request $request): Builder
     {
         $query = DB::table('spms_articles_view')
             ->leftJoin('units_view',

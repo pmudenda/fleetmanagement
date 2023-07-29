@@ -193,6 +193,7 @@ Route::group(['middleware' => 'auth'], function () {
         })->name('list.booking');
 
         Route::get('/workshop/booking', function () {
+            $user = Auth::user();
             $details = [];
             $materials = [];
             $materialsHeader = null;
@@ -204,7 +205,8 @@ Route::group(['middleware' => 'auth'], function () {
                     'details',
                     'materials',
                     'materialsHeader',
-                    'services'
+                    'services',
+                    'user'
                 ));
 
         })->name('new.booking');
