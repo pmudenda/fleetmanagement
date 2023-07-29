@@ -2614,6 +2614,9 @@
 
 
             function getWorkshopStoreAndPurchaseOffice(workshopCode) {
+
+                if(!workshopCode) return;
+
                 fetch(document.querySelector('[name="storeAndPurchaseOffice"]').value,
                     {
                         method: "POST", // *GET, POST, PUT, DELETE, etc.
