@@ -382,17 +382,17 @@
                         </div>
                     </div>
 
-                   {{-- <ul class="nav nav-tabs" role="tablist">
-                           <li class="nav-item" style="list-style: none; width: 178px;">
-                               <a class="nav-link active" data-toggle="tab" href="#spares" role="tab">Spares</a>
-                           </li>
-                           <li class="nav-item" style="list-style: none; width: 178px;">
-                               <a class="nav-link"
-                               data-toggle="tab"
-                               href="#services"
-                               role="tab">Services</a>
-                           </li>
-                       </ul>--}}
+                    {{-- <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" style="list-style: none; width: 178px;">
+                                <a class="nav-link active" data-toggle="tab" href="#spares" role="tab">Spares</a>
+                            </li>
+                            <li class="nav-item" style="list-style: none; width: 178px;">
+                                <a class="nav-link"
+                                data-toggle="tab"
+                                href="#services"
+                                role="tab">Services</a>
+                            </li>
+                        </ul>--}}
                     <!-- Tab panes -->
                     <div class="tab-content mt-5">
                         <div class="tab-pane active" id="spares" role="tabpanel">
@@ -879,10 +879,12 @@
                                                     <td></td>
                                                     <td></td>
                                                     <td class="text-right"><strong>TOTAL</strong></td>
-                                                    <td class="text-right"><b id="serviceQuantityTotal" class="input-number">0</b></td>
+                                                    <td class="text-right"><b id="serviceQuantityTotal"
+                                                                              class="input-number">0</b></td>
                                                     <td></td>
                                                     <td class="text-right"><strong>TOTAL</strong></td>
-                                                    <td class="text-right"><b id="serviceTotalPrice" class="input-number">0.00</b></td>
+                                                    <td class="text-right"><b id="serviceTotalPrice"
+                                                                              class="input-number">0.00</b></td>
                                                     <td></td>
                                                 </tr>
                                                 </tfoot>
@@ -2249,8 +2251,7 @@
                     $('#spares').addClass('active');
                     $('#services').removeClass('active');
 
-                }
-                else if (selectedItemType === $('[name="nonStockItemCode"]').val()) {
+                } else if (selectedItemType === $('[name="nonStockItemCode"]').val()) {
                     showSupplierAndHideStoreUIControls();
                     $('.quantity').attr('readonly', false);
                     $('.technical_specification').attr('readonly', false);
@@ -2258,8 +2259,7 @@
 
                     $('#spares').addClass('active');
                     $('#services').removeClass('active');
-                }
-                else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
+                } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
                     showSupplierAndHideStoreUIControls();
                     $('.quantity').val(1).attr('readonly', 'readonly');
                     $('[name="service_quantity"]').val(1).attr('readonly', 'readonly');
@@ -2267,7 +2267,7 @@
                     $('#services').addClass('active');
                     $('#spares').removeClass('active');
 
-                }else {
+                } else {
                     showSupplierAndHideStoreUIControls();
                     $('.quantity').attr('readonly', false);
                 }

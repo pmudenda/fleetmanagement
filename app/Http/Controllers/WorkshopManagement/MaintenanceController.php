@@ -701,7 +701,6 @@ class MaintenanceController extends Controller
     public function getStoreAndPurchaseOffice(Request $request): JsonResponse
     {
         Log::info($request->has('workshop_code'));
-        Log::info($request->get('workshop_code'));
         try {
             if (!$request->has('workshop_code')) {
                 return response()->json([
@@ -709,6 +708,10 @@ class MaintenanceController extends Controller
                     'payload' => []
                 ]);
             }
+            Log::info($request->get('workshop_code'));
+
+            Log::info('Value Received');
+
             return response()->json([
                 'state' => 'success',
                 'payload' => $this->workshopService->getWorkShopPurchaseOfficeAndStore($request->workshop_code)
