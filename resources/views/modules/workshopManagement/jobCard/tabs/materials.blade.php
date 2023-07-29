@@ -22,14 +22,17 @@
                                         name="itemType"
                                         id="itemType">
                                         <option></option>
-                                        <option @if($materialsHeader->item_type_code == '01') selected
-                                                @endif value="01">STOCK ITEM
+                                        <option
+                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::StockItemCode) selected
+                                            @endif value="01">STOCK ITEM
                                         </option>
-                                        <option @if($materialsHeader->item_type_code == '02') selected
-                                                @endif value="02">NON STOCK ITEM
+                                        <option
+                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::NonStockItemCode) selected
+                                            @endif value="02">NON STOCK ITEM
                                         </option>
-                                       {{-- <option @if($materialsHeader->item_type_code == '03') selected
-                                                @endif value="03">SERVICE
+                                     {{--   <option
+                                            @if($materialsHeader->item_type_code ==  RequisitionItemTypes::ServiceItemCode) selected
+                                            @endif value="03">SERVICE
                                         </option>--}}
                                     </select>
                                 @else
@@ -39,9 +42,15 @@
                                         name="itemType"
                                         id="itemType">
                                         <option></option>
-                                        <option value="01">STOCK ITEM</option>
-                                        <option value="02">NON STOCK ITEM</option>
-                                        {{--<option value="03">SERVICE</option>--}}
+                                        <option value="{{RequisitionItemTypes::StockItemCode}}">STOCK
+                                            ITEM
+                                        </option>
+                                        <option value="{{RequisitionItemTypes::NonStockItemCode}}">NON
+                                            STOCK ITEM
+                                        </option>
+                                       {{-- <option value="{{RequisitionItemTypes::ServiceItemCode}}">
+                                            SERVICE
+                                        </option>--}}
                                     </select>
                                 @endif
 

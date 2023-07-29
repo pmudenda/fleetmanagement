@@ -1,9 +1,6 @@
 @php use App\Enums\RepairTypes; @endphp
 @php @endphp
 <div class="container-fluid">
-    <input type="hidden"
-           id="suppliersList"
-           value="{{route('suppliers.list')}}"/>
     <ul class="nav nav-tabs" role="tablist">
 
         @if(!empty($details))

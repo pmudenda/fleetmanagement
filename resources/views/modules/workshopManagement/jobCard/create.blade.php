@@ -148,6 +148,9 @@
     <input type="hidden"
            value="{{RepairTypes::AccidentRepair->value}}"
            id="accidentRepairs" name="accidentRepairs"/>
+    <input type="hidden"
+           id="suppliersList"
+           value="{{route('suppliers.list')}}"/>
 @endsection
 @push('scripts')
     <script>

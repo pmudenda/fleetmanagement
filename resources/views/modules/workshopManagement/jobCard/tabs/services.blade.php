@@ -21,7 +21,9 @@
                                         class="form-select form-select-sm"
                                         name="serviceItemType"
                                         id="serviceItemType">
-                                        <option value="03">SERVICE</option>
+                                        <option value="{{RequisitionItemTypes::ServiceItemCode}}">
+                                            SERVICE
+                                        </option>
                                     </select>
                                 @else
                                     <select
@@ -30,7 +32,15 @@
                                         class="form-select form-select-sm"
                                         name="serviceItemType"
                                         id="serviceItemType">
-                                        <option value="03">SERVICE</option>
+                                      {{--  <option value="{{RequisitionItemTypes::StockItemCode}}">STOCK
+                                            ITEM
+                                        </option>
+                                        <option value="{{RequisitionItemTypes::NonStockItemCode}}">NON
+                                            STOCK ITEM
+                                        </option>--}}
+                                         <option value="{{RequisitionItemTypes::ServiceItemCode}}">
+                                             SERVICE
+                                         </option>
                                     </select>
                                 @endif
 

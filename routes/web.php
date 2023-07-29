@@ -307,6 +307,9 @@ Route::get('get/procurement/articles', [MaintenanceController::class, 'getArticl
 Route::get('load/article/details', [ProcurementSystemIntegrationController::class, "getArticleDetails"])
     ->name('load.article.details');
 
+Route::post('get/workshop/store-purchase-office', [MaintenanceController::class, 'getStoreAndPurchaseOffice'])
+    ->name('get.store.purchase_office');
+
 Route::get('barcodes', function (Request $request) {
 
     /* if (!$request->has('data')) {

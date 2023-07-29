@@ -359,7 +359,6 @@ class ProcurementSystemIntegrationService
         $results = DB::table('spms_articles_view')
             ->leftJoin('STOCK_MANAGEMENT_VIEW', 'spms_articles_view.CODE_ARTICLE', '=', 'STOCK_MANAGEMENT_VIEW.CODE_ARTICLE')
             ->leftJoin('UNITS_VIEW', 'spms_articles_view.UNIT_MEASURE', '=', 'UNITS_VIEW.code_unit')
-            //->where('STOCK_MANAGEMENT_VIEW.LEVEL_TYPE', '=', '02')
             ->where('spms_articles_view.CODE_ARTICLE', '=', $article_code)
             ->select(
                     'spms_articles_view.code_article',
@@ -373,13 +372,6 @@ class ProcurementSystemIntegrationService
                     'units_view.description as unit_measure_name'
             )
             ->get();
-
-        /*'UNITS_VIEW.description',
-                'units_view.abbreviation',
-                'spms_articles_view.description as name',
-                'spms_articles_view.technical_specifications',
-                'spms_articles_view.CODE_ARTICLE as code',
-                'STOCK_MANAGEMENT_VIEW.PRICE_MAP as price'*/
 
         return $results->first();
     }

@@ -140,7 +140,7 @@ class MaintenanceController extends Controller
             abort(404);
         }
 
-        $workflowTask =  WorkflowTaskHeader::where('reference','=', $req_no)->first();
+        $workflowTask = WorkflowTaskHeader::where('reference', '=', $req_no)->first();
 
         $requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
 
@@ -302,6 +302,7 @@ class MaintenanceController extends Controller
                 )
             );
     }
+
     public function exitWorkShop(Request $request): View
     {
         $isValidSignature = $request->hasValidSignature();
@@ -694,5 +695,26 @@ class MaintenanceController extends Controller
 
         $query->where('spms_articles_view.type_article', '=', $request->get('type_article'));
         return $query;
+    }
+
+    public function getStoreAndPurchaseOffice(Request $request): JsonResponse
+    {
+        try {
+            if (!$request->has('workshop_code')) {
+                return response()->json([
+                    'state' => 'failure',
+                    'payload' => []
+                ]);
+            }
+            return response()->json([
+                'state' => 'success',
+                'payload' => $this->workshopService->getWorkShopPurchaseOfficeAndStore($request->workshop_code)
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'state' => 'failure',
+                'payload' => []
+            ]);
+        }
     }
 }
