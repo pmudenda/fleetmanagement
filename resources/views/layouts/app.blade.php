@@ -44,6 +44,10 @@
         .nav-link {
             padding: 0.65rem 1rem;
         }
+
+        #ui-datepicker-div {
+            z-index: 9003 !important;
+        }
     </style>
     @stack('styles')
 </head>
@@ -126,10 +130,13 @@
                                     <label for="documentType" class="col-4 form-label">Document Type:</label>
                                     <div class="col-8">
                                         <select class="form-select" id="documentType" name="documentType">
-                                            <option value="PR">PURCHASE REQUISITION</option>
-                                            <option value="PO">PURCHASE ORDER</option>
-                                            <option value="TND">TENDER</option>
-                                            <option value="GRN">GOODS RECEIPT</option>
+                                            <option value="08">STORE REQUISITION</option>
+                                            <option value="09">STORE RESERVATION</option>
+                                            <option value="11">PURCHASE PROCESS</option>
+                                            <option value="12">PURCHASE REQUISITION</option>
+                                            <option value="13">TENDER</option>
+                                            <option value="14">PURCHASE ORDER</option>
+                                            <option value="15">GOODS RECEIPT</option>
                                         </select>
                                     </div>
                                 </div>
@@ -174,9 +181,12 @@
                             <label class="form-label col-4">Period</label>
                             <div class="col-8 row pr-0">
                                 <div class="col-6">
-                                    <label class="form-label">From.</label>
+                                    <label class="form-label">From:</label>
                                     <div class="input-group">
-                                        <input class="form-control" name="periodFrom"/>
+                                        <input class="form-control"
+                                               type="date"
+                                               max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                               name="periodFrom"/>
                                         <div class="input-group-append">
                                             <div class="input-group-text">
                                                 <i class="fas fa-calendar"></i>
@@ -188,7 +198,9 @@
                                 <div class="col-6 pr-0">
                                     <label class="form-label">To.</label>
                                     <div class="input-group">
-                                        <input class="form-control" name="periodTo"/>
+                                        <input class="form-control"
+                                               max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                               type="date" name="periodTo"/>
                                         <div class="input-group-append">
                                             <div class="input-group-text">
                                                 <i class="fas fa-calendar"></i>
@@ -238,10 +250,13 @@
                                     <label for="documentType" class="col-4 form-label">Document Type:</label>
                                     <div class="col-8">
                                         <select class="form-select" id="documentType" name="documentType">
-                                            <option value="PR">PURCHASE REQUISITION</option>
-                                            <option value="PO">PURCHASE ORDER</option>
-                                            <option value="TND">TENDER</option>
-                                            <option value="GRN">GOODS RECEIPT</option>
+                                            <option value="08">STORE REQUISITION</option>
+                                            <option value="09">STORE RESERVATION</option>
+                                            <option value="11">PURCHASE PROCESS</option>
+                                            <option value="12">PURCHASE REQUISITION</option>
+                                            <option value="13">TENDER</option>
+                                            <option value="14">PURCHASE ORDER</option>
+                                            <option value="15">GOODS RECEIPT</option>
                                         </select>
                                     </div>
                                 </div>
@@ -264,7 +279,10 @@
                                 <div class="col-6">
                                     <label class="form-label">From.</label>
                                     <div class="input-group">
-                                        <input class="form-control" name="periodFrom"/>
+                                        <input class="form-control periodFrom"
+                                               type="date"
+                                               max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                               name="periodFrom"/>
                                         <div class="input-group-append">
                                             <div class="input-group-text">
                                                 <i class="fas fa-calendar"></i>
@@ -276,7 +294,9 @@
                                 <div class="col-6 pr-0">
                                     <label class="form-label">To.</label>
                                     <div class="input-group">
-                                        <input class="form-control" name="periodTo"/>
+                                        <input class="form-control periodTo"
+                                               max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                               type="date" name="periodTo"/>
                                         <div class="input-group-append">
                                             <div class="input-group-text">
                                                 <i class="fas fa-calendar"></i>
@@ -466,6 +486,16 @@
         $(document).on('keypress', '.number_input', function (event) {
             //tmsApp.numberOnly(event);
         });
+
+       /* $('.periodTo').datepicker({
+            // maxDate: new Date(),
+            dateFormat: 'dd/mm/yy',
+        });
+
+        $('.periodFrom').datepicker({
+            // minDate: new Date(),
+            dateFormat: 'dd/mm/yy',
+        });*/
     }(window.tmsApp || {}, jQuery));
 </script>
 @stack('scripts')

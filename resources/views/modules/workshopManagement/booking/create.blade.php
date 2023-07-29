@@ -2048,7 +2048,7 @@
                     element.setAttribute('disabled', 'disabled');
                 });
 
-                document.querySelector('#image_view').style.display = 'none';
+                // document.querySelector('#image_view').style.display = 'none';
 
                 $('tbody#vehicleDetails').html('');
             }
