@@ -613,6 +613,48 @@
                     initializeFormWizard()
                 });
 
+
+                function displayVehicleDetails(payload) {
+                    let vehicle = payload['vehicle'];
+                    let images = payload['images'];
+
+                    let mileage = document.getElementById("mileage");
+                    let insured = document.getElementById("insurance_state");
+
+                    //mileage.setAttribute("readonly", 'readonly');
+                    //insured.setAttribute("readonly", 'readonly');
+                    // mileage.value = vehicleDetails.insure;
+                    //mileage.value = vehicleDetails['current_odometer_reading'];
+
+                    if (!vehicle || !vehicle.brand_name) {
+                        return;
+                    }
+
+                    let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
+                    $("#vehicle_description").val(vLabel);
+                    let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
+                               <tr>
+                                    <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
+                               </tr>
+                               <tr style="">
+                                     <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
+                                </tr>
+                                <tr style="">
+                                     <th>State:</th><td id="registration">${vehicle['status_name']}</td>
+                                </tr>`;
+
+                    $('tbody#vehicleDetails').html(row);
+
+                    if (images && images.length > 0) {
+                        let frontViewImages = images.filter((image) => {
+                            return image['file_type'] === 'Front View';
+                        })
+                        let imagePath = frontViewImages[0]?.path;
+                        document.querySelector(".imagePreview").style.backgroundImage = "url(/storage" + imagePath + ")";
+                    }
+                }
+
+
                 function fetchVehicleDetails(reg) {
                     $.ajax({
                         url: $('[name="vehicle_details"]').val(),
@@ -628,14 +670,7 @@
                                 return;
                             }
 
-                            const vehicleDetails = response.payload['vehicle'];
-                            let mileage = document.getElementById("mileage");
-                            let insured = document.getElementById("insurance_state");
-
-                            mileage.setAttribute("readonly", 'readonly');
-                            insured.setAttribute("readonly", 'readonly');
-                            // mileage.value = vehicleDetails.insure;
-                            mileage.value = vehicleDetails['current_odometer_reading'];
+                            displayVehicleDetails(response.payload);
                             tmsApp.showToast(response.message, 'success', null);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {

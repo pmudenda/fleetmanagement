@@ -463,12 +463,6 @@
         (function (tmsApp, $) {
 
             function adjustIframeHeight() {
-                /* var $body   = $('body'),
-                     $iframe = $body.data('iframe.fv');
-                 if ($iframe) {
-                     // Adjust the height of iframe
-                     $iframe.height($body.height());
-                 }*/
             }
 
             let form = $('#jobCardForm').show();
