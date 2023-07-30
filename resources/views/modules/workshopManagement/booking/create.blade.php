@@ -1045,7 +1045,7 @@
                     } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
                         if ($('[name="supplier"]').val()) {
                             $('#services_table').find('[name="vehicle_registration"]').attr('readonly', false);
-                            enableArticleSelectionWebUIControls('#service_table');
+                            enableArticleSelectionWebUIControls('#services_table');
                         }
 
                     }
@@ -1086,7 +1086,7 @@
                         if ($('[name="supplier"]').val()) {
                             const $serviceTable = $('#services_table');
                             $serviceTable.find('[name="vehicle_registration"]').attr('readonly', false);
-                            enableArticleSelectionWebUIControls('#service_table');
+                            enableArticleSelectionWebUIControls('#services_table');
 
                             $serviceTable.find('.quantity').val(1).attr('readonly', 'readonly');
                             $serviceTable.find('[name="service_quantity"]').val(1).attr('readonly', 'readonly');
@@ -1111,7 +1111,7 @@
                     } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
                         if (workshopCode) {
                             $('#services_table').find('[name="vehicle_registration"]').attr('readonly', false);
-                            enableArticleSelectionWebUIControls('#service_table');
+                            enableArticleSelectionWebUIControls('#services_table');
                         }
                     }
 
@@ -1556,7 +1556,7 @@
             }
 
             function enableArticleSelectionWebUIControls(tableSelector) {
-                if (tableSelector === '#service_table') {
+                if (tableSelector === '#services_table') {
                     let elements = document.querySelector(tableSelector).querySelectorAll('.servicesArticlesDropDownList');
                     elements.forEach(function (element) {
                         element.removeAttribute('disabled');
