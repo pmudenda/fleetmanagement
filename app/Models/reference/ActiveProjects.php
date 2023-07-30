@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ActiveProjects extends Model
 {
-    protected $table = 'ZFM_SPMS_PROJECTS_VIEW';
+    protected $table = 'ZFM_PROJECTS_VIEW';
 
     protected $attributes = [
         'period',

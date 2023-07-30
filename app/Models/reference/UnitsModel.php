@@ -7,6 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class UnitsModel extends Model
 {
-    use HasFactory;
-    protected $table = 'UNITS_VIEW';
+    protected $table = 'ZFM_UNITS_VIEW';
 }

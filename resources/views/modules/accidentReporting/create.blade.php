@@ -1,3 +1,5 @@
+@php use Carbon\Carbon; @endphp
+
 @extends('layouts.app')
 @push('styles')
     <link href="{{asset("libs/steps/jquery-steps.css")}}" rel="stylesheet" type="text/css"/>
@@ -65,13 +67,13 @@
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                         <div class="input-group">
                                                             <input type="text"
-                                                                   @if(!empty($details->reg_no)) readonly="readonly" @endif
+                                                                   {{--@if(!empty($details->reg_no)) readonly="readonly" @endif--}}
                                                                    data-action="{{route('requisition.vehicle.details')}}"
                                                                    class="form-control form-control-sm"
-                                                                   value="{{$details->reg_no ?? ''}}"
+                                                                   {{--value="{{$details->reg_no ?? ''}}"--}}
                                                                    id="vehicle_registration"
                                                                    placeholder="Vehicle Reg e.g AAB 6757"
-                                                                   name="vehicle_registration" required />
+                                                                   name="vehicle_registration" required/>
                                                             <div class="input-group-addon">
                                                                 <button type="button"
                                                                         id="vehicleSearchBtn"
@@ -82,7 +84,6 @@
                                                             </div>
                                                         </div>
 
-                                                        <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
 
                                                     </div>
                                                 </div>
@@ -94,16 +95,16 @@
                                         <div class="container-fluid pl-0">
                                             <div class="row">
                                                 <div class="form-group row">
-                                                    <label
+                                                   {{-- <label
                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
                                                         for="staff_no">Date In :
-                                                    </label>
+                                                    </label>--}}
                                                     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                         <input type="text"
                                                                class="form-control form-control-sm"
                                                                id="date_of_req"
                                                                readonly
-                                                               value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
+                                                               value="{{ date('Y-m-d', strtotime(Carbon::now()))}}"
                                                                name="date_of_req"
                                                                required>
                                                     </div>
@@ -171,6 +172,23 @@
                                         @enderror
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-3">
+                                <div id="vehicleDetailsContainer" style="display: none;"
+                                     class="col-xs-12 col-sm-12 col-md-12 pl-0">
+                                    <h1>Vehicle Details</h1>
+                                    <table class="table table-striped">
+                                        <tbody id="vehicleDetails" class="vehicleDetails">
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div id="image_view" class="card text-center py-5 my-2" style="display: none;">
+                                    <div class="form-group">
+                                        <div class="imagePreview"></div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </section>
@@ -342,7 +360,7 @@
                                         <input name="date" type="date" class="form-control required"
                                                onkeydown="return false" id="accident-date"
                                                placeholder="00/00/0000"
-                                               max="{{date('Y-m-d', strtotime( \Carbon\Carbon::now()))}}"
+                                               max="{{date('Y-m-d', strtotime( Carbon::now()))}}"
                                                min="{{date('Y-m-d', strtotime($minDate))}}"
                                                required>
                                         <div class="input-group-text">

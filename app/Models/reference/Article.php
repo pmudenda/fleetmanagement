@@ -7,6 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    use HasFactory;
-    protected $table = 'SPMS_ARTICLES_VIEW';
+    protected $table = 'ZFM_ARTICLES_VIEW';
 }
