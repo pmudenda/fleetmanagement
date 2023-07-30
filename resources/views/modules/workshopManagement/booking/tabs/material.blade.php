@@ -119,7 +119,6 @@
                                     name="registration"
                                     readonly
                                     required
-                                    value=""
                                     class="form-control form-control-sm vehicle_registration"/>
                             </td>
                             <td>

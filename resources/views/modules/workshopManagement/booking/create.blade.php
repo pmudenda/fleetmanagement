@@ -389,7 +389,7 @@
 
                         </div>
                         <div class="tab-pane" id="services" role="tabpanel">
-                            @include('modules.workshopManagement.booking.tabs.services')
+                            @include('modules.workshopManagement.booking.tabs.service')
                         </div>
                     </div>
                 </form>
