@@ -74,42 +74,42 @@
 
                     <div class="col-12">
                         <div class="row">
-                           {{-- <div class="col-xs-12 col-sm-6 col-md-6">
-                                <div class="container-fluid pl-0">
-                                    <div class="row">
-                                        <div class="form-group row">
-                                            <label
-                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                for="staff_no">Registration No.:
-                                            </label>
-                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                <div class="input-group">
-                                                    <input type="text"
-                                                           @if(!empty($details->reg_no)) readonly="readonly" @endif
-                                                           data-action="{{route('requisition.vehicle.details')}}"
-                                                           class="form-control form-control-sm"
-                                                           value="{{$details->reg_no ?? ''}}"
-                                                           id="vehicle_registration"
-                                                           placeholder="Vehicle Reg e.g AAB 6757"
-                                                           name="vehicle_registration" required/>
-                                                    <div class="input-group-addon">
-                                                        <button type="button"
-                                                                id="vehicleSearchBtn"
-                                                                name="vehicleSearchBtn"
-                                                                class="btn btn-success btn-sm border-radius-0">
-                                                            <i class="fas fa-search"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
+                            {{-- <div class="col-xs-12 col-sm-6 col-md-6">
+                                 <div class="container-fluid pl-0">
+                                     <div class="row">
+                                         <div class="form-group row">
+                                             <label
+                                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                 for="staff_no">Registration No.:
+                                             </label>
+                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                 <div class="input-group">
+                                                     <input type="text"
+                                                            @if(!empty($details->reg_no)) readonly="readonly" @endif
+                                                            data-action="{{route('requisition.vehicle.details')}}"
+                                                            class="form-control form-control-sm"
+                                                            value="{{$details->reg_no ?? ''}}"
+                                                            id="vehicle_registration"
+                                                            placeholder="Vehicle Reg e.g AAB 6757"
+                                                            name="vehicle_registration" required/>
+                                                     <div class="input-group-addon">
+                                                         <button type="button"
+                                                                 id="vehicleSearchBtn"
+                                                                 name="vehicleSearchBtn"
+                                                                 class="btn btn-success btn-sm border-radius-0">
+                                                             <i class="fas fa-search"></i>
+                                                         </button>
+                                                     </div>
+                                                 </div>
 
-                                                <input type="hidden" value="{{$details->job_card_no ?? 0}}"
-                                                       name="job_card_number"/>
+                                                 <input type="hidden" value="{{$details->job_card_no ?? 0}}"
+                                                        name="job_card_number"/>
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>--}}
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>--}}
                             @if(!empty($details))
                                 <div class="col-xs-12 col-sm-6 col-md-6">
                                     <div class="container-fluid pl-0">
@@ -509,7 +509,7 @@
                                                                 class="form-control form-control-sm registration"/>
                                                         </td>
                                                         <td>
-                                                            <select disabled
+                                                            <select
                                                                     name="articles"
                                                                     required
                                                                     data-value=""
@@ -611,13 +611,13 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    {{--<div class="row">
                                         <div class="col-10"></div>
                                         <div class="col-2">
                                             <div class="row">
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>--}}
                                     <hr>
                                     <div class="row">
                                         <div class="form-group">
@@ -1396,48 +1396,6 @@
                             data: data
                         }
                     });
-
-                    /*
-                    let data = {
-                        "id": id,
-                        "text": text,
-                        'code_article': response?.code_article,
-                        'description': response?.description,
-                        'price_map': response?.price,
-                        'technical_specifications': response?.technical_specifications,
-                        'unit_measure': response?.unit_measure,
-                        'unit_measure_name': response?.unit_measure_name
-                    };
-
-
-                    // $(selectElem).closest('tr').find('')
-
-                    let option = new Option(text, id, true, true);
-                    selectElem[0].append(option);
-                    $(selectElem).trigger('change');
-
-                    // manually trigger the `select2:select` event
-                    $(selectElem).trigger({
-                        type: 'select2:select',
-                        params: {
-                            data: data
-                        }
-                    });
-
-                    $(selectElem).val(id).trigger('change')
-                    */
-
-                    /*
-                    let workshops = response['payload'];
-                    tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
-
-                    let location = selectElem.attr('data-value');
-                    console.log(location);
-                    if (location) {
-                        selectElem.val(location);
-                        selectElem.trigger('change');
-                    }
-                    */
                 })
                 .catch(function (error) {
                     // notify of error
@@ -2622,6 +2580,7 @@
                     .then(response => response.json())
                     .then(response => {
                         const $storeCtl = document.querySelector('input[name="store_name"]');
+                        const $storeCodeCtl = document.querySelector('input[name="store_code"]');
                         const $purchaseOfficeCtl = document.querySelector('select[name="purchase_office"]');
 
                         if (response.state === 'failure') {
@@ -2632,12 +2591,12 @@
                         let data = response['payload'];
                         if (data) {
                             $storeCtl.value = data['store_code'] + ':' + data['store_name'];
-                            $($purchaseOfficeCtl).empty().append('<option selected value="'+data['purchase_office_code']+'">'+data['purchase_office']+'</option>')
+                            $storeCodeCtl.value = data['store_code'];
+                            $($purchaseOfficeCtl).empty().append('<option selected value="' + data['purchase_office_code'] + '">' + data['purchase_office'] + '</option>')
                                 .trigger('change');
                         }
                     })
                     .catch(function (error) {
-                        // notify of error
                         toastr.error(
                             'Connection error. Could not retrieve data, some feature might not work.')
                     });
