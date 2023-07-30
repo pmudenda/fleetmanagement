@@ -1055,7 +1055,9 @@
 
                 $(document).on('change', '[name="workshop_code"]', function () {
                     const workshopCode = this.value;
+
                     const selectedItemType = $("#itemType").val();
+
                     getWorkshopStoreAndPurchaseOffice(workshopCode);
 
                     disableAllControls(selectedItemType);
@@ -1065,33 +1067,40 @@
                     }
 
                     if (selectedItemType === $('[name="stockItemCode"]').val()) {
-                        $('#material_table').find('[name="registration"]').attr('readonly', false);
+                        const $materialTable = $('#material_table');
+
+                        $materialTable.find('[name="registration"]').attr('readonly', false);
                         enableArticleSelectionWebUIControls('#material_table');
+
+                        $materialTable.find('.quantity').attr('readonly', false);
+                        $materialTable.find('.technical_specification').attr('readonly', false);
                     } else if (selectedItemType === $('[name="nonStockItemCode"]').val()) {
-                        $('#material_table').find('[name="registration"]').attr('readonly', false);
-                        enableArticleSelectionWebUIControls('#material_table');
+                        if ($('[name="supplier"]').val()) {
+                            const $materialTable = $('#material_table');
+                            $materialTable.find('[name="registration"]').attr('readonly', false);
+                            enableArticleSelectionWebUIControls('#material_table');
+                            $materialTable.find('.quantity').attr('readonly', false);
+                            $materialTable.find('.technical_specification').attr('readonly', false);
+
+                        }
                     } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
-                        $('#services_table').find('[name="vehicle_registration"]').attr('readonly', false);
-                        enableArticleSelectionWebUIControls('#service_table');
+                        if ($('[name="supplier"]').val()) {
+                            const $serviceTable = $('#services_table');
+                            $serviceTable.find('[name="vehicle_registration"]').attr('readonly', false);
+                            enableArticleSelectionWebUIControls('#service_table');
+
+                            $serviceTable.find('.quantity').val(1).attr('readonly', 'readonly');
+                            $serviceTable.find('[name="service_quantity"]').val(1).attr('readonly', 'readonly');
+                        }
                     }
-
-
-                    /* $('.quantity').attr('readonly', false);
-                                       $('.technical_specification').attr('readonly', false);*/
 
                     /*$('.quantity').attr('readonly', false);
                     $('.technical_specification').attr('readonly', false);
                     $('[name="unit_price"]').attr('readonly', false)*/
-                    ;
-
-
-                    /*  $('.quantity').val(1).attr('readonly', 'readonly');
-                      $('[name="service_quantity"]').val(1).attr('readonly', 'readonly');*/
-
-
                 });
 
                 $(document).on('change', '[name="supplier"]', function () {
+
                     const workshopCode = $('[name="workshop_code"]').val();
                     const selectedItemType = $("#itemType").val();
 
@@ -1521,11 +1530,18 @@
 
             function disableAllControls(selectedItemType) {
                 if (selectedItemType === $('[name="stockItemCode"]').val() || selectedItemType === $('[name="nonStockItemCode"]').val()) {
-                    $('#material_table').find('[name="registration"]').attr('readonly', true);
+
+                    let $materialTable = $('#material_table');
+                    $materialTable.find('[name="registration"]').attr('readonly', true);
+
                     document.querySelector("#material_table").querySelectorAll('.articlesDropDownList')
                         .forEach(function (element) {
                             element.setAttribute('disabled', 'disabled');
                         });
+
+                    $materialTable.find('.quantity').attr('readonly', false);
+                    $materialTable.find('.technical_specification').attr('readonly', false);
+
                 } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
                     $('#services_table').find('[name="vehicle_registration"]').attr('readonly', true);
                     let elements = document.querySelector("#services_table").querySelectorAll('.servicesArticlesDropDownList');
@@ -1536,7 +1552,7 @@
             }
 
             function enableArticleSelectionWebUIControls(tableSelector) {
-                if (tableSelector === '#services_table') {
+                if (tableSelector === '#service_table') {
                     let elements = document.querySelector(tableSelector).querySelectorAll('.servicesArticlesDropDownList');
                     elements.forEach(function (element) {
                         element.removeAttribute('disabled');
