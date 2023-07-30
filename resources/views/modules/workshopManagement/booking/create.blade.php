@@ -1044,6 +1044,10 @@
                         }
 
                     } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
+                        if ($('[name="supplier"]').val()) {
+                            $('#services_table').find('[name="vehicle_registration"]').attr('readonly', false);
+                            enableArticleSelectionWebUIControls('#service_table');
+                        }
 
                     }
                     changeRequestType(selectedItemType);
@@ -1067,7 +1071,8 @@
                         $('#material_table').find('[name="registration"]').attr('readonly', false);
                         enableArticleSelectionWebUIControls('#material_table');
                     } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
-
+                        $('#services_table').find('[name="vehicle_registration"]').attr('readonly', false);
+                        enableArticleSelectionWebUIControls('#service_table');
                     }
 
 
@@ -1083,6 +1088,24 @@
                     /*  $('.quantity').val(1).attr('readonly', 'readonly');
                       $('[name="service_quantity"]').val(1).attr('readonly', 'readonly');*/
 
+
+                });
+
+                $(document).on('change', '[name="supplier"]', function () {
+                    const workshopCode = $('[name="workshop_code"]').val();
+                    const selectedItemType = $("#itemType").val();
+
+                    if (selectedItemType === $('[name="nonStockItemCode"]').val()) {
+                        if (workshopCode) {
+                            $('#material_table').find('[name="registration"]').attr('readonly', false);
+                            enableArticleSelectionWebUIControls('#material_table');
+                        }
+                    } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
+                        if (workshopCode) {
+                            $('#services_table').find('[name="vehicle_registration"]').attr('readonly', false);
+                            enableArticleSelectionWebUIControls('#service_table');
+                        }
+                    }
 
                 });
 
