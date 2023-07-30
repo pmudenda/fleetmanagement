@@ -165,9 +165,9 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::post('save/job-card/defects', [MaintenanceController::class, 'processJobCardDefects'])->name('defects.job_card');
 
-            Route::post('save/workshop/requisition', [MaintenanceController::class, 'processWorkShopMaterials'])->name('process.requisition');
+            Route::post('save/workshop/material/requisition', [MaintenanceController::class, 'processWorkShopMaterials'])->name('process.requisition');
 
-            Route::post('save/workshop/reservation', [MaintenanceController::class, 'processWorkShopMaterialReservation'])->name('process.reservation');
+            Route::post('save/workshop/material/reservation', [MaintenanceController::class, 'processWorkShopMaterialReservation'])->name('process.reservation');
 
             Route::post('save/workshop/services/requisition', [MaintenanceController::class, 'processWorkShopServices'])->name('process.service.requisition');
 
