@@ -623,27 +623,24 @@
                         success: function (response) {
 
                             if (!response.success) {
-                                //tmsApp.showSystemMessage('', response.message, null, 'error')
-                                tmsApp.showToast(response['message'], 'error');
+                                tmsApp.showSystemMessage('Vehicle Details', response.message, function () {
+                                }, 'error');
                                 return;
                             }
 
                             const vehicleDetails = response.payload['vehicle'];
-
                             let mileage = document.getElementById("mileage");
                             let insured = document.getElementById("insurance_state");
 
                             mileage.setAttribute("readonly", 'readonly');
                             insured.setAttribute("readonly", 'readonly');
-
-
                             // mileage.value = vehicleDetails.insure;
                             mileage.value = vehicleDetails['current_odometer_reading'];
-
-                            tmsApp.showToast('', response.message, null, 'success');
+                            tmsApp.showToast(response.message, 'success', null);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            // Code to execute when the AJAX request fails
+                            tmsApp.showSystemMessage('Vehicle Details', response.message, function () {
+                            }, 'error')
                         }
                     });
                 }
