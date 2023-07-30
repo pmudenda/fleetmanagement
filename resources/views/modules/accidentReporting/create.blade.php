@@ -267,22 +267,29 @@
                                     </div>
                                 </div>
 
-
-                                <div id="vehicleDetailsContainer" style="display: none;"
-                                     class="col-xs-12 col-sm-12 col-md-12 pl-0">
-                                    <h1>Vehicle Details</h1>
-                                    <table class="table table-striped">
-                                        <tbody id="vehicleDetails" class="vehicleDetails">
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div id="image_view" class="card text-center py-5 my-2" style="display: none;">
-                                    <div class="form-group">
-                                        <div class="imagePreview"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="container-fluid">
+                                    <div class="col-6">
+                                        <div id="vehicleDetailsContainer" style="display: none;"
+                                             class="col-xs-12 col-sm-12 col-md-12 pl-0">
+                                            <h1>Vehicle Details</h1>
+                                            <table class="table table-striped">
+                                                <tbody id="vehicleDetails" class="vehicleDetails">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div id="image_view" class="card text-center py-5 my-2" style="display: none;">
+                                            <div class="form-group">
+                                                <div class="imagePreview"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </section>
