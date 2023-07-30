@@ -1654,7 +1654,7 @@
                     changeRequestType(selectedItemType);
                 });
 
-                $(document).on('keyup paste', '[name="vehicle_registration"]', function () {
+                $(document).on('change paste', '[name="vehicle_registration"]', function () {
                     if (!this.value || this.value.replace('_', '').length < 4) {
                         return;
                     }
