@@ -1425,7 +1425,7 @@
                 fetch(document.querySelector('#workshopsUrl').value)
                     .then(response => response.json())
                     .then(response => {
-                        let selectElem = $('select[name="workshop"]');
+                        let selectElem = $('select[name="workshop_code"]');
                         // Populate results
                         if (response.state === 'failure') {
                             //show errors
