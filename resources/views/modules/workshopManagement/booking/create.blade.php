@@ -506,7 +506,7 @@
                                                                 name="registration"
                                                                 required
                                                                 value=""
-                                                                class="form-control form-control-sm registration"/>
+                                                                class="form-control form-control-sm vehicle_registration"/>
                                                         </td>
                                                         <td>
                                                             <select
@@ -2337,6 +2337,11 @@
                     initArticleSelector($_defect_sel_);
                     //getArticleDetails(article, $_defect_sel);
                 }
+
+                Inputmask({
+                    "mask": "AAA 9{1,4}"
+                }).mask('[name="vehicle_registration"]');
+
             }
 
             function reinitializeSelect2($_defect_sel) {
