@@ -531,40 +531,6 @@
         <script>
             (function (tmsApp, $) {
 
-                $(document).off().on('click', '[data-confirm-selection="true"]', function (event) {
-                    console.log(event)
-                    // let _modal = $("#searchEmployeeModal");
-                    //
-                    // const {assignmenttype, inputfield, field} = window.supportData;
-                    //
-                    // let selectedUser = $("input[name='users[]']:checked");
-                    // if (!selectedUser || selectedUser.length === 0) {
-                    //     _modal.find(".errorMsg").html('<div class="alert alert-danger">You have not selected any user</div>');
-                    //     return;
-                    // }
-                    // let name = '';
-                    // let recordId = '';
-                    //
-                    // $.each(selectedUser, function (index, element) {
-                    //     if (name === '') {
-                    //         name += element['dataset']['name']
-                    //         recordId += element['dataset']['userid'];
-                    //     } else {
-                    //         name += ',' + element['dataset']['name']
-                    //         recordId += ',' + element['dataset']['userid'];
-                    //     }
-                    // });
-                    //
-                    // if (assignmenttype === 'multiple') {
-                    //     name += ',' + $('input[name="' + inputfield + '"]').val();
-                    //     recordId += ',' + $('input[name="' + inputfield + 'Id"]').val();
-                    // }
-                    //
-                    // $('input[name="' + inputfield + '"]').val(name).trigger('change');
-                    // $('input[name="' + inputfield + 'Id"]').val(recordId).trigger('change');
-                    // _modal.modal('hide');
-                });
-
                 function initializeFormWizard() {
                     let formWizard = $('#my-form');
 
@@ -579,17 +545,10 @@
                             finish: 'Submit'
                         },
                         onStepChanging: function (event, currentIndex, newIndex) {
-                            // Allways allow previous action even if the current form is not valid!
                             if (currentIndex > newIndex) {
                                 return true;
                             }
 
-                            // Forbid next action on "Warning" step if the user is to young
-                            if (newIndex === 3 && Number($("#age-2").val()) < 18) {
-                                return false;
-                            }
-
-                            // Needed in some cases if the user went back (clean up)
                             if (currentIndex < newIndex) {
                                 // To remove error styles
                                 form.find(".body:eq(" + newIndex + ") label.error").remove();
@@ -600,10 +559,6 @@
                             return form.valid();
                         },
                         onStepChanged: function (event, currentIndex, priorIndex) {
-                            // Used to skip the "Warning" step if the user is old enough.
-                            if (currentIndex === 2 && Number($("#age-2").val()) >= 18) {
-                                form.steps("next");
-                            }
 
                             if (currentIndex === 2 && priorIndex === 3) {
                                 form.steps("previous");
@@ -666,14 +621,14 @@
                         },
                         method: 'GET',
                         success: function (response) {
-                            // Code to execute when the AJAX request succeeds
+
                             if (!response.success) {
                                 //tmsApp.showSystemMessage('', response.message, null, 'error')
                                 tmsApp.showToast(response['message'], 'error');
                                 return;
                             }
 
-                            const vehicleDetails = response.payload.vehicle;
+                            const vehicleDetails = response.payload['vehicle'];
 
                             let mileage = document.getElementById("mileage");
                             let insured = document.getElementById("insurance_state");
@@ -685,7 +640,7 @@
                             // mileage.value = vehicleDetails.insure;
                             mileage.value = vehicleDetails['current_odometer_reading'];
 
-                            tmsApp.showSystemMessage('', response.message, null, 'success');
+                            tmsApp.showToast('', response.message, null, 'success');
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             // Code to execute when the AJAX request fails
@@ -863,13 +818,8 @@
                         fetchVehicleDetails(query);
                     });
 
-
-                    // Staff Number
-
-
                     $('#staffNo').on('keyup paste enter', function () {
-
-                        var query = $(this).val();
+                        const query = $(this).val();
                         $.ajax({
                             url: '/staffData/' + query,
                             method: 'GET',
@@ -899,7 +849,7 @@
                                     phoneNo.value = driverDetails.phoneNo
 
                                 } else {
-                                    launchErrorModal(response.message, "errorDisplay")
+                                    // tmsApp(response.message, "errorDisplay")
                                 }
 
                             },
@@ -908,88 +858,7 @@
                             }
                         });
                     });
-
-
-                    // $("#staffClear").click(function () {
-                    //
-                    //     let driverName = document.getElementById("driverName")
-                    //     let driverEmail = document.getElementById("driverEmail")
-                    //     let driverAge = document.getElementById("driverAge")
-                    //     let driverPosition = document.getElementById("driverPosition")
-                    //     let phoneNo = document.getElementById("phoneNo")
-                    //
-                    //     driverName.removeAttribute("disabled")
-                    //     driverEmail.removeAttribute("disabled")
-                    //     driverAge.removeAttribute("disabled")
-                    //     driverPosition.removeAttribute("disabled")
-                    //     phoneNo.removeAttribute("disabled")
-                    //
-                    //
-                    //     driverName.value = ""
-                    //     driverEmail.value = ""
-                    //     driverAge.value = ""
-                    //     driverPosition.value = ""
-                    //     phoneNo.value = ""
-                    // })
-
-
-                    // Need to create a post request for the data ---> ended here
-                    //
-                    // Submit form
-                    //
-                    // $('#my-form').on('submit', function (e) {
-                    //     e.preventDefault()
-                    //     e.stopPropagation()
-                    //
-                    //     let formData = new FormData(this);
-                    //     // let formData = {
-                    //     //     driverName: document.getElementById("driverName"),
-                    //     //     driverEmail: document.getElementById("driverEmail"),
-                    //     //     age: document.getElementById("driverAge"),
-                    //     //     driverPosition: document.getElementById("driverPosition"),
-                    //     //     phoneNo: document.getElementById("phoneNo"),
-                    //     //     vehicleModel: document.getElementById("modelNo"),
-                    //     //     vehicleMake: document.getElementById("vehicleMake"),
-                    //     //     chassisNo: document.getElementById("chassisNo"),
-                    //     //     accidentType: document.getElementById("accidentType"),
-                    //     //     accidentNature: document.getElementById("accidentNature"),
-                    //     //     peopleInvolved: document.getElementById("peopleInvolved"),
-                    //     //     date: document.getElementById("date"),
-                    //     //     time: document.getElementById("time"),
-                    //     //     description: document.getElementById("description"),
-                    //     //     policeNotified: document.getElementById("policeNotified")
-                    //     // }
-                    //
-                    //     $.ajax({
-                    //         url: $(this).attr('action'),
-                    //         type: 'POST',
-                    //         data: formData,
-                    //         headers: {
-                    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    //         },
-                    //         success: function (response) {
-                    //             console.log(response)
-                    //
-                    //             if (response.status === 'success') {
-                    //                 console.log(response)
-                    //
-                    //             } else {
-                    //
-                    //             }
-                    //
-                    //         },
-                    //         error: function () {
-                    //
-                    //         },
-                    //
-                    //     })
-                    //
-                    // })
-
-
                 })
-
-
             })(window.tmsApp, jQuery);
         </script>
     @endpush
