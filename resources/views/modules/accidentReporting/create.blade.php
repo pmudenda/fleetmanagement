@@ -271,7 +271,7 @@
                         </div>
                         <div class="row">
                             <div class="col-8">
-                                <div class="container-fluid">
+                                <div class="row">
                                     <div class="col-6">
                                         <div id="vehicleDetailsContainer" style="display: none;"
                                              class="col-xs-12 col-sm-12 col-md-12 pl-0">
