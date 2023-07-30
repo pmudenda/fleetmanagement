@@ -410,6 +410,10 @@ class WorkshopRequisitionService
 
     public function getWorkShopReservationDetails(mixed $req_no): array
     {
+        $stockManagement = config("tables.table_names.stockManagement");
+        $articles = config("tables.table_names.articles");
+        $units = config("tables.table_names.units");
+
         // "GEN_MATERIAL_HEADERS.*",
         $header = DB::table("GEN_MATERIAL_HEADERS")
             ->where("GEN_MATERIAL_HEADERS.req_no", $req_no)
@@ -426,12 +430,12 @@ class WorkshopRequisitionService
                 "GEN_MATERIAL_DETAILS.req_no")
             ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status",
                 "=", "CONFIG_STATUSES.code")
-            ->leftJoin("SPMS_ARTICLES_VIEW", "GEN_MATERIAL_DETAILS.MATERIAL_CODE",
-                "=", "SPMS_ARTICLES_VIEW.CODE_ARTICLE")
+            ->leftJoin("$articles", "GEN_MATERIAL_DETAILS.MATERIAL_CODE",
+                "=", "$articles.CODE_ARTICLE")
             ->where("CONFIG_STATUSES.MODULE", "=", "MAT")
             ->where("GEN_MATERIAL_DETAILS.req_no", $req_no)
             ->select("GEN_MATERIAL_DETAILS.*",
-                "SPMS_ARTICLES_VIEW.description",
+                "$articles.description",
                 "CONFIG_STATUSES.name as status_name",
                 "CONFIG_STATUSES.color_code")
             ->get();
