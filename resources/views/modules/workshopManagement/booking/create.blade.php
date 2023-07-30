@@ -133,7 +133,7 @@
                                 </div>
                             @endif
                         </div>
-                        <div class="row">
+                        <div class="row mt-5">
                             <div class="col-xs-12 col-sm-6 col-md-6">
                                 <div class="container-fluid pl-0">
                                     <div class="row">
@@ -382,17 +382,6 @@
                         </div>
                     </div>
 
-                    {{-- <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item" style="list-style: none; width: 178px;">
-                                <a class="nav-link active" data-toggle="tab" href="#spares" role="tab">Spares</a>
-                            </li>
-                            <li class="nav-item" style="list-style: none; width: 178px;">
-                                <a class="nav-link"
-                                data-toggle="tab"
-                                href="#services"
-                                role="tab">Services</a>
-                            </li>
-                        </ul>--}}
                     <!-- Tab panes -->
                     <div class="tab-content mt-5">
                         <div class="tab-pane active" id="spares" role="tabpanel">
