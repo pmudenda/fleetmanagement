@@ -419,43 +419,47 @@
                        id="workshop_reference"/>
             </div>
         </div>
+
+
         <input type="hidden" name="onboarding_status" id="onboarding_status"
                value="{{StatusHelper::onboardingComplete()}}">
+        <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding"
+               id="incompleteOnBoarding"/>
+        <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop"
+               id="vehicleInWorkshop"/>
+        <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
+
+        <input type="hidden"
+               value="{{RequisitionItemTypes::StockItemCode}}"
+               id="stockItemCode"
+               name="stockItemCode"/>
+
+        <input type="hidden"
+               value="{{RequisitionItemTypes::ServiceItemCode}}"
+               id="serviceItemCode" name="serviceItemCode"/>
+
+        <input type="hidden"
+               value="{{RequisitionItemTypes::NonStockItemCode}}"
+               id="nonStockItemCode" name="nonStockItemCode"/>
+
+        <input type="hidden"
+               value="{{RepairTypes::ContractedService->value}}"
+               id="contractedServiceRepair" name="contractedServiceRepair"/>
+
+        <input type="hidden"
+               value="{{RepairTypes::AccidentRepair->value}}"
+               id="accidentRepairs" name="accidentRepairs"/>
+
+        <input type="hidden"
+               id="suppliersList"
+               value="{{route('suppliers.list')}}"/>
+
+        <input type="hidden"
+               id="storeAndPurchaseOffice"
+               name="storeAndPurchaseOffice"
+               value="{{route('get.store.purchase_office')}}"/>
     </section>
-    <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding"
-           id="incompleteOnBoarding"/>
-    <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop" id="vehicleInWorkshop"/>
-    <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
 
-    <input type="hidden"
-           value="{{RequisitionItemTypes::StockItemCode}}"
-           id="stockItemCode"
-           name="stockItemCode"/>
-
-    <input type="hidden"
-           value="{{RequisitionItemTypes::ServiceItemCode}}"
-           id="serviceItemCode" name="serviceItemCode"/>
-
-    <input type="hidden"
-           value="{{RequisitionItemTypes::NonStockItemCode}}"
-           id="nonStockItemCode" name="nonStockItemCode"/>
-
-    <input type="hidden"
-           value="{{RepairTypes::ContractedService->value}}"
-           id="contractedServiceRepair" name="contractedServiceRepair"/>
-
-    <input type="hidden"
-           value="{{RepairTypes::AccidentRepair->value}}"
-           id="accidentRepairs" name="accidentRepairs"/>
-
-    <input type="hidden"
-           id="suppliersList"
-           value="{{route('suppliers.list')}}"/>
-
-    <input type="hidden"
-           id="storeAndPurchaseOffice"
-           name="storeAndPurchaseOffice"
-           value="{{route('get.store.purchase_office')}}"/>
 @endsection
 @push('scripts')
     <script>
@@ -763,17 +767,17 @@
             })
                 .off('select2:select')
                 .on('select2:select', function (e) {
-                let article = e.params['data'];
-                const row = $(e.currentTarget).closest('tr');
-                const table = $(e.currentTarget).closest('table');
+                    let article = e.params['data'];
+                    const row = $(e.currentTarget).closest('tr');
+                    const table = $(e.currentTarget).closest('table');
 
-                // loop through table and ensure article has not been selected before
-                console.log('Table Is ', table)
-                $(row).find('[name="serviceArticleCode"]').val(article['id']);
-                $(row).find('[name="service_unit_price"]').val(article['price_map']);
-                $(row).find('[name="service_technical_specification"]').val(article['technical_specifications']);
-                $(row).find('[name="service_unit_of_measure"]').val(article['unit_measure_name']);
-            });
+                    // loop through table and ensure article has not been selected before
+                    console.log('Table Is ', table)
+                    $(row).find('[name="serviceArticleCode"]').val(article['id']);
+                    $(row).find('[name="service_unit_price"]').val(article['price_map']);
+                    $(row).find('[name="service_technical_specification"]').val(article['technical_specifications']);
+                    $(row).find('[name="service_unit_of_measure"]').val(article['unit_measure_name']);
+                });
         }
 
         function formatRepo(project) {
@@ -1015,6 +1019,7 @@
                 );
             }
 
+
             function initEventHandlers() {
 
                 $(document).on('change', "#itemType", function () {
@@ -1040,6 +1045,39 @@
                     }
 
                     changeRequestType(selectedItemType);
+                });
+
+                $(document).on('change', '[name="workshop"]', function () {
+                    const workshopCode = this.value;
+                    getWorkshopStoreAndPurchaseOffice(workshopCode);
+                    const selectedItemType = $("#itemType").val();
+                    if (!selectedItemType) {
+                        return;
+                    }
+
+                    if (selectedItemType === $('[name="stockItemCode"]').val()) {
+                        $('#material_table > tbody').find('[name="registration"]').attr('readonly', false);
+                        enableArticleSelectionWebUIControls('#material_table');
+                    } else if (selectedItemType === $('[name="nonStockItemCode"]').val()) {
+
+                    } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
+
+                    }
+
+
+                    /* $('.quantity').attr('readonly', false);
+                                       $('.technical_specification').attr('readonly', false);*/
+
+                    /*$('.quantity').attr('readonly', false);
+                    $('.technical_specification').attr('readonly', false);
+                    $('[name="unit_price"]').attr('readonly', false)*/
+                    ;
+
+
+                    /*  $('.quantity').val(1).attr('readonly', 'readonly');
+                      $('[name="service_quantity"]').val(1).attr('readonly', 'readonly');*/
+
+
                 });
 
                 $(document).on('change paste', '[name="vehicle_registration"]', function () {
@@ -1230,11 +1268,6 @@
                         }, function () {
                         });
                     }
-                });
-
-                $(document).on('change', '[name="workshop"]', function () {
-                    const workshopCode = this.value;
-                    getWorkshopStoreAndPurchaseOffice(workshopCode);
                 });
             }
 
@@ -1457,11 +1490,14 @@
                 document.querySelector('#image_view').style.display = null;
             }
 
-            function enableArticleSelectionWebUIControls() {
-                let elements = document.querySelectorAll('.articlesDropDownList');
-                elements.forEach(function (element) {
-                    element.removeAttribute('disabled');
-                });
+            function enableArticleSelectionWebUIControls(tableSelector) {
+                if (tableSelector === 'material_table') {
+                    let elements = document.querySelector(tableSelector).querySelectorAll('.articlesDropDownList');
+                    elements.forEach(function (element) {
+                        element.removeAttribute('disabled');
+                    });
+                }
+
             }
 
             function populateVehicleDetails(payload, state) {
@@ -1633,39 +1669,32 @@
             }
 
             function changeRequestType(selectedItemType) {
-
+                if (!selectedItemType) {
+                    return;
+                }
                 if (selectedItemType === $('[name="stockItemCode"]').val()) {
                     showStoreAndHideSupplierUIControls();
-                    $('.quantity').attr('readonly', false);
-                    $('.technical_specification').attr('readonly', false);
 
                     $('#spares').addClass('active');
                     $('#services').removeClass('active');
 
                 } else if (selectedItemType === $('[name="nonStockItemCode"]').val()) {
                     showSupplierAndHideStoreUIControls();
-                    $('.quantity').attr('readonly', false);
-                    $('.technical_specification').attr('readonly', false);
-                    $('[name="unit_price"]').attr('readonly', false);
 
                     $('#spares').addClass('active');
                     $('#services').removeClass('active');
                 } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
                     showSupplierAndHideStoreUIControls();
-                    $('.quantity').val(1).attr('readonly', 'readonly');
-                    $('[name="service_quantity"]').val(1).attr('readonly', 'readonly');
 
                     $('#services').addClass('active');
                     $('#spares').removeClass('active');
 
                 } else {
                     showSupplierAndHideStoreUIControls();
-                    $('.quantity').attr('readonly', false);
+                    // $('.quantity').attr('readonly', false);
                 }
 
-                if (selectedItemType) {
-                    // enableArticleSelectionWebUIControls();
-                }
+
             }
 
             function clearRows(table) {
@@ -1997,7 +2026,6 @@
                     getArticleDetails(id, selectElem);
                 });
             }
-
 
             function getWorkshopStoreAndPurchaseOffice(workshopCode) {
 
