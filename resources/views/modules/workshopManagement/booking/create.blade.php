@@ -1019,22 +1019,6 @@
                 );
             }
 
-            function disableAllControls(selectedItemType) {
-                if (selectedItemType === $('[name="stockItemCode"]').val() || selectedItemType === $('[name="nonStockItemCode"]').val()) {
-                    $('#material_table > tbody').find('[name="registration"]').attr('readonly', true);
-                    document.querySelector("#material_table").querySelectorAll('.articlesDropDownList')
-                        .forEach(function (element) {
-                            element.setAttribute('disabled', 'disabled');
-                        });
-                } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
-                    $('#services_table > tbody').find('[name="vehicle_registration"]').attr('readonly', true);
-                    let elements = document.querySelector("#services_table").querySelectorAll('.servicesArticlesDropDownList');
-                    elements.forEach(function (element) {
-                        element.setAttribute('disabled', 'disabled');
-                    });
-                }
-            }
-
             function initEventHandlers() {
 
                 $(document).on('change', "#itemType", function () {
@@ -1053,8 +1037,12 @@
                             enableArticleSelectionWebUIControls('#material_table');
                         }
                     } else if (selectedItemType === $('[name="nonStockItemCode"]').val()) {
-                        $('#material_table > tbody').find('[name="registration"]').attr('readonly', false);
-                        enableArticleSelectionWebUIControls('#material_table');
+
+                        if ($('[name="supplier"]').val()) {
+                            $('#material_table > tbody').find('[name="registration"]').attr('readonly', false);
+                            enableArticleSelectionWebUIControls('#material_table');
+                        }
+
                     } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
 
                     }
@@ -1073,10 +1061,10 @@
                     }
 
                     if (selectedItemType === $('[name="stockItemCode"]').val()) {
-                        $('#material_table > tbody').find('[name="registration"]').attr('readonly', false);
+                        $('#material_table').find('[name="registration"]').attr('readonly', false);
                         enableArticleSelectionWebUIControls('#material_table');
                     } else if (selectedItemType === $('[name="nonStockItemCode"]').val()) {
-                        $('#material_table > tbody').find('[name="registration"]').attr('readonly', false);
+                        $('#material_table').find('[name="registration"]').attr('readonly', false);
                         enableArticleSelectionWebUIControls('#material_table');
                     } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
 
@@ -1508,6 +1496,22 @@
                 document.querySelector('#image_view').style.display = null;
             }
 
+            function disableAllControls(selectedItemType) {
+                if (selectedItemType === $('[name="stockItemCode"]').val() || selectedItemType === $('[name="nonStockItemCode"]').val()) {
+                    $('#material_table').find('[name="registration"]').attr('readonly', true);
+                    document.querySelector("#material_table").querySelectorAll('.articlesDropDownList')
+                        .forEach(function (element) {
+                            element.setAttribute('disabled', 'disabled');
+                        });
+                } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
+                    $('#services_table').find('[name="vehicle_registration"]').attr('readonly', true);
+                    let elements = document.querySelector("#services_table").querySelectorAll('.servicesArticlesDropDownList');
+                    elements.forEach(function (element) {
+                        element.setAttribute('disabled', 'disabled');
+                    });
+                }
+            }
+
             function enableArticleSelectionWebUIControls(tableSelector) {
                 if (tableSelector === '#services_table') {
                     let elements = document.querySelector(tableSelector).querySelectorAll('.servicesArticlesDropDownList');
@@ -1717,8 +1721,6 @@
                     showSupplierAndHideStoreUIControls();
                     // $('.quantity').attr('readonly', false);
                 }
-
-
             }
 
             function clearRows(table) {
