@@ -296,7 +296,6 @@
 
                     <h3 class="step-top step2-top">Accident Details</h3>
                     <section class="second-section">
-                        <h2>Accident Details</h2>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -513,7 +512,161 @@
 
                     <h3 class="step-top step3-top">Driver Details</h3>
                     <section class="third-section">
-                        <h2>Driver Details</h2>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <label
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                        for="staff_no">Registration #:
+                                                    </label>
+                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                        <div class="input-group">
+                                                            {{--    <input type="text"
+                                                                       --}}{{--@if(!empty($details->reg_no)) readonly="readonly" @endif--}}{{--
+                                                                       data-action="{{route('requisition.vehicle.details')}}"
+                                                                       class="form-control form-control-sm"
+                                                                       --}}{{--value="{{$details->reg_no ?? ''}}"--}}{{--
+                                                                       id="vehicle_registration"
+                                                                       placeholder="Vehicle Reg e.g AAB 6757"
+                                                                       name="vehicle_registration" required/>
+                                                                <div class="input-group-addon">
+                                                                    <button type="button"
+                                                                            id="vehicleSearchBtn"
+                                                                            name="vehicleSearchBtn"
+                                                                            class="btn btn-success btn-sm border-radius-0">
+                                                                        <i class="fas fa-search"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>--}}
+                                                            <input name="registrationNo"
+                                                                   type="text"
+                                                                   value="{{$registration ?? ''}}"
+                                                                   data-action="{{route('cleanup.vehicle.find')}}"
+                                                                   class="form-control form-control-sm required"
+                                                                   id="registrationNo"
+                                                                   placeholder=""
+                                                                   required/>
+                                                            <div class="input-group-addon">
+                                                                <button type="button"
+                                                                        title="Search Vehicle Button"
+                                                                        id="vehicleSearchBtn"
+                                                                        name="vehicleSearchBtn"
+                                                                        class="btn btn-success btn-sm border-radius-0">
+                                                                    <i class="fas fa-search"></i>
+                                                                </button>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                        <input type="text"
+                                                               class="form-control form-control-sm"
+                                                               id="type_brand_model"
+                                                               readonly
+                                                               name="type_brand_model"
+                                                               required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <label
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                        for="staff_no">
+                                                        Assigned To :
+                                                    </label>
+
+                                                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   class="form-control form-control-sm"
+                                                                   id="assignedTo"
+                                                                   readonly
+                                                                   value=""
+                                                                   name="assignedTo"
+                                                                   required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   required
+                                                                   readonly
+                                                                   name="assignedToDescription"
+                                                                   class="form-control form-control-sm"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="container-fluid pl-0">
+                                            <div class="row">
+                                                <div class="form-group row">
+                                                    <label
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                        for="mileage">
+                                                        Odometer :
+                                                    </label>
+                                                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                        <div class="input-group">
+                                                            <input name="mileage"
+                                                                   type="text"
+                                                                   class="form-control"
+                                                                   id="mileage"
+                                                                   placeholder="Enter Current Odometer Reading"
+                                                                   required>
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">
+                                                                    <i class="fa fa-dashboard"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="insured" value="Y"/>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -529,8 +682,8 @@
                                                    placeholder=""
                                                    name="driver_staff_number"/>
                                             <div class="input-group-addon">
-                                                <button type="button" id="employeeSearchBtn"
-                                                        name="employeeSearchBtn"
+                                                <button type="button" id="driverSearchBtn"
+                                                        name="driverSearchBtn"
                                                         class="btn btn-success btn-sm border-radius-0">
                                                     <i class="fas fa-search"></i>
                                                 </button>
@@ -575,8 +728,6 @@
                                 <p>{{$message}}</p>
                                 @enderror
                             </div>
-
-
                         </div>
                     </section>
 
@@ -594,7 +745,9 @@
     <input type="hidden" value="{{route('accident.types')}}" id="accident_types_endpoint">
     <input type="hidden" value="{{route('accident.natures')}}" id="accident_natures_endpoint">
     @push('scripts')
+{{--
         <script src="{{asset('application/modules/userManagement/employee.search.js')}}"></script>
+--}}
         <script src="{{asset("libs/steps/jquery.steps.min.js")}}"></script>
         <script>
             (function (tmsApp, $) {
@@ -690,20 +843,11 @@
                     let vehicle = payload['vehicle'];
                     let images = payload['images'];
 
-                    let mileage = document.getElementById("mileage");
-                    let insured = document.getElementById("insurance_state");
-
-                    //mileage.setAttribute("readonly", 'readonly');
-                    //insured.setAttribute("readonly", 'readonly');
-                    // mileage.value = vehicleDetails.insure;
-                    //mileage.value = vehicleDetails['current_odometer_reading'];
-
                     if (!vehicle || !vehicle.brand_name) {
                         return;
                     }
 
                     let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
-                    //$("#vehicle_description").val();
                     let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
                                <tr>
                                     <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
@@ -815,7 +959,7 @@
                 }
 
                 $(document).ready(function () {
-                    $(document).on('click', '#employeeSearchBtn', function (event) {
+                    $(document).on('click', '#driverSearchBtn', function (event) {
 
                         let $driverCtrl = $('#driver_staff_number');
 
