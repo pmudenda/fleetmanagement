@@ -1549,8 +1549,7 @@
                     $serviceTable.find('.vehicle_registration').attr('readonly', true);
                     $serviceTable.find('.service_technical_specification').attr('readonly', true);
 
-                    let elements = document.querySelector("#services_table")
-                        .find('.servicesArticlesDropDownList').attr('disabled', 'disabled')
+                    $("#services_table").find('.servicesArticlesDropDownList').attr('disabled', 'disabled')
                     /*elements.forEach(function (element) {
                         element.setAttribute();
                     });*/
