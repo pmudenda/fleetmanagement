@@ -1104,13 +1104,17 @@
                     const selectedItemType = $("#itemType").val();
 
                     if (selectedItemType === $('[name="nonStockItemCode"]').val()) {
+                        const $materialTable = $('#material_table');
                         if (workshopCode) {
-                            $('#material_table').find('[name="registration"]').attr('readonly', false);
+                            $materialTable.find('[name="registration"]').attr('readonly', false);
+                            $materialTable.find('[name="technical_specification"]').attr('readonly', false);
                             enableArticleSelectionWebUIControls('#material_table');
                         }
                     } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
+                        const $serviceTable = $('#services_table');
                         if (workshopCode) {
-                            $('#services_table').find('[name="vehicle_registration"]').attr('readonly', false);
+                            $serviceTable.find('[name="vehicle_registration"]').attr('readonly', false);
+                            $serviceTable.find('[name="service_technical_specification"]').attr('readonly', false);
                             enableArticleSelectionWebUIControls('#services_table');
                         }
                     }
