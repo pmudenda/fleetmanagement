@@ -510,10 +510,10 @@
                                                         </td>
                                                         <td>
                                                             <select
-                                                                    name="articles"
-                                                                    required
-                                                                    data-value=""
-                                                                    class="form-control form-control-sm articlesDropDownList">
+                                                                name="articles"
+                                                                required
+                                                                data-value=""
+                                                                class="form-control form-control-sm articlesDropDownList">
                                                                 <option></option>
                                                             </select>
                                                         </td>
@@ -1320,10 +1320,15 @@
                 minimumInputLength: 3,
                 templateResult: formatRepo,
                 templateSelection: formatRepoSelection
-            }).off('select2:select').on('select2:select', function (e) {
+            })
+                .off('select2:select')
+                .on('select2:select', function (e) {
                 let article = e.params['data'];
                 const row = $(e.currentTarget).closest('tr');
+                const table = $(e.currentTarget).closest('table');
 
+                // loop through table and ensure article has not been selected before
+                console.log('Table Is ', table)
                 $(row).find('[name="serviceArticleCode"]').val(article['id']);
                 $(row).find('[name="service_unit_price"]').val(article['price_map']);
                 $(row).find('[name="service_technical_specification"]').val(article['technical_specifications']);
@@ -1412,7 +1417,7 @@
 
             Inputmask({
                 "mask": "AAA 9{1,4}"
-            }).mask('[name="vehicle_registration"]');
+            }).mask('.vehicle_registration');
 
             $.fn.disableBtn = function () {
                 return this.each(function () {
@@ -2283,9 +2288,9 @@
                     }
                 }
 
-                $('table#' + tableId).find('tbody').append(tableRowTemplate);
-
-                let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
+                const $table = $('table#' + tableId);
+                $table.find('tbody').append(tableRowTemplate);
+                let lastRow = $table.find('tbody tr').eq((0 + 1) * -1);
 
                 lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
 
@@ -2306,22 +2311,13 @@
                     // $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
 
                     lastRow.find('[name="service_article"]').val('');
-                    // lastRow.find('[name="service_article"]')
                     lastRow.find('[name="serviceArticleCode"]').val('');
                     lastRow.find('[name="service_technical_specification"]').val('');
                     lastRow.find('[name="service_unit_price"]').val('');
                     lastRow.find('[name="service_unit_of_measure"]').val('');
                     lastRow.find('[name="service_total_price"]').val('');
-                    // initServiceArticleSelector('.')
-                } else {
 
-                }
-
-                if (tableId === "part8") {
-                    let row = lastRow[0];
-                    $(row).find('.select2-container').remove();
-                    let $_defect_sel = $(".select_2_control");
-                    reinitializeSelect2($_defect_sel);
+                    initServiceArticleSelector('.')
                 }
 
                 if (tableId === "material_table") {
@@ -2335,12 +2331,11 @@
                     let $_defect_sel_ = $(row).find(".DropDownList");
                     initArticleSelector($_defect_sel);
                     initArticleSelector($_defect_sel_);
-                    //getArticleDetails(article, $_defect_sel);
                 }
 
                 Inputmask({
                     "mask": "AAA 9{1,4}"
-                }).mask('[name="vehicle_registration"]');
+                }).mask('.vehicle_registration');
 
             }
 
