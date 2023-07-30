@@ -113,17 +113,12 @@
                                         <div class="container-fluid pl-0">
                                             <div class="row">
                                                 <div class="form-group row">
-                                                    {{-- <label
-                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                         for="staff_no">Date In :
-                                                     </label>--}}
                                                     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                         <input type="text"
                                                                class="form-control form-control-sm"
-                                                               id="date_of_req"
+                                                               id="type_brand_model"
                                                                readonly
-                                                               value="{{ date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                               name="date_of_req"
+                                                               name="type_brand_model"
                                                                required>
                                                     </div>
                                                 </div>
@@ -631,7 +626,7 @@
                     }
 
                     let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
-                    $("#vehicle_description").val(vLabel);
+                    //$("#vehicle_description").val();
                     let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
                                <tr>
                                     <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
@@ -643,6 +638,7 @@
                                      <th>State:</th><td id="registration">${vehicle['status_name']}</td>
                                 </tr>`;
 
+                    document.querySelector('[name="type_brand_model"]').value = vLabel;
                     document.querySelector('[name="assignedTo"]').value = vehicle['business_unit_code'];
                     document.querySelector('[name="assignedToDescription"]').value = vehicle['business_unit_code'] + ':' + vehicle['business_unit_name'];
 
