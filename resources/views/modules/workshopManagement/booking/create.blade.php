@@ -1808,8 +1808,6 @@
                         $('[name="quantity"]').change();
                     }
 
-                    //findDriver();
-
                     findVehicle("InWorkshop");
 
                 }, 600);
@@ -2615,7 +2613,7 @@
 
             function getWorkshopStoreAndPurchaseOffice(workshopCode) {
 
-                if(!workshopCode) return;
+                if (!workshopCode) return;
 
                 fetch(document.querySelector('[name="storeAndPurchaseOffice"]').value,
                     {
@@ -2642,18 +2640,10 @@
                         }
 
                         let data = response['payload'];
-                        console.log(data);
-
-                        /*
-                        tmsApp.populateDropDownList(selectElem, workshops, "workshop_code", ["workshop_name"], "");
-
-                        let location = selectElem.attr('data-value');
-
-                        if (location) {
-                            selectElem.val(location);
-                            selectElem.trigger('change');
-                        }*/
-
+                        if (data) {
+                            $storeCtl.value = data['store_code'] + ':' + data['store_name'];
+                            $($purchaseOfficeCtl).append('<option value="'+data['purchase_office_code']+'">'+data['purchase_office']+'</option>');
+                        }
                     })
                     .catch(function (error) {
                         // notify of error
