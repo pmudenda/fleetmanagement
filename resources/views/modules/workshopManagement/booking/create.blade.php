@@ -241,7 +241,7 @@
                                                     data-value="{{$details->workshop_code ?? ''}}"
                                                     required
                                                     class="form-select form-select-sm"
-                                                    name="workshop"
+                                                    name="workshop_code"
                                                     autocomplete="off"
                                                     id="workshop">
                                                 </select>
@@ -250,7 +250,7 @@
                                                        value="{{$officeDetails->workshop_name ?? 0}}"
                                                        class="form-control form-control-sm"/>
                                                 <input type="hidden"
-                                                       name="workshop_code"
+                                                       name=""
                                                        value="{{$officeDetails->workshop_code ?? 0}}"/>--}}
                                             </div>
                                         </div>
@@ -1024,30 +1024,27 @@
 
                 $(document).on('change', "#itemType", function () {
                     const selectedItemType = this.value;
-
-                   /* if (tableHasItems()) {
-                        Swal.fire({
-                            title: 'Change Requisition Item Type',
-                            text: "Changing Item Type will clear the items you've selected already." +
-                                " Would you like to proceed ?",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Yes'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // clear things here
-                                changeRequestType(selectedItemType);
-                            }
-                        });
+                    if (!selectedItemType) {
                         return;
-                    }*/
+                    }
 
+                    const workshopCode = document.querySelector('[name="workshop_code"]').value;
+
+                    if (selectedItemType === $('[name="stockItemCode"]').val()) {
+                        if (workshopCode) {
+                            $('#material_table > tbody').find('[name="registration"]').attr('readonly', false);
+                            enableArticleSelectionWebUIControls('#material_table');
+                        }
+                    } else if (selectedItemType === $('[name="nonStockItemCode"]').val()) {
+                        $('#material_table > tbody').find('[name="registration"]').attr('readonly', false);
+                        enableArticleSelectionWebUIControls('#material_table');
+                    } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
+
+                    }
                     changeRequestType(selectedItemType);
                 });
 
-                $(document).on('change', '[name="workshop"]', function () {
+                $(document).on('change', '[name="workshop_code"]', function () {
                     const workshopCode = this.value;
                     getWorkshopStoreAndPurchaseOffice(workshopCode);
 
