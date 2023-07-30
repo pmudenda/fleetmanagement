@@ -7,7 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Store extends Model
 {
-    use HasFactory;
-
-    protected $table = 'spms_stores_view';
+    protected $table = 'ZFM_STORES_VIEW';
 }

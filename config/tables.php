@@ -29,14 +29,15 @@ return [
     ],
 
     'table_names' => [
-        'projects'=> 'ZFM_PROJECTS_VIEW',
-        'areas'=> 'ZFM_AREAS_VIEW',
+        'projects' => 'ZFM_PROJECTS_VIEW',
+        'areas' => 'ZFM_AREAS_VIEW',
         'articles' => 'ZFM_ARTICLES_VIEW',
         'units' => 'ZFM_UNITS_VIEW',
         'stockManagement' => 'ZFM_STOCK_MANAGEMENT_VIEW',
-        'organizationalView'=> 'ZFM_ORGANIZATIONAL_UNITS_VIEW',
-        'purchaseOffices'=> 'ZFM_PURCHASE_OFFICES',
-        'purchaseOrders'=> 'P_ORDERS_ONBOARDING_VIEW'
+        'organizationalView' => 'ZFM_ORGANIZATIONAL_UNITS_VIEW',
+        'purchaseOffices' => 'ZFM_PURCHASE_OFFICES',
+        'purchaseOrders' => 'P_ORDERS_ONBOARDING_VIEW',
+        'stores' => 'ZFM_STORES_VIEW'
     ],
 
     'column_names' => [
