@@ -71,10 +71,10 @@ class MaintenanceController extends Controller
 
         $workshopsVehicleList = $this->workshopService->getJobCardHeader();
 
-        return view('modules.workshopManagement.vehiclesInWorkshop')
+        return view("modules.workshopManagement.vehiclesInWorkshop")
             ->with(
                 compact(
-                    'workshopsVehicleList'
+                    "workshopsVehicleList"
                 )
             );
     }
@@ -101,23 +101,23 @@ class MaintenanceController extends Controller
             $services
             ) = $this->getJobCardCreationData($request);
 
-        $view_name = 'modules.workshopManagement.jobCard.create';
+        $view_name = "modules.workshopManagement.jobCard.create";
 
         return view($view_name)
             ->with(
                 compact(
-                    'repairTypes',
-                    'accessories',
-                    'details',
-                    'accessories_checked_in',
-                    'step',
-                    'workshop_sections',
-                    'defects',
-                    'comments',
-                    'officeDetails',
-                    'materials',
-                    'materialsHeader',
-                    'services'
+                    "repairTypes",
+                    "accessories",
+                    "details",
+                    "accessories_checked_in",
+                    "step",
+                    "workshop_sections",
+                    "defects",
+                    "comments",
+                    "officeDetails",
+                    "materials",
+                    "materialsHeader",
+                    "services"
                 )
             );
     }
@@ -129,7 +129,7 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        $req_no = $request->get('ref');
+        $req_no = $request->get("ref");
 
         $user = Auth::user();
 
@@ -141,23 +141,23 @@ class MaintenanceController extends Controller
             abort(404);
         }
 
-        $workflowTask = WorkflowTaskHeader::where('reference', '=', $req_no)->first();
+        $workflowTask = WorkflowTaskHeader::where("reference", "=", $req_no)->first();
 
-        $requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
+        $requisitionTypes = RequisitionType::where("status", "01")->where("module", "FR")->get();
 
-        $daysToNextRefuel = config('settings.fuel_requisition_validity');
+        $daysToNextRefuel = config("settings.fuel_requisition_validity");
 
         $approvalHistory = [];
 
-        return view('modules.workshopManagement.jobCard.show')
+        return view("modules.workshopManagement.jobCard.show")
             ->with(compact(
-                'user',
-                'requisitionTypes',
-                'requestDetails',
-                'details',
-                'daysToNextRefuel',
-                'approvalHistory',
-                'workflowTask'
+                "user",
+                "requisitionTypes",
+                "requestDetails",
+                "details",
+                "daysToNextRefuel",
+                "approvalHistory",
+                "workflowTask"
             ));
     }
 
@@ -165,51 +165,55 @@ class MaintenanceController extends Controller
     {
         try {
 
-            if (empty($request->get('type_article'))) {
+            if (empty($request->get("type_article"))) {
                 return response()->json([
-                    'success' => false,
-                    'items' => [],
-                    'total_count' => 0
+                    "success" => false,
+                    "items" => [],
+                    "total_count" => 0
                 ]);
             }
 
-            $search = trim(strtoupper($request->get('search')));
+            $search = trim(strtoupper($request->get("search")));
 
             $query = $this->getArticlesQueryBuilder($request);
 
-            $query->where(function ($query) use ($search) {
-                $query->orWhere('spms_articles_view.code_article', 'like', "%{$search}%")
-                    ->orWhere('spms_articles_view.description', 'like', "%{$search}%");
+            $stockManagement = config("tables.table_names.stockManagement");
+            $articles = config("tables.table_names.articles");
+            $units = config("tables.table_names.units");
+
+            $query->where(function ($query) use ($search, $articles) {
+                $query->orWhere("$articles.code_article", "like", "%{$search}%")
+                    ->orWhere("$articles.description", "like", "%{$search}%");
             });
 
             $procurementArticles = $query
                 ->select(
-                    'spms_articles_view.code_article',
-                    'spms_articles_view.description',
-                    'spms_articles_view.technical_specifications',
-                    'spms_articles_view.price_map',
-                    'stock_management_view.price_map as price',
-                    'stock_management_view.stock_available as quantity_in_store',
-                    'spms_articles_view.unit_measure',
-                    'units_view.abbreviation as abbreviation',
-                    'units_view.description as unit_measure_name'
+                    "$articles.code_article",
+                    "$articles.description",
+                    "$articles.technical_specifications",
+                    "$articles.price_map",
+                    "$stockManagement.price_map as price",
+                    "$stockManagement.stock_available as quantity_in_store",
+                    "$articles.unit_measure",
+                    "$units.abbreviation as abbreviation",
+                    "$units.description as unit_measure_name"
                 )
-                ->orderBy('spms_articles_view.description')
+                ->orderBy("$articles.description")
                 ->get();
 
             return response()->json([
-                'success' => !empty($procurementArticles),
-                'items' => $procurementArticles,
-                'total_count' => $procurementArticles->count()
+                "success" => !empty($procurementArticles),
+                "items" => $procurementArticles,
+                "total_count" => $procurementArticles->count()
             ]);
 
         } catch (Exception $e) {
             Log::error($e);
             return response()->json([
-                'success' => false,
-                'items' => [],
-                'total_count' => 0,
-                'message' => ErrorMessages::getMessage('err_0005')
+                "success" => false,
+                "items" => [],
+                "total_count" => 0,
+                "message" => ErrorMessages::getMessage("err_0005")
             ]);
         }
     }
@@ -219,44 +223,48 @@ class MaintenanceController extends Controller
     {
         try {
 
-            if (empty($request->get('type_article'))) {
+            if (empty($request->get("type_article"))) {
                 return response()->json([
-                    'success' => false,
-                    'items' => [],
-                    'total_count' => 0
+                    "success" => false,
+                    "items" => [],
+                    "total_count" => 0
                 ]);
             }
 
             $query = $this->getArticlesQueryBuilder($request);
 
+            $stockManagement = config("tables.table_names.stockManagement");
+            $articles = config("tables.table_names.articles");
+            $units = config("tables.table_names.units");
+
             $procurementArticles = $query
                 ->select(
-                    'spms_articles_view.code_article',
-                    'spms_articles_view.description',
-                    'spms_articles_view.technical_specifications',
-                    'spms_articles_view.price_map',
-                    'stock_management_view.price_map as price',
-                    'stock_management_view.stock_available as quantity_in_store',
-                    'spms_articles_view.unit_measure',
-                    'units_view.abbreviation as abbreviation',
-                    'units_view.description as unit_measure_name'
+                    "$articles.code_article",
+                    "$articles.description",
+                    "$articles.technical_specifications",
+                    "$articles.price_map",
+                    "$stockManagement.price_map as price",
+                    "$stockManagement.stock_available as quantity_in_store",
+                    "$articles.unit_measure",
+                    "$units.abbreviation as abbreviation",
+                    "$units.description as unit_measure_name"
                 )
-                ->orderBy('spms_articles_view.description')
+                ->orderBy("spms_articles_view.description")
                 ->get();
 
             return response()->json([
-                'success' => !empty($procurementArticles),
-                'items' => $procurementArticles,
-                'total_count' => $procurementArticles->count()
+                "success" => !empty($procurementArticles),
+                "items" => $procurementArticles,
+                "total_count" => $procurementArticles->count()
             ]);
 
         } catch (Exception $e) {
             Log::error($e);
             return response()->json([
-                'success' => false,
-                'items' => [],
-                'total_count' => 0,
-                'message' => ErrorMessages::getMessage('err_0005')
+                "success" => false,
+                "items" => [],
+                "total_count" => 0,
+                "message" => ErrorMessages::getMessage("err_0005")
             ]);
         }
     }
@@ -267,8 +275,8 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        if (!$request->has('step')) {
-            return redirect(URL::signedRoute('jobCard.requisition', ['step' => 1]));
+        if (!$request->has("step")) {
+            return redirect(URL::signedRoute("jobCard.requisition", ["step" => 1]));
         }
 
         list($step,
@@ -285,21 +293,21 @@ class MaintenanceController extends Controller
             $services
             ) = $this->getJobCardCreationData($request);
 
-        return view('modules.workshopManagement.jobCard.create')
+        return view("modules.workshopManagement.jobCard.create")
             ->with(
                 compact(
-                    'repairTypes',
-                    'accessories',
-                    'details',
-                    'accessories_checked_in',
-                    'step',
-                    'workshop_sections',
-                    'defects',
-                    'comments',
-                    'officeDetails',
-                    'materials',
-                    'materialsHeader',
-                    'services'
+                    "repairTypes",
+                    "accessories",
+                    "details",
+                    "accessories_checked_in",
+                    "step",
+                    "workshop_sections",
+                    "defects",
+                    "comments",
+                    "officeDetails",
+                    "materials",
+                    "materialsHeader",
+                    "services"
                 )
             );
     }
@@ -326,21 +334,21 @@ class MaintenanceController extends Controller
             $services
             ) = $this->getJobCardCreationData($request);
 
-        return view('modules.workshopManagement.exitFromWorkshop')
+        return view("modules.workshopManagement.exitFromWorkshop")
             ->with(
                 compact(
-                    'repairTypes',
-                    'accessories',
-                    'details',
-                    'accessories_checked_in',
-                    'step',
-                    'workshop_sections',
-                    'defects',
-                    'comments',
-                    'officeDetails',
-                    'materials',
-                    'materialsHeader',
-                    'services'
+                    "repairTypes",
+                    "accessories",
+                    "details",
+                    "accessories_checked_in",
+                    "step",
+                    "workshop_sections",
+                    "defects",
+                    "comments",
+                    "officeDetails",
+                    "materials",
+                    "materialsHeader",
+                    "services"
                 )
             );
     }
@@ -366,21 +374,21 @@ class MaintenanceController extends Controller
             $services
             ) = $this->getJobCardCreationData($request);
 
-        return view('modules.workshopManagement.jobCard.create')
+        return view("modules.workshopManagement.jobCard.create")
             ->with(
                 compact(
-                    'repairTypes',
-                    'accessories',
-                    'details',
-                    'accessories_checked_in',
-                    'step',
-                    'workshop_sections',
-                    'defects',
-                    'comments',
-                    'officeDetails',
-                    'materials',
-                    'materialsHeader',
-                    'services'
+                    "repairTypes",
+                    "accessories",
+                    "details",
+                    "accessories_checked_in",
+                    "step",
+                    "workshop_sections",
+                    "defects",
+                    "comments",
+                    "officeDetails",
+                    "materials",
+                    "materialsHeader",
+                    "services"
                 )
             );
     }
@@ -393,8 +401,8 @@ class MaintenanceController extends Controller
 
         return response()->json(
             [
-                'state' => 'success',
-                'payload' => $fuel_levels
+                "state" => "success",
+                "payload" => $fuel_levels
             ]
         );
     }
@@ -405,18 +413,18 @@ class MaintenanceController extends Controller
             $response = $this->workshopService->createJobCard($request);
             return response()->json(
                 [
-                    'success' => true,
-                    'payload' => $response,
-                    'redirectUrl' => URL::signedRoute('accessories.job.card', ['step' => 2, 'reference' => $response->job_card_no]),
+                    "success" => true,
+                    "payload" => $response,
+                    "redirectUrl" => URL::signedRoute("accessories.job.card", ["step" => 2, "reference" => $response->job_card_no]),
                 ]
             );
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json(
                 [
-                    'success' => false,
-                    'payload' => [],
-                    'message' => ErrorMessages::getMessage('err_0005')
+                    "success" => false,
+                    "payload" => [],
+                    "message" => ErrorMessages::getMessage("err_0005")
                 ]
             );
         }
@@ -428,18 +436,18 @@ class MaintenanceController extends Controller
             $response = $this->workshopService->exitVehicleFromWorkShop($request);
             return response()->json(
                 [
-                    'success' => true,
-                    'payload' => $response,
-                    'redirectUrl' => URL::signedRoute('jobCard.list'),
+                    "success" => true,
+                    "payload" => $response,
+                    "redirectUrl" => URL::signedRoute("jobCard.list"),
                 ]
             );
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json(
                 [
-                    'success' => false,
-                    'payload' => [],
-                    'message' => ErrorMessages::getMessage('err_0005')
+                    "success" => false,
+                    "payload" => [],
+                    "message" => ErrorMessages::getMessage("err_0005")
                 ]
             );
         }
@@ -450,18 +458,18 @@ class MaintenanceController extends Controller
         try {
             $this->workshopService->createJobCardAccessories($request);
             return response()->json([
-                'success' => true,
-                'message' => SystemMessages::accessoriesCheckedIn(),
-                'redirectUrl' => URL::signedRoute('defects.job.card',
-                    ['step' => 3, 'reference' => $request->get('job_card_voucher')]),
+                "success" => true,
+                "message" => SystemMessages::accessoriesCheckedIn(),
+                "redirectUrl" => URL::signedRoute("defects.job.card",
+                    ["step" => 3, "reference" => $request->get("job_card_voucher")]),
             ]);
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json(
                 [
-                    'success' => false,
-                    'payload' => [],
-                    'message' => ErrorMessages::getMessage('err_0005')
+                    "success" => false,
+                    "payload" => [],
+                    "message" => ErrorMessages::getMessage("err_0005")
                 ]
             );
         }
@@ -472,18 +480,18 @@ class MaintenanceController extends Controller
         try {
             $this->workshopService->createJobCardDefects($request);
             return response()->json([
-                'success' => true,
-                'message' => SystemMessages::defectRecorded(),
-                'redirectUrl' => URL::signedRoute('defects.job.card',
-                    ['step' => 4, 'reference' => $request->get('job_card_no')]),
+                "success" => true,
+                "message" => SystemMessages::defectRecorded(),
+                "redirectUrl" => URL::signedRoute("defects.job.card",
+                    ["step" => 4, "reference" => $request->get("job_card_no")]),
             ]);
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json(
                 [
-                    'success' => false,
-                    'payload' => [],
-                    'message' => ErrorMessages::getMessage('err_0005')
+                    "success" => false,
+                    "payload" => [],
+                    "message" => ErrorMessages::getMessage("err_0005")
                 ]
             );
         }
@@ -496,14 +504,14 @@ class MaintenanceController extends Controller
             return $this->workshopRequisitionService->processRequest($request);
         } catch (\Exception $e) {
             Log::error($e);
-            $message = ErrorMessages::getMessage('err_0005');
+            $message = ErrorMessages::getMessage("err_0005");
 
             if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException) {
                 $message = $e->getMessage();
             }
             return response()->json([
-                'success' => false,
-                'message' => $message
+                "success" => false,
+                "message" => $message
             ]);
         }
     }
@@ -514,14 +522,14 @@ class MaintenanceController extends Controller
             return $this->workshopRequisitionService->processServiceRequest($request);
         } catch (\Exception $e) {
             Log::error($e);
-            $message = ErrorMessages::getMessage('err_0005');
+            $message = ErrorMessages::getMessage("err_0005");
 
             if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException) {
                 $message = $e->getMessage();
             }
             return response()->json([
-                'success' => false,
-                'message' => $message
+                "success" => false,
+                "message" => $message
             ]);
         }
     }
@@ -532,21 +540,21 @@ class MaintenanceController extends Controller
      */
     public function getJobCardCreationData(Request $request): array
     {
-        $step = $request->get('step') ?? 0;
-        $reference = $request->get('reference');
+        $step = $request->get("step") ?? 0;
+        $reference = $request->get("reference");
 
         $repairTypes = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
-            ->where('active', '=', 1)
-            ->orderBy('name')
+            ->where("active", "=", 1)
+            ->orderBy("name")
             ->get();
 
-        $accessories = Accessory::where('status', '=', StatusHelper::active())
-            ->orderBy('name')
+        $accessories = Accessory::where("status", "=", StatusHelper::active())
+            ->orderBy("name")
             ->get();
 
         $workshop_sections = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::WORK_SHOP_SECTION)
-            ->where('active', '=', 1)
-            ->orderBy('name')
+            ->where("active", "=", 1)
+            ->orderBy("name")
             ->get();
 
         $accessories_checked_in = null;
@@ -559,24 +567,24 @@ class MaintenanceController extends Controller
         $services = collect([]);
 
         if ($reference) {
-            $accessories_checked_in = WorkShopVehicleAccessory::where('job_card_no', '=', $reference)
+            $accessories_checked_in = WorkShopVehicleAccessory::where("job_card_no", "=", $reference)
                 ->get();
             $details = $this->workshopService->getJobCardDetails($reference);
 
             $officeDetails = $this->workshopService->getWorkShopPurchaseOfficeAndStore($details->workshop_code);
 
-            // $defects = VehicleDefect::where('workshop_reference', '=', $details->workshop_doc_no)->get();
-            $defects = VehicleDefect::where('workshop_reference', '=', $details->wshp_act_code)->get();
+            // $defects = VehicleDefect::where("workshop_reference", "=", $details->workshop_doc_no)->get();
+            $defects = VehicleDefect::where("workshop_reference", "=", $details->wshp_act_code)->get();
 
-            // $comments = WorkShopComment::where('workshop_reference', '=', $details->workshop_doc_no)->get();
-            $comments = WorkShopComment::where('workshop_reference', '=', $details->wshp_act_code)->get();
+            // $comments = WorkShopComment::where("workshop_reference", "=", $details->workshop_doc_no)->get();
+            $comments = WorkShopComment::where("workshop_reference", "=", $details->wshp_act_code)->get();
 
             $materials = $this->workshopRequisitionService->getWorkShopRequisitionItems($reference);
 
-            $materialsHeader = WorkShopMaterialHeader::where('job_card_no', '=', $reference)->first();
+            $materialsHeader = WorkShopMaterialHeader::where("job_card_no", "=", $reference)->first();
 
-            // $services = WorkShopServiceModel::where('workshop_reference', '=', $details->workshop_doc_no)->get();
-            $services = WorkShopServiceModel::where('workshop_reference', '=', $details->wshp_act_code)->get();
+            // $services = WorkShopServiceModel::where("workshop_reference", "=", $details->workshop_doc_no)->get();
+            $services = WorkShopServiceModel::where("workshop_reference", "=", $details->wshp_act_code)->get();
         }
 
         return array(
@@ -600,29 +608,29 @@ class MaintenanceController extends Controller
     {
         try {
 
-            $entry = VehicleDefect::where('id', '=', $request->record_id)
+            $entry = VehicleDefect::where("id", "=", $request->record_id)
                 ->first();
 
             if (empty($entry)) {
                 return response()->json([
-                    'success' => false,
-                    'message' => "Record Not Found",
+                    "success" => false,
+                    "message" => "Record Not Found",
                 ]);
             }
 
             $entry->deleted_at = Carbon::now();
             $entry->save();
             return response()->json([
-                'success' => true,
-                'message' => "Record Removed Successfully",
+                "success" => true,
+                "message" => "Record Removed Successfully",
             ]);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
 
             return response()->json([
-                'success' => false,
-                'message' => "We could not complete processing your request to an error",
+                "success" => false,
+                "message" => "We could not complete processing your request to an error",
             ]);
         }
     }
@@ -631,29 +639,29 @@ class MaintenanceController extends Controller
     public function deleteMaterialRecord(Request $request): JsonResponse
     {
         try {
-            $entry = MaterialDetail::where('id', '=', $request->record_id)
+            $entry = MaterialDetail::where("id", "=", $request->record_id)
                 ->first();
 
             if (empty($entry)) {
                 return response()->json([
-                    'success' => false,
-                    'message' => "Record Not Found",
+                    "success" => false,
+                    "message" => "Record Not Found",
                 ]);
             }
 
             $entry->deleted_at = Carbon::now();
             $entry->save();
             return response()->json([
-                'success' => true,
-                'message' => "Record Removed Successfully",
+                "success" => true,
+                "message" => "Record Removed Successfully",
             ]);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
 
             return response()->json([
-                'success' => false,
-                'message' => "We could not complete processing your request to an error",
+                "success" => false,
+                "message" => "We could not complete processing your request to an error",
             ]);
         }
     }
@@ -664,64 +672,68 @@ class MaintenanceController extends Controller
      */
     public function getArticlesQueryBuilder(Request $request): Builder
     {
-        $query = DB::table('spms_articles_view')
-            ->leftJoin('units_view',
-                'spms_articles_view.unit_measure',
-                '=',
-                'units_view.code_unit')
-            ->leftJoin('stock_management_view',
-                'spms_articles_view.code_article',
-                '=',
-                'stock_management_view.code_article');
+        $stockManagement = config("tables.table_names.stockManagement");
+        $articles = config("tables.table_names.articles");
+        $units = config("tables.table_names.units");
 
-        $itemType = $request->get('type_article');
-        $store_code = $request->get('store_code');
+        $query = DB::table("$articles")
+            ->leftJoin("$units",
+                "$articles.unit_measure",
+                "=",
+                "$units.code_unit")
+            ->leftJoin("$stockManagement",
+                "$articles.code_article",
+                "=",
+                "$stockManagement.code_article");
+
+        $itemType = $request->get("type_article");
+        $store_code = $request->get("store_code");
 
         if ($itemType == RequisitionItemTypes::StockItemCode) {
-            $query->where(function ($q) use ($itemType, $store_code) {
-                $q->whereIn('spms_articles_view.code_group', ['01', '04', '30']);
-                $q->where('stock_management_view.code_store', '=', $store_code);
+            $query->where(function ($q) use ($itemType, $store_code, $stockManagement, $articles) {
+                $q->whereIn("$articles.code_group", ["01", "04", "30"]);
+                $q->where("$stockManagement.code_store", "=", $store_code);
             });
         } else if ($itemType == RequisitionItemTypes::NonStockItemCode) {
-            $query->where(function ($q) use ($itemType) {
-                $q->where('spms_articles_view.code_group', '=', '40');
-                $q->where('spms_articles_view.code_subgroup', '=', '07');
+            $query->where(function ($q) use ($itemType, $articles) {
+                $q->where("$articles.code_group", "=", "40");
+                $q->where("$articles.code_subgroup", "=", "07");
             });
         } else if ($itemType == RequisitionItemTypes::ServiceItemCode) {
-            $query->where(function ($q) use ($itemType) {
-                $q->where('spms_articles_view.code_group', '=', '41');
-                $q->where('spms_articles_view.code_subgroup', '=', '02');
+            $query->where(function ($q) use ($itemType, $articles) {
+                $q->where("$articles.code_group", "=", "41");
+                $q->where("$articles.code_subgroup", "=", "02");
             });
         }
 
-        $query->where('spms_articles_view.type_article', '=', $request->get('type_article'));
+        $query->where("$articles.type_article", "=", $request->get("type_article"));
         return $query;
     }
 
     public function getStoreAndPurchaseOffice(Request $request): JsonResponse
     {
-        Log::info($request->has('workshop_code'));
+        Log::info($request->has("workshop_code"));
         try {
-            if (!$request->has('workshop_code')) {
+            if (!$request->has("workshop_code")) {
                 return response()->json([
-                    'state' => 'failure',
-                    'payload' => []
+                    "state" => "failure",
+                    "payload" => []
                 ]);
             }
 
-            $workshopCode = $request->get('workshop_code');
+            $workshopCode = $request->get("workshop_code");
             Log::info($workshopCode);
 
-            Log::info('Value Received '. $workshopCode);
+            Log::info("Value Received ". $workshopCode);
 
             return response()->json([
-                'state' => 'success',
-                'payload' => $this->workshopService->getWorkShopPurchaseOfficeAndStore($workshopCode)
+                "state" => "success",
+                "payload" => $this->workshopService->getWorkShopPurchaseOfficeAndStore($workshopCode)
             ]);
         } catch (Exception $e) {
             return response()->json([
-                'state' => 'failure',
-                'payload' => []
+                "state" => "failure",
+                "payload" => []
             ]);
         }
     }

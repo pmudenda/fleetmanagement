@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class StockManagement extends Model
 {
     use HasFactory;
-    protected $table = 'stock_management_view';
+    protected $table = 'zfm_stock_management_view';
 }
