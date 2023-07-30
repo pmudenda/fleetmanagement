@@ -293,7 +293,404 @@ class WorkshopRequisitionService
         return response()->json([
             "success" => true,
             "message" => "Requisition " . $requisition_reference_number . " Generated and submitted to the next authority for Authorisation",
-            "redirectUrl" => URL::signedRoute("jobCard.list"),
+            "redirectUrl" => URL::signedRoute("list.workshop.requisition"),
+        ]);
+    }
+
+    /**
+     * @throws VehicleStateException
+     * @throws WorkflowTaskCreationFailedException
+     * @throws MaterialReservationException
+     */
+    public function processMaterialReservation(WorkshopMaterialResevationRequest $materialResevationRequest): JsonResponse
+    {
+        Log::info("Creating Workshop Material Booking");
+
+        $valid_to = Carbon::parse($materialResevationRequest->get("date_expected")) ?? Carbon::now()->addDays(7);
+        $valid_from = Carbon::now();
+
+        /********************************************** Save Data **************************************/
+        $user = Auth()->user();
+
+        $item_type = "";
+        $workflowProcess = "";
+
+        switch ($materialResevationRequest->get('itemType')) {
+            case RequisitionItemTypes::StockItemCode:
+                $item_type = RequisitionItemTypes::StockItem;
+                $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
+                break;
+            case RequisitionItemTypes::NonStockItemCode:
+                $item_type = RequisitionItemTypes::NonStockItem;
+                $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
+                break;
+        }
+
+        $articles = config("tables.table_names.articles");
+
+        // check that each article selected is of correct class
+        // check each article to make sure it's of the correct type and is no active on a reservation for the same car
+        $materials = $materialResevationRequest->get("items");
+
+        foreach ($materials as $item) {
+            $query = DB::table("$articles");
+            $item_type_code = $materialResevationRequest->get('itemType');
+
+            $registrationNumber = $item['registration'];
+
+            $this->validateVehicleStatus($registrationNumber);
+
+            $this->checkArticleGroup($item_type_code, $query, $item_type, $articles, $item["articleCode"], $registrationNumber);
+
+        }
+
+        DB::beginTransaction();
+        // generate tms ref
+        $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::WORKSHOP_REQUISITION);
+
+        $form_order_number = null;
+        switch ($materialResevationRequest->get('itemType')) {
+            case RequisitionItemTypes::StockItemCode:
+                $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
+                break;
+            case RequisitionItemTypes::NonStockItemCode:
+                $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
+                break;
+        }
+
+        Log::info("Reservation Ref. " . $requisition_reference_number);
+        Log::info("Form Order. " . $form_order_number);
+        Log::info("Reservation Item Type " . $materialResevationRequest->get("itemType"));
+        Log::info("Determined Reservation Item Type Code " . $item_type);
+
+        $short_description = "Workshop Reservation for Vehicle Reg No. $registrationNumber";
+        $long_description = "Workshop Reservation Ref.No. $requisition_reference_number For Vehicle Reg No.  $registrationNumber";
+
+        $this->workflowService->initiateWorkflowProcess(
+            $requisition_reference_number,
+            (int)$workflowProcess,
+            WorkflowActions::submit(),
+            $materialResevationRequest->get('remarks'),
+            $user,
+            $materialResevationRequest->total_amount ?? 0,
+            $short_description,
+            $long_description
+        );
+
+        $store_code = $materialResevationRequest->get('store_code');
+        $workshop_code = $materialResevationRequest->get("workshop_code");
+
+        MaterialHeader::create(
+            [
+                "created_by" => $user->id,
+                "date_created" => Carbon::now(),
+                "status" => StatusHelper::new(),
+                "req_no" => $requisition_reference_number,
+                "form_order" => $form_order_number,
+                "workshop_no" => $workshop_code,
+                "item_type" => $item_type,
+                "requested_by" => $user->staff_no,
+                "veh_reg_no" => $registrationNumber,
+                "purchase_office" => $materialResevationRequest->get("purchase_office"),
+                "store" => $store_code,
+                "supplier_code" => $materialResevationRequest->get('supplier'),
+                "valid_date_from" => $valid_from,
+                "valid_date_to" => $valid_to,
+                "comments" => $materialResevationRequest->get('remarks'),
+                "cost_assigned_to" => "CostCenter",
+                "is_fuel" => "N",
+            ]
+        );
+
+        /* WorkShopMaterialHeader::create(
+             [
+                 "form_order" => $form_order_number,
+                 "job_card_no" => $job_cord_no,
+                 "item_type_code" => $item_type_code,
+                 "workshop_reference" => $workshop_reference,
+                 "workshop_code" => $workshop_code,
+                 "request_date" => Carbon::now(),
+                 "collection_date" => Carbon::parse($materialResevationRequest->date_expected),
+                 "supplier_code" => $materialResevationRequest->supplier,
+                 "purchasing_office" => $materialResevationRequest->get("purchase_office"),
+             ]);*/
+
+        foreach ($materialResevationRequest->get("items") as $item) {
+            MaterialDetail::create([
+                "created_by" => $user->staff_no,
+                "date_created" => Carbon::now(),
+                "material_code" => $item["articleCode"],
+                "unit_of_measure" => $item["unit_of_measure"],
+                "quantity" => $item["quantity"],
+                "amount" => $item["total_price"],
+                "price" => $item["unit_price"],
+                "stores_code" => $store_code,
+                "req_no" => $requisition_reference_number,
+                "specifications" => $item["technical_specification"],
+                "reg_no" => $item["registration"],
+            ]);
+
+
+            /*   WorkShopMaterial::create([
+                   "wshp_act_code" => $workshop_reference,
+                   "workshop_code" => $workshop_code,
+                   "form_order" => $form_order_number,
+                   "evaluation" => "Y",
+                   "date_mat" => Carbon::now(),
+                   // "material_code" => $item["articleCode"],
+                   "mat_code" => $item["articleCode"],
+                   "unit_of_measure" => $item["unit_of_measure"],
+                   "quantity" => $item["quantity"],
+                   "amount" => $item["total_price"],
+                   "price" => $item["unit_price"],
+                   "store_code" => $store_code,
+                   "ind" => "Y",
+                   "supplier_code" => $materialResevationRequest->supplier,
+                   "veh_reg_no" => $item["registration"],
+                   "specifications" => $item["technical_specification"],
+                   "requested_by" => $user->staff_no,
+                   "requested_by_id" => $user->id,
+                   "status" => StatusHelper::new(),
+                   "created_by" => $user->id,
+               ]);*/
+
+        }
+
+        WorkShopComment::firstOrCreate(
+            [
+                "workshop_reference" => $requisition_reference_number,
+                "type" => "REQ",
+            ],
+            [
+                "remarks" => $materialResevationRequest->remarks,
+                "status" => StatusHelper::new(),
+                "created_by" => auth()->user()->staff_no
+            ]);
+
+        DB::commit();
+
+        //  send notification to authoriser
+        //  RequisitionRaised::dispatch($matHeader);
+        Log::info("Reservation Reference # " . $requisition_reference_number . " raised successfully");
+
+        return response()->json([
+            "success" => true,
+            "message" => "Reservation " . $requisition_reference_number . " Submitted Successfully. Task generated for Authorisation",
+            "redirectUrl" => URL::signedRoute("list.workshop.requisition"),
+        ]);
+    }
+
+    /**
+     * @throws VehicleStateException
+     * @throws WorkflowTaskCreationFailedException
+     * @throws MaterialReservationException
+     */
+    public function processServiceReservation(WorkshopServiceReservationRequest $serviceReservationRequest): JsonResponse
+    {
+        Log::info("Creating Workshop Service Booking");
+
+        $valid_to = Carbon::now();
+        $valid_from = Carbon::now();
+        $registrationNumber = $serviceReservationRequest->vehicle_registration;
+
+        /********************************************** Save Data **************************************/
+        $user = Auth()->user();
+
+        $this->validateVehicleStatus($registrationNumber);
+
+        // check that each article selected is of correct class
+        $item_type = "";
+        $workflowProcess = "";
+
+        if ($serviceReservationRequest->itemType == RequisitionItemTypes::ServiceItemCode) {
+            $item_type = RequisitionItemTypes::Service;
+            $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
+        }
+
+        // check each article to make sure it's of the correct type and is no active on a reservation for the same car
+        $articles = config("tables.table_names.articles");
+
+        foreach ($serviceReservationRequest->get("items") as $item) {
+            $query = DB::table("$articles");
+            $item_type_code = $serviceReservationRequest->itemType;
+
+            if ($item_type_code == RequisitionItemTypes::ServiceItemCode) {
+                $query->where(function ($q) use ($item_type, $articles) {
+                    $q->where("$articles.code_group", "=", "41")
+                        ->where("$articles.code_subgroup", "=", "02");
+                });
+            }
+
+            $count = $query->where("code_article", "=", $item["service_article"])
+                ->where("status", "=", "11")
+                ->count();
+
+            if ($count == 0) {
+                $message = "Article @articleCode is not a @itemType";
+                $articleType = $item_type == RequisitionItemTypes::StockItem
+                    ? "Stock Item"
+                    : ($item_type == RequisitionItemTypes::NonStockItem
+                        ? "Non Stock Item " : "Service");
+
+                throw new MaterialReservationException(
+                    str_replace("@itemType", $articleType,
+                        str_replace("@articleCode", $item["service_article"], $message)
+                    )
+                );
+            }
+
+            $activeRequests = DB::table("gen_material_headers")
+                ->join("gen_material_details",
+                    "gen_material_headers.req_no",
+                    "=",
+                    "gen_material_details.req_no")
+                ->where("gen_material_details.material_code", "=", $item["service_article"])
+                ->where("gen_material_details.reg_no", "=", $registrationNumber)
+                ->whereIn("gen_material_headers.status", [
+                    StatusHelper::new(),
+                    StatusHelper::authorised(),
+                    StatusHelper::partiallyReleased()
+                ])->select("gen_material_headers.*")
+                ->first();
+
+            if (!empty($activeRequests)) {
+                $message = "Article @articleCode is already on requisition/reservation @req_no for Vehicle @reg";
+                throw new MaterialReservationException(
+                    str_replace("@req_no", $activeRequests->req_no,
+                        str_replace("@reg", $registrationNumber,
+                            str_replace("@articleCode", $item["service_article"], $message)
+                        ))
+                );
+            }
+
+        }
+
+        $form_order = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
+        $purchase_process_reference = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
+        Log::info("Reservation Ref. $purchase_process_reference");
+        Log::info("Doc No.  $form_order");
+        Log::info("Reservation Item Type " . $serviceReservationRequest->get("itemType"));
+        Log::info("Determined Reservation Item Type Code $item_type");
+
+        $short_description = "Workshop Reservation for Vehicle Reg No.  $registrationNumber";
+        $long_description = "Workshop Reservation Ref.No. $purchase_process_reference  For Vehicle Reg No. $registrationNumber";
+
+        $this->workflowService->initiateWorkflowProcess(
+            $purchase_process_reference,
+            (int)$workflowProcess,
+            WorkflowActions::submit(),
+            $serviceReservationRequest->remarks,
+            $user,
+            $serviceReservationRequest->total_amount ?? 0,
+            $short_description,
+            $long_description
+        );
+
+        $store_code = $serviceReservationRequest->get('store_code');
+        $workshop_code = $serviceReservationRequest->get("workshop_code");
+
+        MaterialHeader::create(
+            [
+                "created_by" => $user->id,
+                "date_created" => Carbon::now(),
+                "status" => StatusHelper::new(),
+                "req_no" => $purchase_process_reference,
+                "form_order" => $form_order,
+                "workshop_no" => $workshop_code,
+                "item_type" => $item_type,
+                "requested_by" => $user->staff_no,
+                "veh_reg_no" => $registrationNumber,
+                "purchase_office" => $serviceReservationRequest->get("purchase_office"),
+                "store" => $store_code,
+                "supplier_code" => $serviceReservationRequest->get('supplier'),
+                "valid_date_from" => $valid_from,
+                "valid_date_to" => $valid_to,
+                "comments" => $serviceReservationRequest->get('remarks'),
+                "cost_assigned_to" => "CostCenter",
+                "is_fuel" => "N",
+            ]
+        );
+
+        /*WorkShopMaterialHeader::create(
+            [
+                "form_order" => $form_order,
+                "job_card_no" => $job_cord_no,
+                "item_type_code" => $item_type_code,
+                "workshop_reference" => $workshop_reference,
+                "workshop_code" => $workshop_code,
+                "request_date" => Carbon::now(),
+                "collection_date" => Carbon::parse($serviceReservationRequest->date_expected),
+                "supplier_code" => $serviceReservationRequest->supplier,
+                "purchasing_office" => $serviceReservationRequest->get("purchase_office"),
+            ]);*/
+
+        foreach ($serviceReservationRequest->get("items") as $item) {
+
+            MaterialDetail::create([
+                "created_by" => $user->staff_no,
+                "date_created" => Carbon::now(),
+                "material_code" => $item["service_article"],
+                //"mat_code" => $item["service_article"],
+                "unit_of_measure" => $item["service_unit_of_measure"],
+                "quantity" => $item["service_quantity"] ?? 1,
+                "amount" => $item["service_total_price"],
+                "price" => $item["service_unit_price"],
+                "stores_code" => $store_code,
+                "req_no" => $purchase_process_reference,
+                "specifications" => $item["service_technical_specification"],
+                "reg_no" => $item["vehicle_registration"],
+            ]);
+
+            /*WorkShopServiceModel::create([
+                "workshop_reference" => $workshop_reference,
+                "workshop_code" => $workshop_code,
+                "req_evaluation" => "Y",
+                // def_no
+                // "movement_no",
+                "date_send" => Carbon::now(),
+                "material_code" => $item["service_article"],
+                "unit_of_measure" => $item["service_unit_of_measure"],
+                "quantity" => $item["service_quantity"],
+                "amount_est" => $item["service_total_price"],
+                //"price" => $item["service_unit_price"],
+                "store_code" => $store_code,
+                "office_code" => $serviceReservationRequest->get("purchase_office"),
+                "ind" => "Y",
+                // "stf_number",
+                "supplier_code" => $serviceReservationRequest->supplier,
+                "veh_reg_no" => $item["vehicle_registration"],
+                "specification" => $item["service_technical_specification"],
+                "originator" => $user->staff_no,
+                "requested_by_id" => $user->id,
+                "status" => StatusHelper::new(),
+                "created_by" => $user->id,
+                // "section",
+                // "date_collect",
+                // "authorised_by",
+            ]);*/
+        }
+
+        WorkShopComment::firstOrCreate(
+            [
+                "workshop_reference" => $purchase_process_reference,
+                "type" => "SREQ",
+            ],
+            [
+                "remarks" => $serviceReservationRequest->remarks,
+                "status" => StatusHelper::new(),
+                "created_by" => auth()->user()->staff_no
+            ]);
+
+        DB::commit();
+
+        // send notification to authoriser
+        // RequisitionRaised::dispatch($matHeader);
+        Log::info("Reservation " . $purchase_process_reference . " raised successfully");
+
+        return response()->json([
+            "success" => true,
+            "message" => "Reservation " . $purchase_process_reference . " Generated and submitted to the next authority for Authorisation",
+            "redirectUrl" => URL::signedRoute("list.workshop.requisition"),
         ]);
     }
 
@@ -483,7 +880,7 @@ class WorkshopRequisitionService
     /**
      * @throws WorkflowTaskCreationFailedException
      * @throws FuelRequisitionException
-     * @throws MaterialReservationException
+     * @throws MaterialReservationException|VehicleStateException
      */
     public function processJobCardServiceRequest(WorkshopServiceRequisitionRequest $requisitionPostRequest): JsonResponse
     {
@@ -724,7 +1121,7 @@ class WorkshopRequisitionService
         return response()->json([
             "success" => true,
             "message" => "Requisition " . $purchase_process_reference . " Generated and submitted to the next authority for Authorisation",
-            "redirectUrl" => URL::signedRoute("jobCard.list"),
+            "redirectUrl" => URL::signedRoute("list.workshop.requisition"),
         ]);
     }
 
@@ -743,403 +1140,6 @@ class WorkshopRequisitionService
         MaterialHeader::where("req_no", $reference)
             ->update(["st_pur" => $stPur, "proc_ref" => $stPur]);
         DB::commit();
-    }
-
-    /**
-     * @throws VehicleStateException
-     * @throws WorkflowTaskCreationFailedException
-     * @throws MaterialReservationException
-     */
-    public function processMaterialReservation(WorkshopMaterialResevationRequest $materialResevationRequest): JsonResponse
-    {
-        Log::info("Creating Workshop Material Booking");
-
-        $valid_to = Carbon::parse($materialResevationRequest->get("date_expected")) ?? Carbon::now()->addDays(7);
-        $valid_from = Carbon::now();
-
-        /********************************************** Save Data **************************************/
-        $user = Auth()->user();
-
-        $item_type = "";
-        $workflowProcess = "";
-
-        switch ($materialResevationRequest->get('itemType')) {
-            case RequisitionItemTypes::StockItemCode:
-                $item_type = RequisitionItemTypes::StockItem;
-                $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
-                break;
-            case RequisitionItemTypes::NonStockItemCode:
-                $item_type = RequisitionItemTypes::NonStockItem;
-                $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
-                break;
-        }
-
-        $articles = config("tables.table_names.articles");
-
-        // check that each article selected is of correct class
-        // check each article to make sure it's of the correct type and is no active on a reservation for the same car
-        $materials = $materialResevationRequest->get("items");
-
-        foreach ($materials as $item) {
-            $query = DB::table("$articles");
-            $item_type_code = $materialResevationRequest->get('itemType');
-
-            $registrationNumber = $item['registration'];
-
-            $this->validateVehicleStatus($registrationNumber);
-
-            $this->checkArticleGroup($item_type_code, $query, $item_type, $articles, $item["articleCode"], $registrationNumber);
-
-        }
-
-        DB::beginTransaction();
-        // generate tms ref
-        $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::WORKSHOP_REQUISITION);
-
-        $form_order_number = null;
-        switch ($materialResevationRequest->get('itemType')) {
-            case RequisitionItemTypes::StockItemCode:
-                $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
-                break;
-            case RequisitionItemTypes::NonStockItemCode:
-                $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
-                break;
-        }
-
-        Log::info("Reservation Ref. " . $requisition_reference_number);
-        Log::info("Form Order. " . $form_order_number);
-        Log::info("Reservation Item Type " . $materialResevationRequest->get("itemType"));
-        Log::info("Determined Reservation Item Type Code " . $item_type);
-
-        $short_description = "Workshop Reservation for Vehicle Reg No. $registrationNumber";
-        $long_description = "Workshop Reservation Ref.No. $requisition_reference_number For Vehicle Reg No.  $registrationNumber";
-
-        $this->workflowService->initiateWorkflowProcess(
-            $requisition_reference_number,
-            (int)$workflowProcess,
-            WorkflowActions::submit(),
-            $materialResevationRequest->get('remarks'),
-            $user,
-            $materialResevationRequest->total_amount ?? 0,
-            $short_description,
-            $long_description
-        );
-
-        $store_code = $materialResevationRequest->get('store_code');
-        $workshop_code = $materialResevationRequest->get("workshop_code");
-
-        MaterialHeader::create(
-            [
-                "created_by" => $user->id,
-                "date_created" => Carbon::now(),
-                "status" => StatusHelper::new(),
-                "req_no" => $requisition_reference_number,
-                "form_order" => $form_order_number,
-                "workshop_no" => $workshop_code,
-                "item_type" => $item_type,
-                "requested_by" => $user->staff_no,
-                "veh_reg_no" => $registrationNumber,
-                "purchase_office" => $materialResevationRequest->get("purchase_office"),
-                "store" => $store_code,
-                "supplier_code" => $materialResevationRequest->get('supplier'),
-                "valid_date_from" => $valid_from,
-                "valid_date_to" => $valid_to,
-                "comments" => $materialResevationRequest->get('remarks'),
-                "cost_assigned_to" => "CostCenter",
-                "is_fuel" => "N",
-            ]
-        );
-
-        /* WorkShopMaterialHeader::create(
-             [
-                 "form_order" => $form_order_number,
-                 "job_card_no" => $job_cord_no,
-                 "item_type_code" => $item_type_code,
-                 "workshop_reference" => $workshop_reference,
-                 "workshop_code" => $workshop_code,
-                 "request_date" => Carbon::now(),
-                 "collection_date" => Carbon::parse($materialResevationRequest->date_expected),
-                 "supplier_code" => $materialResevationRequest->supplier,
-                 "purchasing_office" => $materialResevationRequest->get("purchase_office"),
-             ]);*/
-
-        foreach ($materialResevationRequest->get("items") as $item) {
-            MaterialDetail::create([
-                "created_by" => $user->staff_no,
-                "date_created" => Carbon::now(),
-                "material_code" => $item["articleCode"],
-                "unit_of_measure" => $item["unit_of_measure"],
-                "quantity" => $item["quantity"],
-                "amount" => $item["total_price"],
-                "price" => $item["unit_price"],
-                "stores_code" => $store_code,
-                "req_no" => $requisition_reference_number,
-                "specifications" => $item["technical_specification"],
-                "reg_no" => $item["registration"],
-            ]);
-
-
-            /*   WorkShopMaterial::create([
-                   "wshp_act_code" => $workshop_reference,
-                   "workshop_code" => $workshop_code,
-                   "form_order" => $form_order_number,
-                   "evaluation" => "Y",
-                   "date_mat" => Carbon::now(),
-                   // "material_code" => $item["articleCode"],
-                   "mat_code" => $item["articleCode"],
-                   "unit_of_measure" => $item["unit_of_measure"],
-                   "quantity" => $item["quantity"],
-                   "amount" => $item["total_price"],
-                   "price" => $item["unit_price"],
-                   "store_code" => $store_code,
-                   "ind" => "Y",
-                   "supplier_code" => $materialResevationRequest->supplier,
-                   "veh_reg_no" => $item["registration"],
-                   "specifications" => $item["technical_specification"],
-                   "requested_by" => $user->staff_no,
-                   "requested_by_id" => $user->id,
-                   "status" => StatusHelper::new(),
-                   "created_by" => $user->id,
-               ]);*/
-
-        }
-
-        WorkShopComment::firstOrCreate(
-            [
-                "workshop_reference" => $requisition_reference_number,
-                "type" => "REQ",
-            ],
-            [
-                "remarks" => $materialResevationRequest->remarks,
-                "status" => StatusHelper::new(),
-                "created_by" => auth()->user()->staff_no
-            ]);
-
-        DB::commit();
-
-        //  send notification to authoriser
-        //  RequisitionRaised::dispatch($matHeader);
-        Log::info("Reservation Reference # " . $requisition_reference_number . " raised successfully");
-
-        return response()->json([
-            "success" => true,
-            "message" => "Reservation " . $requisition_reference_number . " Submitted Successfully. Task generated for Authorisation",
-            "redirectUrl" => URL::signedRoute("jobCard.list"),
-        ]);
-    }
-
-    /**
-     * @throws VehicleStateException
-     * @throws WorkflowTaskCreationFailedException
-     * @throws MaterialReservationException
-     */
-    public function processServiceReservation(WorkshopServiceReservationRequest $serviceReservationRequest): JsonResponse
-    {
-        Log::info("Creating Workshop Service Booking");
-
-        $valid_to = Carbon::now();
-        $valid_from = Carbon::now();
-        $registrationNumber = $serviceReservationRequest->vehicle_registration;
-
-        /********************************************** Save Data **************************************/
-        $user = Auth()->user();
-
-        $this->validateVehicleStatus($registrationNumber);
-
-        // check that each article selected is of correct class
-        $item_type = "";
-        $workflowProcess = "";
-
-        if ($serviceReservationRequest->itemType == RequisitionItemTypes::ServiceItemCode) {
-            $item_type = RequisitionItemTypes::Service;
-            $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
-        }
-
-        // check each article to make sure it's of the correct type and is no active on a reservation for the same car
-        $articles = config("tables.table_names.articles");
-
-        foreach ($serviceReservationRequest->get("items") as $item) {
-            $query = DB::table("$articles");
-            $item_type_code = $serviceReservationRequest->itemType;
-
-            if ($item_type_code == RequisitionItemTypes::ServiceItemCode) {
-                $query->where(function ($q) use ($item_type, $articles) {
-                    $q->where("$articles.code_group", "=", "41")
-                        ->where("$articles.code_subgroup", "=", "02");
-                });
-            }
-
-            $count = $query->where("code_article", "=", $item["service_article"])
-                ->where("status", "=", "11")
-                ->count();
-
-            if ($count == 0) {
-                $message = "Article @articleCode is not a @itemType";
-                $articleType = $item_type == RequisitionItemTypes::StockItem
-                    ? "Stock Item"
-                    : ($item_type == RequisitionItemTypes::NonStockItem
-                        ? "Non Stock Item " : "Service");
-
-                throw new MaterialReservationException(
-                    str_replace("@itemType", $articleType,
-                        str_replace("@articleCode", $item["service_article"], $message)
-                    )
-                );
-            }
-
-            $activeRequests = DB::table("gen_material_headers")
-                ->join("gen_material_details",
-                    "gen_material_headers.req_no",
-                    "=",
-                    "gen_material_details.req_no")
-                ->where("gen_material_details.material_code", "=", $item["service_article"])
-                ->where("gen_material_details.reg_no", "=", $registrationNumber)
-                ->whereIn("gen_material_headers.status", [
-                    StatusHelper::new(),
-                    StatusHelper::authorised(),
-                    StatusHelper::partiallyReleased()
-                ])->select("gen_material_headers.*")
-                ->first();
-
-            if (!empty($activeRequests)) {
-                $message = "Article @articleCode is already on requisition/reservation @req_no for Vehicle @reg";
-                throw new MaterialReservationException(
-                    str_replace("@req_no", $activeRequests->req_no,
-                        str_replace("@reg", $registrationNumber,
-                            str_replace("@articleCode", $item["service_article"], $message)
-                        ))
-                );
-            }
-
-        }
-
-        $form_order = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
-        $purchase_process_reference = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
-        Log::info("Reservation Ref. $purchase_process_reference");
-        Log::info("Doc No.  $form_order");
-        Log::info("Reservation Item Type " . $serviceReservationRequest->get("itemType"));
-        Log::info("Determined Reservation Item Type Code $item_type");
-
-        $short_description = "Workshop Reservation for Vehicle Reg No.  $registrationNumber";
-        $long_description = "Workshop Reservation Ref.No. $purchase_process_reference  For Vehicle Reg No. $registrationNumber";
-
-        $this->workflowService->initiateWorkflowProcess(
-            $purchase_process_reference,
-            (int)$workflowProcess,
-            WorkflowActions::submit(),
-            $serviceReservationRequest->remarks,
-            $user,
-            $serviceReservationRequest->total_amount ?? 0,
-            $short_description,
-            $long_description
-        );
-
-        $store_code = $serviceReservationRequest->get('store_code');
-        $workshop_code = $serviceReservationRequest->get("workshop_code");
-
-        MaterialHeader::create(
-            [
-                "created_by" => $user->id,
-                "date_created" => Carbon::now(),
-                "status" => StatusHelper::new(),
-                "req_no" => $purchase_process_reference,
-                "form_order" => $form_order,
-                "workshop_no" => $workshop_code,
-                "item_type" => $item_type,
-                "requested_by" => $user->staff_no,
-                "veh_reg_no" => $registrationNumber,
-                "purchase_office" => $serviceReservationRequest->get("purchase_office"),
-                "store" => $store_code,
-                "supplier_code" => $serviceReservationRequest->get('supplier'),
-                "valid_date_from" => $valid_from,
-                "valid_date_to" => $valid_to,
-                "comments" => $serviceReservationRequest->get('remarks'),
-                "cost_assigned_to" => "CostCenter",
-                "is_fuel" => "N",
-            ]
-        );
-
-        /*WorkShopMaterialHeader::create(
-            [
-                "form_order" => $form_order,
-                "job_card_no" => $job_cord_no,
-                "item_type_code" => $item_type_code,
-                "workshop_reference" => $workshop_reference,
-                "workshop_code" => $workshop_code,
-                "request_date" => Carbon::now(),
-                "collection_date" => Carbon::parse($serviceReservationRequest->date_expected),
-                "supplier_code" => $serviceReservationRequest->supplier,
-                "purchasing_office" => $serviceReservationRequest->get("purchase_office"),
-            ]);*/
-
-        foreach ($serviceReservationRequest->get("items") as $item) {
-
-            MaterialDetail::create([
-                "created_by" => $user->staff_no,
-                "date_created" => Carbon::now(),
-                "material_code" => $item["service_article"],
-                //"mat_code" => $item["service_article"],
-                "unit_of_measure" => $item["service_unit_of_measure"],
-                "quantity" => $item["service_quantity"] ?? 1,
-                "amount" => $item["service_total_price"],
-                "price" => $item["service_unit_price"],
-                "stores_code" => $store_code,
-                "req_no" => $purchase_process_reference,
-                "specifications" => $item["service_technical_specification"],
-                "reg_no" => $item["vehicle_registration"],
-            ]);
-
-            /*WorkShopServiceModel::create([
-                "workshop_reference" => $workshop_reference,
-                "workshop_code" => $workshop_code,
-                "req_evaluation" => "Y",
-                // def_no
-                // "movement_no",
-                "date_send" => Carbon::now(),
-                "material_code" => $item["service_article"],
-                "unit_of_measure" => $item["service_unit_of_measure"],
-                "quantity" => $item["service_quantity"],
-                "amount_est" => $item["service_total_price"],
-                //"price" => $item["service_unit_price"],
-                "store_code" => $store_code,
-                "office_code" => $serviceReservationRequest->get("purchase_office"),
-                "ind" => "Y",
-                // "stf_number",
-                "supplier_code" => $serviceReservationRequest->supplier,
-                "veh_reg_no" => $item["vehicle_registration"],
-                "specification" => $item["service_technical_specification"],
-                "originator" => $user->staff_no,
-                "requested_by_id" => $user->id,
-                "status" => StatusHelper::new(),
-                "created_by" => $user->id,
-                // "section",
-                // "date_collect",
-                // "authorised_by",
-            ]);*/
-        }
-
-        WorkShopComment::firstOrCreate(
-            [
-                "workshop_reference" => $purchase_process_reference,
-                "type" => "SREQ",
-            ],
-            [
-                "remarks" => $serviceReservationRequest->remarks,
-                "status" => StatusHelper::new(),
-                "created_by" => auth()->user()->staff_no
-            ]);
-
-        DB::commit();
-
-        // send notification to authoriser
-        // RequisitionRaised::dispatch($matHeader);
-        Log::info("Reservation " . $purchase_process_reference . " raised successfully");
-
-        return response()->json([
-            "success" => true,
-            "message" => "Reservation " . $purchase_process_reference . " Generated and submitted to the next authority for Authorisation",
-            "redirectUrl" => URL::signedRoute("jobCard.list"),
-        ]);
     }
 
     /**

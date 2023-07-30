@@ -1159,6 +1159,10 @@
                     this.value = this.value.toUpperCase();
                 });
 
+                $(document).on('keyup', '.service_technical_specification', function (event) {
+                    this.value = this.value.toUpperCase();
+                });
+
                 $(document).on('click', '#submitRequisitionBtn', function () {
                     let $form = document.forms['fuelRequisitionForm'];
                     if (!$($form).valid()) {
