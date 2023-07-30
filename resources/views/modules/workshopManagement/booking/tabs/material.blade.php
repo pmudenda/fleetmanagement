@@ -123,7 +123,7 @@
                             </td>
                             <td>
                                 <select
-                                    readonly
+                                    disabled
                                     name="articles"
                                     required
                                     data-value=""
