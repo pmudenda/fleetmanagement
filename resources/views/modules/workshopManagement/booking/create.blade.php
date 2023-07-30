@@ -74,7 +74,7 @@
 
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-xs-12 col-sm-6 col-md-6">
+                           {{-- <div class="col-xs-12 col-sm-6 col-md-6">
                                 <div class="container-fluid pl-0">
                                     <div class="row">
                                         <div class="form-group row">
@@ -109,7 +109,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>--}}
                             @if(!empty($details))
                                 <div class="col-xs-12 col-sm-6 col-md-6">
                                     <div class="container-fluid pl-0">
@@ -424,7 +424,7 @@
                                                         <tr class="increment">
                                                             <td class="showNumber">
                                                                 <input
-                                                                    readonly
+                                                                    readonly="readonly"
                                                                     name="registration"
                                                                     required
                                                                     value="{{$details->reg_no ?? ''}}"
@@ -514,10 +514,9 @@
                                                     <tr class="increment">
                                                         <td class="showNumber">
                                                             <input
-                                                                readonly="readonly"
                                                                 name="registration"
                                                                 required
-                                                                value="{{$details->reg_no ?? ''}}"
+                                                                value=""
                                                                 class="form-control form-control-sm registration"/>
                                                         </td>
                                                         <td>
@@ -800,7 +799,6 @@
                                                     <tr class="increment">
                                                         <td class="showNumber">
                                                             <input
-                                                                readonly="readonly"
                                                                 name="vehicle_registration"
                                                                 required
                                                                 value="{{$details->reg_no ?? ''}}"
@@ -1044,7 +1042,6 @@
         const tableRowTemplate = `<tr class="increment">
                             <td class="showNumber">
                                 <input
-                                    readonly="readonly"
                                     name="registration"
                                     required
                                     value=""
@@ -1117,7 +1114,6 @@
         const serviceTableRowTemplate = ` <tr class="increment">
                             <td class="showNumber">
                                 <input
-                                    readonly="readonly"
                                     name="vehicle_registration"
                                     required
                                     value=""
@@ -1666,6 +1662,10 @@
                     if (!document.querySelector('[name="vehicle_registration"]').value) {
                         return;
                     }
+                    if (document.querySelector('[name="vehicle_registration"]').value?.includes('_')) {
+                        tmsApp.showToast('Invalid Registration Number', 'error');
+                        return;
+                    }
                     removeSubmissionAndDetailsOptions();
                     findVehicle();
                 });
@@ -2107,8 +2107,9 @@
                                 </tr>`;
 
                 $('tbody#vehicleDetails').html(row);
+                return;
 
-                enableWebUIControls();
+                // enableWebUIControls();
 
                 if (images && images.length > 0) {
                     let frontViewImages = images.filter((image) => {
