@@ -68,7 +68,7 @@
                 <label class="app-required-marker"></label>
                 <form name="jobCardForm"
                       id="jobCardForm"
-                      action="{{route('save.workshop.requisition')}}"
+                      {{--action="{{route('save.workshop.requisition')}}"--}}
                       method="post">
                     @csrf
 
@@ -386,7 +386,6 @@
                     <div class="tab-content mt-5">
                         <div class="tab-pane active" id="spares" role="tabpanel">
                             @include('modules.workshopManagement.booking.tabs.material')
-
                         </div>
                         <div class="tab-pane" id="services" role="tabpanel">
                             @include('modules.workshopManagement.booking.tabs.service')

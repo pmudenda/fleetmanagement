@@ -33,6 +33,9 @@
             background-color: #fff;
             border-color: #dee2e6 #dee2e6 #fff;
         }
+        .error{
+            color: orangered;
+        }
     </style>
 @endpush
 @section('content')

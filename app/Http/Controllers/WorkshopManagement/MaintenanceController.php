@@ -249,7 +249,7 @@ class MaintenanceController extends Controller
                     "$units.abbreviation as abbreviation",
                     "$units.description as unit_measure_name"
                 )
-                ->orderBy("spms_articles_view.description")
+                ->orderBy("$articles.description")
                 ->get();
 
             return response()->json([
@@ -516,6 +516,24 @@ class MaintenanceController extends Controller
         }
     }
 
+    public function processWorkShopMaterialReservation(WorkshopRequisitionRequest $request): JsonResponse
+    {
+        try {
+            return $this->workshopRequisitionService->processRequest($request);
+        } catch (\Exception $e) {
+            Log::error($e);
+            $message = ErrorMessages::getMessage("err_0005");
+
+            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException) {
+                $message = $e->getMessage();
+            }
+            return response()->json([
+                "success" => false,
+                "message" => $message
+            ]);
+        }
+    }
+
     public function processWorkShopServices(WorkshopServiceRequisitionRequest $request): JsonResponse
     {
         try {
@@ -724,7 +742,7 @@ class MaintenanceController extends Controller
             $workshopCode = $request->get("workshop_code");
             Log::info($workshopCode);
 
-            Log::info("Value Received ". $workshopCode);
+            Log::info("Value Received " . $workshopCode);
 
             return response()->json([
                 "state" => "success",
