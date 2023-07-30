@@ -708,13 +708,15 @@ class MaintenanceController extends Controller
                     'payload' => []
                 ]);
             }
-            Log::info($request->get('workshop_code'));
 
-            Log::info('Value Received');
+            $workshopCode = $request->get('workshop_code');
+            Log::info($workshopCode);
+
+            Log::info('Value Received '. $workshopCode);
 
             return response()->json([
                 'state' => 'success',
-                'payload' => $this->workshopService->getWorkShopPurchaseOfficeAndStore($request->workshop_code)
+                'payload' => $this->workshopService->getWorkShopPurchaseOfficeAndStore($workshopCode)
             ]);
         } catch (Exception $e) {
             return response()->json([
