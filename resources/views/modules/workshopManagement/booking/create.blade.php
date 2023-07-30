@@ -1790,7 +1790,7 @@
                 // if supplier has been selected for service and non-stock
                 if (document.querySelector('[name="stockItemCode"]').value === document.querySelector('[name="itemType"]').value) {
                     // check that supplier is selected
-                    if (!document.querySelector('[name="workshop"]').value) {
+                    if (!document.querySelector('[name="workshop_code"]').value) {
                         Swal.fire({
                             text: "Select a Workshop",
                             icon: "warning",
