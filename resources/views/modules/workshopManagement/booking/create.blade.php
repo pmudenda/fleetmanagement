@@ -478,7 +478,7 @@
                                     name="registration"
                                     required
                                     value=""
-                                    class="form-control form-control-sm registration"/>
+                                    class="form-control form-control-sm vehicle_registration"/>
                             </td>
                             <td>
                                 <select
@@ -1544,7 +1544,11 @@
                     $materialTable.find('.technical_specification').attr('readonly', true);
 
                 } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
-                    $('#services_table').find('[name="vehicle_registration"]').attr('readonly', true);
+
+                    let $serviceTable = $('#services_table');
+                    $serviceTable.find('.vehicle_registration').attr('readonly', true);
+                    $serviceTable.find('.service_technical_specification').attr('readonly', true);
+
                     let elements = document.querySelector("#services_table").querySelectorAll('.servicesArticlesDropDownList');
                     elements.forEach(function (element) {
                         element.setAttribute('disabled', 'disabled');
@@ -1870,6 +1874,10 @@
                 Inputmask({
                     "mask": "AAA 9{1,4}"
                 }).mask('.vehicle_registration');
+
+                Inputmask({
+                    "mask": "AAA 9{1,4}"
+                }).mask('.registration');
 
             }
 
