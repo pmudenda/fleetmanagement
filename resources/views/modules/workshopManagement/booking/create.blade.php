@@ -1491,7 +1491,7 @@
             }
 
             function enableArticleSelectionWebUIControls(tableSelector) {
-                if (tableSelector?.replace('#') === 'material_table') {
+                if (tableSelector === '#material_table') {
                     let elements = document.querySelector(tableSelector).querySelectorAll('.articlesDropDownList');
                     elements.forEach(function (element) {
                         element.removeAttribute('disabled');
