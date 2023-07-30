@@ -643,6 +643,9 @@
                                      <th>State:</th><td id="registration">${vehicle['status_name']}</td>
                                 </tr>`;
 
+                    document.querySelector('[name="assignedTo"]').value = vehicle['business_unit_code'];
+                    document.querySelector('[name="assignedToDescription"]').value = vehicle['business_unit_code'] + ':' + vehicle['business_unit_name'];
+
                     $('tbody#vehicleDetails').html(row);
                     document.querySelector('#vehicleDetailsContainer').style.display = null;
 
