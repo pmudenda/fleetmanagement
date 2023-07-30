@@ -29,9 +29,14 @@ return [
     ],
 
     'table_names' => [
-        'articles' => 'SPMS_ARTICLES_VIEW',
+        'projects'=> 'ZFM_SPMS_PROJECTS_VIEW',
+        'areas'=> 'ZFM_SPMS_AREAS_VIEW',
+        'articles' => 'ZFM_SPMS_ARTICLES_VIEW',
+        'units' => 'ZFM_UNITS_VIEW',
         'stockManagement' => 'ZFM_STOCK_MANAGEMENT_VIEW',
-        'units' => 'UNITS_VIEW'
+        ''=> 'ZFM_ORGANIZATIONAL_UNITS_VIEW'
+
+
     ],
 
     'column_names' => [

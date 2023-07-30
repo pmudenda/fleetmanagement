@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Area extends Model
 {
-    use HasFactory;
-
-    protected $table = 'SPMS_AREAS_VIEW';
+    protected $table = 'ZFM_SPMS_AREAS_VIEW';
 
     protected $attributes = [
         'area',

@@ -9,7 +9,8 @@ class ProjectCodeService
 {
     public function getActiveProjects(string $period, string $searchCriteria)
     {
-         $query = "SELECT * FROM SPMS_PROJECTS_VIEW
+        $projects = config('tables.table_names.projects');
+         $query = "SELECT * FROM $projects
           WHERE  (CODE_PROJECT LIKE '%{$searchCriteria}%' OR DESCRIPTION LIKE '%{$searchCriteria}%') AND STATUS = '01'";
         $activeProjects = DB::select($query);
 
