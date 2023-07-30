@@ -66,11 +66,11 @@
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                         <div class="input-group">
-                                                            <input type="text"
-                                                                   {{--@if(!empty($details->reg_no)) readonly="readonly" @endif--}}
+                                                        {{--    <input type="text"
+                                                                   --}}{{--@if(!empty($details->reg_no)) readonly="readonly" @endif--}}{{--
                                                                    data-action="{{route('requisition.vehicle.details')}}"
                                                                    class="form-control form-control-sm"
-                                                                   {{--value="{{$details->reg_no ?? ''}}"--}}
+                                                                   --}}{{--value="{{$details->reg_no ?? ''}}"--}}{{--
                                                                    id="vehicle_registration"
                                                                    placeholder="Vehicle Reg e.g AAB 6757"
                                                                    name="vehicle_registration" required/>
@@ -82,6 +82,23 @@
                                                                     <i class="fas fa-search"></i>
                                                                 </button>
                                                             </div>
+                                                        </div>--}}
+                                                        <input name="registrationNo"
+                                                               type="text"
+                                                               value="{{$registration ?? ''}}"
+                                                               data-action="{{route('cleanup.vehicle.find')}}"
+                                                               class="form-control form-control-sm required"
+                                                               id="registrationNo"
+                                                               placeholder=""
+                                                               required/>
+                                                        <div class="input-group-addon">
+                                                            <button type="button"
+                                                                    title="Search Vehicle Button"
+                                                                    id="vehicleSearchBtn"
+                                                                    name="vehicleSearchBtn"
+                                                                    class="btn btn-success btn-sm border-radius-0">
+                                                                <i class="fas fa-search"></i>
+                                                            </button>
                                                         </div>
 
 
@@ -111,38 +128,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-xs-12 col-md-6">
-                                    <div class="form-group">
-                                        <label for="registrationNo">Registration No*:</label>
-                                        <div class="input-group">
-                                            <input name="registrationNo"
-                                                   type="text"
-                                                   value="{{$registration ?? ''}}"
-                                                   data-action="{{route('cleanup.vehicle.find')}}"
-                                                   class="form-control form-control-sm required"
-                                                   id="registrationNo"
-                                                   placeholder=""
-                                                   required/>
-                                            <div class="input-group-addon">
-                                                <button type="button"
-                                                        title="Search Vehicle Button"
-                                                        id="vehicleSearchBtn"
-                                                        name="vehicleSearchBtn"
-                                                        class="btn btn-success btn-sm border-radius-0">
-                                                    <i class="fas fa-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        @error('registrationNo')
-                                        <p>{{$message}}</p>
-                                        @enderror
-
-
                                     </div>
                                 </div>
 
