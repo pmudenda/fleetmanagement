@@ -1019,6 +1019,21 @@
                 );
             }
 
+            function disableAllControls(selectedItemType) {
+                if (selectedItemType === $('[name="stockItemCode"]').val() || selectedItemType === $('[name="nonStockItemCode"]').val()) {
+                    $('#material_table > tbody').find('[name="registration"]').attr('readonly', true);
+                    document.querySelector("#material_table").querySelectorAll('.articlesDropDownList')
+                        .forEach(function (element) {
+                            element.setAttribute('disabled', 'disabled');
+                        });
+                } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
+                    $('#services_table > tbody').find('[name="vehicle_registration"]').attr('readonly', true);
+                    let elements = document.querySelector("#services_table").querySelectorAll('.servicesArticlesDropDownList');
+                    elements.forEach(function (element) {
+                        element.setAttribute('disabled', 'disabled');
+                    });
+                }
+            }
 
             function initEventHandlers() {
 
@@ -1027,6 +1042,8 @@
                     if (!selectedItemType) {
                         return;
                     }
+
+                    disableAllControls(selectedItemType);
 
                     const workshopCode = document.querySelector('[name="workshop_code"]').value;
 
@@ -1046,23 +1063,11 @@
 
                 $(document).on('change', '[name="workshop_code"]', function () {
                     const workshopCode = this.value;
+                    const selectedItemType = $("#itemType").val();
                     getWorkshopStoreAndPurchaseOffice(workshopCode);
 
-                    /* if (tableSelector === '#') {*/
-                    let elements = document.querySelector("#services_table").querySelectorAll('.servicesArticlesDropDownList');
-                    elements.forEach(function (element) {
-                        element.setAttribute('disabled', 'disabled');
-                    });
-                    /*}
-                    if (tableSelector === '#') {*/
-                    document.querySelector("#material_table").querySelectorAll('.articlesDropDownList')
-                        .forEach(function (element) {
-                            element.setAttribute('disabled', 'disabled');
-                        });
-                    /* }*/
+                    disableAllControls(selectedItemType);
 
-
-                    const selectedItemType = $("#itemType").val();
                     if (!selectedItemType) {
                         return;
                     }
