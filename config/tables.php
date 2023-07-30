@@ -37,7 +37,8 @@ return [
         'organizationalView' => 'ZFM_ORGANIZATIONAL_UNITS_VIEW',
         'purchaseOffices' => 'ZFM_PURCHASE_OFFICES',
         'purchaseOrders' => 'P_ORDERS_ONBOARDING_VIEW',
-        'stores' => 'ZFM_STORES_VIEW'
+        'stores' => 'ZFM_STORES_VIEW',
+        'generalTables' => 'ZFM_GENERAL_TABLES'
     ],
 
     'column_names' => [

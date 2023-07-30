@@ -4,7 +4,7 @@
         <div class="row">
             <div style="max-height:500px; overflow-x: auto;">
                 <table id="services_table"
-                       data-form-url="{{route("process.service.reservation")}}"
+                       data-form-url="{{route("save.service.reservation")}}"
                        data-model-name="ServicesHeader"
                        class="table dataTable table-row-dashed align-middle gs-0 nowrap">
                     <thead>

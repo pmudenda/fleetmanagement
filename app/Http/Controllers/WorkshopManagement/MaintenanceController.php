@@ -505,11 +505,12 @@ class MaintenanceController extends Controller
         try {
             return $this->workshopRequisitionService->processRequest($request);
         } catch (\Exception $e) {
-            Log::error($e);
             $message = ErrorMessages::getMessage("err_0005");
-
             if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException) {
                 $message = $e->getMessage();
+                Log::info($e);
+            } else {
+                Log::error($e);
             }
             return response()->json([
                 "success" => false,
@@ -523,11 +524,12 @@ class MaintenanceController extends Controller
         try {
             return $this->workshopRequisitionService->processMaterialReservation($request);
         } catch (\Exception $e) {
-            Log::error($e);
-            $message = ErrorMessages::getMessage("err_0005");
 
+            $message = ErrorMessages::getMessage("err_0005");
             if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException) {
                 $message = $e->getMessage();
+            } else {
+                Log::error($e);
             }
             return response()->json([
                 "success" => false,
