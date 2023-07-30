@@ -644,6 +644,7 @@
                                 </tr>`;
 
                     $('tbody#vehicleDetails').html(row);
+                    document.querySelector('#vehicleDetailsContainer').style.display = null;
 
                     if (images && images.length > 0) {
                         let frontViewImages = images.filter((image) => {
@@ -651,6 +652,9 @@
                         })
                         let imagePath = frontViewImages[0]?.path;
                         document.querySelector(".imagePreview").style.backgroundImage = "url(/storage" + imagePath + ")";
+
+                        document.querySelector('#image_view').style.display = null;
+
                     }
                 }
 
