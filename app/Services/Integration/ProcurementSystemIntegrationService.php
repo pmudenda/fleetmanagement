@@ -132,21 +132,27 @@ class ProcurementSystemIntegrationService
      */
     public function getArticleByCode($ref_code): mixed
     {
-        $results = DB::table('SPMS_ARTICLES_VIEW')
-            ->leftJoin('STOCK_MANAGEMENT_VIEW', 'SPMS_ARTICLES_VIEW.CODE_ARTICLE', '=', 'STOCK_MANAGEMENT_VIEW.CODE_ARTICLE')
-            ->leftJoin('UNITS_VIEW', 'SPMS_ARTICLES_VIEW.UNIT_MEASURE', '=', 'UNITS_VIEW.code_unit')
-            ->where('STOCK_MANAGEMENT_VIEW.LEVEL_TYPE', '=', '02')
-            ->where('SPMS_ARTICLES_VIEW.CODE_ARTICLE', '=', $ref_code)
-            ->select(
-                'UNITS_VIEW.description',
-                'units_view.abbreviation',
-                'SPMS_ARTICLES_VIEW.description as name',
-                'SPMS_ARTICLES_VIEW.CODE_ARTICLE as code',
-                'STOCK_MANAGEMENT_VIEW.PRICE_MAP as price'
-            )
-            ->get();
+        try {
+            $results = DB::table('SPMS_ARTICLES_VIEW')
+                ->leftJoin('STOCK_MANAGEMENT_VIEW', 'SPMS_ARTICLES_VIEW.CODE_ARTICLE', '=', 'STOCK_MANAGEMENT_VIEW.CODE_ARTICLE')
+                ->leftJoin('UNITS_VIEW', 'SPMS_ARTICLES_VIEW.UNIT_MEASURE', '=', 'UNITS_VIEW.code_unit')
+                ->where('STOCK_MANAGEMENT_VIEW.LEVEL_TYPE', '=', '02')
+                ->where('SPMS_ARTICLES_VIEW.CODE_ARTICLE', '=', $ref_code)
+                ->select(
+                    'UNITS_VIEW.description',
+                    'units_view.abbreviation',
+                    'SPMS_ARTICLES_VIEW.description as name',
+                    'SPMS_ARTICLES_VIEW.CODE_ARTICLE as code',
+                    'STOCK_MANAGEMENT_VIEW.PRICE_MAP as price'
+                )
+                ->get();
 
-        return $results->first();
+            return $results->first();
+        } catch (\Exception $e) {
+            Log::info('Fetch fuel type Article');
+            Log::error($e);
+            return null;
+        }
     }
 
 
@@ -210,17 +216,17 @@ class ProcurementSystemIntegrationService
 
             $user = auth()->user()->staff_no;
 
-            Log::info(':p_req_ref_no '. $doc_no);
-            Log::info(':p_veh_reg_no '. $veh_reg_no);
-            Log::info(':p_store_code '. $stores_code);
-            Log::info(':p_user_requesting '. $user);
-            Log::info(':p_job_card_no '. $job_card_no);
-            Log::info(':p_system_origin '. $ZESCOFleetMaster);
-            Log::info(':p_fleet_req_code '. $form_order);
-            Log::info(':p_req_acc_number '. $account);
-            Log::info(':p_delivery_site '. $delivery_site);
-            Log::info(':p_transaction_type '. $transactionType);
-            Log::info(':p_current_user '. $user);
+            Log::info(':p_req_ref_no ' . $doc_no);
+            Log::info(':p_veh_reg_no ' . $veh_reg_no);
+            Log::info(':p_store_code ' . $stores_code);
+            Log::info(':p_user_requesting ' . $user);
+            Log::info(':p_job_card_no ' . $job_card_no);
+            Log::info(':p_system_origin ' . $ZESCOFleetMaster);
+            Log::info(':p_fleet_req_code ' . $form_order);
+            Log::info(':p_req_acc_number ' . $account);
+            Log::info(':p_delivery_site ' . $delivery_site);
+            Log::info(':p_transaction_type ' . $transactionType);
+            Log::info(':p_current_user ' . $user);
 
             $pdo = DB::getPdo();
 
@@ -291,17 +297,17 @@ class ProcurementSystemIntegrationService
             $system_origin = SystemOfOrigin::ZESCOFleetMaster;
             $user = auth()->user()->staff_no;
 
-            Log::info(':p_reference '. $workshop_reference);
-            Log::info(':p_reg_no '. $reg_no);
-            Log::info(':p_store_code '. $store_code);
-            Log::info(':p_user_requesting '. $user);
-            Log::info(':p_job_card_no '. $job_card_no);
-            Log::info(':p_system_origin '. $system_origin);
-            Log::info(':p_delivery_site '. $delivery_site);
-            Log::info(':p_form_order '. $form_order);
-            Log::info(':p_req_account '. $account);
-            Log::info(':p_transaction_type '. $transaction_type);
-            Log::info(':p_current_user '. $user);
+            Log::info(':p_reference ' . $workshop_reference);
+            Log::info(':p_reg_no ' . $reg_no);
+            Log::info(':p_store_code ' . $store_code);
+            Log::info(':p_user_requesting ' . $user);
+            Log::info(':p_job_card_no ' . $job_card_no);
+            Log::info(':p_system_origin ' . $system_origin);
+            Log::info(':p_delivery_site ' . $delivery_site);
+            Log::info(':p_form_order ' . $form_order);
+            Log::info(':p_req_account ' . $account);
+            Log::info(':p_transaction_type ' . $transaction_type);
+            Log::info(':p_current_user ' . $user);
 
             $pdo = DB::getPdo();
 
@@ -361,15 +367,15 @@ class ProcurementSystemIntegrationService
             ->leftJoin('UNITS_VIEW', 'spms_articles_view.UNIT_MEASURE', '=', 'UNITS_VIEW.code_unit')
             ->where('spms_articles_view.CODE_ARTICLE', '=', $article_code)
             ->select(
-                    'spms_articles_view.code_article',
-                    'spms_articles_view.description',
-                    'spms_articles_view.technical_specifications',
-                    'spms_articles_view.price_map',
-                    'stock_management_view.price_map as price',
-                    'stock_management_view.stock_available as quantity_in_store',
-                    'spms_articles_view.unit_measure',
-                    'units_view.abbreviation as abbreviation',
-                    'units_view.description as unit_measure_name'
+                'spms_articles_view.code_article',
+                'spms_articles_view.description',
+                'spms_articles_view.technical_specifications',
+                'spms_articles_view.price_map',
+                'stock_management_view.price_map as price',
+                'stock_management_view.stock_available as quantity_in_store',
+                'spms_articles_view.unit_measure',
+                'units_view.abbreviation as abbreviation',
+                'units_view.description as unit_measure_name'
             )
             ->get();
 

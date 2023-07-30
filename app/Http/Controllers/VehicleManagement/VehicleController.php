@@ -4,11 +4,9 @@ namespace App\Http\Controllers\VehicleManagement;
 
 use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
-use App\Enums\Modules;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\configurations\Accessory;
-use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use Exception;
@@ -17,7 +15,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class VehicleController extends Controller
@@ -95,8 +92,12 @@ class VehicleController extends Controller
             }
 
             $vehicleImages = $this->vehicleDetailsService->getVehicleImages($vehicle->vehicle_header_id);
+
             $accessories = $this->vehicleDetailsService->getSubmittedAccessories($vehicle->vehicle_header_id);
+
             $article = $this->procurementService->getArticleByCode($vehicle->fuel_types);
+
+
             $vehicle_state = '';
 
             if ($vehicle->on_boarding_status != StatusHelper::onboardingComplete()) {

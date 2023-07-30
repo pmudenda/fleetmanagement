@@ -27,15 +27,12 @@
             <div class="card-header">
                 <div class="card-title">
                     <h4>Accident Record</h4>
-                    {{--
-                          @if(!empty($details) && !empty($details->job_card_no))
-                              <span class="ml-2 indicator-pill whitespace-nowrap green">
-                                  <span>Saved</span>
-                              </span>
-                          @else
-                              <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
-                          @endif
-                     --}}
+                    {{--@if(!empty($details) && !empty($details->job_card_no))
+                        <span class="ml-2 indicator-pill whitespace-nowrap green">
+                            <span>Saved</span>
+                        </span>
+                    @else@endif--}}
+                    <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
                 </div>
                 {{--
                         @if(!empty($details) && !empty($details->job_card_no))
