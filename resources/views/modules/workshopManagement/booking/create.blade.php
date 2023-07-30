@@ -1025,7 +1025,7 @@
                 $(document).on('change', "#itemType", function () {
                     const selectedItemType = this.value;
 
-                    if (tableHasItems()) {
+                   /* if (tableHasItems()) {
                         Swal.fire({
                             title: 'Change Requisition Item Type',
                             text: "Changing Item Type will clear the items you've selected already." +
@@ -1042,7 +1042,7 @@
                             }
                         });
                         return;
-                    }
+                    }*/
 
                     changeRequestType(selectedItemType);
                 });
