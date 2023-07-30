@@ -1529,6 +1529,7 @@
             }
 
             function disableAllControls(selectedItemType) {
+
                 if (selectedItemType === $('[name="stockItemCode"]').val() || selectedItemType === $('[name="nonStockItemCode"]').val()) {
 
                     let $materialTable = $('#material_table');
@@ -1539,8 +1540,8 @@
                             element.setAttribute('disabled', 'disabled');
                         });
 
-                    $materialTable.find('.quantity').attr('readonly', false);
-                    $materialTable.find('.technical_specification').attr('readonly', false);
+                    $materialTable.find('.quantity').attr('readonly', true);
+                    $materialTable.find('.technical_specification').attr('readonly', true);
 
                 } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
                     $('#services_table').find('[name="vehicle_registration"]').attr('readonly', true);
@@ -1758,7 +1759,6 @@
 
                 } else {
                     showSupplierAndHideStoreUIControls();
-                    // $('.quantity').attr('readonly', false);
                 }
             }
 
