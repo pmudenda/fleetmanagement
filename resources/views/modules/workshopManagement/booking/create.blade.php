@@ -742,8 +742,8 @@
                     data: function (params) {
                         return {
                             search: params.term, // search term
-                            type_article: document.querySelector('#serviceItemType').value,
-                            supplier_code: document.querySelector('#service_supplier').value,
+                            type_article: document.querySelector('#itemType').value,
+                            supplier_code: document.querySelector('#supplier').value,
                             page: params.page
                         };
                     },
@@ -1367,13 +1367,13 @@
                         obj['total_amount'] = $('#itemsTotal').text();
                         obj['vehicle_registration'] = $('input[name="vehicle_registration"]').val();
                     } else if (formSel.data('modelName') === 'ServicesHeader') {
-                        obj['itemType'] = $('[name="serviceItemType"]').val();
+                        obj['itemType'] = $('[name="itemType"]').val();
                         obj['job_card_no'] = $('[name="job_card_number"]').val();
                         obj['purchase_office'] = $('[name="purchase_office"]').val();
                         obj['workshop_code'] = $('[name="workshop_code"]').val();
                         obj['request_date'] = $('[name="request_date"]').val()?.trim();
                         obj['date_expected'] = $('[name="date_expected"]').val()?.trim();
-                        obj['supplier'] = $('[name="service_supplier"]').val();
+                        obj['supplier'] = $('[name="supplier"]').val();
                         obj['store_code'] = '';
                         // $('[name="store_code"]').val();
                         obj['store_name'] = $('[name="store_name"]').val();
@@ -2053,7 +2053,7 @@
                     .then(response => response.json())
                     .then(function (response) {
                         let selectElem = $('select[name="supplier"]');
-                        let serviceSupplierElem = $('select[name="service_supplier"]');
+                        //let serviceSupplierElem = $('select[name="supplier"]');
 
                         if (response.state === 'failure') {
 
@@ -2066,9 +2066,9 @@
                             "code_supplier", ["code_supplier", "name_of_supplier"],
                             " ==> ", '--Select Supplier--');
 
-                        tmsApp.populateDropDownList(serviceSupplierElem, suppliers,
+                        /*tmsApp.populateDropDownList(serviceSupplierElem, suppliers,
                             "code_supplier", ["code_supplier", "name_of_supplier"],
-                            " ==> ", '--Select Supplier--');
+                            " ==> ", '--Select Supplier--');*/
 
                         let supplier = selectElem.attr('data-value');
                         if (supplier) {
@@ -2076,11 +2076,11 @@
                             selectElem.trigger('change');
                         }
 
-                        let service_supplier = serviceSupplierElem.attr('data-value');
+                        /*let service_supplier = serviceSupplierElem.attr('data-value');
                         if (service_supplier) {
                             serviceSupplierElem.val(service_supplier);
                             serviceSupplierElem.trigger('change');
-                        }
+                        }*/
                     }).catch(function (error) {
                     toastr.error('Could not Retrieve Data, some feature might not work.', 'Connection error');
                 });
