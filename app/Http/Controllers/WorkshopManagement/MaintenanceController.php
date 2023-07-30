@@ -14,8 +14,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCardRequest;
 use App\Http\Requests\VehicleDefectsRequest;
 use App\Http\Requests\WorkshopExitRequest;
+use App\Http\Requests\WorkshopMaterialResevationRequest;
 use App\Http\Requests\WorkshopRequisitionRequest;
 use App\Http\Requests\WorkshopServiceRequisitionRequest;
+use App\Http\Requests\WorkshopServiceReservationRequest;
 use App\Models\configurations\Accessory;
 use App\Models\configurations\GeneralTableConfiguration;
 use App\Models\MaterialDetail;
@@ -516,10 +518,10 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function processWorkShopMaterialReservation(WorkshopRequisitionRequest $request): JsonResponse
+    public function processWorkShopMaterialReservation(WorkshopMaterialResevationRequest $request): JsonResponse
     {
         try {
-            return $this->workshopRequisitionService->processRequest($request);
+            return $this->workshopRequisitionService->processMaterialReservation($request);
         } catch (\Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage("err_0005");
@@ -537,7 +539,25 @@ class MaintenanceController extends Controller
     public function processWorkShopServices(WorkshopServiceRequisitionRequest $request): JsonResponse
     {
         try {
-            return $this->workshopRequisitionService->processServiceRequest($request);
+            return $this->workshopRequisitionService->processJobCardServiceRequest($request);
+        } catch (\Exception $e) {
+            Log::error($e);
+            $message = ErrorMessages::getMessage("err_0005");
+
+            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException) {
+                $message = $e->getMessage();
+            }
+            return response()->json([
+                "success" => false,
+                "message" => $message
+            ]);
+        }
+    }
+
+    public function processWorkShopServicesReservation(WorkshopServiceReservationRequest $request): JsonResponse
+    {
+        try {
+            return $this->workshopRequisitionService->processServiceReservation($request);
         } catch (\Exception $e) {
             Log::error($e);
             $message = ErrorMessages::getMessage("err_0005");

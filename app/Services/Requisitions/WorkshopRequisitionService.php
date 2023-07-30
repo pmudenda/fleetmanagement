@@ -14,8 +14,10 @@ use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\MaterialReservationException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
+use App\Http\Requests\WorkshopMaterialResevationRequest;
 use App\Http\Requests\WorkshopRequisitionRequest;
 use App\Http\Requests\WorkshopServiceRequisitionRequest;
+use App\Http\Requests\WorkshopServiceReservationRequest;
 use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Models\VehicleManagement\VehicleHeader;
@@ -539,7 +541,7 @@ class WorkshopRequisitionService
      * @throws FuelRequisitionException
      * @throws MaterialReservationException
      */
-    public function processServiceRequest(WorkshopServiceRequisitionRequest $requisitionPostRequest)
+    public function processJobCardServiceRequest(WorkshopServiceRequisitionRequest $requisitionPostRequest): JsonResponse
     {
         Log::info("Creating Workshop Service Request");
 
@@ -566,30 +568,33 @@ class WorkshopRequisitionService
                 break;
         }
 
-        // check each article to make sure it"s of the correct type and is no active on a reservation for the same car
+        // check each article to make sure it's of the correct type and is no active on a reservation for the same car
+        //$stockManagement = config("tables.table_names.stockManagement");
+        $articles = config("tables.table_names.articles");
+        //$units = config("tables.table_names.units");
 
         foreach ($requisitionPostRequest->get("items") as $item) {
-            $query = DB::table("spms_articles_view");
+            $query = DB::table("$articles");
             $item_type_code = $requisitionPostRequest->itemType;
 
             switch ($item_type_code) {
                 case RequisitionItemTypes::StockItemCode:
-                    $query->where(function ($q) use ($item_type) {
-                        $q->whereIn("spms_articles_view.code_group",
+                    $query->where(function ($q) use ($item_type, $articles) {
+                        $q->whereIn("$articles.code_group",
                             ["01", "04", "30"]);
                     });
 
                     break;
                 case RequisitionItemTypes::NonStockItemCode:
-                    $query->where(function ($q) use ($item_type) {
-                        $q->where("spms_articles_view.code_group", "=", "40");
+                    $query->where(function ($q) use ($item_type, $articles) {
+                        $q->where("$articles.code_group", "=", "40");
                     });
 
                     break;
                 case RequisitionItemTypes::ServiceItemCode:
-                    $query->where(function ($q) use ($item_type) {
-                        $q->where("spms_articles_view.code_group", "=", "41")
-                            ->where("spms_articles_view.code_subgroup", "=", "02");
+                    $query->where(function ($q) use ($item_type, $articles) {
+                        $q->where("$articles.code_group", "=", "41")
+                            ->where("$articles.code_subgroup", "=", "02");
                     });
 
                     break;
@@ -798,5 +803,13 @@ class WorkshopRequisitionService
         MaterialHeader::where("req_no", $reference)
             ->update(["st_pur" => $stPur, "proc_ref" => $stPur]);
         DB::commit();
+    }
+
+    public function processMaterialReservation(WorkshopMaterialResevationRequest $request)
+    {
+    }
+
+    public function processServiceReservation(WorkshopServiceReservationRequest $request)
+    {
     }
 }
