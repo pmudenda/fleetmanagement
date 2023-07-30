@@ -2632,7 +2632,8 @@
                         let data = response['payload'];
                         if (data) {
                             $storeCtl.value = data['store_code'] + ':' + data['store_name'];
-                            $($purchaseOfficeCtl).append('<option value="'+data['purchase_office_code']+'">'+data['purchase_office']+'</option>');
+                            $($purchaseOfficeCtl).empty().append('<option selected value="'+data['purchase_office_code']+'">'+data['purchase_office']+'</option>')
+                                .trigger('change');
                         }
                     })
                     .catch(function (error) {
