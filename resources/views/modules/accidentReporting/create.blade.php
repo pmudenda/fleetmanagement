@@ -54,7 +54,7 @@
                     <h3 class="step-top step1-top">Vehicle Details</h3>
                     <section class="section first-section mx-auto">
                         <div class="row">
-                            <div class="col-9">
+                            <div class="col-8">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="container-fluid pl-0">
@@ -153,6 +153,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="container-fluid pl-0">
                                             <div class="row">
@@ -205,7 +206,68 @@
                                     <input type="hidden" name="insured" value="Y"/>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-4">
+
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="container-fluid pl-0">
+                                        <div class="row">
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                    for="staff_no">Date Reported:
+                                                </label>
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                    <div class="input-group">
+                                                        <input type="text"
+                                                               class="form-control form-control-sm"
+                                                               id="date_of_req"
+                                                               readonly
+                                                               value="{{ date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                               name="date_of_req"
+                                                               required>
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                <i class="fas fa-calendar"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="container-fluid pl-0">
+                                        <div class="row">
+                                            <div class="form-group row">
+                                                <label
+                                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                    for="job_card_no">
+                                                    Time Reported:
+                                                </label>
+                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                    <div class="input-group">
+                                                        <input type="text"
+                                                               readonly
+                                                               value="{{Carbon::now()->format('H:i:s')}}"
+                                                               class="form-control form-control-sm when_valid number_input"
+                                                               id="timeIn"
+                                                               name="timeIn"
+                                                        />
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                <i class="fas fa-clock"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                                 <div id="vehicleDetailsContainer" style="display: none;"
                                      class="col-xs-12 col-sm-12 col-md-12 pl-0">
                                     <h1>Vehicle Details</h1>
@@ -304,7 +366,6 @@
                                     </select>
                                     @error('property')
                                     <p>{{$message}}</p>
-
                                     @enderror
                                 </div>
                             </div>
@@ -312,7 +373,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="death">Death:</label>
-                                    <select name="death" type="text" class="form-control disableVehicle"
+                                    <select name="death"
+                                            type="text"
+                                            class="form-control disableVehicle"
                                             id="death" required>
                                         <option selected disabled>-- Select --</option>
                                         <option value="YES">Yes</option>
@@ -349,7 +412,10 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="location">Location:</label>
-                                    <input name="location" type="number" class="form-control required" id="location"
+                                    <input name="location"
+                                           type="text"
+                                           class="form-control required"
+                                           id="location"
                                            placeholder="Enter The Location Of The Accident" required>
                                 </div>
                                 @error('peopleInvolved')
@@ -360,7 +426,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="area">Area:</label>
-                                    <input name="area" type="number" class="form-control required" id="location"
+                                    <input name="area" type="text" class="form-control required" id="location"
                                            placeholder="Enter The Area Of The Accident" required>
                                 </div>
                                 @error('peopleInvolved')
@@ -371,7 +437,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="property">Property Damage:</label>
+                                    <label for="property">Was There Property Damage ?:</label>
                                     <select name="property" type="text" class="form-control disableVehicle"
                                             id="property" required>
                                         <option selected disabled>-- Select --</option>
@@ -583,8 +649,12 @@
                         },
                     })
                         .validate({
-                            errorPlacement: function errorPlacement(error, element) {
-                                error.insertAfter(element);
+                            errorPlacement: function (error, element) {
+                                if (element.parent('.input-group').length) {
+                                    error.insertAfter(element.parent());
+                                } else {
+                                    error.insertAfter(element);
+                                }
                             },
                             rules: {},
                             messages: {
@@ -640,7 +710,7 @@
 
                     document.querySelector('[name="type_brand_model"]').value = vLabel;
                     document.querySelector('[name="assignedTo"]').value = vehicle['business_unit_code'];
-                    document.querySelector('[name="assignedToDescription"]').value = vehicle['business_unit_code'] + ':' + vehicle['business_unit_name'];
+                    document.querySelector('[name="assignedToDescription"]').value = vehicle['business_unit_code'] + ' : ' + vehicle['business_unit_name'];
 
                     $('tbody#vehicleDetails').html(row);
                     document.querySelector('#vehicleDetailsContainer').style.display = null;
