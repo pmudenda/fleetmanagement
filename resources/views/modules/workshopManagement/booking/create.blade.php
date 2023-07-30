@@ -1050,6 +1050,21 @@
                 $(document).on('change', '[name="workshop"]', function () {
                     const workshopCode = this.value;
                     getWorkshopStoreAndPurchaseOffice(workshopCode);
+
+                    /* if (tableSelector === '#') {*/
+                    let elements = document.querySelector("#services_table").querySelectorAll('.servicesArticlesDropDownList');
+                    elements.forEach(function (element) {
+                        element.setAttribute('disabled', 'disabled');
+                    });
+                    /*}
+                    if (tableSelector === '#') {*/
+                    document.querySelector("#material_table").querySelectorAll('.articlesDropDownList')
+                        .forEach(function (element) {
+                            element.setAttribute('disabled', 'disabled');
+                        });
+                    /* }*/
+
+
                     const selectedItemType = $("#itemType").val();
                     if (!selectedItemType) {
                         return;
@@ -1059,7 +1074,8 @@
                         $('#material_table > tbody').find('[name="registration"]').attr('readonly', false);
                         enableArticleSelectionWebUIControls('#material_table');
                     } else if (selectedItemType === $('[name="nonStockItemCode"]').val()) {
-
+                        $('#material_table > tbody').find('[name="registration"]').attr('readonly', false);
+                        enableArticleSelectionWebUIControls('#material_table');
                     } else if (selectedItemType === document.querySelector('[name="serviceItemCode"]').value) {
 
                     }
@@ -1491,6 +1507,12 @@
             }
 
             function enableArticleSelectionWebUIControls(tableSelector) {
+                if (tableSelector === '#services_table') {
+                    let elements = document.querySelector(tableSelector).querySelectorAll('.servicesArticlesDropDownList');
+                    elements.forEach(function (element) {
+                        element.removeAttribute('disabled');
+                    });
+                }
                 if (tableSelector === '#material_table') {
                     let elements = document.querySelector(tableSelector).querySelectorAll('.articlesDropDownList');
                     elements.forEach(function (element) {

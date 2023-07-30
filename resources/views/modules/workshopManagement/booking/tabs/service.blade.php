@@ -108,6 +108,7 @@
                         <tr class="increment">
                             <td class="showNumber">
                                 <input
+                                    readonly
                                     name="vehicle_registration"
                                     required
                                     value="{{$details->reg_no ?? ''}}"
@@ -115,6 +116,7 @@
                             </td>
                             <td>
                                 <select
+                                    disabled
                                     name="service_article"
                                     required
                                     data-value=""
