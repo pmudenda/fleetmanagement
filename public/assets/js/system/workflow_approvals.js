@@ -134,6 +134,10 @@
         })
 
         $("#btnNewApprovalSign").off('click').on('click', function () {
+
+            //this.setAttribute('disabled', true);
+            document.querySelector("#btnNewApprovalSign").setAttribute('disabled', 'disabled');
+
             let signature = document.getElementById("eSignaturePasswordInput").value;
             let remarks = document.getElementById("newApproval_Remarks").value;
             let loginId = document.getElementById("loginIdInput").value;
@@ -145,6 +149,8 @@
 
             if (!postUrl) {
                 toastr.warning('No Url has been configured for this type of request');
+                //re-enable the button
+                document.querySelector("#btnNewApprovalSign").removeAttribute('disabled');
                 return;
             }
 
@@ -199,9 +205,11 @@
                     docType: docType
                 },
                 function (ajaxResponse) {
+                    document.querySelector("#btnNewApprovalSign").removeAttribute('disabled');
                     successCallBack(ajaxResponse, modal);
                 },
                 function (xhr, settings, errorThrown) {
+                    document.querySelector("#btnNewApprovalSign").removeAttribute('disabled');
                     cancelCallBack(xhr, settings, errorThrown);
                 });
         })
