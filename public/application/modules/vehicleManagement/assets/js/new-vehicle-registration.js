@@ -2511,9 +2511,9 @@ function checkOnboardingHeaderStatus() {
         getPurchaseOrderDetails();
     });
 
-    $('select[name="frontTyreSize"]').on('change', function () {
-        const frontTyreSize = this.value;
-        //$('select[name="frontTyreSize"]').trigger('change');
+    $(document).on('change', 'select[name="frontTyreSize"]', function () {
+        const frontTyreSize = $('[name="frontTyreSize"]').val()
+
         $('select[name="rearTyreSize"]').val(frontTyreSize);
         $('select[name="rearTyreSize"]').trigger('change');
     });

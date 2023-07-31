@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class BatteryModel extends Model
 {
     use HasFactory;
+
     protected $table = 'BATTERY_VIEW';
 }
