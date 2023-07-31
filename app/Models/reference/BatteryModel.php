@@ -9,5 +9,5 @@ class BatteryModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'BATTERY_VIEW';
+    protected $table = 'zfm_articles_view';
 }

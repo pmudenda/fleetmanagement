@@ -38,8 +38,9 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     //BATTERY
     Route::get('/references/battery-brands', function () {
         try {
-
-            $data = BatteryModel::get();
+            $data = BatteryModel::where('description', 'like', '%AUTO%BATTERY%')
+                ->orderBy('code_article', 'asc')
+                ->get();
             return response()->json([
                 'state' => 'success',
                 'payload' => $data

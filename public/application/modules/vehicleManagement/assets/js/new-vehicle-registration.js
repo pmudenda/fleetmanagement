@@ -1954,7 +1954,7 @@ function checkOnboardingHeaderStatus() {
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
-                    toastr.error('Connection error, no tyre brand information found')
+                    toastr.error('Connection error, no battery size information found')
                     return;
                 }
 
@@ -1970,7 +1970,7 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error('Connection error. Could not retrieve tyre information.', 'Connection error')
+                toastr.error('Connection error. Could not retrieve battery size information.', 'Connection error')
             });
     }
 
