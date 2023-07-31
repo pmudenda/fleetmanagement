@@ -88,8 +88,9 @@ class WorkshopService
         DB::beginTransaction();
         $jobCardHeader = JobCardHeader::create($data);
 
-        $this->moveVehicleToWorkShop($jobCardHeader->veh_reg);
-
+        // $this->moveVehicleToWorkShop($jobCardHeader->veh_reg);
+        VehicleHeader::where("registration_number", $jobCardHeader->veh_reg)
+            ->update(["status" => StatusHelper::vehicleInWorkshop()]);
         DB::commit();
         return $jobCardHeader;
     }

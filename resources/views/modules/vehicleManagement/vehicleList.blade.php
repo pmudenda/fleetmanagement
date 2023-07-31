@@ -119,13 +119,18 @@
                                 </td>
 
                                 <td>
-                                    @if($vehicle->status == '01')
+                                    @if($vehicle->status == StatusHelper::active())
                                         <div class="badge badge-light-success">
                                             ACTIVE
                                         </div>
-                                    @elseif($vehicle->status == '02')
+                                    @elseif($vehicle->status == StatusHelper::vehicleInWorkshop())
                                         <div class="badge badge-light-danger">
-                                            Inactive
+                                           IN WORKSHOP
+                                        </div>
+                                    @else
+                                    @elseif($vehicle->status == StatusHelper::vehicleInactive())
+                                        <div class="badge badge-light-danger">
+                                            INACTIVE
                                         </div>
                                     @else
                                         <div class="badge badge-light-warning">
