@@ -624,7 +624,7 @@ class MaintenanceController extends Controller
             $materialsHeader = WorkShopMaterialHeader::where("job_card_no", "=", $reference)->first();
 
             // $services = WorkShopServiceModel::where("workshop_reference", "=", $details->workshop_doc_no)->get();
-            $services = WorkShopServiceModel::where("workshop_reference", "=", $details->wshp_act_code)->get();
+            $services = WorkShopServiceModel::where("wshp_act_code", "=", $details->wshp_act_code)->get();
         }
 
         return array(
