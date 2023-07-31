@@ -161,11 +161,10 @@ Route::get('load/licence/classes', function (Request $request) {
 
 Route::get('transmission/types', function (Request $request) {
     try {
-        $transmissionTypes = [
-            (object)['name' => 'AUTOMATIC', 'code' => 'AT'],
-            (object)['name'=> 'MANUAL', 'code'=> 'MT'],
-            (object)['name'=> 'SEMI-AUTO', 'code'=> 'SA'],
-        ];
+        $transmissionTypes =
+            GeneralTableConfiguration::where('type', ConfigurationTypes::TRANSMISSION_TYPE)
+                ->where('active', '=', "1")
+                ->get();
 
         return response()->json([
             'success' => !empty($transmissionTypes),
