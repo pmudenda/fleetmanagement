@@ -127,7 +127,6 @@
                                         <div class="badge badge-light-danger">
                                            IN WORKSHOP
                                         </div>
-                                    @else
                                     @elseif($vehicle->status == StatusHelper::vehicleInactive())
                                         <div class="badge badge-light-danger">
                                             INACTIVE
