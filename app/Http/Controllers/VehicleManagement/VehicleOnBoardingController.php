@@ -93,8 +93,12 @@ class VehicleOnBoardingController extends Controller
 
         $vehicle = VehicleHeader::where('id', '=', $reference)->first();
 
+        if (empty($vehicle)) {
+            return redirect()->with(['error' => 'vehicle Not Found']);
+        }
+
         $step = '';
-        if ($vehicle->on_boarding_status == StatusHelper::PendingGeneralDataEntry()) {
+        if (StatusHelper::PendingGeneralDataEntry() == $vehicle->on_boarding_status) {
             $step = 2;
         } elseif ($vehicle->on_boarding_status == StatusHelper::PendingTechnicalDataEntry()) {
             $step = 3;

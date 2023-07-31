@@ -199,7 +199,7 @@
                                                     <li>
                                                         <a class="dropdown-item"
                                                            href="{{URL::signedRoute('resume.onboarding',['reference' => $vehicle->id])}}">
-                                                            Complete Onboarding
+                                                            Complete Onboarding {{$vehicle->id}}
                                                         </a>
                                                     </li>
                                                 @endif
