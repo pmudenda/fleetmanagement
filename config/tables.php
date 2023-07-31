@@ -38,7 +38,8 @@ return [
         'purchaseOffices' => 'ZFM_PURCHASE_OFFICES',
         'purchaseOrders' => 'P_ORDERS_ONBOARDING_VIEW',
         'stores' => 'ZFM_STORES_VIEW',
-        'generalTables' => 'ZFM_GENERAL_TABLES'
+        'generalTables' => 'ZFM_GENERAL_TABLES',
+        'documentStatus'=> 'ZFM_DOCUMENT_STATUS_VIEW'
     ],
 
     'column_names' => [
