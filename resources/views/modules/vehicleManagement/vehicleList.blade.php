@@ -198,7 +198,7 @@
                                                 @if($vehicle->on_boarding_status != StatusHelper::onboardingComplete())
                                                     <li>
                                                         <a class="dropdown-item"
-                                                           href="{{URL::signedRoute('resume.onboarding',['reference' => $vehicle->headerId])}}">
+                                                           href="{{URL::signedRoute('resume.onboarding',['reference' => $vehicle->header_id])}}">
                                                             Complete Onboarding
                                                         </a>
                                                     </li>

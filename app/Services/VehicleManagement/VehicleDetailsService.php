@@ -23,7 +23,7 @@ class VehicleDetailsService
                     'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
                 ->where('CONFIG_STATUSES.MODULE', '=', Modules::Vehicle)
                 ->select('VM_VEHICLE_HEADER.*',
-                    'VM_VEHICLE_HEADER.id as headerId',
+                    'VM_VEHICLE_HEADER.id as header_id',
                     'VM_ASSIGNMENTS.*',
                     'VM_ENGINE_DETAILS.fuel_allocation',
                     'CONFIG_STATUSES.name as status_name',
