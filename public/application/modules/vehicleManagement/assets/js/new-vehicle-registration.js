@@ -10,6 +10,7 @@ function setSelectedAccessories() {
         $("input[name=COMMENT_" + element.code + "]").val(element?.remarks);
     });
 }
+
 function displayVehicleDetails(asyncResponse, requestReference) {
     if (!asyncResponse.success) {
         toastr.error(asyncResponse['message'])
@@ -759,7 +760,7 @@ let app = new Vue({
                         toastr.error('Connection error, no data found')
                         return;
                     }
-                    this.fuelTypes = response.payload;
+                    app.fuelTypes = response.payload;
                 })
                 .catch(function (error) {
                     // notify of error
@@ -773,18 +774,21 @@ let app = new Vue({
             }
         },
 
-        /*getUserUnitLabel: function (val) {
-           if (typeof val === 'object') {
-               return val['code_unit'] + '=>' + val.description;
-           }
-       },*/
-
         getTransmissionTypes: function () {
-            this.transmissionTypes = [{
-                'name': 'AUTOMATIC', 'code': 'AT'
-            }, {
-                'name': 'MANUAL', 'code': 'MT'
-            }]
+            fetch(document.querySelector('#transmissionTypeUrl').value)
+                .then(response => response.json())
+                .then(response => {
+                    // Populate results
+                    if (response.state === 'failure') {
+                        //show errors
+                        toastr.error('Connection error, no data found')
+                        return;
+                    }
+                    app.transmissionTypes = response.payload;
+                })
+                .catch(function (error) {
+                    toastr.error('Connection error. Could not retrieve VEHICLE TRANSMISSION  data, some feature might not work.')
+                });
         },
 
         /*getVehicleBrands: function () {
@@ -2507,7 +2511,7 @@ function checkOnboardingHeaderStatus() {
         getPurchaseOrderDetails();
     });
 
-    $('select[name="frontTyreSize"]').on('change', function(){
+    $('select[name="frontTyreSize"]').on('change', function () {
         const frontTyreSize = this.value;
         //$('select[name="frontTyreSize"]').trigger('change');
         $('select[name="rearTyreSize"]').val(frontTyreSize);

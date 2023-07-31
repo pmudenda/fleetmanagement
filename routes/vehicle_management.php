@@ -126,7 +126,6 @@ Route::group(['prefix' => 'vehicle-management'], function () {
 
     Route::get('/accessories', [VehicleController::class, 'accessories'])->name('vehicle.accessories');
 
-
     Route::get('/cleanup', [VehicleDataCleaningController::class, 'cleanUpWindow'])->name('vehicle.data.cleanup');
 
     Route::post('/save/clean/data', [VehicleDataCleaningController::class, 'saveData'])->name('save.clean.data');

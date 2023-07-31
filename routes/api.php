@@ -2,15 +2,12 @@
 
 use App\Constants\ErrorMessages;
 use App\Enums\ConfigurationTypes;
-use App\Enums\RequisitionItemTypes;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\API\RoadTransportSafetyAgencyIntegrationController;
 use App\Models\configurations\GeneralTableConfiguration;
-use App\Models\reference\Article;
 use App\Models\reference\GtaVehicle;
 use App\Models\WorkShopManagement\WorkShopTable;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
@@ -162,14 +159,17 @@ Route::get('load/licence/classes', function (Request $request) {
     }
 })->name('vehicle.licence.classes');
 
-/*Route::get('load/stores', function (Request $request) {
+Route::get('transmission/types', function (Request $request) {
     try {
-        $procurementArticles = Store::where('type_article', '=', $request->get('type_article'))
-            ->get();
+        $transmissionTypes = [
+            (object)['name' => 'AUTOMATIC', 'code' => 'AT'],
+            (object)['name'=> 'MANUAL', 'code'=> 'MT'],
+            (object)['name'=> 'MANUAL', 'code'=> 'MT'],
+        ];
 
         return response()->json([
-            'success' => !empty($procurementArticles),
-            'payload' => $procurementArticles
+            'success' => !empty($transmissionTypes),
+            'payload' => $transmissionTypes
         ]);
 
     } catch (Exception $e) {
@@ -180,6 +180,6 @@ Route::get('load/licence/classes', function (Request $request) {
             'message' => ErrorMessages::getMessage('err_0005')
         ]);
     }
-})->name('load.stores');*/
+})->name('transmission.types');
 
 
