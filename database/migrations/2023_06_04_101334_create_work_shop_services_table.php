@@ -14,7 +14,8 @@ return new class extends Migration {
             $table->id();
 
             $table->string('workshop_reference')->nullable();
-            $table->string('workshop_code', 20);
+            //$table->string('workshop_code', 20);
+            $table->string('wshp_act_code', 20);
             $table->string('section', 10)->nullable();
             $table->string('req_evaluation', 2);
             $table->timestamp('date_send');
@@ -28,7 +29,8 @@ return new class extends Migration {
             $table->string('office_code', 10)->nullable();
             $table->string('specification', 1000)->nullable();
             $table->string('ind', 2);
-            $table->string('material_code', 20);
+            //$table->string('material_code', 20);
+            $table->string('mat_code', 20);
             $table->Integer('quantity');
             $table->string('stf_number', 20)->nullable();
 

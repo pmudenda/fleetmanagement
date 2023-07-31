@@ -12,8 +12,10 @@ class WorkShopServiceModel extends Model
     protected $table = 'WM_WORKSHOP_SERVICES';
 
     protected $fillable = [
-        'workshop_reference',
-        'workshop_code',
+        'wshp_act_code',
+        //'workshop_reference',
+        //'workshop_code',
+        'wshp_code',
         'section',
         'req_evaluation',
         'date_send',
@@ -26,7 +28,8 @@ class WorkShopServiceModel extends Model
         'office_code',
         'specification',
         'ind',
-        'material_code',
+        //'material_code',
+        'mat_code',
         'quantity',
         'stf_number',
         //'movement_no',

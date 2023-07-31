@@ -1067,13 +1067,16 @@ class WorkshopRequisitionService
             ]);
 
             WorkShopServiceModel::create([
-                "workshop_reference" => $workshop_reference,
-                "workshop_code" => $workshop_code,
+                "wshp_act_code" => $workshop_reference,
+                //"wshp_act_code" => $workshop_reference,
+                "wshp_code" => $workshop_code,
                 "req_evaluation" => "Y",
                 // def_no
                 // "movement_no",
+                "movt_no" => $form_order,
                 "date_send" => Carbon::now(),
-                "material_code" => $item["service_article"],
+                //"material_code" => $item["service_article"],
+                "mat_code" => $item["service_article"],
                 "unit_of_measure" => $item["service_unit_of_measure"],
                 "quantity" => $item["service_quantity"],
                 "amount_est" => $item["service_total_price"],
