@@ -32,7 +32,8 @@ return new class extends Migration {
             $table->Integer('quantity');
             $table->string('stf_number', 20)->nullable();
 
-            $table->string('movement_no', 20)->nullable();
+            //$table->string('movement_no', 20)->nullable();
+            $table->string('movt_no', 20)->nullable();
             $table->string('status', 4)->nullable();
 
             $table->string('originator', 15);
@@ -44,7 +45,9 @@ return new class extends Migration {
             //$table->string('form_order', 20)->nullable();
 
             $table->string('created_by', 10);
+            $table->string('user1', 10);
             $table->string('modified_by', 10)->nullable();
+            $table->timestamp('fech_act' )->nullable();
 
             $table->timestamps();
         });

@@ -29,16 +29,16 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                class="col-3 app-field-label field-required"
                                                                 for="staff_no">Registration #:
                                                             </label>
-                                                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
+                                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                                                                 <div class="input-group">
                                                                     <input type="text"
                                                                            data-action="{{route('vehicle.details')}}"

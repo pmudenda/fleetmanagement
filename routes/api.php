@@ -164,7 +164,7 @@ Route::get('transmission/types', function (Request $request) {
         $transmissionTypes = [
             (object)['name' => 'AUTOMATIC', 'code' => 'AT'],
             (object)['name'=> 'MANUAL', 'code'=> 'MT'],
-            (object)['name'=> 'MANUAL', 'code'=> 'MT'],
+            (object)['name'=> 'SEMI-AUTO', 'code'=> 'SA'],
         ];
 
         return response()->json([

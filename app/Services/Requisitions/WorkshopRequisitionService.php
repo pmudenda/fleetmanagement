@@ -1097,7 +1097,6 @@ class WorkshopRequisitionService
 
         WorkShopComment::firstOrCreate(
             [
-                //"job_card_no" => $job_cord_no,
                 "workshop_reference" => $workshop_reference,
                 "type" => "SREQ",
             ],
