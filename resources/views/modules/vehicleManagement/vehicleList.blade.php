@@ -201,7 +201,7 @@
                                                            href="{{URL::signedRoute('resume.onboarding',['reference' => $vehicle->id])}}">
                                                             Complete Onboarding
                                                         </a>
-                                                        {{$vehicle}}
+                                                        {{dd($vehicle)}}
                                                     </li>
                                                 @endif
                                             {{--@endcan--}}
