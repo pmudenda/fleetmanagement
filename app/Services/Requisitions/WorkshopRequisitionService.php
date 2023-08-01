@@ -350,7 +350,7 @@ class WorkshopRequisitionService
                 if(empty($value)){
                     $articlesMap[$registrationNumber . $article] = $registrationNumber;
                 }else{
-                    $message = "Article $article is already exist for vehicle @itemType";
+                    $message = "Article $article is already exist for vehicle $registrationNumber";
                     throw new MaterialReservationException($message);
                 }
             }
