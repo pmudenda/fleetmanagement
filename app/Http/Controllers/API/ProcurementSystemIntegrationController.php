@@ -58,7 +58,10 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
     public function getSuppliers(): JsonResponse
     {
         try {
-            $suppliers = PurchaseOrder::distinct()->get(['code_supplier', 'name_of_supplier']);;
+            $suppliers = PurchaseOrder::distinct()->get(['code_supplier', 'name_of_supplier'])
+                ->orderBy('name_of_supplier', 'asc')
+                ->get();
+
             return response()->json([
                 'state' => 'success',
                 'payload' => $suppliers
@@ -76,8 +79,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
     public function fuelTypes(): JsonResponse
     {
         return response()->json([
-            'payload' => Article::whereIn('code_article',
-                ['300101-0002', '300101-0001'])
+            'payload' => Article::whereIn('code_article', config('fuelarticles.articles'))
                 ->get(['code_article', 'description'])
         ]);
     }
