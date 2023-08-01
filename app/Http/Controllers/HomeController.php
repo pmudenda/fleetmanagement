@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ConfigHelper;
-use App\Helpers\StatusHelper;
 use App\Models\reference\TMSDataCleanUp;
-use App\Models\VehicleManagement\VehicleHeader;
-use App\Models\Workflow\WorkflowTaskHeader;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\WorkflowService;
 use Illuminate\Contracts\View\Factory;
@@ -27,9 +23,9 @@ class HomeController extends Controller
 
     public function logout(): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
-        $user = auth()->user();
+        auth()->user();
         //$user->has_active_session = ConfigHelper::currentLoginFalse();
-        $user->save();
+        //$user->save();
         Auth::logout();
         return redirect('/login')->with(['msg_body' => 'Signing out!']);
     }
