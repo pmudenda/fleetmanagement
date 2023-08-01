@@ -63,7 +63,7 @@
                                    href="#tms_access_checkin_tab" aria-selected="false" role="tab"
                                    tabindex="-1">
                                     @include('layouts.partials.engine_icon')
-                                    Step 3: Accessories Check-in
+                                    Accessories Check-in
                                 </a>
                             </li>
 

@@ -188,6 +188,14 @@
                     <div class="control-input">
                         <div class="link-field ui-front" style="position: relative;">
                             <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-addon">
+                                        <select name="bookValueCurrency" class="form-select form-select-sm">
+                                            <option value="001">ZMW</option>
+                                            <option value="002">USD</option>
+                                        </select>
+                                    </span>
+                                </div>
                                 <input type="text"
                                        class="input-with-feedback form-control bold view_mode"
                                        id="bookValue"
@@ -196,14 +204,6 @@
                                        placeholder=""
                                        data-doctype="CostingDetails"
                                        autocomplete="off"/>
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        <select name="bookValueCurrency" class="form-select form-select-sm">
-                                            <option value="ZMW">ZMW</option>
-                                            <option value="USD">USD</option>
-                                        </select>
-                                    </span>
-                                </div>
                             </div>
                         </div>
                     </div>
