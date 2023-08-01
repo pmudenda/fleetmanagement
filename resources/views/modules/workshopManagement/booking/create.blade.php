@@ -1107,6 +1107,8 @@
                         const $materialTable = $('#material_table');
                         if (workshopCode) {
                             $materialTable.find('[name="registration"]').attr('readonly', false);
+                            $materialTable.find('.quantity').attr('readonly', false);
+                            $materialTable.find('[name="unit_price"]').attr('readonly', false);
                             $materialTable.find('[name="technical_specification"]').attr('readonly', false);
                             enableArticleSelectionWebUIControls('#material_table');
                         }
@@ -1114,6 +1116,7 @@
                         const $serviceTable = $('#services_table');
                         if (workshopCode) {
                             $serviceTable.find('[name="vehicle_registration"]').attr('readonly', false);
+                            $serviceTable.find('[name="unit_price"]').attr('readonly', false);
                             $serviceTable.find('[name="service_technical_specification"]').attr('readonly', false);
                             enableArticleSelectionWebUIControls('#services_table');
                         }
