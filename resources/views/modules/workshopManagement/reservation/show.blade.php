@@ -442,8 +442,9 @@
                                                 {{number_format($totalCount)}}
                                             </span>
                                         </td>
-                                        <td class="text-right"><strong>Total Amount</strong></td>
+
                                         <td></td>
+                                        <td class="text-right"><strong>Total Amount</strong></td>
                                         <td>
                                             <span
                                                 class="text-bold"
