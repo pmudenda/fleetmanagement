@@ -8,6 +8,7 @@ use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
 use App\Enums\RequisitionItemTypes;
 use App\Exceptions\MaterialReservationException;
+use App\Exceptions\VehicleStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
@@ -506,7 +507,7 @@ class MaintenanceController extends Controller
             return $this->workshopRequisitionService->processJobCardMaterialReservation($request);
         } catch (\Exception $e) {
             $message = ErrorMessages::getMessage("err_0005");
-            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException) {
+            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException || $e instanceof VehicleStateException) {
                 $message = $e->getMessage();
                 Log::info($e);
             } else {
@@ -526,7 +527,7 @@ class MaintenanceController extends Controller
         } catch (\Exception $e) {
 
             $message = ErrorMessages::getMessage("err_0005");
-            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException) {
+            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException || $e instanceof VehicleStateException) {
                 $message = $e->getMessage();
             } else {
                 Log::error($e);
@@ -546,7 +547,7 @@ class MaintenanceController extends Controller
             Log::error($e);
             $message = ErrorMessages::getMessage("err_0005");
 
-            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException) {
+            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException || $e instanceof VehicleStateException) {
                 $message = $e->getMessage();
             }
             return response()->json([
@@ -564,7 +565,7 @@ class MaintenanceController extends Controller
             Log::error($e);
             $message = ErrorMessages::getMessage("err_0005");
 
-            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException) {
+            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException || $e instanceof VehicleStateException) {
                 $message = $e->getMessage();
             }
             return response()->json([
