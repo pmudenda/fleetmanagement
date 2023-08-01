@@ -595,12 +595,12 @@
                                                             </td>
 
                                                             <td class="view-mode">
-                                                                <button type="button"
+                                                                {{--<button type="button"
                                                                         data-value="{{$defect->id ?? '0'}}"
                                                                         value="deleteRow"
                                                                         class="btn btn-danger p-2">
                                                                     <i class="fas fa-trash m-0"></i>
-                                                                </button>
+                                                                </button>--}}
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -643,23 +643,23 @@
                                                         </td>
 
                                                         <td class="view-mode">
-                                                            <button type="button"
+                                                            {{--<button type="button"
                                                                     value="deleteRow"
                                                                     data-value="0"
                                                                     class="btn btn-danger p-2">
                                                                 <i class="fas fa-trash m-0"></i>
-                                                            </button>
+                                                            </button>--}}
                                                         </td>
                                                     </tr>
                                                 @endif
                                                 </tbody>
                                             </table>
-                                            <button type="button"
+                                            {{--<button type="button"
                                                     data-table-id="part8"
                                                     class="btn btn-sm btn-primary add pull-right"
                                                     value="addRow">
                                                 <i class="fa fa-plus"></i> Add Row
-                                            </button>
+                                            </button>--}}
                                         </div>
                                     </div>
                                     <div class="row">
@@ -2066,7 +2066,7 @@
                     eventHandler(this, e);
                 });
 
-                $(document).off('click', 'button[value="addRow"][data-table-id]')
+              /*  $(document).off('click', 'button[value="addRow"][data-table-id]')
                     .on('click', 'button[value="addRow"][data-table-id]', function () {
                         let tableId = $(this).data('tableId');
 
@@ -2118,9 +2118,9 @@
                             initArticleSelector($_defect_sel_);
                             //getArticleDetails(article, $_defect_sel);
                         }
-                    });
+                    });*/
 
-                $(document).on('click', 'button[value="deleteRow"]', function (e) {
+               /* $(document).on('click', 'button[value="deleteRow"]', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
 
@@ -2199,7 +2199,7 @@
                         });
 
                     return false;
-                });
+                });*/
             }
 
             function getSuppliers() {
