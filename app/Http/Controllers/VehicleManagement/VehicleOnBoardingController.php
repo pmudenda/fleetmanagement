@@ -49,10 +49,8 @@ class VehicleOnBoardingController extends Controller
 
     public function showDetails(Request $request): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
     {
-        if ($request->has('reference')) {
-            if (!$request->hasValidSignature()) {
-                abort(401);
-            }
+        if ($request->has('reference') && !$request->hasValidSignature()) {
+            abort(401);
         }
 
         if ($request->has('step') && $request->get('step') != "1") {
@@ -93,9 +91,9 @@ class VehicleOnBoardingController extends Controller
 
         $vehicle = VehicleHeader::where('id', '=', $reference)->first();
 
-   /*     if (empty($vehicle)) {
-            return redirect()->with(['error' => 'vehicle Not Found']);
-        }*/
+        /*     if (empty($vehicle)) {
+                 return redirect()->with(['error' => 'vehicle Not Found']);
+             }*/
 
         $step = '';
         if (StatusHelper::PendingGeneralDataEntry() == $vehicle->on_boarding_status) {
