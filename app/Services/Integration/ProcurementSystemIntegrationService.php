@@ -442,6 +442,8 @@ class ProcurementSystemIntegrationService
             $stmt->execute();
 
             //$result = null;
+            dd($results);
+
             if (is_array($results) && !empty($results)) {
                 $result = $results[0];
             } else {
