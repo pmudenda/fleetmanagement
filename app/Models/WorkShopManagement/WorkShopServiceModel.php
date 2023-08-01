@@ -13,8 +13,6 @@ class WorkShopServiceModel extends Model
 
     protected $fillable = [
         'wshp_act_code',
-        //'workshop_reference',
-        //'workshop_code',
         'wshp_code',
         'section',
         'req_evaluation',
@@ -28,11 +26,9 @@ class WorkShopServiceModel extends Model
         'office_code',
         'specification',
         'ind',
-        //'material_code',
         'mat_code',
         'quantity',
         'stf_number',
-        //'movement_no',
         'movt_no',
         'status',
         'originator',
@@ -42,12 +38,5 @@ class WorkShopServiceModel extends Model
         'modified_by',
         'fech_act',
         'user1',
-
-        /*'proc_ref',
-        'st_pur',
-        'form_order',
-        'store_code',
-        'sch_flouted',
-        'veh_reg_no',*/
     ];
 }

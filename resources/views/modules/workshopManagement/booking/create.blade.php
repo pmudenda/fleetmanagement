@@ -353,7 +353,7 @@
                                         <div class="form-group row">
                                             <label
                                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                for="staff_no">Collection Date:
+                                                for="staff_no">Servicing Date:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                 @if($materialsHeader)
@@ -874,6 +874,15 @@
                     $this.removeClass("disabled").attr("disabled", false)
                 })
             }
+
+
+            $('#material_table').on('change', '[name="registration"]', function () {
+
+            });
+
+            $('#services_table').on('change', '[name="registration"]', function () {
+
+            });
         });
 
         (function (tmsApp, $) {

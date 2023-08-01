@@ -217,37 +217,7 @@ class WorkshopRequisitionService
                 "reg_no" => $item["registration"],
             ]);
 
-            /*if ($item_type == RequisitionItemTypes::Service) {
-                WorkShopServiceModel::create([
-                    "workshop_reference" => $workshop_reference,
-                    "workshop_code" => $workshop_code,
-                    "req_evaluation" => "Y",
-                    // def_no
-                    // "movement_no",
-                    "date_send" => Carbon::now(),
-                    "material_code" => $item["articleCode"],
-                    "unit_of_measure" => $item["unit_of_measure"],
-                    "quantity" => $item["quantity"],
-                    "amount_est" => $item["total_price"],
-                    "price" => $item["unit_price"],
-                    "store_code" => $store_code,
-                    "office_code" => $requisitionPostRequest->get("purchase_office"),
-                    "ind" => "Y",
-                    // "stf_number",
-                    "supplier_code" => $requisitionPostRequest->supplier,
-                    "veh_reg_no" => $item["registration"],
-                    "specification" => $item["technical_specification"],
-                    "originator" => $user->staff_no,
-                    "requested_by_id" => $user->id,
-                    "status" => StatusHelper::new(),
-                    "created_by" => $user->id,
-                    // "section",
-                    // "date_collect",
-                    // "authorised_by",
-                ]);
-            } else {}*/
             WorkShopMaterial::create([
-                // "workshop_reference" => $workshop_reference,
                 "wshp_act_code" => $workshop_reference,
                 "workshop_code" => $workshop_code,
                 // section
@@ -256,13 +226,11 @@ class WorkshopRequisitionService
                 // proc_ref
                 // st_pur
                 // authorised_by
-                // sch_flouted
+                'sch_flouted'=> 'N',
                 // "req_no" => $requisition_reference_number,
                 "form_order" => $form_order_number,
-                // "req_evaluation" => "Y",
                 "evaluation" => "Y",
                 "date_mat" => Carbon::now(),
-                // "material_code" => $item["articleCode"],
                 "mat_code" => $item["articleCode"],
                 "unit_of_measure" => $item["unit_of_measure"],
                 "quantity" => $item["quantity"],
@@ -716,7 +684,7 @@ class WorkshopRequisitionService
 
 
         if (empty($results)) {
-            throw new FuelRequisitionException("Requisition could not approved ");
+            throw new FuelRequisitionException(ErrorMessages::getMessage('err_0022'));
         }
 
         if (!str_contains($results, "J02")) {

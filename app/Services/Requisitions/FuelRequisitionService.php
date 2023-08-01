@@ -493,7 +493,9 @@ class FuelRequisitionService
         );
 
         if (empty($results)) {
-            throw new FuelRequisitionException("Requisition could not approved ");
+            throw new FuelRequisitionException(
+                ErrorMessages::getMessage('err_0021')
+            );
         }
 
         if (!str_contains($results, 'J01')) {
