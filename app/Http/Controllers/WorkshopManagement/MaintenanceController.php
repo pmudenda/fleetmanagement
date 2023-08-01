@@ -151,7 +151,7 @@ class MaintenanceController extends Controller
 
         $approvalHistory = [];
 
-        return view("modules.workshopManagement.jobCard.show")
+        return view("modules.workshopManagement.reservation.show")
             ->with(compact(
                 "user",
                 "requisitionTypes",

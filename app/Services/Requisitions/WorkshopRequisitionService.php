@@ -333,18 +333,21 @@ class WorkshopRequisitionService
         $materials = $materialResevationRequest->get("items");
 
         foreach ($materials as $item) {
+
             $query = DB::table("$articles");
+
             $item_type_code = $materialResevationRequest->get('itemType');
 
             $registrationNumber = $item['registration'];
+            $article = $item["articleCode"];
 
             $this->validateVehicleStatus($registrationNumber);
 
-            $this->checkArticleGroup($item_type_code, $query, $item_type, $articles, $item["articleCode"], $registrationNumber);
-
+            $this->checkArticleGroup($item_type_code, $query, $item_type, $articles, $article, $registrationNumber);
         }
 
         DB::beginTransaction();
+
         // generate tms ref
         $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::WORKSHOP_REQUISITION);
 

@@ -53,15 +53,30 @@
                             <tr class="border-0" style="border-style: none;">
                                 <th width="33%" colspan="4" style="border:none;" class="text-left">
                                     @if(!empty($requestDetails) && !empty($requestDetails->st_pur))
-                                        REQUISITION NUMBER:
+                                        @if(str_starts_with($requestDetails->st_pur, 'J02'))
+                                            RESERVATION NUMBER:
+                                        @elseif(str_starts_with($requestDetails->st_pur, 'J01'))
+                                            REQUISITION NUMBER:
+                                        @elseif(str_starts_with($requestDetails->st_pur, 'N0'))
+                                            PURCHASE PROCESS NUMBER:
+                                        @elseif(str_starts_with($requestDetails->st_pur, 'A0'))
+                                            PURCHASE REQUISITION NUMBER:
+                                        @elseif(str_starts_with($requestDetails->st_pur, 'K0'))
+                                            TENDER NUMBER:
+                                        @elseif(str_starts_with($requestDetails->st_pur, 'C0'))
+                                            PURCHASE ORDER NUMBER:
+                                        @elseif(str_starts_with($requestDetails->st_pur, 'C0'))
+                                            GOODS RECEIPT NUMBER:
+                                        @endif
                                         <span class="text-orange">{{ $requestDetails->st_pur }}</span>
                                     @endif
                                 </th>
                                 <th width="33%" colspan="4" style="border:none;" class="text-center"></th>
                                 <th width="34%" colspan="1" style="border:none; text-align:right;"
                                     class="p-3 text-right">
-                                    DOCUMENT REFERENCE NUMBER: <span
-                                        class="text-orange">{{ $requestDetails->req_no }}</span>
+                                    DOCUMENT REFERENCE NUMBER:
+                                    <span class="text-orange">{{ $requestDetails->req_no }}
+                                    </span>
                                 </th>
                             </tr>
                             </thead>
@@ -94,7 +109,7 @@
                         <div class="container-fluid mt-2">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="row">
+                                    <div class="row" style="display: none;">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
@@ -183,7 +198,6 @@
                                         </div>
                                     </div>
 
-
                                     {{--  <div class="row">
                                           <div class="col-xs-12 col-sm-6 col-md-6">
                                               <div class="container-fluid pl-0">
@@ -239,7 +253,6 @@
                                               </div>
                                           </div>
                                       </div>--}}
-
 
                                     <div class="row">
 
@@ -361,6 +374,7 @@
                                 <table id="materialDetailsTable" class="table table-bordered">
                                     <thead>
                                     <tr class="bg-orange">
+                                        <th class="text-white">Reg No.</th>
                                         <th class="text-white">Article</th>
                                         <th class="text-white">Material Description</th>
                                         <th class="text-white">Qty</th>
@@ -374,7 +388,16 @@
                                     @foreach($details as $detail)
                                         @php $totalCount +=$detail->quantity; $totalAmount+=$detail->amount  @endphp
                                         <tr>
-
+                                            <td>
+                                                 <span data-material-input="vehicle_registration"
+                                                       id="vehicle_registration">{{$detail->reg_no}}
+                                                 </span>
+                                                <input type="hidden"
+                                                       name="vehicle_registration"
+                                                       readonly
+                                                       value="{{$detail->reg_no}}"
+                                                       class="form-control form-control-sm border-0"/>
+                                            </td>
                                             <td>
                                                  <span data-material-input="material_description"
                                                        id="material_description">{{$detail->material_code}}</span>
