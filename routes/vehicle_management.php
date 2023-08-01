@@ -117,7 +117,7 @@ Route::group(['prefix' => 'vehicle-management'], function () {
 
     Route::get('vehicle/all/details', [VehicleController::class, 'getAllDetails'])->name('vehicle.details');
 
-    Route::get('vehicle/details', [VehicleController::class, 'getDetails'])->name('requisition.vehicle.details');
+    Route::get('requisition/vehicle/details', [VehicleController::class, 'getDetails'])->name('requisition.vehicle.details');
 
     Route::get('articles/fuels', [ProcurementSystemIntegrationController::class, 'fuelTypes'])->name('fuel.types');
 
@@ -126,6 +126,9 @@ Route::group(['prefix' => 'vehicle-management'], function () {
     Route::get('/vehicles', [VehicleController::class, 'register'])->name('vehicle.edit');
 
     Route::get('/accessories', [VehicleController::class, 'accessories'])->name('vehicle.accessories');
+
+
+    // IS
 
     Route::get('/cleanup', [VehicleDataCleaningController::class, 'cleanUpWindow'])->name('vehicle.data.cleanup');
 

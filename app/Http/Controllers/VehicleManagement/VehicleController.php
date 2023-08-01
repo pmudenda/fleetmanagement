@@ -49,8 +49,9 @@ class VehicleController extends Controller
 
             Log::info('Fetching Vehicle Details ' . $ref);
             $vehicle = $this->vehicleDetailsService->getVehicleDetails($ref);
-            Log::info('Vehicle Details Found' . empty($vehicle));
+            Log::info('Vehicle Details Found ' . empty(!$vehicle));
 
+            dd($vehicle);
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($ref);
 
             return response()->json([
@@ -138,6 +139,11 @@ class VehicleController extends Controller
             ->with(compact('vehicleList'));
     }
 
+    public function register(Request $request): View
+    {
+        return view('modules.vehicleManagement.vehicleList');
+    }
+
     public function accessories(Request $request): View
     {
         $accessories = Accessory::where('status', '=', StatusHelper::active())
@@ -145,10 +151,5 @@ class VehicleController extends Controller
 
         return view('modules.vehicleManagement.general.accessories')
             ->with(compact('accessories'));
-    }
-
-    public function register(Request $request): View
-    {
-        return view('modules.vehicleManagement.vehicleList');
     }
 }

@@ -64,7 +64,7 @@ class VehicleDetailsService
                 ->get();
             return $results->first();
         } catch (\Exception $e) {
-            Log::info('Fetch vehicle full details');
+            Log::info('Failed to Fetch vehicle full details');
             Log::error($e);
             return null;
         }

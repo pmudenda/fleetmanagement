@@ -74,6 +74,7 @@ class VehicleOnBoardingController extends Controller
             $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$reference)->get();
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($reference);
         }
+
         $viewName = 'modules.vehicleManagement.details.view';
 
         return view($viewName)
@@ -89,11 +90,11 @@ class VehicleOnBoardingController extends Controller
     {
         $reference = $request->get('reference');
 
-        $vehicle = VehicleHeader::where('id', '=', $reference)->first();
+        if (empty($reference)) {
+            return view('error')->with(['error' => 'vehicle Not Found']);
+        }
 
-        /*     if (empty($vehicle)) {
-                 return redirect()->with(['error' => 'vehicle Not Found']);
-             }*/
+        $vehicle = VehicleHeader::where('id', '=', $reference)->first();
 
         $step = '';
         if (StatusHelper::PendingGeneralDataEntry() == $vehicle->on_boarding_status) {
@@ -114,7 +115,6 @@ class VehicleOnBoardingController extends Controller
 
         return redirect(URL::signedRoute('new.vehicle', ['step' => $step, 'reference' => $reference]));
     }
-
 
     public function start(Request $request): View|\Illuminate\Foundation\Application|Factory|Application|RedirectResponse
     {
@@ -140,14 +140,16 @@ class VehicleOnBoardingController extends Controller
             $reference = $request->get('reference');
 
             Log::debug(' Reference after onboarding ' . $reference);
+
             if (!empty($reference) && $reference != 0) {
                 $vehicle = $this->vehicleDetailsService->getVehicleDetails((int)$reference);
                 $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$reference)->get();
                 $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments((int)$reference);
             }
 
-            $viewName = "modules.vehicleManagement.onboarding.start";
             $accessories = Accessory::where('status', '=', StatusHelper::active())->get();
+
+            $viewName = "modules.vehicleManagement.onboarding.start";
 
             return view($viewName)
                 ->with(compact(
