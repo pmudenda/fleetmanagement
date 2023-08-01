@@ -545,12 +545,12 @@ class WorkshopRequisitionService
 
             $article = $item["service_article"];
             if (empty($serviceArticlesMap)) {
-                $serviceArticlesMap[$registrationNumber . $article] = $registrationNumber;
+                $serviceArticlesMap[str_replace(" ",'', $registrationNumber) . $article] = $registrationNumber;
             } else {
                 /*Check For Duplications*/
-                $value = $serviceArticlesMap[$registrationNumber . $article];
+                $value = $serviceArticlesMap[str_replace(" ",'', $registrationNumber) . $article];
                 if (empty($value)) {
-                    $serviceArticlesMap[$registrationNumber . $article] = $registrationNumber;
+                    $serviceArticlesMap[str_replace(" ",'', $registrationNumber) . $article] = $registrationNumber;
                 } else {
                     $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
                     throw new MaterialReservationException($message);
