@@ -707,15 +707,28 @@ class WorkshopRequisitionService
 
         $materialHeader = WorkShopMaterialHeader::where("form_order", "=", $requisitionDetail->form_order)->first();
 
-        $results = $this->procurementService->createStoresReservation(
-            $req_no,
-            $requisitionDetail->veh_reg_no,
-            $requisitionDetail->form_order,
-            Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
-            TransactionType::STORES_REQUISITIONS,
-            $requisitionDetail->store,
-            $materialHeader->job_card_no
-        );
+        if (!empty($materialHeader)) {
+            $results = $this->procurementService->createStoresReservation(
+                $req_no,
+                $requisitionDetail->veh_reg_no,
+                $requisitionDetail->form_order,
+                Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
+                TransactionType::STORES_REQUISITIONS,
+                $requisitionDetail->store,
+                $materialHeader->job_card_no
+            );
+        } else {
+            $results = $this->procurementService->createStoresReservation(
+                $req_no,
+                $requisitionDetail->veh_reg_no,
+                $requisitionDetail->form_order,
+                Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
+                TransactionType::STORES_REQUISITIONS,
+                $requisitionDetail->store,
+                null
+            );
+        }
+
 
         if (empty($results)) {
             throw new FuelRequisitionException("Requisition could not approved ");
@@ -832,8 +845,8 @@ class WorkshopRequisitionService
             ->where("GEN_MATERIAL_DETAILS.req_no", $req_no)
             ->select("GEN_MATERIAL_DETAILS.*",
                 "$articles.description"
-                //"CONFIG_STATUSES.name as status_name",
-                //"CONFIG_STATUSES.color_code"
+            //"CONFIG_STATUSES.name as status_name",
+            //"CONFIG_STATUSES.color_code"
             )
             ->get();
 
