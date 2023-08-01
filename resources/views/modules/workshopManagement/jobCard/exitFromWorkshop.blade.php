@@ -1571,7 +1571,7 @@
                 });
 
                 document.querySelector('#vehicleDetailsContainer').style.display = null;
-                document.querySelector('#image_view').style.display = null;
+               // document.querySelector('#image_view').style.display = null;
             }
 
             function enableArticleSelectionWebUIControls() {
