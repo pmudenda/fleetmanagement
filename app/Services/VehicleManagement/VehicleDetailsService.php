@@ -61,7 +61,7 @@ class VehicleDetailsService
                     'VM_BODY_AND_WEIGHT_DETAILS.id as weightDetailsId',
                     'VM_BODY_AND_WEIGHT_DETAILS.*')
                 ->get();
-            dd($results);
+
             return $results->first();
         } catch (\Exception $e) {
             Log::info('Failed to Fetch vehicle full details');

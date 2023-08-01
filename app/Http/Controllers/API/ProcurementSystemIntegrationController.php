@@ -42,11 +42,12 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
                 ]);
             }
             return response()->json([
-                'state' => empty($purchaseOrder) ? 'erorr' : 'success',
+                'state' => 'success',
                 'payload' => $purchaseOrder,
-                'message' => empty($purchaseOrder) ? " Data could not be retrieved" : 'Data Retrieved'
+                'message' => 'Purchase Order Data Retrieved Successfully'
             ]);
         } catch (Exception $e) {
+            Log::error($e->getMessage());
             return response()->json([
                 'state' => 'false',
                 'payload' => [],
@@ -79,8 +80,10 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
     public function fuelTypes(): JsonResponse
     {
         return response()->json([
-            'payload' => Article::whereIn('code_article', config('fuelarticles.articles'))
-                ->get(['code_article', 'description'])
+            'payload' => Article::whereIn(
+                'code_article',
+                config('fuelarticles.articles')
+            )->get(['code_article', 'description'])
         ]);
     }
 
@@ -89,7 +92,7 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
         try {
             $code_article = $request->get('code_article');
 
-            Log::info('Code Article ' .$code_article);
+            Log::info('Code Article ' . $code_article);
 
             $procurementArticles = $this->procurementSystemIntegrationService->getArticleDetailsByCode($code_article);
 
