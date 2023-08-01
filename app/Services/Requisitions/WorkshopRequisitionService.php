@@ -703,7 +703,7 @@ class WorkshopRequisitionService
                 $materialHeader->job_card_no
             );
         } else {
-            $results = $this->procurementService->createStoresReservation(
+            $results = $this->procurementService->createStoresBookingReservation(
                 $req_no,
                 $requisitionDetail->veh_reg_no,
                 $requisitionDetail->form_order,
@@ -741,17 +741,23 @@ class WorkshopRequisitionService
         $materialHeader = WorkShopMaterialHeader::where("form_order", "=", $requisitionDetail->form_order)
             ->where("item_type_code", "=", RequisitionItemTypes::NonStockItemCode)
             ->first();
-
-        $results = $this->procurementService->createPurchaseProcess(
-            $workshop_reference,
-            $requisitionDetail->veh_reg_no,
-            $requisitionDetail->form_order,
-            Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
-            TransactionType::SERVICE_PURCHASE_REQUISITIONS,
-            $requisitionDetail->purchase_office,
-            $materialHeader->job_card_no,
-            $requisitionDetail->workshop_no
-        );
+        if (!empty($materialHeader)) {
+            $results = $this->procurementService->createPurchaseProcess(
+                $workshop_reference,
+                $requisitionDetail->veh_reg_no,
+                $requisitionDetail->form_order,
+                Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
+                TransactionType::SERVICE_PURCHASE_REQUISITIONS,
+                $requisitionDetail->purchase_office,
+                $materialHeader->job_card_no,
+                $requisitionDetail->workshop_no
+            );
+        } else {
+            $results = $this->procurementService->createPurchaseProcessBooking(
+                $workshop_reference,
+                $requisitionDetail->form_order
+            );
+        }
 
         if (empty($results)) {
             throw new FuelRequisitionException("Purchase Process Could Not Be Started ");
@@ -779,16 +785,23 @@ class WorkshopRequisitionService
             ->where("item_type_code", "=", RequisitionItemTypes::ServiceItemCode)
             ->first();
 
-        $results = $this->procurementService->createPurchaseProcess(
-            $workshop_reference,
-            $requisitionDetail->veh_reg_no,
-            $requisitionDetail->form_order,
-            Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
-            TransactionType::SERVICE_PURCHASE_REQUISITIONS,
-            $requisitionDetail->purchase_office,
-            $materialHeader->job_card_no,
-            $requisitionDetail->workshop_no
-        );
+        if (!empty($materialHeader)) {
+            $results = $this->procurementService->createPurchaseProcess(
+                $workshop_reference,
+                $requisitionDetail->veh_reg_no,
+                $requisitionDetail->form_order,
+                Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
+                TransactionType::SERVICE_PURCHASE_REQUISITIONS,
+                $requisitionDetail->purchase_office,
+                $materialHeader->job_card_no,
+                $requisitionDetail->workshop_no
+            );
+        } else {
+            $results = $this->procurementService->createPurchaseProcessBooking(
+                $workshop_reference,
+                $requisitionDetail->form_order
+            );
+        }
 
         if (empty($results)) {
             throw new FuelRequisitionException("Purchase Process Could Not Be Started ");

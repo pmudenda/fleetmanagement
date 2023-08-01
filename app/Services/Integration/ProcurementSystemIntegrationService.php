@@ -381,4 +381,157 @@ class ProcurementSystemIntegrationService
 
         return $results->first();
     }
+
+    public function createStoresBookingReservation(
+        $docNumber,
+        $vehRegNumber,
+        $formOrder,
+        $account,
+        $transactionType,
+        $storesCode = null,
+        $jobCardNumber = null,
+        $deliverySite = null
+    )
+    {
+        try {
+            Log::info("Generating Stores Reservation From Booking Window Request " . $docNumber);
+
+            $ZESCOFleetMaster = SystemOfOrigin::ZESCOFleetMaster;
+
+            $user = auth()->user()->staff_no;
+
+            Log::info(":p_req_ref_no " . $docNumber);
+            Log::info(":p_veh_reg_no " . $vehRegNumber);
+            Log::info(":p_store_code " . $storesCode);
+            Log::info(":p_user_requesting " . $user);
+            Log::info(":p_job_card_no " . $jobCardNumber);
+            Log::info(":p_system_origin " . $ZESCOFleetMaster);
+            Log::info(":p_fleet_req_code " . $formOrder);
+            Log::info(":p_req_acc_number " . $account);
+            Log::info(":p_delivery_site " . $deliverySite);
+            Log::info(":p_transaction_type " . $transactionType);
+            Log::info(":p_current_user " . $user);
+
+            $pdo = DB::getPdo();
+
+            $stmt = $pdo->prepare("begin :result := fn_create_booking_reservation(
+             :p_req_ref_no,
+             :p_veh_reg_no,
+             :p_store_code,
+             :p_user_requesting,
+             :p_job_card_no,
+             :p_system_origin,
+             :p_fleet_req_code,
+             :p_req_acc_number,
+             :p_delivery_site,
+             :p_transaction_type,
+             :p_current_user); end;");
+
+            $stmt->bindParam(":p_req_ref_no", $docNumber);
+            $stmt->bindParam(":p_veh_reg_no", $vehRegNumber);
+            $stmt->bindParam(":p_store_code", $storesCode);
+            $stmt->bindParam(":p_user_requesting", $user);
+            $stmt->bindParam(":p_job_card_no", $jobCardNumber);
+            $stmt->bindParam(":p_system_origin", $ZESCOFleetMaster);
+            $stmt->bindParam(":p_fleet_req_code", $formOrder);
+            $stmt->bindParam(":p_req_acc_number", $account);
+            $stmt->bindParam(":p_delivery_site", $deliverySite);
+            $stmt->bindParam(":p_transaction_type", $transactionType);
+            $stmt->bindParam(":p_current_user", $user);
+            $stmt->bindParam(":result", $results, PDO::PARAM_STR, 2000);
+            $stmt->execute();
+
+            //$result = null;
+            if (is_array($results) && !empty($results)) {
+                $result = $results[0];
+            } else {
+                $result = $results;
+            }
+
+            Log::info($result);
+
+            $rawJNumber = $result;
+
+            if (str_starts_with($rawJNumber, "0")) {
+                return substr($rawJNumber, 1);
+            }
+
+            return $rawJNumber;
+
+        } catch (\Exception $e) {
+            Log::error($e);
+            return "";
+        }
+    }
+
+    public function createPurchaseProcessBooking($docNumber, $formOrder)
+    {
+        try {
+            Log::info("Generating Stores Reservation From Booking Window Request " . $docNumber);
+
+            $ZESCOFleetMaster = SystemOfOrigin::ZESCOFleetMaster;
+
+            $user = auth()->user()->staff_no;
+
+            Log::info(":p_req_ref_no " . $docNumber);
+            Log::info(":p_user_requesting " . $user);
+            Log::info(":p_fleet_req_code " . $formOrder);
+            Log::info(":p_current_user " . $user);
+            /*
+                Log::info(":p_system_origin " . $ZESCOFleetMaster);
+                Log::info(":p_veh_reg_no " . $vehRegNumber);
+                Log::info(":p_store_code " . $storesCode);
+                Log::info(":p_job_card_no " . $jobCardNumber);
+                Log::info(":p_req_acc_number " . $account);
+                Log::info(":p_delivery_site " . $deliverySite);
+                Log::info(":p_transaction_type " . $transactionType);
+            */
+
+
+            $pdo = DB::getPdo();
+
+            $stmt = $pdo->prepare("begin :result := f_create_pur_process_conso(
+             :p_req_ref_no,
+             :p_fleet_req_code,
+             :p_current_user,
+             :p_user_requesting); end;");
+
+            $stmt->bindParam(":p_current_user", $user);
+            $stmt->bindParam(":p_req_ref_no", $docNumber);
+            $stmt->bindParam(":p_fleet_req_code", $formOrder);
+            $stmt->bindParam(":p_user_requesting", $user);
+            $stmt->bindParam(":result", $results, PDO::PARAM_STR, 2000);
+            $stmt->execute();
+
+            /* $stmt->bindParam(":p_veh_reg_no", $vehRegNumber);
+             $stmt->bindParam(":p_store_code", $storesCode);
+            $stmt->bindParam(":p_job_card_no", $jobCardNumber);
+            $stmt->bindParam(":p_system_origin", $ZESCOFleetMaster);
+            $stmt->bindParam(":p_req_acc_number", $account);
+            $stmt->bindParam(":p_delivery_site", $deliverySite);
+            $stmt->bindParam(":p_transaction_type", $transactionType);*/
+
+            if (is_array($results) && !empty($results)) {
+                $result = $results[0];
+            } else {
+                $result = $results;
+            }
+
+            Log::info($result);
+
+            $rawPurchaseProcessNumber = $result;
+
+            if (str_starts_with($rawPurchaseProcessNumber, "0")) {
+                return substr($rawPurchaseProcessNumber, 1);
+            }
+
+            return $rawPurchaseProcessNumber;
+
+        } catch (\Exception $e) {
+            Log::error($e);
+            return "";
+        }
+    }
+
+
 }
