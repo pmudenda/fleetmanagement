@@ -83,21 +83,21 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <div class="input-group">
                                                                 <input type="text"
+                                                                       readonly
                                                                        data-action="{{route('requisition.vehicle.details')}}"
                                                                        class="form-control form-control-sm"
-                                                                       {{--value="{{$details->veh_reg ?? ''}}"--}}
                                                                        value="{{$details->reg_no ?? ''}}"
                                                                        id="vehicle_registration"
                                                                        placeholder="Vehicle Reg e.g AAB 6757"
                                                                        name="vehicle_registration" required />
-                                                                <div class="input-group-addon">
+                                                                {{--<div class="input-group-addon">
                                                                     <button type="button"
                                                                             id="vehicleSearchBtn"
                                                                             name="vehicleSearchBtn"
                                                                             class="btn btn-success btn-sm border-radius-0">
                                                                         <i class="fas fa-search"></i>
                                                                     </button>
-                                                                </div>
+                                                                </div>--}}
                                                             </div>
 
                                                             <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
@@ -148,7 +148,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select
+                                                            <select disabled
                                                                 data-value="{{$details->workshop_code ?? ''}}"
                                                                 required
                                                                 class="form-select form-select-sm"
@@ -198,12 +198,12 @@
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <select name="repairType"
+                                                                    disabled
                                                                     id="repairTypeDropdownList"
                                                                     data-value="{{$details->repair_type ?? ''}}"
                                                                     class="form-select form-select-sm when_valid"
                                                                     required>
                                                                 <option></option>
-                                                                {{-- <option value="{{$repairType->code}}">{{$repairType->name}}</option>--}}
                                                                 @foreach ($repairTypes as $repairType)
                                                                     @if(!empty($details))
                                                                         @if($details->repair_type == $repairType->code)
@@ -276,6 +276,7 @@
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <select name="accident_number" id="accident_number"
+                                                                  disabled
                                                                     class="form-control form-select-sm when_valid"
                                                                     required>
                                                             </select>
@@ -298,6 +299,7 @@
                                                             <div class="input-group">
                                                                 <input type="number"
                                                                        min="1"
+                                                                       readonly
                                                                        class="form-control form-control-sm"
                                                                        id="current_odometer"
                                                                        value="{{$details->millage_in ?? ''}}"
@@ -322,6 +324,7 @@
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                             <input type="text"
+                                                                   readonly
                                                                    class="form-control form-control-sm"
                                                                    id="date_expected_out"
                                                                    value="@if($details){{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}@else{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
@@ -346,6 +349,7 @@
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <select name="fuel_level"
+                                                                    disabled
                                                                     data-value="{{$details->fuel_level_in ?? ''}}"
                                                                     id="fuel_level"
                                                                     class="form-select form-select-sm when_valid"
@@ -371,6 +375,7 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <div class="input-group">
                                                                 <input type="text"
+                                                                       disabled
                                                                        list="employee_list"
                                                                        data-action="{{route('driver.search')}}"
                                                                        class="form-control form-control-sm"
@@ -379,13 +384,13 @@
                                                                        value="{{$details->driver_in ?? ''}}"
                                                                        placeholder=""
                                                                        name="driver_staff_number"/>
-                                                                <div class="input-group-addon">
+                                                                {{--<div class="input-group-addon">
                                                                     <button type="button" id="employeeSearchBtn"
                                                                             name="employeeSearchBtn"
                                                                             class="btn btn-success btn-sm border-radius-0">
                                                                         <i class="fas fa-search"></i>
                                                                     </button>
-                                                                </div>
+                                                                </div>--}}
                                                                 <datalist id="employee_list">
                                                                 </datalist>
                                                             </div>

@@ -106,12 +106,27 @@ class WorkshopRequisitionService
 
         // check each article to make sure it's of the correct type and is no active on a reservation for the same car
         $articles = config("tables.table_names.articles");
-
+        $articlesMap = array();
         foreach ($requisitionPostRequest->get("items") as $item) {
-            $query = DB::table("$articles");
+
             $item_type_code = $requisitionPostRequest->itemType;
 
-            $this->checkArticleGroup($item_type_code, $query, $item_type, $articles, $item["articleCode"], $registrationNumber);
+            $article = $item["articleCode"];
+
+            if (empty($articlesMap)) {
+                $articlesMap[$registrationNumber . $article] = $registrationNumber;
+            } else {
+                $value = $articlesMap[$registrationNumber . $article];
+                if(empty($value)){
+                    $articlesMap[$registrationNumber . $article] = $registrationNumber;
+                }else{
+                    $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
+                    throw new MaterialReservationException($message);
+                }
+            }
+
+            $query = DB::table("$articles");
+            $this->checkArticleGroup($item_type_code, $query, $item_type, $articles,$article , $registrationNumber);
 
         }
 
@@ -328,34 +343,32 @@ class WorkshopRequisitionService
 
         $articles = config("tables.table_names.articles");
 
-        // check that each article selected is of correct class
-        // check each article to make sure it's of the correct type and is no active on a reservation for the same car
         $materials = $materialResevationRequest->get("items");
 
         $articlesMap = array();
-
+        // check that each article selected is of correct class
+        // check each article to make sure it's of the correct type and is no active on a reservation for the same car
         foreach ($materials as $item) {
-
-            $query = DB::table("$articles");
-
-            $item_type_code = $materialResevationRequest->get('itemType');
-
             $registrationNumber = $item['registration'];
             $article = $item["articleCode"];
 
             if (empty($articlesMap)) {
                 $articlesMap[$registrationNumber . $article] = $registrationNumber;
-            } else {
+            }
+            else {
                 $value = $articlesMap[$registrationNumber . $article];
                 if(empty($value)){
                     $articlesMap[$registrationNumber . $article] = $registrationNumber;
                 }else{
-                    $message = "Article $article has been already selected for vehicle $registrationNumber";
+                    $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
                     throw new MaterialReservationException($message);
                 }
             }
 
             $this->validateVehicleStatus($registrationNumber);
+
+            $query = DB::table("$articles");
+            $item_type_code = $materialResevationRequest->get('itemType');
 
             $this->checkArticleGroup($item_type_code, $query, $item_type, $articles, $article, $registrationNumber);
         }
@@ -519,66 +532,34 @@ class WorkshopRequisitionService
         $item_type = "";
         $workflowProcess = "";
 
-        if ($serviceReservationRequest->itemType == RequisitionItemTypes::ServiceItemCode) {
+        if ($serviceReservationRequest->get('itemType') == RequisitionItemTypes::ServiceItemCode) {
             $item_type = RequisitionItemTypes::Service;
             $workflowProcess = WorkflowProcessCodes::PurchaseProcess->value;
         }
 
         // check each article to make sure it's of the correct type and is no active on a reservation for the same car
         $articles = config("tables.table_names.articles");
-
+        $serviceArticlesMap = array();
         foreach ($serviceReservationRequest->get("items") as $item) {
-            $query = DB::table("$articles");
-            $item_type_code = $serviceReservationRequest->itemType;
 
-            if ($item_type_code == RequisitionItemTypes::ServiceItemCode) {
-                $query->where(function ($q) use ($item_type, $articles) {
-                    $q->where("$articles.code_group", "=", "41")
-                        ->where("$articles.code_subgroup", "=", "02");
-                });
+            $item_type_code = $serviceReservationRequest->get('itemType');
+
+            $article = $item["service_article"];
+
+            /*if (empty($serviceArticlesMap)) {
+                $serviceArticlesMap[$registrationNumber . $article] = $registrationNumber;
+            } else {
+            }*/
+            /*Check For Duplications*/
+            $value = $serviceArticlesMap[$registrationNumber . $article];
+            if(empty($value)){
+                $serviceArticlesMap[$registrationNumber . $article] = $registrationNumber;
+            }else{
+                $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
+                throw new MaterialReservationException($message);
             }
 
-            $count = $query->where("code_article", "=", $item["service_article"])
-                ->where("status", "=", "11")
-                ->count();
-
-            if ($count == 0) {
-                $message = "Article @articleCode is not a @itemType";
-                $articleType = $item_type == RequisitionItemTypes::StockItem
-                    ? "Stock Item"
-                    : ($item_type == RequisitionItemTypes::NonStockItem
-                        ? "Non Stock Item " : "Service");
-
-                throw new MaterialReservationException(
-                    str_replace("@itemType", $articleType,
-                        str_replace("@articleCode", $item["service_article"], $message)
-                    )
-                );
-            }
-
-            $activeRequests = DB::table("gen_material_headers")
-                ->join("gen_material_details",
-                    "gen_material_headers.req_no",
-                    "=",
-                    "gen_material_details.req_no")
-                ->where("gen_material_details.material_code", "=", $item["service_article"])
-                ->where("gen_material_details.reg_no", "=", $registrationNumber)
-                ->whereIn("gen_material_headers.status", [
-                    StatusHelper::new(),
-                    StatusHelper::authorised(),
-                    StatusHelper::partiallyReleased()
-                ])->select("gen_material_headers.*")
-                ->first();
-
-            if (!empty($activeRequests)) {
-                $message = "Article @articleCode is already on requisition/reservation @req_no for Vehicle @reg";
-                throw new MaterialReservationException(
-                    str_replace("@req_no", $activeRequests->req_no,
-                        str_replace("@reg", $registrationNumber,
-                            str_replace("@articleCode", $item["service_article"], $message)
-                        ))
-                );
-            }
+            $this->validateSelectedServiceArticles($articles, $item_type_code, $item_type, $item["service_article"], $registrationNumber);
 
         }
 
@@ -1244,6 +1225,68 @@ class WorkshopRequisitionService
                 str_replace("@req_no", $activeRequests->req_no,
                     str_replace("@reg", $registrationNumber,
                         str_replace("@articleCode", $articleCode, $message)
+                    ))
+            );
+        }
+    }
+
+    /**
+     * @param mixed $articles
+     * @param mixed $item_type_code
+     * @param string $item_type
+     * @param $service_article
+     * @param mixed $registrationNumber
+     * @return void
+     * @throws MaterialReservationException
+     */
+    public function validateSelectedServiceArticles(mixed $articles, mixed $item_type_code, string $item_type, $service_article, mixed $registrationNumber): void
+    {
+        $query = DB::table("$articles");
+        if ($item_type_code == RequisitionItemTypes::ServiceItemCode) {
+            $query->where(function ($q) use ($item_type, $articles) {
+                $q->where("$articles.code_group", "=", "41")
+                    ->where("$articles.code_subgroup", "=", "02");
+            });
+        }
+
+        $count = $query->where("code_article", "=", $service_article)
+            ->where("status", "=", "11")
+            ->count();
+
+        if ($count == 0) {
+            $message = "Article @articleCode is not a @itemType";
+            $articleType = $item_type == RequisitionItemTypes::StockItem
+                ? "Stock Item"
+                : ($item_type == RequisitionItemTypes::NonStockItem
+                    ? "Non Stock Item " : "Service");
+
+            throw new MaterialReservationException(
+                str_replace("@itemType", $articleType,
+                    str_replace("@articleCode", $service_article, $message)
+                )
+            );
+        }
+
+        $activeRequests = DB::table("gen_material_headers")
+            ->join("gen_material_details",
+                "gen_material_headers.req_no",
+                "=",
+                "gen_material_details.req_no")
+            ->where("gen_material_details.material_code", "=", $service_article)
+            ->where("gen_material_details.reg_no", "=", $registrationNumber)
+            ->whereIn("gen_material_headers.status", [
+                StatusHelper::new(),
+                StatusHelper::authorised(),
+                StatusHelper::partiallyReleased()
+            ])->select("gen_material_headers.*")
+            ->first();
+
+        if (!empty($activeRequests)) {
+            $message = "Article @articleCode is already on requisition/reservation @req_no for Vehicle @reg";
+            throw new MaterialReservationException(
+                str_replace("@req_no", $activeRequests->req_no,
+                    str_replace("@reg", $registrationNumber,
+                        str_replace("@articleCode", $service_article, $message)
                     ))
             );
         }

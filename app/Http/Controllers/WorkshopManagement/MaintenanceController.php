@@ -336,7 +336,7 @@ class MaintenanceController extends Controller
             $services
             ) = $this->getJobCardCreationData($request);
 
-        return view("modules.workshopManagement.exitFromWorkshop")
+        return view("modules.workshopManagement.jobCard.exitFromWorkshop")
             ->with(
                 compact(
                     "repairTypes",
