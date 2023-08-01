@@ -117,16 +117,16 @@ class WorkshopRequisitionService
                 $articlesMap[$registrationNumber . $article] = $registrationNumber;
             } else {
                 $value = $articlesMap[$registrationNumber . $article];
-                if(empty($value)){
+                if (empty($value)) {
                     $articlesMap[$registrationNumber . $article] = $registrationNumber;
-                }else{
+                } else {
                     $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
                     throw new MaterialReservationException($message);
                 }
             }
 
             $query = DB::table("$articles");
-            $this->checkArticleGroup($item_type_code, $query, $item_type, $articles,$article , $registrationNumber);
+            $this->checkArticleGroup($item_type_code, $query, $item_type, $articles, $article, $registrationNumber);
 
         }
 
@@ -354,12 +354,11 @@ class WorkshopRequisitionService
 
             if (empty($articlesMap)) {
                 $articlesMap[$registrationNumber . $article] = $registrationNumber;
-            }
-            else {
+            } else {
                 $value = $articlesMap[$registrationNumber . $article];
-                if(empty($value)){
+                if (empty($value)) {
                     $articlesMap[$registrationNumber . $article] = $registrationNumber;
-                }else{
+                } else {
                     $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
                     throw new MaterialReservationException($message);
                 }
@@ -545,18 +544,17 @@ class WorkshopRequisitionService
             $item_type_code = $serviceReservationRequest->get('itemType');
 
             $article = $item["service_article"];
-
-            /*if (empty($serviceArticlesMap)) {
+            if (empty($serviceArticlesMap)) {
                 $serviceArticlesMap[$registrationNumber . $article] = $registrationNumber;
             } else {
-            }*/
-            /*Check For Duplications*/
-            $value = $serviceArticlesMap[$registrationNumber . $article];
-            if(empty($value)){
-                $serviceArticlesMap[$registrationNumber . $article] = $registrationNumber;
-            }else{
-                $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
-                throw new MaterialReservationException($message);
+                /*Check For Duplications*/
+                $value = $serviceArticlesMap[$registrationNumber . $article];
+                if (empty($value)) {
+                    $serviceArticlesMap[$registrationNumber . $article] = $registrationNumber;
+                } else {
+                    $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
+                    throw new MaterialReservationException($message);
+                }
             }
 
             $this->validateSelectedServiceArticles($articles, $item_type_code, $item_type, $item["service_article"], $registrationNumber);
