@@ -114,11 +114,11 @@ class WorkshopRequisitionService
             $article = $item["articleCode"];
 
             if (empty($articlesMap)) {
-                $articlesMap[$registrationNumber . $article] = $registrationNumber;
+                $articlesMap[str_replace(" ","",$registrationNumber) . $article] = $registrationNumber;
             } else {
-                $value = $articlesMap[$registrationNumber . $article];
+                $value = $articlesMap[str_replace(" ","",$registrationNumber) . $article];
                 if (empty($value)) {
-                    $articlesMap[$registrationNumber . $article] = $registrationNumber;
+                    $articlesMap[str_replace(" ","",$registrationNumber) . $article] = $registrationNumber;
                 } else {
                     $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
                     throw new MaterialReservationException($message);
@@ -353,11 +353,11 @@ class WorkshopRequisitionService
             $article = $item["articleCode"];
 
             if (empty($articlesMap)) {
-                $articlesMap[$registrationNumber . $article] = $registrationNumber;
+                $articlesMap[str_replace(" ","",$registrationNumber) . $article] = $registrationNumber;
             } else {
-                $value = $articlesMap[$registrationNumber . $article];
+                $value = $articlesMap[str_replace(" ","",$registrationNumber) . $article];
                 if (empty($value)) {
-                    $articlesMap[$registrationNumber . $article] = $registrationNumber;
+                    $articlesMap[str_replace(" ","",$registrationNumber) . $article] = $registrationNumber;
                 } else {
                     $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
                     throw new MaterialReservationException($message);
