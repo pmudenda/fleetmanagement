@@ -436,6 +436,7 @@
                                     <tr>
                                         <td></td>
                                         <td></td>
+                                        <td></td>
 
                                         <td class="text-right"><strong>Total Quantity</strong>
                                             <span class="text-bold"
