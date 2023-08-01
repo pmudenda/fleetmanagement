@@ -87,7 +87,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                    {{--v-model="costingAndValuation.costPrice"onchange="formatCostPriceAsMoney(this)"--}}
                                     <input type="text"
                                            class="input-with-feedback form-control bold view_mode"
                                            maxlength="15"

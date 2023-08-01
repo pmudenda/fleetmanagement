@@ -1151,7 +1151,7 @@ function userUnitChanged() {
         });
 
 
-        if (filteredBusinessUnits.length == 0) return;
+        if (filteredBusinessUnits.length === 0) return;
 
         let businessUnitOfInterest = filteredBusinessUnits[0];
 
@@ -1250,19 +1250,6 @@ function checkOnboardingHeaderStatus() {
             return;
         }
 
-        /*let fileUploads = [].slice.call(document.querySelectorAll('input[type="file"]'));
-        let filesValid = true;
-        fileUploads.map(function (fileSelect) {
-            if (!fileSelect.files || fileSelect.files.length === 0) {
-                toastr.error('Submission not accepted, You have not attached all required documents')
-                filesValid = false;
-                return;
-            }
-        });
-
-        if (!filesValid) {
-            return;
-        }*/
 
         $form = document.forms['tmsChassisDetailsForm'];
 
@@ -1314,12 +1301,6 @@ function checkOnboardingHeaderStatus() {
                     toastr.error('Failed to retrieve Supplier Records', 'Connection Error');
                     return;
                 }
-                /*<option value>--Supplier--</option>
-                <option v-for="supplier in supplierList"
-                                            :key="supplier.code_supplier"
-                    :value="supplier.code_supplier">
-                            @{{ supplier.name_of_supplier }}
-                    </option>*/
 
                 app.supplierList = response['payload'];
 
@@ -1608,10 +1589,8 @@ function checkOnboardingHeaderStatus() {
                 selectElem.attr('readonly', true).trigger('change');
 
                 let price = supplierData['price'];
-                console.log('Purchase Order Value', price)
                 let costPriceInput = document.querySelector('[name="costPrice"]');
                 costPriceInput.value = tmsApp.formatMoney(price, 2);
-                //costPriceInput.value = Util.getFloat(price, 2);
                 costPriceInput.setAttribute('readonly', 'readonly');
 
                 let bookValueInput = document.querySelector('[name="bookValue"]');
@@ -1623,7 +1602,6 @@ function checkOnboardingHeaderStatus() {
                 calculateInsurancePremium(price);
 
             }, function (xhr) {
-                console.log(xhr);
                 tmsApp.showToast('We could not complete processing your request, please try again later')
             })
     }

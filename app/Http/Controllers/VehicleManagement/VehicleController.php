@@ -44,11 +44,13 @@ class VehicleController extends Controller
 
             Log::info('reference is ' . $ref);
             if ($ref == 0) {
-                return redirect(route('vehicles.list'))->with(['error'=> 'Missing Required Parameters']);
+                return redirect(route('vehicles.list'))->with(['error' => 'Missing Required Parameters']);
             }
 
             Log::info('Fetching Vehicle Details ' . $ref);
             $vehicle = $this->vehicleDetailsService->getVehicleDetails($ref);
+            Log::info('Vehicle Details Found' . empty($vehicle));
+
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($ref);
 
             return response()->json([
