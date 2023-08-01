@@ -349,7 +349,6 @@
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <select name="fuel_level"
-                                                                    disabled
                                                                     data-value="{{$details->fuel_level_in ?? ''}}"
                                                                     id="fuel_level"
                                                                     class="form-select form-select-sm when_valid"
@@ -438,8 +437,8 @@
                         </div>
                     </section>
 
-                    <h1>Accessories</h1>
-                    <section>
+                    <h1 class="d-none">Accessories</h1>
+                    <section class="d-none">
                         <div class="container-fluid">
                             <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}" data-model-name="Accessories">
                                 <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
