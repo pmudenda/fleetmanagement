@@ -549,28 +549,36 @@
                                                     @foreach($defects as $defect)
                                                         <tr class="increment">
                                                             <td class="showNumber">
-                                                                <select name="vehicleSystem" required
+                                                                <select name="vehicleSystem"
+                                                                        required
+                                                                        disabled
                                                                         data-value="{{$defect->veh_sys}}"
                                                                         class="form-select form-select-sm select_2_control vehicleSystem">
                                                                     <option></option>
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <select name="defectCategory" required
+                                                                <select name="defectCategory"
+                                                                        required
+                                                                        disabled
                                                                         data-value="{{$defect->defect_category_code}}"
                                                                         class="form-select form-select-sm select_2_control defectCategory">
                                                                     <option></option>
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <select name="defect" required
+                                                                <select name="defect"
+                                                                        required
+                                                                        disabled
                                                                         data-value="{{$defect->defect_code}}"
                                                                         class="form-select form-select-sm select_2_control defect">
                                                                     <option></option>
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <select name="workshopSection" required
+                                                                <select name="workshopSection"
+                                                                        disabled
+                                                                        required
                                                                         class="form-select form-select-sm workshopSection">
                                                                     <option></option>
                                                                     @foreach($workshop_sections as $workshop_section)
@@ -602,24 +610,27 @@
                                                     <tr class="increment">
                                                         <td class="showNumber">
                                                             <select name="vehicleSystem"
+                                                                    disabled
                                                                     class="form-select form-select-sm select_2_control vehicleSystem">
                                                                 <option></option>
                                                             </select>
                                                         </td>
                                                         <td>
                                                             <select name="defectCategory"
+                                                                    disabled
                                                                     class="form-select form-select-sm select_2_control defectCategory">
                                                                 <option></option>
                                                             </select>
                                                         </td>
                                                         <td>
                                                             <select name="defect"
+                                                                    disabled
                                                                     class="form-select form-select-sm select_2_control defect">
                                                                 <option></option>
                                                             </select>
                                                         </td>
                                                         <td>
-                                                            <select name="workshopSection" class="form-select form-select-sm workshopSection">
+                                                            <select  disabled name="workshopSection" class="form-select form-select-sm workshopSection">
                                                                 <option></option>
                                                                 @foreach($workshop_sections as $workshop_section)
                                                                     <option
@@ -630,6 +641,7 @@
 
                                                         <td>
                                                             <input name="date_def"
+                                                                   readonly
                                                                    readonly="readonly"
                                                                    value="@if($details){{date('Y-m-d',strtotime(Carbon::parse($details->date_in)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
                                                                    class="tabledit-input form-control input-sm input-number"
