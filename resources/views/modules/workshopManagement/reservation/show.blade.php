@@ -81,7 +81,7 @@
                             </tr>
                             </thead>
                         </table>
-                        <table class="corporate" border="1" width="100%" data-height="100px" cellspacing="0"
+                        <table class="corporate mb-5" border="1" width="100%" data-height="100px" cellspacing="0"
                                cellpadding="0"
                                align="Centre"
                                class="mb-4 ">
