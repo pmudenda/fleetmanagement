@@ -74,7 +74,7 @@ class WorkshopRequisitionService
     /**
      * @throws FuelRequisitionException|WorkflowTaskCreationFailedException|VehicleStateException|MaterialReservationException
      */
-    public function processRequest(WorkshopRequisitionRequest $requisitionPostRequest): JsonResponse
+    public function processJobCardMaterialReservation(WorkshopRequisitionRequest $requisitionPostRequest): JsonResponse
     {
         Log::info("Creating Workshop Material Request");
 
@@ -810,14 +810,11 @@ class WorkshopRequisitionService
 
     public function getWorkShopReservationDetails(mixed $req_no): array
     {
-        $stockManagement = config("tables.table_names.stockManagement");
         $articles = config("tables.table_names.articles");
-        $units = config("tables.table_names.units");
 
         // "GEN_MATERIAL_HEADERS.*",
         $header = DB::table("GEN_MATERIAL_HEADERS")
             ->where("GEN_MATERIAL_HEADERS.req_no", $req_no)
-            //->join("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no", "=", "GEN_MATERIAL_DETAILS.req_no")
             ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status", "=", "CONFIG_STATUSES.code")
             ->where("CONFIG_STATUSES.MODULE", "=", "MAT")
             ->select("GEN_MATERIAL_HEADERS.*", "CONFIG_STATUSES.name as status_name", "CONFIG_STATUSES.color_code")
@@ -828,16 +825,16 @@ class WorkshopRequisitionService
                 "GEN_MATERIAL_HEADERS.req_no",
                 "=",
                 "GEN_MATERIAL_DETAILS.req_no")
-            ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status",
-                "=", "CONFIG_STATUSES.code")
+            //->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status", "=", "CONFIG_STATUSES.code")
             ->leftJoin("$articles", "GEN_MATERIAL_DETAILS.MATERIAL_CODE",
                 "=", "$articles.CODE_ARTICLE")
-            ->where("CONFIG_STATUSES.MODULE", "=", "MAT")
+            //->where("CONFIG_STATUSES.MODULE", "=", "MAT")
             ->where("GEN_MATERIAL_DETAILS.req_no", $req_no)
             ->select("GEN_MATERIAL_DETAILS.*",
-                "$articles.description",
-                "CONFIG_STATUSES.name as status_name",
-                "CONFIG_STATUSES.color_code")
+                "$articles.description"
+                //"CONFIG_STATUSES.name as status_name",
+                //"CONFIG_STATUSES.color_code"
+            )
             ->get();
 
         return [$header->first(), $detail];

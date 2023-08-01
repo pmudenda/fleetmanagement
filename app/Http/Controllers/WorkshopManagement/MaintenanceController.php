@@ -503,7 +503,7 @@ class MaintenanceController extends Controller
     public function processWorkShopMaterials(WorkshopRequisitionRequest $request): JsonResponse
     {
         try {
-            return $this->workshopRequisitionService->processRequest($request);
+            return $this->workshopRequisitionService->processJobCardMaterialReservation($request);
         } catch (\Exception $e) {
             $message = ErrorMessages::getMessage("err_0005");
             if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException) {
