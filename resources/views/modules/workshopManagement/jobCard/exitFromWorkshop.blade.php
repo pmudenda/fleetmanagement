@@ -66,7 +66,7 @@
                       action="{{route('save.exit.from.workshop')}}"
                       method="post">
                     @csrf
-                    <h1>Details</h1>
+                {{--    <h1>Details</h1>--}}
                     <section>
                         <div class="container-fluid">
                             <div class="row" data-form-url="{{route("process.job_card")}}" data-model-name="JobCardHeader">
@@ -348,7 +348,7 @@
                                                             Fuel Level :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select name="fuel_level"
+                                                            <select disabled="disabled" name="fuel_level"
                                                                     data-value="{{$details->fuel_level_in ?? ''}}"
                                                                     id="fuel_level"
                                                                     class="form-select form-select-sm when_valid"
