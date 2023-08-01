@@ -332,6 +332,8 @@ class WorkshopRequisitionService
         // check each article to make sure it's of the correct type and is no active on a reservation for the same car
         $materials = $materialResevationRequest->get("items");
 
+        $articlesMap = array();
+
         foreach ($materials as $item) {
 
             $query = DB::table("$articles");
@@ -340,6 +342,18 @@ class WorkshopRequisitionService
 
             $registrationNumber = $item['registration'];
             $article = $item["articleCode"];
+
+            if (empty($articlesMap)) {
+                $articlesMap[$registrationNumber . $article] = $registrationNumber;
+            } else {
+                $value = $articlesMap[$registrationNumber . $article];
+                if(empty($value)){
+                    $articlesMap[$registrationNumber . $article] = $registrationNumber;
+                }else{
+                    $message = "Article $article is already exist for vehicle @itemType";
+                    throw new MaterialReservationException($message);
+                }
+            }
 
             $this->validateVehicleStatus($registrationNumber);
 

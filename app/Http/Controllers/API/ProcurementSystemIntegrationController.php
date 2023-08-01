@@ -59,9 +59,9 @@ class ProcurementSystemIntegrationController extends \App\Http\Controllers\Contr
     public function getSuppliers(): JsonResponse
     {
         try {
-            $suppliers = PurchaseOrder::distinct()->get(['code_supplier', 'name_of_supplier'])
+            $suppliers = PurchaseOrder::distinct()
                 ->orderBy('name_of_supplier', 'asc')
-                ->get();
+                ->get(['code_supplier', 'name_of_supplier']);
 
             return response()->json([
                 'state' => 'success',
