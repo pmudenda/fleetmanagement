@@ -116,17 +116,12 @@ class WorkshopRequisitionService
             $key = str_replace("_", "", str_replace(" ", "", $registrationNumber))
                 . str_replace("-", "", str_replace(" ", "", $article));
 
-            if (empty($articlesMap)) {
-                $articlesMap[$key] = $registrationNumber;
-            } else {
-                $value = $articlesMap[$key];
-                if (empty($value)) {
-                    $articlesMap[$key] = $registrationNumber;
-                } else {
-                    $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
-                    throw new MaterialReservationException($message);
-                }
+            if (in_array($key, array_keys($articlesMap))) {
+                $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
+                throw new MaterialReservationException($message);
             }
+
+            $articlesMap[$key] = $registrationNumber;
 
             $query = DB::table("$articles");
             $this->checkArticleGroup($item_type_code, $query, $item_type, $articles, $article, $registrationNumber);
@@ -357,17 +352,14 @@ class WorkshopRequisitionService
 
             $key = str_replace("_", "", str_replace(" ", "", $registrationNumber))
                 . str_replace("-", "", str_replace(" ", "", $article));
-            if (empty($articlesMap)) {
-                $articlesMap[$key] = $registrationNumber;
-            } else {
-                $value = $articlesMap[$key];
-                if (empty($value)) {
-                    $articlesMap[$key] = $registrationNumber;
-                } else {
-                    $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
-                    throw new MaterialReservationException($message);
-                }
+
+            // we've encountered the combination before - duplicate
+            if (in_array($key, array_keys($articlesMap))) {
+                $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
+                throw new MaterialReservationException($message);
             }
+
+            $articlesMap[$key] = $registrationNumber;
 
             $this->validateVehicleStatus($registrationNumber);
 
@@ -550,18 +542,12 @@ class WorkshopRequisitionService
             $key = str_replace("_", "", str_replace(" ", "", $registrationNumber))
                 . str_replace("-", "", str_replace(" ", "", $article));
 
-            if (empty($serviceArticlesMap)) {
-                $serviceArticlesMap[$key] = $registrationNumber;
-            } else {
-                /*Check For Duplications*/
-                $value = $serviceArticlesMap[$key];
-                if (empty($value)) {
-                    $serviceArticlesMap[$key] = $registrationNumber;
-                } else {
-                    $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
-                    throw new MaterialReservationException($message);
-                }
+            if (in_array($key, array_keys($serviceArticlesMap))) {
+                $message = "Article $article has been already selected for vehicle $registrationNumber. Check your article";
+                throw new MaterialReservationException($message);
             }
+
+            $serviceArticlesMap[$key] = $registrationNumber;
 
             $this->validateSelectedServiceArticles($articles, $item_type_code, $item_type, $item["service_article"], $registrationNumber);
 
