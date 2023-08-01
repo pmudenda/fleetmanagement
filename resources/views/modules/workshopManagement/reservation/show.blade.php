@@ -436,16 +436,19 @@
                                     <tr>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
-
-                                        <td class="text-right"><strong>Total Quantity</strong>
-                                            <span class="text-bold"
-                                                  id="totalQty">{{number_format($totalCount)}}</span>
+                                        <td class="text-right"><strong>Total Quantity</strong></td>
+                                        <td>
+                                            <span class="text-bold" id="totalQty">
+                                                {{number_format($totalCount)}}
+                                            </span>
                                         </td>
-                                        <td></td>
                                         <td class="text-right"><strong>Total Amount</strong></td>
-                                        <td><span class="text-bold"
-                                                  id="totalAmount">{{number_format($totalAmount, 2)}}</span>
+                                        <td></td>
+                                        <td>
+                                            <span
+                                                class="text-bold"
+                                                id="totalAmount">{{number_format($totalAmount, 2)}}
+                                            </span>
                                         </td>
                                     </tr>
                                     </tfoot>
