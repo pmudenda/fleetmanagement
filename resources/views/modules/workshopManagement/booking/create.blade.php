@@ -1560,7 +1560,7 @@
                     .then(response => {
                         console.log(response);
                         if (response.success === 'true' || response.success === true) {
-                            populateVehicleDetails(response.payload, stage);
+                            populateVehicleDetails(response.payload, "");
                         } else {
                             removeSubmissionAndDetailsOptions();
                             tmsApp.systemError(
