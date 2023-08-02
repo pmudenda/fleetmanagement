@@ -477,147 +477,153 @@
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script>
         'use strict';
+        function checkVehicleStatus($row, numberPlate) {
+            console.log($row);
+            console.log(numberPlate);
+
+
+            if (!numberPlate) {
+                return;
+            }
+
+            const url = $('#vehicleDetails').attr('data-action') + '?vehicle_registration=' + numberPlate;
+
+            fetch(
+                url,
+                {
+                    method: 'GET',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    /*body: JSON.stringify({vehicle_registration: numberPlate}),*/
+                    referrer: window.baseUrl,
+                    mode: 'cors',
+                    credentials: 'same-origin',
+                }
+            )
+                .then((response) => {
+                    if (!response.ok) {
+                        tmsApp.systemError(
+                            'System Message',
+                            'We could not complete vehicle state checks',
+                            function () {
+                            });
+                        return;
+                    }
+
+                    return response.json();
+                })
+                .then(response => {
+                    console.log(response);
+                    if (response.success === 'true' || response.success === true) {
+                        populateVehicleDetails(response.payload, "");
+                    } else {
+                        removeSubmissionAndDetailsOptions();
+                        tmsApp.systemError(
+                            'Vehicle',
+                            'Vehicle with Registration No.' + numberPlate
+                            + ' was not found, Check your input and try again',
+                            function () {
+                            });
+                    }
+                })
+                .catch(function (error) {
+                    tmsApp.systemError(
+                        'System Message',
+                        'We could not complete vehicle state checks',
+                        function () {
+                        });
+                });
+        }
+
+        function populateVehicleDetails(payload, state) {
+            let vehicle = payload['vehicle'];
+            let images = payload['images'];
+            let vehicle_state = payload['vehicle_state'];
+
+            if (!vehicle || !vehicle.brand_name) {
+                return;
+            }
+
+            // BAD 1010
+            if (state !== 'InWorkshop') {
+                if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
+                    tmsApp.showSystemMessage("Vehicle State",
+                        vehicle_state,
+                        () => {
+                        },
+                        "error");
+                    return;
+                }
+            }
+
+            let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
+            $("#vehicle_description").val(vLabel);
+            let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
+                               <tr>
+                                    <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
+                               </tr>
+                               <tr style="">
+                                     <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
+                                </tr>
+                                <tr style="">
+                                     <th>State:</th><td id="registration">${vehicle['status_name']}</td>
+                                </tr>`;
+
+            $('tbody#vehicleDetails').html(row);
+            return;
+
+            // enableWebUIControls();
+
+            if (images && images.length > 0) {
+                let frontViewImages = images.filter((image) => {
+                    return image['file_type'] === 'Front View';
+                })
+                let imagePath = frontViewImages[0]?.path;
+                document.querySelector(".imagePreview").style.backgroundImage = "url(/storage" + imagePath + ")";
+            }
+
+        }
+
+
+        $(document).ready(function () {
+
+            $('#material_table').on('change', '[name="registration"]', function () {
+                const $row = $(this).closest('tr');
+                checkVehicleStatus($row, this.value);
+            });
+
+            $('#services_table').on('change', '[name="registration"]', function () {
+                const $row = $(this).closest('tr');
+                checkVehicleStatus($row, this.value);
+            });
+
+            initArticleSelector($('.articlesDropDownList'));
+
+            initServiceArticleSelector($('.servicesArticlesDropDownList'));
+
+            Inputmask({
+                "mask": "AAA 9{1,4}"
+            }).mask('.vehicle_registration');
+
+            $.fn.disableBtn = function () {
+                return this.each(function () {
+                    $(this).addClass("disabled").attr("disabled", true)
+                })
+            }
+
+            $.fn.enableBtn = function () {
+                return this.each(function () {
+                    let $this = $(this);
+                    $this.removeClass("disabled").attr("disabled", false)
+                })
+            }
+        });
         (function (tmsApp, $) {
 
             let form = $('#jobCardForm').show();
 
-            function initializeFormWizard() {
-                let stepId = window.step_id || 1;
-                window.global_currentIndex = stepId - 1;
-                form.steps({
-                    showStepURLhash: true,
-                    headerTag: "h1",
-                    bodyTag: "section",
-                    transitionEffect: "slideLeft",
-                    autoFocus: true,
-                    saveState: true,
-                    startIndex: stepId - 1,
-                    labels: {
-                        finish: 'Submit'
-                    },
-                    onInit: function () {
-                        console.log('Wizard Initializing')
-                    },
-                    onStepChanging: function (event, currentIndex, newIndex) {
-
-                        if (currentIndex > newIndex) {
-                            return true;
-                        }
-
-                        if (currentIndex < newIndex) {
-                            // To remove error styles
-                            form.find(".body:eq(" + newIndex + ") label.error").remove();
-                            form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
-                        }
-
-                        form.validate().settings.ignore = ":disabled,:hidden";
-                        window.global_currentIndex = currentIndex;
-                        if (form.valid() && !window.goToNext) {
-                            tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
-                                postData(form.find('[data-model-name]').get(currentIndex), false);
-                            }, function () {
-                            });
-                        }
-
-                        let tmp = window.goToNext;
-                        window.goToNext = false;
-                        return tmp;
-
-                    },
-                    onStepChanged: function (event, currentIndex, priorIndex) {
-
-                        if (currentIndex === 2 && priorIndex === 3) {
-                            //form.steps("previous");
-                            $('ul[aria-label="Pagination"]').find('a[href="#finish"]').removeClass('d-none');
-                        }
-                        //adjustIframeHeight();
-                        //$('ul[aria-label="Pagination"]').find('a[data-action="skip"]').removeClass('d-none');
-                        window.global_currentIndex = currentIndex;
-                        if (currentIndex === 3) {
-                            $('ul[aria-label="Pagination"]').find('a[href="#finish"]').addClass('d-none');
-                        }
-                        window.goToNext = false;
-
-                    },
-                    onFinishing: function (event, currentIndex) {
-                        form.validate().settings.ignore = ":disabled,:hidden";
-                        return form.valid();
-                    },
-                }).validate(
-                    {
-                        errorClass: "error-class",
-                        validClass: "valid-class",
-                        errorElement: 'div',
-                        errorPlacement: function (error, element) {
-                            if (element.parent('.input-group').length) {
-                                error.insertAfter(element.parent());
-                            } else {
-                                error.insertAfter(element);
-                            }
-                        },
-                        onError: function () {
-                            $('.input-group.error-class').find('.help-block.form-error').each(function () {
-                                $(this).closest('.form-group').addClass('error-class').append($(this));
-                            });
-                        },
-                        rules: {
-                            vehicle_registration: {
-                                required: true
-                            },
-                            workshop: {
-                                required: true
-                            }
-                        },
-                        messages: {
-                            workshop: {
-                                required: "Select the workshop vehicle is being checked-into"
-                            },
-                            vehicle_registration: {
-                                required: "Vehicle Registration is required"
-                            },
-
-                            current_odometer: {
-                                required: "Enter current odometer reading"
-                            },
-                            repairType: {
-                                required: "Select type of repair"
-                            },
-                            driver_staff_number: {
-                                required: "Driver details are required"
-                            }
-                        }
-                    }
-                );
-            }
-
             /*****************************Function Handlers************************************/
-
-            function onFinished() {
-
-                $('a[href="#finish"]').disableBtn();
-
-                if (!form.valid()) {
-                    //$('a[role="#finish"]').enableBtn();
-                    //swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
-                    return
-                }
-
-                tmsApp.confirm(
-                    'Confirm',
-                    'Do you want to save the changes ?',
-                    'Yes',
-                    'No',
-                    function () {
-                        postData(
-                            $(form.find(bodyTag).get(window.global_currentIndex))
-                                .find('[data-model-name]').get(0),
-                            true
-                        );
-                    },
-                    function () {
-                    }
-                );
-            }
 
             const tableRowTemplate = `<tr class="increment">
                             <td class="showNumber">
@@ -1000,6 +1006,40 @@
                     });
             }
 
+            function findVehicle(stage) {
+                const numberPlate = document.querySelector('#vehicle_registration').value;
+                if (!numberPlate) {
+                    return;
+                }
+
+                let formData = new FormData();
+                formData.append('vehicle_registration', numberPlate);
+
+                tmsApp.asyncGetFormData(
+                    $('#vehicle_registration').attr('data-action') + '?vehicle_registration=' + numberPlate,
+                    formData,
+                    function (response_data) {
+                        if (response_data.success === 'true' || response_data.success === true) {
+                            populateVehicleDetails(response_data.payload, stage);
+                        } else {
+                            removeSubmissionAndDetailsOptions();
+                            tmsApp.systemError(
+                                'Vehicle',
+                                'Vehicle with Registration No.' + numberPlate
+                                + ' was not found, Check your input and try again',
+                                function () {
+                                });
+                        }
+                    },
+                    function (xhr) {
+                        tmsApp.systemError(
+                            'System Message',
+                            'We could not complete processing your request, please try again later',
+                            function () {
+                            });
+                    }
+                )
+            }
 
             function initEventHandlers() {
 
@@ -1509,7 +1549,7 @@
                 $('tbody#vehicleDetails').html('');
             }
 
-            function enableWebUIControls() {
+           /* function enableWebUIControls() {
 
                 let elements = document.querySelectorAll('.when_valid');
 
@@ -1519,68 +1559,7 @@
 
                 document.querySelector('#vehicleDetailsContainer').style.display = null;
                 document.querySelector('#image_view').style.display = null;
-            }
-
-            function checkVehicleStatus($row, numberPlate) {
-                console.log($row);
-                console.log(numberPlate);
-
-
-                if (!numberPlate) {
-                    return;
-                }
-
-                const url = $('#vehicleDetails').attr('data-action') + '?vehicle_registration=' + numberPlate;
-
-                fetch(
-                    url,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        /*body: JSON.stringify({vehicle_registration: numberPlate}),*/
-                        referrer: window.baseUrl,
-                        mode: 'cors',
-                        credentials: 'same-origin',
-                    }
-                )
-                    .then((response) => {
-                        if (!response.ok) {
-                            tmsApp.systemError(
-                                'System Message',
-                                'We could not complete vehicle state checks',
-                                function () {
-                                });
-                            return;
-                        }
-
-                        return response.json();
-                    })
-                    .then(response => {
-                        console.log(response);
-                        if (response.success === 'true' || response.success === true) {
-                            populateVehicleDetails(response.payload, "");
-                        } else {
-                            removeSubmissionAndDetailsOptions();
-                            tmsApp.systemError(
-                                'Vehicle',
-                                'Vehicle with Registration No.' + numberPlate
-                                + ' was not found, Check your input and try again',
-                                function () {
-                                });
-                        }
-                    })
-                    .catch(function (error) {
-                        tmsApp.systemError(
-                            'System Message',
-                            'We could not complete vehicle state checks',
-                            function () {
-                            });
-                    });
-
-
-            }
+            }*/
 
             function disableAllControls(selectedItemType) {
 
@@ -1624,90 +1603,6 @@
                     });
                 }
 
-            }
-
-            function populateVehicleDetails(payload, state) {
-                let vehicle = payload['vehicle'];
-                let images = payload['images'];
-                let vehicle_state = payload['vehicle_state'];
-
-                if (!vehicle || !vehicle.brand_name) {
-                    return;
-                }
-
-                // BAD 1010
-                if (state !== 'InWorkshop') {
-                    if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
-                        tmsApp.showSystemMessage("Vehicle State",
-                            vehicle_state,
-                            () => {
-                            },
-                            "error");
-                        return;
-                    }
-                }
-
-                let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
-                $("#vehicle_description").val(vLabel);
-                let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
-                               <tr>
-                                    <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
-                               </tr>
-                               <tr style="">
-                                     <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
-                                </tr>
-                                <tr style="">
-                                     <th>State:</th><td id="registration">${vehicle['status_name']}</td>
-                                </tr>`;
-
-                $('tbody#vehicleDetails').html(row);
-                return;
-
-                // enableWebUIControls();
-
-                if (images && images.length > 0) {
-                    let frontViewImages = images.filter((image) => {
-                        return image['file_type'] === 'Front View';
-                    })
-                    let imagePath = frontViewImages[0]?.path;
-                    document.querySelector(".imagePreview").style.backgroundImage = "url(/storage" + imagePath + ")";
-                }
-
-            }
-
-            function findVehicle(stage) {
-                const numberPlate = document.querySelector('#vehicle_registration').value;
-                if (!numberPlate) {
-                    return;
-                }
-
-                let formData = new FormData();
-                formData.append('vehicle_registration', numberPlate);
-
-                tmsApp.asyncGetFormData(
-                    $('#vehicle_registration').attr('data-action') + '?vehicle_registration=' + numberPlate,
-                    formData,
-                    function (response_data) {
-                        if (response_data.success === 'true' || response_data.success === true) {
-                            populateVehicleDetails(response_data.payload, stage);
-                        } else {
-                            removeSubmissionAndDetailsOptions();
-                            tmsApp.systemError(
-                                'Vehicle',
-                                'Vehicle with Registration No.' + numberPlate
-                                + ' was not found, Check your input and try again',
-                                function () {
-                                });
-                        }
-                    },
-                    function (xhr) {
-                        tmsApp.systemError(
-                            'System Message',
-                            'We could not complete processing your request, please try again later',
-                            function () {
-                            });
-                    }
-                )
             }
 
             function eventHandler(element, e) {
@@ -2103,7 +1998,7 @@
                     });
             }
 
-            function tableHasItems() {
+            /*function tableHasItems() {
                 let inputs = $("#material_table > tbody").find('.articleCode');
                 for (const input of inputs) {
                     if (input.value > "") {
@@ -2111,7 +2006,7 @@
                     }
                 }
                 return false;
-            }
+            }*/
 
             function getSuppliers() {
                 fetch(document.querySelector('#suppliersList').value)
@@ -2206,40 +2101,6 @@
                             'Connection error. Could not retrieve data, some feature might not work.')
                     });
             }
-
-            /* $(document).ready(function () {*/
-
-            $('#material_table').on('change', '[name="registration"]', function () {
-                const $row = $(this).closest('tr');
-                checkVehicleStatus($row, this.value);
-            });
-
-            $('#services_table').on('change', '[name="registration"]', function () {
-                const $row = $(this).closest('tr');
-                checkVehicleStatus($row, this.value);
-            });
-
-            initArticleSelector($('.articlesDropDownList'));
-
-            initServiceArticleSelector($('.servicesArticlesDropDownList'));
-
-            Inputmask({
-                "mask": "AAA 9{1,4}"
-            }).mask('.vehicle_registration');
-
-            $.fn.disableBtn = function () {
-                return this.each(function () {
-                    $(this).addClass("disabled").attr("disabled", true)
-                })
-            }
-
-            $.fn.enableBtn = function () {
-                return this.each(function () {
-                    let $this = $(this);
-                    $this.removeClass("disabled").attr("disabled", false)
-                })
-            }
-            /* });*/
 
             initEventHandlers();
 
