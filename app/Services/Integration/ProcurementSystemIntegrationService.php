@@ -414,7 +414,8 @@ class ProcurementSystemIntegrationService
 
             $pdo = DB::getPdo();
 
-            $stmt = $pdo->prepare("begin :result := fn_create_booking_reservation(
+            $stmt = $pdo->prepare(
+                "begin :result := fn_create_booking_reservation(
              :p_req_ref_no,
              :p_veh_reg_no,
              :p_store_code,
@@ -442,7 +443,6 @@ class ProcurementSystemIntegrationService
             $stmt->execute();
 
             //$result = null;
-            dd($results);
 
             if (is_array($results) && !empty($results)) {
                 $result = $results[0];
@@ -492,7 +492,7 @@ class ProcurementSystemIntegrationService
 
             $pdo = DB::getPdo();
 
-            $stmt = $pdo->prepare("begin :result := f_create_pur_process_conso(
+            $stmt = $pdo->prepare("begin :result := fn_create_pur_process_conso(
              :p_req_ref_no,
              :p_fleet_req_code,
              :p_current_user,
