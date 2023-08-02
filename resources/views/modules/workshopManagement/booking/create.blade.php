@@ -1535,11 +1535,11 @@
                 fetch(
                     url,
                     {
-                        method: 'POST',
+                        method: 'GET',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        body: JSON.stringify({vehicle_registration: numberPlate}),
+                        /*body: JSON.stringify({vehicle_registration: numberPlate}),*/
                         referrer: window.baseUrl,
                         mode: 'cors',
                         credentials: 'same-origin',
