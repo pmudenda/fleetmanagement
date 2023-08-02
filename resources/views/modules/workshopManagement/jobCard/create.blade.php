@@ -154,6 +154,155 @@
     <input type="hidden"
            id="suppliersList"
            value="{{route('suppliers.list')}}"/>
+
+    <template id="materialTableRowTemplate">
+        <tr class="increment">
+            <td class="showNumber">
+                <input
+                    name="registration"
+                    required
+                    value=""
+                    class="form-control form-control-sm vehicle_registration"/>
+            </td>
+            <td>
+                <select
+                    name="articles"
+                    required
+                    data-value=""
+                    class="form-control form-control-sm articlesDropDownList">
+                    <option></option>
+                </select>
+            </td>
+            <td>
+                <input
+                    name="articleCode"
+                    required
+                    readonly
+                    class="form-control form-control-sm articleCode"/>
+            </td>
+            <td>
+                <input
+                    name="technical_specification"
+                    required
+                    class="form-control form-control-sm technical_specification"/>
+            </td>
+
+            <td>
+                <input
+                    type="text"
+                    min="1"
+                    name="quantity"
+                    required
+                    class="form-control form-control-sm quantity number_input"/>
+            </td>
+
+            <td>
+                <input
+                    name="unit_of_measure"
+                    required
+                    readonly
+                    class="form-control form-control-sm unit_of_measure"/>
+            </td>
+
+            <td>
+                <input name="unit_price"
+                       required
+                       readonly
+                       class="form-control form-control-sm unit_price"/>
+            </td>
+
+            <td>
+                <input name="total_price"
+                       required
+                       readonly
+                       class="form-control form-control-sm total_price"/>
+            </td>
+
+            <td class="view-mode">
+                <button type="button"
+                        data-value="0"
+                        value="deleteRow"
+                        class="btn btn-danger p-2">
+                    <i class="fas fa-trash m-0"></i>
+                </button>
+            </td>
+        </tr>
+    </template>
+    <template id="serviceTableRowTemplate">
+        <tr class="increment">
+            <td class="showNumber">
+                <input
+                    name="vehicle_registration"
+                    required
+                    value=""
+                    class="form-control form-control-sm vehicle_registration"/>
+            </td>
+            <td>
+                <select
+                    name="service_article"
+                    required
+                    data-value=""
+                    class="form-control form-control-sm servicesArticlesDropDownList">
+                    <option></option>
+                </select>
+            </td>
+            <td>
+                <input
+                    name="serviceArticleCode"
+                    required
+                    readonly
+                    class="form-control form-control-sm serviceArticleCode"/>
+            </td>
+            <td>
+                <input
+                    name="service_technical_specification"
+                    required
+                    class="form-control form-control-sm service_technical_specification"/>
+            </td>
+
+            <td>
+                <input
+                    readonly
+                    type="text"
+                    min="1"
+                    value="1"
+                    max="1"
+                    name="service_quantity"
+                    required
+                    class="form-control form-control-sm service_quantity number_input"/>
+            </td>
+
+            <td>
+                <input
+                    name="service_unit_of_measure"
+                    required
+                    readonly
+                    class="form-control form-control-sm unit_of_measure"/>
+            </td>
+
+            <td>
+                <input name="service_unit_price"
+                       required
+                       class="form-control form-control-sm service_unit_price"/>
+            </td>
+
+            <td>
+                <input name="service_total_price"
+                       required
+                       readonly
+                       class="form-control form-control-sm service_total_price"/>
+            </td>
+
+            <td class="view-mode">
+                <button type="button"
+                        data-value="0"
+                        value="deleteRow"
+                        class="btn btn-danger p-2">
+                    <i class="fas fa-trash m-0"></i>
+                </button>
+            </td>
+        </tr>
+    </template>
 @endsection
 @push('scripts')
     <script>
@@ -389,48 +538,6 @@
                             data: data
                         }
                     });
-
-                    /*
-                    let data = {
-                        "id": id,
-                        "text": text,
-                        'code_article': response?.code_article,
-                        'description': response?.description,
-                        'price_map': response?.price,
-                        'technical_specifications': response?.technical_specifications,
-                        'unit_measure': response?.unit_measure,
-                        'unit_measure_name': response?.unit_measure_name
-                    };
-
-
-                    // $(selectElem).closest('tr').find('')
-
-                    let option = new Option(text, id, true, true);
-                    selectElem[0].append(option);
-                    $(selectElem).trigger('change');
-
-                    // manually trigger the `select2:select` event
-                    $(selectElem).trigger({
-                        type: 'select2:select',
-                        params: {
-                            data: data
-                        }
-                    });
-
-                    $(selectElem).val(id).trigger('change')
-                    */
-
-                    /*
-                    let workshops = response['payload'];
-                    tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
-
-                    let location = selectElem.attr('data-value');
-                    console.log(location);
-                    if (location) {
-                        selectElem.val(location);
-                        selectElem.trigger('change');
-                    }
-                    */
                 })
                 .catch(function (error) {
                     // notify of error
@@ -452,21 +559,20 @@
             $.fn.disableBtn = function () {
                 return this.each(function () {
                     $(this).addClass("disabled").attr("disabled", true)
-                })
+                });
             }
 
             $.fn.enableBtn = function () {
                 return this.each(function () {
                     let $this = $(this);
                     $this.removeClass("disabled").attr("disabled", false)
-                })
+                });
             }
         });
 
         (function (tmsApp, $) {
 
-            function adjustIframeHeight() {
-            }
+            function adjustIframeHeight() {}
 
             let form = $('#jobCardForm').show();
             window.goToNext = false;
@@ -837,36 +943,6 @@
                     });
             }
 
-            /*function getWorkshopSections() {
-                fetch(document.querySelector('#workShopSectionsUrl').value)
-                    .then(response => response.json())
-                    .then(response => {
-                        let selectElem = $('select[name="workshopSection"]');
-                        // Populate results
-                        if (response.state === 'failure') {
-                            //show errors
-                            toastr.error('Connection error, no data found')
-                            return;
-                        }
-
-                        let workshops = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
-
-                        let location = selectElem.attr('data-value');
-                        console.log(location);
-                        if (location) {
-                            selectElem.val(location);
-                            selectElem.trigger('change');
-                        }
-
-                    })
-                    .catch(function (error) {
-                        // notify of error
-                        toastr.error(
-                            'Connection error. Could not retrieve data, some feature might not work.')
-                    });
-            }*/
-
             function getFuelLevels() {
                 fetch(document.querySelector('#fuelLevelsUrl').value)
                     .then(response => response.json())
@@ -1163,23 +1239,6 @@
                 });
             }
 
-            /*function autosave(form) {
-                let time;
-                window.onload = resetTimer;
-                // DOM Events
-                document.onchange = resetTimer;
-                document.onkeyup = resetTimer;
-
-                function work() {
-                    //validateFormElements(form);
-                }
-
-                function resetTimer() {
-                    clearTimeout(time);
-                    time = setTimeout(work, 120000);
-                }
-            }*/
-
             function getVehicleDefectCategory(selectedValue, selectElem) {
                 if (!selectedValue) return;
                 loadData(
@@ -1324,6 +1383,126 @@
                     initArticleSelector($_defect_sel_);
                     //getArticleDetails(article, $_defect_sel);
                 }
+            }
+
+            function insertTableRow(tableId) {
+                const itemType = document.querySelector('[name="itemType"]').value;
+                // check if item type has been selected
+                if (!itemType) {
+                    Swal.fire({
+                        text: "Select Item Type",
+                        icon: "warning",
+                        showCancelButton: false,
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok",
+                        customClass: {
+                            confirmButton: "btn fw-bold btn-primary",
+                            cancelButton: "btn fw-bold btn-active-light-primary"
+                        }
+                    });
+                    return;
+                }
+
+                // if supplier has been selected for service and non-stock
+                if (document.querySelector('[name="stockItemCode"]').value === itemType) {
+                    // check that supplier is selected
+                    if (!document.querySelector('[name="workshop_code"]').value) {
+                        Swal.fire({
+                            text: "Select a Workshop",
+                            icon: "warning",
+                            showCancelButton: false,
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok",
+                            customClass: {
+                                confirmButton: "btn fw-bold btn-primary",
+                                cancelButton: "btn fw-bold btn-active-light-primary"
+                            }
+                        });
+                        return;
+                    }
+                } else {
+                    // check that supplier is selected
+                    if (!document.querySelector('[name="supplier"]').value) {
+                        Swal.fire({
+                            text: "Select a Supplier",
+                            icon: "warning",
+                            showCancelButton: false,
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok",
+                            customClass: {
+                                confirmButton: "btn fw-bold btn-primary",
+                                cancelButton: "btn fw-bold btn-active-light-primary"
+                            }
+                        });
+                        return;
+                    }
+                }
+
+                const $table = $('table#' + tableId);
+                if (tableId === "material_table") {
+                    const materialTableRowTemplate = document.querySelector('#materialTableRowTemplate');
+                    $table.find('tbody').append(materialTableRowTemplate);
+                } else {
+                    if (tableId === "services_table") {
+                        const serviceTableRowTemplate = document.querySelector('#serviceTableRowTemplate');
+                        $table.find('tbody').append(serviceTableRowTemplate);
+                    }
+                }
+                let lastRow = $table.find('tbody tr').eq((0 + 1) * -1);
+
+                lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
+
+                if (tableId === "material_table") {
+                    lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
+                    if (itemType === document.querySelector('[name="stockItemCode"]').value) {
+                        lastRow.find('[name="quantity"]').val('').attr('readonly', false);
+                        lastRow.find('[name="unit_price"]').val('').attr('readonly', true);
+                    } else {
+                        lastRow.find('[name="quantity"]').val('').attr('readonly', false);
+                        lastRow.find('[name="unit_price"]').val('').attr('readonly', false);
+                    }
+
+                    lastRow.find('[name="articles"]').attr('readonly', false);
+                    lastRow.find('[name="unit_of_measure"]').val('');
+                    lastRow.find('[name="total_price"]').val('');
+                    lastRow.find('#unit_price').text('');
+                }
+
+                if (tableId === "services_table") {
+                    // let row = lastRow[0];
+                    $(lastRow).find('.select2-container').remove();
+                    $(lastRow).find('.servicesArticlesDropDownList').removeClass('select2-hidden-accessible');
+                    lastRow.find('[name="service_article"]').val('');
+                    lastRow.find('[name="serviceArticleCode"]').val('');
+                    lastRow.find('[name="service_technical_specification"]').val('');
+                    lastRow.find('[name="service_unit_price"]').val('');
+                    lastRow.find('[name="service_unit_of_measure"]').val('');
+                    lastRow.find('[name="service_total_price"]').val('');
+                    let $_defect_sel_ = $(lastRow).find(".servicesArticlesDropDownList");
+                    initServiceArticleSelector($_defect_sel_);
+                }
+
+                if (tableId === "material_table") {
+                    let row = lastRow[0];
+                    $(row).find('.select2-container').remove();
+                    $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+
+                    let article = $(row).find('input.articleCode').val();
+
+                    let $_defect_sel = $(row).find(".articlesDropDownList");
+                    let $_defect_sel_ = $(row).find(".DropDownList");
+                    initArticleSelector($_defect_sel);
+                    initArticleSelector($_defect_sel_);
+                }
+
+               /* Inputmask({
+                    "mask": "AAA 9{1,4}"
+                }).mask('.vehicle_registration');
+
+                Inputmask({
+                    "mask": "AAA 9{1,4}"
+                }).mask('.registration');*/
+
             }
 
             function deleteTableRow(eventSource) {
@@ -1601,6 +1780,12 @@
                     .on('click', 'button[value="addRow"][data-table-id]', function () {
                         let tableId = $(this).data('tableId');
                         addTableRow(tableId);
+                    });
+
+                $(document).off('click', 'button[value="insertRow"][data-table-id]')
+                    .on('click', 'button[value="insertRow"][data-table-id]', function () {
+                        let tableId = $(this).data('tableId');
+                        insertTableRow(tableId);
                     });
 
                 $(document).on('click', 'button[value="deleteRow"]', function (e) {

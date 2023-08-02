@@ -439,12 +439,11 @@
                         <td></td>
                     </tr>
                     </tfoot>
-
                 </table>
                 <button type="button"
                         data-table-id="material_table"
                         class="btn btn-sm btn-primary add pull-right"
-                        value="addRow">
+                        value="insertRow">
                     <i class="fa fa-plus"></i>
                     Add Row
                 </button>
