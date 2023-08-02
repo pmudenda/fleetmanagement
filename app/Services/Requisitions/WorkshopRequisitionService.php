@@ -384,7 +384,7 @@ class WorkshopRequisitionService
                 "workshop_no" => $workshop_code,
                 "item_type" => $item_type,
                 "requested_by" => $user->staff_no,
-                "veh_reg_no" => $registrationNumber,
+                //"veh_reg_no" => $registrationNumber,
                 "purchase_office" => $materialResevationRequest->get("purchase_office"),
                 "store" => $store_code,
                 "supplier_code" => $materialResevationRequest->get('supplier'),
@@ -485,12 +485,9 @@ class WorkshopRequisitionService
 
         $valid_to = Carbon::now();
         $valid_from = Carbon::now();
-        $registrationNumber = $serviceReservationRequest->vehicle_registration;
 
         /********************************************** Save Data **************************************/
         $user = Auth()->user();
-
-        $this->validateVehicleStatus($registrationNumber);
 
         // check that each article selected is of correct class
         $item_type = "";
@@ -506,6 +503,10 @@ class WorkshopRequisitionService
         $serviceArticlesMap = array();
         foreach ($serviceReservationRequest->get("items") as $item) {
             $article = $item["service_article"];
+            $registrationNumber = $item['vehicle_registration'];
+
+            $this->validateVehicleStatus($registrationNumber);
+
             $item_type_code = $serviceReservationRequest->get('itemType');
             $key = str_replace("_", "", str_replace(" ", "", $registrationNumber))
                 . str_replace("-", "", str_replace(" ", "", $article));
@@ -528,8 +529,8 @@ class WorkshopRequisitionService
         Log::info("Reservation Item Type " . $serviceReservationRequest->get("itemType"));
         Log::info("Determined Reservation Item Type Code $item_type");
 
-        $short_description = "Workshop Reservation for Vehicle Reg No.  $registrationNumber";
-        $long_description = "Workshop Reservation Ref.No. $purchase_process_reference  For Vehicle Reg No. $registrationNumber";
+        $short_description = "Workshop Reservation Ref.No. $purchase_process_reference";
+        $long_description = "Workshop Reservation Ref.No. $purchase_process_reference";
 
         $this->workflowService->initiateWorkflowProcess(
             $purchase_process_reference,
@@ -555,7 +556,7 @@ class WorkshopRequisitionService
                 "workshop_no" => $workshop_code,
                 "item_type" => $item_type,
                 "requested_by" => $user->staff_no,
-                "veh_reg_no" => $registrationNumber,
+                //"veh_reg_no" => $registrationNumber,
                 "purchase_office" => $serviceReservationRequest->get("purchase_office"),
                 "store" => $store_code,
                 "supplier_code" => $serviceReservationRequest->get('supplier'),
