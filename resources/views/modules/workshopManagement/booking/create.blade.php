@@ -1122,7 +1122,7 @@
                 checkVehicleStatus($row, this.value);
             });
 
-            $('#services_table').on('change', '[name="registration"]', function () {
+            $('#services_table').on('change', '[name="vehicle_registration"]', function () {
                 const $row = $(this).closest('tr');
                 checkVehicleStatus($row, this.value);
             });
