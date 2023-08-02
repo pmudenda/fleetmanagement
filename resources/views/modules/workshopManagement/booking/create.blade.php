@@ -1910,9 +1910,8 @@
 
                 if (tableId === "services_table") {
                     // let row = lastRow[0];
-                    // $(row).find('.select2-container').remove();
-                    // $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
-
+                    $(lastRow).find('.select2-container').remove();
+                    $(lastRow).find('.servicesArticlesDropDownList').removeClass('select2-hidden-accessible');
                     lastRow.find('[name="service_article"]').val('');
                     lastRow.find('[name="serviceArticleCode"]').val('');
                     lastRow.find('[name="service_technical_specification"]').val('');
