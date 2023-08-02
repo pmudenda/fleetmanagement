@@ -25,7 +25,7 @@
                                 <tr>
                                     <th>Reference #</th>
                                     <th>Document No.</th>
-                                    <th>Registration</th>
+                                   {{-- <th>Registration</th>--}}
                                     <th>Date In</th>
                                     <th>Date Expected Out</th>
                                     <th>Originator</th>
@@ -50,9 +50,9 @@
                                         </td>
 
 
-                                        <td>
+                                      {{--  <td>
                                             {{$rec->veh_reg_no ?? ''}}
-                                        </td>
+                                        </td>--}}
                                         <td>
                                             {{Carbon::parse($rec->valid_date_from)->format('d/m/Y')}}
                                         </td>
