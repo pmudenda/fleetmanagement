@@ -1881,7 +1881,13 @@
                 }
 
                 const $table = $('table#' + tableId);
-                $table.find('tbody').append(tableRowTemplate);
+                if (tableId === "material_table") {
+                    $table.find('tbody').append(tableRowTemplate);
+                }else{
+                    if (tableId === "services_table") {
+                        $table.find('tbody').append(serviceTableRowTemplate);
+                    }
+                }
                 let lastRow = $table.find('tbody tr').eq((0 + 1) * -1);
 
                 lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
@@ -1897,8 +1903,8 @@
                     }
 
                     lastRow.find('[name="articles"]').attr('readonly', false);
-                    lastRow.find('[name="unit_of_measure"]').val('').attr('readonly', false);
-                    lastRow.find('[name="total_price"]').val('').attr('readonly', false);
+                    lastRow.find('[name="unit_of_measure"]').val('');
+                    lastRow.find('[name="total_price"]').val('');
                     lastRow.find('#unit_price').text('');
                 }
 
