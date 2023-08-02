@@ -1883,7 +1883,7 @@
                 const $table = $('table#' + tableId);
                 if (tableId === "material_table") {
                     $table.find('tbody').append(tableRowTemplate);
-                }else{
+                } else {
                     if (tableId === "services_table") {
                         $table.find('tbody').append(serviceTableRowTemplate);
                     }
@@ -2207,39 +2207,39 @@
                     });
             }
 
-            $(document).ready(function () {
+            /* $(document).ready(function () {*/
 
-                $('#material_table').on('change', '[name="registration"]', function () {
-                    const $row = $(this).closest('tr');
-                    checkVehicleStatus($row, this.value);
-                });
-
-                $('#services_table').on('change', '[name="registration"]', function () {
-                    const $row = $(this).closest('tr');
-                    checkVehicleStatus($row, this.value);
-                });
-
-                initArticleSelector($('.articlesDropDownList'));
-
-                initServiceArticleSelector($('.servicesArticlesDropDownList'));
-
-                Inputmask({
-                    "mask": "AAA 9{1,4}"
-                }).mask('.vehicle_registration');
-
-                $.fn.disableBtn = function () {
-                    return this.each(function () {
-                        $(this).addClass("disabled").attr("disabled", true)
-                    })
-                }
-
-                $.fn.enableBtn = function () {
-                    return this.each(function () {
-                        let $this = $(this);
-                        $this.removeClass("disabled").attr("disabled", false)
-                    })
-                }
+            $('#material_table').on('change', '[name="registration"]', function () {
+                const $row = $(this).closest('tr');
+                checkVehicleStatus($row, this.value);
             });
+
+            $('#services_table').on('change', '[name="registration"]', function () {
+                const $row = $(this).closest('tr');
+                checkVehicleStatus($row, this.value);
+            });
+
+            initArticleSelector($('.articlesDropDownList'));
+
+            initServiceArticleSelector($('.servicesArticlesDropDownList'));
+
+            Inputmask({
+                "mask": "AAA 9{1,4}"
+            }).mask('.vehicle_registration');
+
+            $.fn.disableBtn = function () {
+                return this.each(function () {
+                    $(this).addClass("disabled").attr("disabled", true)
+                })
+            }
+
+            $.fn.enableBtn = function () {
+                return this.each(function () {
+                    let $this = $(this);
+                    $this.removeClass("disabled").attr("disabled", false)
+                })
+            }
+            /* });*/
 
             initEventHandlers();
 
