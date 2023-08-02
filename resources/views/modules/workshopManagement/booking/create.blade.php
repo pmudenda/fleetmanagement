@@ -477,679 +477,6 @@
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script>
         'use strict';
-        function checkVehicleStatus($row, numberPlate) {
-            console.log($row);
-            console.log(numberPlate);
-
-
-            if (!numberPlate) {
-                return;
-            }
-
-            const url = $('#vehicleDetails').attr('data-action') + '?vehicle_registration=' + numberPlate;
-
-            fetch(
-                url,
-                {
-                    method: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    /*body: JSON.stringify({vehicle_registration: numberPlate}),*/
-                    referrer: window.baseUrl,
-                    mode: 'cors',
-                    credentials: 'same-origin',
-                }
-            )
-                .then((response) => {
-                    if (!response.ok) {
-                        tmsApp.systemError(
-                            'System Message',
-                            'We could not complete vehicle state checks',
-                            function () {
-                            });
-                        return;
-                    }
-
-                    return response.json();
-                })
-                .then(response => {
-                    console.log(response);
-                    if (response.success === 'true' || response.success === true) {
-                        populateVehicleDetails(response.payload, "");
-                    } else {
-                        removeSubmissionAndDetailsOptions();
-                        tmsApp.systemError(
-                            'Vehicle',
-                            'Vehicle with Registration No.' + numberPlate
-                            + ' was not found, Check your input and try again',
-                            function () {
-                            });
-                    }
-                })
-                .catch(function (error) {
-                    tmsApp.systemError(
-                        'System Message',
-                        'We could not complete vehicle state checks',
-                        function () {
-                        });
-                });
-        }
-
-        function populateVehicleDetails(payload, state) {
-            let vehicle = payload['vehicle'];
-            let images = payload['images'];
-            let vehicle_state = payload['vehicle_state'];
-
-            if (!vehicle || !vehicle.brand_name) {
-                return;
-            }
-
-            // BAD 1010
-            if (state !== 'InWorkshop') {
-                if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
-                    tmsApp.showSystemMessage("Vehicle State",
-                        vehicle_state,
-                        () => {
-                        },
-                        "error");
-                    return;
-                }
-            }
-
-            let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
-            $("#vehicle_description").val(vLabel);
-            let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
-                               <tr>
-                                    <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
-                               </tr>
-                               <tr style="">
-                                     <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
-                                </tr>
-                                <tr style="">
-                                     <th>State:</th><td id="registration">${vehicle['status_name']}</td>
-                                </tr>`;
-
-            $('tbody#vehicleDetails').html(row);
-            return;
-
-            // enableWebUIControls();
-
-            if (images && images.length > 0) {
-                let frontViewImages = images.filter((image) => {
-                    return image['file_type'] === 'Front View';
-                })
-                let imagePath = frontViewImages[0]?.path;
-                document.querySelector(".imagePreview").style.backgroundImage = "url(/storage" + imagePath + ")";
-            }
-
-        }
-
-        function insertTableRow(tableId) {
-            const itemType = document.querySelector('[name="itemType"]').value;
-            // check if item type has been selected
-            if (!itemType) {
-                Swal.fire({
-                    text: "Select Item Type",
-                    icon: "warning",
-                    showCancelButton: false,
-                    buttonsStyling: false,
-                    confirmButtonText: "Ok",
-                    customClass: {
-                        confirmButton: "btn fw-bold btn-primary",
-                        cancelButton: "btn fw-bold btn-active-light-primary"
-                    }
-                });
-                return;
-            }
-
-            // if supplier has been selected for service and non-stock
-            if (document.querySelector('[name="stockItemCode"]').value === itemType) {
-                // check that supplier is selected
-                if (!document.querySelector('[name="workshop_code"]').value) {
-                    Swal.fire({
-                        text: "Select a Workshop",
-                        icon: "warning",
-                        showCancelButton: false,
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok",
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-primary",
-                            cancelButton: "btn fw-bold btn-active-light-primary"
-                        }
-                    });
-                    return;
-                }
-            } else {
-                // check that supplier is selected
-                if (!document.querySelector('[name="supplier"]').value) {
-                    Swal.fire({
-                        text: "Select a Supplier",
-                        icon: "warning",
-                        showCancelButton: false,
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok",
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-primary",
-                            cancelButton: "btn fw-bold btn-active-light-primary"
-                        }
-                    });
-                    return;
-                }
-            }
-
-            const $table = $('table#' + tableId);
-            if (tableId === "material_table") {
-                $table.find('tbody').append(tableRowTemplate);
-            } else {
-                if (tableId === "services_table") {
-                    $table.find('tbody').append(serviceTableRowTemplate);
-                }
-            }
-            let lastRow = $table.find('tbody tr').eq((0 + 1) * -1);
-
-            lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
-
-            if (tableId === "material_table") {
-                lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
-                if (itemType === document.querySelector('[name="stockItemCode"]').value) {
-                    lastRow.find('[name="quantity"]').val('').attr('readonly', false);
-                    lastRow.find('[name="unit_price"]').val('').attr('readonly', true);
-                } else {
-                    lastRow.find('[name="quantity"]').val('').attr('readonly', false);
-                    lastRow.find('[name="unit_price"]').val('').attr('readonly', false);
-                }
-
-                lastRow.find('[name="articles"]').attr('readonly', false);
-                lastRow.find('[name="unit_of_measure"]').val('');
-                lastRow.find('[name="total_price"]').val('');
-                lastRow.find('#unit_price').text('');
-            }
-
-            if (tableId === "services_table") {
-                // let row = lastRow[0];
-                $(lastRow).find('.select2-container').remove();
-                $(lastRow).find('.servicesArticlesDropDownList').removeClass('select2-hidden-accessible');
-                lastRow.find('[name="service_article"]').val('');
-                lastRow.find('[name="serviceArticleCode"]').val('');
-                lastRow.find('[name="service_technical_specification"]').val('');
-                lastRow.find('[name="service_unit_price"]').val('');
-                lastRow.find('[name="service_unit_of_measure"]').val('');
-                lastRow.find('[name="service_total_price"]').val('');
-                let $_defect_sel_ = $(lastRow).find(".servicesArticlesDropDownList");
-                initServiceArticleSelector($_defect_sel_);
-            }
-
-            if (tableId === "material_table") {
-                let row = lastRow[0];
-                $(row).find('.select2-container').remove();
-                $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
-
-                let article = $(row).find('input.articleCode').val();
-
-                let $_defect_sel = $(row).find(".articlesDropDownList");
-                let $_defect_sel_ = $(row).find(".DropDownList");
-                initArticleSelector($_defect_sel);
-                initArticleSelector($_defect_sel_);
-            }
-
-            Inputmask({
-                "mask": "AAA 9{1,4}"
-            }).mask('.vehicle_registration');
-
-            Inputmask({
-                "mask": "AAA 9{1,4}"
-            }).mask('.registration');
-
-        }
-
-        function reinitializeSelect2($_defect_sel) {
-            if ($_defect_sel) {
-                $($_defect_sel).removeClass('select2-hidden-accessible');
-                $($_defect_sel).select2({
-                    theme: "bootstrap4",
-                    width: "resolve",
-                });
-            }
-        }
-
-        function addTableRow(tableId) {
-            if (tableId === "part8") {
-                if ($('.select_2_control').data('select2')) {
-                    $('.select_2_control').select2('destroy');
-                }
-            }
-
-            Table.addRow($('table#' + tableId));
-            let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
-
-            lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
-
-            if (tableId === "material_table") {
-                lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
-                lastRow.find('[name="quantity"]').val('').attr('readonly', false);
-                lastRow.find('[name="articles"]').attr('readonly', false);
-                lastRow.find('[name="unit_of_measure"]').val('');
-                lastRow.find('[name="unit_price"]').val('');
-                lastRow.find('[name="total_price"]').val('');
-
-                lastRow.find('#unit_price').text('');
-            }
-
-            if (tableId === "services_table") {
-                // let row = lastRow[0];
-                // $(row).find('.select2-container').remove();
-                // $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
-
-                lastRow.find('[name="service_article"]').val('');
-                // lastRow.find('[name="service_article"]')
-                lastRow.find('[name="serviceArticleCode"]').val('');
-                lastRow.find('[name="service_technical_specification"]').val('');
-                lastRow.find('[name="service_unit_price"]').val('');
-                lastRow.find('[name="service_unit_of_measure"]').val('');
-                lastRow.find('[name="service_total_price"]').val('');
-                // initServiceArticleSelector('.')
-            } else {
-
-            }
-
-            if (tableId === "part8") {
-                let row = lastRow[0];
-                $(row).find('.select2-container').remove();
-                let $_defect_sel = $(".select_2_control");
-                reinitializeSelect2($_defect_sel);
-            }
-
-            if (tableId === "material_table") {
-                let row = lastRow[0];
-                $(row).find('.select2-container').remove();
-                $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
-
-                let article = $(row).find('input.articleCode').val();
-                console.log('Article on line', article)
-                let $_defect_sel = $(row).find(".articlesDropDownList");
-                let $_defect_sel_ = $(row).find(".DropDownList");
-                initArticleSelector($_defect_sel);
-                initArticleSelector($_defect_sel_);
-                //getArticleDetails(article, $_defect_sel);
-            }
-        }
-
-
-        const tableRowTemplate = `<tr class="increment">
-                            <td class="showNumber">
-                                <input
-                                    name="registration"
-                                    required
-                                    value=""
-                                    class="form-control form-control-sm vehicle_registration"/>
-                            </td>
-                            <td>
-                                <select
-                                        name="articles"
-                                        required
-                                        data-value=""
-                                        class="form-control form-control-sm articlesDropDownList">
-                                    <option></option>
-                                </select>
-                            </td>
-                            <td>
-                                <input
-                                    name="articleCode"
-                                    required
-                                    readonly
-                                    class="form-control form-control-sm articleCode"/>
-                            </td>
-                            <td>
-                                <input
-                                    name="technical_specification"
-                                    required
-                                    class="form-control form-control-sm technical_specification"/>
-                            </td>
-
-                            <td>
-                                <input
-                                    type="text"
-                                    min="1"
-                                    name="quantity"
-                                    required
-                                    class="form-control form-control-sm quantity number_input"/>
-                            </td>
-
-                            <td>
-                                <input
-                                    name="unit_of_measure"
-                                    required
-                                    readonly
-                                    class="form-control form-control-sm unit_of_measure"/>
-                            </td>
-
-                            <td>
-                                <input name="unit_price"
-                                       required
-                                       readonly
-                                       class="form-control form-control-sm unit_price"/>
-                            </td>
-
-                            <td>
-                                <input name="total_price"
-                                       required
-                                       readonly
-                                       class="form-control form-control-sm total_price"/>
-                            </td>
-
-                            <td class="view-mode">
-                                <button type="button"
-                                        data-value="0"
-                                        value="deleteRow"
-                                        class="btn btn-danger p-2">
-                                    <i class="fas fa-trash m-0"></i>
-                                </button>
-                            </td>
-                        </tr>`;
-
-        const serviceTableRowTemplate = ` <tr class="increment">
-                            <td class="showNumber">
-                                <input
-                                    name="vehicle_registration"
-                                    required
-                                    value=""
-                                    class="form-control form-control-sm vehicle_registration"/>
-                            </td>
-                            <td>
-                                <select
-                                    name="service_article"
-                                    required
-                                    data-value=""
-                                    class="form-control form-control-sm servicesArticlesDropDownList">
-                                    <option></option>
-                                </select>
-                            </td>
-                            <td>
-                                <input
-                                    name="serviceArticleCode"
-                                    required
-                                    readonly
-                                    class="form-control form-control-sm serviceArticleCode"/>
-                            </td>
-                            <td>
-                                <input
-                                    name="service_technical_specification"
-                                    required
-                                    class="form-control form-control-sm service_technical_specification"/>
-                            </td>
-
-                            <td>
-                                <input
-                                    readonly
-                                    type="text"
-                                    min="1"
-                                    value="1"
-                                    max="1"
-                                    name="service_quantity"
-                                    required
-                                    class="form-control form-control-sm service_quantity number_input"/>
-                            </td>
-
-                            <td>
-                                <input
-                                    name="service_unit_of_measure"
-                                    required
-                                    readonly
-                                    class="form-control form-control-sm unit_of_measure"/>
-                            </td>
-
-                            <td>
-                                <input name="service_unit_price"
-                                       required
-                                       class="form-control form-control-sm service_unit_price"/>
-                            </td>
-
-                            <td>
-                                <input name="service_total_price"
-                                       required
-                                       readonly
-                                       class="form-control form-control-sm service_total_price"/>
-                            </td>
-
-                            <td class="view-mode">
-                                <button type="button"
-                                        data-value="0"
-                                        value="deleteRow"
-                                        class="btn btn-danger p-2">
-                                    <i class="fas fa-trash m-0"></i>
-                                </button>
-                            </td>
-                        </tr>`;
-
-        function initArticleSelector(element) {
-            const dataUrl = document.querySelector('#articlesUrl').value;
-
-            // don't re-initialize
-            if (!element || element.length === 0) {
-                return;
-            }
-            let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
-            console.log(hasAttribute);
-            if (hasAttribute) {
-                return;
-            }
-
-            element.select2({
-                selectOnClose: true,
-                multiple: false,
-                quietMillis: 100,
-                id: function (project) {
-                    return project['code_article'];
-                },
-                theme: 'bootstrap4',
-                ajax: {
-                    delay: 250,
-                    beforeSend: function () {
-                        window.showLoaderModal(false);
-                        window.loaderVisible = false;
-                    },
-                    url: dataUrl,
-                    dataType: 'json',
-                    data: function (params) {
-                        return {
-                            search: params.term, // search term
-                            type_article: document.querySelector('#itemType').value,
-                            store_code: document.querySelector('#store_code').value,
-                            page: params.page
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-
-                        return {
-                            results: formatResults(data.items),
-                            pagination: {
-                                more: (params.page * 30) < data['total_count']
-                            }
-                        };
-                    },
-                    cache: true
-                },
-                placeholder: 'Enter Article name or Code',
-                minimumInputLength: 3,
-                templateResult: formatRepo,
-                templateSelection: formatRepoSelection
-            }).off('select2:select').on('select2:select', function (e) {
-                let article = e.params['data'];
-                const row = $(e.currentTarget).closest('tr');
-                if (document.querySelector('[name="stockItemCode"]').value == $("#itemType").val()) {
-
-                    if (!article?.price_map) {
-                        const description = article?.technical_specifications ? article?.technical_specifications : "";
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'The Article '
-                                + article?.id
-                                + ' - ' + description + ' has no price. ' +
-                                ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
-                        });
-                        return;
-                    }
-
-                    if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
-                        const description = article?.technical_specifications ? article?.technical_specifications : "";
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'The Store '
-                                + $("#store_name").val()
-                                + ' does not have '
-                                + article?.id
-                                + ' - ' + description + ' in stock. ' +
-                                'You may have to wait until the stock is received before your request can be processed'
-                        });
-                    }
-                }
-                //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
-                $(row).find('[name="articleCode"]').val(article['id']);
-                $(row).find('[name="unit_price"]').val(article['price_map']);
-                $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
-                $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
-            });
-        }
-
-        function initServiceArticleSelector(element) {
-            const dataUrl = document.querySelector('#articlesUrl').value;
-
-            // don't re-initialize
-            if (element.length === 0) {
-                return;
-            }
-            let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
-            console.log(hasAttribute);
-            if (hasAttribute) {
-                return;
-            }
-
-            element.select2({
-                selectOnClose: true,
-                multiple: false,
-                quietMillis: 100,
-                id: function (project) {
-                    return project['code_article'];
-                },
-                theme: 'bootstrap4',
-                ajax: {
-                    delay: 250,
-                    beforeSend: function () {
-                        window.showLoaderModal(false);
-                        window.loaderVisible = false;
-                    },
-                    url: dataUrl,
-                    dataType: 'json',
-                    data: function (params) {
-                        return {
-                            search: params.term, // search term
-                            type_article: document.querySelector('#itemType').value,
-                            supplier_code: document.querySelector('#supplier').value,
-                            page: params.page
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-
-                        return {
-                            results: formatResults(data.items),
-                            pagination: {
-                                more: (params.page * 30) < data['total_count']
-                            }
-                        };
-                    },
-                    cache: true
-                },
-                placeholder: 'Enter Article name or Code',
-                minimumInputLength: 3,
-                templateResult: formatRepo,
-                templateSelection: formatRepoSelection
-            })
-                .off('select2:select')
-                .on('select2:select', function (e) {
-                    let article = e.params['data'];
-                    const row = $(e.currentTarget).closest('tr');
-                    const table = $(e.currentTarget).closest('table');
-
-                    // loop through table and ensure article has not been selected before
-                    console.log('Table Is ', table)
-                    $(row).find('[name="serviceArticleCode"]').val(article['id']);
-                    $(row).find('[name="service_unit_price"]').val(article['price_map']);
-                    $(row).find('[name="service_technical_specification"]').val(article['technical_specifications']);
-                    $(row).find('[name="service_unit_of_measure"]').val(article['unit_measure_name']);
-                });
-        }
-
-        function formatRepo(project) {
-            if (project.loading)
-                return project.text;
-            return $('<option value="' + project['id'] + '">' + project['text'] + '</option>');
-        }
-
-        function formatRepoSelection(project) {
-            if (!project['id']) {
-                return project['text'];
-            }
-            return project['description'];
-        }
-
-        function formatResults(items) {
-            return $.map(items, function (obj) {
-                return {
-                    "id": obj['code_article'],
-                    "text": obj['code_article'] + ':' + obj.description,
-                    'code_article': obj?.code_article,
-                    'description': obj?.description,
-                    'price_map': obj?.price,
-                    'technical_specifications': obj?.technical_specifications,
-                    'unit_measure': obj?.unit_measure,
-                    'unit_measure_code': obj?.unit_measure,
-                    'unit_measure_name': obj?.unit_measure_name,
-                    'quantity_in_store': obj?.quantity_in_store
-                };
-            });
-        }
-
-
-        $(document).ready(function () {
-
-            $('#material_table').on('change', '[name="registration"]', function () {
-                const $row = $(this).closest('tr');
-                checkVehicleStatus($row, this.value);
-            });
-
-            $('#services_table').on('change', '[name="vehicle_registration"]', function () {
-                const $row = $(this).closest('tr');
-                checkVehicleStatus($row, this.value);
-            });
-
-            initArticleSelector($('.articlesDropDownList'));
-
-            initServiceArticleSelector($('.servicesArticlesDropDownList'));
-
-            Inputmask({
-                "mask": "AAA 9{1,4}"
-            }).mask('.vehicle_registration');
-
-            $.fn.disableBtn = function () {
-                return this.each(function () {
-                    $(this).addClass("disabled").attr("disabled", true)
-                })
-            }
-
-            $.fn.enableBtn = function () {
-                return this.each(function () {
-                    let $this = $(this);
-                    $this.removeClass("disabled").attr("disabled", false)
-                })
-            }
-        });
-
-
         (function (tmsApp, $) {
 
             let form = $('#jobCardForm').show();
@@ -2104,6 +1431,679 @@
                             'Connection error. Could not retrieve data, some feature might not work.')
                     });
             }
+
+            function checkVehicleStatus($row, numberPlate) {
+                console.log($row);
+                console.log(numberPlate);
+
+
+                if (!numberPlate) {
+                    return;
+                }
+
+                const url = $('#vehicleDetails').attr('data-action') + '?vehicle_registration=' + numberPlate;
+
+                fetch(
+                    url,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        /*body: JSON.stringify({vehicle_registration: numberPlate}),*/
+                        referrer: window.baseUrl,
+                        mode: 'cors',
+                        credentials: 'same-origin',
+                    }
+                )
+                    .then((response) => {
+                        if (!response.ok) {
+                            tmsApp.systemError(
+                                'System Message',
+                                'We could not complete vehicle state checks',
+                                function () {
+                                });
+                            return;
+                        }
+
+                        return response.json();
+                    })
+                    .then(response => {
+                        console.log(response);
+                        if (response.success === 'true' || response.success === true) {
+                            populateVehicleDetails(response.payload, "");
+                        } else {
+                            removeSubmissionAndDetailsOptions();
+                            tmsApp.systemError(
+                                'Vehicle',
+                                'Vehicle with Registration No.' + numberPlate
+                                + ' was not found, Check your input and try again',
+                                function () {
+                                });
+                        }
+                    })
+                    .catch(function (error) {
+                        tmsApp.systemError(
+                            'System Message',
+                            'We could not complete vehicle state checks',
+                            function () {
+                            });
+                    });
+            }
+
+            function populateVehicleDetails(payload, state) {
+                let vehicle = payload['vehicle'];
+                let images = payload['images'];
+                let vehicle_state = payload['vehicle_state'];
+
+                if (!vehicle || !vehicle.brand_name) {
+                    return;
+                }
+
+                // BAD 1010
+                if (state !== 'InWorkshop') {
+                    if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
+                        tmsApp.showSystemMessage("Vehicle State",
+                            vehicle_state,
+                            () => {
+                            },
+                            "error");
+                        return;
+                    }
+                }
+
+                let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
+                $("#vehicle_description").val(vLabel);
+                let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
+                               <tr>
+                                    <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
+                               </tr>
+                               <tr style="">
+                                     <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
+                                </tr>
+                                <tr style="">
+                                     <th>State:</th><td id="registration">${vehicle['status_name']}</td>
+                                </tr>`;
+
+                $('tbody#vehicleDetails').html(row);
+                return;
+
+                // enableWebUIControls();
+
+                if (images && images.length > 0) {
+                    let frontViewImages = images.filter((image) => {
+                        return image['file_type'] === 'Front View';
+                    })
+                    let imagePath = frontViewImages[0]?.path;
+                    document.querySelector(".imagePreview").style.backgroundImage = "url(/storage" + imagePath + ")";
+                }
+
+            }
+
+            function insertTableRow(tableId) {
+                const itemType = document.querySelector('[name="itemType"]').value;
+                // check if item type has been selected
+                if (!itemType) {
+                    Swal.fire({
+                        text: "Select Item Type",
+                        icon: "warning",
+                        showCancelButton: false,
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok",
+                        customClass: {
+                            confirmButton: "btn fw-bold btn-primary",
+                            cancelButton: "btn fw-bold btn-active-light-primary"
+                        }
+                    });
+                    return;
+                }
+
+                // if supplier has been selected for service and non-stock
+                if (document.querySelector('[name="stockItemCode"]').value === itemType) {
+                    // check that supplier is selected
+                    if (!document.querySelector('[name="workshop_code"]').value) {
+                        Swal.fire({
+                            text: "Select a Workshop",
+                            icon: "warning",
+                            showCancelButton: false,
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok",
+                            customClass: {
+                                confirmButton: "btn fw-bold btn-primary",
+                                cancelButton: "btn fw-bold btn-active-light-primary"
+                            }
+                        });
+                        return;
+                    }
+                } else {
+                    // check that supplier is selected
+                    if (!document.querySelector('[name="supplier"]').value) {
+                        Swal.fire({
+                            text: "Select a Supplier",
+                            icon: "warning",
+                            showCancelButton: false,
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok",
+                            customClass: {
+                                confirmButton: "btn fw-bold btn-primary",
+                                cancelButton: "btn fw-bold btn-active-light-primary"
+                            }
+                        });
+                        return;
+                    }
+                }
+
+                const $table = $('table#' + tableId);
+                if (tableId === "material_table") {
+                    $table.find('tbody').append(tableRowTemplate);
+                } else {
+                    if (tableId === "services_table") {
+                        $table.find('tbody').append(serviceTableRowTemplate);
+                    }
+                }
+                let lastRow = $table.find('tbody tr').eq((0 + 1) * -1);
+
+                lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
+
+                if (tableId === "material_table") {
+                    lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
+                    if (itemType === document.querySelector('[name="stockItemCode"]').value) {
+                        lastRow.find('[name="quantity"]').val('').attr('readonly', false);
+                        lastRow.find('[name="unit_price"]').val('').attr('readonly', true);
+                    } else {
+                        lastRow.find('[name="quantity"]').val('').attr('readonly', false);
+                        lastRow.find('[name="unit_price"]').val('').attr('readonly', false);
+                    }
+
+                    lastRow.find('[name="articles"]').attr('readonly', false);
+                    lastRow.find('[name="unit_of_measure"]').val('');
+                    lastRow.find('[name="total_price"]').val('');
+                    lastRow.find('#unit_price').text('');
+                }
+
+                if (tableId === "services_table") {
+                    // let row = lastRow[0];
+                    $(lastRow).find('.select2-container').remove();
+                    $(lastRow).find('.servicesArticlesDropDownList').removeClass('select2-hidden-accessible');
+                    lastRow.find('[name="service_article"]').val('');
+                    lastRow.find('[name="serviceArticleCode"]').val('');
+                    lastRow.find('[name="service_technical_specification"]').val('');
+                    lastRow.find('[name="service_unit_price"]').val('');
+                    lastRow.find('[name="service_unit_of_measure"]').val('');
+                    lastRow.find('[name="service_total_price"]').val('');
+                    let $_defect_sel_ = $(lastRow).find(".servicesArticlesDropDownList");
+                    initServiceArticleSelector($_defect_sel_);
+                }
+
+                if (tableId === "material_table") {
+                    let row = lastRow[0];
+                    $(row).find('.select2-container').remove();
+                    $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+
+                    let article = $(row).find('input.articleCode').val();
+
+                    let $_defect_sel = $(row).find(".articlesDropDownList");
+                    let $_defect_sel_ = $(row).find(".DropDownList");
+                    initArticleSelector($_defect_sel);
+                    initArticleSelector($_defect_sel_);
+                }
+
+                Inputmask({
+                    "mask": "AAA 9{1,4}"
+                }).mask('.vehicle_registration');
+
+                Inputmask({
+                    "mask": "AAA 9{1,4}"
+                }).mask('.registration');
+
+            }
+
+            function reinitializeSelect2($_defect_sel) {
+                if ($_defect_sel) {
+                    $($_defect_sel).removeClass('select2-hidden-accessible');
+                    $($_defect_sel).select2({
+                        theme: "bootstrap4",
+                        width: "resolve",
+                    });
+                }
+            }
+
+            function addTableRow(tableId) {
+                if (tableId === "part8") {
+                    if ($('.select_2_control').data('select2')) {
+                        $('.select_2_control').select2('destroy');
+                    }
+                }
+
+                Table.addRow($('table#' + tableId));
+                let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
+
+                lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
+
+                if (tableId === "material_table") {
+                    lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
+                    lastRow.find('[name="quantity"]').val('').attr('readonly', false);
+                    lastRow.find('[name="articles"]').attr('readonly', false);
+                    lastRow.find('[name="unit_of_measure"]').val('');
+                    lastRow.find('[name="unit_price"]').val('');
+                    lastRow.find('[name="total_price"]').val('');
+
+                    lastRow.find('#unit_price').text('');
+                }
+
+                if (tableId === "services_table") {
+                    // let row = lastRow[0];
+                    // $(row).find('.select2-container').remove();
+                    // $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+
+                    lastRow.find('[name="service_article"]').val('');
+                    // lastRow.find('[name="service_article"]')
+                    lastRow.find('[name="serviceArticleCode"]').val('');
+                    lastRow.find('[name="service_technical_specification"]').val('');
+                    lastRow.find('[name="service_unit_price"]').val('');
+                    lastRow.find('[name="service_unit_of_measure"]').val('');
+                    lastRow.find('[name="service_total_price"]').val('');
+                    // initServiceArticleSelector('.')
+                } else {
+
+                }
+
+                if (tableId === "part8") {
+                    let row = lastRow[0];
+                    $(row).find('.select2-container').remove();
+                    let $_defect_sel = $(".select_2_control");
+                    reinitializeSelect2($_defect_sel);
+                }
+
+                if (tableId === "material_table") {
+                    let row = lastRow[0];
+                    $(row).find('.select2-container').remove();
+                    $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+
+                    let article = $(row).find('input.articleCode').val();
+                    console.log('Article on line', article)
+                    let $_defect_sel = $(row).find(".articlesDropDownList");
+                    let $_defect_sel_ = $(row).find(".DropDownList");
+                    initArticleSelector($_defect_sel);
+                    initArticleSelector($_defect_sel_);
+                    //getArticleDetails(article, $_defect_sel);
+                }
+            }
+
+
+            const tableRowTemplate = `<tr class="increment">
+                            <td class="showNumber">
+                                <input
+                                    name="registration"
+                                    required
+                                    value=""
+                                    class="form-control form-control-sm vehicle_registration"/>
+                            </td>
+                            <td>
+                                <select
+                                        name="articles"
+                                        required
+                                        data-value=""
+                                        class="form-control form-control-sm articlesDropDownList">
+                                    <option></option>
+                                </select>
+                            </td>
+                            <td>
+                                <input
+                                    name="articleCode"
+                                    required
+                                    readonly
+                                    class="form-control form-control-sm articleCode"/>
+                            </td>
+                            <td>
+                                <input
+                                    name="technical_specification"
+                                    required
+                                    class="form-control form-control-sm technical_specification"/>
+                            </td>
+
+                            <td>
+                                <input
+                                    type="text"
+                                    min="1"
+                                    name="quantity"
+                                    required
+                                    class="form-control form-control-sm quantity number_input"/>
+                            </td>
+
+                            <td>
+                                <input
+                                    name="unit_of_measure"
+                                    required
+                                    readonly
+                                    class="form-control form-control-sm unit_of_measure"/>
+                            </td>
+
+                            <td>
+                                <input name="unit_price"
+                                       required
+                                       readonly
+                                       class="form-control form-control-sm unit_price"/>
+                            </td>
+
+                            <td>
+                                <input name="total_price"
+                                       required
+                                       readonly
+                                       class="form-control form-control-sm total_price"/>
+                            </td>
+
+                            <td class="view-mode">
+                                <button type="button"
+                                        data-value="0"
+                                        value="deleteRow"
+                                        class="btn btn-danger p-2">
+                                    <i class="fas fa-trash m-0"></i>
+                                </button>
+                            </td>
+                        </tr>`;
+
+            const serviceTableRowTemplate = ` <tr class="increment">
+                            <td class="showNumber">
+                                <input
+                                    name="vehicle_registration"
+                                    required
+                                    value=""
+                                    class="form-control form-control-sm vehicle_registration"/>
+                            </td>
+                            <td>
+                                <select
+                                    name="service_article"
+                                    required
+                                    data-value=""
+                                    class="form-control form-control-sm servicesArticlesDropDownList">
+                                    <option></option>
+                                </select>
+                            </td>
+                            <td>
+                                <input
+                                    name="serviceArticleCode"
+                                    required
+                                    readonly
+                                    class="form-control form-control-sm serviceArticleCode"/>
+                            </td>
+                            <td>
+                                <input
+                                    name="service_technical_specification"
+                                    required
+                                    class="form-control form-control-sm service_technical_specification"/>
+                            </td>
+
+                            <td>
+                                <input
+                                    readonly
+                                    type="text"
+                                    min="1"
+                                    value="1"
+                                    max="1"
+                                    name="service_quantity"
+                                    required
+                                    class="form-control form-control-sm service_quantity number_input"/>
+                            </td>
+
+                            <td>
+                                <input
+                                    name="service_unit_of_measure"
+                                    required
+                                    readonly
+                                    class="form-control form-control-sm unit_of_measure"/>
+                            </td>
+
+                            <td>
+                                <input name="service_unit_price"
+                                       required
+                                       class="form-control form-control-sm service_unit_price"/>
+                            </td>
+
+                            <td>
+                                <input name="service_total_price"
+                                       required
+                                       readonly
+                                       class="form-control form-control-sm service_total_price"/>
+                            </td>
+
+                            <td class="view-mode">
+                                <button type="button"
+                                        data-value="0"
+                                        value="deleteRow"
+                                        class="btn btn-danger p-2">
+                                    <i class="fas fa-trash m-0"></i>
+                                </button>
+                            </td>
+                        </tr>`;
+
+            function initArticleSelector(element) {
+                const dataUrl = document.querySelector('#articlesUrl').value;
+
+                // don't re-initialize
+                if (!element || element.length === 0) {
+                    return;
+                }
+                let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
+                console.log(hasAttribute);
+                if (hasAttribute) {
+                    return;
+                }
+
+                element.select2({
+                    selectOnClose: true,
+                    multiple: false,
+                    quietMillis: 100,
+                    id: function (project) {
+                        return project['code_article'];
+                    },
+                    theme: 'bootstrap4',
+                    ajax: {
+                        delay: 250,
+                        beforeSend: function () {
+                            window.showLoaderModal(false);
+                            window.loaderVisible = false;
+                        },
+                        url: dataUrl,
+                        dataType: 'json',
+                        data: function (params) {
+                            return {
+                                search: params.term, // search term
+                                type_article: document.querySelector('#itemType').value,
+                                store_code: document.querySelector('#store_code').value,
+                                page: params.page
+                            };
+                        },
+                        processResults: function (data, params) {
+                            params.page = params.page || 1;
+
+                            return {
+                                results: formatResults(data.items),
+                                pagination: {
+                                    more: (params.page * 30) < data['total_count']
+                                }
+                            };
+                        },
+                        cache: true
+                    },
+                    placeholder: 'Enter Article name or Code',
+                    minimumInputLength: 3,
+                    templateResult: formatRepo,
+                    templateSelection: formatRepoSelection
+                }).off('select2:select').on('select2:select', function (e) {
+                    let article = e.params['data'];
+                    const row = $(e.currentTarget).closest('tr');
+                    if (document.querySelector('[name="stockItemCode"]').value == $("#itemType").val()) {
+
+                        if (!article?.price_map) {
+                            const description = article?.technical_specifications ? article?.technical_specifications : "";
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'The Article '
+                                    + article?.id
+                                    + ' - ' + description + ' has no price. ' +
+                                    ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
+                            });
+                            return;
+                        }
+
+                        if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
+                            const description = article?.technical_specifications ? article?.technical_specifications : "";
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'The Store '
+                                    + $("#store_name").val()
+                                    + ' does not have '
+                                    + article?.id
+                                    + ' - ' + description + ' in stock. ' +
+                                    'You may have to wait until the stock is received before your request can be processed'
+                            });
+                        }
+                    }
+                    //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
+                    $(row).find('[name="articleCode"]').val(article['id']);
+                    $(row).find('[name="unit_price"]').val(article['price_map']);
+                    $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
+                    $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
+                });
+            }
+
+            function initServiceArticleSelector(element) {
+                const dataUrl = document.querySelector('#articlesUrl').value;
+
+                // don't re-initialize
+                if (element.length === 0) {
+                    return;
+                }
+                let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
+                console.log(hasAttribute);
+                if (hasAttribute) {
+                    return;
+                }
+
+                element.select2({
+                    selectOnClose: true,
+                    multiple: false,
+                    quietMillis: 100,
+                    id: function (project) {
+                        return project['code_article'];
+                    },
+                    theme: 'bootstrap4',
+                    ajax: {
+                        delay: 250,
+                        beforeSend: function () {
+                            window.showLoaderModal(false);
+                            window.loaderVisible = false;
+                        },
+                        url: dataUrl,
+                        dataType: 'json',
+                        data: function (params) {
+                            return {
+                                search: params.term, // search term
+                                type_article: document.querySelector('#itemType').value,
+                                supplier_code: document.querySelector('#supplier').value,
+                                page: params.page
+                            };
+                        },
+                        processResults: function (data, params) {
+                            params.page = params.page || 1;
+
+                            return {
+                                results: formatResults(data.items),
+                                pagination: {
+                                    more: (params.page * 30) < data['total_count']
+                                }
+                            };
+                        },
+                        cache: true
+                    },
+                    placeholder: 'Enter Article name or Code',
+                    minimumInputLength: 3,
+                    templateResult: formatRepo,
+                    templateSelection: formatRepoSelection
+                })
+                    .off('select2:select')
+                    .on('select2:select', function (e) {
+                        let article = e.params['data'];
+                        const row = $(e.currentTarget).closest('tr');
+                        const table = $(e.currentTarget).closest('table');
+
+                        // loop through table and ensure article has not been selected before
+                        console.log('Table Is ', table)
+                        $(row).find('[name="serviceArticleCode"]').val(article['id']);
+                        $(row).find('[name="service_unit_price"]').val(article['price_map']);
+                        $(row).find('[name="service_technical_specification"]').val(article['technical_specifications']);
+                        $(row).find('[name="service_unit_of_measure"]').val(article['unit_measure_name']);
+                    });
+            }
+
+            function formatRepo(project) {
+                if (project.loading)
+                    return project.text;
+                return $('<option value="' + project['id'] + '">' + project['text'] + '</option>');
+            }
+
+            function formatRepoSelection(project) {
+                if (!project['id']) {
+                    return project['text'];
+                }
+                return project['description'];
+            }
+
+            function formatResults(items) {
+                return $.map(items, function (obj) {
+                    return {
+                        "id": obj['code_article'],
+                        "text": obj['code_article'] + ':' + obj.description,
+                        'code_article': obj?.code_article,
+                        'description': obj?.description,
+                        'price_map': obj?.price,
+                        'technical_specifications': obj?.technical_specifications,
+                        'unit_measure': obj?.unit_measure,
+                        'unit_measure_code': obj?.unit_measure,
+                        'unit_measure_name': obj?.unit_measure_name,
+                        'quantity_in_store': obj?.quantity_in_store
+                    };
+                });
+            }
+
+
+            $(document).ready(function () {
+
+                $('#material_table').on('change', '[name="registration"]', function () {
+                    const $row = $(this).closest('tr');
+                    checkVehicleStatus($row, this.value);
+                });
+
+                $('#services_table').on('change', '[name="vehicle_registration"]', function () {
+                    const $row = $(this).closest('tr');
+                    checkVehicleStatus($row, this.value);
+                });
+
+                initArticleSelector($('.articlesDropDownList'));
+
+                initServiceArticleSelector($('.servicesArticlesDropDownList'));
+
+                Inputmask({
+                    "mask": "AAA 9{1,4}"
+                }).mask('.vehicle_registration');
+
+                $.fn.disableBtn = function () {
+                    return this.each(function () {
+                        $(this).addClass("disabled").attr("disabled", true)
+                    })
+                }
+
+                $.fn.enableBtn = function () {
+                    return this.each(function () {
+                        let $this = $(this);
+                        $this.removeClass("disabled").attr("disabled", false)
+                    })
+                }
+            });
+
 
             initEventHandlers();
 
