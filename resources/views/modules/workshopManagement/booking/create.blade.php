@@ -1828,9 +1828,9 @@
             }
 
             function insertTableRow(tableId) {
-
+                const itemType = document.querySelector('[name="itemType"]').value;
                 // check if item type has been selected
-                if (!document.querySelector('[name="itemType"]').value) {
+                if (!itemType) {
                     Swal.fire({
                         text: "Select Item Type",
                         icon: "warning",
@@ -1846,7 +1846,7 @@
                 }
 
                 // if supplier has been selected for service and non-stock
-                if (document.querySelector('[name="stockItemCode"]').value === document.querySelector('[name="itemType"]').value) {
+                if (document.querySelector('[name="stockItemCode"]').value === itemType) {
                     // check that supplier is selected
                     if (!document.querySelector('[name="workshop_code"]').value) {
                         Swal.fire({
@@ -1888,12 +1888,17 @@
 
                 if (tableId === "material_table") {
                     lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
-                    lastRow.find('[name="quantity"]').val('').attr('readonly', false);
-                    lastRow.find('[name="articles"]').attr('readonly', false);
-                    lastRow.find('[name="unit_of_measure"]').val('');
-                    lastRow.find('[name="unit_price"]').val('');
-                    lastRow.find('[name="total_price"]').val('');
+                    if (itemType === document.querySelector('[name="stockItemCode"]').value) {
+                        lastRow.find('[name="quantity"]').val('').attr('readonly', false);
+                        lastRow.find('[name="unit_price"]').val('').attr('readonly', true);
+                    } else {
+                        lastRow.find('[name="quantity"]').val('').attr('readonly', false);
+                        lastRow.find('[name="unit_price"]').val('').attr('readonly', false);
+                    }
 
+                    lastRow.find('[name="articles"]').attr('readonly', false);
+                    lastRow.find('[name="unit_of_measure"]').val('').attr('readonly', false);
+                    lastRow.find('[name="total_price"]').val('').attr('readonly', false);
                     lastRow.find('#unit_price').text('');
                 }
 
