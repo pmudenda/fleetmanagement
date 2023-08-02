@@ -1919,8 +1919,8 @@
                     lastRow.find('[name="service_unit_price"]').val('');
                     lastRow.find('[name="service_unit_of_measure"]').val('');
                     lastRow.find('[name="service_total_price"]').val('');
-
-                    initServiceArticleSelector('.')
+                    let $_defect_sel_ = $(lastRow).find(".servicesArticlesDropDownList");
+                    initServiceArticleSelector($_defect_sel_);
                 }
 
                 if (tableId === "material_table") {
@@ -1929,7 +1929,7 @@
                     $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
 
                     let article = $(row).find('input.articleCode').val();
-                    console.log('Article on line', article)
+
                     let $_defect_sel = $(row).find(".articlesDropDownList");
                     let $_defect_sel_ = $(row).find(".DropDownList");
                     initArticleSelector($_defect_sel);
