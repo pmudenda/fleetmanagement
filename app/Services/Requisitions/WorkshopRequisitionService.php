@@ -1263,4 +1263,12 @@ class WorkshopRequisitionService
             );
         }
     }
+
+    public function updateMaterialHeaderStatus(mixed $reference, string $status)
+    {
+        /*DB::beginTransaction();
+        MaterialHeader::where("req_no", $reference)
+            ->update(["status" => $status]);
+        DB::commit();*/
+    }
 }

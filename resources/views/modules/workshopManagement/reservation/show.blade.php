@@ -20,7 +20,12 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <h4>APPROVE STORES RESERVATION</h4>
+                    @if(str_contains($requestDetails->req_no,'PUR'))
+                        <h4>APPROVE PURCHASE PROCESS</h4>
+                    @else
+                        <h4>APPROVE STORES RESERVATION</h4>
+                    @endif
+
                 </div>
                 <div class="card-toolbar justify-content-end">
                     @if(!empty($requestDetails))
@@ -94,7 +99,11 @@
                                     </a>
                                 </th>
                                 <th width="33%" colspan="4" class="text-center">
-                                    STORES RESERVATION
+                                    @if(str_contains($requestDetails->req_no,'PUR'))
+                                        PURCHASE PROCESS
+                                    @else
+                                        STORES RESERVATION
+                                    @endif
                                 </th>
                                 <th width="34%" colspan="1" class="p-3">
                                     {{--Doc Number:<br>XX.YYYYY.DOC_TYPE.NUMBER<br>Version:

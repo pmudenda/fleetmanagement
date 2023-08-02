@@ -92,6 +92,7 @@ class WorkflowController extends Controller
 
                 $this->workshopRequisitionService->updateStatus($reference, StatusHelper::authorised());
 
+                $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, StatusHelper::authorised());
             }else{
                 $status = '';
                 switch (strtolower(trim($request->get('Approved')))) {
@@ -104,6 +105,8 @@ class WorkflowController extends Controller
                 }
 
                 $this->fuelRequisitionService->updateStatus($reference, $status);
+                $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, $status);
+
             }
 
             return response()->json([
@@ -195,7 +198,7 @@ class WorkflowController extends Controller
                 }
 
                 $this->workshopRequisitionService->updateStatus($reference, StatusHelper::authorised());
-
+                $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, StatusHelper::authorised());
             }else{
 
                 $status = '';
@@ -211,6 +214,7 @@ class WorkflowController extends Controller
                 }
 
                 $this->workshopRequisitionService->updateStatus($reference, $status);
+                $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, $status);
             }
 
             return response()->json([
