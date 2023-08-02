@@ -86,7 +86,7 @@
                                                  <div class="input-group">
                                                      <input type="text"
                                                             @if(!empty($details->reg_no)) readonly="readonly" @endif
-                                                            data-action="{{route('requisition.vehicle.details')}}"
+
                                                             class="form-control form-control-sm"
                                                             value="{{$details->reg_no ?? ''}}"
                                                             id="vehicle_registration"
@@ -410,8 +410,15 @@
                        id="deleteMaterialUrl"/>
 
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
-                <input type="hidden" value="{{$details->veh_reg ?? ''}}" name="vehicle_registration"
+                <input type="hidden"
+                       value="{{$details->veh_reg ?? ''}}"
+                       name="vehicle_registration"
                        id="vehicle_registration"/>
+
+                <input type="hidden"
+                       data-action="{{route('requisition.vehicle.details')}}"
+                       name="vehicleDetails"
+                       id="vehicleDetails"/>
                 <input type="hidden" value="{{$details->veh_reg ?? ''}}" name="vehicle_reg_no"
                        id="vehicle_reg_no"/>
                 <input type="hidden" value="{{$details->wshp_act_code ?? ''}}" name="workshop_reference"
@@ -1100,25 +1107,25 @@
 
                 });
 
-                $(document).on('change paste', '[name="vehicle_registration"]', function () {
+                /*$(document).on('change paste', '[name="vehicle_registration"]', function () {
                     if (!this.value || this.value.replace('_', '').length < 4) {
                         return;
                     }
                     removeSubmissionAndDetailsOptions();
                     findVehicle();
-                });
+                });*/
 
-                $(document).on('click', '#vehicleSearchBtn', function () {
-                    if (!document.querySelector('[name="vehicle_registration"]').value) {
-                        return;
-                    }
-                    if (document.querySelector('[name="vehicle_registration"]').value?.includes('_')) {
-                        tmsApp.showToast('Invalid Registration Number', 'error');
-                        return;
-                    }
-                    removeSubmissionAndDetailsOptions();
-                    findVehicle();
-                });
+                /* $(document).on('click', '#vehicleSearchBtn', function () {
+                     if (!document.querySelector('[name="vehicle_registration"]').value) {
+                         return;
+                     }
+                     if (document.querySelector('[name="vehicle_registration"]').value?.includes('_')) {
+                         tmsApp.showToast('Invalid Registration Number', 'error');
+                         return;
+                     }
+                     removeSubmissionAndDetailsOptions();
+                     findVehicle();
+                 });*/
 
                 /*****************************Event Handlers*****************************************/
 
@@ -1523,15 +1530,7 @@
                     return;
                 }
 
-                const url = $('#vehicle_registration').attr('data-action') + '?vehicle_registration=' + numberPlate;
-                /*let formData = new FormData();
-                tmsApp.asyncGetFormData(
-                    url,
-                    formData,
-                    function (response_data) {
-                    },
-                );*/
-
+                const url = $('#vehicleDetails').attr('data-action') + '?vehicle_registration=' + numberPlate;
 
                 fetch(
                     url,
