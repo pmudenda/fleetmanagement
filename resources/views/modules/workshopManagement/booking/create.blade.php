@@ -1514,7 +1514,8 @@
                                 /*const regNo = $('[name="vehicle_reg_no"]').val();
                                 $(table).find('[name="vehicle_registration"]').val(regNo);*/
                                 try {
-                                    tableRow.remove();
+                                    $(tableRow).remove();
+                                    //tableRow.remove();
                                 } catch (e) {
                                 }
 
