@@ -250,6 +250,7 @@
                                     <label for="documentType" class="col-4 form-label">Document Type:</label>
                                     <div class="col-8">
                                         <select class="form-select" id="documentType" name="documentType">
+                                            <option></option>
                                             <option value="08">STORE REQUISITION</option>
                                             <option value="09">STORE RESERVATION</option>
                                             <option value="11">PURCHASE PROCESS</option>
@@ -437,7 +438,7 @@
     $.widget.bridge('uibutton', $.ui.button)
 </script>
 <script src="{{asset('themes/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>
+{{--<script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>--}}
 <script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
 <script>
     $(document).ready(function () {
