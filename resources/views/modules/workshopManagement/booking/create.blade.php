@@ -1059,15 +1059,12 @@
                     eventHandler(this, e);
                 });
 
-                $(document).off('click', 'button[value="insertRow"][data-table-id]')
-                    .on('click', 'button[value="insertRow"][data-table-id]', function () {
+                $(document).on('click', 'button[value="insertRow"][data-table-id]', function () {
                         let tableId = $(this).data('tableId');
                         insertTableRow(tableId);
                     });
 
                 $(document).on('click', 'button[value="deleteRow"]', function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
                     deleteTableRow(this);
                     return false;
                 });
@@ -1524,6 +1521,15 @@
 
 
                         let dataUrl = "";
+                        const $table = $('table#' + tableId);
+                        if (tableId === "material_table") {
+                            name="quantity"
+                            $table.find('tbody')
+                        }
+                        if (tableId === "services_table") {
+
+                        }
+
                         if (tableId === 'part8') {
                             dataUrl = document.querySelector('[name="deleteDefectUrl"]').value;
                         } else {
@@ -1580,16 +1586,6 @@
                         )
                     });
             }
-
-            /*function tableHasItems() {
-                let inputs = $("#material_table > tbody").find('.articleCode');
-                for (const input of inputs) {
-                    if (input.value > "") {
-                        return true;
-                    }
-                }
-                return false;
-            }*/
 
             function getSuppliers() {
                 fetch(document.querySelector('#suppliersList').value)

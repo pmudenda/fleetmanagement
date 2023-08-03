@@ -357,8 +357,8 @@ class WorkshopRequisitionService
         Log::info("Reservation Item Type " . $materialResevationRequest->get("itemType"));
         Log::info("Determined Reservation Item Type Code " . $item_type);
 
-        $short_description = "Workshop Reservation for Vehicle Reg No. $registrationNumber";
-        $long_description = "Workshop Reservation Ref.No. $requisition_reference_number For Vehicle Reg No.  $registrationNumber";
+        $short_description = "Workshop Reservation for Vehicles Reference $requisition_reference_number";
+        $long_description = "Workshop Reservation Reference No. $requisition_reference_number For Vehicles";
 
         $this->workflowService->initiateWorkflowProcess(
             $requisition_reference_number,

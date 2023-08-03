@@ -1923,21 +1923,18 @@
                     eventHandler(this, e);
                 });
 
-                $(document).off('click', 'button[value="addRow"][data-table-id]')
+              /*  $(document).off('click', 'button[value="addRow"][data-table-id]')
                     .on('click', 'button[value="addRow"][data-table-id]', function () {
                         let tableId = $(this).data('tableId');
                         addTableRow(tableId);
-                    });
+                    });*/
 
-                $(document).off('click', 'button[value="insertRow"][data-table-id]')
-                    .on('click', 'button[value="insertRow"][data-table-id]', function () {
+                $(document).on('click', 'button[value="insertRow"][data-table-id]', function () {
                         let tableId = $(this).data('tableId');
                         insertTableRow(tableId);
                     });
 
                 $(document).on('click', 'button[value="deleteRow"]', function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
                     deleteTableRow(this);
                     return false;
                 });
