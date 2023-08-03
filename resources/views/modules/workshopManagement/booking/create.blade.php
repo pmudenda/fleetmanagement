@@ -1705,11 +1705,11 @@
                 const $table = $('table#' + tableId);
                 if (tableId === "material_table") {
                     const materialTableRowTemplate = document.querySelector('#materialTableRowTemplate');
-                    $table.find('tbody').append(materialTableRowTemplate);
+                    $table.find('tbody').append(materialTableRowTemplate.content);
                 } else {
                     if (tableId === "services_table") {
                         const serviceTableRowTemplate = document.querySelector('#serviceTableRowTemplate');
-                        $table.find('tbody').append(serviceTableRowTemplate);
+                        $table.find('tbody').append(serviceTableRowTemplate.content);
                     }
                 }
                 let lastRow = $table.find('tbody tr').eq((0 + 1) * -1);
