@@ -241,7 +241,7 @@
                     </h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form>
+                <form id="documentFollowUpForm" name="documentFollowUpForm" action="{{route('document.followup')}}">
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div class="row mb-2">
@@ -487,15 +487,56 @@
             //tmsApp.numberOnly(event);
         });
 
-       /* $('.periodTo').datepicker({
-            // maxDate: new Date(),
-            dateFormat: 'dd/mm/yy',
-        });
+        $(document)
+            .off("click")
+            .on("click", 'button[value="applyFilter"]', function (event) {
+                console.log("Here");
+                const form = document.querySelector('form[name="documentFollowUpForm"]');
+                const formData = new FormData(form);
+                let postData = {};
+                for (const keyValuePair of formData.entries()) {
+                    postData[keyValuePair[0]] = keyValuePair[1];
+                }
+                console.log(postData);
+                const settings = {
+                    url: document.querySelector('input[name="documentFollowUp"]').value,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    data: postData
+                };
 
-        $('.periodFrom').datepicker({
-            // minDate: new Date(),
-            dateFormat: 'dd/mm/yy',
-        });*/
+                /*  {
+                  body: JSON.stringify(postData),
+                  method: 'POST',
+                  body: JSON.stringify({vehicle_registration: numberPlate}),
+                  referrer: window.baseUrl,
+                  mode: 'cors',
+                  credentials: 'same-origin',
+                } */
+
+                $.post(settings).done(function (response) {
+                    if (response.ok()) {
+                        toastr.success('I Managed');
+                        return response.json()
+                    } else
+                    {
+                        Swal.fire('Hi') ;
+                    }
+                }).fail(function (xhr) { toastr.error('Nakangiwa') });
+            });
+
+        /* $('.periodTo').datepicker({
+             // maxDate: new Date(),
+             dateFormat: 'dd/mm/yy',
+         });
+
+         $('.periodFrom').datepicker({
+             // minDate: new Date(),
+             dateFormat: 'dd/mm/yy',
+         });*/
     }(window.tmsApp || {}, jQuery));
 </script>
 @stack('scripts')

@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('CM_E_TOLL_CARDS', function (Blueprint $table) {
+        Schema::create('CM_ETOLL_CARDS', function (Blueprint $table) {
             $table->id();
             $table->string('batchNumber', 255)->nullable();
             $table->string('cardScheme', 255);

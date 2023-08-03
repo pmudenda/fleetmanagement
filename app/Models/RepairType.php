@@ -7,7 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class RepairType extends Model
 {
-    use HasFactory;
-
     protected $table = 'CONFIG_REPAIR_TYPES';
 }

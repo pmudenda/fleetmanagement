@@ -1546,10 +1546,6 @@
             }
 
             function checkVehicleStatus($row, numberPlate) {
-                console.log($row);
-                console.log(numberPlate);
-
-
                 if (!numberPlate) {
                     return;
                 }

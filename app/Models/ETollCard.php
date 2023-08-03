@@ -9,7 +9,7 @@ class ETollCard extends Model
 {
     use HasFactory;
 
-    protected $table = '';
+    protected $table = 'CM_ETOLL_CARDS';
 
     protected $fillable = [
         'batchNumber' ,

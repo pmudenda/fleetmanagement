@@ -4,6 +4,7 @@ use App\Http\Controllers\AccidentReporting\VehicleRecordingController;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ChargeOutRateController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
+use App\Http\Controllers\Documents\DocumentController;
 use App\Http\Controllers\DriverManagement\DriverController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
@@ -315,6 +316,9 @@ Route::get('load/article/details', [ProcurementSystemIntegrationController::clas
 
 Route::post('get/workshop/store-purchase-office', [MaintenanceController::class, 'getStoreAndPurchaseOffice'])
     ->name('get.store.purchase_office');
+
+Route::post('document/followup', [DocumentController::class, 'documentFollowup'])
+    ->name('document.followup');
 
 Route::get('test', function (Request $request) {
 
