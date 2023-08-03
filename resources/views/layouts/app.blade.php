@@ -439,7 +439,7 @@
     $.widget.bridge('uibutton', $.ui.button)
 </script>
 <script src="{{asset('themes/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-{{--<script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>--}}
+<script src="{{asset('libs/bootstrap-5.2.3/js/bootstrap.bundle.js')}}"></script>
 <script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
 <script>
     $(document).ready(function () {
