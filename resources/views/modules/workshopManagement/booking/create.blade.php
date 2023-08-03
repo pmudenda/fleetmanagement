@@ -625,6 +625,154 @@
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script>
         'use strict';
+        const tableRowTemplate = `<tr class="increment">
+                            <td class="showNumber">
+                                <input
+                                    readonly="readonly"
+                                    name="registration"
+                                    required
+                                    value=""
+                                    class="form-control form-control-sm registration"/>
+                            </td>
+                            <td>
+                                <select
+                                        name="articles"
+                                        required
+                                        data-value=""
+                                        class="form-control form-control-sm articlesDropDownList">
+                                    <option></option>
+                                </select>
+                            </td>
+                            <td>
+                                <input
+                                    name="articleCode"
+                                    required
+                                    readonly
+                                    class="form-control form-control-sm articleCode"/>
+                            </td>
+                            <td>
+                                <input
+                                    name="technical_specification"
+                                    required
+                                    class="form-control form-control-sm technical_specification"/>
+                            </td>
+
+                            <td>
+                                <input
+                                    type="text"
+                                    min="1"
+                                    name="quantity"
+                                    required
+                                    class="form-control form-control-sm quantity number_input"/>
+                            </td>
+
+                            <td>
+                                <input
+                                    name="unit_of_measure"
+                                    required
+                                    readonly
+                                    class="form-control form-control-sm unit_of_measure"/>
+                            </td>
+
+                            <td>
+                                <input name="unit_price"
+                                       required
+                                       readonly
+                                       class="form-control form-control-sm unit_price"/>
+                            </td>
+
+                            <td>
+                                <input name="total_price"
+                                       required
+                                       readonly
+                                       class="form-control form-control-sm total_price"/>
+                            </td>
+
+                            <td class="view-mode">
+                                <button type="button"
+                                        data-value="0"
+                                        value="deleteRow"
+                                        class="btn btn-danger p-2">
+                                    <i class="fas fa-trash m-0"></i>
+                                </button>
+                            </td>
+                        </tr>`;
+
+        const serviceTableRowTemplate = ` <tr class="increment">
+                            <td class="showNumber">
+                                <input
+                                    readonly="readonly"
+                                    name="vehicle_registration"
+                                    required
+                                    value=""
+                                    class="form-control form-control-sm vehicle_registration"/>
+                            </td>
+                            <td>
+                                <select
+                                    name="service_article"
+                                    required
+                                    data-value=""
+                                    class="form-control form-control-sm servicesArticlesDropDownList">
+                                    <option></option>
+                                </select>
+                            </td>
+                            <td>
+                                <input
+                                    name="serviceArticleCode"
+                                    required
+                                    readonly
+                                    class="form-control form-control-sm serviceArticleCode"/>
+                            </td>
+                            <td>
+                                <input
+                                    name="service_technical_specification"
+                                    required
+                                    class="form-control form-control-sm service_technical_specification"/>
+                            </td>
+
+                            <td>
+                                <input
+                                    readonly
+                                    type="text"
+                                    min="1"
+                                    value="1"
+                                    max="1"
+                                    name="service_quantity"
+                                    required
+                                    class="form-control form-control-sm service_quantity number_input"/>
+                            </td>
+
+                            <td>
+                                <input
+                                    name="service_unit_of_measure"
+                                    required
+                                    readonly
+                                    class="form-control form-control-sm unit_of_measure"/>
+                            </td>
+
+                            <td>
+                                <input name="service_unit_price"
+                                       required
+                                       class="form-control form-control-sm service_unit_price"/>
+                            </td>
+
+                            <td>
+                                <input name="service_total_price"
+                                       required
+                                       readonly
+                                       class="form-control form-control-sm service_total_price"/>
+                            </td>
+
+                            <td class="view-mode">
+                                <button type="button"
+                                        data-value="0"
+                                        value="deleteRow"
+                                        class="btn btn-danger p-2">
+                                    <i class="fas fa-trash m-0"></i>
+                                </button>
+                            </td>
+                        </tr>`;
+
         (function (tmsApp, $) {
 
             let form = $('#jobCardForm').show();
@@ -1698,12 +1846,12 @@
 
                 const $table = $('table#' + tableId);
                 if (tableId === "material_table") {
-                    const materialTableRowTemplate = document.querySelector('#materialTableRowTemplate');
-                    $table.find('tbody').append(materialTableRowTemplate.content);
+                    const $materialTableRowTemplate = window.materialTableRowTemplate;// document.querySelector('#materialTableRowTemplate');
+                    $table.find('tbody').append($materialTableRowTemplate);
                 } else {
                     if (tableId === "services_table") {
-                        const serviceTableRowTemplate = document.querySelector('#serviceTableRowTemplate');
-                        $table.find('tbody').append(serviceTableRowTemplate.content);
+                        const $serviceTableRowTemplate = window.serviceTableRowTemplate;//document.querySelector('#');
+                        $table.find('tbody').append($serviceTableRowTemplate);
                     }
                 }
 
