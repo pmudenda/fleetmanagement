@@ -532,12 +532,19 @@ class WorkflowService
     private function getApprovalLimit($user_unit, $amount): mixed
     {
         $user_unit = 'G1500';
-        return WorkflowApprovalLimit::where('user_unit_code', '=', $user_unit)
-            ->where(function($query) use($amount){
+        $result = WorkflowApprovalLimit::where('user_unit_code', '=', $user_unit)
+            ->where(function ($query) use ($amount) {
                 return $query->where('approval_lower_limit', '<=', $amount)
                     ->where('approval_upper_limit', '>=', $amount);
             })
             ->first();
+
+        if (!$result) {
+            Log::info('Amount based Last Step Not Found');
+            return '01';
+        }
+
+        return $result->final_step;
     }
 
     private function closePreviousTasks(WorkflowTaskDetail $process): void
