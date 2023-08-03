@@ -36,12 +36,12 @@ class DocumentController extends Controller
                 $endDate = Carbon::createFromFormat('Y-m-d', $request->get('periodTo'));
                 $query->where('date_act', '>=', $startDate)->where('date_act', '<=', $endDate);
             });
-        } elseif ($request->has('periodFrom')) {
+        } elseif ($request->has('periodFrom') && !empty($request->has('periodFrom'))) {
             $query->where(function ($query) use ($request) {
                 $startDate = Carbon::createFromFormat('Y-m-d', $request->get('periodFrom'));
                 $query->where('date_act', '>=', $startDate);
             });
-        } elseif ($request->has('periodTo')) {
+        } elseif ($request->has('periodTo') && !empty($request->has('periodTo'))) {
             $query->where(function ($query) use ($request) {
                 $endDate = Carbon::createFromFormat('Y-m-d', $request->get('periodTo'));
                 $query->where('date_act', '<=', $endDate);
