@@ -16,6 +16,7 @@ use App\Http\Controllers\WorkshopManagement\MaintenanceController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
 use App\Http\Requests\ETollCardRequest;
 use App\Models\ETollCard;
+use App\Models\Workflow\WorkflowApprovalLimit;
 use App\Services\FileUploads\FileUploadService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -320,9 +321,12 @@ Route::post('get/workshop/store-purchase-office', [MaintenanceController::class,
 Route::post('document/followup', [DocumentController::class, 'documentFollowup'])
     ->name('document.followup');
 
+Route::post('document/audit/trail', [DocumentController::class, 'documentAuditTrail'])
+    ->name('document.audit.trail');
+
 Route::get('test', function (Request $request) {
 
-    (config('rights.role_create'))
+    /*(config('rights.role_create'))
     (auth()->user()->can(config('rights.role_create')));
 
 
@@ -350,8 +354,15 @@ Route::get('test', function (Request $request) {
     config('rights.role_detach');
     dd(auth()->user()->can(config('rights.role_detach')));
 
-    dd(config('rights'));
-
+    dd(config('rights'));*/
+    $amount = $request->get('amount');
+    $user_unit = 'G1500';
+    return WorkflowApprovalLimit::where('user_unit_code', '=', $user_unit)
+        ->where(function($query) use($amount){
+            return $query->where('approval_lower_limit', '>=', $amount)
+                ->where('approval_upper_limit', '<=', $amount);
+        })
+        ->first();
 })->
 name('barcode.generate');
 

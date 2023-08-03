@@ -666,7 +666,7 @@ class WorkshopRequisitionService
                 $req_no,
                 $requisitionDetail->veh_reg_no,
                 $requisitionDetail->form_order,
-                Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
+                Accounts::DEFAULT_MOTOR_VEHICLE_SPARES_ACCOUNT,
                 TransactionType::STORES_REQUISITIONS,
                 $requisitionDetail->store,
                 $materialHeader->job_card_no
@@ -676,7 +676,7 @@ class WorkshopRequisitionService
                 $req_no,
                 $requisitionDetail->veh_reg_no,
                 $requisitionDetail->form_order,
-                Accounts::DEFAULT_MOTOR_VEHICLE_COSTING_ACCOUNT,
+                Accounts::DEFAULT_MOTOR_VEHICLE_SPARES_ACCOUNT,
                 TransactionType::STORES_REQUISITIONS,
                 $requisitionDetail->store,
                 null

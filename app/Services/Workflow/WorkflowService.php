@@ -6,6 +6,7 @@ namespace App\Services\Workflow;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\Priority;
 use App\Helpers\StatusHelper;
+use App\Models\general\OrganizationalUnit;
 use App\Models\reference\PHCMSEmployee;
 use App\Models\Security\User;
 use App\Models\Workflow\WorkflowApprovalLimit;
@@ -27,6 +28,9 @@ class WorkflowService
      * @param int $action
      * @param string $comment
      * @param User $currentUser
+     * @param $amount
+     * @param string $short_description
+     * @param string $long_description
      * @return WorkflowTaskDetail
      * @throws WorkflowTaskCreationFailedException
      */
@@ -61,6 +65,8 @@ class WorkflowService
             ->where('step_id', '=', $process_first_step->next_step)->first();
 
         if ($stepAfterSubmission == null) throw new WorkflowTaskCreationFailedException("Could not Determine Next Step");
+
+        $user_unit = $this->getUserUnit($currentUser);
 
         // create submission line
         WorkflowLog::create([
@@ -119,7 +125,8 @@ class WorkflowService
             'created_by' => $currentUser->id,
             'date_acted' => Carbon::now(),
             'process_code' => $processCode,
-            'amount' =>  str_replace(',','',$amount)
+            'amount' => str_replace(',', '', $amount),
+            'user_unit' => $user_unit
         ]);
 
         return WorkflowTaskDetail::create([
@@ -163,7 +170,7 @@ class WorkflowService
             ->orderBy('id', 'desc')
             ->first();
 
-        //$lastStep = getApprovalLimit($task_header->user_unit, $task_header->amount);
+        $lastStep = getApprovalLimit($task_header->user_unit, $task_header->amount);
 
         if (empty($task_detail)) throw new WorkflowTaskCreationFailedException("Approval Process Details Not Found", 100);
 
@@ -195,34 +202,33 @@ class WorkflowService
                 break;
             case 2:
                 DB::beginTransaction();
-                    WorkflowLog::create([
-                        'remarks' => $comment,
-                        'action_date' => Carbon::now(),
-                        'actioning_officer' => $current_user->staff_no,
-                        'action' => $action,
-                        'activity' => $actionTaken,
-                        'status' => StatusHelper::authorised(),
-                        'previous_step' => $current_step->previous_step,
-                        'step_id' => $current_step->step_id,
-                        'reference' => $reference
-                    ]);
+                WorkflowLog::create([
+                    'remarks' => $comment,
+                    'action_date' => Carbon::now(),
+                    'actioning_officer' => $current_user->staff_no,
+                    'action' => $action,
+                    'activity' => $actionTaken,
+                    'status' => StatusHelper::authorised(),
+                    'previous_step' => $current_step->previous_step,
+                    'step_id' => $current_step->step_id,
+                    'reference' => $reference
+                ]);
 
-                    $task_header->date_ended = Carbon::now();
-                    $task_header->status = StatusHelper::rejected();
-                    $task_header->save();
+                $task_header->date_ended = Carbon::now();
+                $task_header->status = StatusHelper::rejected();
+                $task_header->save();
 
-                    $task_detail->date_ended = Carbon::now();
-                    $task_detail->save();
+                $task_detail->date_ended = Carbon::now();
+                $task_detail->save();
                 DB::commit();
-                return ["0","0"];
+                return ["0", "0"];
             case 3:
 
                 // approved
                 //check if the current step is final step .CurrentStep.IsFinalStep == 1
                 if ($current_step->is_final_step
                     || $current_step->is_final_step == '1'
-                    || $current_step->is_final_step == 1)
-                {
+                    || $current_step->is_final_step == 1) {
                     DB::beginTransaction();
                     Log::info("Final Step Approving and Ending Process");
 
@@ -391,7 +397,7 @@ class WorkflowService
 
                 $task_detail->save();
                 DB::commit();
-                return [$task_detail,'0'];
+                return [$task_detail, '0'];
             }
             //  Pay=7
             case 7:
@@ -434,7 +440,7 @@ class WorkflowService
 
                 $task_detail->save();
 
-                return [$task_detail,'0'];
+                return [$task_detail, '0'];
 
             default:
                 $task_detail->current_step_id = null;
@@ -445,7 +451,7 @@ class WorkflowService
                 $task_detail->save();
 
                 //process is finished
-                return [$task_detail,'0'];
+                return [$task_detail, '0'];
         }
 
         DB::beginTransaction();
@@ -462,7 +468,7 @@ class WorkflowService
         ]);
         DB::commit();
 
-        return ["00",'0'];
+        return ["00", '0'];
     }
 
     public function getMyApprovalTasks($staff_no): \Illuminate\Support\Collection
@@ -493,7 +499,7 @@ class WorkflowService
         ]);
     }
 
-    public function cancelProcessTask($req_no, $process_id)
+    public function cancelProcessTask($req_no, $process_id): void
     {
         DB::beginTransaction();
 
@@ -526,8 +532,10 @@ class WorkflowService
     private function getApprovalLimit($user_unit, $amount): mixed
     {
         return WorkflowApprovalLimit::where('user_unit_code', '=', $user_unit)
-            ->where('approval_lower_limit','>=', $amount)
-            ->where('approval_upper_limit','<=', $amount)
+            ->where(function($query) use($amount){
+                return $query->where('approval_lower_limit', '>=', $amount)
+                    ->where('approval_upper_limit', '<=', $amount);
+            })
             ->first();
     }
 
@@ -594,6 +602,22 @@ class WorkflowService
             'eform_code' => $requestReference,
             'created_by' => $user->id,
         ]);*/
+    }
+
+    /**
+     * Retrieves the code unit of the user
+     * @throws WorkflowTaskCreationFailedException
+     */
+    private function getUserUnit(User $currentUser)
+    {
+        $ou = OrganizationalUnit::where('cc_code', '=', $currentUser->cc_code)
+            ->where('bu_code', '=', $currentUser->bu_code)
+            ->first();
+        if (!$ou) {
+            throw new WorkflowTaskCreationFailedException("User Unit Not Found");
+        }
+
+        return $ou->code_unit;
     }
 
 

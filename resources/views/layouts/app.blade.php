@@ -121,7 +121,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
-                <form>
+                <form name="documentAuditTrail" action="{{route('document.audit.trail')}}" >
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div class="row mb-2">
@@ -316,7 +316,7 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="button"
                                 class="btn btn-sm btn-success"
-                                value="applyFilter">
+                                value="documentFollowUpFilter">
                             <i class="fas fa-hand-grab-o"></i>
                             Get
                         </button>
@@ -494,7 +494,7 @@
         });
 
         $(document)
-            .on("click", 'button[value="applyFilter"]', function (event) {
+            .on("click", 'button[value="documentFollowUpFilter"]', function (event) {
                 console.log("Here");
                 const form = document.querySelector('form[name="documentFollowUpForm"]');
                 const formData = new FormData(form);
@@ -525,6 +525,38 @@
                 });
             });
 
+
+        $(document)
+            .on("click", 'button[value="applyFilter"]', function (event) {
+                console.log("Here");
+                const form = document.querySelector('form[name="documentFollowUpForm"]');
+                const formData = new FormData(form);
+                let postData = {};
+                for (const keyValuePair of formData.entries()) {
+                    postData[keyValuePair[0]] = keyValuePair[1];
+                }
+
+                const settings = {
+                    url: form.action,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    data: postData
+                };
+
+                $.post(settings).done(function (response) {
+                    if (response['state'] === 'success') {
+                        showDocumentFollowUpResults(response);
+                    } else {
+                        toastr.error('Request Could Not Be Completed')
+                        Swal.fire('Hi');
+                    }
+                }).fail(function (xhr) {
+                    tmsApp.showErrorMessages(xhr, 'Document Follow-up')
+                });
+            });
         /* $('.periodTo').datepicker({
              // maxDate: new Date(),
              dateFormat: 'dd/mm/yy',
