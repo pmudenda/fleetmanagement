@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('model_name') ;
             $table->string('model_code') ;
             $table->string('status') ;
-            $table->datetime('date_created')->default(Carbon\Carbon::now());
+            $table->datetime('date_created')->nullable();
             $table->timestamp('deleted_at')->nullable();
             $table->integer('created_by')->nullable();
             $table->integer('created_name')->nullable();

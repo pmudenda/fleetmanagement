@@ -688,7 +688,7 @@ class WorkshopRequisitionService
             throw new FuelRequisitionException(ErrorMessages::getMessage('err_0022'));
         }
 
-        if (!str_contains($results, "J01") || str_contains($results, "J02")) {
+        if (!str_contains($results, "J02")) {
             throw new FuelRequisitionException($results);
         }
 

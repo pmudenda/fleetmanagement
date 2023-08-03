@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('code')->nullable();
             $table->string('status');
-            $table->datetime('date_created')->default(Carbon\Carbon::now());
+            $table->datetime('date_created')->nullable();
             $table->timestamp('deleted_at')->nullable();
             //$table->string('guid');
             //$table->dropColumn('guid');
