@@ -359,8 +359,8 @@ Route::get('test', function (Request $request) {
     $user_unit = 'G1500';
     $result = WorkflowApprovalLimit::where('user_unit_code', '=', $user_unit)
         ->where(function($query) use($amount){
-            return $query->where('approval_lower_limit', '>=', $amount)
-                ->where('approval_upper_limit', '<=', $amount);
+            return $query->where('approval_lower_limit', '<=', $amount)
+                ->where('approval_upper_limit', '>=', $amount);
         })
         ->first();
 

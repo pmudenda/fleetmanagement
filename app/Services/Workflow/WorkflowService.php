@@ -531,10 +531,11 @@ class WorkflowService
 
     private function getApprovalLimit($user_unit, $amount): mixed
     {
+        $user_unit = 'G1500';
         return WorkflowApprovalLimit::where('user_unit_code', '=', $user_unit)
             ->where(function($query) use($amount){
-                return $query->where('approval_lower_limit', '>=', $amount)
-                    ->where('approval_upper_limit', '<=', $amount);
+                return $query->where('approval_lower_limit', '<=', $amount)
+                    ->where('approval_upper_limit', '>=', $amount);
             })
             ->first();
     }
