@@ -1509,19 +1509,10 @@
 
                         let valueId = $(btnEl).attr('data-value');
                         if (!valueId || valueId === "0") {
-
-                            if (tableId === 'services_table') {
-                                /*const regNo = $('[name="vehicle_reg_no"]').val();
-                                $(table).find('[name="vehicle_registration"]').val(regNo);*/
-                                try {
-                                    $(tableRow).remove();
-                                    //tableRow.remove();
-                                } catch (e) {
-                                }
-
-                                Table.deleteRow(tableRow);
+                            try {
+                                $(tableRow).remove();
+                            } catch (e) {
                             }
-
                             return;
                         }
 
