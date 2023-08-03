@@ -170,8 +170,6 @@ class WorkflowService
             ->orderBy('id', 'desc')
             ->first();
 
-        $lastStep = getApprovalLimit($task_header->user_unit, $task_header->amount);
-
         if (empty($task_detail)) throw new WorkflowTaskCreationFailedException("Approval Process Details Not Found", 100);
 
         if (empty($task_header)) throw new WorkflowTaskCreationFailedException("Approval Process Heading Data Not Found", 100);
@@ -183,18 +181,22 @@ class WorkflowService
         $processStatus = '';
 
         // always start at current position
-        $current_step = WorkflowStep::where('step_id', '=', $task_detail->current_step_id)
+        $currentStep = WorkflowStep::where('step_id', '=', $task_detail->current_step_id)
             ->where('process_id', '=', $process_id)
             ->first();
 
 
         //update workflow log
-        if (empty($current_step)) {
+        if (empty($currentStep)) {
             throw new WorkflowTaskCreationFailedException("Approval Process Current State Record Not Found", 102);
         }
 
         Log::info("Action Passed is " . $action);
         Log::info("Action Taken " . $actionTaken);
+
+        $user_unit = $task_header->user_unit ?? 'G1500';
+
+        $lastStep = getApprovalLimit($user_unit, $task_header->amount);
 
         switch ($action) {
             case 1:
@@ -209,8 +211,8 @@ class WorkflowService
                     'action' => $action,
                     'activity' => $actionTaken,
                     'status' => StatusHelper::authorised(),
-                    'previous_step' => $current_step->previous_step,
-                    'step_id' => $current_step->step_id,
+                    'previous_step' => $currentStep->previous_step,
+                    'step_id' => $currentStep->step_id,
                     'reference' => $reference
                 ]);
 
@@ -226,10 +228,11 @@ class WorkflowService
 
                 // approved
                 //check if the current step is final step .CurrentStep.IsFinalStep == 1
-                if ($current_step->is_final_step
-                    || $current_step->is_final_step == '1'
-                    || $current_step->is_final_step == 1) {
-                    DB::beginTransaction();
+                //DB::beginTransaction();
+                if ($currentStep->is_final_step
+                    || $currentStep->is_final_step == '1'
+                    || $currentStep->is_final_step == 1
+                || $currentStep == $lastStep) {
                     Log::info("Final Step Approving and Ending Process");
 
                     WorkflowLog::create([
@@ -239,8 +242,8 @@ class WorkflowService
                         'action' => $action,
                         'activity' => $actionTaken,
                         'status' => StatusHelper::authorised(),
-                        'previous_step' => $current_step->previous_step,
-                        'step_id' => $current_step->step_id,
+                        'previous_step' => $currentStep->previous_step,
+                        'step_id' => $currentStep->step_id,
                         'reference' => $reference
                     ]);
 
@@ -250,19 +253,17 @@ class WorkflowService
 
                     $task_detail->date_ended = Carbon::now();
                     $task_detail->save();
-                    DB::commit();
+                    //DB::commit();
                     return [100, '0'];
                 }
 
-                DB::beginTransaction();
                 Log::info("Workflow Step Not Final ");
                 // get step
-                $next_step = WorkflowStep::where('step_id', '=', $current_step->next_step)
+                $next_step = WorkflowStep::where('step_id', '=', $currentStep->next_step)
                     ->where('process_id', '=', $process_id)
                     ->first();
 
                 Log::info("Next Step Determined As " . $next_step->step_id);
-
 
                 if (empty($next_step)) {
                     throw new WorkflowTaskCreationFailedException("Approval Process Next State Record Not Found", 102);
@@ -286,8 +287,8 @@ class WorkflowService
                     'action' => $action,
                     'activity' => $actionTaken,
                     'status' => StatusHelper::partiallyAuthorised(),
-                    'previous_step' => $current_step->previous_step,
-                    'step_id' => $current_step->step_id,
+                    'previous_step' => $currentStep->previous_step,
+                    'step_id' => $currentStep->step_id,
                     'reference' => $reference
                 ]);
 
@@ -373,7 +374,7 @@ class WorkflowService
             {
                 //send back
                 DB::beginTransaction();
-                $previousStep = WorkflowStep::where('step_id', '=', $current_step->previous_step)->first();
+                $previousStep = WorkflowStep::where('step_id', '=', $currentStep->previous_step)->first();
 
                 $previousStepLog = WorkflowLog::where('reference', '=', $task_detail->reference)
                     ->where('step_id', '=', $previousStep->step_id);
@@ -461,9 +462,9 @@ class WorkflowService
             'actioning_officer' => $current_user->staff_no,
             'action' => $actionTaken,
             'status' => $processStatus,
-            'next_step' => $current_step->next_step,
-            'previous_step' => $current_step->previous_step,
-            'step_id' => $current_step->step_id,
+            'next_step' => $currentStep->next_step,
+            'previous_step' => $currentStep->previous_step,
+            'step_id' => $currentStep->step_id,
             'reference' => $task_detail->reference
         ]);
         DB::commit();
@@ -531,7 +532,6 @@ class WorkflowService
 
     private function getApprovalLimit($user_unit, $amount): mixed
     {
-        $user_unit = 'G1500';
         $result = WorkflowApprovalLimit::where('user_unit_code', '=', $user_unit)
             ->where(function ($query) use ($amount) {
                 return $query->where('approval_lower_limit', '<=', $amount)
