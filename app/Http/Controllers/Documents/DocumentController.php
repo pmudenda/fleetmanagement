@@ -54,3 +54,5 @@ class DocumentController extends Controller
         ]);
 
     }
+
+}
