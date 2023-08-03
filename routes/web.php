@@ -357,12 +357,14 @@ Route::get('test', function (Request $request) {
     dd(config('rights'));*/
     $amount = $request->get('amount');
     $user_unit = 'G1500';
-    return WorkflowApprovalLimit::where('user_unit_code', '=', $user_unit)
+    $result = WorkflowApprovalLimit::where('user_unit_code', '=', $user_unit)
         ->where(function($query) use($amount){
             return $query->where('approval_lower_limit', '>=', $amount)
                 ->where('approval_upper_limit', '<=', $amount);
         })
         ->first();
+
+    return $result->final_step;
 })->
 name('barcode.generate');
 
