@@ -1060,9 +1060,9 @@
                 });
 
                 $(document).on('click', 'button[value="insertRow"][data-table-id]', function () {
-                        let tableId = $(this).data('tableId');
-                        insertTableRow(tableId);
-                    });
+                    let tableId = $(this).data('tableId');
+                    insertTableRow(tableId);
+                });
 
                 $(document).on('click', 'button[value="deleteRow"]', function (e) {
                     deleteTableRow(this);
@@ -1495,8 +1495,8 @@
             function deleteTableRow(eventSource) {
 
                 let btnEl = $(eventSource);
-                let tableId = $(this).closest('table').attr('id');
-                let valueId = $(this).attr('data-value');
+                let tableId = $(btnEl).closest('table').attr('id');
+
                 let tableRow = btnEl.closest('tr');
                 let table = btnEl.closest('table');
 
@@ -1507,13 +1507,18 @@
                     "No",
                     function () {
 
-                        Table.deleteRow(tableRow);
-
+                        let valueId = $(btnEl).attr('data-value');
                         if (!valueId || valueId === "0") {
-                            // clear first row
+
                             if (tableId === 'services_table') {
-                                const regNo = $('[name="vehicle_reg_no"]').val();
-                                $(table).find('[name="vehicle_registration"]').val(regNo);
+                                /*const regNo = $('[name="vehicle_reg_no"]').val();
+                                $(table).find('[name="vehicle_registration"]').val(regNo);*/
+                                try {
+                                    tableRow.remove();
+                                } catch (e) {
+                                }
+
+                                Table.deleteRow(tableRow);
                             }
 
                             return;
