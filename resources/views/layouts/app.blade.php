@@ -489,7 +489,6 @@
         });
 
         $(document)
-            .off("click")
             .on("click", 'button[value="applyFilter"]', function (event) {
                 console.log("Here");
                 const form = document.querySelector('form[name="documentFollowUpForm"]');
