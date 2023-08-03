@@ -502,7 +502,7 @@
                 for (const keyValuePair of formData.entries()) {
                     postData[keyValuePair[0]] = keyValuePair[1];
                 }
-                console.log(postData);
+
                 const settings = {
                     url: form.action,
                     headers: {
@@ -513,24 +513,19 @@
                     data: postData
                 };
 
-                /*  {
-                  body: JSON.stringify(postData),
-                  method: 'POST',
-                  body: JSON.stringify({vehicle_registration: numberPlate}),
-                  referrer: window.baseUrl,
-                  mode: 'cors',
-                  credentials: 'same-origin',
-                } */
-
                 $.post(settings).done(function (response) {
-                    if (response.ok()) {
+                    if (response['state'] === 'success') {
                         toastr.success('I Managed');
                         return response.json()
-                    } else
+                    }
+                    else
                     {
+                        toastr.error('Request Could Not Be Completed')
                         Swal.fire('Hi') ;
                     }
-                }).fail(function (xhr) { toastr.error('Nakangiwa') });
+                }).fail(function (xhr) {
+                    tmsApp.showErrorMessages(xhr, 'Document Follow-up')
+                });
             });
 
         /* $('.periodTo').datepicker({
