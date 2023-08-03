@@ -499,7 +499,7 @@
                 }
                 console.log(postData);
                 const settings = {
-                    url: document.querySelector('input[name="documentFollowUp"]').value,
+                    url: form.action,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
