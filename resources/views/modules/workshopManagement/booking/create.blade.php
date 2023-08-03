@@ -1523,11 +1523,12 @@
                         let dataUrl = "";
                         const $table = $('table#' + tableId);
                         if (tableId === "material_table") {
-                            name="quantity"
-                            $table.find('tbody')
+                            $table.find('[name="quantity"]').trigger('change');
+                            $table.find('[name="quantity"]').trigger('change');
                         }
                         if (tableId === "services_table") {
-
+                            $table.find('[name="service_quantity"]').trigger('change');
+                            $table.find('[name="service_unit_price"]').trigger('change');
                         }
 
                         if (tableId === 'part8') {
