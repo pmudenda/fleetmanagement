@@ -403,8 +403,7 @@
             });
 
 
-            $(document).off('click', 'button[value="addRow"][data-table-id]')
-                .on('click', 'button[value="addRow"][data-table-id]', function () {
+            $(document).on('click', 'button[value="addRow"][data-table-id]', function () {
                     let tableId = $(this).data('tableId');
 
                     function reinitializeSelect2($_defect_sel) {
