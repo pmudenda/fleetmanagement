@@ -515,13 +515,10 @@
 
                 $.post(settings).done(function (response) {
                     if (response['state'] === 'success') {
-                        toastr.success('I Managed');
-                        return response.json()
-                    }
-                    else
-                    {
+                        showDocumentFollowUpResults(response);
+                    } else {
                         toastr.error('Request Could Not Be Completed')
-                        Swal.fire('Hi') ;
+                        Swal.fire('Hi');
                     }
                 }).fail(function (xhr) {
                     tmsApp.showErrorMessages(xhr, 'Document Follow-up')
@@ -537,6 +534,10 @@
              // minDate: new Date(),
              dateFormat: 'dd/mm/yy',
          });*/
+
+        function showDocumentFollowUpResults() {
+            toastr.success('I Managed');
+        }
     }(window.tmsApp || {}, jQuery));
 </script>
 @stack('scripts')
