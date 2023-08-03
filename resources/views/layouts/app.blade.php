@@ -130,6 +130,7 @@
                                     <label for="documentType" class="col-4 form-label">Document Type:</label>
                                     <div class="col-8">
                                         <select class="form-select" id="documentType" name="documentType">
+                                            <option></option>
                                             <option value="08">STORE REQUISITION</option>
                                             <option value="09">STORE RESERVATION</option>
                                             <option value="11">PURCHASE PROCESS</option>
@@ -147,7 +148,7 @@
                                 <div class="row">
                                     <label for="documentNumber" class="col-4 form-label">Document No.</label>
                                     <div class="col-8">
-                                        <input class="form-control" name="documentNumber"/>
+                                        <input class="form-control uppercase" name="documentNumber"/>
                                     </div>
                                 </div>
                             </div>
@@ -268,7 +269,7 @@
                                 <div class="row">
                                     <label for="documentNumber" class="col-4 form-label">Document No.</label>
                                     <div class="col-8">
-                                        <input class="form-control" name="documentNumber"/>
+                                        <input class="form-control uppercase" name="documentNumber"/>
                                     </div>
                                 </div>
                             </div>
@@ -486,6 +487,10 @@
     (function (tmsApp, $) {
         $(document).on('keypress', '.number_input', function (event) {
             //tmsApp.numberOnly(event);
+        });
+
+        $(document).on('keyup', '.uppercase', function (event) {
+            this.value = this.value.toUpperCase();
         });
 
         $(document)
