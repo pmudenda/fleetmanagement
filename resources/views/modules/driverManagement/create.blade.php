@@ -440,8 +440,7 @@
                                                                                     JPG, JPEG,PNG, BMP
                                                                                 </small>
                                                                             </label>
-                                                                            <div
-                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                            <div class="col-12">
                                                                                 <div
                                                                                     class="card text-center py-5 my-2 pt-0">
                                                                                     <div class="form-group">
@@ -492,8 +491,7 @@
                                                                                     JPG, JPEG,PNG, BMP
                                                                                 </small>
                                                                             </label>
-                                                                            <div
-                                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                            <div class="col-12">
                                                                                 <div
                                                                                     class="card text-center py-5 my-2 pt-0">
                                                                                     <div class="form-group">
