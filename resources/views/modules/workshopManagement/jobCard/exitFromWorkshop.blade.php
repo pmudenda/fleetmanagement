@@ -283,7 +283,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required pl-0"
                                                                 for="current_odometer">Odometer value:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <div class="input-group">
@@ -334,7 +334,8 @@
                                                     <div class="form-group row">
                                                         <label
                                                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                for="staff_no">Date Expected Out:
+                                                                for="date_expected_out">
+                                                            Date Expected Out:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                             <input type="text"
@@ -357,7 +358,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
                                                                 for="staff_name">
                                                             Driver In:
                                                         </label>
