@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class EmailNotificationService
 {
@@ -26,7 +27,7 @@ class EmailNotificationService
                     $dueDate = Carbon::parse($record->dueDate)->format('d/m/Y');
                     $details = [
                         'name' => $names,
-                        'systemLink' => route('home', ['external_link' => 'tasks/show?reference=' . $record->req_no]),
+                        'systemLink' => URL::signedRoute('show.workshop.requisition', ['reference' => $record->req_no]),
                         'identity' => $record->req_no,
                         'subject' => "New Task Needs Your Attention",
                         'title' => "New Task Needs Your Attention",

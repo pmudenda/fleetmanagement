@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,15 +44,59 @@ Route::get('/', function () {
 Route::get('/mail_view', function () {
     $details = [
         'name' => 'Lovemore Daka',
-        'systemLink' => 'nc.details',
+        'systemLink' => URL::signedRoute('show.workshop.requisition', ['reference' => "786474647"]),
         'identity' => "898989879",
         'subject' => "Non-Conformance Assignment",
         'title' => "Non-Conformance For Your Attention",
         'body' => "Nonconformity reference PP.14620.NCOF.00001, has been raised by Edwin K. Mboroma for your attention.
-         To ensure high levels of compliance, promptly attend to the nonconformity by " . \Carbon\Carbon::parse(\Carbon\Carbon::now())->format('d/m/Y') . " by clicking on the link below to login to ZQMS."
+         To ensure high levels of compliance, promptly attend to the nonconformity by " . Carbon::parse(Carbon::now())->format('d/m/Y') . " by clicking on the link below to login to ZQMS."
     ];
     return view('mail.send-mail')->with(compact('details'));
 });
+
+Route::get('test', function (Request $request) {
+
+    /*(config('rights.role_create'))
+    (auth()->user()->can(config('rights.role_create')));
+
+
+    config('rights.role_access');
+    dd(auth()->user()->can(config('rights.role_access')));
+
+
+    config('rights.role_show');
+    dd(auth()->user()->can(config('rights.role_show')));
+
+
+    config('rights.role_edit');
+    dd(auth()->user()->can(config('rights.role_edit')));
+
+
+    config('rights.role_destroy');
+    (ddauth()->user()->can(config('rights.role_destroy')));
+
+
+    config('rights.role_attach');
+
+
+    dd(auth()->user()->can(config('rights.role_attach')));
+
+    config('rights.role_detach');
+    dd(auth()->user()->can(config('rights.role_detach')));
+
+    dd(config('rights'));*/
+    $amount = $request->get('amount');
+    $user_unit = 'G1500';
+    $result = WorkflowApprovalLimit::where('user_unit_code', '=', $user_unit)
+        ->where(function ($query) use ($amount) {
+            return $query->where('approval_lower_limit', '<=', $amount)
+                ->where('approval_upper_limit', '>=', $amount);
+        })
+        ->first();
+
+    return $result->final_step;
+})->
+name('barcode.generate');
 
 Route::post('logout', [HomeController::class, 'logout'])->name('logout');
 
@@ -335,50 +380,6 @@ Route::post('document/followup', [DocumentController::class, 'documentFollowup']
 
 Route::post('document/audit/trail', [DocumentController::class, 'documentAuditTrail'])
     ->name('document.audit.trail');
-
-Route::get('test', function (Request $request) {
-
-    /*(config('rights.role_create'))
-    (auth()->user()->can(config('rights.role_create')));
-
-
-    config('rights.role_access');
-    dd(auth()->user()->can(config('rights.role_access')));
-
-
-    config('rights.role_show');
-    dd(auth()->user()->can(config('rights.role_show')));
-
-
-    config('rights.role_edit');
-    dd(auth()->user()->can(config('rights.role_edit')));
-
-
-    config('rights.role_destroy');
-    (ddauth()->user()->can(config('rights.role_destroy')));
-
-
-    config('rights.role_attach');
-
-
-    dd(auth()->user()->can(config('rights.role_attach')));
-
-    config('rights.role_detach');
-    dd(auth()->user()->can(config('rights.role_detach')));
-
-    dd(config('rights'));*/
-    $amount = $request->get('amount');
-    $user_unit = 'G1500';
-    $result = WorkflowApprovalLimit::where('user_unit_code', '=', $user_unit)
-        ->where(function($query) use($amount){
-            return $query->where('approval_lower_limit', '<=', $amount)
-                ->where('approval_upper_limit', '>=', $amount);
-        })
-        ->first();
-
-    return $result->final_step;
-})->
-name('barcode.generate');
 
 Route::get('parts-selection', function (Request $request) {
 

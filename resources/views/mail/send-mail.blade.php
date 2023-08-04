@@ -393,10 +393,10 @@
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td>
-                                        <!--<div style=" font-family: 'Arial Black';  padding: 5px ; padding-bottom: 5px; padding-top: 5px">
-                                            <h3 >{{--{!! $details['title'] !!}--}}</h3>
+                                       <div style="font-family: 'Arial Black';padding: 5px;padding-bottom:5px;padding-top:5px">
+                                            <h3 >{!! $details['title'] !!}</h3>
                                         </div>
-                                        <hr>-->
+                                         <hr>
                                         <p>{!! $details['name'] !!},</p>
                                         <p>{!! $details['body'] !!}  </p>
                                         @if(!empty($details['systemLink']))
@@ -444,8 +444,8 @@
                         <tr>
                             <td class="content-block powered-by">
                                 <strong>Copyright &copy; {{date('Y')}}
-                                    <a href="{{env('ZESCO_WEBSITE_URL', 'https://www.zesco.co.zm/')}}">ZESCO QUALITY
-                                        MANAGEMENT SYSTEM</a>.
+                                    <a href="{{env('ZESCO_WEBSITE_URL', 'https://www.zesco.co.zm/')}}">ZESCO FLEET
+                                        MASTER SYSTEM</a>.
                                 </strong>
                                 Designed by Innovations & Systems Development (ISD). All Rights Reserved
                                 <div class="float-right d-none d-sm-inline-block">
