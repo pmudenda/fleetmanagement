@@ -66,7 +66,7 @@
                       action="{{route('save.exit.from.workshop')}}"
                       method="post">
                     @csrf
-                    {{--    <h1>Details</h1>--}}
+                    <h1>Summary Details</h1>
                     <section>
                         <div class="container-fluid">
                             <div class="row" data-form-url="{{route("process.job_card")}}"
@@ -420,7 +420,7 @@
 
                     <h1 class="d-none">Accessories</h1>
                     <section class="d-none">
-                        <div class="container-fluid">
+                        <div class="container-fluid pl-0">
                             <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}"
                                  data-model-name="Accessories">
                                 <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
@@ -505,7 +505,7 @@
                     </section>
 
                     <h1 class="mt-2">Defects</h1>
-                    <div class="container-fluid">
+                    <div class="container-fluid pl-0">
                         <div class="row">
                             <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
                             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -635,7 +635,7 @@
 
                     <h1 class="mt-2">Spares & Services</h1>
                     <section>
-                        <div class="container-fluid">
+                        <div class="container-fluid pl-0">
                             <input type="hidden"
                                    id="suppliersList"
                                    value="{{route('suppliers.list')}}"/>
@@ -716,7 +716,8 @@
                                                             <div class="form-group row">
                                                                 <label
                                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                        for="staff_no">Purchase Office:
+                                                                        for="staff_no">
+                                                                    Purchase Office:
                                                                 </label>
                                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                                     <select
@@ -910,7 +911,6 @@
                                                             <th>UOM</th>
                                                             <th>Unit Price</th>
                                                             <th>Total</th>
-                                                            <th></th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -990,17 +990,6 @@
                                                                                value="{{$material->amount ?? ''}}"
                                                                                readonly
                                                                                class="form-control form-control-sm total_price"/>
-                                                                    </td>
-
-                                                                    <td class="view-mode">
-                                                                        <button type="button"
-                                                                                @if($material->status == StatusHelper::authorised()) disabled
-                                                                                @endif
-                                                                                data-value="{{$material->id ?? '0'}}"
-                                                                                value="deleteRow"
-                                                                                class="btn btn-danger p-2">
-                                                                            <i class="fas fa-trash m-0"></i>
-                                                                        </button>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
@@ -1397,7 +1386,6 @@
                                             <div class="row">
                                                 <div style="max-height:500px; overflow-x: auto;">
                                                     <table id="services_table"
-                                                           data-form-url="{{route("process.service.requisition")}}"
                                                            data-model-name="ServicesHeader"
                                                            class="table dataTable table-row-dashed align-middle gs-0 nowrap">
                                                         <thead>
