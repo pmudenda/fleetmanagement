@@ -40,7 +40,7 @@ class DriverOnboardingRequest extends FormRequest
             'permit_number' => 'required|string|unique:App\Models\Driver,permit_number',
             'permit_date_issued' => 'required|date_format:Y-m-d|before:permit_date_expiry',
             'permit_date_expiry' => 'required|date_format:Y-m-d|after:permit_date_issued',
-            'permit_copy' => 'required|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf',
+            'permit_copy' => 'nullable|file|mimes:jpg,jpeg,png,bmp,tif,tiff,pdf',
         ];
     }
 }
