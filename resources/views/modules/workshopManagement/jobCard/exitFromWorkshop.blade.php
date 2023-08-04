@@ -69,7 +69,8 @@
                     <h1>Summary Details</h1>
                     <section>
                         <div class="container-fluid">
-                            <div class="row" data-form-url="{{route("process.job_card")}}"
+                            <div class="row"
+                                 data-form-url="{{route("process.job_card")}}"
                                  data-model-name="JobCardHeader">
 
                                 <div class="col-7">
@@ -399,7 +400,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="col-3">
                                     <div id="vehicleDetailsContainer" style="display: none;"
                                          class="col-xs-12 col-sm-12 col-md-12 pl-0">
@@ -425,7 +425,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="row">
-                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                    {{--<div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="container-fluid pl-0">
                                             <div class="row">
                                                 <div class="form-group row">
@@ -452,7 +452,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>--}}
 
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="container-fluid pl-0">
@@ -482,8 +482,7 @@
                                         <div class="container-fluid pl-0">
                                             <div class="row">
                                                 <div class="form-group row">
-                                                    <div
-                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                    <div class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper pl-0">
                                                         <div class="control-input">
                                                             <div class="link-field ui-front"
                                                                  style="position: relative;">
