@@ -583,7 +583,7 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required pl-0"
                                                             for="current_odometer">Odometer On Exit:</label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                         <div class="input-group">
@@ -607,7 +607,7 @@
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="container-fluid pl-0">
                                             <div class="row">
-                                                <div class="form-group row">
+                                              {{--  <div class="form-group row">
                                                     <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
                                                             for="staff_no">Date Expected Out:
@@ -621,7 +621,7 @@
                                                                name="date_of_req"
                                                         >
                                                     </div>
-                                                </div>
+                                                </div>--}}
                                             </div>
                                         </div>
                                     </div>
