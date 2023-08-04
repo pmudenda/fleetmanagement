@@ -669,7 +669,8 @@ class WorkshopRequisitionService
                 Accounts::DEFAULT_MOTOR_VEHICLE_SPARES_ACCOUNT,
                 TransactionType::STORES_REQUISITIONS,
                 $requisitionDetail->store,
-                $materialHeader->job_card_no
+                $materialHeader->job_card_no,
+                $requisitionDetail->workshop_no
             );
         } else {
             $results = $this->procurementService->createStoresBookingReservation(
