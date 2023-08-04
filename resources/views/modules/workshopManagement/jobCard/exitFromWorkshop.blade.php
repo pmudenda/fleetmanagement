@@ -591,7 +591,7 @@
                                                                    min="1"
                                                                    class="form-control form-control-sm"
                                                                    id="current_odometer"
-                                                                   value="{{$details->millage_in ?? ''}}"
+                                                                   value=""
                                                                    name="current_odometer" required/>
                                                             <div class="input-group-text">
                                                                 Km
@@ -668,7 +668,7 @@
                                                                    class="form-control form-control-sm"
                                                                    autocapitalize="characters"
                                                                    id="driver_out"
-                                                                   value="{{$details->driver_in ?? ''}}"
+                                                                   value=""
                                                                    placeholder=""
                                                                    name="driver_out"/>
                                                             <div class="input-group-addon">
