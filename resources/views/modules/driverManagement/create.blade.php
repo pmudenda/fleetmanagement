@@ -373,7 +373,6 @@
                                                                                 class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                                 <input type="date"
                                                                                        {{--min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"--}}
-                                                                                       readonly
                                                                                        class="form-control form-control-sm"
                                                                                        id="license_date_expiry"
                                                                                        name="license_date_expiry"
@@ -890,11 +889,12 @@
                 let expiryDate = addYears(date, 5);
                 document.querySelector('[name="license_date_expiry"]').setAttribute('max', reformatDate(expiryDate, "ISO"));
 
+                $('[name="license_date_expiry"]').change();
             });
 
             $('[name="license_date_expiry"]').on('change', function () {
-                //let date = new Date(this.value);
-                //document.querySelector('[name="permit_date_expiry"]').value = reformatDate(date, "ISO");
+                let date = new Date(this.value);
+                document.querySelector('[name="permit_date_expiry"]').value = reformatDate(date, "ISO");
             });
 
             $('#license_number').on('keyup paste enter', function () {
