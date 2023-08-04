@@ -133,7 +133,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper pl-0">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
