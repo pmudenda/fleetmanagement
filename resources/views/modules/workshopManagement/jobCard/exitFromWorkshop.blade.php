@@ -163,9 +163,9 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-4 pl-0"
                                                                 for="job_card_no">
-                                                            Time In:
+                                                            Time Out:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <input type="text"
