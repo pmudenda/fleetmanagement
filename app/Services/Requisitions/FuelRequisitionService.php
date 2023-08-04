@@ -342,7 +342,7 @@ class FuelRequisitionService
 
         DB::commit();
 
-        // send notification to authoriser
+        // send notification
         RequisitionRaised::dispatch($matHeader, 'fuel_requisition');
         Log::info('Requisition ' . $requisition_reference_number . ' raised successfully');
 
@@ -371,7 +371,6 @@ class FuelRequisitionService
     }
 
     /**
-     * @throws FuelRequisitionException
      */
     public function validateCurrentOdometerAgainstMileageReturn($registration_number, $currentOdometer): bool
     {
@@ -441,6 +440,7 @@ class FuelRequisitionService
     /**
      * @param $previousRequisition
      * @param bool|Carbon $valid_from
+     * @param $reg_num
      * @return void
      * @throws FuelRequisitionException
      */
