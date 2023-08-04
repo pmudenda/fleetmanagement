@@ -521,7 +521,6 @@
                                                 <th style="width: 25%;" class="pr-2">Defect</th>
                                                 <th style="width: 25%;" class="pr-2">Service Section</th>
                                                 <th style="width: 25%;" class="pr-2">Date/Time Detected</th>
-                                                <th style="width: 25%;" class="pr-2">Action</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -581,21 +580,11 @@
                                                                    class="tabledit-input form-control input-sm input-number"
                                                                    type="text">
                                                         </td>
-
-                                                        <td class="view-mode">
-                                                        </td>
                                                     </tr>
                                                 @endforeach
                                             @endif
                                             </tbody>
                                         </table>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-10"></div>
-                                    <div class="col-2">
-                                        <div class="row">
-                                        </div>
                                     </div>
                                 </div>
                                 <hr>
@@ -714,8 +703,7 @@
                                                     <div class="container-fluid pl-0">
                                                         <div class="row">
                                                             <div class="form-group row">
-                                                                <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
                                                                         for="staff_no">
                                                                     Purchase Office:
                                                                 </label>
@@ -742,13 +730,12 @@
                                                     <div class="container-fluid pl-0">
                                                         <div class="row">
                                                             <div class="form-group row">
-                                                                <div
-                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                <div class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <label for="workshop_code"
-                                                                                   class="form-check-inline field-required">
+                                                                                   class="form-check-inline">
                                                                                 Workshop:
                                                                             </label>
                                                                         </div>
@@ -773,8 +760,7 @@
                                                     <div class="container-fluid pl-0">
                                                         <div class="row">
                                                             <div class="form-group row">
-                                                                <label
-                                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                                <label class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
                                                                         for="job_card_no">
                                                                     Request Date:
                                                                 </label>
@@ -816,7 +802,7 @@
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
-                                                                            <label class="form-check-inline field-required">
+                                                                            <label class="form-check-inline">
                                                                                 Suppliers
                                                                             </label>
                                                                         </div>
@@ -836,7 +822,7 @@
                                                             <div id="storeContainer" style="display: none;"
                                                                  class="form-group row">
                                                                 <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
                                                                         for="staff_name">
                                                                     Store:
                                                                 </label>
@@ -864,7 +850,7 @@
                                                         <div class="row">
                                                             <div class="form-group row">
                                                                 <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
                                                                         for="staff_no">Collection Date:
                                                                 </label>
                                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -993,79 +979,6 @@
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
-                                                        @else
-                                                            <tr class="increment">
-                                                                <td class="showNumber">
-                                                                    <input
-                                                                            readonly="readonly"
-                                                                            name="registration"
-                                                                            required
-                                                                            value="{{$details->reg_no ?? ''}}"
-                                                                            class="form-control form-control-sm registration"/>
-                                                                </td>
-                                                                <td>
-                                                                    <select disabled
-                                                                            name="articles"
-                                                                            required
-                                                                            data-value=""
-                                                                            class="form-control form-control-sm articlesDropDownList">
-                                                                        <option></option>
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <input
-                                                                            name="articleCode"
-                                                                            required
-                                                                            readonly
-                                                                            class="form-control form-control-sm articleCode"/>
-                                                                </td>
-                                                                <td>
-                                                                    <input
-                                                                            name="technical_specification"
-                                                                            required
-                                                                            class="form-control form-control-sm technical_specification"/>
-                                                                </td>
-
-                                                                <td>
-                                                                    <input
-                                                                            type="text"
-                                                                            min="1"
-                                                                            name="quantity"
-                                                                            required
-                                                                            class="form-control form-control-sm quantity number_input"/>
-                                                                </td>
-
-                                                                <td>
-                                                                    <input
-                                                                            name="unit_of_measure"
-                                                                            required
-                                                                            readonly
-                                                                            class="form-control form-control-sm unit_of_measure"/>
-                                                                </td>
-
-                                                                <td>
-                                                                    <input name="unit_price"
-                                                                           required
-                                                                           readonly
-                                                                           class="form-control form-control-sm unit_price"/>
-                                                                </td>
-
-                                                                <td>
-                                                                    <input name="total_price"
-                                                                           required
-                                                                           readonly
-                                                                           class="form-control form-control-sm total_price"/>
-                                                                </td>
-
-                                                                <td class="view-mode">
-                                                                    <button type="button"
-                                                                            data-value="{{$defect->id ?? '0'}}"
-                                                                            value="deleteRow"
-                                                                            class="btn btn-danger p-2">
-                                                                        <i class="fas fa-trash m-0"></i>
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
                                                         @endif
                                                         </tbody>
                                                         <tfoot>
@@ -1084,13 +997,6 @@
                                                         </tr>
                                                         </tfoot>
                                                     </table>
-                                                    <button type="button"
-                                                            data-table-id="material_table"
-                                                            class="btn btn-sm btn-primary add pull-right"
-                                                            value="insertRow">
-                                                        <i class="fa fa-plus"></i>
-                                                        Add Row
-                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -1110,7 +1016,7 @@
                                                             Requisition</small>:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
-                                                        @if(!empty($comments))
+                                                        @if(!empty($comments) && !empty($comments->where('type','=','REQ')->first()))
                                                             <textarea type="text"
                                                                       id="comments"
                                                                       minlength="20"
