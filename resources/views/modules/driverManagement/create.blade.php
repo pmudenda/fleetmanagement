@@ -371,7 +371,7 @@
                                                                             </label>
                                                                             <div
                                                                                 class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                                <input type="text"
+                                                                                <input type="date"
                                                                                        {{--min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"--}}
                                                                                        readonly
                                                                                        class="form-control form-control-sm"
@@ -618,8 +618,8 @@
                                                                         Expiry Date:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                        <input type="date"
-                                                                               min="{{ date('Y-m-d', strtotime(Carbon::now())) }}"
+                                                                        <input type="text"
+                                                                               readonly
                                                                                class="form-control form-control-sm"
                                                                                id="permit_date_expiry"
                                                                                name="permit_date_expiry"
