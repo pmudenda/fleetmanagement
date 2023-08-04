@@ -1025,15 +1025,6 @@
                                                                       name="comments"
                                                                       style="height: 129px;"
                                                                       class="form-control comments form-control-sm">{{$comments->where('type','=','REQ')->first()->remarks ??''}}</textarea>
-                                                        @else
-                                                            <textarea type="text"
-                                                                      id="comments"
-                                                                      minlength="20"
-                                                                      maxlength="255"
-                                                                      required
-                                                                      name="comments"
-                                                                      style="height: 129px;"
-                                                                      class="form-control comments form-control-sm"></textarea>
                                                         @endif
                                                     </div>
                                                 </div>
