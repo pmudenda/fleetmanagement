@@ -30,9 +30,9 @@ class NotifyApproverOnRequisitionRaised
             $requisitionHeader = $event->requestHeader;
             // send notification
             Log::info('Sending Mail Notification To Requisition Reviewer');
-            $sender = User::where('staff_no', '=', trim($requisitionHeader->requested_by));
+            $sender = User::where('staff_no', '=', trim($requisitionHeader->requested_by))->first();
             $task = WorkflowTaskHeader::where('reference','=', trim($requisitionHeader->req_no))->first();
-            $recipient = User::find((int)trim($task->assigned_user));
+            $recipient = User::where('staff_no', trim($task->assigned_user))->first();
             $action = $event->action ?? 'requisition';
             EmailNotificationService::sendNotification($recipient, $sender, $requisitionHeader, $action, $task);
         } catch (\Exception $e) {
