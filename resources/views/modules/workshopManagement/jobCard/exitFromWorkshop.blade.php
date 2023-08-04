@@ -352,11 +352,11 @@
 
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-6">
-                                            <div class="container-fluid pl-0">
+                                            <div class="container-fluid">
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
                                                                 for="staff_name">
                                                             Driver In:
                                                         </label>
