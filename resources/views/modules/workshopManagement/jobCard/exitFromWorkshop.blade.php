@@ -576,29 +576,6 @@
                                     </div>
                                 </div>
 
-                                <div id="accidentRecordNo" class="row d-none">
-                                    <div class="col-xs-12 col-sm-6 col-md-6">
-                                        <div class="container-fluid pl-0">
-                                            <div class="row">
-                                                <div class="form-group row">
-                                                    <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                            for="staff_name">
-                                                        Accident No:
-                                                    </label>
-                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                        <select name="accident_number" id="accident_number"
-                                                                disabled
-                                                                class="form-control form-select-sm when_valid"
-                                                                required>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="container-fluid pl-0">
@@ -657,7 +634,7 @@
                                                     <label
                                                             class="col-xs-12 col-sm-12 col-md-5 col-lg-4 pl-0"
                                                             for="next_fuel_date">
-                                                        Fuel Level :
+                                                        Fuel Level Out:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                         <select disabled name="fuel_level"
@@ -681,22 +658,19 @@
                                                     <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
                                                             for="staff_name">
-                                                        Driver In:
+                                                        Driver Out:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                         <div class="input-group">
                                                             <input type="text"
-                                                                   disabled
                                                                    list="employee_list"
                                                                    data-action="{{route('driver.search')}}"
                                                                    class="form-control form-control-sm"
                                                                    autocapitalize="characters"
-                                                                   id="driver_staff_number"
+                                                                   id="driver_out"
                                                                    value="{{$details->driver_in ?? ''}}"
                                                                    placeholder=""
-                                                                   name="driver_staff_number"/>
-                                                            <datalist id="employee_list">
-                                                            </datalist>
+                                                                   name="driver_out"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -711,8 +685,8 @@
                                                     <div class="col-xs-12 col-sm-12 col-md-10 col-lg-11">
                                                         <input type="text"
                                                                class="form-control form-control-sm"
-                                                               id="driver_name"
-                                                               name="driver_name"
+                                                               id="driver_name_out"
+                                                               name="driver_name_out"
                                                                readonly/>
                                                     </div>
                                                 </div>
