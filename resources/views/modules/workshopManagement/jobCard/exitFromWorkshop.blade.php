@@ -165,7 +165,7 @@
                                                         <label
                                                                 class="col-xs-12 col-sm-6 col-md-7 col-lg-4 pl-0"
                                                                 for="job_card_no">
-                                                            Time Out:
+                                                            Time In:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <input type="text"
@@ -425,42 +425,15 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="row">
-                                    {{--<div class="col-xs-12 col-sm-6 col-md-6">
-                                        <div class="container-fluid pl-0">
-                                            <div class="row">
-                                                <div class="form-group row">
-                                                    <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label pl-0"
-                                                            for="staff_no">Registration #:
-                                                    </label>
-                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                        <div class="input-group">
-                                                            <input type="text"
-                                                                   readonly
-                                                                   data-action="{{route('requisition.vehicle.details')}}"
-                                                                   class="form-control form-control-sm"
-                                                                   value="{{$details->reg_no ?? ''}}"
-                                                                   id="vehicle_registration"
-                                                                   placeholder="Vehicle Reg e.g AAB 6757"
-                                                                   name="vehicle_registration" required/>
-                                                        </div>
 
-                                                        <input type="hidden" value="{{$details->job_card_no ?? 0}}"
-                                                               name="job_card_number"/>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>--}}
 
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="container-fluid pl-0">
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
-                                                            for="staff_no">Date In :
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label pl-0"
+                                                            for="staff_no">Date Out :
                                                     </label>
                                                     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                         <input type="text"
@@ -512,17 +485,17 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                                            for="job_card_no">
-                                                        Time In:
+                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-4 pl-0"
+                                                            for="timeOut">
+                                                        Time Out:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                         <input type="text"
                                                                readonly
                                                                value="@if($details){{Carbon::parse($details->time_in)->format('H:i:s')}}@else{{Carbon::now()->format('H:i:s')}}@endif"
                                                                class="form-control form-control-sm when_valid number_input"
-                                                               id="timeIn"
-                                                               name="timeIn"
+                                                               id="timeOut"
+                                                               name="timeOut"
                                                         />
                                                     </div>
                                                 </div>
