@@ -103,7 +103,7 @@
                                         <div class="card-body user-data pl-0">
                                             <div class="container-fluid mt-5">
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-5">
                                                         <div class="row">
                                                             <div class="card-title pl-2">
                                                                 <h4>Employee Details</h4>
@@ -304,7 +304,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-7">
                                                         <div class="row">
                                                             <div class="card-title pl-2">
                                                                 <h4>License Details</h4>
@@ -389,7 +389,7 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                class="col-xs-12 col-sm-6 col-md-6 col-lg-6 field-required"
                                                                                 for="staff_name">
                                                                                 License Category:
                                                                             </label>
