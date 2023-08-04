@@ -199,7 +199,7 @@ class WorkflowService
 
         $user_unit = $task_header->user_unit ?? 'G1500';
 
-        $lastStep = getApprovalLimit($user_unit, $task_header->amount);
+        $lastStep = $this->getApprovalLimit($user_unit, $task_header->amount);
 
         switch ($action) {
             case 1:
@@ -532,7 +532,7 @@ class WorkflowService
     }
 
 
-    private function getApprovalLimit($user_unit, $amount): mixed
+    private function getApprovalLimit($user_unit, $amount)
     {
         $result = WorkflowApprovalLimit::where('user_unit_code', '=', $user_unit)
             ->where(function ($query) use ($amount) {
