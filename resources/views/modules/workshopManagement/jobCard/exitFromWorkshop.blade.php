@@ -441,7 +441,7 @@
                                                                class="form-control form-control-sm"
                                                                id="date_of_req"
                                                                readonly
-                                                               value="@if($details) {{Carbon::parse($details->date_in)->format('d/m/Y')}} @else {{ date('Y-m-d', strtotime(Carbon::now()))}} @endif"
+                                                               value="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                                                name="date_of_req"
                                                                required>
                                                     </div>
@@ -589,7 +589,6 @@
                                                         <div class="input-group">
                                                             <input type="number"
                                                                    min="1"
-                                                                   readonly
                                                                    class="form-control form-control-sm"
                                                                    id="current_odometer"
                                                                    value="{{$details->millage_in ?? ''}}"
