@@ -60,7 +60,7 @@
 
                 <x-error-view/>
 
-               {{-- <label class="app-required-marker"></label>--}}
+                {{-- <label class="app-required-marker"></label>--}}
                 <form name="jobCardForm"
                       id="jobCardForm"
                       action="{{route('save.exit.from.workshop')}}"
@@ -512,8 +512,8 @@
                                 <div class="row">
                                     <div class="table-responsive" style="max-height:500px;">
                                         <table
-                                               data-model-name="Defects"
-                                               class="table table-row-dashed align-middle gs-0">
+                                                data-model-name="Defects"
+                                                class="table table-row-dashed align-middle gs-0">
                                             <thead>
                                             <tr class="bg-dark-subtle">
                                                 <th style="width: 25%;" class="pl-2">System</th>
@@ -603,7 +603,7 @@
                                     @if(!empty($comments) && !empty($comments->where('type','=','DEF')->first()))
                                         <div class="form-group">
                                             <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                                                    for="remarks">
+                                                   for="remarks">
                                                 Comments (optional):
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
@@ -1204,12 +1204,6 @@
                                                                                 class="form-select form-select-sm"
                                                                                 name="serviceItemType"
                                                                                 id="serviceItemType">
-                                                                            {{--  <option value="{{RequisitionItemTypes::StockItemCode}}">STOCK
-                                                                                  ITEM
-                                                                              </option>
-                                                                              <option value="{{RequisitionItemTypes::NonStockItemCode}}">NON
-                                                                                  STOCK ITEM
-                                                                              </option>--}}
                                                                             <option value="{{RequisitionItemTypes::ServiceItemCode}}">
                                                                                 SERVICE
                                                                             </option>
@@ -1357,25 +1351,6 @@
                                                                 </div>
                                                             </div>
 
-                                                            {{--<div id="storeContainer" style="display: none;" class="form-group row">
-                                                                <label
-                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                    for="staff_name">
-                                                                    Store:
-                                                                </label>
-                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                                    <input type="hidden"
-                                                                           id="store_code"
-                                                                           value="{{$officeDetails->store_code ?? ''}}"
-                                                                           name="store_code"/>
-                                                                    <input type="text"
-                                                                           class="form-control form-control-sm"
-                                                                           id="store_name"
-                                                                           value="{{$officeDetails->store_code ?? ''}}:{{$officeDetails->store_name ?? ''}}"
-                                                                           placeholder=""
-                                                                           name="store_name"/>
-                                                                </div>
-                                                            </div>--}}
 
                                                         </div>
                                                     </div>
@@ -1392,6 +1367,7 @@
                                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                                     @if($materialsHeader)
                                                                         <input type="date"
+                                                                               readonly
                                                                                class="form-control form-control-sm"
                                                                                id="date_expected"
                                                                                min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
@@ -1401,6 +1377,7 @@
 
                                                                     @else
                                                                         <input type="date"
+                                                                               readonly
                                                                                class="form-control form-control-sm"
                                                                                id="date_expected"
                                                                                min="{{date('Y-m-d', strtotime(Carbon::now()->addDays(7)))}}"
@@ -1520,81 +1497,6 @@
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
-                                                        @else
-                                                            <tr class="increment">
-                                                                <td class="showNumber">
-                                                                    <input
-                                                                            readonly="readonly"
-                                                                            name="vehicle_registration"
-                                                                            required
-                                                                            value="{{$details->reg_no ?? ''}}"
-                                                                            class="form-control form-control-sm vehicle_registration"/>
-                                                                </td>
-                                                                <td>
-                                                                    <select
-                                                                            name="service_article"
-                                                                            required
-                                                                            data-value=""
-                                                                            class="form-control form-control-sm servicesArticlesDropDownList">
-                                                                        <option></option>
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <input
-                                                                            name="serviceArticleCode"
-                                                                            required
-                                                                            readonly
-                                                                            class="form-control form-control-sm serviceArticleCode"/>
-                                                                </td>
-                                                                <td>
-                                                                    <input
-                                                                            name="service_technical_specification"
-                                                                            required
-                                                                            class="form-control form-control-sm service_technical_specification"/>
-                                                                </td>
-
-                                                                <td>
-                                                                    <input
-                                                                            readonly
-                                                                            type="text"
-                                                                            min="1"
-                                                                            value="1"
-                                                                            max="1"
-                                                                            name="service_quantity"
-                                                                            required
-                                                                            class="form-control form-control-sm service_quantity number_input"/>
-                                                                </td>
-
-                                                                <td>
-                                                                    <input
-                                                                            name="service_unit_of_measure"
-                                                                            required
-                                                                            readonly
-                                                                            class="form-control form-control-sm unit_of_measure"/>
-                                                                </td>
-
-                                                                <td>
-                                                                    <input name="service_unit_price"
-                                                                           required
-                                                                           class="form-control form-control-sm service_unit_price"/>
-                                                                </td>
-
-                                                                <td>
-                                                                    <input name="service_total_price"
-                                                                           required
-                                                                           readonly
-                                                                           class="form-control form-control-sm service_total_price"/>
-                                                                </td>
-
-                                                                <td class="view-mode">
-                                                                    <button type="button"
-                                                                            data-value="{{$defect->id ?? '0'}}"
-                                                                            value="deleteRow"
-                                                                            class="btn btn-danger p-2">
-                                                                        <i class="fas fa-trash m-0"></i>
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
                                                         @endif
                                                         </tbody>
                                                         <tfoot>
@@ -1614,13 +1516,6 @@
                                                         </tfoot>
 
                                                     </table>
-                                                    <button type="button"
-                                                            data-table-id="services_table"
-                                                            class="btn btn-sm btn-primary add pull-right"
-                                                            value="insertRow">
-                                                        <i class="fa fa-plus"></i>
-                                                        Add Row
-                                                    </button>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -1632,15 +1527,15 @@
                                             </div>
                                             <hr>
                                             <div class="row">
-                                                <div class="form-group">
-                                                    <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
-                                                            for="remarks">
-                                                        Comments <small>Will be used as justification for
-                                                            Requisition</small>:
-                                                    </label>
-                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
-                                                        @if(!empty($comments))
+                                                @if(!empty($comments) && !empty($comments->where('type','=','SREQ')->first()))
+                                                    <div class="form-group">
+                                                        <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                                for="remarks">
+                                                            Comments <small>Will be used as justification for
+                                                                Requisition</small>:
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
                                                             <textarea type="text"
                                                                       id="service_comments"
                                                                       minlength="20"
@@ -1648,19 +1543,11 @@
                                                                       required
                                                                       name="service_comments"
                                                                       style="height: 129px;"
-                                                                      class="form-control comments form-control-sm">{{$comments->where('type','=','SREQ')->first()->remarks ??''}}</textarea>
-                                                        @else
-                                                            <textarea type="text"
-                                                                      id="service_comments"
-                                                                      minlength="20"
-                                                                      maxlength="255"
-                                                                      required
-                                                                      name="service_comments"
-                                                                      style="height: 129px;"
-                                                                      class="form-control comments form-control-sm"></textarea>
-                                                        @endif
+                                                                      class="form-control comments form-control-sm">{){$comments->where('type','=','SREQ')->first()->remarks ??''}}</textarea>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
+
                                             </div>
                                             <table class="mt-10">
                                                 <tbody>
@@ -2030,11 +1917,12 @@
 
             $('[name="service_supplier"]').attr('disabled', true).change();
 
+            $('[name="purchase_office"]').attr('disabled', true).change();
+
             $('[name="itemType"]').attr('disabled', true).change();
 
-            initArticleSelector($('.articlesDropDownList'));
-
-            initServiceArticleSelector($('.servicesArticlesDropDownList'));
+            /*initArticleSelector($('.articlesDropDownList'));*/
+            /*initServiceArticleSelector($('.servicesArticlesDropDownList'));*/
 
             Inputmask({
                 "mask": "AAA 9{1,4}"
@@ -2057,12 +1945,6 @@
         (function (tmsApp, $) {
 
             function adjustIframeHeight() {
-                /* var $body   = $('body'),
-                     $iframe = $body.data('iframe.fv');
-                 if ($iframe) {
-                     // Adjust the height of iframe
-                     $iframe.height($body.height());
-                 }*/
             }
 
             let form = $('#jobCardForm').show();
@@ -2432,36 +2314,6 @@
                     });
             }
 
-            /*function getWorkshopSections() {
-                fetch(document.querySelector('#workShopSectionsUrl').value)
-                    .then(response => response.json())
-                    .then(response => {
-                        let selectElem = $('select[name="workshopSection"]');
-                        // Populate results
-                        if (response.state === 'failure') {
-                            //show errors
-                            toastr.error('Connection error, no data found')
-                            return;
-                        }
-
-                        let workshops = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
-
-                        let location = selectElem.attr('data-value');
-                        console.log(location);
-                        if (location) {
-                            selectElem.val(location);
-                            selectElem.trigger('change');
-                        }
-
-                    })
-                    .catch(function (error) {
-                        // notify of error
-                        toastr.error(
-                            'Connection error. Could not retrieve data, some feature might not work.')
-                    });
-            }*/
-
             function getFuelLevels() {
                 fetch(document.querySelector('#fuelLevelsUrl').value)
                     .then(response => response.json())
@@ -2557,16 +2409,16 @@
                 }
 
                 // BAD 1010
-                if (state !== 'InWorkshop') {
-                    if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
-                        tmsApp.showSystemMessage("Vehicle State",
-                            vehicle_state,
-                            () => {
-                            },
-                            "error");
-                        return;
-                    }
-                }
+                /* if (state !== 'InWorkshop') {
+                     if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
+                         tmsApp.showSystemMessage("Vehicle State",
+                             vehicle_state,
+                             () => {
+                             },
+                             "error");
+                         return;
+                     }
+                 }*/
 
                 let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
                 $("#vehicle_description").val(vLabel);
