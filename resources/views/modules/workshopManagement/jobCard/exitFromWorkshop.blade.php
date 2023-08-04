@@ -387,7 +387,7 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-11">
+                                                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-11 pl-0">
                                                             <input type="text"
                                                                    class="form-control form-control-sm"
                                                                    id="driver_name"
@@ -424,7 +424,7 @@
                         <hr class=""/>
 
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-md-7 col-lg-7">
                                 <div class="row">
 
 
