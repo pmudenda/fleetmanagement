@@ -356,7 +356,7 @@
                                         <div class="col-xs-12 col-sm-12 col-md-6">
                                             <div class="container-fluid">
                                                 <div class="row">
-                                                    <div class="form-group row">
+                                                    <div class="form-group row pl-0">
                                                         <label
                                                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
                                                                 for="staff_name">
