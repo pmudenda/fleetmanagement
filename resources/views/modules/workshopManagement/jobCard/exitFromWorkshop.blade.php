@@ -90,14 +90,6 @@
                                                                        id="vehicle_registration"
                                                                        placeholder="Vehicle Reg e.g AAB 6757"
                                                                        name="vehicle_registration" required />
-                                                                {{--<div class="input-group-addon">
-                                                                    <button type="button"
-                                                                            id="vehicleSearchBtn"
-                                                                            name="vehicleSearchBtn"
-                                                                            class="btn btn-success btn-sm border-radius-0">
-                                                                        <i class="fas fa-search"></i>
-                                                                    </button>
-                                                                </div>--}}
                                                             </div>
 
                                                             <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
@@ -201,17 +193,16 @@
                                                                     disabled
                                                                     id="repairTypeDropdownList"
                                                                     data-value="{{$details->repair_type ?? ''}}"
-                                                                    class="form-select form-select-sm when_valid"
+                                                                    class="form-control form-control-sm when_valid"
                                                                     required>
-                                                                <option></option>
                                                                 @foreach ($repairTypes as $repairType)
                                                                     @if(!empty($details))
                                                                         @if($details->repair_type == $repairType->code)
                                                                             <option selected
                                                                                     value="{{$repairType->code}}">{{$repairType->name}}</option>
-                                                                        @else
+                                                                        {{--@else
                                                                             <option
-                                                                                value="{{$repairType->code}}">{{$repairType->name}}</option>
+                                                                                value="{{$repairType->code}}">{{$repairType->name}}</option>--}}
                                                                         @endif
                                                                     @else
                                                                         <option
