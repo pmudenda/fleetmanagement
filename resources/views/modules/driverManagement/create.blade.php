@@ -417,110 +417,11 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
                                                                                 for="staff_name">
                                                                                 Copy Of License:
                                                                             </label>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-xs-12 col-sm-6 col-md-5">
-                                                                <div class="container-fluid pl-0">
-                                                                    <div class="row">
-                                                                       <table>
-                                                                           <thead>
-                                                                           <tr>
-                                                                               <th>
-                                                                                   Front View:
-                                                                                   <small class="text-danger">
-                                                                                       JPG, JPEG,PNG, BMP
-                                                                                   </small>
-                                                                               </th>
-                                                                               <th>
-                                                                                   Back View:
-                                                                                   <small class="text-danger">
-                                                                                       JPG, JPEG,PNG, BMP
-                                                                                   </small>
-                                                                               </th>
-                                                                           </tr>
-                                                                           </thead>
-                                                                           <tbody>
-                                                                           <tr>
-                                                                               <td>
-                                                                                   <div
-                                                                                       class="card text-center py-5 my-2 pt-0">
-                                                                                       <div class="form-group">
-                                                                                           <p
-                                                                                               class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                                                                                               <button type="button"
-                                                                                                       data-select="file"
-                                                                                                       data-input="selectFrontViewFile"
-                                                                                                       class="upload-file btn btn-sm btn-primary me-2">
-                                                                                                   <i class="fas fa-cloud"></i>
-                                                                                                   Upload Image
-                                                                                               </button>
-                                                                                               <input type="file"
-                                                                                                      accept="image/*"
-                                                                                                      style="display: none;"
-                                                                                                      class="fileElem"
-                                                                                                      id="license_front_view"
-                                                                                                      name="license_front_view"/>
-                                                                                           </p>
-                                                                                           <div class="imagePreview"
-                                                                                                style="display: none;">
-                                                                                               <button type="button"
-                                                                                                       class="btn btn-xs clearImage"
-                                                                                                       style="top: 1px;
-                                            position: relative;
-                                            right: 1px;
-                                            float: right;
-                                            padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                                                                                               </button>
-                                                                                           </div>
-                                                                                       </div>
-                                                                                   </div>
-                                                                               </td>
-                                                                               <td>
-                                                                                   <div
-                                                                                       class="card text-center py-5 my-2 pt-0">
-                                                                                       <div class="form-group">
-                                                                                           <p
-                                                                                               class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                                                                                               <button type="button"
-                                                                                                       data-select="file"
-                                                                                                       data-input="selectFrontViewFile"
-                                                                                                       class="upload-file btn btn-sm btn-primary me-2">
-                                                                                                   <i class="fas fa-cloud"></i>
-                                                                                                   Upload Image
-                                                                                               </button>
-                                                                                               <input type="file"
-                                                                                                      accept="image/*"
-                                                                                                      style="display: none;"
-                                                                                                      class="fileElem"
-                                                                                                      id="license_back_view"
-                                                                                                      name="license_back_view"/>
-                                                                                           </p>
-                                                                                           <div class="imagePreview"
-                                                                                                style="display: none;">
-                                                                                               <button type="button"
-                                                                                                       class="btn btn-xs clearImage"
-                                                                                                       style="top: 1px;
-                                            position: relative;
-                                            right: 1px;
-                                            float: right;
-                                            padding: 2px;">
-                                                                                                   <i class="fa fa-window-close"
-                                                                                                      style="font-size: 20px;"></i>
-                                                                                               </button>
-                                                                                           </div>
-                                                                                       </div>
-                                                                                   </div>
-                                                                               </td>
-                                                                           </tr>
-                                                                           </tbody>
-                                                                       </table>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -532,13 +433,15 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 field-required"
                                                                                 for="staff_name">
-                                                                               
+                                                                                Front View:
+                                                                                <small class="text-danger">
+                                                                                    JPG, JPEG,PNG, BMP
+                                                                                </small>
                                                                             </label>
                                                                             <div
                                                                                 class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                                
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -550,13 +453,49 @@
                                                                     <div class="row">
                                                                         <div class="form-group row">
                                                                             <label
-                                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 field-required"
                                                                                 for="staff_name">
-                                                                               
+                                                                                Back View:
+                                                                                <small class="text-danger">
+                                                                                    JPG, JPEG,PNG, BMP
+                                                                                </small>
                                                                             </label>
                                                                             <div
                                                                                 class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                             
+                                                                                <div
+                                                                                    class="card text-center py-5 my-2 pt-0">
+                                                                                    <div class="form-group">
+                                                                                        <p
+                                                                                            class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
+                                                                                            <button type="button"
+                                                                                                    data-select="file"
+                                                                                                    data-input="selectFrontViewFile"
+                                                                                                    class="upload-file btn btn-sm btn-primary me-2">
+                                                                                                <i class="fas fa-cloud"></i>
+                                                                                                Upload Image
+                                                                                            </button>
+                                                                                            <input type="file"
+                                                                                                   accept="image/*"
+                                                                                                   style="display: none;"
+                                                                                                   class="fileElem"
+                                                                                                   id="license_back_view"
+                                                                                                   name="license_back_view"/>
+                                                                                        </p>
+                                                                                        <div class="imagePreview"
+                                                                                             style="display: none;">
+                                                                                            <button type="button"
+                                                                                                    class="btn btn-xs clearImage"
+                                                                                                    style="top: 1px;
+                                            position: relative;
+                                            right: 1px;
+                                            float: right;
+                                            padding: 2px;">
+                                                                                                <i class="fa fa-window-close"
+                                                                                                   style="font-size: 20px;"></i>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
