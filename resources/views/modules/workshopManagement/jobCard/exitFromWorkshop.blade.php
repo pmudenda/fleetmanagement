@@ -1410,7 +1410,6 @@
                                                             <th>UOM</th>
                                                             <th>Unit Price</th>
                                                             <th>Total</th>
-                                                            <th></th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -1486,15 +1485,6 @@
                                                                                readonly
                                                                                class="form-control form-control-sm service_total_price"/>
                                                                     </td>
-
-                                                                    <td class="view-mode">
-                                                                        <button type="button"
-                                                                                data-value="{{$defect->id ?? '0'}}"
-                                                                                value="deleteRow"
-                                                                                class="btn btn-danger p-2">
-                                                                            <i class="fas fa-trash m-0"></i>
-                                                                        </button>
-                                                                    </td>
                                                                 </tr>
                                                             @endforeach
                                                         @endif
@@ -1511,7 +1501,6 @@
                                                             <td class="text-right"><strong>TOTAL</strong></td>
                                                             <td class="text-right"><b id="serviceTotalPrice"
                                                                                       class="input-number">0.00</b></td>
-                                                            <td></td>
                                                         </tr>
                                                         </tfoot>
 
