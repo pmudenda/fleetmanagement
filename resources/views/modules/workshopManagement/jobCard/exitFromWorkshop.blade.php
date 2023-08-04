@@ -672,22 +672,6 @@
                                                                                     @endif value="02">NON STOCK ITEM
                                                                             </option>
                                                                         </select>
-                                                                    @else
-                                                                        <select
-                                                                                required
-                                                                                class="form-select form-select-sm"
-                                                                                name="itemType"
-                                                                                id="itemType">
-                                                                            <option></option>
-                                                                            <option value="{{RequisitionItemTypes::StockItemCode}}">
-                                                                                STOCK
-                                                                                ITEM
-                                                                            </option>
-                                                                            <option value="{{RequisitionItemTypes::NonStockItemCode}}">
-                                                                                NON
-                                                                                STOCK ITEM
-                                                                            </option>
-                                                                        </select>
                                                                     @endif
 
                                                                     <input type="hidden"
@@ -794,8 +778,7 @@
                                                 <div class="col-xs-12 col-sm-6 col-md-6">
                                                     <div class="container-fluid pl-0">
                                                         <div class="row">
-
-                                                            <div id="supplierContainer" style="display: none;"
+                                                            {{--<div id="supplierContainer" style="display: none;"
                                                                  class="form-group row">
                                                                 <div
                                                                         class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
@@ -817,9 +800,9 @@
                                                                             id="supplier">
                                                                     </select>
                                                                 </div>
-                                                            </div>
+                                                            </div>--}}
 
-                                                            <div id="storeContainer" style="display: none;"
+                                                            <div id="storeContainer"
                                                                  class="form-group row">
                                                                 <label
                                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
