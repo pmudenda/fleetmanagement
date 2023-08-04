@@ -505,7 +505,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                    {{--<div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="container-fluid pl-0">
                                             <div class="row">
                                                 <div class="form-group row">
@@ -537,9 +537,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>--}}
 
-                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                    {{--<div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="container-fluid pl-0">
                                             <div class="row">
                                                 <div class="form-group row">
@@ -573,7 +573,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>--}}
                                 </div>
 
                                 <div class="row">
@@ -583,7 +583,7 @@
                                                 <div class="form-group row">
                                                     <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="current_odometer">Odometer value:</label>
+                                                            for="current_odometer">Odometer On Exit:</label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                         <div class="input-group">
                                                             <input type="number"
@@ -605,7 +605,7 @@
 
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="container-fluid pl-0">
-                                            <div class="row" style="display: none;">
+                                            <div class="row">
                                                 <div class="form-group row">
                                                     <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
@@ -634,7 +634,7 @@
                                                     <label
                                                             class="col-xs-12 col-sm-12 col-md-5 col-lg-4 pl-0"
                                                             for="next_fuel_date">
-                                                        Fuel Level Out:
+                                                        Fuel Level On Exit:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                         <select disabled name="fuel_level"
@@ -658,7 +658,7 @@
                                                     <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
                                                             for="staff_name">
-                                                        Driver Out:
+                                                        Driver On Exit:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                         <div class="input-group">
@@ -671,6 +671,13 @@
                                                                    value="{{$details->driver_in ?? ''}}"
                                                                    placeholder=""
                                                                    name="driver_out"/>
+                                                            <div class="input-group-addon">
+                                                                <button type="button" id="employeeSearchBtn"
+                                                                        name="employeeSearchBtn"
+                                                                        class="btn btn-success btn-sm border-radius-0">
+                                                                    <i class="fas fa-search"></i>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2091,7 +2098,7 @@
                         $('[name="quantity"]').change();
                     }
 
-                    findDriver();
+                    findDriver(document.querySelector('#driver_staff_number').value);
 
                     findVehicle("InWorkshop");
 
@@ -2590,8 +2597,8 @@
                 )
             }
 
-            function findDriver() {
-                const staff_number = document.querySelector('#driver_staff_number').value;
+            function findDriver(staff_number, stage) {
+
                 if (!staff_number) {
                     return;
                 }
@@ -2636,7 +2643,13 @@
                             return;
                         }
 
-                        document.querySelector('#driver_name').value = response.payload.name;
+                        if(stage === 'show'){
+                            document.querySelector('#driver_name').value = response.payload.name;
+                        }else{
+                            document.querySelector('#driver_name_out').value = response.payload.name;
+                        }
+
+
                     })
                     .catch(function (xhr, settings, error) {
                         tmsApp.showErrorMessages(xhr, 'Driver Validation');
@@ -2870,19 +2883,19 @@
                             return;
                         }
 
-                        findDriver();
+                        findDriver(this.value, 'show');
                     });
                 }, 300);
 
                 setTimeout(function () {
                     $(document).on('click', '#employeeSearchBtn', function () {
-                        if (!document.querySelector("#driver_staff_number").value
-                            || document.querySelector("#driver_staff_number").value.length < 5) {
+                        if (!document.querySelector("#driver_out").value
+                            || document.querySelector("#driver_out").value.length < 5) {
                             toastr.warning('Invalid Employee Id Number')
                             return;
                         }
 
-                        findDriver();
+                        findDriver(document.querySelector("#driver_out").value, 'search');
                     });
                 }, 300);
 
@@ -2987,141 +3000,6 @@
                 }).on('keyup', 'input,textarea', function (e) {
                     eventHandler(this, e);
                 });
-
-                /*  $(document).off('click', 'button[value="addRow"][data-table-id]')
-                      .on('click', 'button[value="addRow"][data-table-id]', function () {
-                          let tableId = $(this).data('tableId');
-
-                          function reinitializeSelect2($_defect_sel) {
-                              if ($_defect_sel) {
-                                  $($_defect_sel).removeClass('select2-hidden-accessible');
-                                  $($_defect_sel).select2({
-                                      theme: "bootstrap4",
-                                      width: "resolve",
-                                  });
-                              }
-                          }
-
-                          if (tableId === "part8") {
-                              if ($('.select_2_control').data('select2')) {
-                                  $('.select_2_control').select2('destroy');
-                              }
-                          }
-
-                          Table.addRow($('table#' + tableId));
-                          let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
-
-                          lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
-                          lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
-                          lastRow.find('[name="quantity"]').val('').attr('readonly', false);
-                          lastRow.find('[name="articles"]').attr('readonly', false);
-                          lastRow.find('[name="unit_of_measure"]').val('');
-                          lastRow.find('[name="unit_price"]').val('');
-                          lastRow.find('[name="total_price"]').val('');
-                          lastRow.find('#unit_price').text('');
-
-                          if (tableId === "part8") {
-                              let row = lastRow[0];
-                              $(row).find('.select2-container').remove();
-                              let $_defect_sel = $(".select_2_control");
-                              reinitializeSelect2($_defect_sel);
-                          }
-
-                          if (tableId === "material_table") {
-                              let row = lastRow[0];
-                              $(row).find('.select2-container').remove();
-                              $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
-
-                              let article = $(row).find('input.articleCode').val();
-                              console.log('Article on line', article)
-                              let $_defect_sel = $(row).find(".articlesDropDownList");
-                              let $_defect_sel_ = $(row).find(".DropDownList");
-                              initArticleSelector($_defect_sel);
-                              initArticleSelector($_defect_sel_);
-                              //getArticleDetails(article, $_defect_sel);
-                          }
-                      });*/
-
-                /* $(document).on('click', 'button[value="deleteRow"]', function (e) {
-                     e.preventDefault();
-                     e.stopPropagation();
-
-                     let btnEl = $(this);
-                     let tableId = $(this).closest('table').attr('id');
-                     let valueId = $(this).attr('data-value');
-                     let tableRow = btnEl.closest('tr');
-                     let table = btnEl.closest('table');
-                     tmsApp.confirm(
-                         "Are you sure ?",
-                         "The data entered on this line will be cleared out, if not saved already, you will not be able to recover it",
-                         "Yes",
-                         "No",
-                         function () {
-                             Table.deleteRow(tableRow);
-                             e.preventDefault();
-                             e.stopPropagation();
-                             if (!valueId || valueId == "0") {
-                                 return;
-                             }
-                             let dataUrl = "";
-                             if (tableId === 'part8') {
-                                 dataUrl = document.querySelector('[name="deleteDefectUrl"]').value;
-                             } else {
-                                 dataUrl = document.querySelector('[name="deleteMaterialUrl"]').value;
-                             }
-
-                             let formData = new FormData();
-                             formData.append('record_id', valueId);
-
-                             tmsApp.asyncPostFormData(
-                                 dataUrl,
-                                 formData,
-                                 function (asyncResponse) {
-                                     if ('success' in asyncResponse && !asyncResponse.success) {
-                                         if (asyncResponse.hasOwnProperty('errors')) {
-                                             toastr.error(
-                                                 asyncResponse.message
-                                             );
-                                             tmsApp.printErrorMsg(asyncResponse.errors);
-                                             return
-                                         }
-
-                                         setTimeout(function () {
-                                                 tmsApp.systemError(
-                                                     'System Configuration',
-                                                     asyncResponse['message'],
-                                                     function () {
-                                                     }, 'error');
-                                             },
-                                             300);
-                                         return;
-                                     }
-
-                                     if (asyncResponse.success) {
-                                         const entry = asyncResponse.payload;
-                                         tmsApp.showSystemMessage(
-                                             'System Configuration',
-                                             asyncResponse['message'],
-                                             function () {
-                                                 //window.location.reload();
-                                             },
-                                             'success'
-                                         );
-                                     }
-                                 },
-                                 function (xhr, settings, error) {
-                                     setTimeout(
-                                         function () {
-                                             tmsApp.showErrorMessages(xhr, 'System Configuration');
-                                         },
-                                         300);
-                                 },
-                                 'POST',
-                             )
-                         });
-
-                     return false;
-                 });*/
             }
 
             function getSuppliers() {
@@ -3161,8 +3039,6 @@
                     toastr.error('Could not Retrieve Data, some feature might not work.', 'Connection error');
                 });
             }
-
-            // initializeFormWizard();
 
             getWorkshops();
 
