@@ -909,7 +909,7 @@
                         </div>
                     </div>
 
-                    <h1 class="mt-2">Spares & Services</h1>
+                    <h1 class="mt-2">Spares  |  Services  | Labour </h1>
                     <section>
                         <div class="container-fluid pl-0">
                             <input type="hidden"
