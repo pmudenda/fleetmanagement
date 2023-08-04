@@ -109,7 +109,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label pl-0"
                                                                 for="staff_no">Date In :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
@@ -222,7 +222,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
                                                                 for="staff_name">
                                                             Service Advisor:
                                                         </label>
