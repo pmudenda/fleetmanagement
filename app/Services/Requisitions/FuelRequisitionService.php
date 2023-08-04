@@ -343,7 +343,7 @@ class FuelRequisitionService
         DB::commit();
 
         // send notification to authoriser
-        RequisitionRaised::dispatch($matHeader);
+        RequisitionRaised::dispatch($matHeader, 'fuel_requisition');
         Log::info('Requisition ' . $requisition_reference_number . ' raised successfully');
 
         return response()->json([

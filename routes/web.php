@@ -40,6 +40,18 @@ Route::get('/', function () {
     return redirect(route('login'));
 });
 
+Route::get('/mail_view', function () {
+    $details = [
+        'name' => 'Lovemore Daka',
+        'systemLink' => 'nc.details',
+        'identity' => "898989879",
+        'subject' => "Non-Conformance Assignment",
+        'title' => "Non-Conformance For Your Attention",
+        'body' => "Nonconformity reference PP.14620.NCOF.00001, has been raised by Edwin K. Mboroma for your attention.
+         To ensure high levels of compliance, promptly attend to the nonconformity by " . \Carbon\Carbon::parse(\Carbon\Carbon::now())->format('d/m/Y') . " by clicking on the link below to login to ZQMS."
+    ];
+    return view('mail.send-mail')->with(compact('details'));
+});
 
 Route::post('logout', [HomeController::class, 'logout'])->name('logout');
 

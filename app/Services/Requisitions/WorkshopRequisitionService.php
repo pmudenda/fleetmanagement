@@ -268,7 +268,7 @@ class WorkshopRequisitionService
         DB::commit();
 
         // send notification to authoriser
-        RequisitionRaised::dispatch($matHeader);
+        RequisitionRaised::dispatch($matHeader, 'requisition');
         Log::info("Requisition " . $requisition_reference_number . " raised successfully");
 
         return response()->json([
@@ -1097,7 +1097,7 @@ class WorkshopRequisitionService
         DB::commit();
 
         // send notification to authoriser
-        RequisitionRaised::dispatch($matHeader);
+        RequisitionRaised::dispatch($matHeader, 'job_card_material_requisition');
         Log::info("Requisition " . $purchase_process_reference . " raised successfully");
 
         return response()->json([
@@ -1110,10 +1110,8 @@ class WorkshopRequisitionService
 
     public function updateStatus(mixed $reference, string $status): void
     {
-        DB::beginTransaction();
         MaterialHeader::where("req_no", $reference)
             ->update(["status" => $status]);
-        DB::commit();
     }
 
     public function updateStPur(mixed $reference, string $stPur): void

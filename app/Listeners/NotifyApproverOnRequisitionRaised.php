@@ -4,6 +4,8 @@ namespace App\Listeners;
 
 use App\Events\RequisitionRaised;
 use App\Models\Security\User;
+use App\Models\Workflow\WorkflowTaskHeader;
+use App\Services\NotificationService\EmailNotificationService;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
@@ -27,11 +29,12 @@ class NotifyApproverOnRequisitionRaised
         try {
             $requisitionHeader = $event->requestHeader;
             // send notification
-            Log::info('Sending Mail Notification For Requisition');
+            Log::info('Sending Mail Notification To Requisition Reviewer');
             $sender = User::where('staff_no', '=', trim($requisitionHeader->requested_by));
-            //$recipient = User::find((int)trim($nonConformance->originatorId));
-            //$action = $event->action;
-            //EmailNotificationService::sendNotification($recipient, $sender, $nonConformance, $action);
+            $task = WorkflowTaskHeader::where('reference','=', trim($requisitionHeader->req_no))->first();
+            $recipient = User::find((int)trim($task->assigned_user));
+            $action = $event->action ?? 'requisition';
+            EmailNotificationService::sendNotification($recipient, $sender, $requisitionHeader, $action, $task);
         } catch (\Exception $e) {
             Log::info('Error When Sending Mail');
             Log::error($e);

@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Log;
 
 class WorkflowService
 {
+    const Approve = 3;
+
     /**
      * Initialize Approval task
      * @param string $taskReference
@@ -140,6 +142,7 @@ class WorkflowService
             'date_started' => Carbon::now(),
             'created_by' => $currentUser->staff_no
         ]);
+
     }
 
 
@@ -224,8 +227,7 @@ class WorkflowService
                 $task_detail->save();
                 DB::commit();
                 return ["0", "0"];
-            case 3:
-
+            case self::Approve:
                 // approved
                 //check if the current step is final step .CurrentStep.IsFinalStep == 1
                 //DB::beginTransaction();
@@ -373,7 +375,7 @@ class WorkflowService
             case 5:
             {
                 //send back
-                DB::beginTransaction();
+                //DB::beginTransaction();
                 $previousStep = WorkflowStep::where('step_id', '=', $currentStep->previous_step)->first();
 
                 $previousStepLog = WorkflowLog::where('reference', '=', $task_detail->reference)
@@ -397,7 +399,7 @@ class WorkflowService
                 //self::createUserNotification($task_detail, "Task Sent Back", $previousStep->action_page ?? "");
 
                 $task_detail->save();
-                DB::commit();
+                //DB::commit();
                 return [$task_detail, '0'];
             }
             //  Pay=7

@@ -4,7 +4,7 @@ namespace App\Services\NotificationService;
 
 
 use App\Mail\SendMail;
-use App\Models\User;
+use App\Models\Security\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -12,25 +12,28 @@ use Illuminate\Support\Facades\Mail;
 
 class EmailNotificationService
 {
-    public static function sendNotification(User $recipient, User $sender, $record, string $action): bool
+    public static function sendNotification(User $recipient, User $sender, $record, string $action, $task): bool
     {
         try {
-            $to[] = ['email' => $recipient->email, 'name' => $recipient->name];
+            $recipientMail = 'lovemoredaka@zesco.co.zm'; //$recipient->email
+            $to[] = ['email' => $recipientMail, 'name' => $recipient->name];
             $names = $recipient->name;
 
             switch ($action) {
-                case 'assign':
+                case 'requisition':
+                case 'job_card_material_requisition':
+                case 'fuel_requisition':
                     $dueDate = Carbon::parse($record->dueDate)->format('d/m/Y');
                     $details = [
                         'name' => $names,
-                        'systemLink' => route('home', ['external_link' => 'tasks/show?reference=' . $record->taskNumber]),
-                        'identity' => $record->taskNumber,
+                        'systemLink' => route('home', ['external_link' => 'tasks/show?reference=' . $record->req_no]),
+                        'identity' => $record->req_no,
                         'subject' => "New Task Needs Your Attention",
                         'title' => "New Task Needs Your Attention",
                         'body' => "Please be informed that {$sender->name} has assigned you a task with reference
-                               <strong>{$record->taskNumber}</strong>
-                               in ZQMS. The task is due on {$dueDate}.
-                               <br>Kindly click on the button below to login to ZQMS
+                               <strong>{$record->req_no}</strong>
+                               in ZFMS. The task is due on {$dueDate}.
+                               <br>Kindly click on the button below to login to ZFMS
                                and take action.<br> Regards. "
                     ];
                     break;

@@ -21,6 +21,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 
@@ -30,8 +31,8 @@ class WorkflowController extends Controller
     private WorkshopRequisitionService $workshopRequisitionService;
     private WorkflowService $workflowService;
 
-    public function __construct(FuelRequisitionService $requisitionService,
-                                WorkflowService $workflowService,
+    public function __construct(FuelRequisitionService     $requisitionService,
+                                WorkflowService            $workflowService,
                                 WorkshopRequisitionService $workshopRequisitionService)
     {
         $this->fuelRequisitionService = $requisitionService;
@@ -62,6 +63,7 @@ class WorkflowController extends Controller
                 $process_code = WorkflowProcessCodes::OverrideFuelRequisition->value;
             }
 
+            DB::beginTransaction();
             $action = 0;
             $actionTaken = '';
             $message = '';
@@ -93,7 +95,7 @@ class WorkflowController extends Controller
                 $this->workshopRequisitionService->updateStatus($reference, StatusHelper::authorised());
 
                 $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, StatusHelper::authorised());
-            }else{
+            } else {
                 $status = '';
                 switch (strtolower(trim($request->get('Approved')))) {
                     case 'approve':
@@ -108,6 +110,8 @@ class WorkflowController extends Controller
                 $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, $status);
 
             }
+
+            DB::commit();
 
             return response()->json([
                 'requestPayload' => $request->all(),
@@ -137,6 +141,7 @@ class WorkflowController extends Controller
 
             $requisitionDetail = $this->workshopRequisitionService->getReservationDetail($reference);
 
+            DB::beginTransaction();
             $process_code = '';
             switch ($requisitionDetail->item_type) {
                 case RequisitionItemTypes::Service:
@@ -183,15 +188,15 @@ class WorkflowController extends Controller
                 switch ($requisitionDetail->item_type) {
                     case RequisitionItemTypes::Service:
                         $purchaseProcessNumber = $this->workshopRequisitionService->createWorkshopServicePurchaseProcess($request->get('reference'));
-                        $message = $message . ' Purchase Process No.: '. $purchaseProcessNumber;
+                        $message = $message . ' Purchase Process No.: ' . $purchaseProcessNumber;
                         break;
                     case RequisitionItemTypes::NonStockItem:
                         $purchaseProcessNumber = $this->workshopRequisitionService->createWorkshopNonStockPurchaseProcess($request->get('reference'));
-                        $message = $message . ' Purchase Process No.: '. $purchaseProcessNumber;
+                        $message = $message . ' Purchase Process No.: ' . $purchaseProcessNumber;
                         break;
                     case RequisitionItemTypes::StockItem:
                         $reservationNumber = $this->workshopRequisitionService->createWorkshopMaterialStoresReservation($request->get('reference'));
-                        $message = $message . ' Stores Reservation No.: '. $reservationNumber;
+                        $message = $message . ' Stores Reservation No.: ' . $reservationNumber;
                         break;
                     default:
                         throw new MaterialReservationException("ITEM TYPE NOT");
@@ -199,7 +204,7 @@ class WorkflowController extends Controller
 
                 $this->workshopRequisitionService->updateStatus($reference, StatusHelper::authorised());
                 $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, StatusHelper::authorised());
-            }else{
+            } else {
 
                 $status = '';
                 switch (strtolower(trim($request->get('Approved')))) {
@@ -217,6 +222,7 @@ class WorkflowController extends Controller
                 $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, $status);
             }
 
+            DB::commit();
             return response()->json([
                 'requestPayload' => $request->all(),
                 'success' => true,

@@ -14,13 +14,15 @@ class RequisitionRaised
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public MaterialHeader $requestHeader;
+    public string $action;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(MaterialHeader $requestHeader)
+    public function __construct(MaterialHeader $requestHeader, string $action)
     {
         $this->requestHeader = $requestHeader;
+        $this->action = $action;
     }
 
     /**
