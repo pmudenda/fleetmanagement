@@ -78,7 +78,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label pl-0"
                                                                 for="staff_no">Registration #:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -135,7 +135,7 @@
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
-                                                                    <label class="form-check-inline field-required">
+                                                                    <label class="form-check-inline field-required pl-0">
                                                                         Workshop
                                                                     </label>
                                                                 </div>
@@ -186,7 +186,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
                                                                 for="staff_name">
                                                             Repair Type:
                                                         </label>
@@ -331,7 +331,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
+                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 pl-0"
                                                                 for="next_fuel_date">
                                                             Fuel Level :
                                                         </label>
@@ -355,7 +355,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
                                                                 for="staff_name">
                                                             Driver In:
                                                         </label>
@@ -688,7 +688,7 @@
                                                         <div class="row">
                                                             <div class="form-group row">
                                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
-                                                                        for="staff_no">
+                                                                       for="staff_no">
                                                                     Purchase Office:
                                                                 </label>
                                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
@@ -745,7 +745,7 @@
                                                         <div class="row">
                                                             <div class="form-group row">
                                                                 <label class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                                                        for="job_card_no">
+                                                                       for="job_card_no">
                                                                     Request Date:
                                                                 </label>
                                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -778,30 +778,6 @@
                                                 <div class="col-xs-12 col-sm-6 col-md-6">
                                                     <div class="container-fluid pl-0">
                                                         <div class="row">
-                                                            {{--<div id="supplierContainer" style="display: none;"
-                                                                 class="form-group row">
-                                                                <div
-                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
-                                                                    <div class="control-input">
-                                                                        <div class="link-field ui-front"
-                                                                             style="position: relative;">
-                                                                            <label class="form-check-inline">
-                                                                                Suppliers
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                                    <select
-                                                                            data-value="{{$materialsHeader->supplier_code ?? ''}}"
-                                                                            class="form-select form-select-sm"
-                                                                            name="supplier"
-                                                                            autocomplete="off"
-                                                                            id="supplier">
-                                                                    </select>
-                                                                </div>
-                                                            </div>--}}
-
                                                             <div id="storeContainer"
                                                                  class="form-group row">
                                                                 <label
@@ -839,6 +815,7 @@
                                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                                     @if($materialsHeader)
                                                                         <input type="date"
+                                                                               readonly
                                                                                class="form-control form-control-sm"
                                                                                id="date_expected"
                                                                                min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
@@ -848,6 +825,7 @@
 
                                                                     @else
                                                                         <input type="date"
+                                                                               readonly
                                                                                class="form-control form-control-sm"
                                                                                id="date_expected"
                                                                                min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
@@ -1006,7 +984,7 @@
                                                                       maxlength="255"
                                                                       required
                                                                       name="comments"
-                                                                      style="height: 129px;"
+                                                                      readonly
                                                                       class="form-control comments form-control-sm">{{$comments->where('type','=','REQ')->first()->remarks ??''}}</textarea>
                                                         @endif
                                                     </div>
@@ -1768,7 +1746,9 @@
 
         $(document).ready(function () {
 
-            $('[name="fuel_level"]').attr('disabled', true).change();
+            setTimeout(function () {
+                $('[name="fuel_level"]').attr('disabled', true).change();
+            }, 300);
 
             $('[name="serviceItemType"]').attr('disabled', true).change();
 
@@ -1800,9 +1780,6 @@
         });
 
         (function (tmsApp, $) {
-
-            function adjustIframeHeight() {
-            }
 
             let form = $('#jobCardForm').show();
             window.goToNext = false;
@@ -2026,11 +2003,9 @@
                     onStepChanged: function (event, currentIndex, priorIndex) {
 
                         if (currentIndex === 2 && priorIndex === 3) {
-                            //form.steps("previous");
                             $('ul[aria-label="Pagination"]').find('a[href="#finish"]').removeClass('d-none');
                         }
-                        adjustIframeHeight();
-                        //$('ul[aria-label="Pagination"]').find('a[data-action="skip"]').removeClass('d-none');
+
                         window.global_currentIndex = currentIndex;
                         if (currentIndex === 3) {
                             $('ul[aria-label="Pagination"]').find('a[href="#finish"]').addClass('d-none');
@@ -2062,11 +2037,7 @@
                                 function () {
                                 }
                             );
-                        } else {
-                            //$('a[role="#finish"]').enableBtn();
-                            //swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
                         }
-
                     },
                 }).validate(
                     {
