@@ -66,10 +66,11 @@
                       action="{{route('save.exit.from.workshop')}}"
                       method="post">
                     @csrf
-                {{--    <h1>Details</h1>--}}
+                    {{--    <h1>Details</h1>--}}
                     <section>
                         <div class="container-fluid">
-                            <div class="row" data-form-url="{{route("process.job_card")}}" data-model-name="JobCardHeader">
+                            <div class="row" data-form-url="{{route("process.job_card")}}"
+                                 data-model-name="JobCardHeader">
                                 <div class="col-9">
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
@@ -89,10 +90,11 @@
                                                                        value="{{$details->reg_no ?? ''}}"
                                                                        id="vehicle_registration"
                                                                        placeholder="Vehicle Reg e.g AAB 6757"
-                                                                       name="vehicle_registration" required />
+                                                                       name="vehicle_registration" required/>
                                                             </div>
 
-                                                            <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
+                                                            <input type="hidden" value="{{$details->job_card_no ?? 0}}"
+                                                                   name="job_card_number"/>
 
                                                         </div>
                                                     </div>
@@ -141,12 +143,12 @@
                                                         </div>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <select disabled
-                                                                data-value="{{$details->workshop_code ?? ''}}"
-                                                                required
-                                                                class="form-select form-select-sm"
-                                                                name="workshop"
-                                                                autocomplete="off"
-                                                                id="workshop">
+                                                                    data-value="{{$details->workshop_code ?? ''}}"
+                                                                    required
+                                                                    class="form-select form-select-sm"
+                                                                    name="workshop"
+                                                                    autocomplete="off"
+                                                                    id="workshop">
                                                             </select>
                                                         </div>
                                                     </div>
@@ -189,29 +191,24 @@
                                                             Repair Type:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select name="repairType"
-                                                                    disabled
-                                                                    id="repairTypeDropdownList"
-                                                                    data-value="{{$details->repair_type ?? ''}}"
-                                                                    class="form-control form-control-sm when_valid"
-                                                                    required>
-                                                                @foreach ($repairTypes as $repairType)
-                                                                    @if(!empty($details))
-                                                                        @if($details->repair_type == $repairType->code)
-                                                                            <option selected
-                                                                                    value="{{$repairType->code}}">{{$repairType->name}}</option>
-                                                                        {{--@else
-                                                                            <option
-                                                                                value="{{$repairType->code}}">{{$repairType->name}}</option>--}}
-                                                                        @endif
-                                                                    @else
-                                                                        <option
-                                                                            value="{{$repairType->code}}">{{$repairType->name}}</option>
-
+                                                            @foreach ($repairTypes as $repairType)
+                                                                @if(!empty($details))
+                                                                    @if($details->repair_type == $repairType->code)
+                                                                        <input type="hidden"
+                                                                               name="repairType"
+                                                                               value="{{$repairType->code}}" />
+                                                                        <input readonly
+                                                                               class="form-control form-control-sm when_valid"
+                                                                               type="text"
+                                                                               value="{{$repairType->name}}" />
                                                                     @endif
-
-                                                                @endforeach
-                                                            </select>
+                                                                @else
+                                                                    <input readonly
+                                                                           class="form-control form-control-sm when_valid"
+                                                                           type="text"
+                                                                           value="">
+                                                                @endif
+                                                            @endforeach
                                                         </div>
                                                     </div>
                                                 </div>
@@ -267,7 +264,7 @@
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <select name="accident_number" id="accident_number"
-                                                                  disabled
+                                                                    disabled
                                                                     class="form-control form-select-sm when_valid"
                                                                     required>
                                                             </select>
@@ -339,7 +336,7 @@
                                                             Fuel Level :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select disabled="disabled" name="fuel_level"
+                                                            <select disabled name="fuel_level"
                                                                     data-value="{{$details->fuel_level_in ?? ''}}"
                                                                     id="fuel_level"
                                                                     class="form-select form-select-sm when_valid"
@@ -431,7 +428,8 @@
                     <h1 class="d-none">Accessories</h1>
                     <section class="d-none">
                         <div class="container-fluid">
-                            <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}" data-model-name="Accessories">
+                            <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}"
+                                 data-model-name="Accessories">
                                 <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="row">
@@ -621,7 +619,8 @@
                                                             </select>
                                                         </td>
                                                         <td>
-                                                            <select  disabled name="workshopSection" class="form-select form-select-sm workshopSection">
+                                                            <select disabled name="workshopSection"
+                                                                    class="form-select form-select-sm workshopSection">
                                                                 <option></option>
                                                                 @foreach($workshop_sections as $workshop_section)
                                                                     <option
@@ -1574,7 +1573,7 @@
                 });
 
                 document.querySelector('#vehicleDetailsContainer').style.display = null;
-               // document.querySelector('#image_view').style.display = null;
+                // document.querySelector('#image_view').style.display = null;
             }
 
             function enableArticleSelectionWebUIControls() {
@@ -2065,140 +2064,140 @@
                     eventHandler(this, e);
                 });
 
-              /*  $(document).off('click', 'button[value="addRow"][data-table-id]')
-                    .on('click', 'button[value="addRow"][data-table-id]', function () {
-                        let tableId = $(this).data('tableId');
+                /*  $(document).off('click', 'button[value="addRow"][data-table-id]')
+                      .on('click', 'button[value="addRow"][data-table-id]', function () {
+                          let tableId = $(this).data('tableId');
 
-                        function reinitializeSelect2($_defect_sel) {
-                            if ($_defect_sel) {
-                                $($_defect_sel).removeClass('select2-hidden-accessible');
-                                $($_defect_sel).select2({
-                                    theme: "bootstrap4",
-                                    width: "resolve",
-                                });
-                            }
-                        }
+                          function reinitializeSelect2($_defect_sel) {
+                              if ($_defect_sel) {
+                                  $($_defect_sel).removeClass('select2-hidden-accessible');
+                                  $($_defect_sel).select2({
+                                      theme: "bootstrap4",
+                                      width: "resolve",
+                                  });
+                              }
+                          }
 
-                        if (tableId === "part8") {
-                            if ($('.select_2_control').data('select2')) {
-                                $('.select_2_control').select2('destroy');
-                            }
-                        }
+                          if (tableId === "part8") {
+                              if ($('.select_2_control').data('select2')) {
+                                  $('.select_2_control').select2('destroy');
+                              }
+                          }
 
-                        Table.addRow($('table#' + tableId));
-                        let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
+                          Table.addRow($('table#' + tableId));
+                          let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
 
-                        lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
-                        lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
-                        lastRow.find('[name="quantity"]').val('').attr('readonly', false);
-                        lastRow.find('[name="articles"]').attr('readonly', false);
-                        lastRow.find('[name="unit_of_measure"]').val('');
-                        lastRow.find('[name="unit_price"]').val('');
-                        lastRow.find('[name="total_price"]').val('');
-                        lastRow.find('#unit_price').text('');
+                          lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
+                          lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
+                          lastRow.find('[name="quantity"]').val('').attr('readonly', false);
+                          lastRow.find('[name="articles"]').attr('readonly', false);
+                          lastRow.find('[name="unit_of_measure"]').val('');
+                          lastRow.find('[name="unit_price"]').val('');
+                          lastRow.find('[name="total_price"]').val('');
+                          lastRow.find('#unit_price').text('');
 
-                        if (tableId === "part8") {
-                            let row = lastRow[0];
-                            $(row).find('.select2-container').remove();
-                            let $_defect_sel = $(".select_2_control");
-                            reinitializeSelect2($_defect_sel);
-                        }
+                          if (tableId === "part8") {
+                              let row = lastRow[0];
+                              $(row).find('.select2-container').remove();
+                              let $_defect_sel = $(".select_2_control");
+                              reinitializeSelect2($_defect_sel);
+                          }
 
-                        if (tableId === "material_table") {
-                            let row = lastRow[0];
-                            $(row).find('.select2-container').remove();
-                            $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+                          if (tableId === "material_table") {
+                              let row = lastRow[0];
+                              $(row).find('.select2-container').remove();
+                              $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
 
-                            let article = $(row).find('input.articleCode').val();
-                            console.log('Article on line', article)
-                            let $_defect_sel = $(row).find(".articlesDropDownList");
-                            let $_defect_sel_ = $(row).find(".DropDownList");
-                            initArticleSelector($_defect_sel);
-                            initArticleSelector($_defect_sel_);
-                            //getArticleDetails(article, $_defect_sel);
-                        }
-                    });*/
+                              let article = $(row).find('input.articleCode').val();
+                              console.log('Article on line', article)
+                              let $_defect_sel = $(row).find(".articlesDropDownList");
+                              let $_defect_sel_ = $(row).find(".DropDownList");
+                              initArticleSelector($_defect_sel);
+                              initArticleSelector($_defect_sel_);
+                              //getArticleDetails(article, $_defect_sel);
+                          }
+                      });*/
 
-               /* $(document).on('click', 'button[value="deleteRow"]', function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
+                /* $(document).on('click', 'button[value="deleteRow"]', function (e) {
+                     e.preventDefault();
+                     e.stopPropagation();
 
-                    let btnEl = $(this);
-                    let tableId = $(this).closest('table').attr('id');
-                    let valueId = $(this).attr('data-value');
-                    let tableRow = btnEl.closest('tr');
-                    let table = btnEl.closest('table');
-                    tmsApp.confirm(
-                        "Are you sure ?",
-                        "The data entered on this line will be cleared out, if not saved already, you will not be able to recover it",
-                        "Yes",
-                        "No",
-                        function () {
-                            Table.deleteRow(tableRow);
-                            e.preventDefault();
-                            e.stopPropagation();
-                            if (!valueId || valueId == "0") {
-                                return;
-                            }
-                            let dataUrl = "";
-                            if (tableId === 'part8') {
-                                dataUrl = document.querySelector('[name="deleteDefectUrl"]').value;
-                            } else {
-                                dataUrl = document.querySelector('[name="deleteMaterialUrl"]').value;
-                            }
+                     let btnEl = $(this);
+                     let tableId = $(this).closest('table').attr('id');
+                     let valueId = $(this).attr('data-value');
+                     let tableRow = btnEl.closest('tr');
+                     let table = btnEl.closest('table');
+                     tmsApp.confirm(
+                         "Are you sure ?",
+                         "The data entered on this line will be cleared out, if not saved already, you will not be able to recover it",
+                         "Yes",
+                         "No",
+                         function () {
+                             Table.deleteRow(tableRow);
+                             e.preventDefault();
+                             e.stopPropagation();
+                             if (!valueId || valueId == "0") {
+                                 return;
+                             }
+                             let dataUrl = "";
+                             if (tableId === 'part8') {
+                                 dataUrl = document.querySelector('[name="deleteDefectUrl"]').value;
+                             } else {
+                                 dataUrl = document.querySelector('[name="deleteMaterialUrl"]').value;
+                             }
 
-                            let formData = new FormData();
-                            formData.append('record_id', valueId);
+                             let formData = new FormData();
+                             formData.append('record_id', valueId);
 
-                            tmsApp.asyncPostFormData(
-                                dataUrl,
-                                formData,
-                                function (asyncResponse) {
-                                    if ('success' in asyncResponse && !asyncResponse.success) {
-                                        if (asyncResponse.hasOwnProperty('errors')) {
-                                            toastr.error(
-                                                asyncResponse.message
-                                            );
-                                            tmsApp.printErrorMsg(asyncResponse.errors);
-                                            return
-                                        }
+                             tmsApp.asyncPostFormData(
+                                 dataUrl,
+                                 formData,
+                                 function (asyncResponse) {
+                                     if ('success' in asyncResponse && !asyncResponse.success) {
+                                         if (asyncResponse.hasOwnProperty('errors')) {
+                                             toastr.error(
+                                                 asyncResponse.message
+                                             );
+                                             tmsApp.printErrorMsg(asyncResponse.errors);
+                                             return
+                                         }
 
-                                        setTimeout(function () {
-                                                tmsApp.systemError(
-                                                    'System Configuration',
-                                                    asyncResponse['message'],
-                                                    function () {
-                                                    }, 'error');
-                                            },
-                                            300);
-                                        return;
-                                    }
+                                         setTimeout(function () {
+                                                 tmsApp.systemError(
+                                                     'System Configuration',
+                                                     asyncResponse['message'],
+                                                     function () {
+                                                     }, 'error');
+                                             },
+                                             300);
+                                         return;
+                                     }
 
-                                    if (asyncResponse.success) {
-                                        const entry = asyncResponse.payload;
-                                        tmsApp.showSystemMessage(
-                                            'System Configuration',
-                                            asyncResponse['message'],
-                                            function () {
-                                                //window.location.reload();
-                                            },
-                                            'success'
-                                        );
-                                    }
-                                },
-                                function (xhr, settings, error) {
-                                    setTimeout(
-                                        function () {
-                                            tmsApp.showErrorMessages(xhr, 'System Configuration');
-                                        },
-                                        300);
-                                },
-                                'POST',
-                            )
-                        });
+                                     if (asyncResponse.success) {
+                                         const entry = asyncResponse.payload;
+                                         tmsApp.showSystemMessage(
+                                             'System Configuration',
+                                             asyncResponse['message'],
+                                             function () {
+                                                 //window.location.reload();
+                                             },
+                                             'success'
+                                         );
+                                     }
+                                 },
+                                 function (xhr, settings, error) {
+                                     setTimeout(
+                                         function () {
+                                             tmsApp.showErrorMessages(xhr, 'System Configuration');
+                                         },
+                                         300);
+                                 },
+                                 'POST',
+                             )
+                         });
 
-                    return false;
-                });*/
+                     return false;
+                 });*/
             }
 
             function getSuppliers() {
