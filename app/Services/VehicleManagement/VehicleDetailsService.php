@@ -65,7 +65,7 @@ class VehicleDetailsService
                     //'VM_BODY_AND_WEIGHT_DETAILS.*'
             )->get();
 
-            var_dump($results->first());
+            dd($results->first());
 
             return $results->first();
         } catch (\Exception $e) {
