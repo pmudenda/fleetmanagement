@@ -141,7 +141,7 @@ class VehicleController extends Controller
     public function list(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $vehicleList = VehicleDetailsService::getAllVehicles();
-        dd($vehicleList);
+
         return view('modules.vehicleManagement.vehicleList')
             ->with(compact('vehicleList'));
     }
