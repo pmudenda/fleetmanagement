@@ -94,12 +94,12 @@
                         <div class="col-11">
                             <div class="card card-body"
                                  style="border-radius: 2em;
-                         @if ($form_status == config('constants.subsistence_status.new_application'))
+                        {{-- @if ($form_status == config('constants.subsistence_status.new_application'))
                             background-color:#F7801D
                             @elseif (in_array(config('constants.subsistence_status.hod_approved'), $approvals_array))
                              background-color:#4E944F
                             @else
-                            background-color:#FFDAAF @endif
+                            background-color:#FFDAAF @endif--}}
                         ">
                             <span class="font-weight-bold">
                                 1. SUPERVISOR APPROVAL
@@ -150,12 +150,12 @@
                             <div class="col-11">
                                 <div class="card card-body"
                                      style="border-radius: 2em;
-                 @if ($form_status == config('constants.subsistence_status.hod_approved'))
+                 {{--@if ($form_status == config('constants.subsistence_status.hod_approved'))
                     background-color:#F7801D
                     @elseif (in_array(config('constants.subsistence_status.station_mgr_approved'), $approvals_array))
                     background-color:#4E944F
                     @else
-                    background-color:#FFDAAF @endif
+                    background-color:#FFDAAF @endif--}}
                 ">
                                 <span class="font-weight-bold">
                                     2. DR APPROVAL
@@ -204,12 +204,12 @@
                             <div class="col-11">
                                 <div class="card card-body"
                                      style="border-radius: 2em;
-                 @if ($form_status == config('constants.subsistence_status.hod_approved'))
+                 {{--@if ($form_status == config('constants.subsistence_status.hod_approved'))
                     background-color:#F7801D
                     @elseif (in_array(config('constants.subsistence_status.station_mgr_approved'), $approvals_array))
                     background-color:#4E944F
                     @else
-                    background-color:#FFDAAF @endif
+                    background-color:#FFDAAF @endif--}}
                 ">
                                 <span class="font-weight-bold">
                                     2. SNR MGR APPROVAL
@@ -259,7 +259,7 @@
                         <div class="col-11">
                             <div class="card card-body"
                                  style="border-radius: 2em;
-                 @if ( ($form_status == config('constants.subsistence_status.station_mgr_approved'))
+                 {{--@if ( ($form_status == config('constants.subsistence_status.station_mgr_approved'))
                   || ($form_status == config('constants.subsistence_status.dr_approved'))
                   || ($form_status == config('eform_status.director_approved'))
                   )
@@ -267,7 +267,7 @@
                     @elseif (in_array(config('constants.subsistence_status.hr_approved'), $approvals_array))
                     background-color:#4E944F
                     @else
-                    background-color:#FFDAAF @endif
+                    background-color:#FFDAAF @endif--}}
                 ">
                             <span class="font-weight-bold">
                                 3. HUMAN CAPITAL APPROVAL
@@ -316,12 +316,12 @@
                         <div class="col-11">
                             <div class="card card-body"
                                  style="border-radius: 2em;
-                 @if ($form_status == config('constants.subsistence_status.hr_approved'))
+                {{-- @if ($form_status == config('constants.subsistence_status.hr_approved'))
                     background-color:#F7801D
                     @elseif (in_array(config('constants.subsistence_status.chief_accountant'), $approvals_array))
                     background-color:#4E944F
                     @else
-                    background-color:#FFDAAF @endif
+                    background-color:#FFDAAF @endif--}}
                 ">
                             <span class="font-weight-bold">
                                 4. CHIEF ACCOUNTANT APPROVAL
@@ -368,12 +368,12 @@
                         <div class="col-11">
                             <div class="card card-body"
                                  style="border-radius: 2em;
-                 @if ($form_status == config('constants.subsistence_status.chief_accountant'))
+                 {{--@if ($form_status == config('constants.subsistence_status.chief_accountant'))
                     background-color:#F7801D
                     @elseif (in_array(config('constants.subsistence_status.chief_accountant'), $approvals_array))
                      background-color:#4E944F
                     @else
-                    background-color:#FFDAAF @endif
+                    background-color:#FFDAAF @endif--}}
                 ">
                             <span class="font-weight-bold">
                                 5. EXPENDITURE APPROVAL
