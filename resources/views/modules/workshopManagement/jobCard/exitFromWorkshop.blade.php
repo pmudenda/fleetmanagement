@@ -752,7 +752,7 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="row">
+                                <div class="row pl-2">
                                     @if($comments->isNotEmpty() && !empty($comments->where('type','=','DEF')->first()))
                                         <div class="form-group">
                                             <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
