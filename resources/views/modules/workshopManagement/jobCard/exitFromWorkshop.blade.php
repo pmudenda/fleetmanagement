@@ -69,7 +69,6 @@
 
                     <h1>Entry Summary Details</h1>
                     <section>
-
                         <div class="container-fluid">
                             <div class="row"
                                  data-form-url="{{route("process.job_card")}}"
@@ -422,7 +421,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <hr class=""/>
                     </section>
 
@@ -436,8 +434,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label pl-0"
-                                                        for="staff_no">Date Out :
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label pl-0"
+                                                            for="staff_no">Date Out :
                                                     </label>
                                                     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                         <input type="text"
@@ -457,8 +455,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-4 pl-0"
-                                                        for="timeOut">
+                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-4 pl-0"
+                                                            for="timeOut">
                                                         Time Out:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -482,8 +480,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required pl-0"
-                                                        for="current_odometer">Odometer On Exit:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required pl-0"
+                                                            for="current_odometer">Odometer On Exit:</label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                         <div class="input-group">
                                                             <input type="number"
@@ -509,8 +507,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-12 col-md-5 col-lg-4 pl-0"
-                                                        for="next_fuel_date">
+                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4 pl-0"
+                                                            for="next_fuel_date">
                                                         Fuel Level On Exit:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -533,8 +531,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                                                        for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                                            for="staff_name">
                                                         Driver On Exit:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -578,6 +576,17 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-12 text-right">
+                            <div>
+                                <button type="button"
+                                        id="saveExitSummary"
+                                        style="background: #f59d33; color: #fff;"
+                                        class="btn btn-sm btn-success add pull-right">
+                                    <i class="fa fa-save"></i>
+                                    Save
+                                </button>
                             </div>
                         </div>
                     </section>
@@ -657,7 +666,6 @@
                                                         </tr>
                                                     @endif
                                                 @endforeach
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -786,7 +794,7 @@
                         </div>
                     </div>
 
-                    <h1 class="mt-2">Spares  |  Services  | Labour </h1>
+                    <h1 class="mt-2">Spares | Services | Labour </h1>
                     <section>
                         <div class="container-fluid pl-0">
                             <input type="hidden"
@@ -1154,7 +1162,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <table class="mt-10">
+                                            {{--<table class="mt-10">
                                                 <tbody>
                                                 <tr>
                                                     <td class="text-right">
@@ -1166,19 +1174,7 @@
                                                     <td></td>
                                                 </tr>
                                                 </tbody>
-                                            </table>
-                                            <div class="col-12 text-right">
-                                                <div>
-                                                    <button type="button"
-                                                            id="saveMaterials"
-                                                            style="background: #f59d33; color: #fff;"
-                                                            data-table-id="material_table"
-                                                            class="btn btn-sm btn-success add pull-right">
-                                                        <i class="fa fa-save"></i>
-                                                        Save
-                                                    </button>
-                                                </div>
-                                            </div>
+                                            </table>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -1561,7 +1557,7 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                            <div class="col-12 text-right">
+                                            {{--<div class="col-12 text-right">
                                                 <div>
                                                     <button type="button"
                                                             id="saveServices"
@@ -1572,7 +1568,7 @@
                                                         Save
                                                     </button>
                                                 </div>
-                                            </div>
+                                            </div>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -2520,9 +2516,9 @@
                             return;
                         }
 
-                        if(stage === 'show'){
+                        if (stage === 'show') {
                             document.querySelector('#driver_name').value = response.payload.name;
-                        }else{
+                        } else {
                             document.querySelector('#driver_name_out').value = response.payload.name;
                         }
 
