@@ -426,132 +426,73 @@
 
                     <h1>Exit Details</h1>
                     <section>
-                        <div class="row">
-                            <div class="col-md-7 col-lg-7">
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-6 col-md-6">
-                                        <div class="container-fluid pl-0">
-                                            <div class="row">
-                                                <div class="form-group row">
-                                                    <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label pl-0"
-                                                            for="staff_no">Date Out :
-                                                    </label>
-                                                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                        <input type="text"
-                                                               class="form-control form-control-sm"
-                                                               id="date_of_req"
-                                                               readonly
-                                                               value="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                                               name="date_of_req"
-                                                               required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-6 col-md-6">
-                                        <div class="container-fluid pl-0">
-                                            <div class="row">
-                                                <div class="form-group row">
-                                                    <label
-                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-4 pl-0"
-                                                            for="timeOut">
-                                                        Time Out:
-                                                    </label>
-                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                        <input type="text"
-                                                               readonly
-                                                               value="@if($details){{Carbon::parse($details->time_in)->format('H:i:s')}}@else{{Carbon::now()->format('H:i:s')}}@endif"
-                                                               class="form-control form-control-sm when_valid number_input"
-                                                               id="timeOut"
-                                                               name="timeOut"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-6 col-md-6">
-                                        <div class="container-fluid pl-0">
-                                            <div class="row">
-                                                <div class="form-group row">
-                                                    <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required pl-0"
-                                                            for="current_odometer">Odometer On Exit:</label>
-                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                        <div class="input-group">
-                                                            <input type="number"
-                                                                   min="1"
-                                                                   class="form-control form-control-sm"
-                                                                   id="current_odometer"
-                                                                   value=""
-                                                                   name="current_odometer" required/>
-                                                            <div class="input-group-text">
-                                                                Km
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-6 col-md-6">
-                                        <div class="container-fluid pl-0">
-                                            <div class="row">
-                                                <div class="form-group row">
-                                                    <label
-                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4 pl-0"
-                                                            for="next_fuel_date">
-                                                        Fuel Level On Exit:
-                                                    </label>
-                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                        <select disabled name="fuel_level"
-                                                                data-value="{{$details->fuel_level_in ?? ''}}"
-                                                                id="fuel_level"
-                                                                class="form-select form-select-sm when_valid"
-                                                                required>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-md-6">
-                                        <div class="container-fluid pl-0">
-                                            <div class="row">
-                                                <div class="form-group row">
-                                                    <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                                                            for="staff_name">
-                                                        Driver On Exit:
-                                                    </label>
-                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                        <div class="input-group">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-7 col-lg-7">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label pl-0"
+                                                                for="staff_no">Date Out :
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                             <input type="text"
-                                                                   list="employee_list"
-                                                                   data-action="{{route('driver.search')}}"
                                                                    class="form-control form-control-sm"
-                                                                   autocapitalize="characters"
-                                                                   id="driver_out"
-                                                                   value=""
-                                                                   placeholder=""
-                                                                   name="driver_out"/>
-                                                            <div class="input-group-addon">
-                                                                <button type="button" id="employeeSearchBtn"
-                                                                        name="employeeSearchBtn"
-                                                                        class="btn btn-success btn-sm border-radius-0">
-                                                                    <i class="fas fa-search"></i>
-                                                                </button>
+                                                                   id="exitDate"
+                                                                   readonly
+                                                                   value="{{Carbon::now()}}"
+                                                                   name="exitDate"
+                                                                   required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-4 pl-0"
+                                                                for="timeOut">
+                                                            Time Out:
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                            <input type="text"
+                                                                   readonly
+                                                                   value="@if($details){{Carbon::parse($details->time_in)->format('H:i:s')}}@else{{Carbon::now()->format('H:i:s')}}@endif"
+                                                                   class="form-control form-control-sm when_valid number_input"
+                                                                   id="timeOut"
+                                                                   name="timeOut"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required pl-0"
+                                                                for="current_odometer">Odometer On Exit:</label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                            <div class="input-group">
+                                                                <input type="text"
+                                                                       min="1"
+                                                                       class="form-control form-control-sm numberOnly"
+                                                                       id="exitOdometer"
+                                                                       name="exitOdometer" required/>
+                                                                <div class="input-group-text">
+                                                                    Km
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -560,16 +501,76 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-xs-12 col-sm-12 col-md-6">
-                                        <div class="container-fluid pl-0">
-                                            <div class="row">
-                                                <div class="form-group row">
-                                                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-11">
-                                                        <input type="text"
-                                                               class="form-control form-control-sm"
-                                                               id="driver_name_out"
-                                                               name="driver_name_out"
-                                                               readonly/>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 pl-0"
+                                                                for="next_fuel_date">
+                                                            Fuel Level On Exit:
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                            <select disabled name="exitFuelLevel"
+                                                                    data-value="{{$details->fuel_level_in ?? ''}}"
+                                                                    id="exitFuelLevel"
+                                                                    class="form-select form-select-sm when_valid"
+                                                                    required>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                                                for="staff_name">
+                                                            Driver On Exit:
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                            <div class="input-group">
+                                                                <input type="text"
+                                                                       list="employee_list"
+                                                                       data-action="{{route('driver.search')}}"
+                                                                       class="form-control form-control-sm"
+                                                                       autocapitalize="characters"
+                                                                       id="driver_out"
+                                                                       value=""
+                                                                       placeholder=""
+                                                                       name="driver_out"/>
+                                                                <div class="input-group-addon">
+                                                                    <button type="button" id="employeeSearchBtn"
+                                                                            name="employeeSearchBtn"
+                                                                            class="btn btn-success btn-sm border-radius-0">
+                                                                        <i class="fas fa-search"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-12 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-11">
+                                                            <input type="text"
+                                                                   class="form-control form-control-sm"
+                                                                   id="driver_name_out"
+                                                                   name="driver_name_out"
+                                                                   readonly/>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -577,21 +578,21 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 text-right">
-                            <div>
-                                <button type="button"
-                                        id="saveExitSummary"
-                                        style="background: #f59d33; color: #fff;"
-                                        class="btn btn-sm btn-success add pull-right">
-                                    <i class="fa fa-save"></i>
-                                    Save
-                                </button>
+                            <div class="col-12 text-right">
+                                <div>
+                                    <button type="button"
+                                            id="saveExitSummary"
+                                            style="background: #f59d33; color: #fff;"
+                                            class="btn btn-sm btn-success add pull-right">
+                                        <i class="fa fa-save"></i>
+                                        Save
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </section>
 
-                    <h1 class="mt-2">Spares | Services | Labour </h1>
+                    <h1 class="mt-2">Accessories | Defects | Spares | Services | Labour </h1>
                     <section>
                         <div class="container-fluid pl-0">
                             <input type="hidden"
@@ -619,7 +620,8 @@
                                     <div class="container-fluid pl-0 mt-5">
                                         <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}"
                                              data-model-name="Accessories">
-                                            <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
+                                            <input type="hidden" value="{{$details->job_card_no ?? 0}}"
+                                                   name="job_card_voucher"/>
                                             <div class="col-xs-12 col-sm-12 col-md-12">
                                                 <div class="row">
 
@@ -832,7 +834,7 @@
                                                                    name="materialHeaderId">
                                                             <div class="form-group row">
                                                                 <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
                                                                         for="staff_no">Item Type:
                                                                 </label>
                                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -980,7 +982,8 @@
                                                                            name="store_name"/>
                                                                 </div>
                                                             </div>
-                                                            <div id="supplierContainer" style="display: none;" class="form-group row">
+                                                            <div id="supplierContainer" style="display: none;"
+                                                                 class="form-group row">
                                                                 <div
                                                                         class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                                     <div class="control-input">
@@ -1192,19 +1195,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            {{--<table class="mt-10">
-                                                <tbody>
-                                                <tr>
-                                                    <td class="text-right">
-                                                        <strong id="srfTotal" class="input-number">Prepared By:</strong>
-                                                    </td>
-                                                    <td>
-                                                        <b id="section" class="input-number">RECEPTION</b>
-                                                    </td>
-                                                    <td></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -1226,17 +1216,6 @@
                                                                     @if(!empty($materialsHeader))
                                                                         <select
                                                                                 data-value="{{$materialsHeader->item_type_code ?? ''}}"
-                                                                                readonly="readonly"
-                                                                                class="form-select form-select-sm"
-                                                                                name="serviceItemType"
-                                                                                id="serviceItemType">
-                                                                            <option value="{{RequisitionItemTypes::ServiceItemCode}}">
-                                                                                SERVICE
-                                                                            </option>
-                                                                        </select>
-                                                                    @else
-                                                                        <select
-                                                                                required
                                                                                 readonly="readonly"
                                                                                 class="form-select form-select-sm"
                                                                                 name="serviceItemType"
@@ -1662,99 +1641,99 @@
     <script>
         'use strict';
 
-    /*    function initArticleSelector(element) {
-            const dataUrl = document.querySelector('#articlesUrl').value;
+        /*    function initArticleSelector(element) {
+                const dataUrl = document.querySelector('#articlesUrl').value;
 
-            // don't re-initialize
-            if (!element || element.length === 0) {
-                return;
-            }
-            let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
-            console.log(hasAttribute);
-            if (hasAttribute) {
-                return;
-            }
-
-            element.select2({
-                selectOnClose: true,
-                multiple: false,
-                quietMillis: 100,
-                id: function (project) {
-                    return project['code_article'];
-                },
-                theme: 'bootstrap4',
-                ajax: {
-                    delay: 250,
-                    beforeSend: function () {
-                        window.showLoaderModal(false);
-                        window.loaderVisible = false;
-                    },
-                    url: dataUrl,
-                    dataType: 'json',
-                    data: function (params) {
-                        return {
-                            search: params.term, // search term
-                            type_article: document.querySelector('#itemType').value,
-                            store_code: document.querySelector('#store_code').value,
-                            page: params.page
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-
-                        return {
-                            results: formatResults(data.items),
-                            pagination: {
-                                more: (params.page * 30) < data['total_count']
-                            }
-                        };
-                    },
-                    cache: true
-                },
-                placeholder: 'Enter Article name or Code',
-                minimumInputLength: 3,
-                templateResult: formatRepo,
-                templateSelection: formatRepoSelection
-            }).off('select2:select').on('select2:select', function (e) {
-                let article = e.params['data'];
-                const row = $(e.currentTarget).closest('tr');
-                if (document.querySelector('[name="stockItemCode"]').value == $("#itemType").val()) {
-
-                    if (!article?.price_map) {
-                        const description = article?.technical_specifications ? article?.technical_specifications : "";
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'The Article '
-                                + article?.id
-                                + ' - ' + description + ' has no price. ' +
-                                ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
-                        });
-                        return;
-                    }
-
-                    if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
-                        const description = article?.technical_specifications ? article?.technical_specifications : "";
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'The Store '
-                                + $("#store_name").val()
-                                + ' does not have '
-                                + article?.id
-                                + ' - ' + description + ' in stock. ' +
-                                'You may have to wait until the stock is received before your request can be processed'
-                        });
-                    }
+                // don't re-initialize
+                if (!element || element.length === 0) {
+                    return;
                 }
-                //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
-                $(row).find('[name="articleCode"]').val(article['id']);
-                $(row).find('[name="unit_price"]').val(article['price_map']);
-                $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
-                $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
-            });
-        }
-*/
+                let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
+                console.log(hasAttribute);
+                if (hasAttribute) {
+                    return;
+                }
+
+                element.select2({
+                    selectOnClose: true,
+                    multiple: false,
+                    quietMillis: 100,
+                    id: function (project) {
+                        return project['code_article'];
+                    },
+                    theme: 'bootstrap4',
+                    ajax: {
+                        delay: 250,
+                        beforeSend: function () {
+                            window.showLoaderModal(false);
+                            window.loaderVisible = false;
+                        },
+                        url: dataUrl,
+                        dataType: 'json',
+                        data: function (params) {
+                            return {
+                                search: params.term, // search term
+                                type_article: document.querySelector('#itemType').value,
+                                store_code: document.querySelector('#store_code').value,
+                                page: params.page
+                            };
+                        },
+                        processResults: function (data, params) {
+                            params.page = params.page || 1;
+
+                            return {
+                                results: formatResults(data.items),
+                                pagination: {
+                                    more: (params.page * 30) < data['total_count']
+                                }
+                            };
+                        },
+                        cache: true
+                    },
+                    placeholder: 'Enter Article name or Code',
+                    minimumInputLength: 3,
+                    templateResult: formatRepo,
+                    templateSelection: formatRepoSelection
+                }).off('select2:select').on('select2:select', function (e) {
+                    let article = e.params['data'];
+                    const row = $(e.currentTarget).closest('tr');
+                    if (document.querySelector('[name="stockItemCode"]').value == $("#itemType").val()) {
+
+                        if (!article?.price_map) {
+                            const description = article?.technical_specifications ? article?.technical_specifications : "";
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'The Article '
+                                    + article?.id
+                                    + ' - ' + description + ' has no price. ' +
+                                    ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
+                            });
+                            return;
+                        }
+
+                        if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
+                            const description = article?.technical_specifications ? article?.technical_specifications : "";
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'The Store '
+                                    + $("#store_name").val()
+                                    + ' does not have '
+                                    + article?.id
+                                    + ' - ' + description + ' in stock. ' +
+                                    'You may have to wait until the stock is received before your request can be processed'
+                            });
+                        }
+                    }
+                    //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
+                    $(row).find('[name="articleCode"]').val(article['id']);
+                    $(row).find('[name="unit_price"]').val(article['price_map']);
+                    $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
+                    $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
+                });
+            }
+    */
         /*function initServiceArticleSelector(element) {
             const dataUrl = document.querySelector('#articlesUrl').value;
 
