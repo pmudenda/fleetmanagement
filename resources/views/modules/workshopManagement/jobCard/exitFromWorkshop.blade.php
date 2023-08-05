@@ -1641,7 +1641,7 @@
     <script>
         'use strict';
 
-        function initArticleSelector(element) {
+    /*    function initArticleSelector(element) {
             const dataUrl = document.querySelector('#articlesUrl').value;
 
             // don't re-initialize
@@ -1733,8 +1733,8 @@
                 $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
             });
         }
-
-        function initServiceArticleSelector(element) {
+*/
+        /*function initServiceArticleSelector(element) {
             const dataUrl = document.querySelector('#articlesUrl').value;
 
             // don't re-initialize
@@ -1796,22 +1796,22 @@
                 $(row).find('[name="service_technical_specification"]').val(article['technical_specifications']);
                 $(row).find('[name="service_unit_of_measure"]').val(article['unit_measure_name']);
             });
-        }
+        }*/
 
-        function formatRepo(project) {
+        /*function formatRepo(project) {
             if (project.loading)
                 return project.text;
             return $('<option value="' + project['id'] + '">' + project['text'] + '</option>');
-        }
+        }*/
 
-        function formatRepoSelection(project) {
+        /*function formatRepoSelection(project) {
             if (!project['id']) {
                 return project['text'];
             }
             return project['description'];
-        }
+        }*/
 
-        function formatResults(items) {
+        /*function formatResults(items) {
             return $.map(items, function (obj) {
                 return {
                     "id": obj['code_article'],
@@ -1826,9 +1826,9 @@
                     'quantity_in_store': obj?.quantity_in_store
                 };
             });
-        }
+        }*/
 
-        function getArticleDetails(code_article, selectElem) {
+        /*function getArticleDetails(code_article, selectElem) {
 
             fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
                 .then(response => response.json())
@@ -1864,7 +1864,7 @@
                         }
                     });
 
-                    /*
+                    /!*
                     let data = {
                         "id": id,
                         "text": text,
@@ -1892,9 +1892,9 @@
                     });
 
                     $(selectElem).val(id).trigger('change')
-                    */
+                    *!/
 
-                    /*
+                    /!*
                     let workshops = response['payload'];
                     tmsApp.populateDropDownList(selectElem, workshops, "code", ["name"]);
 
@@ -1904,14 +1904,14 @@
                         selectElem.val(location);
                         selectElem.trigger('change');
                     }
-                    */
+                    *!/
                 })
                 .catch(function (error) {
                     // notify of error
                     console.log(error);
                     toastr.error('Connection error. Could not retrieve data, some feature might not work.')
                 });
-        }
+        }*/
 
         $(document).ready(function () {
 
@@ -1926,9 +1926,6 @@
             $('[name="purchase_office"]').attr('disabled', true).change();
 
             $('[name="itemType"]').attr('disabled', true).change();
-
-            /*initArticleSelector($('.articlesDropDownList'));*/
-            /*initServiceArticleSelector($('.servicesArticlesDropDownList'));*/
 
             Inputmask({
                 "mask": "AAA 9{1,4}"
@@ -1980,7 +1977,7 @@
                         $('[name="quantity"]').change();
                     }
 
-                    findDriver(document.querySelector('#driver_staff_number').value);
+                    findDriver(document.querySelector('#driver_staff_number').value, 'show');
 
                     findVehicle("InWorkshop");
 
