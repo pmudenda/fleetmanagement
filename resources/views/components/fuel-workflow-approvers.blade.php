@@ -110,6 +110,13 @@
                                     <tbody>
                                     <tr>
                                         <td>
+                                            @if (in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]))
+                                                <input type="checkbox" checked="checked">
+                                            @else
+                                                <input type="checkbox" disabled>
+                                            @endif
+                                        </td>
+                                        <td>
                                             <div class="text-sm">
                                                 <h5 class="text-white">{{ $supervisor->name }}</h5>
                                             </div>
