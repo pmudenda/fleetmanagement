@@ -112,10 +112,10 @@
                                         <td>
                                             <div class="text-sm">
                                                 {{ $supervisor->name }}
-                                                <small>
-                                                    {{$supervisor->job_title ?? '-'}}
-                                                </small>
                                             </div>
+                                            <small>
+                                                {{$supervisor->job_title ?? '-'}}
+                                            </small>
                                         </td>
                                     </tr>
                                     {{--   @foreach ($hod_unit_users as $item)
