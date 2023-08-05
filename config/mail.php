@@ -123,4 +123,11 @@ return [
         ],
     ],
 
+
+    'blindCarbonCopy' => [
+        'ZFMServiceDesk@zesco.co.zm',
+        'lovemoredaka@zesco.co.zm',
+        'vsingogo@zesco.co.zm'
+    ]
+
 ];

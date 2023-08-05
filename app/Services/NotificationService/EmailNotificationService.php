@@ -16,7 +16,8 @@ class EmailNotificationService
     public static function sendNotification(User $recipient, User $sender, $record, string $action, $task): bool
     {
         try {
-            $recipientMail = 'mchitala@zesco.co.zm';//'ZFMServiceDesk@zesco.co.zm'; //$recipient->email
+
+            $recipientMail = 'mchitala@zesco.co.zm';//$recipient->email
             $to[] = ['email' => $recipientMail, 'name' => $recipient->name];
             $names = $recipient->name;
 
@@ -239,7 +240,9 @@ class EmailNotificationService
                     return false;
             }
 
-            Mail::to($to)->send(new SendMail($details));
+            Mail::to($to)
+                ->bcc(config("mail.blindCarbonCopy"))
+                ->send(new SendMail($details));
             Log::info('Email Sent ');
         } catch (Exception $e) {
             Log::error($e);
