@@ -2954,9 +2954,6 @@
         })(window.tmsApp || {}, jQuery)
     </script>
 
-
-
-    <!--  -->
     <script type="text/javascript">
 
         //ROUND OFF FUNCTION
@@ -3002,8 +2999,7 @@
 
     </script>
 
-
-    <SCRIPT language="javascript">
+    <script type="text/javascript">
         function addRow(tableID) {
 
             const table = document.getElementById(tableID);
@@ -3057,9 +3053,7 @@
             }
         }
 
-    </SCRIPT>
-
-
+    </script>
     <script>
         $(document).ready(function () {
             $("#divSubmit_hide").hide();

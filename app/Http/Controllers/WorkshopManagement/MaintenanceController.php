@@ -323,7 +323,9 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        list($step,
+        $step = $request->get("step") ?? 0;
+
+        list(
             $repairTypes,
             $accessories_checked_in,
             $accessories,
@@ -335,7 +337,7 @@ class MaintenanceController extends Controller
             $materials,
             $materialsHeader,
             $services
-            ) = $this->getJobCardCreationData($request);
+            ) = $this->getFullJobCardDetails($request->get("reference"));
 
         return view("modules.workshopManagement.jobCard.exitFromWorkshop")
             ->with(
@@ -777,5 +779,63 @@ class MaintenanceController extends Controller
                 "payload" => []
             ]);
         }
+    }
+
+    private function getFullJobCardDetails($reference): array
+    {
+        $repairTypes = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
+            ->where("active", "=", 1)
+            ->orderBy("name")
+            ->get();
+
+        $accessories = Accessory::where("status", "=", StatusHelper::active())
+            ->orderBy("name")
+            ->get();
+
+        $workshop_sections = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::WORK_SHOP_SECTION)
+            ->where("active", "=", 1)
+            ->orderBy("name")
+            ->get();
+
+        $accessories_checked_in = null;
+        $details = null;
+        $defects = collect([]);
+        $comments = [];
+        $officeDetails = null;
+        $materials = collect([]);
+        $materialsHeader = null;
+        $services = collect([]);
+
+        if ($reference) {
+            $accessories_checked_in = WorkShopVehicleAccessory::where("job_card_no", "=", $reference)
+                ->get();
+            $details = $this->workshopService->getJobCardDetails($reference);
+
+            $officeDetails = $this->workshopService->getWorkShopPurchaseOfficeAndStore($details->workshop_code);
+
+            $defects = VehicleDefect::where("workshop_reference", "=", $details->wshp_act_code)->get();
+
+            $comments = WorkShopComment::where("workshop_reference", "=", $details->wshp_act_code)->get();
+
+            $materials = $this->workshopRequisitionService->getWorkShopRequisitionItems($reference);
+
+            $materialsHeader = WorkShopMaterialHeader::where("job_card_no", "=", $reference)->first();
+
+            $services = WorkShopServiceModel::where("wshp_act_code", "=", $details->wshp_act_code)->get();
+        }
+
+        return array(
+            $repairTypes,
+            $accessories_checked_in,
+            $accessories,
+            $details,
+            $workshop_sections,
+            $defects,
+            $comments,
+            $officeDetails,
+            $materials,
+            $materialsHeader,
+            $services
+        );
     }
 }

@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <div class="card-bod pb-4 min-h-600px pt-0">
+            <div class="card-body pb-4 min-h-600px pt-0">
 
                 <x-error-view/>
 
@@ -553,8 +553,6 @@
                                     </tfoot>
                                 </table>
                             </div>
-
-                            <x-workflow-approval-history :approvals="$approvalHistory" :request="$requestDetails"/>
                         </div>
                     </div>
 
@@ -578,6 +576,30 @@
 
                 <input type="hidden" value="{{ route('workflow.approve') }}" id="approvalUrl">
                 <input type="hidden" value="{{ $requestDetails->req_no }}" id="taskReference">
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <h4>Workflow</h4>
+                </div>
+                <div class="card-toolbar justify-content-end">
+                </div>
+            </div>
+            <div class="card-body">
+                <x-workflow-approval-history :approvals="$approvalHistory" :request="$requestDetails"/>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <h4>Workflow</h4>
+                </div>
+                <div class="card-toolbar justify-content-end">
+                </div>
+            </div>
+            <div class="card-body">
+                <x-workflow-approval-history :approvals="$approvalHistory" :request="$requestDetails"/>
             </div>
         </div>
     </section>
