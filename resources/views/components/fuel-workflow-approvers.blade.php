@@ -72,8 +72,8 @@
                                         </td>
                                         <td>
                                             <div class="text-sm">
-                                                {{$claimnant->name}}
-                                                {{$claimnant->job_title ?? '-'}}
+                                                {{$claimant->name}}
+                                                {{$claimant->job_title ?? '-'}}
                                             </div>
                                         </td>
                                     </tr>
