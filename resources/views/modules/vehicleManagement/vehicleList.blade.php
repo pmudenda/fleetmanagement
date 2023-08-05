@@ -544,7 +544,7 @@
                                                 @if($vehicle->on_boarding_status == StatusHelper::onboardingComplete())
                                                     <li>
                                                         <a class="dropdown-item" data-kt-action="edit"
-                                                           href="{{URL::signedRoute('view.vehicle', ['step' => 6, 'reference' => $vehicle->id, 'edit'=> true])}}">
+                                                           href="{{URL::signedRoute('view.vehicle', ['step' => 6, 'reference' => $vehicle->header_id, 'edit'=> true])}}">
                                                             Edit
                                                         </a>
                                                     </li>
@@ -553,7 +553,7 @@
                                                         <a class="dropdown-item" data-kt-action="edit"
                                                            href="{{URL::signedRoute('vehicle.show', [
                                                             'step' => 2,
-                                                            'reference' => $vehicle->id,
+                                                            'reference' => $vehicle->header_id,
                                                             'edit'=> true])}}">
                                                             View
                                                         </a>
