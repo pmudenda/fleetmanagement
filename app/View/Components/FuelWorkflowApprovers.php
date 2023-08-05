@@ -25,8 +25,8 @@ class FuelWorkflowApprovers extends Component
      */
     public function render(): View|Closure|string
     {
-        $claimant = User::where('staff_no', '=', $this->request->created_by)->get();
-        $supervisor = User::where('staff_no', '=', $claimant->supervisor_code)->get();
+        $claimant = User::where('staff_no', '=', $this->request->created_by)->first();
+        $supervisor = User::where('staff_no', '=', $claimant->supervisor_code)->first();
 
         /*$form_grade = $this->request->grade;
         $form_details = $this->request;
