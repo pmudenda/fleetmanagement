@@ -25,7 +25,7 @@ class FuelWorkflowApprovers extends Component
      */
     public function render(): View|Closure|string
     {
-        $form_status = $this->request->config_status_id;
+      /*$form_status = $this->request->config_status_id;
         $claimant = $this->request->claimant;
         $form_grade = $this->request->grade;
         $form_details = $this->request;
@@ -57,11 +57,8 @@ class FuelWorkflowApprovers extends Component
 
         $expenditure_unit_user = $this->request->user_unit->expenditure_unit_user;
         $expediture_unit_delegate_user = $this->request->user_unit->expenditure_unit_delegate_user;
-        $expenditure_unit_users = $expenditure_unit_user->merge($expediture_unit_delegate_user);
+        $expenditure_unit_users = $expenditure_unit_user->merge($expediture_unit_delegate_user);*/
 
-        return view('components.fuel-workflow-approvers')->with(
-            compact('form_grade', 'approvals_array', 'claimant', 'form_details',
-                'form_status', 'hod_unit_users', 'dm_unit_users', 'hrm_unit_users', 'dr_unit_users', 'ca_unit_users', 'expenditure_unit_users')
-        );
+        return view('components.fuel-workflow-approvers')->with();
     }
 }
