@@ -1,3 +1,5 @@
+@php use App\Helpers\StatusHelper; @endphp
+{{dd($request)}}
 <div>
     <style>
         .processed {
@@ -52,9 +54,6 @@
         <div class="card-body">
             <div class="row">
 
-
-                <!--  CLAIMANT -->
-
                 <div class="col-3">
                     <div class="row">
                         <div class="col-11">
@@ -90,20 +89,17 @@
                     </div>
                 </div>
 
-
-                <!--  HOD APPROVAL -->
-
                 <div class="col-3">
                     <div class="row">
                         <div class="col-11">
                             <div class="card card-body"
                                  style="border-radius: 2em;
-                        {{-- @if ($form_status == config('constants.subsistence_status.new_application'))
+                         @if ($documentStatus == StatusHelper::new())
                             background-color:#F7801D
                             @elseif (in_array(config('constants.subsistence_status.hod_approved'), $approvals_array))
                              background-color:#4E944F
                             @else
-                            background-color:#FFDAAF @endif--}}
+                            background-color:#FFDAAF @endif
                         ">
                             <span class="font-weight-bold">
                                 2. SUPERVISOR APPROVAL
@@ -157,8 +153,8 @@
                 </div>
 
 
-                <!--  DIRECTOR APPROVAL -->
-                <div class="col-3">
+
+                <div class="col-3 d-none">
                     <div class="row">
                         <div class="col-11">
                             <div class="card card-body"
@@ -211,8 +207,8 @@
                     </div>
                 </div>
 
-                <!--  SNR MGR APPROVAL -->
-                <div class="col-3">
+
+                <div class="col-3 d-none">
                     <div class="row">
                         <div class="col-11">
                             <div class="card card-body"
@@ -265,8 +261,8 @@
                 </div>
 
 
-                <!--  HUMAN CAPITAL APPROVAL -->
-                <div class="col-3">
+
+                <div class="col-3 d-none">
                     <div class="row">
                         <div class="col-11">
                             <div class="card card-body"
@@ -322,8 +318,8 @@
                 </div>
 
 
-                <!--  CHIEF ACCOUNTANT APPROVAL -->
-                <div class="col-3">
+
+                <div class="col-3 d-none">
                     <div class="row">
                         <div class="col-11">
                             <div class="card card-body"
@@ -374,8 +370,8 @@
                 </div>
 
 
-                <!--  EXPENDITURE APPROVAL -->
-                <div class="col-3">
+
+                <div class="col-3 d-none">
                     <div class="row">
                         <div class="col-11">
                             <div class="card card-body"
