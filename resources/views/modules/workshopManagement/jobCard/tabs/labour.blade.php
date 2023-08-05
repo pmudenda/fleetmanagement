@@ -23,24 +23,28 @@
                 @foreach($defects as $defect)
                     <tr class="increment">
                         <td class="showNumber">
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
                             <select name="vehicleSystem"
+                                    style="display: none;"
                                     required
                                     disabled
                                     data-value="{{$defect->veh_sys}}"
                                     class="form-select form-select-sm select_2_control vehicleSystem">
                                 <option></option>
                             </select>
-                        </td>
-                        <td>
                             <select name="defectCategory"
                                     required
+                                    style="display: none;"
                                     disabled
                                     data-value="{{$defect->defect_category_code}}"
                                     class="form-select form-select-sm select_2_control defectCategory">
                                 <option></option>
                             </select>
-                        </td>
-                        <td>
                             <select name="defect"
                                     required
                                     disabled
@@ -50,6 +54,13 @@
                             </select>
                         </td>
                         <td>
+                            <select name="shiftType"
+                                    required
+                                    class="form-select form-select-sm">
+                                <option>Normal Shift</option>
+                                <option>Normal OT</option>
+                                <option>Saturday/Sunday OT</option>
+                            </select>
                             <select name="workshopSection"
                                     disabled
                                     required
@@ -67,17 +78,25 @@
                                 @endforeach
                             </select>
                         </td>
+                        <td>
+                            <input name="ratePerHour"
+                                   required
+                                   readonly
+                                   class="form-control form-control-sm"/>
+                        </td>
 
                         <td>
-                            <input name="date_def"
-                                   readonly="readonly"
-                                   value="@if($defect){{date('Y-m-d',strtotime(Carbon::parse($defect->date_def)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
-                                   class="tabledit-input form-control input-sm input-number"
-                                   type="text">
+                            <input name="totalAmount"
+                                   required
+                                   readonly
+                                   class="form-control form-control-sm service_total_price"/>
                         </td>
                     </tr>
                 @endforeach
             @endif
+
+
+
             @if($services->isNotEmpty())
 
                 <tr class="increment">
@@ -122,29 +141,10 @@
                     </td>
 
                     <td>
-                        <select name="shiftType"
-                                required
-                                disabled
-                                class="form-select form-select-sm">
-                            <option>Normal Shift</option>
-                            <option>Normal OT</option>
-                            <option>Saturday/Sunday OT</option>
-                        </select>
+
                     </td>
 
-                    <td>
-                        <input name="ratePerHour"
-                               required
-                               readonly
-                               class="form-control form-control-sm"/>
-                    </td>
 
-                    <td>
-                        <input name="totalAmount"
-                               required
-                               readonly
-                               class="form-control form-control-sm service_total_price"/>
-                    </td>
                 </tr>
 
             @endif
