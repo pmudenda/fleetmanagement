@@ -1182,15 +1182,16 @@
                                                             Requisition</small>:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
-                                                        @if(!empty($comments) && !empty($comments->where('type','=','REQ')->first()))
+                                                        @if(!empty($comments))
                                                             <textarea type="text"
-                                                                      id="comments"
-                                                                      minlength="20"
-                                                                      maxlength="255"
                                                                       required
-                                                                      name="comments"
                                                                       readonly
                                                                       class="form-control comments form-control-sm">{{$comments->where('type','=','REQ')->first()->remarks ??''}}</textarea>
+                                                        @else
+                                                            <textarea type="text"
+                                                                      required
+                                                                      readonly
+                                                                      class="form-control comments form-control-sm"></textarea>
                                                         @endif
                                                     </div>
                                                 </div>

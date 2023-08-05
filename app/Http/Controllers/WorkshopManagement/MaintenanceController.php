@@ -619,6 +619,8 @@ class MaintenanceController extends Controller
             // $defects = VehicleDefect::where("workshop_reference", "=", $details->workshop_doc_no)->get();
             $defects = VehicleDefect::where("workshop_reference", "=", $details->wshp_act_code)->get();
 
+            //$defectCodes = $defects->pluck('defect_code');
+
             // $comments = WorkShopComment::where("workshop_reference", "=", $details->workshop_doc_no)->get();
             $comments = WorkShopComment::where("workshop_reference", "=", $details->wshp_act_code)->get();
 
