@@ -1,5 +1,4 @@
 @php use App\Helpers\StatusHelper; @endphp
-{{dd($request)}}
 <div>
     <style>
         .processed {
