@@ -1,4 +1,5 @@
-<div>
+
+{{dd($request)}}<div>
     <style>
         .processed {
             background-color: #1C9955 !important;
