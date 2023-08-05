@@ -1,8 +1,8 @@
 @php use Carbon\Carbon; @endphp
 <div class="card">
-    <div class="card-header bg-success">
+    <div class="card-header">
         <div class="card-title">
-            <h4 class="card-title text-white">Approval Routing History</h4>
+            <h4 class="card-title text-orange">Approval Routing History</h4>
             <span class="badge badge-secondary right ml-2">
                 @if($approvals != null)
                     {{$approvals->count()}}

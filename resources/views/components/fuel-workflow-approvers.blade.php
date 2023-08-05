@@ -351,7 +351,7 @@
                                     @endif--}}
                                     </tbody>
                                 </table>
-                                <small class="text-info">Based On Trip Cost Center</small>
+                                {{--<small class="text-info">Based On Trip Cost Center</small>--}}
                             </div>
                         </div>
                         <div class="col-1  ">
@@ -406,7 +406,7 @@
 
                                     </tbody>
                                 </table>
-                                <small class="text-info">Based On Trip Cost Center</small>
+                             {{--   <small class="text-info">Based On Trip Cost Center</small>--}}
                             </div>
                         </div>
                     </div>
