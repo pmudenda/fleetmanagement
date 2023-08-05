@@ -1382,7 +1382,7 @@
                                                                             id="service_supplier">
                                                                     </select>
                                                                     @if($services && $services->isNotEmpty())
-                                                                        <input type="text" class="form-control"
+                                                                        <input type="hidden" class="form-control"
                                                                                value="{{$services[0]->supplier_code}}">
                                                                     @endif
                                                                 </div>

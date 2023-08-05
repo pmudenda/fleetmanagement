@@ -3,28 +3,22 @@
        class="table dataTable table-row-dashed align-middle gs-0 nowrap">
     <thead>
     <tr class="bg-success-subtle">
-        <th style="width: 6%;" class="pl-2">Reg. No</th>
-        <th style="width: 25%;">Article</th>
-        <th>Article Code</th>
-        <th style="width: 25%;">Tech. Specification</th>
-        <th style="width: 4%; max-width: 4%;">Qty.</th>
-        <th>UOM</th>
+        <th style="width: 6%;" class="pl-2">Defect</th>
+        <th style="width: 25%;">Mechanic</th>
+        <th style="width: 25%;">Name</th>
+        <th>Date</th>
+        <th style="width: 25%;">Shift Type</th>
+        <th style="width: 25%;">Hours</th>
+        <th style="width: 4%; max-width: 4%;"></th>
+        <th>Rate</th>
         <th>Unit Price</th>
         <th>Total</th>
     </tr>
     </thead>
     <tbody>
     @if($services->isNotEmpty())
-        @foreach($services as $service)
+
             <tr class="increment">
-                <td class="showNumber">
-                    <input
-                            readonly="readonly"
-                            name="vehicle_registration"
-                            required
-                            value="{{$details->reg_no ?? ''}}"
-                            class="form-control form-control-sm vehicle_registration"/>
-                </td>
                 <td>
                     <select
                             name="service_article"
@@ -87,7 +81,7 @@
                            class="form-control form-control-sm service_total_price"/>
                 </td>
             </tr>
-        @endforeach
+
     @endif
     </tbody>
     <tfoot>
