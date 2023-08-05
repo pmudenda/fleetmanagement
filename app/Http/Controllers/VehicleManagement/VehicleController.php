@@ -48,9 +48,15 @@ class VehicleController extends Controller
             }
 
             Log::info('Fetching Vehicle Details ' . $ref);
+
             $vehicle = $this->vehicleDetailsService->getVehicleDetails($ref);
-            dd($vehicle);
-            Log::info('Vehicle Details Found ' . empty(!$vehicle));
+
+            if(!empty(!$vehicle)){
+                Log::info('Vehicle Details Found ');
+            }else{
+                Log::info('Vehicle Details Not Found ');
+            }
+
 
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($ref);
 
