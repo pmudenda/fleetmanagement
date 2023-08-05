@@ -73,8 +73,10 @@
                                         <td>
                                             <div class="text-sm">
                                                 {{$claimant->name}}
-                                                {{$claimant->job_title ?? '-'}}
                                             </div>
+                                            <small>
+                                                {{$claimant->job_title ?? '-'}}
+                                            </small>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -114,7 +116,9 @@
                                         <td>
                                             <div class="text-sm">
                                                 {{ $supervisor->name }}
-                                                ({{ $supervisor->job_title ?? '-' }} )
+                                                <small>
+                                                    {{$supervisor->job_title ?? '-'}}
+                                                </small>
                                             </div>
                                         </td>
                                     </tr>
