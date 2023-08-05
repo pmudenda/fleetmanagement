@@ -70,7 +70,7 @@
                                         </td>
                                         <td>
                                             <div class="text-sm">
-                                                {{$claimant->name}}
+                                              <h5>  {{$claimant->name}}</h5>
                                             </div>
                                             <small>
                                                 {{$claimant->job_title ?? '-'}}
@@ -111,7 +111,7 @@
                                     <tr>
                                         <td>
                                             <div class="text-sm">
-                                                {{ $supervisor->name }}
+                                                <h5>{{ $supervisor->name }}</h5>
                                             </div>
                                             <small>
                                                 {{$supervisor->job_title ?? '-'}}
