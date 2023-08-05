@@ -59,6 +59,6 @@ class FuelWorkflowApprovers extends Component
         $expediture_unit_delegate_user = $this->request->user_unit->expenditure_unit_delegate_user;
         $expenditure_unit_users = $expenditure_unit_user->merge($expediture_unit_delegate_user);*/
 
-        return view('components.fuel-workflow-approvers')->with();
+        return view('components.fuel-workflow-approvers');
     }
 }
