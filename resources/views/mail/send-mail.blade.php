@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>ZQMS NOTIFICATION EMAIL</title>
+    <title>FLEET MASTER NOTIFICATION EMAIL</title>
     <style>
         img {
             border: none;
@@ -50,9 +50,9 @@
             display: block;
             margin: 0 auto !important;
             /* makes it centered */
-            max-width: 580px;
+            max-width: 780px;
             padding: 10px;
-            width: 580px;
+            width: 780px;
         }
 
         /* This should also be a block element, so that it will fill 100% of the .container */
@@ -60,7 +60,7 @@
             box-sizing: border-box;
             display: block;
             margin: 0 auto;
-            max-width: 580px;
+            max-width: 780px;
             padding: 10px;
         }
 
@@ -393,11 +393,11 @@
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td>
-                                       <div style="font-family: 'Arial Black';padding: 5px;padding-bottom:2px;padding-top:5px">
+                                       {{--<div style="font-family: 'Arial Black';padding: 5px;padding-bottom:2px;padding-top:5px">
                                             <h3 >{!! $details['title'] !!}</h3>
-                                        </div>
-                                         <hr>
-                                        <p>{!! $details['name'] !!},</p>
+                                        </div>--}}
+                                      {{--   <hr>--}}
+                                        <p>Dear {!! $details['name'] !!},</p>
                                         <p>{!! $details['body'] !!}  </p>
                                         @if(!empty($details['systemLink']))
                                             <table role="presentation" border="0" cellpadding="0" cellspacing="0">

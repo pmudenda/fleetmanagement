@@ -66,8 +66,10 @@
                       action="{{route('save.exit.from.workshop')}}"
                       method="post">
                     @csrf
-                    <h1>Summary Details</h1>
+
                     <section>
+                        <h1>Entry Summary Details</h1>
+                        <hr class=""/>
                         <div class="container-fluid">
                             <div class="row"
                                  data-form-url="{{route("process.job_card")}}"
@@ -422,7 +424,7 @@
                         </div>
 
                         <hr class=""/>
-
+                        <h1>Exit Details</h1>
                         <div class="row">
                             <div class="col-md-7 col-lg-7">
                                 <div class="row">
