@@ -616,7 +616,7 @@
                             </ul><!-- Tab panes -->
                             <div class="tab-content">
                                 <div class="tab-pane active" id="accessories" role="tabpanel">
-                                    <div class="container-fluid pl-0">
+                                    <div class="container-fluid pl-0 mt-5">
                                         <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}"
                                              data-model-name="Accessories">
                                             <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
@@ -699,7 +699,7 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="defects" role="tabpanel">
-                                    <div class="container-fluid pl-0">
+                                    <div class="container-fluid pl-0 mt-5">
                                         <div class="row">
                                             <input type="hidden" value="{{$details->job_card_no ?? 0}}"
                                                    name="job_card_voucher"/>
