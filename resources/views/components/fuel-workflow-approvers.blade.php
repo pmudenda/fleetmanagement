@@ -10,7 +10,7 @@
             background-color: #FFDAAF !important;
         }
 
-        .approved {
+        .next {
             background-color: #F7801D !important;
         }
 
@@ -91,14 +91,16 @@
                 <div class="col-3">
                     <div class="row">
                         <div class="col-11">
-                            <div class="card card-body"
-                                 style="border-radius: 2em;
-                         @if ($documentStatus == StatusHelper::new())
-                            background-color:#F7801D
+                            <div class="card card-body
+                            @if ($documentStatus == StatusHelper::new())
+                                next
                             @elseif (in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]))
-                             background-color:#4E944F
+                                processed
                             @else
-                            background-color:#FFDAAF @endif">
+                                pending
+                            @endif
+                            "
+                                 style="border-radius: 2em;">
                             <span class="font-weight-bold">
                                 2. SUPERVISOR APPROVAL
                             </span>
@@ -149,7 +151,6 @@
                         </div>
                     </div>
                 </div>
-
 
 
                 <div class="col-3 d-none">
@@ -259,7 +260,6 @@
                 </div>
 
 
-
                 <div class="col-3 d-none">
                     <div class="row">
                         <div class="col-11">
@@ -316,7 +316,6 @@
                 </div>
 
 
-
                 <div class="col-3 d-none">
                     <div class="row">
                         <div class="col-11">
@@ -366,7 +365,6 @@
                     </div>
 
                 </div>
-
 
 
                 <div class="col-3 d-none">
