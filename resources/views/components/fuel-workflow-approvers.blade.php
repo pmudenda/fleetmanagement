@@ -71,8 +71,7 @@
                                             <input type="checkbox" checked="checked">
                                         </td>
                                         <td> <span class="text-sm">
-                                                {{ $claimant->name }}
-                                                ({{ $claimant->position->code ?? '-' }} )
+                                               Requisitioner
                                             </span>
                                         </td>
                                     </tr>
@@ -103,13 +102,13 @@
                             background-color:#FFDAAF @endif
                         ">
                             <span class="font-weight-bold">
-                                1. HOD APPROVAL/INVITATION
+                                1. SUPERVISOR APPROVAL
                             </span>
 
                                 <table class="table table-sm ">
 
                                     <tbody>
-                                    @foreach ($hod_unit_users as $item)
+                                 {{--   @foreach ($hod_unit_users as $item)
                                         <tr>
                                             <td>
                                                 @if (in_array(config('constants.subsistence_status.hod_approved'), $approvals_array))
@@ -123,13 +122,13 @@
                                                 </span>
                                             </td>
                                         </tr>
-                                    @endforeach
-                                    @if (sizeOf($hod_unit_users) == 0)
+                                    @endforeach--}}
+                                 {{--   @if (sizeOf($hod_unit_users) == 0)
                                         <tr class="text-danger">
                                             <td><input type="checkbox" disabled></td>
                                             <td> Not Aligned</td>
                                         </tr>
-                                    @endif
+                                    @endif--}}
 
                                     </tbody>
                                 </table>
@@ -143,7 +142,7 @@
                 </div>
 
 
-                @if ($form_grade == 'ML3' || $form_grade == 'ML2' || $form_grade == 'ML1')
+
 
                     <!--  DIRECTOR APPROVAL -->
                     <div class="col-3">
@@ -164,7 +163,7 @@
                                     <table class="table table-sm ">
 
                                         <tbody>
-                                        @foreach ($dr_unit_users as $item)
+                                        {{--@foreach ($dr_unit_users as $item)
                                             <tr>
                                                 <td>
                                                     @if (in_array(config('constants.subsistence_status.station_mgr_approved'),
@@ -186,7 +185,7 @@
                                                 <td><input type="checkbox" disabled></td>
                                                 <td> Not Aligned</td>
                                             </tr>
-                                        @endif
+                                        @endif--}}
 
 
                                         </tbody>
@@ -198,7 +197,7 @@
                             </div>
                         </div>
                     </div>
-                @else
+
                     <!--  SNR MGR APPROVAL -->
                     <div class="col-3">
                         <div class="row">
@@ -219,7 +218,7 @@
                                     <table class="table table-sm ">
 
                                         <tbody>
-                                        @foreach ($dm_unit_users as $item)
+                                      {{--  @foreach ($dm_unit_users as $item)
                                             <tr>
                                                 <td>
                                                     @if (in_array(config('constants.subsistence_status.station_mgr_approved'), $approvals_array))
@@ -239,7 +238,7 @@
                                                 <td><input type="checkbox" disabled></td>
                                                 <td> Not Aligned</td>
                                             </tr>
-                                        @endif
+                                        @endif--}}
 
                                         </tbody>
                                     </table>
@@ -252,7 +251,7 @@
                         </div>
                     </div>
 
-                @endif
+
 
                 <!--  HUMAN CAPITAL APPROVAL -->
                 <div class="col-3">
@@ -276,7 +275,7 @@
                                 <table class="table table-sm ">
 
                                     <tbody>
-                                    @foreach ($hrm_unit_users as $item)
+                                 {{--   @foreach ($hrm_unit_users as $item)
                                         <tr>
                                             <td>
                                                 @if (in_array(config('constants.subsistence_status.hr_approved'), $approvals_array))
@@ -296,7 +295,7 @@
                                             <td><input type="checkbox" disabled></td>
                                             <td> Not Aligned</td>
                                         </tr>
-                                    @endif
+                                    @endif--}}
 
                                     </tbody>
                                 </table>
@@ -329,7 +328,7 @@
                             </span>
                                 <table class="table table-sm ">
                                     <tbody>
-                                    @foreach ($ca_unit_users as $item)
+                               {{--     @foreach ($ca_unit_users as $item)
                                         <tr>
                                             <td>
                                                 @if (in_array(config('constants.subsistence_status.chief_accountant'), $approvals_array))
@@ -349,7 +348,7 @@
                                             <td><input type="checkbox" disabled></td>
                                             <td> Not Aligned</td>
                                         </tr>
-                                    @endif
+                                    @endif--}}
                                     </tbody>
                                 </table>
                                 <small class="text-info">Based On Trip Cost Center</small>
@@ -382,7 +381,7 @@
                                 <table class="table table-sm ">
 
                                     <tbody>
-                                    @foreach ($expenditure_unit_users as $item)
+                                    {{--@foreach ($expenditure_unit_users as $item)
                                         <tr>
                                             <td>
                                                 @if (in_array(config('constants.subsistence_status.chief_accountant'), $approvals_array))
@@ -403,7 +402,7 @@
                                             <td><input type="checkbox" disabled></td>
                                             <td> Not Aligned</td>
                                         </tr>
-                                    @endif
+                                    @endif--}}
 
                                     </tbody>
                                 </table>
@@ -448,7 +447,7 @@
                         </tr>
                     </table>
                 </div>
-                <div class="col-4">
+             {{--   <div class="col-4">
 
                     @if (
                           \App\Helpers\Authorise::hasDeveloperUserType(auth()->user())
@@ -496,8 +495,8 @@
                             </td>
                         </tr>
                     </table>
-                </div>
-                <div class="col-3">
+                </div>--}}
+                {{--<div class="col-3">
 
                     @if (
                           \App\Helpers\Authorise::hasDeveloperUserType(auth()->user())
@@ -547,7 +546,7 @@
 
                         </tr>
                     </table>
-                </div>
+                </div>--}}
             </div>
         </div>
     </div>
