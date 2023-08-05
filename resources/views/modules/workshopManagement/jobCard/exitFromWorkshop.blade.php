@@ -67,9 +67,9 @@
                       method="post">
                     @csrf
 
+                    <h1>Entry Summary Details</h1>
                     <section>
-                        <h1>Entry Summary Details</h1>
-                        <hr class=""/>
+
                         <div class="container-fluid">
                             <div class="row"
                                  data-form-url="{{route("process.job_card")}}"
@@ -424,7 +424,10 @@
                         </div>
 
                         <hr class=""/>
-                        <h1>Exit Details</h1>
+                    </section>
+
+                    <h1>Exit Details</h1>
+                    <section>
                         <div class="row">
                             <div class="col-md-7 col-lg-7">
                                 <div class="row">
@@ -435,8 +438,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label pl-0"
-                                                            for="staff_no">Date Out :
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label pl-0"
+                                                        for="staff_no">Date Out :
                                                     </label>
                                                     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                         <input type="text"
@@ -488,8 +491,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-4 pl-0"
-                                                            for="timeOut">
+                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-4 pl-0"
+                                                        for="timeOut">
                                                         Time Out:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -585,8 +588,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required pl-0"
-                                                            for="current_odometer">Odometer On Exit:</label>
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required pl-0"
+                                                        for="current_odometer">Odometer On Exit:</label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                         <div class="input-group">
                                                             <input type="number"
@@ -608,21 +611,21 @@
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="container-fluid pl-0">
                                             <div class="row">
-                                              {{--  <div class="form-group row">
-                                                    <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Date Expected Out:
-                                                    </label>
-                                                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                        <input type="text"
-                                                               readonly
-                                                               class="form-control form-control-sm"
-                                                               id="date_expected_out"
-                                                               value="@if($details){{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}@else{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
-                                                               name="date_of_req"
-                                                        >
-                                                    </div>
-                                                </div>--}}
+                                                {{--  <div class="form-group row">
+                                                      <label
+                                                              class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                              for="staff_no">Date Expected Out:
+                                                      </label>
+                                                      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                          <input type="text"
+                                                                 readonly
+                                                                 class="form-control form-control-sm"
+                                                                 id="date_expected_out"
+                                                                 value="@if($details){{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}@else{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
+                                                                 name="date_of_req"
+                                                          >
+                                                      </div>
+                                                  </div>--}}
                                             </div>
                                         </div>
                                     </div>
@@ -634,8 +637,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4 pl-0"
-                                                            for="next_fuel_date">
+                                                        class="col-xs-12 col-sm-12 col-md-5 col-lg-4 pl-0"
+                                                        for="next_fuel_date">
                                                         Fuel Level On Exit:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -658,8 +661,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                                                            for="staff_name">
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                                        for="staff_name">
                                                         Driver On Exit:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
