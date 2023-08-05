@@ -61,7 +61,7 @@
                             <div class="card card-body processed"
                                  style="border-radius: 2em;">
                             <span class="font-weight-bold">
-                                0. CLAIMANT
+                                1. CLAIMANT
                             </span>
 
                                 <table class="table table-sm ">
@@ -71,7 +71,7 @@
                                             <input type="checkbox" checked="checked">
                                         </td>
                                         <td> <span class="text-sm">
-                                               Requisitioner
+                                               Requested
                                             </span>
                                         </td>
                                     </tr>
@@ -102,7 +102,7 @@
                             background-color:#FFDAAF @endif--}}
                         ">
                             <span class="font-weight-bold">
-                                1. SUPERVISOR APPROVAL
+                                2. SUPERVISOR APPROVAL
                             </span>
 
                                 <table class="table table-sm ">
@@ -158,7 +158,7 @@
                     background-color:#FFDAAF @endif--}}
                 ">
                                 <span class="font-weight-bold">
-                                    2. DR APPROVAL
+                                    3. MANAGER APPROVAL
                                 </span>
                                     <table class="table table-sm ">
 
@@ -212,7 +212,7 @@
                     background-color:#FFDAAF @endif--}}
                 ">
                                 <span class="font-weight-bold">
-                                    2. SNR MGR APPROVAL
+                                    4. SNR MGR APPROVAL
                                 </span>
 
                                     <table class="table table-sm ">
@@ -270,7 +270,7 @@
                     background-color:#FFDAAF @endif--}}
                 ">
                             <span class="font-weight-bold">
-                                3. HUMAN CAPITAL APPROVAL
+                                5. DEPUTY DIRECTOR APPROVAL
                             </span>
                                 <table class="table table-sm ">
 
@@ -324,7 +324,7 @@
                     background-color:#FFDAAF @endif--}}
                 ">
                             <span class="font-weight-bold">
-                                4. CHIEF ACCOUNTANT APPROVAL
+                                5. DIRECTOR APPROVAL
                             </span>
                                 <table class="table table-sm ">
                                     <tbody>
@@ -376,7 +376,7 @@
                     background-color:#FFDAAF @endif--}}
                 ">
                             <span class="font-weight-bold">
-                                5. EXPENDITURE APPROVAL
+                                6. MANAGING DIRECTOR
                             </span>
                                 <table class="table table-sm ">
 
