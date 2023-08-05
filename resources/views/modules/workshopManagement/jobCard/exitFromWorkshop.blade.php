@@ -592,7 +592,7 @@
                         </div>
                     </section>
 
-                    <h1 class="mt-10">Accessories | Defects | Spares | Services | Labour </h1>
+                    <h1 class="mt-10">Estimated Cost Of Repair</h1>
                     <section>
                         <div class="container-fluid pl-0">
                             <input type="hidden"
