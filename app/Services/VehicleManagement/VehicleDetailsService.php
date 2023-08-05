@@ -45,7 +45,7 @@ class VehicleDetailsService
             }
 
 
-            Log::info("Param received $ref");
+            Log::info("Vehicle Param received $ref");
             $results = DB::table('VM_VEHICLE_HEADER')->
             where('VM_VEHICLE_HEADER.id', '=', $ref)
                 ->leftJoin('VM_ENGINE_DETAILS', 'VM_VEHICLE_HEADER.id', '=', 'VM_ENGINE_DETAILS.vehicle_header_id')
