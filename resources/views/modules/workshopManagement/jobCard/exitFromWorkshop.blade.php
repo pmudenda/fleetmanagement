@@ -980,7 +980,28 @@
                                                                            name="store_name"/>
                                                                 </div>
                                                             </div>
-
+                                                            <div id="supplierContainer" style="display: none;" class="form-group row">
+                                                                <div
+                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                    <div class="control-input">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
+                                                                            <label class="form-check-inline field-required">
+                                                                                Suppliers
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                                    <select
+                                                                            data-value="{{$materialsHeader->supplier_code ?? ''}}"
+                                                                            class="form-select form-select-sm"
+                                                                            name="supplier"
+                                                                            autocomplete="off"
+                                                                            id="supplier">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
