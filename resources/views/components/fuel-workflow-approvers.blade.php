@@ -96,11 +96,10 @@
                                  style="border-radius: 2em;
                          @if ($documentStatus == StatusHelper::new())
                             background-color:#F7801D
-                            @elseif (in_array(config('constants.subsistence_status.hod_approved'), $approvals_array))
+                            @elseif (in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]))
                              background-color:#4E944F
                             @else
-                            background-color:#FFDAAF @endif
-                        ">
+                            background-color:#FFDAAF @endif">
                             <span class="font-weight-bold">
                                 2. SUPERVISOR APPROVAL
                             </span>
