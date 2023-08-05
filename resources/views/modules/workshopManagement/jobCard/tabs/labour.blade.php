@@ -22,29 +22,25 @@
             @if($defects && $defects->isNotEmpty())
                 @foreach($defects as $defect)
                     <tr class="increment">
-                        <td class="showNumber">
-
-                        </td>
                         <td>
-
-                        </td>
-                        <td>
-                            <select name="vehicleSystem"
-                                    style="display: none;"
-                                    required
-                                    disabled
-                                    data-value="{{$defect->veh_sys}}"
-                                    class="form-select form-select-sm select_2_control vehicleSystem">
-                                <option></option>
-                            </select>
-                            <select name="defectCategory"
-                                    required
-                                    style="display: none;"
-                                    disabled
-                                    data-value="{{$defect->defect_category_code}}"
-                                    class="form-select form-select-sm select_2_control defectCategory">
-                                <option></option>
-                            </select>
+                            <div class="d-none">
+                                <select name="vehicleSystem"
+                                        style="display: none;"
+                                        required
+                                        disabled
+                                        data-value="{{$defect->veh_sys}}"
+                                        class="form-select form-select-sm select_2_control vehicleSystem">
+                                    <option></option>
+                                </select>
+                                <select name="defectCategory"
+                                        required
+                                        style="display: none;"
+                                        disabled
+                                        data-value="{{$defect->defect_category_code}}"
+                                        class="form-select form-select-sm select_2_control defectCategory">
+                                    <option></option>
+                                </select>
+                            </div>
                             <select name="defect"
                                     required
                                     disabled
@@ -52,6 +48,30 @@
                                     class="form-select form-select-sm select_2_control defect">
                                 <option></option>
                             </select>
+                        </td>
+                        <td class="showNumber">
+                            <div class="input-group">
+                                <input type="text"
+                                       data-action="{{route('driver.search')}}"
+                                       class="form-control form-control-sm"
+                                       autocapitalize="characters"
+                                       id="mechanic"
+                                       name="mechanic"/>
+                                <div class="input-group-addon">
+                                    <button type="button" id="mechanicSearchBtn"
+                                            name="mechanicSearchBtn"
+                                            class="btn btn-success btn-sm border-radius-0">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="text"
+                                   class="form-control form-control-sm"
+                                   id="mechanic"
+                                   name="mechanic"
+                                   readonly/>
                         </td>
                         <td>
                             <select name="shiftType"
@@ -93,60 +113,6 @@
                         </td>
                     </tr>
                 @endforeach
-            @endif
-
-
-
-            @if($services->isNotEmpty())
-
-                <tr class="increment">
-                    <td>
-                        @if($defects && $defects->isNotEmpty())
-                            @foreach($defects as $defect)
-                                <select name="defect"
-                                        required
-                                        data-value="{{$defect->defect_code}}"
-                                        class="form-select form-select-sm select_2_control defect">
-                                    <option></option>
-                                </select>
-                            @endforeach
-                        @endif
-                    </td>
-                    <td>
-                        <input
-                                name="serviceArticleCode"
-                                required
-                                value="{{$service->material_code ?? ''}}"
-                                readonly
-                                class="form-control form-control-sm serviceArticleCode"/>
-                    </td>
-                    <td>
-                        <input
-                                name="service_technical_specification"
-                                required
-                                value="{{$service->specification ?? ''}}"
-                                class="form-control form-control-sm service_technical_specification"/>
-                    </td>
-
-                    <td>
-                        <input
-                                readonly
-                                type="text"
-                                min="1"
-                                value="1"
-                                max="1"
-                                name="service_quantity"
-                                required
-                                class="form-control form-control-sm service_quantity number_input"/>
-                    </td>
-
-                    <td>
-
-                    </td>
-
-
-                </tr>
-
             @endif
             </tbody>
             <tfoot>
