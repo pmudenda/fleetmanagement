@@ -1,5 +1,4 @@
-
-{{dd($request)}}<div>
+<div>
     <style>
         .processed {
             background-color: #1C9955 !important;
@@ -71,9 +70,11 @@
                                         <td>
                                             <input type="checkbox" checked="checked">
                                         </td>
-                                        <td> <span class="text-sm">
-                                               Requested
-                                            </span>
+                                        <td>
+                                            <div class="text-sm">
+                                                {{$claimnant->name}}
+                                                {{$claimnant->job_title ?? '-'}}
+                                            </div>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -109,27 +110,36 @@
                                 <table class="table table-sm ">
 
                                     <tbody>
-                                 {{--   @foreach ($hod_unit_users as $item)
-                                        <tr>
-                                            <td>
-                                                @if (in_array(config('constants.subsistence_status.hod_approved'), $approvals_array))
-                                                    <input type="checkbox" checked="checked">
-                                                @else
-                                                    <input type="checkbox" disabled>
-                                                @endif
-                                            </td>
-                                            <td> <span class="text-sm"> {{ $item->name }}
-                                                    ({{ $item->position->code ?? '-' }} )
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    @endforeach--}}
-                                 {{--   @if (sizeOf($hod_unit_users) == 0)
+                                    <tr>
+                                        <td>
+                                            <div class="text-sm">
+                                                {{ $supervisor->name }}
+                                                ({{ $supervisor->job_title ?? '-' }} )
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {{--   @foreach ($hod_unit_users as $item)
+                                           <tr>
+                                               <td>
+                                                   @if (in_array(config('constants.subsistence_status.hod_approved'), $approvals_array))
+                                                       <input type="checkbox" checked="checked">
+                                                   @else
+                                                       <input type="checkbox" disabled>
+                                                   @endif
+                                               </td>
+                                               <td> <span class="text-sm"> {{ $item->name }}
+                                                       ({{ $item->position->code ?? '-' }} )
+                                                   </span>
+                                               </td>
+                                           </tr>
+                                       @endforeach--}}
+                                    {{----}}
+                                    @if (empty($supervisor))
                                         <tr class="text-danger">
                                             <td><input type="checkbox" disabled></td>
                                             <td> Not Aligned</td>
                                         </tr>
-                                    @endif--}}
+                                    @endif
 
                                     </tbody>
                                 </table>
@@ -143,14 +153,12 @@
                 </div>
 
 
-
-
-                    <!--  DIRECTOR APPROVAL -->
-                    <div class="col-3">
-                        <div class="row">
-                            <div class="col-11">
-                                <div class="card card-body"
-                                     style="border-radius: 2em;
+                <!--  DIRECTOR APPROVAL -->
+                <div class="col-3">
+                    <div class="row">
+                        <div class="col-11">
+                            <div class="card card-body"
+                                 style="border-radius: 2em;
                  {{--@if ($form_status == config('constants.subsistence_status.hod_approved'))
                     background-color:#F7801D
                     @elseif (in_array(config('constants.subsistence_status.station_mgr_approved'), $approvals_array))
@@ -161,50 +169,50 @@
                                 <span class="font-weight-bold">
                                     3. MANAGER APPROVAL
                                 </span>
-                                    <table class="table table-sm ">
+                                <table class="table table-sm ">
 
-                                        <tbody>
-                                        {{--@foreach ($dr_unit_users as $item)
-                                            <tr>
-                                                <td>
-                                                    @if (in_array(config('constants.subsistence_status.station_mgr_approved'),
-                                                         $approvals_array))
-                                                        <input type="checkbox" checked="checked"/>
-                                                    @else
-                                                        <input type="checkbox" disabled>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                <span class="text-sm"> {{ $item->name }}
-                                                        ({{ $item->position->code ?? '-' }})
-                                                </span>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        @if (sizeOf($dr_unit_users) == 0)
-                                            <tr class="text-danger">
-                                                <td><input type="checkbox" disabled></td>
-                                                <td> Not Aligned</td>
-                                            </tr>
-                                        @endif--}}
+                                    <tbody>
+                                    {{--@foreach ($dr_unit_users as $item)
+                                        <tr>
+                                            <td>
+                                                @if (in_array(config('constants.subsistence_status.station_mgr_approved'),
+                                                     $approvals_array))
+                                                    <input type="checkbox" checked="checked"/>
+                                                @else
+                                                    <input type="checkbox" disabled>
+                                                @endif
+                                            </td>
+                                            <td>
+                                            <span class="text-sm"> {{ $item->name }}
+                                                    ({{ $item->position->code ?? '-' }})
+                                            </span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    @if (sizeOf($dr_unit_users) == 0)
+                                        <tr class="text-danger">
+                                            <td><input type="checkbox" disabled></td>
+                                            <td> Not Aligned</td>
+                                        </tr>
+                                    @endif--}}
 
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="col-1  ">
-                                <span class="arrow"></span>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
+                        <div class="col-1  ">
+                            <span class="arrow"></span>
+                        </div>
                     </div>
+                </div>
 
-                    <!--  SNR MGR APPROVAL -->
-                    <div class="col-3">
-                        <div class="row">
-                            <div class="col-11">
-                                <div class="card card-body"
-                                     style="border-radius: 2em;
+                <!--  SNR MGR APPROVAL -->
+                <div class="col-3">
+                    <div class="row">
+                        <div class="col-11">
+                            <div class="card card-body"
+                                 style="border-radius: 2em;
                  {{--@if ($form_status == config('constants.subsistence_status.hod_approved'))
                     background-color:#F7801D
                     @elseif (in_array(config('constants.subsistence_status.station_mgr_approved'), $approvals_array))
@@ -216,42 +224,41 @@
                                     4. SNR MGR APPROVAL
                                 </span>
 
-                                    <table class="table table-sm ">
+                                <table class="table table-sm ">
 
-                                        <tbody>
-                                      {{--  @foreach ($dm_unit_users as $item)
-                                            <tr>
-                                                <td>
-                                                    @if (in_array(config('constants.subsistence_status.station_mgr_approved'), $approvals_array))
-                                                        <input type="checkbox" checked="checked">
-                                                    @else
-                                                        <input type="checkbox" disabled>
-                                                    @endif
-                                                </td>
-                                                <td> <span class="text-sm"> {{ $item->name }}
-                                                        ({{ $item->position->code ?? '-' }} )
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        @if (sizeOf($dm_unit_users) == 0)
-                                            <tr class="text-danger">
-                                                <td><input type="checkbox" disabled></td>
-                                                <td> Not Aligned</td>
-                                            </tr>
-                                        @endif--}}
+                                    <tbody>
+                                    {{--  @foreach ($dm_unit_users as $item)
+                                          <tr>
+                                              <td>
+                                                  @if (in_array(config('constants.subsistence_status.station_mgr_approved'), $approvals_array))
+                                                      <input type="checkbox" checked="checked">
+                                                  @else
+                                                      <input type="checkbox" disabled>
+                                                  @endif
+                                              </td>
+                                              <td> <span class="text-sm"> {{ $item->name }}
+                                                      ({{ $item->position->code ?? '-' }} )
+                                                  </span>
+                                              </td>
+                                          </tr>
+                                      @endforeach
+                                      @if (sizeOf($dm_unit_users) == 0)
+                                          <tr class="text-danger">
+                                              <td><input type="checkbox" disabled></td>
+                                              <td> Not Aligned</td>
+                                          </tr>
+                                      @endif--}}
 
-                                        </tbody>
-                                    </table>
+                                    </tbody>
+                                </table>
 
-                                </div>
-                            </div>
-                            <div class="col-1  ">
-                                <span class="arrow"></span>
                             </div>
                         </div>
+                        <div class="col-1  ">
+                            <span class="arrow"></span>
+                        </div>
                     </div>
-
+                </div>
 
 
                 <!--  HUMAN CAPITAL APPROVAL -->
@@ -276,27 +283,27 @@
                                 <table class="table table-sm ">
 
                                     <tbody>
-                                 {{--   @foreach ($hrm_unit_users as $item)
-                                        <tr>
-                                            <td>
-                                                @if (in_array(config('constants.subsistence_status.hr_approved'), $approvals_array))
-                                                    <input type="checkbox" checked="checked">
-                                                @else
-                                                    <input type="checkbox" disabled>
-                                                @endif
-                                            </td>
-                                            <td> <span class="text-sm"> {{ $item->name }}
-                                                    ({{ $item->position->code ?? '-' }})
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    @if (sizeOf($hrm_unit_users) == 0)
-                                        <tr class="text-danger">
-                                            <td><input type="checkbox" disabled></td>
-                                            <td> Not Aligned</td>
-                                        </tr>
-                                    @endif--}}
+                                    {{--   @foreach ($hrm_unit_users as $item)
+                                           <tr>
+                                               <td>
+                                                   @if (in_array(config('constants.subsistence_status.hr_approved'), $approvals_array))
+                                                       <input type="checkbox" checked="checked">
+                                                   @else
+                                                       <input type="checkbox" disabled>
+                                                   @endif
+                                               </td>
+                                               <td> <span class="text-sm"> {{ $item->name }}
+                                                       ({{ $item->position->code ?? '-' }})
+                                                   </span>
+                                               </td>
+                                           </tr>
+                                       @endforeach
+                                       @if (sizeOf($hrm_unit_users) == 0)
+                                           <tr class="text-danger">
+                                               <td><input type="checkbox" disabled></td>
+                                               <td> Not Aligned</td>
+                                           </tr>
+                                       @endif--}}
 
                                     </tbody>
                                 </table>
@@ -329,27 +336,27 @@
                             </span>
                                 <table class="table table-sm ">
                                     <tbody>
-                               {{--     @foreach ($ca_unit_users as $item)
-                                        <tr>
-                                            <td>
-                                                @if (in_array(config('constants.subsistence_status.chief_accountant'), $approvals_array))
-                                                    <input type="checkbox" checked="checked">
-                                                @else
-                                                    <input type="checkbox" disabled>
-                                                @endif
-                                            </td>
-                                            <td> <span class="text-sm"> {{ $item->name }}
-                                                    ({{ $item->position->code ?? '-' }})
-                                            </span>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    @if (sizeOf($ca_unit_users) == 0)
-                                        <tr class="text-danger">
-                                            <td><input type="checkbox" disabled></td>
-                                            <td> Not Aligned</td>
-                                        </tr>
-                                    @endif--}}
+                                    {{--     @foreach ($ca_unit_users as $item)
+                                             <tr>
+                                                 <td>
+                                                     @if (in_array(config('constants.subsistence_status.chief_accountant'), $approvals_array))
+                                                         <input type="checkbox" checked="checked">
+                                                     @else
+                                                         <input type="checkbox" disabled>
+                                                     @endif
+                                                 </td>
+                                                 <td> <span class="text-sm"> {{ $item->name }}
+                                                         ({{ $item->position->code ?? '-' }})
+                                                 </span>
+                                                 </td>
+                                             </tr>
+                                         @endforeach
+                                         @if (sizeOf($ca_unit_users) == 0)
+                                             <tr class="text-danger">
+                                                 <td><input type="checkbox" disabled></td>
+                                                 <td> Not Aligned</td>
+                                             </tr>
+                                         @endif--}}
                                     </tbody>
                                 </table>
                                 {{--<small class="text-info">Based On Trip Cost Center</small>--}}
@@ -407,7 +414,7 @@
 
                                     </tbody>
                                 </table>
-                             {{--   <small class="text-info">Based On Trip Cost Center</small>--}}
+                                {{--   <small class="text-info">Based On Trip Cost Center</small>--}}
                             </div>
                         </div>
                     </div>
@@ -448,55 +455,55 @@
                         </tr>
                     </table>
                 </div>
-             {{--   <div class="col-4">
+                {{--   <div class="col-4">
 
-                    @if (
-                          \App\Helpers\Authorise::hasDeveloperUserType(auth()->user())
-                          ||
-                          \App\Helpers\Authorise::hasChiefAccountantRole(auth()->user())
-                          )
-                        <a href="{{ route('logout') }}"
-                           onclick="event.preventDefault();
-                                       document.getElementById('search-form123-24').submit();">
-                            <p><strong>Departmental Approvals</strong></p></a>
-                        <form id="search-form123-24"
-                              action="{{ route('main.user.unit.search.profile', $form_details->claimantUserUnit->id) }}"
-                              method="post" class="d-none">
-                            @csrf
-                        </form>
+                       @if (
+                             \App\Helpers\Authorise::hasDeveloperUserType(auth()->user())
+                             ||
+                             \App\Helpers\Authorise::hasChiefAccountantRole(auth()->user())
+                             )
+                           <a href="{{ route('logout') }}"
+                              onclick="event.preventDefault();
+                                          document.getElementById('search-form123-24').submit();">
+                               <p><strong>Departmental Approvals</strong></p></a>
+                           <form id="search-form123-24"
+                                 action="{{ route('main.user.unit.search.profile', $form_details->claimantUserUnit->id) }}"
+                                 method="post" class="d-none">
+                               @csrf
+                           </form>
 
-                    @else
-                        <p><strong>Departmental Approvals</strong></p>
-                    @endif
+                       @else
+                           <p><strong>Departmental Approvals</strong></p>
+                       @endif
 
-                    <table>
-                        <tr>
-                            <td>
-                                <span class="text-bold text-sm">HOD  |  SNR MGR  |  HC</span>
-                            </td>
-                        </tr>
-                    </table>
-                    <table>
-                        <tr>
-                            <td>
-                            <span
-                                    class=" text-sm"> {{ $form_details->claimantUserUnit->user_unit_description ?? '-' }}</span>
-                            </td>
-                            <td>
-                            <span
-                                    class=" text-sm">Code : {{ $form_details->claimantUserUnit->user_unit_code ?? '-' }}</span>
-                            </td>
-                            <td>
-                            <span
-                                    class=" text-sm">BU : {{ $form_details->claimantUserUnit->user_unit_bc_code ?? '-' }}</span>
-                            </td>
-                            <td>
-                            <span
-                                    class=" text-sm">CC : {{ $form_details->claimantUserUnit->user_unit_cc_code ?? '-' }}</span>
-                            </td>
-                        </tr>
-                    </table>
-                </div>--}}
+                       <table>
+                           <tr>
+                               <td>
+                                   <span class="text-bold text-sm">HOD  |  SNR MGR  |  HC</span>
+                               </td>
+                           </tr>
+                       </table>
+                       <table>
+                           <tr>
+                               <td>
+                               <span
+                                       class=" text-sm"> {{ $form_details->claimantUserUnit->user_unit_description ?? '-' }}</span>
+                               </td>
+                               <td>
+                               <span
+                                       class=" text-sm">Code : {{ $form_details->claimantUserUnit->user_unit_code ?? '-' }}</span>
+                               </td>
+                               <td>
+                               <span
+                                       class=" text-sm">BU : {{ $form_details->claimantUserUnit->user_unit_bc_code ?? '-' }}</span>
+                               </td>
+                               <td>
+                               <span
+                                       class=" text-sm">CC : {{ $form_details->claimantUserUnit->user_unit_cc_code ?? '-' }}</span>
+                               </td>
+                           </tr>
+                       </table>
+                   </div>--}}
                 {{--<div class="col-3">
 
                     @if (

@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use App\Models\Workflow\WorkflowLog;
+use App\Models\Security\User;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -25,9 +25,10 @@ class FuelWorkflowApprovers extends Component
      */
     public function render(): View|Closure|string
     {
-      /*$form_status = $this->request->config_status_id;
-        $claimant = $this->request->claimant;
-        $form_grade = $this->request->grade;
+        $claimant = User::where('staff_no', '=', $this->request->created_by)->get();
+        $supervisor = User::where('staff_no', '=', $$claimant->supervisor_code)->get();
+
+        /*$form_grade = $this->request->grade;
         $form_details = $this->request;
 
         $approvals_array = WorkflowLog::where('reference', $this->request->reference)
@@ -59,6 +60,9 @@ class FuelWorkflowApprovers extends Component
         $expediture_unit_delegate_user = $this->request->user_unit->expenditure_unit_delegate_user;
         $expenditure_unit_users = $expenditure_unit_user->merge($expediture_unit_delegate_user);*/
 
-        return view('components.fuel-workflow-approvers');
+        return view(
+            'components.fuel-workflow-approvers',
+            compact('claimant', 'supervisor')
+        );
     }
 }
