@@ -578,19 +578,8 @@
                 <input type="hidden" value="{{ $requestDetails->req_no }}" id="taskReference">
             </div>
         </div>
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">
-                    <h4>Workflow</h4>
-                </div>
-                <div class="card-toolbar justify-content-end">
-                </div>
-            </div>
-            <div class="card-body">
 
-            </div>
-        </div>
-
+        <x-fuel-workflow-approvers :request="$requestDetails"/>
         <x-workflow-approval-history :approvals="$approvalHistory" :request="$requestDetails"/>
     </section>
 @endsection
