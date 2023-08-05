@@ -587,21 +587,11 @@
                 </div>
             </div>
             <div class="card-body">
-                <x-workflow-approval-history :approvals="$approvalHistory" :request="$requestDetails"/>
+
             </div>
         </div>
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">
-                    <h4>Workflow</h4>
-                </div>
-                <div class="card-toolbar justify-content-end">
-                </div>
-            </div>
-            <div class="card-body">
-                <x-workflow-approval-history :approvals="$approvalHistory" :request="$requestDetails"/>
-            </div>
-        </div>
+
+        <x-workflow-approval-history :approvals="$approvalHistory" :request="$requestDetails"/>
     </section>
 @endsection
 @push('scripts')
