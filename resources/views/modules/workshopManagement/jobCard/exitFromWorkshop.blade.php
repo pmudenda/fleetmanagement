@@ -501,28 +501,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="col-xs-12 col-sm-6 col-md-6">
-                                        <div class="container-fluid pl-0">
-                                            <div class="row">
-                                                {{--  <div class="form-group row">
-                                                      <label
-                                                              class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                              for="staff_no">Date Expected Out:
-                                                      </label>
-                                                      <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                          <input type="text"
-                                                                 readonly
-                                                                 class="form-control form-control-sm"
-                                                                 id="date_expected_out"
-                                                                 value="@if($details){{date('Y-m-d', strtotime(Carbon::parse($details->date_in)->format('Y-m-d')))}}@else{{date('Y-m-d', strtotime(Carbon::now()))}}@endif"
-                                                                 name="date_of_req"
-                                                          >
-                                                      </div>
-                                                  </div>--}}
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div class="row">
