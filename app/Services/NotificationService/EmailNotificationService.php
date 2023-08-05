@@ -22,7 +22,35 @@ class EmailNotificationService
 
             switch ($action) {
                 case 'requisition':
+                    $dueDate = Carbon::parse($record->dueDate)->format('d/m/Y');
+                    $details = [
+                        'name' => $names,
+                        'systemLink' => URL::signedRoute('show.workshop.requisition', ['reference' => $record->req_no]),
+                        'identity' => $record->req_no,
+                        'subject' => "New Task Needs Your Attention",
+                        'title' => "New Task Needs Your Attention",
+                        'body' => "Please be informed that {$sender->name} has raised a request for spares, with reference
+                               <strong>{$record->req_no}</strong>
+                               in Fleet Master.
+                               <br>Kindly click on the button below to login to ZFMS
+                               and take action.<br> Regards. "
+                    ];
+                    break;
                 case 'job_card_material_requisition':
+                $dueDate = Carbon::parse($record->dueDate)->format('d/m/Y');
+                $details = [
+                    'name' => $names,
+                    'systemLink' => URL::signedRoute('show.workshop.requisition', ['reference' => $record->req_no]),
+                    'identity' => $record->req_no,
+                    'subject' => "New Task Needs Your Attention",
+                    'title' => "New Task Needs Your Attention",
+                    'body' => "Please be informed that {$sender->name} has raised a request for spares with reference
+                               <strong>{$record->req_no}</strong>
+                               in Fleet Master.
+                               <br>To Take action immediately, click on the button below to login
+                               .<br> Regards. "
+                ];
+                break;
                 case 'fuel_requisition':
                     $dueDate = Carbon::parse($record->dueDate)->format('d/m/Y');
                     $details = [
@@ -31,11 +59,10 @@ class EmailNotificationService
                         'identity' => $record->req_no,
                         'subject' => "New Task Needs Your Attention",
                         'title' => "New Task Needs Your Attention",
-                        'body' => "Please be informed that {$sender->name} has assigned you a task with reference
+                        'body' => "Please be informed that {$sender->name} has raised a fuel request, with reference
                                <strong>{$record->req_no}</strong>
-                               in ZFMS. The task is due on {$dueDate}.
-                               <br>Kindly click on the button below to login to ZFMS
-                               and take action.<br> Regards. "
+                               <br>To Take action immediately, click on the button below to login
+                               .<br> Regards. "
                     ];
                     break;
                 case 'approved':
