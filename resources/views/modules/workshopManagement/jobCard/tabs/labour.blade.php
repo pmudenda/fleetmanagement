@@ -1,14 +1,14 @@
 @php use Carbon\Carbon; @endphp
 <div class="row pt-5">
-    <div class="col-12">
+    <div class="table-responsive">
         <table id="services_table mt-10"
                data-model-name="ServicesHeader"
                class="table dataTable table-row-dashed align-middle gs-0 nowrap">
             <thead>
             <tr class="bg-success-subtle">
-                <th style="width: 6%;" class="pl-2">Defect</th>
-                <th style="width: 25%;">Mechanic</th>
-                <th style="width: 25%;">Name</th>
+                <th>Defect</th>
+                <th style="width: 6%;">Mechanic</th>
+                <th style="width: 15%;">Name</th>
                 <th>Date</th>
                 <th style="width: 25%;">Shift Type</th>
                 <th style="width: 25%;">Hours</th>

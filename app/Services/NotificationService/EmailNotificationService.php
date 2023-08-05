@@ -16,7 +16,7 @@ class EmailNotificationService
     public static function sendNotification(User $recipient, User $sender, $record, string $action, $task): bool
     {
         try {
-            $recipientMail = 'ZFMServiceDesk@zesco.co.zm'; //$recipient->email
+            $recipientMail = 'mchitala@zesco.co.zm';//'ZFMServiceDesk@zesco.co.zm'; //$recipient->email
             $to[] = ['email' => $recipientMail, 'name' => $recipient->name];
             $names = $recipient->name;
 
