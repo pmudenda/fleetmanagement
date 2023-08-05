@@ -30,7 +30,7 @@
                 <form name="fuelRequisitionForm" id="fuelRequisitionForm" action="{{route('save.fuel.requisition')}}"
                       method="post">
                     @csrf
-                    <div class="card-body user-data">
+                   {{-- <div class="card-body user-data">--}}
 
                         <table border="1" width="100%" data-height="100px" cellspacing="0" cellpadding="0"
                                align="Centre"
@@ -554,7 +554,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    {{--</div>--}}
 
                     @if(!empty($workflowTask->assigned_user))
                         @if(auth()->user()->staff_no == $workflowTask->assigned_user && empty($workflowTask->date_ended))
