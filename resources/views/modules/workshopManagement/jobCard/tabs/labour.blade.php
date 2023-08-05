@@ -81,8 +81,22 @@
                                 <option>Normal OT</option>
                                 <option>Saturday/Sunday OT</option>
                             </select>
+                        </td>
+                        <td>
+                            <input name="ratePerHour"
+                                   required
+                                   readonly
+                                   class="form-control form-control-sm"/>
+                        </td>
+
+                        <td>
+                            <input name="totalAmount"
+                                   required
+                                   readonly
+                                   class="form-control form-control-sm service_total_price"/>
+                        </td>
+                        <td>
                             <select name="workshopSection"
-                                    disabled
                                     required
                                     class="form-select form-select-sm workshopSection">
                                 <option></option>
@@ -97,19 +111,6 @@
                                     @endif
                                 @endforeach
                             </select>
-                        </td>
-                        <td>
-                            <input name="ratePerHour"
-                                   required
-                                   readonly
-                                   class="form-control form-control-sm"/>
-                        </td>
-
-                        <td>
-                            <input name="totalAmount"
-                                   required
-                                   readonly
-                                   class="form-control form-control-sm service_total_price"/>
                         </td>
                     </tr>
                 @endforeach
