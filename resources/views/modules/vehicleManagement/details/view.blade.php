@@ -21,10 +21,16 @@
             border: none !important;
             background-color: transparent !important;
             box-shadow: none !important;
+
         }
 
         .bg-gray-300{
             background-color: transparent !important;
+        }
+
+        .input-group{
+            justify-content: center !important;
+            align-items: center !important;
         }
     </style>
 @endpush
@@ -374,9 +380,9 @@
                                     <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
                                         <tbody>
                                         <tr>
-                                            <td class="frappe-control ">
+                                            <td class="frappe-control d-none">
                                                 <label class="app-field-label reqd"
-                                                       for="staff_no">Purchase Order Number :
+                                                       for="staff_no"> :
                                                 </label>
                                             </td>
                                             <td>
