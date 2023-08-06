@@ -34,7 +34,7 @@
                         <div class="col-md-3" v-if="images && images.frontView">
                             {{--<div class="card text-center py-5 my-2">--}}
                                 <div class="form-group">
-                                    <img class="imagePreview" :src='"/storage" + images.frontView.path + "'>
+                                    <img class="imagePreview" :src='"/storage" + images.frontView.path + "'  alt=""/>
                                 </div>
                            {{-- </div>--}}
                         </div>
