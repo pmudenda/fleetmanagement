@@ -267,10 +267,10 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     $('input[name="purchase_order_number"]').val(data['purchase_order_no']);
 
-    $('input[name="costOfLicense"]').val(data['costoflicense']);
+    $('input[name="costOfLicense"]').val(accounting.formatMoney(data['costoflicense'], 2));
     $('input[name="costOfLicense"]').trigger('change');
 
-    $('input[name="premium"]').val(data['premium']);
+    $('input[name="premium"]').val(accounting.formatMoney(data['premium'], 2));
     $('input[name="premium"]').trigger('change');
 
 
