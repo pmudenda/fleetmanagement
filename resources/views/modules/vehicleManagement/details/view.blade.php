@@ -254,43 +254,47 @@
 
                     <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x border-transparent fs-4 fw-semibold mb-5"
                         role="tablist">
-                    {{--<ul class="nav nav-tabs" role="tablist">--}}
+                        {{--<ul class="nav nav-tabs" role="tablist">--}}
                         <li class="nav-item" style="list-style: none;">
                             <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
                         </li>
                         <li class="nav-item" style="list-style: none;">
                             <a class="nav-link" data-toggle="tab" href="#specs" role="tab">Specs</a>
                         </li>
-                       {{-- <li class="nav-item" style="list-style: none; width: 178px;">
-                            <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab"></a>
-                        </li>--}}
+                        {{-- <li class="nav-item" style="list-style: none; width: 178px;">
+                             <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab"></a>
+                         </li>--}}
                         <li class="nav-item" role="presentation" data-tab="tms_costing_valuation_tab">
                             <a class="nav-link text-active-primary pb-5"
                                data-bs-toggle="tab"
                                href="#financial" aria-selected="false" role="tab"
                                tabindex="-1">
-                               {{-- @include('layouts.partials.costing_icon')--}}
+                                {{-- @include('layouts.partials.costing_icon')--}}
                                 Financial
                             </a>
                         </li>
 
                         <li class="nav-item" style="list-style: none;">
-                            <a class="nav-link" data-toggle="tab" href="#accessories" role="tab">Service History</a>
+                            <a class="nav-link" data-toggle="tab" href="#serviceHistory" role="tab">Service History</a>
                         </li>
                         <li class="nav-item" style="list-style: none;">
-                            <a class="nav-link" data-toggle="tab" href="#accessories" role="tab">Inspection History</a>
+                            <a class="nav-link" data-toggle="tab" href="#inspectionHistory" role="tab">Inspection
+                                History</a>
                         </li>
                         <li class="nav-item" style="list-style: none;">
-                            <a class="nav-link" data-toggle="tab" href="#defects" role="tab">Work Orders</a>
+                            <a class="nav-link" data-toggle="tab" href="#workOrders" role="tab">Work Orders</a>
                         </li>
                         <li class="nav-item" style="list-style: none;">
-                            <a class="nav-link" data-toggle="tab" href="#materials" role="tab">Service Reminders</a>
+                            <a class="nav-link" data-toggle="tab" href="#serviceReminders" role="tab">Service
+                                Reminders</a>
                         </li>
                         <li class="nav-item" style="list-style: none;">
-                            <a class="nav-link" data-toggle="tab" href="#services" role="tab">Renewal Reminders</a>
+                            <a class="nav-link" data-toggle="tab" href="#renewalReminder" role="tab">Renewal
+                                Reminders</a>
                         </li>
                         <li class="nav-item" style="list-style: none;">
-                            <a class="nav-link" data-toggle="tab" href="#labour" role="tab">Odometer History</a>
+                            <a class="nav-link" data-toggle="tab" href="#odometerHistory" role="tab">Odometer
+                                History</a>
                         </li>
 
                         <li class="nav-item" style="list-style: none;">
@@ -298,7 +302,8 @@
                         </li>
 
                         <li class="nav-item" style="list-style: none;">
-                            <a class="nav-link" data-toggle="tab" href="#assignmentHistory" role="tab">Assignment History</a>
+                            <a class="nav-link" data-toggle="tab" href="#assignmentHistory" role="tab">Assignment
+                                History</a>
                         </li>
                     </ul>
 
@@ -320,8 +325,45 @@
                             @include('modules.vehicleManagement.onboarding.tabs.cost_details_tab')
                         </div>
 
+                        <div class="tab-pane fade" id="serviceHistory" role="tabpanel">
+                            <div class="container-fluid pl-0 mt-5">
+                                Service History
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="inspectionHistory" role="tabpanel">
+                            <div class="container-fluid pl-0 mt-5">
+                                Inspection History
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="workOrders" role="tabpanel">
+                            <div class="container-fluid pl-0 mt-5">
+                                Work Orders
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="serviceReminders" role="tabpanel">
+                            <div class="container-fluid pl-0 mt-5">
+                                Service Reminders
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="odometerHistory" role="tabpanel">
+                            <div class="container-fluid pl-0 mt-5">
+                                Odometer History
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="renewalReminder" role="tabpanel">
+                            <div class="container-fluid pl-0 mt-5">
+                                Renewal Reminder
+                            </div>
+                        </div>
+
                         <div class="tab-pane fade" id="fuelHistory" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5">
+                                Fuel History
                             </div>
                         </div>
 
@@ -336,7 +378,6 @@
             </div>
 
             <!--END:::VEHICLE HEADER -->
-
 
 
             <!--BEGIN:::DETAILS  -->
