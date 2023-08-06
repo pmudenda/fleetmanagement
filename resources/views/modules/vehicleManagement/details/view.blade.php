@@ -23,8 +23,9 @@
             <div class="card mb-xl-10">
                 <div id="card_header" class="card-header min-h-2px">
                     <div class="card-title">
-                        {{--<h2> Vehicle On-Boarding</h2>
-                        <span v-if="!vehicleHeader.isHeaderSaved"
+                        <h2> Vehicle On-Boarding</h2>
+                        <img id="barcode" alt="vehicle barcode" src="">
+                        {{--<span v-if="!vehicleHeader.isHeaderSaved"
                               class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
                         <span v-else class="ml-2 indicator-pill whitespace-nowrap green">
                             <span>
@@ -244,16 +245,16 @@
                                                 </div>
 
                                                 {{--@if($vehicle && !$empty($vehicle->barcode)) @endif--}}
-                                                <div class="form-group row mt-10 d-none" id="barcodeContainer">
+                                                {{--<div class="form-group row mt-10 d-none" id="barcodeContainer">
                                                     <label for="barcode" class="fs-6 fw-semibold form-label col-md-3">
                                                         <span class="required">Vehicle Badge</span>
                                                     </label>
                                                     <div class="col-md-9 fv-row">
                                                         <div class="col-md-9">
-                                                            <img id="barcode" alt="vehicle barcode" src="">
+
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>--}}
 
                                             </div>
                                         </div>
