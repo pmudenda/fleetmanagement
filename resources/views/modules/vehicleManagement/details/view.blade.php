@@ -60,9 +60,9 @@
                         <div class="row">
                             <table>
                                 <tr>
-                                    <td>
+                                    <td style="vertical-align: baseline;">
                                         <div v-if="images && images.frontView">
-                                            <img style="height: 450px;" class="frontImagePreview"
+                                            <img style="height: 200px;" class="frontImagePreview"
                                                  v-bind:src='"/storage" + images.frontView.path' alt=""/>
                                         </div>
                                     </td>
@@ -74,8 +74,8 @@
                                                        class="fs-6 fw-semibold form-label mt-3 col-md-3">
                                                     <span class="required">Registration Type</span>
                                                 </label>
-                                                <div class="col-md-9 fv-row">
-                                                    <div class="col-md-9" style="display: none;">
+                                                <div class="col-md-9 fv-row" style="display: none; visibility: hidden; ">
+                                                    <div class="col-md-9" >
                                                         <div class="w-100 fv-row">
                                                             <select class="form-select form-select-sm"
                                                                     id="registration_type"
@@ -93,168 +93,169 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-12">
-                                            <div class="form-group row">
-                                                <label for="brand" class="fs-6 fw-semibold form-label col-md-3">
-                                                    <span class="required">Brand/Make</span>
-                                                </label>
-                                                <div class="col-md-9 fv-row">
-                                                    <div class="col-md-9">
-                                                        <div class="w-100 fv-row">
-                                                            <select class="form-control view_mode"
-                                                                    name="brand"
-                                                                    id="brand">
-                                                                <option>--Select Brand--</option>
-                                                                <option v-for="brand in vehicleBrands"
-                                                                        :key="brand.id"
-                                                                        :value="brand.id | trimSpaces">
-                                                                    @{{brand.name}}
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="model" class="fs-6 fw-semibold form-label col-md-3">
-                                                    <span class="required">Model</span>
-                                                </label>
-                                                <div class="col-md-9 fv-row ">
-                                                    <div class="col-md-9">
-                                                        <div class="w-100">
-                                                            <select class="form-select form-select-sm view_mode"
-                                                                    required
-                                                                    name="model"
-                                                                    id="model">
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="model_code" class="fs-6 fw-semibold form-label col-md-3">
-                                                    <span class="required">Model Code</span>
-                                                </label>
-
-                                                <div class="col-md-9 fv-row">
-                                                    <div class="col-md-9">
-                                                        <div class="w-100">
-                                                            {{-- :value="vehicleHeader.model_code"--}}
-                                                            <input class="form-control form-control-solid"
-                                                                   name="model_code"
-                                                                   readonly
-                                                                   id="model_code"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="brand" class="fs-6 fw-semibold form-label col-md-3">
-                                                    <span class="required">Body Type</span>
-                                                </label>
-
-                                                <div class="col-md-9 fv-row ">
-                                                    <div class="col-md-9">
-                                                        <div class="w-100">
-                                                            <select class="form-select form-select-sm view_mode"
-                                                                    required
-                                                                    id="bodyType"
-                                                                    name="bodyType">
-                                                            </select>
-                                                            <input type="hidden"
-                                                                   id="bodyType_holder"
-                                                                   name="bodyType_holder"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="form-group row" style="display: none;">
-                                                <label for="user_unit" class="fs-6 fw-semibold form-label col-md-3">
-                                                    <span class="required">User Unit</span>
-                                                </label>
-
-                                                <div class="col-md-9 fv-row ">
-                                                    <div class="col-sm-12 col-md-12">
-                                                        <div class="control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front" style="position: relative;">
-                                                                    <select class="form-control"
-                                                                            required
-                                                                            name="user_unit"
-                                                                            id="user_unit"
-                                                                            data-doctype="vehicleHeader"></select>
-                                                                </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group row">
+                                                    <label for="brand" class="fs-6 fw-semibold form-label col-md-3">
+                                                        <span class="required">Brand/Make</span>
+                                                    </label>
+                                                    <div class="col-md-9 fv-row">
+                                                        <div class="col-md-9">
+                                                            <div class="w-100 fv-row">
+                                                                <select class="form-control view_mode"
+                                                                        name="brand"
+                                                                        id="brand">
+                                                                    <option>--Select Brand--</option>
+                                                                    <option v-for="brand in vehicleBrands"
+                                                                            :key="brand.id"
+                                                                            :value="brand.id | trimSpaces">
+                                                                        @{{brand.name}}
+                                                                    </option>
+                                                                </select>
                                                             </div>
-                                                            <div class="control-value like-disabled-input bold"
-                                                                 style="display: none;"></div>
-                                                            <p class="help-box small text-muted"></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="model" class="fs-6 fw-semibold form-label col-md-3">
+                                                        <span class="required">Model</span>
+                                                    </label>
+                                                    <div class="col-md-9 fv-row ">
+                                                        <div class="col-md-9">
+                                                            <div class="w-100">
+                                                                <select class="form-select form-select-sm view_mode"
+                                                                        required
+                                                                        name="model"
+                                                                        id="model">
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="model_code" class="fs-6 fw-semibold form-label col-md-3">
+                                                        <span class="required">Model Code</span>
+                                                    </label>
+
+                                                    <div class="col-md-9 fv-row">
+                                                        <div class="col-md-9">
+                                                            <div class="w-100">
+                                                                {{-- :value="vehicleHeader.model_code"--}}
+                                                                <input class="form-control form-control-solid"
+                                                                       name="model_code"
+                                                                       readonly
+                                                                       id="model_code"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="brand" class="fs-6 fw-semibold form-label col-md-3">
+                                                        <span class="required">Body Type</span>
+                                                    </label>
+
+                                                    <div class="col-md-9 fv-row ">
+                                                        <div class="col-md-9">
+                                                            <div class="w-100">
+                                                                <select class="form-select form-select-sm view_mode"
+                                                                        required
+                                                                        id="bodyType"
+                                                                        name="bodyType">
+                                                                </select>
+                                                                <input type="hidden"
+                                                                       id="bodyType_holder"
+                                                                       name="bodyType_holder"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row" style="display: none;">
+                                                    <label for="user_unit" class="fs-6 fw-semibold form-label col-md-3">
+                                                        <span class="required">User Unit</span>
+                                                    </label>
+
+                                                    <div class="col-md-9 fv-row ">
+                                                        <div class="col-sm-12 col-md-12">
+                                                            <div class="control-input-wrapper">
+                                                                <div class="control-input">
+                                                                    <div class="link-field ui-front" style="position: relative;">
+                                                                        <select class="form-control"
+                                                                                required
+                                                                                name="user_unit"
+                                                                                id="user_unit"
+                                                                                data-doctype="vehicleHeader"></select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="control-value like-disabled-input bold"
+                                                                     style="display: none;"></div>
+                                                                <p class="help-box small text-muted"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-6">
+                                                <div class="form-group row">
+                                                    <label for="registrationNumber" class="fs-6 fw-semibold form-label col-md-3">
+                                                        <span class="required">Registration #.</span>
+                                                    </label>
+                                                    <div class="col-md-9 fv-row">
+                                                        <div class="col-md-9">
+                                                            {{--v-model="vehicleHeader.registration_number"--}}
+                                                            <input type="text"
+                                                                   class="form-control"
+                                                                   name="registrationNumber"
+                                                                   id="registrationNumber"
+                                                                   autocomplete="off"
+                                                                   required
+                                                            />
+                                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="vehicleLocation" class="fs-6 fw-semibold form-label col-md-3">
+                                                        <span class="required">Location</span>
+                                                    </label>
+                                                    <div class="col-md-9 fv-row">
+                                                        <div class="col-md-9">
+                                                            {{--v-model="vehicleHeader.location_code"--}}
+                                                            <select
+                                                                    required
+                                                                    class="form-control"
+                                                                    name="vehicleLocation"
+                                                                    autocomplete="off"
+                                                                    id="vehicleLocation">
+                                                            </select>
+                                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {{--@if($vehicle && !$empty($vehicle->barcode)) @endif--}}
+                                                <div class="form-group row mt-10 d-none" id="barcodeContainer">
+                                                    <label for="barcode" class="fs-6 fw-semibold form-label col-md-3">
+                                                        <span class="required">Vehicle Badge</span>
+                                                    </label>
+                                                    <div class="col-md-9 fv-row">
+                                                        <div class="col-md-9">
+                                                            <img id="barcode" alt="vehicle barcode" src="">
                                                         </div>
                                                     </div>
                                                 </div>
 
                                             </div>
-
-                                        </div>
-
-                                        <div class="col-md-12">
-                                            <div class="form-group row">
-                                                <label for="registrationNumber" class="fs-6 fw-semibold form-label col-md-3">
-                                                    <span class="required">Registration #.</span>
-                                                </label>
-                                                <div class="col-md-9 fv-row">
-                                                    <div class="col-md-9">
-                                                        {{--v-model="vehicleHeader.registration_number"--}}
-                                                        <input type="text"
-                                                               class="form-control"
-                                                               name="registrationNumber"
-                                                               id="registrationNumber"
-                                                               autocomplete="off"
-                                                               required
-                                                        />
-                                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="vehicleLocation" class="fs-6 fw-semibold form-label col-md-3">
-                                                    <span class="required">Location</span>
-                                                </label>
-                                                <div class="col-md-9 fv-row">
-                                                    <div class="col-md-9">
-                                                        {{--v-model="vehicleHeader.location_code"--}}
-                                                        <select
-                                                                required
-                                                                class="form-control"
-                                                                name="vehicleLocation"
-                                                                autocomplete="off"
-                                                                id="vehicleLocation">
-                                                        </select>
-                                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {{--@if($vehicle && !$empty($vehicle->barcode)) @endif--}}
-                                            <div class="form-group row mt-10 d-none" id="barcodeContainer">
-                                                <label for="barcode" class="fs-6 fw-semibold form-label col-md-3">
-                                                    <span class="required">Vehicle Badge</span>
-                                                </label>
-                                                <div class="col-md-9 fv-row">
-                                                    <div class="col-md-9">
-                                                        <img id="barcode" alt="vehicle barcode" src="">
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </td>
                                 </tr>
