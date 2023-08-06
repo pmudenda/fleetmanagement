@@ -35,34 +35,7 @@
                             <img style="height: 50px;" class="frontImagePreview" v-bind:src='"/storage" + images.frontView.path'  alt=""/>
                             <table>
                                 <tr>
-                                    <td>
-                                        <select class="form-select form-select-sm view_mode"
-                                                required
-                                                id="bodyType"
-                                                name="bodyType">
-                                        </select>
-                                        <input type="hidden"
-                                               id="bodyType_holder"
-                                               name="bodyType_holder"
-                                        />
-
-                                        <select class="form-control view_mode"
-                                                name="brand"
-                                                id="brand">
-                                            <option>--Select Brand--</option>
-                                            <option v-for="brand in vehicleBrands"
-                                                    :key="brand.id"
-                                                    :value="brand.id | trimSpaces">
-                                                @{{brand.name}}
-                                            </option>
-                                        </select>
-
-                                        <select class="form-select form-select-sm view_mode"
-                                                required
-                                                name="model"
-                                                id="model">
-                                        </select>
-                                    </td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>Odometer</td>
@@ -137,7 +110,16 @@
                                     <div class="col-md-9 fv-row">
                                         <div class="col-md-9">
                                             <div class="w-100 fv-row">
-
+                                                <select class="form-control view_mode"
+                                                        name="brand"
+                                                        id="brand">
+                                                    <option>--Select Brand--</option>
+                                                    <option v-for="brand in vehicleBrands"
+                                                            :key="brand.id"
+                                                            :value="brand.id | trimSpaces">
+                                                        @{{brand.name}}
+                                                    </option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -150,7 +132,11 @@
                                     <div class="col-md-9 fv-row ">
                                         <div class="col-md-9">
                                             <div class="w-100">
-
+                                                <select class="form-select form-select-sm view_mode"
+                                                        required
+                                                        name="model"
+                                                        id="model">
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -183,7 +169,15 @@
                                     <div class="col-md-9 fv-row ">
                                         <div class="col-md-9">
                                             <div class="w-100">
-
+                                                <select class="form-select form-select-sm view_mode"
+                                                        required
+                                                        id="bodyType"
+                                                        name="bodyType">
+                                                </select>
+                                                <input type="hidden"
+                                                       id="bodyType_holder"
+                                                       name="bodyType_holder"
+                                                />
                                             </div>
                                         </div>
                                     </div>
