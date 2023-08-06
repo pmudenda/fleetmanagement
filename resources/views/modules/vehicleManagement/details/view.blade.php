@@ -16,6 +16,13 @@
             border: none !important;
             background-color: transparent !important;
         }
+
+        .form-select:disabled {
+            border: none !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+        }
+
         .bg-gray-300{
             background-color: transparent !important;
         }
