@@ -259,7 +259,7 @@
                             <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
                         </li>
                         <li class="nav-item" style="list-style: none;">
-                            <a class="nav-link active" data-toggle="tab" href="#specs" role="tab">Specs</a>
+                            <a class="nav-link" data-toggle="tab" href="#specs" role="tab">Specs</a>
                         </li>
                        {{-- <li class="nav-item" style="list-style: none; width: 178px;">
                             <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab"></a>
@@ -274,30 +274,30 @@
                             </a>
                         </li>
 
-                        <li class="nav-item" style="list-style: none; width: 178px;">
-                            <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab">Service History</a>
+                        <li class="nav-item" style="list-style: none;">
+                            <a class="nav-link" data-toggle="tab" href="#accessories" role="tab">Service History</a>
                         </li>
-                        <li class="nav-item" style="list-style: none; width: 178px;">
-                            <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab">Inspection History</a>
+                        <li class="nav-item" style="list-style: none;">
+                            <a class="nav-link" data-toggle="tab" href="#accessories" role="tab">Inspection History</a>
                         </li>
-                        <li class="nav-item" style="list-style: none; width: 178px;">
+                        <li class="nav-item" style="list-style: none;">
                             <a class="nav-link" data-toggle="tab" href="#defects" role="tab">Work Orders</a>
                         </li>
-                        <li class="nav-item" style="list-style: none; width: 178px;">
+                        <li class="nav-item" style="list-style: none;">
                             <a class="nav-link" data-toggle="tab" href="#materials" role="tab">Service Reminders</a>
                         </li>
-                        <li class="nav-item" style="list-style: none; width: 178px;">
+                        <li class="nav-item" style="list-style: none;">
                             <a class="nav-link" data-toggle="tab" href="#services" role="tab">Renewal Reminders</a>
                         </li>
-                        <li class="nav-item" style="list-style: none; width: 178px;">
+                        <li class="nav-item" style="list-style: none;">
                             <a class="nav-link" data-toggle="tab" href="#labour" role="tab">Odometer History</a>
                         </li>
 
-                        <li class="nav-item" style="list-style: none; width: 178px;">
+                        <li class="nav-item" style="list-style: none;">
                             <a class="nav-link" data-toggle="tab" href="#fuelHistory" role="tab">Fuel History</a>
                         </li>
 
-                        <li class="nav-item" style="list-style: none; width: 178px;">
+                        <li class="nav-item" style="list-style: none;">
                             <a class="nav-link" data-toggle="tab" href="#assignmentHistory" role="tab">Assignment History</a>
                         </li>
                     </ul>
