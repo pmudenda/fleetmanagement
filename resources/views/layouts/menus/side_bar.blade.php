@@ -58,7 +58,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             @can(config('rights.on_board_vehicle'))
-                                <li class="nav-item">
+                                <li class="nav-item pl-2">
                                     <a href="{{ URL::signedRoute('new.vehicle') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>New Vehicle</p>
@@ -76,7 +76,7 @@
                             @endcan--}}
 
                             @canany([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])
-                                <li class="nav-item">
+                                <li class="nav-item pl-2">
                                     <a href="{{ URL::signedRoute('vehicles.list') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Vehicle List</p>
@@ -135,24 +135,24 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        @can(config('rights.on_board_vehicle'))
+                        {{--@can(config('rights.on_board_vehicle'))--}}
                             <li class="nav-item pl-2">
                                 <a href="{{ URL::signedRoute('reminder.new') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Vehicle Renewal</p>
                                 </a>
                             </li>
-                        @endcan
+                       {{-- @endcan--}}
 
 
-                        @canany([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])
+                        {{--@canany([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])--}}
                             <li class="nav-item pl-2">
                                 <a href="{{ URL::signedRoute('reminder.list') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Resolve Reminder</p>
                                 </a>
                             </li>
-                        @endcanany
+                        {{--@endcanany--}}
                     </ul>
                 </li>
 
@@ -180,7 +180,7 @@
                         <ul class="nav nav-treeview">
 
                             @canany([config('rights.create_job_card'),config('rights.view_job_card')])
-                                <li class="nav-item">
+                                <li class="nav-item pl-2">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
@@ -188,7 +188,7 @@
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
-                                    <ul class="nav nav-treeview pl-4">
+                                    <ul class="nav nav-treeview pl-2">
                                         @can(config('rights.create_job_card'))
                                             <li class="nav-item">
                                                 <a href="{{URL::signedRoute('jobCard.requisition',['step'=> 1])}}"
@@ -214,7 +214,7 @@
                                 </li>
                             @endcanany
 
-                            <li class="nav-item">
+                            <li class="nav-item pl-2">
                                 <a href="#" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>
@@ -222,7 +222,7 @@
                                         <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
-                                <ul class="nav nav-treeview pl-4">
+                                <ul class="nav nav-treeview pl-2">
                                     {{--@can(config('rights.requisition_fuel'))--}}
                                     <li class="nav-item">
                                         <a class="nav-link"

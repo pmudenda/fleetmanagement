@@ -32,364 +32,283 @@
     <x-content-header :pageTitle="'Vehicle Renewal Reminder'" :activeCrumb="'Reminders'" :link="'reminder.list'"
                       :linkText="'Renewal Reminders'"/>
     <section class="content">
-        <x-error-view/>
         <div class="container-fluid">
             <!-- Main row -->
             <div class="row">
                 <!-- Left col -->
-                <div class="col-md-12 pl-0">
+                <div class="col-md-8 pl-0">
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
                                 <h4>Renewal Reminder Entry</h4>
                             </div>
                             <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
-                                <button type="button" id="submitRequisitionBtn"
-                                        class="btn btn-success btn-sm mr-3 when_odo_valid">
-                                    <i class="fas fa-save"></i> Save
-                                </button>
-                                <button type="button" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3">
-                                    <i class="fas fa-undo"></i> Reset
-                                </button>
-
+                                <label class="app-required-marker"></label>
                             </div>
                         </div>
-                        <div class="card-body p-2">
-                            <form class="" name="newETollCardForm"
-                                  action="{{route('e-toll.card.save')}}"
-                                  id="newETollCardForm"
+                        <div class="card-body" style="padding: 0.5rem 1rem;">
+                            <form class="" name="newRenewalReminderForm"
+                                  action="{{route('reminder.save')}}"
+                                  id="newRenewalReminderForm"
                                   method="post">
                                 @csrf
                                 <input type="hidden" name="relatedReference" id="relatedReference"
                                        value="{{$relatedReference ?? ''}}"/>
                                 <div class="errorTxt"></div>
                                 <x-error-view></x-error-view>
-
-                                <label class="app-required-marker"></label>
-
-                                <fieldset style="" class="form-group border p-3">
-                                    <legend>General Information:</legend>
-                                    <table class="app_form_table table">
-                                        <tr>
-                                            <td>
-                                                <label class="app-field-label">
-                                                    NRFA Batch Number <span class="text-danger">*</span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <div class="app-field-input" data-field="taskOriginator">
-                                                    <div class="input-group">
-                                                        <input type="text"
-                                                               id="batchNumber"
-                                                               required
-                                                               autocomplete="off"
-                                                               name="batchNumber"
-                                                               class="form-control"/>
-                                                        <div class="input-group-append">
-                                                            <button type="button" data-assignmenttype="single"
-                                                                    data-inputfield="taskOriginator"
-                                                                    data-field="userSelection"
-                                                                    class="input-group-text">
-                                                                <i class="fa fc-day-number"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="pl-5">
-                                                <label class="field-required app-field-label-">
-                                                    Scheme
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <div class="app-field-input" data-field="dateoriginated">
-                                                    <div class="input-group">
-                                                        <select
-                                                            name="cardScheme"
-                                                            class="form-select">
-                                                            <option value="ST">Standard</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <label class="app-field-label field-required">
-                                                    Card Number
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <div class="input-group">
-                                                    <input type="text"
-                                                           name="cardNumber"
-                                                           id="dateOpened"
-                                                           autocomplete="off"
-                                                           class="form-control"
-                                                           required/>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">
-                                                            <i class="fas fa-credit-card"></i>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="pl-5">
-                                                <label class="hq-field field-required" data-field="">
-                                                    Card Status
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <div class="app-field-input" data-field="">
-                                                    <div class="input-group">
-                                                        <select id="cardStatus"
-                                                                name="cardStatus"
-                                                                required
-                                                                class="form-select form-select-sm">
-                                                            <option disabled value=""></option>
-                                                            <option value="01">NEW</option>
-                                                            <option value="02">ASSIGNED</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <label class="app-field-label field-required">
-                                                    Date Issued
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <div class="input-group date">
-                                                    <input type="text"
-                                                           name="dateIssued"
-                                                           id="dateIssued"
-                                                           autocomplete="off"
-                                                           class="form-control datetimepicker"
-                                                           required/>
-                                                    <div class="input-group-append"
-                                                         data-target="#dateIssued"
-                                                         data-action="openDatePicker">
-                                                        <span type="button"
-                                                              data-action="openDatePicker"
-                                                              class="input-group-text ui-datepicker-trigger">
-                                                            <i data-action="datetimepicker"
-                                                               class="fa fa-calendar"></i>
-                                                        </span>
-                                                    </div>
-                                                    <button type="button" data-action="clearDate"
-                                                            class="input-group-text">
-                                                        <i data-action="clearDate" class="fa fa-eraser"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-
-                                            <td class="pl-5">
-                                                <label class="app-field-label" data-field="specificlocationofia">
-                                                    Expiry Date <span class="text-danger">*</span>
-                                                </label>
-                                            </td>
-
-                                            <td>
-                                                <div class="input-group date">
-                                                    <input type="text"
-                                                           name="expiryDate"
-                                                           id="expiryDate"
-                                                           autocomplete="off"
-                                                           class="form-control datetimepicker"
-                                                           data-target="#dateOpened"
-                                                           required/>
-                                                    <div class="input-group-append"
-                                                         data-target="#dateOpened"
-                                                         data-action="openDatePicker">
-                                                        <span data-action="openDatePicker"
-                                                              class="input-group-text">
-                                                            <i data-action="expiryDate"
-                                                               class="fa fa-calendar">
-                                                            </i>
-                                                        </span>
-                                                    </div>
-                                                    <button type="button"
-                                                            data-action="clearDate"
-                                                            class="input-group-text">
-                                                        <i data-action="clearDate"
-                                                           class="fa fa-eraser">
-                                                        </i>
-                                                    </button>
-                                                </div>
-                                            </td>
-
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <label class="app-field-label" data-field="specificlocationofia">
-                                                    Card Verification Value (<small>CVV</small>)
-                                                    <span class="text-danger">*</span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <div class="input-group"
-                                                     id="date_opened"
-                                                     data-target-input="nearest">
-                                                    <input type="text" name="cvv" required
-                                                           id="cvv"
-                                                           autocomplete="off"
-                                                           class="form-control"
-                                                           data-target="#dateOpened"/>
-                                                    <div class="input-group-append">
-                                                        <span type="button" data-action="datetimepicker"
-                                                              class="input-group-text ui-datepicker-trigger">
-                                                            <i data-action="datetimepicker" class="fa fa-lock"></i>
-                                                        </span>
-                                                    </div>
-
-                                                </div>
-                                            </td>
-                                            <td class="pl-5">
-                                                <label class="hq-field field-required" data-field="">
-                                                    Mobile
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <div class="app-field-input" data-field="">
-                                                    <div class="input-group">
-                                                        <input type="tel" id="contactNumber"
-                                                               name="contactNumber"
-                                                               required
-                                                               class="form-control form-control-sm"/>
-                                                        <div class="input-group-append">
-                                                            <div
-                                                                class="input-group-text">
-                                                                <i class="fa fa-phone"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <label class="field-required app-field-label-">
-                                                    Assigned To
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <div class="app-field-input">
-                                                    <div class="input-group">
-                                                        <select
-                                                            id="assignedTo"
-                                                            name="assignedTo"
-                                                            class="form-select">
-                                                            <option value="ND">NORTHERN DIVISION</option>
-                                                            <option value="LR">LUSAKA</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-
+                                <table class="app_form_table table">
+                                    <tr>
                                         <td>
-                                            <label class="app-field-label" data-field="responseHead">
-                                                Responsible Officer <span class="text-danger">*</span>
+                                            <label class="app-field-label">
+                                                Vehicle <span class="text-danger">*</span>
                                             </label>
                                         </td>
                                         <td>
-                                            <div class="app-field-input" data-field="responseHead">
+                                            <div class="app-field-input" data-field="taskOriginator">
                                                 <div class="input-group">
                                                     <input type="text"
-                                                           id="taskOriginator"
+                                                           id="batchNumber"
                                                            required
-                                                           data-bs-toggle="modal"
                                                            autocomplete="off"
-                                                           data-bs-target="#searchEmployeeModal"
-                                                           data-assignmenttype="single"
-                                                           data-inputfield="responseHead"
-                                                           name="responseHead"
+                                                           name="batchNumber"
                                                            class="form-control"/>
+                                                    <div class="input-group-append">
+                                                        <button type="button" data-assignmenttype="single"
+                                                                data-inputfield="taskOriginator"
+                                                                data-field="userSelection"
+                                                                class="input-group-text">
+                                                            <i class="fa fc-day-number"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="pl-5">
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label class="app-field-label field-required">
+                                                Vehicle Renewal Type
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <div class="app-field-input" data-field="">
+                                                <div class="input-group">
+                                                    <select id="reminderRenewalType"
+                                                            name="reminderRenewalType"
+                                                            required
+                                                            class="form-select form-select-sm">
+                                                        <option disabled value=""></option>
+                                                        <option value="01">Insurance</option>
+                                                        <option value="02">Road Tax(Motor Vehicle License)</option>
+                                                        <option value="02">Fitness(Road-worthiness)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                        <td class="pl-5">
+
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label class="app-field-label field-required">
+                                                Due Date
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <input type="text"
+                                                       required
+                                                       name="reminderDueDate"
+                                                       id="reminderDueDate"
+                                                       class="form-control datetimepicker"
+                                                />
+                                                <div class="input-group-append"
+                                                     data-target="#dateIssued"
+                                                     data-action="openDatePicker">
+                                                        <span type="button"
+                                                              data-action="openDatePicker"
+                                                              class="input-group-text ui-datepicker-trigger">
+                                                            <i data-action="openDatePicker"
+                                                               class="fa fa-calendar"></i>
+                                                        </span>
+                                                </div>
+                                                <button type="button" data-action="clearDate"
+                                                        class="input-group-text">
+                                                    <i data-action="clearDate" class="fa fa-eraser"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+
+                                        <td class="pl-5">
+                                            {{-- <label class="app-field-label" data-field="specificlocationofia">
+                                                 Expiry Date <span class="text-danger">*</span>
+                                             </label>--}}
+                                        </td>
+
+                                        <td>
+                                            {{-- <div class="input-group date">
+                                                 <input type="text"
+                                                        name="expiryDate"
+                                                        id="expiryDate"
+                                                        autocomplete="off"
+                                                        class="form-control datetimepicker"
+                                                        data-target="#dateOpened"
+                                                        required/>
+                                                 <div class="input-group-append"
+                                                      data-target="#dateOpened"
+                                                      data-action="openDatePicker">
+                                                     <span data-action="openDatePicker"
+                                                           class="input-group-text">
+                                                         <i data-action="expiryDate"
+                                                            class="fa fa-calendar">
+                                                         </i>
+                                                     </span>
+                                                 </div>
+                                                 <button type="button"
+                                                         data-action="clearDate"
+                                                         class="input-group-text">
+                                                     <i data-action="clearDate"
+                                                        class="fa fa-eraser">
+                                                     </i>
+                                                 </button>
+                                             </div>--}}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label class="app-field-label">
+                                                Due Soon Threshold
+                                                <i title="How long before due date would you like to notify watchers that the renewal will be due "
+                                                   data-toggle="tooltip"
+                                                   class="ml-3 fa fa-question-circle-o text-muted"
+                                                   style="font-size: 18px;"></i>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <input type="number"
+                                                           name="dueThreshold"
+                                                           id="dueThreshold"
+                                                           min="1"
+                                                           step="1"
+                                                           required
+                                                           class="form-control form-control-sm"/>
+                                                </div>
+                                                <div class="col-6">
+                                                    <select id="reminderRenewalType"
+                                                            name="reminderRenewalType"
+                                                            required
+                                                            class="form-select form-select-sm">
+                                                        <option disabled value=""></option>
+                                                        <option value="01">Day(s)</option>
+                                                        <option value="02">Week(s)</option>
+                                                        <option value="03">Months(s)</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="pl-5">
+                                            <label class="hq-field field-required" data-field="">
+
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <div class="app-field-input" data-field="">
+                                                <div class="input-group">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2">
+                                            <label class="app-field-label-">
+                                                <input type="checkbox" name="notificationsEnabled"
+                                                       class="checkbox"/>
+                                                Notifications
+                                            </label>
+                                            <p>When enabled, notifications may be sent to each Watcher via mail</p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label class="app-field-label mb-0" data-field="responseHead">
+                                                Watchers
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="app-field-input" data-field="responseHead">
+                                                <div class="input-group">
+                                                    <select type="text"
+                                                            id="watchers"
+                                                            multiple
+                                                            required
+                                                            name="watchers"
+                                                            class="form-control watchers"></select>
                                                     <input type="hidden"
                                                            data-assignmenttype="single"
                                                            data-inputfield="responseHeadId"
                                                            id="responseHeadId"
                                                            name="responseHeadId"/>
                                                     <div class="input-group-append">
-                                                        <button type="button" data-assignmenttype="single"
-                                                                data-inputfield="responseHead"
-                                                                data-field="userSelection"
-                                                                class="input-group-text">
-                                                            <i class="fa fa-user"></i>
-                                                        </button>
-                                                        <button type="button" data-action="clearUsers"
-                                                                class="input-group-text">
-                                                            <i class="fa fa-eraser"></i>
-                                                        </button>
+                                                        <div data-assignmenttype="single"
+                                                             data-inputfield="responseHead"
+                                                             data-field="userSelection"
+                                                             class="input-group-text">
+                                                            <i class="fa fa-users"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
+                                    </tr>
 
-                                        <tr>
-                                            <td colspan="4">
-                                                <label class="app-field-label" data-field="typeia">
-                                                    Comments
-                                                </label>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="background: none;" colspan="4">
-                                                <div class="app-field-input">
-                                                    <textarea name="comments" id="comments"
-                                                              class="form-control"></textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </fieldset>
-
-                                <!--Attachments FieldsSets-->
-
-                                <fieldset style="margin-top:10px;" class="form-group border p-3">
-                                    <legend>Attachments:</legend>
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-6">
+                                    <tr>
+                                        <td colspan="4">
+                                            <label class="app-field-label mb-0" data-field="typeia">
+                                                Comment
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background: none;" colspan="4">
                                             <div class="app-field-input">
-                                                <input type="file" id="supportingDocument" name="supportingDocument"
-                                                       class="form-control"/>
+                                                    <textarea name="comments" id="comments"
+                                                              placeholder="Add an optional comment"
+                                                              class="form-control"></textarea>
                                             </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-3">
-                                            <div class="row pl-2 d-none">
-                                                <div class="app-field-input" data-field="iaclassification">
-                                                    <button type="button" id="btn_link" name="btnExternalLink"
-                                                            class="btn btn-secondary toolbarButtonClick">
-                                                        External Link <i class="fa fa-paperclip"></i>
-                                                    </button>
-                                                    <input type="hidden" name="externalLink" class="form-control"/>
-                                                    <input type="hidden" name="externalLinkDescription"
-                                                           class="form-control"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-3">
-                                            <div class="row pl-2 d-none">
-                                                <div class="app-field-input" data-field="associateRecord">
-                                                    <button type="button"
-                                                            data-bs-toggle="modal"
-                                                            data-="" id="btn_reference"
-                                                            class="btn btn-secondary toolbarButtonClick">
-                                                        Associate Record <i class="fa fa-history"></i>
-                                                    </button>
-                                                    <input type="hidden" name="internalLink" class="form-control"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset>
+                                        </td>
+                                    </tr>
+                                </table>
                             </form>
+                        </div>
+                        <div class="card-footer d-flex justify-content-end" style="padding: 0.5rem 1rem;">
+                            <button type="button" id="resetRequisitionBtn" class="btn btn-default btn-sm mr-3">
+                                <i class="fas fa-undo"></i> Cancel
+                            </button>
+
+                            <button type="button" id="saveReminderBtn"
+                                    class="btn btn-success btn-sm mr-3 when_odo_valid">
+                                <i class="fas fa-save"></i> Save Renewal Reminder
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -403,12 +322,14 @@
 
 @push('scripts')
     <script
-        src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
+            src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
     @include('layouts.partials.dataTableScripts')
     <script src="{{asset('libs/imageUpload/imageUpload.js')}}"></script>
     <!-- page script -->
     <script>
         (function (tmsApp, $) {
+
+            $('.watchers').select2({});
 
             Inputmask({
                 "mask": "99999999"
@@ -418,13 +339,13 @@
                 "mask": "99999999"
             }).mask("#license_number");
 
-            tmsApp.appFormValidator('form[name="newETollCardForm"]',
+            tmsApp.appFormValidator('form[name="newRenewalReminderForm"]',
                 {},
                 {}
             );
 
-            $("#submitRequisitionBtn").on('click', function () {
-                let $form = document.forms['newETollCardForm'];
+            $("#saveReminderBtn").on('click', function () {
+                let $form = document.forms['newRenewalReminderForm'];
                 if (!$($form).valid()) {
                     return;
                 }
@@ -496,12 +417,12 @@
             });
 
             $('[name="dateIssued"]').datepicker({
-                maxDate: new Date(),
+                /*  maxDate: new Date(),*/
                 dateFormat: 'dd/mm/yy',
             });
 
             $('[name="expiryDate"]').datepicker({
-                minDate: new Date(),
+                /* minDate: new Date(),*/
                 dateFormat: 'dd/mm/yy',
             });
 

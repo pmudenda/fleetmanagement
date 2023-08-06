@@ -484,6 +484,10 @@
 <script src="{{ asset('libs/session.timeout/session.timeout.js').'?v='.Carbon::now()->format('his')}}"></script>
 
 <script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
     (function (tmsApp, $) {
         $(document).on('keypress', '.number_input', function (event) {
             //tmsApp.numberOnly(event);
