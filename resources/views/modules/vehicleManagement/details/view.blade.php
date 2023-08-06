@@ -309,23 +309,23 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane" id="specs" role="tabpanel">
+                        <div class="tab-pane fade" id="specs" role="tabpanel">
                             @include('modules.vehicleManagement.onboarding.tabs.chassis_tab')
                             @include('modules.vehicleManagement.onboarding.tabs.engine_details_tab')
                             @include('modules.vehicleManagement.onboarding.tabs.accessories_tab')
                             @include('modules.vehicleManagement.onboarding.tabs.weight_details_tab')
                         </div>
 
-                        <div class="tab-pane" id="financial" role="tabpanel">
+                        <div class="tab-pane fade" id="financial" role="tabpanel">
                             @include('modules.vehicleManagement.onboarding.tabs.cost_details_tab')
                         </div>
 
-                        <div class="tab-pane" id="fuelHistory" role="tabpanel">
+                        <div class="tab-pane fade" id="fuelHistory" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5">
                             </div>
                         </div>
 
-                        <div class="tab-pane active" id="assignmentHistory" role="tabpanel">
+                        <div class="tab-pane fade" id="assignmentHistory" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5">
                                 @include('modules.vehicleManagement.onboarding.tabs.assignment_details')
                             </div>
