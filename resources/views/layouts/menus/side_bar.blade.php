@@ -138,7 +138,7 @@
                         {{--@can(config('rights.on_board_vehicle'))--}}
                             <li class="nav-item pl-2">
                                 <a href="{{ URL::signedRoute('reminder.new') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-plus nav-icon"></i>
                                     <p>Vehicle Renewal</p>
                                 </a>
                             </li>
@@ -148,7 +148,7 @@
                         {{--@canany([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])--}}
                             <li class="nav-item pl-2">
                                 <a href="{{ URL::signedRoute('reminder.list') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="far fa-list nav-icon"></i>
                                     <p>Resolve Reminder</p>
                                 </a>
                             </li>
@@ -881,6 +881,12 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview pl-3">
+                        <li class="nav-item">
+                            <a href="{{URL::signedRoute('e-toll.card.report')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Usage</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{URL::signedRoute('e-toll.card')}}"
                                class="nav-link">

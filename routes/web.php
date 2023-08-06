@@ -6,24 +6,19 @@ use App\Http\Controllers\Configurations\ChargeOutRateController;
 use App\Http\Controllers\Configurations\GeneralTablesController;
 use App\Http\Controllers\Documents\DocumentController;
 use App\Http\Controllers\DriverManagement\DriverController;
+use App\Http\Controllers\eTollCardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\RemindersController;
 use App\Http\Controllers\Requisitions\FuelRequisitionController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\Security\PermissionsController;
 use App\Http\Controllers\Security\RolesController;
 use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkshopManagement\MaintenanceController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
-use App\Http\Requests\ETollCardRequest;
-use App\Models\ETollCard;
-use App\Models\Workflow\WorkflowApprovalLimit;
-use App\Services\FileUploads\FileUploadService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
@@ -243,33 +238,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         });
 
-        Route::get('/bookings/list', function () {
-
-            return "Requisitions here";
-
-        })->name('list.booking');
-
-        Route::get('/workshop/booking', function () {
-            $user = Auth::user();
-            $details = [];
-            $materials = [];
-            $materialsHeader = null;
-            $services = collect([]);
-            $view_name = 'modules.workshopManagement.booking.create';
-
-            return view($view_name)
-                ->with(compact(
-                    'details',
-                    'materials',
-                    'materialsHeader',
-                    'services',
-                    'user'
-                ));
-
-        })->name('new.booking');
-
-        Route::get('/workshop/requisitions/list', [WorkshopController::class, 'requisitions'])
-            ->name('list.workshop.requisition');
+        Route::get('/bookings/list', [ReservationController::class, 'list'])->name('list.booking');
+        Route::get('/workshop/booking', [ReservationController::class, 'create'])->name('new.booking');
+        Route::get('/workshop/requisitions/list', [WorkshopController::class, 'requisitions'])->name('list.workshop.requisition');
 
         // STORES REQUISITIONS
         Route::get('/workshop/approve', [MaintenanceController::class, 'show'])
@@ -303,64 +274,13 @@ Route::group(['middleware' => 'auth'], function () {
         })->name('reports.fuel.requisitions');
     });
 
-    Route::get('e-toll/cards', function () {
-        return view('modules/tollCardManagement/create');
-    })->name('e-toll.card');
+    Route::get('e-toll/cards', [eTollCardController::class, 'create'])->name('e-toll.card');
 
-    Route::post('save/e-toll/cards', function (ETollCardRequest $request) {
+    Route::post('save/e-toll/cards', [eTollCardController::class, 'store'])->name('e-toll.card.save');
 
-        try {
-            $user = Auth::user();
-            DB::beginTransaction();
-            $model = ETollCard::create([
-                'batchNumber' => $request->get('batchNumber'),
-                'cardScheme' => $request->get('cardScheme'),
-                'cardNumber' => $request->get('cardNumber'),
-                'cardStatus' => $request->get('cardStatus'),
-                'dateIssued' => Carbon::parse($request->get('dateIssued')),
-                'expiryDate' => Carbon::parse($request->get('expiryDate')),
-                'cvv' => $request->get('cvv'),
-                'contactNumber' => $request->get('contactNumber'),
-                'assignedTo' => $request->get('assignedTo'),
-                'responseHead' => $request->get('responseHead'),
-                'responseHeadId' => $request->get('responseHeadId'),
-                'comments' => $request->get('comments'),
-                'created_by' => $user->staff_no
-            ]);
+    Route::get('e-toll/cards/list', [eTollCardController::class, 'list'])->name('e-toll.card.list');
 
-
-            if (!empty($request->allFiles())) {
-                FileUploadService::uploadFile(
-                    $request,
-                    'supportingDocument',
-                    'eTollCard',
-                    $model->id,
-                    'eTollCard',
-                    'eTollCard',
-                    $user
-                );
-            }
-
-            DB::commit();
-
-            return response()->json([
-                'payload' => [],
-                'state' => 'success'
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'payload' => [],
-                'state' => 'failed'
-            ]);
-        }
-
-
-    })->name('e-toll.card.save');
-
-    Route::get('e-toll/cards/list', function () {
-        return view('modules/tollCardManagement/index');
-    })->name('e-toll.card.list');
+    Route::get('e-toll/cards/report', [eTollCardController::class, 'report'])->name('e-toll.card.report');
 });
 
 Route::get('load/procurement/articles', [MaintenanceController::class, 'searchArticle'])
