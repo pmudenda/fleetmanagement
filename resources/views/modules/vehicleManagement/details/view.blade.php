@@ -266,7 +266,7 @@
                         <li class="nav-item" role="presentation" data-tab="tms_costing_valuation_tab">
                             <a class="nav-link text-active-primary pb-5"
                                data-bs-toggle="tab"
-                               href="#tms_costing_valuation_tab" aria-selected="false" role="tab"
+                               href="#financial" aria-selected="false" role="tab"
                                tabindex="-1">
                                 @include('layouts.partials.costing_icon')
                                 Financial
@@ -293,7 +293,7 @@
                         </li>
 
                         <li class="nav-item" style="list-style: none; width: 178px;">
-                            <a class="nav-link" data-toggle="tab" href="#labour" role="tab">Fuel History</a>
+                            <a class="nav-link" data-toggle="tab" href="#fuelHistory" role="tab">Fuel History</a>
                         </li>
 
                         <li class="nav-item" style="list-style: none; width: 178px;">
@@ -316,6 +316,11 @@
 
                         <div class="tab-pane" id="financial" role="tabpanel">
                             @include('modules.vehicleManagement.onboarding.tabs.cost_details_tab')
+                        </div>
+
+                        <div class="tab-pane" id="fuelHistory" role="tabpanel">
+                            <div class="container-fluid pl-0 mt-5">
+                            </div>
                         </div>
 
                         <div class="tab-pane active" id="assignmentHistory" role="tabpanel">
