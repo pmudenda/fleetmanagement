@@ -8,6 +8,7 @@ use App\Http\Controllers\Documents\DocumentController;
 use App\Http\Controllers\DriverManagement\DriverController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\RemindersController;
 use App\Http\Controllers\Requisitions\FuelRequisitionController;
 use App\Http\Controllers\Security\PermissionsController;
 use App\Http\Controllers\Security\RolesController;
@@ -288,6 +289,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('driver/list', [DriverController::class, 'driverList'])->name('driver.list');
 
         Route::post('driver/find', [DriverController::class, 'findDriver'])->name('driver.search');
+    });
+
+    Route::group(['prefix' => 'reminders'], function () {
+        Route::post('list', [RemindersController::class, 'index'])->name('reminder.list');
+        Route::get('create', [RemindersController::class, 'create'])->name('reminder.new');
+        Route::post('save', [RemindersController::class, 'store'])->name('reminder.save');
     });
 
     Route::group(['prefix' => 'reports'], function () {

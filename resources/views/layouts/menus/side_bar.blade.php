@@ -128,7 +128,7 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-stopwatch" style="font-size: 20px;"></i>
+                        <i class="nav-icon fas fa-bell" style="font-size: 20px;"></i>
                         <p>
                             Reminders
                             <i class="right fas fa-angle-left"></i>
@@ -137,60 +137,22 @@
                     <ul class="nav nav-treeview">
                         @can(config('rights.on_board_vehicle'))
                             <li class="nav-item">
-                                <a href="{{ URL::signedRoute('new.vehicle') }}" class="nav-link">
+                                <a href="{{ URL::signedRoute('reminder.new') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>New Vehicle</p>
+                                    <p>Vehicle Renewal</p>
                                 </a>
                             </li>
                         @endcan
 
-                        {{--@can([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])
-                            <li class="nav-item">
-                                <a href="{{ URL::signedRoute('view.vehicle.detail') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Vehicle Details</p>
-                                </a>
-                            </li>
-                        @endcan--}}
 
                         @canany([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])
                             <li class="nav-item">
-                                <a href="{{ URL::signedRoute('vehicles.list') }}" class="nav-link">
+                                <a href="{{ URL::signedRoute('reminder.list') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Vehicle List</p>
+                                    <p>Resolve</p>
                                 </a>
                             </li>
                         @endcanany
-
-                        @can('CleanUpData')
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-circle"></i>
-                                    <p>
-                                        Data Clean Up
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview pl-3">
-                                    <li class="nav-item">
-                                        <a href="{{URL::signedRoute('vehicle.data.cleanup')}}" class="nav-link">
-                                            <i class="fas fa-circle nav-icon"></i>
-                                            <p>
-                                                By Vehicle Reg.
-                                            </p>
-                                        </a>
-
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{ URL::signedRoute('vehicle.migration.list') }}" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>By User Unit</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endcan
-
                     </ul>
                 </li>
 
