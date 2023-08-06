@@ -54,7 +54,7 @@
                 <div class="card-body">
                     <x-error-view/>
                     <form name="vehicleHeaderForm" id="tms_vehicle_header_form"
-                          class="form"
+                          class="form mb-10"
                           action="{{route('new.vehicle.header')}}">
                         <input type="hidden" name="doctype" value="VehicleHeader"/>
                         <div class="row">
@@ -269,10 +269,12 @@
                         </div>
                     </form>
 
+                    <hr />
+
                     <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x border-transparent fs-4 fw-semibold mb-5"
                         role="tablist">
 
-                        <li class="nav-item" style="list-style: none;">
+                        <li class="nav-item" style="list-style: none; display: none;">
                             <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
                         </li>
 
@@ -289,31 +291,31 @@
                             </a>
                         </li>
 
-                        <li class="nav-item" style="list-style: none;">
+                        <li class="nav-item" style="list-style: none; display: none;">
                             <a class="nav-link" data-toggle="tab" href="#serviceHistory" role="tab">Service History</a>
                         </li>
-                        <li class="nav-item" style="list-style: none;">
+                        <li class="nav-item" style="list-style: none; display: none;">
                             <a class="nav-link" data-toggle="tab" href="#inspectionHistory" role="tab">Inspection
                                 History</a>
                         </li>
-                        <li class="nav-item" style="list-style: none;">
+                        <li class="nav-item" style="list-style: none; display: none;">
                             <a class="nav-link" data-toggle="tab" href="#workOrders" role="tab">Work Orders</a>
                         </li>
-                        <li class="nav-item" style="list-style: none;">
+                        <li class="nav-item" style="list-style: none; display: none;">
                             <a class="nav-link" data-toggle="tab" href="#serviceReminders" role="tab">
                                 Service
                                 Reminders</a>
                         </li>
-                        <li class="nav-item" style="list-style: none;">
+                        <li class="nav-item" style="list-style: none; display: none;">
                             <a class="nav-link" data-toggle="tab" href="#renewalReminder" role="tab">Renewal
                                 Reminders</a>
                         </li>
-                        <li class="nav-item" style="list-style: none;">
+                        <li class="nav-item" style="list-style: none; display: none;">
                             <a class="nav-link" data-toggle="tab" href="#odometerHistory" role="tab">Odometer
                                 History</a>
                         </li>
 
-                        <li class="nav-item" style="list-style: none;">
+                        <li class="nav-item" style="list-style: none; display: none;">
                             <a class="nav-link" data-toggle="tab" href="#fuelHistory" role="tab">Fuel History</a>
                         </li>
 
@@ -324,13 +326,13 @@
                     </ul>
 
                     <div class="tab-content">
-                        <div class="tab-pane active" id="overview" role="tabpanel">
+                        <div class="tab-pane" id="overview" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5">
                                 Overview
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="specs" role="tabpanel">
+                        <div class="tab-pane active" id="specs" role="tabpanel">
                             @include('modules.vehicleManagement.onboarding.tabs.chassis_tab')
                             @include('modules.vehicleManagement.onboarding.tabs.engine_details_tab')
                             @include('modules.vehicleManagement.onboarding.tabs.accessories_tab')
