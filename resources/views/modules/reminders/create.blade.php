@@ -29,8 +29,8 @@
 
 @section('content')
 
-    <x-content-header :pageTitle="'e-Toll Card On Boarding'" :activeCrumb="'OnBoarding'" :link="'e-toll.card'"
-                      :linkText="'e-Toll Card'"/>
+    <x-content-header :pageTitle="'Vehicle Renewal Reminder'" :activeCrumb="'Reminders'" :link="'reminder.list'"
+                      :linkText="'Renewal Reminders'"/>
     <section class="content">
         <x-error-view/>
         <div class="container-fluid">
@@ -41,7 +41,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                <h4>e-Toll Card Management</h4>
+                                <h4>Renewal Reminder Entry</h4>
                             </div>
                             <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
                                 <button type="button" id="submitRequisitionBtn"
