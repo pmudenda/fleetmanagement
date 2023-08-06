@@ -137,11 +137,18 @@
                     <ul class="nav nav-treeview">
                         {{--@can(config('rights.on_board_vehicle'))--}}
                             <li class="nav-item pl-2">
-                                <a href="{{ URL::signedRoute('reminder.new') }}" class="nav-link">
+                                <a href="{{ URL::signedRoute('reminder.renewal.new') }}" class="nav-link">
                                     <i class="fas fa-plus nav-icon"></i>
-                                    <p>Vehicle Renewal</p>
+                                    <p>Renewal Reminders</p>
                                 </a>
                             </li>
+
+                        <li class="nav-item pl-2">
+                            <a href="{{ URL::signedRoute('reminder.service.new') }}" class="nav-link">
+                                <i class="fas fa-plus nav-icon"></i>
+                                <p>Service Reminders</p>
+                            </a>
+                        </li>
                        {{-- @endcan--}}
 
 

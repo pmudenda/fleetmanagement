@@ -27,10 +27,11 @@
                         <span v-if="!vehicleHeader.isHeaderSaved"
                               class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
                         <span v-else class="ml-2 indicator-pill whitespace-nowrap green">
-                <span>
-                    @{{ vehicleHeader.on_boarding_status | formatStatus }}
-                </span>
-            </span>
+                            <span>
+                                @{{ vehicleHeader.on_boarding_status | formatStatus }}
+                            </span>
+                        </span>
+
                     </div>
 
                     <div v-if="!vehicleHeader.isHeaderSaved" id="actionButtonsContainer"
@@ -250,33 +251,56 @@
                             </div>
                         </div>
                     </form>
+
+
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item" style="list-style: none; width: 178px;">
+                            <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab">Overview</a>
+                        </li>
+                        <li class="nav-item" style="list-style: none; width: 178px;">
+                            <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab">Specs</a>
+                        </li>
+                        <li class="nav-item" style="list-style: none; width: 178px;">
+                            <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab">Financial</a>
+                        </li>
+                        <li class="nav-item" style="list-style: none; width: 178px;">
+                            <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab">Service History</a>
+                        </li>
+                        <li class="nav-item" style="list-style: none; width: 178px;">
+                            <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab">Inspection History</a>
+                        </li>
+                        <li class="nav-item" style="list-style: none; width: 178px;">
+                            <a class="nav-link" data-toggle="tab" href="#defects" role="tab">Work Orders</a>
+                        </li>
+                        <li class="nav-item" style="list-style: none; width: 178px;">
+                            <a class="nav-link" data-toggle="tab" href="#materials" role="tab">Service Reminders</a>
+                        </li>
+                        <li class="nav-item" style="list-style: none; width: 178px;">
+                            <a class="nav-link" data-toggle="tab" href="#services" role="tab">Renewal Reminders</a>
+                        </li>
+                        <li class="nav-item" style="list-style: none; width: 178px;">
+                            <a class="nav-link" data-toggle="tab" href="#labour" role="tab">Odometer History</a>
+                        </li>
+
+                        <li class="nav-item" style="list-style: none; width: 178px;">
+                            <a class="nav-link" data-toggle="tab" href="#labour" role="tab">Fuel History</a>
+                        </li>
+
+                        <li class="nav-item" style="list-style: none; width: 178px;">
+                            <a class="nav-link" data-toggle="tab" href="#labour" role="tab">Assignment History</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="accessories" role="tabpanel">
+                            <div class="container-fluid pl-0 mt-5"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!--END:::VEHICLE HEADER -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item" style="list-style: none; width: 178px;">
-                    <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab">Service History</a>
-                </li>
-                <li class="nav-item" style="list-style: none; width: 178px;">
-                    <a class="nav-link" data-toggle="tab" href="#defects" role="tab">Defects</a>
-                </li>
-                <li class="nav-item" style="list-style: none; width: 178px;">
-                    <a class="nav-link" data-toggle="tab" href="#materials" role="tab">Spares</a>
-                </li>
-                <li class="nav-item" style="list-style: none; width: 178px;">
-                    <a class="nav-link" data-toggle="tab" href="#services" role="tab">Services</a>
-                </li>
-                <li class="nav-item" style="list-style: none; width: 178px;">
-                    <a class="nav-link" data-toggle="tab" href="#labour" role="tab">Labour</a>
-                </li>
-            </ul>
 
-            <div class="tab-content">
-                <div class="tab-pane active" id="accessories" role="tabpanel">
-                    <div class="container-fluid pl-0 mt-5"></div>
-                </div>
-            </div>
 
 
             <!--BEGIN:::DETAILS  -->

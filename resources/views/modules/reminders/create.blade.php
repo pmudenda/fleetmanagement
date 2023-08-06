@@ -48,7 +48,7 @@
                         </div>
                         <div class="card-body" style="padding: 0.5rem 1rem;">
                             <form class="" name="newRenewalReminderForm"
-                                  action="{{route('reminder.save')}}"
+                                  action="{{route('reminder.renewal.save')}}"
                                   id="newRenewalReminderForm"
                                   method="post">
                                 @csrf

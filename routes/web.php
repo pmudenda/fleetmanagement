@@ -264,8 +264,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'reminders'], function () {
         Route::post('list', [RemindersController::class, 'index'])->name('reminder.list');
-        Route::get('create', [RemindersController::class, 'create'])->name('reminder.new');
-        Route::post('save', [RemindersController::class, 'store'])->name('reminder.save');
+        Route::get('create', [RemindersController::class, 'createServiceReminder'])->name('reminder.service.new');
+        Route::get('create', [RemindersController::class, 'createRenewalReminder'])->name('reminder.renewal.new');
+
+        Route::post('service/save', [RemindersController::class, 'storeServiceReminder'])->name('reminder.service.save');
+
+
+        Route::post('renewal/save', [RemindersController::class, 'storeRenewalReminder'])->name('reminder.renewal.save');
+
     });
 
     Route::group(['prefix' => 'reports'], function () {
