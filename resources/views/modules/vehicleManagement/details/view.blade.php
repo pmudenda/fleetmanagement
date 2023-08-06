@@ -117,7 +117,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group row">
+                                                <div class="form-group row" style="display: none;">
                                                     <label for="model" class="fs-6 fw-semibold form-label col-md-3">
                                                         <span class="required">Model</span>
                                                     </label>
