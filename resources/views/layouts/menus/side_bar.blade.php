@@ -136,7 +136,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         @can(config('rights.on_board_vehicle'))
-                            <li class="nav-item">
+                            <li class="nav-item pl-2">
                                 <a href="{{ URL::signedRoute('reminder.new') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Vehicle Renewal</p>
@@ -146,10 +146,10 @@
 
 
                         @canany([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])
-                            <li class="nav-item">
+                            <li class="nav-item pl-2">
                                 <a href="{{ URL::signedRoute('reminder.list') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Resolve</p>
+                                    <p>Resolve Reminder</p>
                                 </a>
                             </li>
                         @endcanany
