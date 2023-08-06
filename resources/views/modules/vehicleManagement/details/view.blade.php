@@ -31,6 +31,16 @@
                                 @{{ vehicleHeader.on_boarding_status | formatStatus }}
                             </span>
                         </span>
+                        <div class="col-md-3" v-if="images && images.frontView">
+                            <div class="card text-center py-5 my-2">
+                                <h2 class="fs-2x fw-bold mb-10">Front View</h2>
+
+                                <div class="form-group">
+                                    <div class="imagePreview" :style='{backgroundImage: "url(/storage" + images.frontView.path + ")",}'>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
 
@@ -44,10 +54,10 @@
                         </button>
                     </div>
                     <div class="card-toolbar justify-content-end" v-if="vehicleHeader.isHeaderSaved">
-                        <button type="button" data-bs-target="#vehicleDisk" data-bs-toggle="modal"
+                        {{--<button type="button" data-bs-target="#vehicleDisk" data-bs-toggle="modal"
                                 class="btn btn-default btn-sm mr-3">
                             <i class="fas fa-print"></i> Print Disk
-                        </button>
+                        </button>--}}
                     </div>
                 </div>
 
