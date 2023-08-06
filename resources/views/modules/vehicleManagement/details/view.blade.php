@@ -621,7 +621,7 @@
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <table v-if="documents && documents.purchase_order"
+                                    <table
                                            class="table align-middle table-row-dashed dataTable no-footer">
                                         <thead>
                                         <tr class="bg-dark">
@@ -650,8 +650,8 @@
                                                 </div>
                                             </td>
                                             <td>Purchase Order</td>
-                                            <td>@{{ documents.purchase_order?.originalDocumentName }}</td>
-                                            <td>
+                                            <td v-if="documents && documents.purchase_order">@{{ documents.purchase_order?.originalDocumentName }}</td>
+                                            <td v-if="documents && documents.purchase_order">
                                                 <button data-zfm-view-file="insurance"
                                                         type="button"
                                                         :data-document-url="'/storage'+documents.purchase_order?.path"
