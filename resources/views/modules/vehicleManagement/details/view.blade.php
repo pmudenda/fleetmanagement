@@ -23,8 +23,7 @@
             <div class="card mb-xl-10">
                 <div id="card_header" class="card-header min-h-2px">
                     <div class="card-title">
-                        <h2> Vehicle On-Boarding</h2>
-                        <img id="barcode" alt="vehicle barcode" src="">
+                        <h2> Vehicle Details</h2>
                         {{--<span v-if="!vehicleHeader.isHeaderSaved"
                               class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
                         <span v-else class="ml-2 indicator-pill whitespace-nowrap green">
@@ -34,7 +33,7 @@
                         </span>--}}
                     </div>
 
-                    <div v-if="!vehicleHeader.isHeaderSaved" id="actionButtonsContainer"
+                  {{--  <div v-if="!vehicleHeader.isHeaderSaved" id="actionButtonsContainer"
                          class="card-toolbar justify-content-end">
                         <button type="button" id="submitBtn" disabled class="btn btn-success btn-sm mr-3">
                             <i class="fas fa-paper-plane"></i> Submit
@@ -42,8 +41,9 @@
                         <button type="button" id="resetFormBtn" class="btn btn-danger btn-sm mr-3">
                             <i class="fas fa-undo"></i> Cancel
                         </button>
-                    </div>
+                    </div>--}}
                     <div class="card-toolbar justify-content-end" v-if="vehicleHeader.isHeaderSaved">
+                        <img id="barcode" alt="vehicle barcode" style="max-height: 40px;" src="">
                         {{--<button type="button" data-bs-target="#vehicleDisk" data-bs-toggle="modal"
                                 class="btn btn-default btn-sm mr-3">
                             <i class="fas fa-print"></i> Print Disk
@@ -75,8 +75,9 @@
                                                        class="fs-6 fw-semibold form-label mt-3 col-md-3">
                                                     <span class="required">Registration Type</span>
                                                 </label>
-                                                <div class="col-md-9 fv-row" style="display: none; visibility: hidden; ">
-                                                    <div class="col-md-9" >
+                                                <div class="col-md-9 fv-row"
+                                                     style="display: none; visibility: hidden; ">
+                                                    <div class="col-md-9">
                                                         <div class="w-100 fv-row">
                                                             <select class="form-select form-select-sm"
                                                                     id="registration_type"
@@ -136,7 +137,8 @@
                                                 </div>
 
                                                 <div class="form-group row">
-                                                    <label for="model_code" class="fs-6 fw-semibold form-label col-md-3">
+                                                    <label for="model_code"
+                                                           class="fs-6 fw-semibold form-label col-md-3">
                                                         <span class="required">Model Code</span>
                                                     </label>
 
@@ -186,7 +188,8 @@
                                                         <div class="col-sm-12 col-md-12">
                                                             <div class="control-input-wrapper">
                                                                 <div class="control-input">
-                                                                    <div class="link-field ui-front" style="position: relative;">
+                                                                    <div class="link-field ui-front"
+                                                                         style="position: relative;">
                                                                         <select class="form-control"
                                                                                 required
                                                                                 name="user_unit"
@@ -207,7 +210,8 @@
 
                                             <div class="col-6">
                                                 <div class="form-group row">
-                                                    <label for="registrationNumber" class="fs-6 fw-semibold form-label col-md-3">
+                                                    <label for="registrationNumber"
+                                                           class="fs-6 fw-semibold form-label col-md-3">
                                                         <span class="required">Registration #.</span>
                                                     </label>
                                                     <div class="col-md-9 fv-row">
@@ -226,7 +230,8 @@
                                                 </div>
 
                                                 <div class="form-group row">
-                                                    <label for="vehicleLocation" class="fs-6 fw-semibold form-label col-md-3">
+                                                    <label for="vehicleLocation"
+                                                           class="fs-6 fw-semibold form-label col-md-3">
                                                         <span class="required">Location</span>
                                                     </label>
                                                     <div class="col-md-9 fv-row">
@@ -270,17 +275,17 @@
                         </div>
                     </form>
 
-                    <hr />
+                    <hr/>
 
                     <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x border-transparent fs-4 fw-semibold mb-5"
                         role="tablist">
 
                         <li class="nav-item" style="list-style: none; display: none;">
-                            <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
+                            <a class="nav-link " data-toggle="tab" href="#overview" role="tab">Overview</a>
                         </li>
 
                         <li class="nav-item" style="list-style: none;">
-                            <a class="nav-link" data-toggle="tab" href="#specs" role="tab">Specs</a>
+                            <a class="nav-link active" data-toggle="tab" href="#specs" role="tab">Specs</a>
                         </li>
 
                         <li class="nav-item" role="presentation">
@@ -325,7 +330,7 @@
                                 History</a>
                         </li>
                     </ul>
-
+                    <hr/>
                     <div class="tab-content">
                         <div class="tab-pane" id="overview" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5">
