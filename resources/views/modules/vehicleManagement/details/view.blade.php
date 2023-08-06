@@ -252,8 +252,9 @@
                         </div>
                     </form>
 
-
-                    <ul class="nav nav-tabs" role="tablist">
+                    <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x border-transparent fs-4 fw-semibold mb-5"
+                        role="tablist">
+                    {{--<ul class="nav nav-tabs" role="tablist">--}}
                         <li class="nav-item" style="list-style: none;">
                             <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
                         </li>
@@ -303,7 +304,9 @@
 
                     <div class="tab-content">
                         <div class="tab-pane active" id="overview" role="tabpanel">
-                            <div class="container-fluid pl-0 mt-5"></div>
+                            <div class="container-fluid pl-0 mt-5">
+                                Overview
+                            </div>
                         </div>
 
                         <div class="tab-pane" id="specs" role="tabpanel">
@@ -337,7 +340,7 @@
 
 
             <!--BEGIN:::DETAILS  -->
-            <div v-show="isHeaderSaved" class="col-md-12 col-sm-12 mb-5 mb-xl-10"
+            {{--<div v-show="isHeaderSaved" class="col-md-12 col-sm-12 mb-5 mb-xl-10"
                  style="border-right: 1px solid dimgray;">
 
                 <div class="card card-flush">
@@ -347,10 +350,6 @@
                         <!--BEGIN:::TAB HEADERS  -->
                         <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x border-transparent fs-4 fw-semibold mb-5"
                             role="tablist">
-
-
-
-
                             <li class="nav-item" role="presentation" data-tab="tms_engine_details_tab">
                                 <a
                                         class="nav-link text-active-primary pb-5"
@@ -426,7 +425,7 @@
                     </div>
                 </div>
 
-            </div>
+            </div>--}}
 
             <!--END:::DETAILS  -->
             <input type="hidden"
