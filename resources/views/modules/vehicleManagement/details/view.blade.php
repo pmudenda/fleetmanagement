@@ -255,14 +255,24 @@
 
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item" style="list-style: none; width: 178px;">
-                            <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab">Overview</a>
+                            <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
                         </li>
                         <li class="nav-item" style="list-style: none; width: 178px;">
-                            <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab">Specs</a>
+                            <a class="nav-link active" data-toggle="tab" href="#specs" role="tab">Specs</a>
                         </li>
-                        <li class="nav-item" style="list-style: none; width: 178px;">
-                            <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab">Financial</a>
+                       {{-- <li class="nav-item" style="list-style: none; width: 178px;">
+                            <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab"></a>
+                        </li>--}}
+                        <li class="nav-item" role="presentation" data-tab="tms_costing_valuation_tab">
+                            <a class="nav-link text-active-primary pb-5"
+                               data-bs-toggle="tab"
+                               href="#tms_costing_valuation_tab" aria-selected="false" role="tab"
+                               tabindex="-1">
+                                @include('layouts.partials.costing_icon')
+                                Financial
+                            </a>
                         </li>
+
                         <li class="nav-item" style="list-style: none; width: 178px;">
                             <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab">Service History</a>
                         </li>
@@ -287,14 +297,33 @@
                         </li>
 
                         <li class="nav-item" style="list-style: none; width: 178px;">
-                            <a class="nav-link" data-toggle="tab" href="#labour" role="tab">Assignment History</a>
+                            <a class="nav-link" data-toggle="tab" href="#assignmentHistory" role="tab">Assignment History</a>
                         </li>
                     </ul>
 
                     <div class="tab-content">
-                        <div class="tab-pane active" id="accessories" role="tabpanel">
+                        <div class="tab-pane active" id="overview" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5"></div>
                         </div>
+
+
+                        <div class="tab-pane" id="specs" role="tabpanel">
+                            @include('modules.vehicleManagement.onboarding.tabs.chassis_tab')
+                            @include('modules.vehicleManagement.onboarding.tabs.engine_details_tab')
+                            @include('modules.vehicleManagement.onboarding.tabs.accessories_tab')
+                            @include('modules.vehicleManagement.onboarding.tabs.weight_details_tab')
+                        </div>
+
+                        <div class="tab-pane" id="financial" role="tabpanel">
+                            @include('modules.vehicleManagement.onboarding.tabs.cost_details_tab')
+                        </div>
+
+                        <div class="tab-pane active" id="assignmentHistory" role="tabpanel">
+                            <div class="container-fluid pl-0 mt-5">
+                                @include('modules.vehicleManagement.onboarding.tabs.assignment_details')
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -315,26 +344,8 @@
                         <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x border-transparent fs-4 fw-semibold mb-5"
                             role="tablist">
 
-                            <li class="nav-item" role="presentation" data-tab="tms_chassis_details_tab">
-                                <a class="nav-link text-active-primary pb-5 active" data-bs-toggle="tab"
-                                   href="#tms_chassis_details_tab"
-                                   aria-selected="false"
-                                   role="tab"
-                                   tabindex="-1">
-                                    @include('layouts.partials.chassis_icon')
-                                    Chassis Details
-                                </a>
-                            </li>
 
-                            <li class="nav-item" role="presentation" data-tab="tms_engine_details_tab">
-                                <a class="nav-link text-active-primary pb-5"
-                                   data-bs-toggle="tab"
-                                   href="#tms_engine_details_tab" aria-selected="false" role="tab"
-                                   tabindex="-1">
-                                    @include('layouts.partials.engine_icon')
-                                    Engine & Other Details
-                                </a>
-                            </li>
+
 
                             <li class="nav-item" role="presentation" data-tab="tms_engine_details_tab">
                                 <a
@@ -344,16 +355,6 @@
                                         tabindex="-1">
                                     @include('layouts.partials.engine_icon')
                                     Accessories Check-in
-                                </a>
-                            </li>
-
-                            <li class="nav-item" role="presentation" data-tab="tms_costing_valuation_tab">
-                                <a class="nav-link text-active-primary pb-5"
-                                   data-bs-toggle="tab"
-                                   href="#tms_costing_valuation_tab" aria-selected="false" role="tab"
-                                   tabindex="-1">
-                                    @include('layouts.partials.costing_icon')
-                                    Costing & Valuation
                                 </a>
                             </li>
 
@@ -383,38 +384,36 @@
                         <div class="tab-content" id="myTabContent">
 
                             <!--Begin:::Chassis Details Tab pane-->
-                            <div class="tab-pane fade active show" id="tms_chassis_details_tab" role="tabpanel">
-                                @include('modules.vehicleManagement.onboarding.tabs.chassis_tab')
-                            </div>
+
                             <!--End:::Chassis Details Tab pane-->
 
                             <!--Begin:::Engine Details Tab pane-->
                             <div class="tab-pane fade" id="tms_engine_details_tab" role="tabpanel">
-                                @include('modules.vehicleManagement.onboarding.tabs.engine_details_tab')
+
                             </div>
                             <!--End:::Engine Details Tab pane-->
 
                             <div class="tab-pane fade"
                                  id="tms_access_checkin_tab"
                                  role="tabpanel">
-                                @include('modules.vehicleManagement.onboarding.tabs.accessories_tab')
+
                             </div>
 
                             <!--Begin::: Costing And Valuation Tab pane-->
-                            <div class="tab-pane fade" id="tms_costing_valuation_tab" role="tabpanel">
-                                @include('modules.vehicleManagement.onboarding.tabs.cost_details_tab')
-                            </div>
+
                             <!--End:::Tab pane-->
 
                             <!--Begin:::Body Weight Tab pane-->
                             <div class="tab-pane fade" id="tms_body_weight_tab" role="tabpanel">
-                                @include('modules.vehicleManagement.onboarding.tabs.weight_details_tab')
+
+
+
                             </div>
                             <!--End::: Body WeightTab pane-->
 
                             <!--Begin:::Assignment Tab pane-->
                             <div class="tab-pane fade" id="tms_assignment_tab" role="tabpanel">
-                                @include('modules.vehicleManagement.onboarding.tabs.assignment_details')
+
                             </div>
                             <!--End::: Assignment Tab pane-->
 
