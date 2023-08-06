@@ -32,7 +32,7 @@
                             </span>
                         </span>--}}
                         <div v-if="images && images.frontView">
-                            <img style="height: 50px;" class="imagePreview" v-bind:src='"/storage" + images.frontView.path'  alt=""/>
+                            <img style="height: 50px;" class="frontImagePreview" v-bind:src='"/storage" + images.frontView.path'  alt=""/>
                         </div>
 
                     </div>
