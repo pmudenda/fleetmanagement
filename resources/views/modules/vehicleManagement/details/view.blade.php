@@ -254,10 +254,10 @@
 
 
                     <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item" style="list-style: none; width: 178px;">
+                        <li class="nav-item" style="list-style: none;">
                             <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
                         </li>
-                        <li class="nav-item" style="list-style: none; width: 178px;">
+                        <li class="nav-item" style="list-style: none;">
                             <a class="nav-link active" data-toggle="tab" href="#specs" role="tab">Specs</a>
                         </li>
                        {{-- <li class="nav-item" style="list-style: none; width: 178px;">
@@ -268,7 +268,7 @@
                                data-bs-toggle="tab"
                                href="#financial" aria-selected="false" role="tab"
                                tabindex="-1">
-                                @include('layouts.partials.costing_icon')
+                               {{-- @include('layouts.partials.costing_icon')--}}
                                 Financial
                             </a>
                         </li>
@@ -305,7 +305,6 @@
                         <div class="tab-pane active" id="overview" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5"></div>
                         </div>
-
 
                         <div class="tab-pane" id="specs" role="tabpanel">
                             @include('modules.vehicleManagement.onboarding.tabs.chassis_tab')
