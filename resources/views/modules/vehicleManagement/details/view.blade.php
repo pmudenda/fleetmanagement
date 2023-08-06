@@ -60,12 +60,12 @@
                         <div class="row">
                             <div class="col-4">
                                 <div v-if="images && images.frontView">
-                                    <img style="height: 50px;" class="frontImagePreview"
+                                    <img style="height: 250px;" class="frontImagePreview"
                                          v-bind:src='"/storage" + images.frontView.path' alt=""/>
                                 </div>
                             </div>
                             <div class="col-8">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group row">
                                         <label style="display: none;"
                                                for="registration_type"
@@ -91,8 +91,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6"></div>
-                                <div class="col-md-6">
+
+                                <div class="col-md-12">
                                     <div class="form-group row">
                                         <label for="brand" class="fs-6 fw-semibold form-label col-md-3">
                                             <span class="required">Brand/Make</span>
@@ -174,7 +174,7 @@
                                     </div>
 
 
-                                    <div class="form-group row">
+                                    <div class="form-group row" style="display: none;">
                                         <label for="user_unit" class="fs-6 fw-semibold form-label col-md-3">
                                             <span class="required">User Unit</span>
                                         </label>
@@ -202,7 +202,7 @@
 
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group row">
                                         <label for="registrationNumber" class="fs-6 fw-semibold form-label col-md-3">
                                             <span class="required">Registration #.</span>
