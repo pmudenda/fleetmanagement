@@ -23,7 +23,6 @@
             <div class="card mb-xl-10">
                 <div id="card_header" class="card-header min-h-2px">
                     <div class="card-title">
-                        <img style="height: 50px;" class="imagePreview" v-bind:src='"/storage" + images.frontView.path'  alt=""/>
                         {{--<h2> Vehicle On-Boarding</h2>
                         <span v-if="!vehicleHeader.isHeaderSaved"
                               class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
@@ -32,11 +31,8 @@
                                 @{{ vehicleHeader.on_boarding_status | formatStatus }}
                             </span>
                         </span>--}}
-                        <div class="col-md-3" v-if="images && images.frontView">
-
-                                <div class="form-group">
-
-                                </div>
+                        <div v-if="images && images.frontView">
+                            <img style="height: 50px;" class="imagePreview" v-bind:src='"/storage" + images.frontView.path'  alt=""/>
                         </div>
 
                     </div>
