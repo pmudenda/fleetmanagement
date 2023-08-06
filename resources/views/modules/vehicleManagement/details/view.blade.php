@@ -12,6 +12,13 @@
             display: inline-block;
             box-shadow: 0px -3px 6px 2px rgba(0, 0, 0, 0.2);
         }
+        .form-control:disabled {
+            border: none !important;
+            background-color: transparent !important;
+        }
+        .bg-gray-300{
+            background-color: transparent !important;
+        }
     </style>
 @endpush
 @section('content')
