@@ -6,7 +6,7 @@ use App\Enums\ConfigurationTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccidentRecordingRequest;
 use App\Models\Accident;
-use App\Models\configurations\GeneralTableConfiguration;
+use App\Models\Settings\GeneralTableConfiguration;
 use App\Services\FileUploads\FileUploadService;
 use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Requisitions\WorkshopRequisitionService;

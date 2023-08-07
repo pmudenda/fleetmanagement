@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Documents;
 
 use App\Http\Controllers\Controller;
-use App\Models\reference\DocumentFollowup;
+use App\Models\Reference\DocumentFollowup;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

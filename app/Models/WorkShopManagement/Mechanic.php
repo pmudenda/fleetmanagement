@@ -1,11 +1,20 @@
 <?php
 
-namespace App\Models\WorkshopManagement;
+namespace App\Models\WorkShopManagement;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Mechanic extends Model
 {
-    use HasFactory;
+    protected $table = 'wm_mechanics';
+    protected $fillable = [
+        'staff_no',
+        'name',
+        'workshop_code',
+        'section_code',
+        'status',
+        'created_by'
+    ];
+
+
 }

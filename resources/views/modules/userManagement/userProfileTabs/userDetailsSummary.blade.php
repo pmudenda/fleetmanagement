@@ -1,4 +1,4 @@
-@php use App\Models\reference\Area; @endphp
+@php use App\Models\Reference\Area; @endphp
 <div class="post">
     <div class="user-block">
         <div class="username ml-1">

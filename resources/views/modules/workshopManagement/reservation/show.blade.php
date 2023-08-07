@@ -1,4 +1,4 @@
-@php use App\Helpers\StatusHelper;use App\Models\reference\Store;use App\Models\Security\User; @endphp
+@php use App\Helpers\StatusHelper;use App\Models\Reference\Store;use App\Models\Security\User; @endphp
 @php @endphp
 @extends('layouts.app')
 @push('styles')
@@ -124,8 +124,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Vehicle Registration #:
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                for="staff_no">Vehicle Registration #:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group">
@@ -170,8 +170,8 @@
                                                     <div class="row">
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">Store:
+                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                    for="request_date">Store:
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                 <input type="text" class="form-control form-control-sm"
@@ -191,8 +191,8 @@
                                                 <div class="row">
                                                     <div class="form-group row" style="display: none;">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Collection Date:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="mobile_no">Collection Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="fuel_allocation"
@@ -270,8 +270,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Request Date:
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="request_date">Request Date:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
@@ -290,8 +290,8 @@
                                                 <div style="display: none;" class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Collection Date:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="mobile_no">Collection Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="fuel_allocation"
@@ -312,8 +312,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="requester">Request Originator:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="requester">Request Originator:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="requester"
@@ -333,8 +333,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Purpose:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="mobile_no">Purpose:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <textarea type="text"
                                                                   readonly
@@ -456,8 +456,8 @@
                                         <td class="text-right"><strong>Total Amount</strong></td>
                                         <td>
                                             <span
-                                                class="text-bold"
-                                                id="totalAmount">{{number_format($totalAmount, 2)}}
+                                                    class="text-bold"
+                                                    id="totalAmount">{{number_format($totalAmount, 2)}}
                                             </span>
                                         </td>
                                     </tr>

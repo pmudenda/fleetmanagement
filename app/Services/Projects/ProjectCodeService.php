@@ -2,7 +2,7 @@
 
 namespace App\Services\Projects;
 
-use App\Models\reference\ActiveProjects;
+use App\Models\Reference\ActiveProjects;
 use Illuminate\Support\Facades\DB;
 
 class ProjectCodeService

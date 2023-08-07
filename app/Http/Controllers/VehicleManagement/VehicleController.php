@@ -6,7 +6,7 @@ use App\Constants\ErrorMessages;
 use App\Constants\SystemMessages;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
-use App\Models\configurations\Accessory;
+use App\Models\Settings\Accessory;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use Exception;

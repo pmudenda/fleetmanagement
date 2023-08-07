@@ -6,7 +6,7 @@ use App\Enums;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VehicleBodyType;
-use App\Models\configurations\vehicle\ConfigVehicleBodyType;
+use App\Models\Settings\vehicle\ConfigVehicleBodyType;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;

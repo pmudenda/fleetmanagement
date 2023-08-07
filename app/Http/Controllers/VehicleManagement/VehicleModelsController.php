@@ -4,7 +4,7 @@ namespace App\Http\Controllers\VehicleManagement;
 
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
-use App\Models\configurations\vehicle\VehicleModel;
+use App\Models\Settings\vehicle\VehicleModel;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;

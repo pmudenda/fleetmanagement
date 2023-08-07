@@ -3,7 +3,7 @@
 namespace App\Services\Integration;
 
 use App\Constants\SystemOfOrigin;
-use App\Models\reference\Store;
+use App\Models\Reference\Store;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

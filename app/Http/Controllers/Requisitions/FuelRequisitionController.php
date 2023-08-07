@@ -11,7 +11,7 @@ use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Http\Requests\OdometerValidationRequest;
-use App\Models\general\OrganizationalUnit;
+use App\Models\Common\OrganizationalUnit;
 use App\Models\RequisitionType;
 use App\Models\VehicleManagement\ChassisDetail;
 use App\Models\VehicleManagement\VehicleHeader;

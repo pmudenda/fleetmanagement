@@ -7,7 +7,7 @@ use App\Exceptions\UserNotActiveException;
 use App\Exceptions\UserNotFoundException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\UserProfileUpdate;
-use App\Models\reference\PHCMSEmployee;
+use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\User;
 use Exception;
 use Illuminate\Database\QueryException;

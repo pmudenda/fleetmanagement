@@ -4,7 +4,7 @@ namespace App\Services\VehicleManagement;
 
 use App\Enums\Modules;
 use App\Helpers\StatusHelper;
-use App\Models\general\File;
+use App\Models\Common\File;
 use App\Models\VehicleManagement\VehicleAccessory;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;

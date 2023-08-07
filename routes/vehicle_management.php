@@ -7,8 +7,8 @@ use App\Http\Controllers\migration\VehicleDataCleaningController;
 use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleModelsController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
-use App\Models\reference\BatteryModel;
-use App\Models\reference\TyreSizesModel;
+use App\Models\Reference\BatteryModel;
+use App\Models\Reference\TyreSizesModel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 

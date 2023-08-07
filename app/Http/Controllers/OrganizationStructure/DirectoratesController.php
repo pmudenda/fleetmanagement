@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\OrganizationStructure;
 
 use App\Http\Controllers\Controller;
-use App\Models\general\Directorate;
+use App\Models\Common\Directorate;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;

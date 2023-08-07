@@ -6,7 +6,7 @@ use App\Constants\ErrorMessages;
 use App\Enums\ConfigurationTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DriverOnboardingRequest;
-use App\Models\configurations\GeneralTableConfiguration;
+use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\Driver;
 use App\Services\DriverManagement\DriverManagementService;
 use App\Services\FileUploads\FileUploadService;

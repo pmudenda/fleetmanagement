@@ -3,7 +3,7 @@
 namespace App\Services\FileUploads;
 
 use App\Models\Attachment;
-use App\Models\general\File;
+use App\Models\Common\File;
 use Illuminate\Http\Request;
 
 class FileUploadService

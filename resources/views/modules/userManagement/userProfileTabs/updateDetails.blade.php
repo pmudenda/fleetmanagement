@@ -1,4 +1,4 @@
-@php use App\Models\reference\Area; @endphp
+@php use App\Models\Reference\Area; @endphp
 @php $allowUpdate = false;  @endphp
 @if(auth()->user()->can(config('rights.user_update')))
     @php $allowUpdate = true;  @endphp
@@ -151,10 +151,10 @@
                     <div class="input-group-append">
                         @if($allowUpdate)
                             <div
-                                data-assignmenttype="single"
-                                data-inputfield="staff_supervisor"
-                                data-field="userSelection"
-                                class="input-group-text">
+                                    data-assignmenttype="single"
+                                    data-inputfield="staff_supervisor"
+                                    data-field="userSelection"
+                                    class="input-group-text">
                                 <i class="fa fa-user"></i>
                             </div>
                             <div style="cursor: pointer;"
@@ -166,7 +166,7 @@
                             </div>
                         @else
                             <div
-                                class="input-group-text">
+                                    class="input-group-text">
                                 <i class="fa fa-user"></i>
                             </div>
                             <div style="cursor: pointer;"
@@ -199,7 +199,7 @@
                                 value="{{$groupName->id}}">{{$groupName->description}}</option>
                     @else
                         <option
-                            value="{{$groupName->id}}">{{$groupName->description}}</option>
+                                value="{{$groupName->id}}">{{$groupName->description}}</option>
                     @endif
                 @endforeach
             </select>

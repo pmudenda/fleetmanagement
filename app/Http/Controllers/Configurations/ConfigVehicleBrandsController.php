@@ -7,7 +7,7 @@ use App\Enums;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VehicleMake;
-use App\Models\configurations\vehicle\ConfigVehicleBrand;
+use App\Models\Settings\vehicle\ConfigVehicleBrand;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

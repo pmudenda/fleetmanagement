@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Configurations;
 
 use App\Http\Controllers\Controller;
-use App\Models\configurations\vehicle\VehicleModel;
+use App\Models\Settings\vehicle\VehicleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

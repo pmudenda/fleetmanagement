@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
-use App\Models\reference\LocationsModel;
+use App\Models\Reference\LocationsModel;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;

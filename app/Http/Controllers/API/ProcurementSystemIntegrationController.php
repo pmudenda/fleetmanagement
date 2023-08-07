@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Constants\ErrorMessages;
-use App\Models\reference\Article;
-use App\Models\reference\PurchaseOrder;
+use App\Models\Reference\Article;
+use App\Models\Reference\PurchaseOrder;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use Exception;
 use Illuminate\Http\JsonResponse;

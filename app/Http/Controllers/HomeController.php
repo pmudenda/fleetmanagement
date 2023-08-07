@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\reference\TMSDataCleanUp;
+use App\Models\Reference\TMSDataCleanUp;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\WorkflowService;
 use Illuminate\Contracts\View\Factory;

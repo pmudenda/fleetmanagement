@@ -14,7 +14,7 @@ use App\Http\Requests\CostingDetailsPost;
 use App\Http\Requests\EngineDetailsPost;
 use App\Http\Requests\OnboardingVehicleAccessoryRequest;
 use App\Http\Requests\VehicleHeaderRequest;
-use App\Models\configurations\Accessory;
+use App\Models\Settings\Accessory;
 use App\Models\VehicleManagement\ChassisDetail;
 use App\Models\VehicleManagement\VehicleAccessory;
 use App\Models\VehicleManagement\VehicleHeader;

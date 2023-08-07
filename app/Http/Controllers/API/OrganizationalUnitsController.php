@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
-use App\Models\general\OrganizationalUnit;
+use App\Models\Common\OrganizationalUnit;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

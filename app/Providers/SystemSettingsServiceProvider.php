@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\general\SystemError;
+use App\Models\Common\SystemError;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
