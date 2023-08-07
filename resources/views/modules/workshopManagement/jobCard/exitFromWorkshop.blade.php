@@ -1999,7 +1999,7 @@
                 }
 
                 fetch(
-                    $('#mechanicDetails').val() +'?staff_no='+ mechanic,
+                    $('#mechanicDetails').val() + '?staff_no=' + mechanic,
                     {
                         method: 'POST',
                         headers: {
@@ -2028,7 +2028,8 @@
                         if (response?.state === 'success') {
                             //populateVehicleDetails(response.payload, "");
                             $($row).find('[name="mechanicName"]').val(response?.payload.name);
-                            $($row).find('[name="workshopSection"]').val(response?.payload?.section_code).change();;
+                            $($row).find('[name="workshopSection"]').val(response?.payload?.section_code).change();
+                            ;
                         } else {
                             //removeSubmissionAndDetailsOptions();
                             tmsApp.systemError(
@@ -2046,6 +2047,16 @@
                             function () {
                             });
                     });
+            }
+
+            function setRate($row, data, selectedType) {
+                data.filter(function (rate) {
+                    return rate?.rateType === selectedType
+                })
+
+                if (data && data.length > 0) {
+                    $($row).find('[name="ratePerHour"]').value(data[0].rate)
+                }
             }
 
             function fetchApplicableRate($row, rateType) {
@@ -2081,10 +2092,7 @@
                     .then(response => {
                         console.log(response);
                         if (response?.state === 'success') {
-
-                            //populateVehicleDetails(response.payload, "");
-                            //$($row).find('[name="mechanic"]').val(response?.payload.name);
-                            //$($row).find('[name="workshopSection"]').val(response?.payload?.section_code).change();;
+                            setRate($row, response.payload, rateType);
                         } else {
                             //removeSubmissionAndDetailsOptions();
                             tmsApp.systemError(
@@ -2115,6 +2123,7 @@
             });
 
             /*****************************Function Handlers************************************/
+
             /*function initializeFormWizard() {
 
                 function postData(formElements, submitForm) {
