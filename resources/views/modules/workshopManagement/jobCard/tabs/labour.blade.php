@@ -175,7 +175,8 @@
         <div class="col-12 text-right">
             <div>
                 <button type="button"
-                        id="saveJobCardLabourCost"
+                        name="saveJobCardExit"
+                        id="saveJobCardExit"
                         style="background: #f59d33; color: #fff;"
                         class="btn btn-sm btn-success add pull-right">
                     <i class="fa fa-save"></i>
