@@ -2690,7 +2690,7 @@
                         let lineTotal = tmsApp.getFloat($(element).closest("tr").find("input[name=hoursWorked]").val())
                             * tmsApp.getFloat($(element).closest("tr").find("input[name=ratePerHour]").val());
 
-                        $(element).closest("tr").find("input[name=totalAmount]").val(lineTotal).change();
+                        $(element).closest("tr").find("input[name=totalAmount]").val(Util.getFloat(lineTotal)).change();
                         //$(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(lineAmountTotal));
                         break;
 
