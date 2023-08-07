@@ -1548,7 +1548,7 @@
                                                                       required
                                                                       name="service_comments"
                                                                       style="height: 129px;"
-                                                                      class="form-control comments form-control-sm">{){$comments->where('type','=','SREQ')->first()->remarks ??''}}</textarea>
+                                                                      class="form-control comments form-control-sm">{{$comments->where('type','=','SREQ')->first()->remarks ??''}}</textarea>
                                                         </div>
                                                     </div>
                                                 @endif
