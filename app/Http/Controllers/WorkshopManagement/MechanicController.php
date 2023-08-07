@@ -21,31 +21,29 @@ class MechanicController extends Controller
 
     public function find(Request $request): JsonResponse
     {
-        $mechanic = null;
         try {
-
             $mechanic = Mechanic::where('staff_no', '=', $request->get('staff_no'))
                 ->where('status', '=', StatusHelper::active())
                 ->first();
+
             if (empty($mechanic)) {
-                response()->json([
-                    'state' => 'success',
+                return response()->json([
+                    'state' => 'failure',
                     'payload' => []
                 ]);
             }
 
+            return response()->json([
+                'state' => 'success',
+                'payload' => $mechanic
+            ]);
         } catch (\Exception $e) {
             Log::error($e);
-            response()->json([
+            return response()->json([
                 'state' => 'failure',
                 'payload' => []
             ]);
         }
-
-        response()->json([
-            'state' => 'success',
-            'payload' => $mechanic
-        ]);
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\AccidentReporting\VehicleRecordingController;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ChargeOutRateController;
@@ -18,8 +19,10 @@ use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkshopManagement\MaintenanceController;
 use App\Http\Controllers\WorkshopManagement\MechanicController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
+use App\Models\Reference\LabourRates;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
@@ -273,6 +276,47 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('mechanic/list', [MechanicController::class, 'driverList'])->name('driver.list');*/
 
         Route::post('mechanic/find', [MechanicController::class, 'find'])->name('mechanic.search');
+
+        Route::post('labour/rates', function (Request $request) {
+            try {
+
+                return response()->json([
+                    'state' => 'success',
+                    'payload' => [
+                        (object)[
+                            'rateType' => 'NS', 'rate' => '16.85'
+                        ],
+                        (object)[
+                            'rateType' => 'NS', 'rate' => '90.85'
+                        ],
+                        (object)[
+                            'rateType' => 'WOT', 'rate' => '16.85'
+                        ]
+                    ]
+                ]);
+
+                $rate = LabourRates::where('staff_no', '=', $request->get('staff_no'))
+                    ->where('status', '=', StatusHelper::active())
+                    ->first();
+                if (empty($rate)) {
+                    return response()->json([
+                        'state' => 'failure',
+                        'payload' => []
+                    ]);
+                }
+
+                return response()->json([
+                    'state' => 'success',
+                    'payload' => $rate
+                ]);
+            } catch (\Exception $e) {
+                Log::error($e);
+                return response()->json([
+                    'state' => 'failure',
+                    'payload' => []
+                ]);
+            }
+        })->name('labour.rates');
     });
 
     Route::group(['prefix' => 'reminders'], function () {

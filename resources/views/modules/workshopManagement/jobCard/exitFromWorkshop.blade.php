@@ -1613,6 +1613,7 @@
                        id="deleteMaterialUrl"/>
 
                 <input type="hidden" value="{{route('mechanic.search')}}" id="mechanicDetails"/>
+                <input type="hidden" value="{{route('labour.rates')}}" id="rateDetails"/>
             </div>
         </div>
         <input type="hidden" name="onboarding_status" id="onboarding_status"
@@ -2047,9 +2048,69 @@
                     });
             }
 
+            function fetchApplicableRate($row, rateType) {
+                if (!rateType) {
+                    return;
+                }
+
+                fetch(
+                    $('#rateDetails').val(),
+                    {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: JSON.stringify({rateType: rateType}),
+                        referrer: window.baseUrl,
+                        mode: 'cors',
+                        credentials: 'same-origin',
+                    }
+                )
+                    .then((response) => {
+                        if (!response.ok) {
+                            tmsApp.systemError(
+                                'System Message',
+                                'We could not complete Mechanic state checks',
+                                function () {
+                                });
+                            return;
+                        }
+
+                        return response.json();
+                    })
+                    .then(response => {
+                        console.log(response);
+                        if (response?.state === 'success') {
+                            //populateVehicleDetails(response.payload, "");
+                            $($row).find('[name="mechanic"]').val(response?.payload.name);
+                            $($row).find('[name="workshopSection"]').val(response?.payload?.section_code).change();;
+                        } else {
+                            //removeSubmissionAndDetailsOptions();
+                            tmsApp.systemError(
+                                'Mechanic',
+                                'Mechanic with Staff No.' + rateType
+                                + ' was not found, Check your input and try again',
+                                function () {
+                                });
+                        }
+                    })
+                    .catch(function (error) {
+                        tmsApp.systemError(
+                            'System Message',
+                            'We could not complete Mechanic state checks',
+                            function () {
+                            });
+                    });
+            }
+
             $('#labour_table').on('change', '[name="mechanic"]', function () {
                 const $row = $(this).closest('tr');
                 findMechanic($row, this.value);
+            });
+
+            $('#labour_table').on('change', '.shiftType', function () {
+                const $row = $(this).closest('tr');
+                fetchApplicableRate($row, this.value);
             });
 
             /*****************************Function Handlers************************************/

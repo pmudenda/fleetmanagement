@@ -9,7 +9,7 @@
                 <th>Defect</th>
                 <th style="width: 6%;">Mechanic</th>
                 <th style="width: 15%;">Name</th>
-                <th>Date</th>
+                <th style="width:10%;">Date</th>
                 <th style="width: 11%;">Shift Type</th>
                 <th style="width: 5%;">Hours</th>
                 <th style="width: 4%; max-width: 4%;"></th>
@@ -96,9 +96,9 @@
                             <select name="shiftType"
                                     required
                                     class="form-select form-select-sm">
-                                <option>Normal Shift</option>
-                                <option>Normal OT</option>
-                                <option>Saturday/Sunday OT</option>
+                                <option value="NS">Normal Shift</option>
+                                <option value="OT">Normal OT</option>
+                                <option value="WOT">Saturday/Sunday OT</option>
                             </select>
                         </td>
                         <td>
