@@ -12,12 +12,12 @@ use App\Http\Requests\CostingDetailsPost;
 use App\Http\Requests\EngineDetailsPost;
 use App\Http\Requests\OnboardingVehicleAccessoryRequest;
 use App\Http\Requests\VehicleHeaderRequest;
+use App\Models\Common\OrganizationalUnit;
+use App\Models\Reference\Area;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\vehicle\ConfigVehicleBodyType;
 use App\Models\Settings\vehicle\ConfigVehicleBrand;
 use App\Models\Settings\vehicle\VehicleModel;
-use App\Models\Common\OrganizationalUnit;
-use App\Models\Reference\Area;
 use App\Models\VehicleManagement\Assignment;
 use App\Models\VehicleManagement\BodyAndWeightDetail;
 use App\Models\VehicleManagement\ChassisDetail;
@@ -399,15 +399,13 @@ class OnBoardingService
         if (!$businessArea) {
             throw new VehicleOnBoardingException("Invalid Business Area Selected ", 0);
         }
-        $responsibleName ='';
-        $responsibleId ='';
-        if($request->get('isPoolVehicle') == 'Y'){
-            $responsibleId = $request->input('responsibleHODId');
-            $responsibleName =  $request->input('responsibleHOD');
-        }else{
-            $responsibleName = $request->input('vehicleHolder');
-            $responsibleId = $request->input('vehicleHolderId');
-        }
+
+        $responsibleId = $request->input('responsibleHODId') ?? $request->input('vehicleHolderId');
+        $responsibleName = $request->input('responsibleHOD') ?? $request->input('vehicleHolder');
+
+        //$responsibleName = $request->input('vehicleHolder');
+        //$responsibleId = $request->input('vehicleHolderId');
+
 
         $data = [
             'vehicle_header_id' => $request->input('headerId'),
@@ -519,16 +517,16 @@ class OnBoardingService
         $accessoryNames = Accessory::where('status', '=', StatusHelper::active())
             ->get();
         foreach ($accessoryNames as $accessoryName) {
-            $accessoryCode= $accessoryName->code;
+            $accessoryCode = $accessoryName->code;
 
             $response = $request->get($accessoryCode);
-            $remarks = $request->get('COMMENT_'.$accessoryCode);
+            $remarks = $request->get('COMMENT_' . $accessoryCode);
 
             VehicleAccessory::create(
                 [
                     'vehicle_header_id' => $headerId,
                     'name' => $accessoryName->name,
-                    'code' =>$accessoryCode,
+                    'code' => $accessoryCode,
                     'remarks' => $remarks,
                     'is_present' => $response
                 ]
