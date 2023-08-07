@@ -2680,6 +2680,7 @@
                     case 'hoursWorked':
                     case 'ratePerHour':
                         //$('#quantityTotal').text(tmsApp.getRawNumber(summaryTotalQty));
+
                         let lineTotal = tmsApp.getFloat($(element).closest("tr").find("input[name=hoursWorked]").val())
                             * tmsApp.getFloat($(element).closest("tr").find("input[name=ratePerHour]").val());
 
