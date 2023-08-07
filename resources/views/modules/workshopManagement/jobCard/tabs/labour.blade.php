@@ -120,8 +120,8 @@
                                     class="form-select form-select-sm shiftType">
                                 <option selected value="" disabled></option>
                                 <option value="1">Normal Shift</option>
-                                <option value="2">Normal OT</option>
-                                <option value="4">Saturday/Sunday OT</option>
+                                <option value="2">Normal Over-Time</option>
+                                <option value="4">Holiday Over-Time</option>
                             </select>
                         </td>
                         <td>
