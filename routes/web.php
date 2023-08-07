@@ -280,24 +280,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('labour/rates', function (Request $request) {
             try {
 
-                return response()->json([
-                    'state' => 'success',
-                    'payload' => [
-                        (object)[
-                            'rateType' => 'NS', 'rate' => '16.85'
-                        ],
-                        (object)[
-                            'rateType' => 'OT', 'rate' => '90.85'
-                        ],
-                        (object)[
-                            'rateType' => 'WOT', 'rate' => '117.85'
-                        ]
-                    ]
-                ]);
-
-                $rate = LabourRates::where('staff_no', '=', $request->get('staff_no'))
-                    ->where('status', '=', StatusHelper::active())
-                    ->first();
+                $rate = LabourRates::where('post_code', '=', $request->get('postCode'))
+                    //->where('status', '=', StatusHelper::active())
+                    ->get();
                 if (empty($rate)) {
                     return response()->json([
                         'state' => 'failure',

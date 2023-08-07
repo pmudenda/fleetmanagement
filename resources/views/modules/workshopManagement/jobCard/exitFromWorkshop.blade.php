@@ -2053,11 +2053,11 @@
 
             function setRate($row, data, selectedType) {
                 data.filter(function (rate) {
-                    return rate['rateType'] === selectedType;
-                })
+                    return rate['type_of_hour'] === selectedType;
+                });
 
                 if (data && data.length > 0) {
-                    $($row).find('[name="ratePerHour"]').value(data[0].rate).change();
+                    $($row).find('[name="ratePerHour"]').value(data[0].unit_rate).change();
                 }
             }
 
