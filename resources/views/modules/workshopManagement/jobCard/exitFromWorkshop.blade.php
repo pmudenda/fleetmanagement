@@ -2692,6 +2692,16 @@
                         $(element).closest("tr").find("input[name=totalAmount]").val(lineTotal).change();
                         //$(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(lineAmountTotal));
                         break;
+
+                    case 'totalAmount':
+                        // calculate new footer total
+                        let labourCostTotal = 0;
+                        $(element).closest("table").find("input[name=totalAmount]").each(function (i, it) {
+                            labourCostTotal += tmsApp.getFloat(it.value);
+                        });
+                        $('#itemsTotal').text(tmsApp.numberFormat(summaryTotal, 2));
+                        break;
+
                     case 'quantity':
                         let summaryTotalQty = 0;
                         $(element).closest("table").find("input[name=quantity]").each(function (i, it) {
