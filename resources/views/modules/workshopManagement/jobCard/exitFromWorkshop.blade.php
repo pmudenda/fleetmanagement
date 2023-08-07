@@ -443,7 +443,7 @@
                                                                    class="form-control form-control-sm"
                                                                    id="exitDate"
                                                                    readonly
-                                                                   value="{{Carbon::now()}}"
+                                                                   value="{{Carbon::now()->format('dd/M/YYYY')}}"
                                                                    name="exitDate"
                                                                    required>
                                                         </div>
@@ -463,7 +463,7 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <input type="text"
                                                                    readonly
-                                                                   value="@if($details){{Carbon::parse($details->time_in)->format('H:i:s')}}@else{{Carbon::now()->format('H:i:s')}}@endif"
+                                                                   value="@if($details){{Carbon::now()->format('H:i:s')}}@endif"
                                                                    class="form-control form-control-sm when_valid number_input"
                                                                    id="timeOut"
                                                                    name="timeOut"
