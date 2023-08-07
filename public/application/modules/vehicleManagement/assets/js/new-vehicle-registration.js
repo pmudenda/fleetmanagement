@@ -32,7 +32,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         setSelectedAccessories();
     }
 
-    let hasHeaderId = (requestReference != null && requestReference != 0);
+    let hasHeaderId = (requestReference != null && requestReference !== 0);
     Vue.set(app['vehicleHeader'], 'id', requestReference);
 
     Vue.nextTick(function () {
@@ -81,6 +81,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     if (data['business_unit_code']) {
         $('select[name="user_unit"]').val(data['business_unit_code']);
         $('select[name="user_unit"]').attr('data-value', data['business_unit_code']);
+        userUnitChanged();
     }
 
     if (data['location_name']) {
@@ -431,13 +432,8 @@ let app = new Vue({
     },
 
     created() {
-        //this.getVehicleBrands();
-        //this.getConfiguredModels();
-        //this.getBodyTypes();
         this.getBusinessUnits();
-        //this.getOrganizationalUnits();
         this.getDirectorates();
-        //this.getCostCenters();
         this.getBusinessAreas();
         this.getFuelTypes();
         this.loadRegistrationTypes();
@@ -1122,7 +1118,7 @@ function userUnitChanged() {
     setTimeout(function () {
         const user_unit = $('#user_unit').val();
 
-        let user_units = app.$data.organizationalUnits.filter(function (userUnit) {
+        let user_units = window.organizationUnits.filter(function (userUnit) {
             return userUnit['code_unit'].trim() === user_unit.trim();
         });
 
@@ -1130,7 +1126,7 @@ function userUnitChanged() {
         let business_unit_code = user_units[0]?.bu_code;
 
 
-        let filteredCostCenters = app.$data.costCenters.filter(function (cost_center) {
+        let filteredCostCenters = window.costCenters.filter(function (cost_center) {
             return cost_center['code_cost_center'].trim() === cost_center_code?.trim();
         });
 
@@ -1142,8 +1138,8 @@ function userUnitChanged() {
             Vue.set(app['assignmentDetails'], 'costCenter', costCenterDescription);
         }
 
-        let filteredBusinessUnits = app.$data.businessUnits.filter(function (bu) {
-            return bu.code_bu?.trim() === business_unit_code?.trim();
+        let filteredBusinessUnits = window.businessUnits.filter(function (bu) {
+            return bu?.code_bu?.trim() === business_unit_code?.trim();
         });
 
 
@@ -1196,7 +1192,7 @@ function checkOnboardingHeaderStatus() {
             business_unit_code = userUnit?.bu_code
         }
 
-        if (cost_center_code == '' || business_unit_code == '') {
+        if (cost_center_code === '' || business_unit_code === '') {
             return;
         }
 
@@ -1206,8 +1202,6 @@ function checkOnboardingHeaderStatus() {
 
         if (filteredCostCenters.length !== 0) {
             let costCentreOfInterest = filteredCostCenters[0];
-
-            console.log(costCentreOfInterest);
 
             //this.assignmentDetails.costCenter = costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description'];
             $('[name="costCenter"]').val(costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description']);
