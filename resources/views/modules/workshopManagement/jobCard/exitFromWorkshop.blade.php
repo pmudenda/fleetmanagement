@@ -443,7 +443,7 @@
                                                                    class="form-control form-control-sm"
                                                                    id="exitDate"
                                                                    readonly
-                                                                   value="{{Carbon::now()->format('dd/M/YYYY')}}"
+                                                                   value="{{Carbon::now()->format('d/m/Y')}}"
                                                                    name="exitDate"
                                                                    required>
                                                         </div>
