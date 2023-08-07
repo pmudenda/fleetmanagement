@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Common\BusinessUnit;
 use Exception;
@@ -13,12 +14,13 @@ class BusinessUnitsController extends Controller
     public function __invoke(): JsonResponse
     {
         try {
-
             $month = 60 * 60 * 24 * 30;
-            $data = cache()->remember('business_units', $month, function () {
+            /*$data = cache()->remember('business_units', $month, function () {
                 return BusinessUnit::where('status','=','01')->orderBy('code_bu')->get();
-            });
-
+            });*/
+            $data = BusinessUnit::where('status', '=', StatusHelper::active())
+                ->orderBy('code_bu')
+                ->get();
             return response()->json([
                 'state' => 'success',
                 'payload' => $data
