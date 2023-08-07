@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('staff_no', 10);
             $table->string('name', 255);
-            $table->string('workshop_code', 4);
-            $table->string('section_code', 4);
+            $table->string('workshop_code', 4)->nullable();
+            $table->string('section_code', 4)->nullable();
             $table->string('status', 2);
-            $table->string('created_by', 10);
+            $table->string('created_by', 10)->nullable();
             $table->timestamps();
         });
     }
