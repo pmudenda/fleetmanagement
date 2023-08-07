@@ -126,42 +126,7 @@
                     ];
                 @endphp
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-bell" style="font-size: 20px;"></i>
-                        <p>
-                            Reminders
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        {{--@can(config('rights.on_board_vehicle'))--}}
-                        <li class="nav-item pl-2">
-                            <a href="{{ URL::signedRoute('reminder.renewal.new') }}" class="nav-link">
-                                <i class="fas fa-plus nav-icon"></i>
-                                <p>Renewal Reminders</p>
-                            </a>
-                        </li>
 
-                        <li class="nav-item pl-2">
-                            <a href="{{ URL::signedRoute('reminder.service.new') }}" class="nav-link">
-                                <i class="fas fa-plus nav-icon"></i>
-                                <p>Service Reminders</p>
-                            </a>
-                        </li>
-                        {{-- @endcan--}}
-
-
-                        {{--@canany([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])--}}
-                        <li class="nav-item pl-2">
-                            <a href="{{ URL::signedRoute('reminder.list') }}" class="nav-link">
-                                <i class="far fa-list nav-icon"></i>
-                                <p>Resolve Reminder</p>
-                            </a>
-                        </li>
-                        {{--@endcanany--}}
-                    </ul>
-                </li>
 
                 @canany($workshopPermissions)
                     <li class="nav-item">
@@ -876,6 +841,43 @@
                                 <p>List</p>
                             </a>
                         </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-bell" style="font-size: 20px;"></i>
+                        <p>
+                            Reminders
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        {{--@can(config('rights.on_board_vehicle'))--}}
+                        <li class="nav-item pl-2">
+                            <a href="{{ URL::signedRoute('reminder.renewal.new') }}" class="nav-link">
+                                <i class="fas fa-plus nav-icon"></i>
+                                <p>Renewal Reminders</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item pl-2">
+                            <a href="{{ URL::signedRoute('reminder.service.new') }}" class="nav-link">
+                                <i class="fas fa-plus nav-icon"></i>
+                                <p>Service Reminders</p>
+                            </a>
+                        </li>
+                        {{-- @endcan--}}
+
+
+                        {{--@canany([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])--}}
+                        <li class="nav-item pl-2">
+                            <a href="{{ URL::signedRoute('reminder.list') }}" class="nav-link">
+                                <i class="far fa-list nav-icon"></i>
+                                <p>Resolve Reminder</p>
+                            </a>
+                        </li>
+                        {{--@endcanany--}}
                     </ul>
                 </li>
 
