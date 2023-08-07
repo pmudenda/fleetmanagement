@@ -487,6 +487,7 @@
                                                             <div class="input-group">
                                                                 <input type="text"
                                                                        min="1"
+                                                                       value="{{$details->millage_in ?? ''}}"
                                                                        class="form-control form-control-sm numberOnly"
                                                                        id="exitOdometer"
                                                                        name="exitOdometer" required/>
@@ -2519,6 +2520,13 @@
                         if (location) {
                             selectElem.val(location);
                             selectElem.trigger('change');
+                        }
+
+                        let defaultFuelLevelExit = exitFuelLevelElem.attr('data-value');
+
+                        if (defaultFuelLevelExit) {
+                            exitFuelLevelElem.val(location);
+                            exitFuelLevelElem.trigger('change');
                         }
                     })
                     .catch(function (error) {
