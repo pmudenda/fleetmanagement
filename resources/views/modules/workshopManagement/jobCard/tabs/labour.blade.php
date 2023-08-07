@@ -112,6 +112,7 @@
                             <select name="shiftType"
                                     required
                                     class="form-select form-select-sm shiftType">
+                                <option selected value="" disabled></option>
                                 <option value="NS">Normal Shift</option>
                                 <option value="OT">Normal OT</option>
                                 <option value="WOT">Saturday/Sunday OT</option>
