@@ -171,5 +171,17 @@
             </tfoot>
 
         </table>
+
+        <div class="col-12 text-right">
+            <div>
+                <button type="button"
+                        id="saveJobCardLabourCost"
+                        style="background: #f59d33; color: #fff;"
+                        class="btn btn-sm btn-success add pull-right">
+                    <i class="fa fa-save"></i>
+                    Save
+                </button>
+            </div>
+        </div>
     </div>
 </div>
