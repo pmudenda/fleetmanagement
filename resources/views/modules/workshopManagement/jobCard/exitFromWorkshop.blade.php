@@ -2700,7 +2700,7 @@
                         $(element).closest("table").find("input[name=totalAmount]").each(function (i, it) {
                             labourCostTotal += tmsApp.getFloat(it.value);
                         });
-                        $('#labourTotalPrice').text(tmsApp.numberFormat(summaryTotal, 2));
+                        $('#labourTotalPrice').text(tmsApp.numberFormat(labourCostTotal, 2));
                         break;
 
                     case 'quantity':
