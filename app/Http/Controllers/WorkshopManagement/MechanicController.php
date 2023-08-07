@@ -22,6 +22,8 @@ class MechanicController extends Controller
     public function find(Request $request): JsonResponse
     {
         try {
+            Log::info('Searching for mechanic '. $request->get('staff_no'));
+
             $mechanic = Mechanic::where('staff_no', '=', $request->get('staff_no'))
                 ->where('status', '=', StatusHelper::active())
                 ->first();
