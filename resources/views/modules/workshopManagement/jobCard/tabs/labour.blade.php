@@ -8,13 +8,13 @@
             <tr class="bg-success-subtle">
                 <th>Defect</th>
                 <th style="width: 6%;">Mechanic</th>
-                <th style="width: 15%;">Name</th>
+                <th style="width: 15%;"></th>
                 <th style="width:10%;">Date</th>
                 <th style="width: 11%;">Shift Type</th>
                 <th style="width: 5%;">Hours</th>
-                <th style="width: 4%; max-width: 4%;">Section</th>
-                <th>Rate</th>
-                <th>Unit Price</th>
+                <th style="width: 5%;">Rate</th>
+                <th style="width: 4%; max-width: 4%;">Unit Price</th>
+                <th>Section</th>
                 <th>Total</th>
             </tr>
             </thead>
