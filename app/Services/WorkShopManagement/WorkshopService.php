@@ -30,13 +30,14 @@ class WorkshopService
         $user = auth()->user();
 
         /// $receiverParts = explode("|", $request->get("service_advisor"));
+        // perform update
+        $vehicleRegistration = $request->get("vehicle_registration");
         if ($request->has("job_card_number") && !empty($request->get("job_card_number"))) {
             // update the information
             $details = JobCardHeader::where("job_card_no", "=", $request->get("job_card_number"))->orderBy("id", "desc")
                 ->first();
 
-            //$details->veh_reg = $request->get("vehicle_registration");
-            $details->reg_no = $request->get("vehicle_registration");
+            $details->reg_no = $vehicleRegistration;
             $details->workshop_code = $request->get("workshop");
             $details->repair_type = $request->get("repairType");
 
@@ -66,9 +67,10 @@ class WorkshopService
             Log::info("Receiving Section Not Found");
         }
 
+
         $data = [
             // "veh_reg" => $request->get("vehicle_registration"),
-            "reg_no" => $request->get("vehicle_registration"),
+            "reg_no" => $vehicleRegistration,
             "job_card_no" => $doc_number,
             // "workshop_doc_no" => $workshop_number,
             "wshp_act_code" => $workshop_number,
@@ -89,8 +91,10 @@ class WorkshopService
         $jobCardHeader = JobCardHeader::create($data);
 
         // $this->moveVehicleToWorkShop($jobCardHeader->veh_reg);
-        VehicleHeader::where("registration_number", $jobCardHeader->veh_reg)
+        $rowsAffected = VehicleHeader::where("registration_number", $vehicleRegistration)
             ->update(["status" => StatusHelper::vehicleInWorkshop()]);
+
+        Log::info('Setting Vehicle State To In Workshop ' . $rowsAffected);
         DB::commit();
         return $jobCardHeader;
     }
