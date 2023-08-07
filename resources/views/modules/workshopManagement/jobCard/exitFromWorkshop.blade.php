@@ -578,7 +578,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 text-right">
+                            {{--<div class="col-12 text-right">
                                 <div>
                                     <button type="button"
                                             id="saveExitSummary"
@@ -588,7 +588,7 @@
                                         Save Exit Summary
                                     </button>
                                 </div>
-                            </div>
+                            </div>--}}
                         </div>
                     </section>
 
@@ -2053,13 +2053,13 @@
             }
 
             function setRate($row, data, selectedType) {
-               let filteredArray =  data.filter(function (rate) {
+                let filteredArray = data.filter(function (rate) {
                     return parseInt(rate['type_of_hour']) === parseInt(selectedType);
                 });
 
                 if (filteredArray && filteredArray.length > 0) {
                     $($row).find('[name="ratePerHour"]').val(filteredArray[0].unit_rate).change();
-                }else{
+                } else {
                     $($row).find('[name="ratePerHour"]').val("0.00").change();
                 }
             }
@@ -2130,6 +2130,50 @@
             });
 
             /*****************************Function Handlers************************************/
+
+            $('form[name="jobCardFormExit"]').validate(
+                {
+                    errorClass: "error-class",
+                    validClass: "valid-class",
+                    errorElement: 'div',
+                    errorPlacement: function (error, element) {
+                        if (element.parent('.input-group').length) {
+                            error.insertAfter(element.parent());
+                        } else {
+                            error.insertAfter(element);
+                        }
+                    },
+                    onError: function () {
+                        $('.input-group.error-class').find('.help-block.form-error').each(function () {
+                            $(this).closest('.form-group').addClass('error-class').append($(this));
+                        });
+                    },
+                    rules: {
+                        exitOdometer: {
+                            required: true
+                        },
+                        driver_name_out: {
+                            required: true
+                        },
+                        exitFuelLevel: {
+                            required: true
+                        },
+                        driver_out: {
+                            required: true
+                        },
+                        mechanic: {
+                            required: true
+                        },
+                        workshopSection: {
+                            required: true
+                        },
+                        reminderDueDate: {
+                            required: true
+                        }
+                    },
+                    messages: {}
+                }
+            );
 
             /*function initializeFormWizard() {
 
@@ -2944,77 +2988,7 @@
                     this.value = this.value.toUpperCase();
                 });
 
-                $(document).on('click', '#saveExitSummary', function () {
-                    let $form = document.forms['jobCardFormExit'];
-                    if (!$($form).valid()) {
-                        return;
-                    }
-
-                    $('.print-error-msg').css('display', 'none');
-                    let formData = new FormData($form);
-                    tmsApp.confirm(
-                        'Fuel Requisition',
-                        'Are you sure you want to submit this request ?',
-                        'Yes',
-                        'No',
-                        function () {
-                            window.top.tmsApp.asyncPostFormData(
-                                $form.action,
-                                formData,
-                                function (asyncResponse) {
-
-                                    if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
-                                        setTimeout(function () {
-                                            tmsApp.showSystemMessage(
-                                                'Fuel Requisition',
-                                                asyncResponse['message'],
-                                                function () {
-                                                    window.location.href = asyncResponse["redirectUrl"]
-                                                },
-                                                'success'
-                                            );
-                                        }, 300);
-                                    } else {
-                                        if (asyncResponse.hasOwnProperty('errors')) {
-                                            tmsApp.printErrorMsg(asyncResponse.errors);
-                                            return
-                                        }
-                                        setTimeout(function () {
-                                            tmsApp.systemError(
-                                                'Fuel Requisition',
-                                                asyncResponse['message'],
-                                                function () {
-                                                }, 'error');
-                                        }, 300);
-                                    }
-                                },
-                                function (xhr, settings, errorThrown) {
-                                    console.log(errorThrown)
-                                    setTimeout(function () {
-                                        if ('responseJSON' in xhr) {
-                                            if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                                tmsApp.printErrorMsg(xhr.responseJSON.errors);
-                                            }
-                                            if (xhr.responseJSON.hasOwnProperty('message')) {
-                                                tmsApp.systemError(
-                                                    'Fuel Requisition',
-                                                    xhr.responseJSON['message']
-                                                );
-                                            }
-                                            return;
-                                        }
-
-                                        tmsApp.systemError(
-                                            'Fuel Requisition',
-                                            'We could not complete processing your request, please try again later');
-                                    }, 300)
-                                }
-                            )
-                        }
-                    );
-                });
-
-                $(document).on('click', '#saveJobCardLabourCost', function () {
+                $(document).on('click', '#saveJobCardExit', function () {
                     let $form = document.forms['jobCardFormExit'];
                     if (!$($form).valid()) {
                         return;
