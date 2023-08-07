@@ -10,11 +10,10 @@
                 <th style="width: 6%;">Mechanic</th>
                 <th style="width: 15%;"></th>
                 <th style="width:10%;">Date</th>
+                <th>Section</th>
                 <th style="width: 11%;">Shift Type</th>
                 <th style="width: 5%;">Hours</th>
                 <th style="width: 5%;">Rate</th>
-                <th style="width: 4%; max-width: 4%;">Unit Price</th>
-                <th>Section</th>
                 <th>Total</th>
             </tr>
             </thead>
@@ -93,6 +92,23 @@
                             </div>
                         </td>
                         <td>
+                            <select name="workshopSection"
+                                    required
+                                    class="form-select form-select-sm workshopSection">
+                                <option></option>
+                                @foreach($workshop_sections as $workshop_section)
+                                    @if($defect->section_code == $workshop_section->code)
+                                        <option
+                                                selected
+                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                    @else
+                                        <option
+                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
                             <select name="shiftType"
                                     required
                                     class="form-select form-select-sm shiftType">
@@ -123,23 +139,7 @@
                                    readonly
                                    class="form-control form-control-sm service_total_price"/>
                         </td>
-                        <td>
-                            <select name="workshopSection"
-                                    required
-                                    class="form-select form-select-sm workshopSection">
-                                <option></option>
-                                @foreach($workshop_sections as $workshop_section)
-                                    @if($defect->section_code == $workshop_section->code)
-                                        <option
-                                                selected
-                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
-                                    @else
-                                        <option
-                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </td>
+
                     </tr>
                 @endforeach
             @endif
