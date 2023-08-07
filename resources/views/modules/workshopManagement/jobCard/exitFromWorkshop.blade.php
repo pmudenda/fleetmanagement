@@ -2622,7 +2622,6 @@
             }
 
             function findDriver(staff_number, stage) {
-
                 if (!staff_number) {
                     return;
                 }
@@ -2774,23 +2773,6 @@
                     $("input[name=field_" + element?.code + "][value=" + element?.is_present + "]").prop('checked', true);
                     $("input[name=comment_" + element.code + "]").val(element?.remarks);
                 });
-            }
-
-            function autosave(form) {
-                let time;
-                window.onload = resetTimer;
-                // DOM Events
-                document.onchange = resetTimer;
-                document.onkeyup = resetTimer;
-
-                function work() {
-                    //validateFormElements(form);
-                }
-
-                function resetTimer() {
-                    clearTimeout(time);
-                    time = setTimeout(work, 120000);
-                }
             }
 
             function getVehicleDefectCategory(selectedValue, selectElem) {
