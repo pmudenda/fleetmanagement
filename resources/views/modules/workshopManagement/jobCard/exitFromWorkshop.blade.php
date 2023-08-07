@@ -61,8 +61,8 @@
                 <x-error-view/>
 
                 {{-- <label class="app-required-marker"></label>--}}
-                <form name="jobCardForm"
-                      id="jobCardForm"
+                <form name="jobCardFormExit"
+                      id="jobCardFormExit"
                       action="{{route('save.exit.from.workshop')}}"
                       method="post">
                     @csrf
@@ -1957,9 +1957,9 @@
 
         (function (tmsApp, $) {
 
-            let form = $('#jobCardForm').show();
+            // let form = $('#jobCardFormExit').show();
             window.goToNext = false;
-            let bodyTag = "section";
+            // let bodyTag = "section";
 
             $(document).ready(function () {
                 setTimeout(function () {
@@ -2944,8 +2944,8 @@
                     this.value = this.value.toUpperCase();
                 });
 
-                $(document).on('click', '#submitRequisitionBtn', function () {
-                    let $form = document.forms['fuelRequisitionForm'];
+                $(document).on('click', '#saveExitSummary', function () {
+                    let $form = document.forms['jobCardFormExit'];
                     if (!$($form).valid()) {
                         return;
                     }
@@ -3015,7 +3015,7 @@
                 });
 
                 $(document).on('click', '#saveJobCardLabourCost', function () {
-                    let $form = document.forms['fuelRequisitionForm'];
+                    let $form = document.forms['jobCardFormExit'];
                     if (!$($form).valid()) {
                         return;
                     }
