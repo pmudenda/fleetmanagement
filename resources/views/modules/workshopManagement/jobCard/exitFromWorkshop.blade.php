@@ -2027,7 +2027,7 @@
                         console.log(response);
                         if (response?.state === 'success') {
                             //populateVehicleDetails(response.payload, "");
-                            $($row).find('[name="mechanic"]').val(response?.payload.name);
+                            $($row).find('[name="mechanicName"]').val(response?.payload.name);
                             $($row).find('[name="workshopSection"]').val(response?.payload?.section_code).change();;
                         } else {
                             //removeSubmissionAndDetailsOptions();
@@ -2081,9 +2081,10 @@
                     .then(response => {
                         console.log(response);
                         if (response?.state === 'success') {
+
                             //populateVehicleDetails(response.payload, "");
-                            $($row).find('[name="mechanic"]').val(response?.payload.name);
-                            $($row).find('[name="workshopSection"]').val(response?.payload?.section_code).change();;
+                            //$($row).find('[name="mechanic"]').val(response?.payload.name);
+                            //$($row).find('[name="workshopSection"]').val(response?.payload?.section_code).change();;
                         } else {
                             //removeSubmissionAndDetailsOptions();
                             tmsApp.systemError(

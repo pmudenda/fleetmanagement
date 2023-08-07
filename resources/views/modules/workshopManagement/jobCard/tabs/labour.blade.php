@@ -68,8 +68,8 @@
                         <td>
                             <input type="text"
                                    class="form-control form-control-sm"
-                                   id="mechanic"
-                                   name="mechanic"
+                                   id="mechanicName"
+                                   name="mechanicName"
                                    readonly/>
                         </td>
                         <td>
@@ -95,7 +95,7 @@
                         <td>
                             <select name="shiftType"
                                     required
-                                    class="form-select form-select-sm">
+                                    class="form-select form-select-sm shiftType">
                                 <option value="NS">Normal Shift</option>
                                 <option value="OT">Normal OT</option>
                                 <option value="WOT">Saturday/Sunday OT</option>
