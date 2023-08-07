@@ -399,14 +399,23 @@ class OnBoardingService
         if (!$businessArea) {
             throw new VehicleOnBoardingException("Invalid Business Area Selected ", 0);
         }
+        $responsibleName ='';
+        $responsibleId ='';
+        if($request->get('isPoolVehicle') == 'Y'){
+            $responsibleId = $request->input('responsibleHODId');
+            $responsibleName =  $request->input('responsibleHOD');
+        }else{
+            $responsibleName = $request->input('vehicleHolder');
+            $responsibleId = $request->input('vehicleHolderId');
+        }
 
         $data = [
             'vehicle_header_id' => $request->input('headerId'),
             'business_area_code' => $businessArea->area,
             'directorate' => $request->input('directorate'),
             'cost_center' => $code_center_code,
-            'responsible_head_id' => $request->input('responsibleHODId') ?? $request->input('vehicleHolderId'),
-            'responsible_head_name' => $request->input('responsibleHOD') ?? $request->input('vehicleHolder'),
+            'responsible_head_id' => $responsibleId,
+            'responsible_head_name' => $responsibleName,
             'isPoolVehicle' => $request->input('isPoolVehicle'),
             'isTeamAssigned' => $request->get('isPoolVehicle') == 'Y',
             'mileageExempt' => $request->input('isMileageExempt'),

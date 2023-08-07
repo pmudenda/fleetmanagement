@@ -293,14 +293,13 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     //Vue.set(app['assignmentDetails'], 'businessUnit', data['directorate']);
     Vue.set(app['assignmentDetails'], 'isOperationsVehicle', data['ispoolvehicle']);
 
-    if (data['ispoolvehicle'] == 'N') {
-        //Vue.set(app['assignmentDetails'], 'isOperationsVehicle', data['vehicleHolder']);
+    if (data['ispoolvehicle'] == 'Y') {
+
+        $('input[name="responsibleHODId"]').val(data['responsible_head_id']);
+        $('input[name="responsibleHOD"]').val(data['responsible_head_name']);
+    } else {
         $('input[name="vehicleHolderId"]').val(data['responsible_head_id']);
         $('input[name="vehicleHolder"]').val(data['responsible_head_name']);
-    } else {
-
-        $('input[name="vehicleHolderId"]').val(data['responsible_head_id']);
-        $('input[name="responsibleHODId"]').val(data['responsible_head_name']);
     }
 
 
