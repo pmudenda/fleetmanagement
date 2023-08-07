@@ -228,7 +228,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="row" style="display: none;">
                                         <div class="col-xs-12 col-sm-12 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
@@ -919,7 +919,7 @@
                         required: true,
                     },
                     driver_staff_number: {
-                        required: true
+                        required: false
                     },
                     fuel_allocation: {
                         required: true
