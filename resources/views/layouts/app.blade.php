@@ -426,7 +426,6 @@
     window.app = true;
     window.dev_server = 0;
     let tmsApp;
-
     if (!tmsApp) tmsApp = {};
     tmsApp.boot = {'messages': {}};
     tmsApp.messages = tmsApp?.boot['messages'];
@@ -451,9 +450,7 @@
         const toastTrigger = document.getElementById('liveToastBtn')
         const toastLiveExample = document.getElementById('liveToast')
         if (toastTrigger) {
-            toastTrigger.addEventListener('click', () => {
-
-            })
+            toastTrigger.addEventListener('click', () => {});
         }
 
         tmsApp.toast = new bootstrap.Toast(toastLiveExample)
@@ -490,7 +487,7 @@
 
     (function (tmsApp, $) {
         $(document).on('keypress', '.number_input', function (event) {
-            //tmsApp.numberOnly(event);
+            // tmsApp.numberOnly(event);
         });
 
         $(document).on('keyup', '.uppercase', function (event) {

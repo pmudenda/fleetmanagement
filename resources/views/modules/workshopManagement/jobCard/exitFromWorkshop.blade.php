@@ -592,7 +592,7 @@
                         </div>
                     </section>
 
-                    <h1 class="mt-10">Estimated Cost Of Repair</h1>
+                    <h1 class="mt-10">Cost Of Repair</h1>
                     <section>
                         <div class="container-fluid pl-0">
                             <input type="hidden"
@@ -1739,6 +1739,7 @@
                 });
             }
     */
+
         /*function initServiceArticleSelector(element) {
             const dataUrl = document.querySelector('#articlesUrl').value;
 
@@ -3011,7 +3012,77 @@
                             )
                         }
                     );
-                })
+                });
+
+                $(document).on('click', '#saveJobCardLabourCost', function () {
+                    let $form = document.forms['fuelRequisitionForm'];
+                    if (!$($form).valid()) {
+                        return;
+                    }
+
+                    $('.print-error-msg').css('display', 'none');
+                    let formData = new FormData($form);
+                    tmsApp.confirm(
+                        'Fuel Requisition',
+                        'Are you sure you want to submit this request ?',
+                        'Yes',
+                        'No',
+                        function () {
+                            window.top.tmsApp.asyncPostFormData(
+                                $form.action,
+                                formData,
+                                function (asyncResponse) {
+
+                                    if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
+                                        setTimeout(function () {
+                                            tmsApp.showSystemMessage(
+                                                'Fuel Requisition',
+                                                asyncResponse['message'],
+                                                function () {
+                                                    window.location.href = asyncResponse["redirectUrl"]
+                                                },
+                                                'success'
+                                            );
+                                        }, 300);
+                                    } else {
+                                        if (asyncResponse.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(asyncResponse.errors);
+                                            return
+                                        }
+                                        setTimeout(function () {
+                                            tmsApp.systemError(
+                                                'Fuel Requisition',
+                                                asyncResponse['message'],
+                                                function () {
+                                                }, 'error');
+                                        }, 300);
+                                    }
+                                },
+                                function (xhr, settings, errorThrown) {
+                                    console.log(errorThrown)
+                                    setTimeout(function () {
+                                        if ('responseJSON' in xhr) {
+                                            if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                                tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                            }
+                                            if (xhr.responseJSON.hasOwnProperty('message')) {
+                                                tmsApp.systemError(
+                                                    'Fuel Requisition',
+                                                    xhr.responseJSON['message']
+                                                );
+                                            }
+                                            return;
+                                        }
+
+                                        tmsApp.systemError(
+                                            'Fuel Requisition',
+                                            'We could not complete processing your request, please try again later');
+                                    }, 300)
+                                }
+                            )
+                        }
+                    );
+                });
 
                 $(document).on('change', '#repairTypeDropdownList', function () {
                     if (this.value === '001') {
@@ -3094,7 +3165,7 @@
                         return;
                     }
 
-                    getArticleDetails(id, selectElem);
+                    // getArticleDetails(id, selectElem);
                 });
             }
 
