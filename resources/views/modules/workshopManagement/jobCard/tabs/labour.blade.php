@@ -10,8 +10,8 @@
                 <th style="width: 6%;">Mechanic</th>
                 <th style="width: 15%;">Name</th>
                 <th>Date</th>
-                <th style="width: 25%;">Shift Type</th>
-                <th style="width: 25%;">Hours</th>
+                <th style="width: 11%;">Shift Type</th>
+                <th style="width: 5%;">Hours</th>
                 <th style="width: 4%; max-width: 4%;"></th>
                 <th>Rate</th>
                 <th>Unit Price</th>
@@ -50,13 +50,13 @@
                             </select>
                         </td>
                         <td class="showNumber">
-                            <div class="input-group">
-                                <input type="text"
-                                       data-action="{{route('driver.search')}}"
-                                       class="form-control form-control-sm"
-                                       autocapitalize="characters"
-                                       id="mechanic"
-                                       name="mechanic"/>
+                            <input type="text"
+                                   data-action="{{route('driver.search')}}"
+                                   class="form-control form-control-sm"
+                                   autocapitalize="characters"
+                                   id="mechanic"
+                                   name="mechanic"/>
+                            {{--<div class="input-group">
                                 <div class="input-group-addon">
                                     <button type="button" id="mechanicSearchBtn"
                                             name="mechanicSearchBtn"
@@ -64,7 +64,7 @@
                                         <i class="fas fa-search"></i>
                                     </button>
                                 </div>
-                            </div>
+                            </div>--}}
                         </td>
                         <td>
                             <input type="text"
