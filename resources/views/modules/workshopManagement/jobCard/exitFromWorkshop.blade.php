@@ -2055,7 +2055,7 @@
                 })
 
                 if (data && data.length > 0) {
-                    $($row).find('[name="ratePerHour"]').value(data[0].rate)
+                    $($row).find('[name="ratePerHour"]').value(data[0].rate).change();
                 }
             }
 
@@ -2677,6 +2677,15 @@
             function eventHandler(element, e) {
 
                 switch (element.name) {
+                    case 'hoursWorked':
+                    case 'ratePerHour':
+                        //$('#quantityTotal').text(tmsApp.getRawNumber(summaryTotalQty));
+                        let lineTotal = tmsApp.getFloat($(element).closest("tr").find("input[name=hoursWorked]").val())
+                            * tmsApp.getFloat($(element).closest("tr").find("input[name=ratePerHour]").val());
+
+                        $(element).closest("tr").find("input[name=totalAmount]").val(lineTotal).change();
+                        //$(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(lineAmountTotal));
+                        break;
                     case 'quantity':
                         let summaryTotalQty = 0;
                         $(element).closest("table").find("input[name=quantity]").each(function (i, it) {
