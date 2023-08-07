@@ -1957,9 +1957,7 @@
 
         (function (tmsApp, $) {
 
-            // let form = $('#jobCardFormExit').show();
             window.goToNext = false;
-            // let bodyTag = "section";
 
             $(document).ready(function () {
                 setTimeout(function () {
@@ -2503,6 +2501,7 @@
                     .then(response => response.json())
                     .then(response => {
                         let selectElem = $('select[name="fuel_level"]');
+                        let exitFuelLevelElem = $('select[name="exitFuelLevel"]');
 
                         if (response.state === 'failure') {
                             //show errors
@@ -2512,6 +2511,8 @@
 
                         let fuelLevels = response['payload'];
                         tmsApp.populateDropDownList(selectElem, fuelLevels, "code", ["name"], "");
+
+                        tmsApp.populateDropDownList(exitFuelLevelElem, fuelLevels, "code", ["name"], "");
 
                         let location = selectElem.attr('data-value');
 
