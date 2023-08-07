@@ -12,7 +12,7 @@
                 <th style="width:10%;">Date</th>
                 <th style="width: 11%;">Shift Type</th>
                 <th style="width: 5%;">Hours</th>
-                <th style="width: 4%; max-width: 4%;"></th>
+                <th style="width: 4%; max-width: 4%;">Section</th>
                 <th>Rate</th>
                 <th>Unit Price</th>
                 <th>Total</th>
@@ -102,10 +102,19 @@
                             </select>
                         </td>
                         <td>
-                            <input name="ratePerHour"
-                                   required
-                                   readonly
-                                   class="form-control form-control-sm"/>
+                            <input
+                                    id="hoursWorked"
+                                    name="hoursWorked"
+                                    required
+                                    class="form-control form-control-sm"/>
+                        </td>
+                        <td>
+                            <input
+                                    id="ratePerHour"
+                                    name="ratePerHour"
+                                    required
+                                    readonly
+                                    class="form-control form-control-sm"/>
                         </td>
 
                         <td>
@@ -122,11 +131,11 @@
                                 @foreach($workshop_sections as $workshop_section)
                                     @if($defect->section_code == $workshop_section->code)
                                         <option
-                                            selected
-                                            value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                selected
+                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                     @else
                                         <option
-                                            value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                     @endif
                                 @endforeach
                             </select>
