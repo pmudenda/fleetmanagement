@@ -2051,7 +2051,7 @@
 
             function setRate($row, data, selectedType) {
                 data.filter(function (rate) {
-                    return rate?.rateType === selectedType
+                    return rate['rateType'] === selectedType;
                 })
 
                 if (data && data.length > 0) {
@@ -2090,15 +2090,14 @@
                         return response.json();
                     })
                     .then(response => {
-                        console.log(response);
+                       
                         if (response?.state === 'success') {
                             setRate($row, response.payload, rateType);
                         } else {
                             //removeSubmissionAndDetailsOptions();
                             tmsApp.systemError(
-                                'Mechanic',
-                                'Mechanic with Staff No.' + rateType
-                                + ' was not found, Check your input and try again',
+                                'Rate',
+                                'Error while fetching labour rates',
                                 function () {
                                 });
                         }

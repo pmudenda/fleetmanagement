@@ -287,10 +287,10 @@ Route::group(['middleware' => 'auth'], function () {
                             'rateType' => 'NS', 'rate' => '16.85'
                         ],
                         (object)[
-                            'rateType' => 'NS', 'rate' => '90.85'
+                            'rateType' => 'OT', 'rate' => '90.85'
                         ],
                         (object)[
-                            'rateType' => 'WOT', 'rate' => '16.85'
+                            'rateType' => 'WOT', 'rate' => '117.85'
                         ]
                     ]
                 ]);
