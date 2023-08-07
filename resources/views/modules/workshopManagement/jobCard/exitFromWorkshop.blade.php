@@ -2030,7 +2030,7 @@
                             $($row).find('[name="hoursWorked"]').attr('readonly', false);
                             $($row).find('[name="shiftType"]').attr('disabled', false);
                             $($row).find('[name="mechanicName"]').val(response?.payload['mechanic'].name);
-                            $($row).find('[name="postCode"]').val(response?.payload['job_code']);
+                            $($row).find('[name="postCode"]').val(response?.payload['employee']['job_code']);
                             $($row).find('[name="workshopSection"]').val(response?.payload['mechanic']['section_code']).change();
                         } else {
                             //removeSubmissionAndDetailsOptions();
