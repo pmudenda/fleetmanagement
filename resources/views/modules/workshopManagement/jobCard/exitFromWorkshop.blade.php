@@ -2066,14 +2066,16 @@
                     return;
                 }
 
+                const positionCode = $($row).find('[name="postCode"]').val();
+
                 fetch(
-                    $('#rateDetails').val(),
+                    $('#rateDetails').val() + '?postCode=' + positionCode,
                     {
                         method: 'POST',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        body: JSON.stringify({rateType: rateType}),
+                        body: JSON.stringify({postCode: rateType}),
                         referrer: window.baseUrl,
                         mode: 'cors',
                         credentials: 'same-origin',

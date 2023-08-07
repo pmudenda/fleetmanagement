@@ -36,12 +36,14 @@ class MechanicController extends Controller
                 ]);
             }
 
-            $job_code = PHCMSEmployee::where('con_per_no', '=', $mechanic->staff_no)->first()->pluck('job_code');
+            $employee = PHCMSEmployee::where('con_per_no', '=', $mechanic->staff_no)
+                ->where('con_st_code', '=', 'ACT')
+                ->first();
 
             return response()->json([
                 'state' => 'success',
                 'payload' => [
-                    'job_code' => $job_code,
+                    'employee' => $employee,
                     'mechanic' => $mechanic
                 ]
             ]);
