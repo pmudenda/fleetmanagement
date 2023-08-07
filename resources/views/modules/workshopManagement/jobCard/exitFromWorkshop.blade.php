@@ -2109,6 +2109,7 @@
                         }
                     })
                     .catch(function (error) {
+                        console.log(error);
                         tmsApp.systemError(
                             'System Message',
                             'We could not complete Mechanic state checks',
@@ -2699,7 +2700,7 @@
                         $(element).closest("table").find("input[name=totalAmount]").each(function (i, it) {
                             labourCostTotal += tmsApp.getFloat(it.value);
                         });
-                        $('#itemsTotal').text(tmsApp.numberFormat(summaryTotal, 2));
+                        $('#labourTotalPrice').text(tmsApp.numberFormat(summaryTotal, 2));
                         break;
 
                     case 'quantity':
