@@ -179,7 +179,7 @@
                         style="background: #f59d33; color: #fff;"
                         class="btn btn-sm btn-success add pull-right">
                     <i class="fa fa-save"></i>
-                    Save Labour Cost
+                    Save
                 </button>
             </div>
         </div>
