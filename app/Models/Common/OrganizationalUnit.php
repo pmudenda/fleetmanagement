@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrganizationalUnit extends Model
 {
-    protected $table= 'ZFM_ORGANIZATIONAL_UNITS_VIEW';
+    protected $table= 'zfm_organizational_units_view';
 }

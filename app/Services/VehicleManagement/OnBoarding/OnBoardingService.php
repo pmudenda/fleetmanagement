@@ -406,7 +406,6 @@ class OnBoardingService
         //$responsibleName = $request->input('vehicleHolder');
         //$responsibleId = $request->input('vehicleHolderId');
 
-
         $data = [
             'vehicle_header_id' => $request->input('headerId'),
             'business_area_code' => $businessArea->area,

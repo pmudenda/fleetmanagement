@@ -21,10 +21,13 @@ class OrganizationalUnitsController extends Controller
 
             $query->where('status', StatusHelper::organizationStructureActive());
             $query->whereNotNull('cc_code');
+            $query->whereNotNull('bu_code');
 
             if (!$request->get('include_nulls')) {
-                $query->whereNotNull('description');
+                //$query->whereNotNull('description');
             }
+
+            $data = $query->orderBy('description')->get();
 
             //$data = null;
             cache()->forget('org_units');
