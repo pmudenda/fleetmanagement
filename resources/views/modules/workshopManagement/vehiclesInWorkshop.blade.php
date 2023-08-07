@@ -74,7 +74,7 @@
                                         <th>Workshop</th>
                                         <th>Date Raised</th>
                                         <th>Repair Type</th>
-                                        {{--<th>Status</th>--}}
+                                        <th>Date Out</th>
                                         {{--@can(config('rights.user_show'))--}}
                                         <th>Action</th>
                                         {{--@endcan--}}
@@ -118,6 +118,10 @@
 
                                             <td>
                                                 {{$workshop->repair_type_name}}
+                                            </td>
+
+                                            <td>
+                                                {{$workshop->date_out}}
                                             </td>
                                             {{--<td>
                                                @if($workshop->status == '01')
