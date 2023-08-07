@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class LabourRates extends Model
 {
-  protected $table = '';
+  protected $table = 'labour_costing_tms';
 }

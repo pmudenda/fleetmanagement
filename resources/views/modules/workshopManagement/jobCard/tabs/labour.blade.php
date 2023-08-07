@@ -109,17 +109,24 @@
                             </select>
                         </td>
                         <td>
+                            <input type="hidden"
+                                    id="postCode"
+                                    name="postCode"
+                                    required
+                                    class=""/>
                             <select name="shiftType"
+                                    disabled
                                     required
                                     class="form-select form-select-sm shiftType">
                                 <option selected value="" disabled></option>
-                                <option value="NS">Normal Shift</option>
-                                <option value="OT">Normal OT</option>
-                                <option value="WOT">Saturday/Sunday OT</option>
+                                <option value="1">Normal Shift</option>
+                                <option value="2">Normal OT</option>
+                                <option value="4">Saturday/Sunday OT</option>
                             </select>
                         </td>
                         <td>
                             <input
+                                    readonly
                                     id="hoursWorked"
                                     name="hoursWorked"
                                     required

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\WorkshopManagement;
 
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Models\Reference\PHCMSEmployee;
 use App\Models\WorkShopManagement\Mechanic;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class MechanicController extends Controller
     public function find(Request $request): JsonResponse
     {
         try {
-            Log::info('Searching for mechanic '. $request->get('staff_no'));
+            Log::info('Searching for mechanic ' . $request->get('staff_no'));
 
             $mechanic = Mechanic::where('staff_no', '=', $request->get('staff_no'))
                 ->where('status', '=', StatusHelper::active())
@@ -35,9 +36,14 @@ class MechanicController extends Controller
                 ]);
             }
 
+            $job_code = PHCMSEmployee::where('con_per_no', '=', $mechanic->staff_no)->first()->pluck('job_code');
+
             return response()->json([
                 'state' => 'success',
-                'payload' => $mechanic
+                'payload' => [
+                    'job_code' => $job_code,
+                    'mechanic' => $mechanic
+                ]
             ]);
         } catch (\Exception $e) {
             Log::error($e);

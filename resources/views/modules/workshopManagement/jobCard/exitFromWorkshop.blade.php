@@ -2027,9 +2027,11 @@
                         console.log(response);
                         if (response?.state === 'success') {
                             //populateVehicleDetails(response.payload, "");
-                            $($row).find('[name="mechanicName"]').val(response?.payload.name);
-                            $($row).find('[name="workshopSection"]').val(response?.payload?.section_code).change();
-                            ;
+                            $($row).find('[name="hoursWorked"]').attr('readonly', false);
+                            $($row).find('[name="shiftType"]').attr('disabled', false);
+                            $($row).find('[name="mechanicName"]').val(response?.payload['mechanic'].name);
+                            $($row).find('[name="postCode"]').val(response?.payload['job_code']);
+                            $($row).find('[name="workshopSection"]').val(response?.payload['mechanic']['section_code']).change();
                         } else {
                             //removeSubmissionAndDetailsOptions();
                             tmsApp.systemError(
@@ -2090,7 +2092,7 @@
                         return response.json();
                     })
                     .then(response => {
-                       
+
                         if (response?.state === 'success') {
                             setRate($row, response.payload, rateType);
                         } else {
