@@ -599,11 +599,11 @@
                                    id="suppliersList"
                                    value="{{route('suppliers.list')}}"/>
                             <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item" style="list-style: none; width: 178px;">
-                                    <a class="nav-link active" data-toggle="tab" href="#accessories" role="tab">Accessories</a>
+                                <li class="nav-item" style="list-style: none; width: 178px; display: none;">
+                                    <a class="nav-link" data-toggle="tab" href="#accessories" role="tab">Accessories</a>
                                 </li>
                                 <li class="nav-item" style="list-style: none; width: 178px;">
-                                    <a class="nav-link" data-toggle="tab" href="#defects" role="tab">Defects</a>
+                                    <a class="nav-link active" data-toggle="tab" href="#defects" role="tab">Defects</a>
                                 </li>
                                 <li class="nav-item" style="list-style: none; width: 178px;">
                                     <a class="nav-link" data-toggle="tab" href="#materials" role="tab">Spares</a>
@@ -616,7 +616,7 @@
                                 </li>
                             </ul><!-- Tab panes -->
                             <div class="tab-content">
-                                <div class="tab-pane active" id="accessories" role="tabpanel">
+                                <div class="tab-pane" id="accessories" role="tabpanel">
                                     <div class="container-fluid pl-0 mt-5">
                                         <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}"
                                              data-model-name="Accessories">
@@ -700,7 +700,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="defects" role="tabpanel">
+                                <div class="tab-pane active" id="defects" role="tabpanel">
                                     <div class="container-fluid pl-0 mt-5">
                                         <div class="row">
                                             <input type="hidden" value="{{$details->job_card_no ?? 0}}"
