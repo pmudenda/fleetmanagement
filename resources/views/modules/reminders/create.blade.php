@@ -416,16 +416,16 @@
                 );
             });
 
-            $('[name="dateIssued"]').datepicker({
+            $('[name="reminderDueDate"]').datepicker({
                 /*  maxDate: new Date(),*/
                 dateFormat: 'dd/mm/yy',
             });
 
-            $('[name="expiryDate"]').datepicker({
-                /* minDate: new Date(),*/
+           /* $('[name="expiryDate"]').datepicker({
+                /!* minDate: new Date(),*!/
                 dateFormat: 'dd/mm/yy',
             });
-
+*/
             $(document).on('click', '[data-action="openDatePicker"]', function () {
                 $(".datetimepicker-opened").datepicker("show");
             });

@@ -1546,6 +1546,7 @@
                                                                       minlength="20"
                                                                       maxlength="255"
                                                                       required
+                                                                      readonly
                                                                       name="service_comments"
                                                                       style="height: 129px;"
                                                                       class="form-control comments form-control-sm">{{$comments->where('type','=','SREQ')->first()->remarks ??''}}</textarea>
@@ -1931,6 +1932,11 @@
             Inputmask({
                 "mask": "AAA 9{1,4}"
             }).mask('[name="vehicle_registration"]');
+
+            $('.datePicker').datepicker({
+                /*  maxDate: new Date(),*/
+                dateFormat: 'dd/mm/yy',
+            });
 
             $.fn.disableBtn = function () {
                 return this.each(function () {
