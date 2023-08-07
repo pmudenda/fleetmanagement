@@ -36,7 +36,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['vehicleHeader'], 'id', requestReference);
 
     Vue.nextTick(function () {
-        console.log('Header Id', hasHeaderId);
         Vue.set(app['vehicleHeader'], 'isHeaderSaved', hasHeaderId);
     });
 
@@ -267,7 +266,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     $('input[name="purchase_order_number"]').val(data['purchase_order_no']);
 
-    $('input[name="costOfLicense"]').val(accounting.formatMoney(data['costoflicense'],'', 2, ",", "." ));
+    $('input[name="costOfLicense"]').val(accounting.formatMoney(data['costoflicense'], '', 2, ",", "."));
     $('input[name="costOfLicense"]').trigger('change');
 
     $('input[name="premium"]').val(accounting.formatMoney(data['premium'], '', 2, ",", "."));
@@ -335,8 +334,6 @@ function formatCostPriceAsMoney(el) {
 }
 
 window.getRegistrationDetails = function (requestReference) {
-    console.log(requestReference);
-
     if (!requestReference || typeof requestReference === 'undefined') {
         //console.log('Returning')
         return;
@@ -603,7 +600,7 @@ let app = new Vue({
                     // Using DocumentInitParameters object to load binary data.
                     var loadingTask = pdfjsLib.getDocument({data: pdfData});
                     loadingTask.promise.then(function (pdf) {
-                        console.log('PDF loaded');
+
 
                         // Fetch the first page
                         var pageNumber = 1;
@@ -624,7 +621,7 @@ let app = new Vue({
                             };
                             var renderTask = page.render(renderContext);
                             renderTask.promise.then(function () {
-                                console.log('Page rendered');
+
                             });
                         });
                     }, function (reason) {
@@ -1671,15 +1668,11 @@ function checkOnboardingHeaderStatus() {
 
     function nativeVehicleBrandChanged() {
         const brandId = $('select[name="brand"]').val()?.toString().trim();
-
-        console.log('Brand Value ' + brandId);
-
         if (!brandId) {
             return;
         }
 
         let filteredResults = window.VehicleModels.filter(function (model) {
-            console.log(model);
             return model.brand_guid?.toString().trim() === brandId?.toString().trim();
         });
 
@@ -1692,8 +1685,6 @@ function checkOnboardingHeaderStatus() {
         tmsApp.populateDropDownList(selectElem, filteredResults, "id", ["model_name", "model_code"], " => ");
 
         let model = selectElem.attr('data-value');
-
-        console.log('Model Id', model);
         if (model) {
             selectElem.val(model);
             selectElem.trigger('change');
@@ -1818,7 +1809,7 @@ function checkOnboardingHeaderStatus() {
                 tmsApp.populateDropDownList(selectElem, locations, "location", ["location"], "");
 
                 let location = selectElem.attr('data-value');
-                console.log(location);
+
                 if (location) {
                     selectElem.val(location);
                     selectElem.trigger('change');
@@ -1903,14 +1894,14 @@ function checkOnboardingHeaderStatus() {
                 tmsApp.populateDropDownList(rearTyreSizeElem, tyreSizes, "description", ["description"], "");
 
                 let frontSize = frontTyreElem.attr('data-value');
-                console.log(frontSize);
+
                 if (frontSize) {
                     frontTyreElem.val(frontSize);
                     frontTyreElem.trigger('change');
                 }
 
                 let rearTyreSize = rearTyreSizeElem.attr('data-value');
-                console.log(rearTyreSize);
+
                 if (rearTyreSize) {
                     rearTyreSizeElem.val(frontSize);
                     rearTyreSizeElem.trigger('change');
@@ -1939,7 +1930,7 @@ function checkOnboardingHeaderStatus() {
                 tmsApp.populateDropDownList(selectElem, tyreBrands, "description", ["description"], "");
 
                 let location = selectElem.attr('data-value');
-                console.log(location);
+
                 if (location) {
                     selectElem.val(location);
                     selectElem.trigger('change');
@@ -1970,7 +1961,7 @@ function checkOnboardingHeaderStatus() {
                 }
 
                 if (response['payload'].validity) {
-                    console.log(response['payload'].validity);
+
                     document.querySelector("#tms_save_chassis").removeAttribute('disabled');
                     toastr.success('White Book number valid', 'White Book Number Validation');
                 } else {
@@ -2129,7 +2120,7 @@ function checkOnboardingHeaderStatus() {
     });
 
     $('#registrationNumber').on('keyup paste enter', function () {
-        console.log(this.value);
+
         if (!this.value || this.value.replace('_', '').length < 4) {
             return;
         }
@@ -2510,7 +2501,7 @@ function checkOnboardingHeaderStatus() {
         if (!modelId) {
             return;
         }
-        console.log(modelId);
+
         let filteredResults = window.VehicleModels.filter(function (model) {
             return model.id?.toString().trim() === modelId;
         });
@@ -2518,7 +2509,7 @@ function checkOnboardingHeaderStatus() {
         if (filteredResults.length > 0) {
             document.querySelector('#model_code').value = filteredResults[0]?.model_code;
         }
-        console.log(filteredResults);
+
     });
 
     $(document).on('change', '.weight_control', function () {
@@ -2532,14 +2523,14 @@ function checkOnboardingHeaderStatus() {
     checkOnboardingHeaderStatus();
 
     $(document).on('click', 'button[data-zfm-view-file]', function () {
-        console.log(this);
+
         $("#documentView").attr('src', $(this).attr('data-document-url'));
         let fileViewModal = bootstrap.Modal.getOrCreateInstance(document.querySelector('#fileViewModal'))
         fileViewModal.show();
     });
 
     $(document).on('click', '.card-toolbar .btn', function () {
-        console.log(this.id);
+
         switch (this.id) {
             case "editRecordBtn":
                 $('.card-header').removeClass('view_mode').addClass('edit_mode')
