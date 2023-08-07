@@ -2058,6 +2058,8 @@
 
                 if (data && data.length > 0) {
                     $($row).find('[name="ratePerHour"]').val(data[0].unit_rate).change();
+                }else{
+                    $($row).find('[name="ratePerHour"]').val("0.00").change();
                 }
             }
 
