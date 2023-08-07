@@ -1999,7 +1999,7 @@
                 }
 
                 fetch(
-                    $('#mechanicDetails').val(),
+                    $('#mechanicDetails').val() +'?staff_no='+ mechanic,
                     {
                         method: 'POST',
                         headers: {
