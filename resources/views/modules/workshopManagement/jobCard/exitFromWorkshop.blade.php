@@ -2887,6 +2887,68 @@
                 }
             }
 
+            function getExitSummaryData() {
+
+                let formSel = $('#labour_table');
+                let jobCardFormExitData = new FormData('[name="jobCardFormExit"]');
+
+                let formData = {
+                    modelName: formSel.data('modelName'),
+                    submitForm: true
+                };
+
+                for (const pair of jobCardFormExitData.entries()) {
+                    formData[pair[0]] = pair[1];
+                }
+
+                let arr = [];
+                let obj = {};
+
+                if (
+                    formSel.data('modelName') === 'SummaryHeader'
+                ) {
+                    $(formSel).find("tbody").children().map(function (index, row) {
+                        let obj = {};
+                        $(row).find('input[name], select[name]').each(function (i, item) {
+                            let val = item.value.replace(/,/g, '');
+
+                            if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
+                                let dateField = val;
+                                dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
+
+                                obj[item.name] = dateField;
+                            } else {
+                                obj[item.name] = item.value;
+                            }
+                        });
+
+                        arr.push(obj);
+                    });
+
+                   if (formSel.data('modelName') === 'SummaryHeader') {
+                        obj['defect'] = $('[name="defect"]').val();
+                        obj['mechanic'] = $('[name="mechanic"]').val();
+                        obj['mechanicName'] = $('[name="mechanicName"]').val();
+                        obj['reminderDueDate'] = $('[name="reminderDueDate"]').val();
+                        obj['workshopSection'] = $('[name="workshopSection"]').val();
+                        obj['shiftType'] = $('[name="shiftType"]').val()?.trim();
+                        obj['postCode'] = $('[name="postCode"]').val()?.trim();
+                        obj['hoursWorked'] = $('[name="hoursWorked"]').val();
+                        obj['ratePerHour'] = $('[name="ratePerHour"]').val();
+                        obj['totalAmount'] = $('#totalAmount').val();
+                    }
+                }
+
+                formData['items'] = arr;
+
+                formData = {
+                    ...obj,
+                    ...formData
+                }
+
+                return formData;
+            }
+
             function initEventHandlers() {
 
                 $("#itemType").on('change', function () {

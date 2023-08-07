@@ -2,7 +2,7 @@
 <div class="row pt-5">
     <div class="table-responsive">
         <table id="labour_table"
-               data-model-name="Labour"
+               data-model-name="SummaryHeader"
                class="table dataTable table-row-dashed align-middle gs-0 nowrap mt-10">
             <thead>
             <tr class="bg-success-subtle">
