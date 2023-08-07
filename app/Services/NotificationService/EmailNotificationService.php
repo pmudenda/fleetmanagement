@@ -23,10 +23,10 @@ class EmailNotificationService
 
             switch ($action) {
                 case 'requisition':
-                    $dueDate = Carbon::parse($record->dueDate)->format('d/m/Y');
+                    //$dueDate = Carbon::parse($record->dueDate)->format('d/m/Y');
                     $details = [
                         'name' => $names,
-                        'systemLink' => URL::signedRoute('show.workshop.requisition', ['reference' => $record->req_no]),
+                        'systemLink' => URL::signedRoute('show.workshop.requisition', ['ref' => $record->req_no]),
                         'identity' => $record->req_no,
                         'subject' => "New Task Needs Your Attention",
                         'title' => "New Task Needs Your Attention",
@@ -38,10 +38,10 @@ class EmailNotificationService
                     ];
                     break;
                 case 'job_card_material_requisition':
-                $dueDate = Carbon::parse($record->dueDate)->format('d/m/Y');
+                //$dueDate = Carbon::parse($record->dueDate)->format('d/m/Y');
                 $details = [
                     'name' => $names,
-                    'systemLink' => URL::signedRoute('show.workshop.requisition', ['reference' => $record->req_no]),
+                    'systemLink' => URL::signedRoute('show.workshop.requisition', ['ref' => $record->req_no]),
                     'identity' => $record->req_no,
                     'subject' => "New Task Needs Your Attention",
                     'title' => "New Task Needs Your Attention",
@@ -53,10 +53,10 @@ class EmailNotificationService
                 ];
                 break;
                 case 'fuel_requisition':
-                    $dueDate = Carbon::parse($record->dueDate)->format('d/m/Y');
+                    //$dueDate = Carbon::parse($record->dueDate)->format('d/m/Y');
                     $details = [
                         'name' => $names,
-                        'systemLink' => URL::signedRoute('show.workshop.requisition', ['reference' => $record->req_no]),
+                        'systemLink' => URL::signedRoute('show.fuel.requisition', ['ref' => $record->req_no]),
                         'identity' => $record->req_no,
                         'subject' => "New Task Needs Your Attention",
                         'title' => "New Task Needs Your Attention",

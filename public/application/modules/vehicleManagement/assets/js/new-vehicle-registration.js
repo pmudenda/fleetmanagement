@@ -233,7 +233,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     let costPriceInput = document.querySelector('[name="costPrice"]');
 
     if (price && price !== "20") {
-        costPriceInput.value = accounting.formatMoney(price, 2);
+        costPriceInput.value = accounting.formatMoney(price, '', 2, ",", ".");
         costPriceInput.setAttribute('readonly', 'readonly');
     }
 
@@ -244,7 +244,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         //$('input[name="yearOfPurchase"]').trigger('change');
         //Vue.set(app['costingAndValuation'], 'yearOfPurchase', data['yearOfPurchase']);
 
-        $('input[name="bookValue"]').val(data['bookvalue']);
+        $('input[name="bookValue"]').val(accounting.formatMoney(data['bookvalue'], '', 2, ",", "."));
         $('input[name="isOperationsVehicle"]').val(data['ispoolvehicle']);
         //$('input[name="bookValue"]').trigger('change');
         //Vue.set(app['costingAndValuation'], 'bookValue', data['bookValue']);
