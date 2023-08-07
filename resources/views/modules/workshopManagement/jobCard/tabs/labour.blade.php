@@ -1,9 +1,9 @@
 @php use Carbon\Carbon; @endphp
 <div class="row pt-5">
     <div class="table-responsive">
-        <table id="services_table mt-10"
-               data-model-name="ServicesHeader"
-               class="table dataTable table-row-dashed align-middle gs-0 nowrap">
+        <table id="labour_table"
+               data-model-name="Labour"
+               class="table dataTable table-row-dashed align-middle gs-0 nowrap mt-10">
             <thead>
             <tr class="bg-success-subtle">
                 <th>Defect</th>
@@ -51,7 +51,6 @@
                         </td>
                         <td class="showNumber">
                             <input type="text"
-                                   data-action="{{route('driver.search')}}"
                                    class="form-control form-control-sm"
                                    autocapitalize="characters"
                                    id="mechanic"

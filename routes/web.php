@@ -16,6 +16,7 @@ use App\Http\Controllers\Security\PermissionsController;
 use App\Http\Controllers\Security\RolesController;
 use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkshopManagement\MaintenanceController;
+use App\Http\Controllers\WorkshopManagement\MechanicController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -260,6 +261,18 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('driver/list', [DriverController::class, 'driverList'])->name('driver.list');
 
         Route::post('driver/find', [DriverController::class, 'findDriver'])->name('driver.search');
+    });
+
+    Route::group(['prefix' => 'mechanic-management'], function () {
+        /*Route::get('mechanic/create', [MechanicController::class, 'create'])->name('driver.create');
+
+        Route::post('mechanic/save', [MechanicController::class, 'store'])->name('save.driver');
+
+        Route::get('mechanic/show', [MechanicController::class, 'show'])->name('driver.show');
+
+        Route::get('mechanic/list', [MechanicController::class, 'driverList'])->name('driver.list');*/
+
+        Route::post('mechanic/find', [MechanicController::class, 'find'])->name('mechanic.search');
     });
 
     Route::group(['prefix' => 'reminders'], function () {

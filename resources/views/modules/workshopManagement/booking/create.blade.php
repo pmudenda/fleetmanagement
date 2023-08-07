@@ -419,6 +419,7 @@
                        data-action="{{route('requisition.vehicle.details')}}"
                        name="vehicleDetails"
                        id="vehicleDetails"/>
+
                 <input type="hidden" value="{{$details->veh_reg ?? ''}}" name="vehicle_reg_no"
                        id="vehicle_reg_no"/>
                 <input type="hidden" value="{{$details->wshp_act_code ?? ''}}" name="workshop_reference"
