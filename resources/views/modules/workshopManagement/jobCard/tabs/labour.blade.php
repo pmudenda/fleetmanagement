@@ -49,26 +49,6 @@
                                 <option></option>
                             </select>
                         </td>
-                        <td>
-                            <div class="input-group date">
-                                <input type="text"
-                                       required
-                                       name="reminderDueDate"
-                                       id="reminderDueDate"
-                                       class="form-control datePicker"
-                                />
-                                <div class="input-group-append"
-                                     data-target="#dateIssued"
-                                     data-action="openDatePicker">
-                                    <div type="button"
-                                         data-action="openDatePicker"
-                                         class="input-group-text ui-datepicker-trigger">
-                                        <i data-action="openDatePicker"
-                                           class="fa fa-calendar"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
                         <td class="showNumber">
                             <div class="input-group">
                                 <input type="text"
@@ -92,6 +72,26 @@
                                    id="mechanic"
                                    name="mechanic"
                                    readonly/>
+                        </td>
+                        <td>
+                            <div class="input-group date">
+                                <input type="text"
+                                       required
+                                       name="reminderDueDate"
+                                       id="reminderDueDate"
+                                       class="form-control datePicker"
+                                />
+                                <div class="input-group-append"
+                                     data-target="#dateIssued"
+                                     data-action="openDatePicker">
+                                    <div type="button"
+                                         data-action="openDatePicker"
+                                         class="input-group-text ui-datepicker-trigger">
+                                        <i data-action="openDatePicker"
+                                           class="fa fa-calendar"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                         <td>
                             <select name="shiftType"
