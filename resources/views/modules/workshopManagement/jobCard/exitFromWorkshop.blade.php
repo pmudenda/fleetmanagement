@@ -2898,10 +2898,9 @@
 
             function getExitSummaryData() {
 
-                let formSel = $('#labour_table');
-
                 let jobCardFormExitData = new FormData(document.querySelector('[name="jobCardFormExit"]'));
 
+                let formSel = $('#labour_table');
                 let formData = {
                     modelName: formSel.data('modelName'),
                     submitForm: true
@@ -2934,19 +2933,6 @@
 
                         arr.push(obj);
                     });
-
-                   if (formSel.data('modelName') === 'SummaryHeader') {
-                        obj['defect'] = $('[name="defect"]').val();
-                        obj['mechanic'] = $('[name="mechanic"]').val();
-                        obj['mechanicName'] = $('[name="mechanicName"]').val();
-                        obj['reminderDueDate'] = $('[name="reminderDueDate"]').val();
-                        obj['workshopSection'] = $('[name="workshopSection"]').val();
-                        obj['shiftType'] = $('[name="shiftType"]').val()?.trim();
-                        obj['postCode'] = $('[name="postCode"]').val()?.trim();
-                        obj['hoursWorked'] = $('[name="hoursWorked"]').val();
-                        obj['ratePerHour'] = $('[name="ratePerHour"]').val();
-                        obj['totalAmount'] = $('#totalAmount').val();
-                    }
                 }
 
                 formData['items'] = arr;

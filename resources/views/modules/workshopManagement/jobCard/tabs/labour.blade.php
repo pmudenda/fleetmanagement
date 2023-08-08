@@ -169,7 +169,6 @@
                                           class="input-number">0.00</b></td>
             </tr>
             </tfoot>
-
         </table>
 
         <div class="col-12 text-right">
