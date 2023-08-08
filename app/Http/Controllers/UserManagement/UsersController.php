@@ -20,7 +20,6 @@ use App\Models\Main\ConfigWorkFlow;
 use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\Role;
 use App\Models\Security\User;
-use App\Services\Logging\ActivityLogsService;
 use App\Services\Security\ParameterEncryption;
 use App\Services\Security\UserService;
 use Illuminate\Contracts\Foundation\Application;
@@ -102,7 +101,7 @@ class UsersController extends Controller
                     [
                         'con_st_code' => StatusHelper::active(),
                         'password' => Hash::make($request->password),
-                        'email' => $request->staff_email,
+                        'email' => strtoupper($request->staff_email),
                         'username' => $request->login_name,
                         'phone' => $request->mobile_no,
 

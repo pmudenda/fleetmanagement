@@ -11,7 +11,6 @@ use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\User;
 use Exception;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -64,7 +63,7 @@ class UserService
                 ->update(
                     [
                         'con_st_code' => StatusHelper::active(),
-                        'email' => $employee->staff_email,
+                        'email' => strtoupper($employee->staff_email),
                         'functional_section' => $employee->functional_section,
                         'directorate' => $employee->directorate,
                         'user_unit' => $employee->functional_section,
@@ -141,7 +140,7 @@ class UserService
             );
 
         if ($request->has('user_profile') || !empty($request->get('user_profile'))) {
-            $user = User::where('id','=', $id)->first();
+            $user = User::where('id', '=', $id)->first();
             /// $user->roles()->syncWithoutDetaching((int)$request->get('user_profile'));
             $user->roles()->sync((int)$request->get('user_profile'));
         }
