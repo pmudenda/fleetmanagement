@@ -228,7 +228,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('exit/vehicle/from/workshop', [MaintenanceController::class, 'exitWorkShop'])->name('exit.from.card');
 
-            Route::get('save/exit/vehicle/from/workshop', [MaintenanceController::class, 'processExitFromWorkShop'])->name('save.exit.from.workshop');
+            Route::post('close/work-order', [MaintenanceController::class, 'processExitFromWorkShop'])->name('save.exit.from.workshop');
 
             Route::post('store', function (Request $request) {
                 return response()->json(

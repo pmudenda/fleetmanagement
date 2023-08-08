@@ -3065,23 +3065,25 @@
                         return;
                     }
 
+                    let formData = getExitSummaryData();
+
                     $('.print-error-msg').css('display', 'none');
-                    let formData = new FormData($form);
+
                     tmsApp.confirm(
-                        'Fuel Requisition',
-                        'Are you sure you want to submit this request ?',
+                        'Close Work Order',
+                        'Are you sure you want to close this work order ?',
                         'Yes',
                         'No',
                         function () {
-                            window.top.tmsApp.asyncPostFormData(
+                            window.top.tmsApp.asyncPostJson(
                                 $form.action,
-                                formData,
+                                JSON.stringify(formData),
                                 function (asyncResponse) {
 
                                     if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                                         setTimeout(function () {
                                             tmsApp.showSystemMessage(
-                                                'Fuel Requisition',
+                                                'Close Work Order',
                                                 asyncResponse['message'],
                                                 function () {
                                                     window.location.href = asyncResponse["redirectUrl"]
@@ -3096,7 +3098,7 @@
                                         }
                                         setTimeout(function () {
                                             tmsApp.systemError(
-                                                'Fuel Requisition',
+                                                'Close Work Order',
                                                 asyncResponse['message'],
                                                 function () {
                                                 }, 'error');
@@ -3112,7 +3114,7 @@
                                             }
                                             if (xhr.responseJSON.hasOwnProperty('message')) {
                                                 tmsApp.systemError(
-                                                    'Fuel Requisition',
+                                                    'Close Work Order',
                                                     xhr.responseJSON['message']
                                                 );
                                             }
@@ -3120,7 +3122,7 @@
                                         }
 
                                         tmsApp.systemError(
-                                            'Fuel Requisition',
+                                            'Close Work Order',
                                             'We could not complete processing your request, please try again later');
                                     }, 300)
                                 }
@@ -3251,7 +3253,6 @@
                 document.getElementById('total-payment').value = total;
             }
         }
-
 
         // Navigation Script Starts Here
         $(document).ready(function () {
