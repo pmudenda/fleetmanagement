@@ -437,6 +437,7 @@ class MaintenanceController extends Controller
 
     public function processExitFromWorkShop(WorkshopExitRequest $request): JsonResponse
     {
+        dd($request);
         try {
             return $this->workshopService->exitVehicleFromWorkShop($request);
         } catch (\Exception $e) {
