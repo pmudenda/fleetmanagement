@@ -2899,7 +2899,8 @@
             function getExitSummaryData() {
 
                 let formSel = $('#labour_table');
-                let jobCardFormExitData = new FormData('[name="jobCardFormExit"]');
+
+                let jobCardFormExitData = new FormData(document.querySelector('[name="jobCardFormExit"]'));
 
                 let formData = {
                     modelName: formSel.data('modelName'),
