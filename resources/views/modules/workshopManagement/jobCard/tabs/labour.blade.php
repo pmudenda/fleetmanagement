@@ -171,6 +171,15 @@
             </tfoot>
         </table>
 
+        <textarea type="text"
+                  id="closureRemarks"
+                  minlength="20"
+                  maxlength="255"
+                  required
+                  name="closureRemarks"
+                  style="height: 129px;"
+                  class="form-control comments form-control-sm"></textarea>
+
         <div class="col-12 text-right">
             <div>
                 <button type="button"
