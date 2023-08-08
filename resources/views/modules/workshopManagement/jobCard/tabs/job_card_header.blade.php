@@ -294,7 +294,7 @@
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <select name="sub_fuel_level"
-                                            data-value="{{$details->fuel_level_in ?? ''}}"
+                                            data-value="{{$details->sub_fuel_level_in ?? ''}}"
                                             id="sub_fuel_level"
                                             class="form-select form-select-sm when_valid">
                                     </select>
