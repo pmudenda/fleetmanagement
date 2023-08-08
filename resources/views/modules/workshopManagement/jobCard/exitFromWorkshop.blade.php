@@ -3062,9 +3062,16 @@
                         'Yes',
                         'No',
                         function () {
+                            /*$.ajax({
+                                type: "POST",
+                                url: formSel.data('formUrl'),
+                                data: JSON.stringify(formData),
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                            })*/
                             window.top.tmsApp.asyncPostFormData(
                                 $form.action,
-                                formData,
+                                JSON.stringify(formData),
                                 function (asyncResponse) {
 
                                     if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
