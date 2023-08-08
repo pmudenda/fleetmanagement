@@ -1,6 +1,5 @@
 <?php
 
-use App\Helpers\StatusHelper;
 use App\Http\Controllers\AccidentReporting\VehicleRecordingController;
 use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\Configurations\ChargeOutRateController;
@@ -267,13 +266,13 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['prefix' => 'mechanic-management'], function () {
-        /*Route::get('mechanic/create', [MechanicController::class, 'create'])->name('driver.create');
+        Route::get('mechanic/create', [MechanicController::class, 'create'])->name('mechanic.create');
 
-        Route::post('mechanic/save', [MechanicController::class, 'store'])->name('save.driver');
+        Route::post('mechanic/save', [MechanicController::class, 'store'])->name('mechanic.save');
 
-        Route::get('mechanic/show', [MechanicController::class, 'show'])->name('driver.show');
+        Route::get('mechanic/show', [MechanicController::class, 'show'])->name('mechanic.show');
 
-        Route::get('mechanic/list', [MechanicController::class, 'driverList'])->name('driver.list');*/
+        Route::get('mechanic/list', [MechanicController::class, 'list'])->name('mechanic.list');
 
         Route::post('mechanic/find', [MechanicController::class, 'find'])->name('mechanic.search');
 

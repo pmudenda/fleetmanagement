@@ -6,6 +6,10 @@ use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Reference\PHCMSEmployee;
 use App\Models\WorkShopManagement\Mechanic;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -15,9 +19,9 @@ class MechanicController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function list(): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        //
+        return view('modules.mechanicManagement.list');
     }
 
     public function find(Request $request): JsonResponse
@@ -47,7 +51,7 @@ class MechanicController extends Controller
                     'mechanic' => $mechanic
                 ]
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e);
             return response()->json([
                 'state' => 'failure',

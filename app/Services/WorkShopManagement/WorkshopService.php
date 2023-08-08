@@ -85,17 +85,15 @@ class WorkshopService
             "millage_in" => $request->get("current_odometer"),
             "fuel_level_in" => $request->get("fuel_level"),
             "driver_in" => $request->get("driver_staff_number"),
-            "created_by" => $user->id
+            "created_by" => $user->id,
+            'status' => StatusHelper::new()
         ];
 
         DB::beginTransaction();
         $jobCardHeader = JobCardHeader::create($data);
 
-        // $this->moveVehicleToWorkShop($jobCardHeader->veh_reg);
-        $rowsAffected = VehicleHeader::where("registration_number", $vehicleRegistration)
-            ->update(["status" => StatusHelper::vehicleInWorkshop()]);
+        $this->moveVehicleToWorkShop($vehicleRegistration);
 
-        Log::info('Setting Vehicle State To In Workshop ' . $rowsAffected);
         DB::commit();
         return $jobCardHeader;
     }
@@ -233,12 +231,15 @@ class WorkshopService
         return $data->first();
     }
 
-    private function moveVehicleToWorkShop($veh_reg): void
+    private function moveVehicleToWorkShop($vehicleRegistration): void
     {
-        //DB::beginTransaction();
-        VehicleHeader::where("registration_number", $veh_reg)
-            ->update(["status" => StatusHelper::vehicleInWorkshop()]);
-        //DB::commit();
+        $rowsAffected = VehicleHeader::where("registration_number", $vehicleRegistration)
+            ->update([
+                "status" => StatusHelper::vehicleInWorkshop(),
+                'updated_at' => Carbon::now()
+            ]);
+
+        Log::info('Setting Vehicle State To In Workshop ' . $rowsAffected);
     }
 
     public function exitVehicleFromWorkShop(WorkshopExitRequest $request)
