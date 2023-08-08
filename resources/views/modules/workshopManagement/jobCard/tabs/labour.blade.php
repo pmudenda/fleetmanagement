@@ -110,10 +110,10 @@
                         </td>
                         <td>
                             <input type="hidden"
-                                    id="postCode"
-                                    name="postCode"
-                                    required
-                                    class=""/>
+                                   id="postCode"
+                                   name="postCode"
+                                   required
+                                   class=""/>
                             <select name="shiftType"
                                     disabled
                                     required
@@ -170,7 +170,15 @@
             </tr>
             </tfoot>
         </table>
-
+        <hr>
+        <div class="row">
+            <div class="form-group">
+                <label
+                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                        for="remarks">
+                    Comment:
+                </label>
+                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
         <textarea type="text"
                   id="closureRemarks"
                   minlength="20"
@@ -179,6 +187,9 @@
                   name="closureRemarks"
                   style="height: 129px;"
                   class="form-control comments form-control-sm"></textarea>
+                </div>
+            </div>
+        </div>
 
         <div class="col-12 text-right">
             <div>
