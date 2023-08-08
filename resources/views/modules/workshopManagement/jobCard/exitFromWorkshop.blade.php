@@ -2906,10 +2906,6 @@
                     submitForm: true
                 };
 
-                for (const pair of jobCardFormExitData.entries()) {
-                    formData[pair[0]] = pair[1];
-                }
-
                 let arr = [];
                 let obj = {};
 
@@ -2933,6 +2929,10 @@
 
                         arr.push(obj);
                     });
+                }
+
+                for (const pair of jobCardFormExitData.entries()) {
+                    obj[pair[0]] = pair[1];
                 }
 
                 formData['items'] = arr;
@@ -3062,9 +3062,9 @@
                         'Yes',
                         'No',
                         function () {
-                            window.top.tmsApp.asyncPostJson(
+                            window.top.tmsApp.asyncPostFormData(
                                 $form.action,
-                                JSON.stringify(formData),
+                                formData,
                                 function (asyncResponse) {
 
                                     if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
