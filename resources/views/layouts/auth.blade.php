@@ -50,4 +50,9 @@
 <script src="{{asset('assets/dist/js/password.js')}}" type="text/javascript"></script>
 
 </body>
+<script>
+    $(document).on('keyup', '[name="email"]', function (event) {
+        this.value = this.value.toUpperCase();
+    });
+</script>
 </html>
