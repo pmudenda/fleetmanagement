@@ -37,7 +37,7 @@
 
             @if(RepairTypes::ContractedService->value != $details->repair_type ?? '')
                 <div class="tab-pane active" id="spares" role="tabpanel">
-                    @include('modules.workshopManagement.jobCard.tabs.materials')
+                    @include('modules.workshopManagement.workOrder.tabs.materials')
                 </div>
             @endif
 
@@ -48,18 +48,18 @@
                     RepairTypes::GeneralRepair->value
                 ]))
                 <div
-                    class="tab-pane @if(RepairTypes::ContractedService->value == $details->repair_type ?? '') active @endif"
-                    id="services" role="tabpanel">
-                    @include('modules.workshopManagement.jobCard.tabs.services')
+                        class="tab-pane @if(RepairTypes::ContractedService->value == $details->repair_type ?? '') active @endif"
+                        id="services" role="tabpanel">
+                    @include('modules.workshopManagement.workOrder.tabs.services')
                 </div>
             @endif
         @endif
 
         <div class="tab-pane" id="imprest" role="tabpanel">
-            @include('modules.workshopManagement.jobCard.tabs.imprest_buy')
+            @include('modules.workshopManagement.workOrder.tabs.imprest_buy')
         </div>
         <div class="tab-pane" id="labour" role="tabpanel">
-            @include('modules.workshopManagement.jobCard.tabs.labour')
+            @include('modules.workshopManagement.workOrder.tabs.labour')
         </div>
     </div>
 </div>

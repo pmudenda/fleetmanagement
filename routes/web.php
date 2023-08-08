@@ -196,14 +196,14 @@ Route::group(['middleware' => 'auth'], function () {
         /** Job Card Processing **/
         Route::group(['prefix' => 'maintenance'], function () {
 
-            Route::get('jobCard', [MaintenanceController::class, 'create'])->name('jobCard.requisition');
+            Route::get('workOrder', [MaintenanceController::class, 'create'])->name('workOrder.requisition');
 
-            Route::get('jobCard/job-card/accessories', [MaintenanceController::class, 'accessoriesTab'])->name('accessories.job.card');
+            Route::get('workOrder/job-card/accessories', [MaintenanceController::class, 'accessoriesTab'])->name('accessories.job.card');
 
             // supporting
-            Route::get('requisitions/jobCard/list', [MaintenanceController::class, 'list'])->name('jobCard.list');
+            Route::get('requisitions/workOrder/list', [MaintenanceController::class, 'list'])->name('workOrder.list');
 
-            Route::post('requisitions/jobCard', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
+            Route::post('requisitions/workOrder', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
 
             //delete defect
             Route::post('/deleteRecord', [MaintenanceController::class, "deleteRecord"])->name('delete.defect.record');
@@ -224,11 +224,13 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::post('save/workshop/services/reservation', [MaintenanceController::class, 'processWorkShopServicesReservation'])->name('save.service.reservation');
 
-            Route::get('jobCard/job-card/defects', [MaintenanceController::class, 'defectsTab'])->name('defects.job.card');
+            Route::get('workOrder/job-card/defects', [MaintenanceController::class, 'defectsTab'])->name('defects.job.card');
 
             Route::get('exit/vehicle/from/workshop', [MaintenanceController::class, 'exitWorkShop'])->name('exit.from.card');
 
-            Route::post('close/work-order', [MaintenanceController::class, 'processExitFromWorkShop'])->name('save.exit.from.workshop');
+            Route::post('close/work-order', [MaintenanceController::class, 'processWorkOrderClosure'])->name('save.exit.from.workshop');
+
+            Route::get('approve/work-order', [MaintenanceController::class, 'approveWorkOrderClosure'])->name('show.workorder.closure');
 
             Route::post('store', function (Request $request) {
                 return response()->json(
@@ -359,7 +361,7 @@ Route::get('parts-selection', function (Request $request) {
     $defects = [];
     $comments = [];
 
-    $view_name = 'modules.workshopManagement.jobCard.create_old';
+    $view_name = 'modules.workshopManagement.workOrder.create_old';
 
     return view($view_name)->with(
         compact(

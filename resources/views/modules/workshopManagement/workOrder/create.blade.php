@@ -79,21 +79,21 @@
                     @csrf
                     <h1>Details</h1>
                     <section>
-                        @include('modules.workshopManagement.jobCard.tabs.job_card_header')
+                        @include('modules.workshopManagement.workOrder.tabs.job_card_header')
                     </section>
 
                     <h1>Accessories</h1>
                     <section>
-                        @include('modules.workshopManagement.jobCard.tabs.accessories')
+                        @include('modules.workshopManagement.workOrder.tabs.accessories')
                     </section>
 
                     <h1>Defects</h1>
                     <section>
-                        @include('modules.workshopManagement.jobCard.tabs.defects')
+                        @include('modules.workshopManagement.workOrder.tabs.defects')
                     </section>
                     <h1>Spares & Services</h1>
                     <section>
-                        @include('modules.workshopManagement.jobCard.tabs.partsSelection')
+                        @include('modules.workshopManagement.workOrder.tabs.partsSelection')
                     </section>
 
                 </form>

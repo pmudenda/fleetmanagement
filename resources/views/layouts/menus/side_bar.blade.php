@@ -163,7 +163,7 @@
                                     <ul class="nav nav-treeview pl-2">
                                         @can(config('rights.create_job_card'))
                                             <li class="nav-item">
-                                                <a href="{{URL::signedRoute('jobCard.requisition',['step'=> 1])}}"
+                                                <a href="{{URL::signedRoute('workOrder.requisition',['step'=> 1])}}"
                                                    class="nav-link">
                                                     <i class="fas fa-plus nav-icon"></i>
                                                     <p>New</p>
@@ -176,7 +176,19 @@
 
                             @can(config('rights.view_job_card'))
                                 <li class="nav-item pl-2">
-                                    <a href="{{URL::signedRoute('jobCard.list',['step'=> 1])}}"
+                                    <a href="{{URL::signedRoute('workOrder.list',['step'=> 1])}}"
+                                       class="nav-link">
+                                        <i class="fas fa-list nav-icon"></i>
+                                        <p>
+                                            In Workshop
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can(config('rights.view_job_card'))
+                                <li class="nav-item pl-2">
+                                    <a href="{{URL::signedRoute('workOrder.list',['step'=> 1])}}"
                                        class="nav-link">
                                         <i class="fas fa-list nav-icon"></i>
                                         <p>
@@ -293,7 +305,7 @@
                             </li>--}}
 
                             {{--<li class="nav-item">
-                                <a href="{{URL::signedRoute('jobCard.requisition', ['step'=> 1])}}" class="nav-link">
+                                <a href="{{URL::signedRoute('workOrder.requisition', ['step'=> 1])}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Maintenance Requisition</p>
                                 </a>
@@ -406,16 +418,16 @@
                                                 </p>
                                             </a>
                                         </li>
-                                       {{-- @endcan--}}
-                                       {{-- @can(config('rights.view_drivers'))--}}
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="{{ URL::signedRoute('mechanic.list') }}">
-                                                    <i class="fas fa-users nav-icon"></i>
-                                                    <p>
-                                                        List
-                                                    </p>
-                                                </a>
-                                            </li>
+                                        {{-- @endcan--}}
+                                        {{-- @can(config('rights.view_drivers'))--}}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ URL::signedRoute('mechanic.list') }}">
+                                                <i class="fas fa-users nav-icon"></i>
+                                                <p>
+                                                    List
+                                                </p>
+                                            </a>
+                                        </li>
                                         {{--@endcan--}}
                                     </ul>
                                 </li>
@@ -878,7 +890,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item d-none">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-bell" style="font-size: 20px;"></i>
                         <p>
@@ -915,7 +927,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item d-none">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-credit-card" style="font-size: 20px;"></i>
                         <p>
@@ -980,7 +992,7 @@
                                 </a>
                             </li>--}}
                             {{--<li class="nav-item">
-                                <a href="{{URL::signedRoute('jobCard.requisition', ['step'=> 1])}}" class="nav-link">
+                                <a href="{{URL::signedRoute('workOrder.requisition', ['step'=> 1])}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Maintenance Requisition</p>
                                 </a>

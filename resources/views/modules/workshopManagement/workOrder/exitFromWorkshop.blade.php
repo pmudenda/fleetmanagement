@@ -1585,7 +1585,7 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="labour" role="tabpanel">
-                                    @include('modules.workshopManagement.jobCard.tabs.labour')
+                                    @include('modules.workshopManagement.workOrder.tabs.labour')
                                 </div>
                             </div>
                         </div>
@@ -3062,65 +3062,59 @@
                         'Yes',
                         'No',
                         function () {
-                            /*$.ajax({
+                            $.ajax({
                                 type: "POST",
-                                url: formSel.data('formUrl'),
+                                url: $form.action,
                                 data: JSON.stringify(formData),
                                 dataType: "json",
                                 contentType: "application/json; charset=utf-8",
-                            })*/
-                            window.top.tmsApp.asyncPostFormData(
-                                $form.action,
-                                JSON.stringify(formData),
-                                function (asyncResponse) {
+                            }).done(function (asyncResponse) {
 
-                                    if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
-                                        setTimeout(function () {
-                                            tmsApp.showSystemMessage(
-                                                'Close Work Order',
-                                                asyncResponse['message'],
-                                                function () {
-                                                    window.location.href = asyncResponse["redirectUrl"]
-                                                },
-                                                'success'
-                                            );
-                                        }, 300);
-                                    } else {
-                                        if (asyncResponse.hasOwnProperty('errors')) {
-                                            tmsApp.printErrorMsg(asyncResponse.errors);
-                                            return
-                                        }
-                                        setTimeout(function () {
-                                            tmsApp.systemError(
-                                                'Close Work Order',
-                                                asyncResponse['message'],
-                                                function () {
-                                                }, 'error');
-                                        }, 300);
-                                    }
-                                },
-                                function (xhr, settings, errorThrown) {
-                                    console.log(errorThrown)
+                                if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                                     setTimeout(function () {
-                                        if ('responseJSON' in xhr) {
-                                            if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                                tmsApp.printErrorMsg(xhr.responseJSON.errors);
-                                            }
-                                            if (xhr.responseJSON.hasOwnProperty('message')) {
-                                                tmsApp.systemError(
-                                                    'Close Work Order',
-                                                    xhr.responseJSON['message']
-                                                );
-                                            }
-                                            return;
-                                        }
-
+                                        tmsApp.showSystemMessage(
+                                            'Close Work Order',
+                                            asyncResponse['message'],
+                                            function () {
+                                                window.location.href = asyncResponse["redirectUrl"]
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+                                    setTimeout(function () {
                                         tmsApp.systemError(
                                             'Close Work Order',
-                                            'We could not complete processing your request, please try again later');
-                                    }, 300)
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
                                 }
-                            )
+                            }).fail(function (xhr, settings, errorThrown) {
+                                console.log(errorThrown)
+                                setTimeout(function () {
+                                    if ('responseJSON' in xhr) {
+                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                        }
+                                        if (xhr.responseJSON.hasOwnProperty('message')) {
+                                            tmsApp.systemError(
+                                                'Close Work Order',
+                                                xhr.responseJSON['message']
+                                            );
+                                        }
+                                        return;
+                                    }
+
+                                    tmsApp.systemError(
+                                        'Close Work Order',
+                                        'We could not complete processing your request, please try again later');
+                                }, 300)
+                            });
                         }
                     );
                 });

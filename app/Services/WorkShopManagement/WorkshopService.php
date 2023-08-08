@@ -8,7 +8,7 @@ use App\Enums\RequisitionItemTypes;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\JobCardRequest;
 use App\Http\Requests\VehicleDefectsRequest;
-use App\Http\Requests\WorkshopExitRequest;
+use App\Http\Requests\WorkOrderClosure;
 use App\Models\MaterialHeader;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
@@ -261,7 +261,7 @@ class WorkshopService
         Log::info('Setting Vehicle State To In Workshop ' . $rowsAffected);
     }
 
-    public function exitVehicleFromWorkShop(WorkshopExitRequest $request): JsonResponse
+    public function workOrderClosure(WorkOrderClosure $request): JsonResponse
     {
         $user = Auth::user();
 
@@ -315,7 +315,7 @@ class WorkshopService
                 "success" => true,
                 "payload" => [],
                 "message" => "Work Order Closure Submitted For Approval",
-                "redirectUrl" => URL::signedRoute("jobCard.list"),
+                "redirectUrl" => URL::signedRoute("workOrder.list"),
             ]
         );
     }

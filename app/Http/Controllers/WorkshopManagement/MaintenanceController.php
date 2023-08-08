@@ -14,15 +14,15 @@ use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobCardRequest;
 use App\Http\Requests\VehicleDefectsRequest;
-use App\Http\Requests\WorkshopExitRequest;
+use App\Http\Requests\WorkOrderClosure;
 use App\Http\Requests\WorkshopMaterialResevationRequest;
 use App\Http\Requests\WorkshopRequisitionRequest;
 use App\Http\Requests\WorkshopServiceRequisitionRequest;
 use App\Http\Requests\WorkshopServiceReservationRequest;
-use App\Models\Settings\Accessory;
-use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\MaterialDetail;
 use App\Models\RequisitionType;
+use App\Models\Settings\Accessory;
+use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Models\WorkShopManagement\VehicleDefect;
 use App\Models\WorkShopManagement\WorkShopComment;
@@ -104,7 +104,7 @@ class MaintenanceController extends Controller
             $services
             ) = $this->getJobCardCreationData($request);
 
-        $view_name = "modules.workshopManagement.jobCard.create";
+        $view_name = "modules.workshopManagement.workOrder.create";
 
         return view($view_name)
             ->with(
@@ -279,7 +279,7 @@ class MaintenanceController extends Controller
         }
 
         if (!$request->has("step")) {
-            return redirect(URL::signedRoute("jobCard.requisition", ["step" => 1]));
+            return redirect(URL::signedRoute("workOrder.requisition", ["step" => 1]));
         }
 
         list($step,
@@ -296,7 +296,7 @@ class MaintenanceController extends Controller
             $services
             ) = $this->getJobCardCreationData($request);
 
-        return view("modules.workshopManagement.jobCard.create")
+        return view("modules.workshopManagement.workOrder.create")
             ->with(
                 compact(
                     "repairTypes",
@@ -339,7 +339,7 @@ class MaintenanceController extends Controller
             $services
             ) = $this->getFullJobCardDetails($request->get("reference"));
 
-        return view("modules.workshopManagement.jobCard.exitFromWorkshop")
+        return view("modules.workshopManagement.workOrder.exitFromWorkshop")
             ->with(
                 compact(
                     "repairTypes",
@@ -379,7 +379,7 @@ class MaintenanceController extends Controller
             $services
             ) = $this->getJobCardCreationData($request);
 
-        return view("modules.workshopManagement.jobCard.create")
+        return view("modules.workshopManagement.workOrder.create")
             ->with(
                 compact(
                     "repairTypes",
@@ -435,12 +435,10 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function processExitFromWorkShop(Request $request): JsonResponse
+    public function processWorkOrderClosure(WorkOrderClosure $request): JsonResponse
     {
-        dd($request->json()->all());
-
         try {
-            return $this->workshopService->exitVehicleFromWorkShop($request);
+            return $this->workshopService->workOrderClosure($request);
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json(
@@ -451,6 +449,46 @@ class MaintenanceController extends Controller
                 ]
             );
         }
+    }
+
+    public function approveWorkOrderClosure(Request $request)
+    {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
+        $req_no = $request->get('ref');
+
+        $user = Auth::user();
+
+        $requestDetails = $this->workshopService->getJobCardDetails($req_no);
+
+        if ($requestDetails == null) {
+            abort(404);
+        }
+
+        $workflowTask = WorkflowTaskHeader::where('reference', '=', $req_no)->first();
+
+        //$costCenter = CostCenters::where('code_cost_center', $user->cc_code)->first();
+        /*$organizationalUnit = OrganizationalUnits::where('code_unit', $requestDetails->cc_code)
+            ->first();*/
+
+        //$requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
+
+        //$daysToNextRefuel = config('settings.fuel_requisition_validity');
+
+        $approvalHistory = [];
+
+        return view('modules.workshopManagement.workOrder.show')
+            ->with(compact(
+                'user',
+              //  'requisitionTypes',
+                //'organizationalUnit',
+                'requestDetails',
+                //'daysToNextRefuel',
+                'approvalHistory',
+                'workflowTask'
+            ));
     }
 
     public function processJobCardAccessories(Request $request): JsonResponse

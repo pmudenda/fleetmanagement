@@ -10,13 +10,13 @@ define('LARAVEL_START', microtime(true));
 | Check If The Application Is Under Maintenance
 |--------------------------------------------------------------------------
 |
-| If the application is in jobCard / demo mode via the "down" command
+| If the application is in workOrder / demo mode via the "down" command
 | we will load this file so that any pre-rendered content can be shown
 | instead of starting the framework, which could cause an exception.
 |
 */
 
-if (file_exists($maintenance = __DIR__.'/../storage/framework/jobCard.php')) {
+if (file_exists($maintenance = __DIR__.'/../storage/framework/workOrder.php')) {
     require $maintenance;
 }
 

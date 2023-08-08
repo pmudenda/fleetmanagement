@@ -14,9 +14,9 @@
 @section('content')
 
     <x-content-header
-        :activeCrumb="'New Job Card'"
-        :linkText="'Job Card'"
-        :pageTitle="'Workshop Management'"/>
+            :activeCrumb="'New Job Card'"
+            :linkText="'Job Card'"
+            :pageTitle="'Workshop Management'"/>
     <section class="content">
         <div class="card">
             <div class="card-header">
@@ -50,7 +50,7 @@
                     @csrf
                     <h1>Job Card Details</h1>
                     <div>
-                        @include('modules.workshopManagement.jobCard.tabs.partsSelection')
+                        @include('modules.workshopManagement.workOrder.tabs.partsSelection')
                     </div>
 
                     <h1>Accessories Checkin & Movement</h1>
@@ -88,8 +88,8 @@
     </script>
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script src="{{asset("libs/steps/jquery.steps.js")}}"></script>
-    {{--<script src="{{asset("application/modules/jobCard/job.card.js")}}"></script>--}}
-{{--    <script src="{{asset('assets/js/system/project_code.js').'?v='.Carbon::now()->format('his')}}"></script>--}}
+    {{--<script src="{{asset("application/modules/workOrder/job.card.js")}}"></script>--}}
+    {{--    <script src="{{asset('assets/js/system/project_code.js').'?v='.Carbon::now()->format('his')}}"></script>--}}
     <script>
         (function (tmsApp, $) {
             let form = $('#jobCardForm').show();
@@ -662,10 +662,7 @@
         })(window.tmsApp || {}, jQuery)
 
 
-
         $(document).ready(function () {
-
-
 
 
         })

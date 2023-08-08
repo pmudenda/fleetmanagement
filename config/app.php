@@ -131,14 +131,14 @@ return [
     |--------------------------------------------------------------------------
     |
     | These configuration options determine the driver used to determine and
-    | manage Laravel's "jobCard mode" status. The "cache" driver will
-    | allow jobCard mode to be controlled across multiple machines.
+    | manage Laravel's "workOrder mode" status. The "cache" driver will
+    | allow workOrder mode to be controlled across multiple machines.
     |
     | Supported drivers: "file", "cache"
     |
     */
 
-    'jobCard' => [
+    'workOrder' => [
         'driver' => 'file',
         // 'store'  => 'redis',
     ],
