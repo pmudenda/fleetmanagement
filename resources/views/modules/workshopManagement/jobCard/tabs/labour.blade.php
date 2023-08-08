@@ -75,8 +75,8 @@
                             <div class="input-group date">
                                 <input type="text"
                                        required
-                                       name="reminderDueDate"
-                                       id="reminderDueDate"
+                                       name="dateOfWork"
+                                       id="dateOfWork"
                                        class="form-control datePicker"
                                 />
                                 <div class="input-group-append"

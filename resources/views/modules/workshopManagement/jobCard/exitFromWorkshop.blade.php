@@ -2166,7 +2166,7 @@
                         workshopSection: {
                             required: true
                         },
-                        reminderDueDate: {
+                        dateOfWork: {
                             required: true
                         }
                     },

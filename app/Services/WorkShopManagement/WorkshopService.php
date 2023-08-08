@@ -250,30 +250,47 @@ class WorkshopService
     {
         $user = Auth::user();
 
-        $rowsAffected = JobCardHeader::where("job_card_no", "=", $request->get("job_card_number"))
-            ->update([
-                "status" => StatusHelper::closed(),
-                "date_out" => Carbon::now(),
-                "time_out" => Carbon::now(),
-                "dispatched_by" => $user->staff_no,
-                'sub_fuel_level_out' => '',
-                "millage_out" => $request->get("exitOdometer"),
-                "fuel_level_out" => $request->get("fuel_level"),
-                "driver_out" => $request->get("driver_out"),
-                "modified_by" => $user->id,
-                'updated_at' => Carbon::now()
+        DB::beginTransaction();
+
+        $workOrder = JobCardHeader::where("job_card_no", "=", $request->get("job_card_number"))
+            ->first();
+
+        $workOrder->status = StatusHelper::closed();
+        $workOrder->date_out = Carbon::now();
+        $workOrder->time_out = Carbon::now();
+        $workOrder->dispatched_by = $user->staff_no;
+        $workOrder->sub_fuel_level_out = '';
+        $workOrder->millage_out = $request->get("exitOdometer");
+        $workOrder->fuel_level_out = $request->get("fuel_level");
+        $workOrder->driver_out = $request->get("driver_out");
+        $workOrder->modified_by = $user->id;
+        $workOrder->updated_at = Carbon::now();
+
+        foreach ($request->get("items") as $labourItem) {
+            WorkshopLabour::create([
+                'wshp_act_code' => $workOrder->wshp_act_code,
+                'wshp_code' => $workOrder->workshop_code,
+                'section' => $labourItem['workshopSection'],
+                'evaluation' => $labourItem['N'],
+                'date_lab' => Carbon::createFromFormat('d/m/Y', $labourItem['dateOfWork']),
+                'mechanic' => $labourItem['mechanic'],
+                'hours_worked' => $labourItem['hoursWorked'],
+                'rate' => $labourItem['ratePerHour'],
+                'total_amount' => $labourItem['totalAmount'],
+                'def_no' => $labourItem['defect'],
+                'created_by' => $user->staff_no,
+                //'authorised_by' => $labourItem[''],
+                'type_of_hour' => $labourItem['shiftType'],
             ]);
+        }
 
-
-        WorkshopLabour::create([
-
-        ]);
-
+        DB::commit();
 
         return response()->json(
             [
                 "success" => true,
                 "payload" => [],
+                "message" => "Work Order Closure Submitted For Approval",
                 "redirectUrl" => URL::signedRoute("jobCard.list"),
             ]
         );
