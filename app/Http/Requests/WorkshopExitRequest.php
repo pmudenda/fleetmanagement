@@ -29,6 +29,15 @@ class WorkshopExitRequest extends FormRequest
             'exitFuelLevel' => 'required',
             'driver_out' => 'required',
             'driver_name_out' => 'required',
+
+            'items.*.workshopSection',
+            'items.*.dateOfWork',
+            'items.*.mechanic',
+            'items.*.hoursWorked',
+            'items.*.ratePerHour',
+            'items.*.totalAmount',
+            'items.*.defect',
+            'items.*.shiftType',
         ];
     }
 }

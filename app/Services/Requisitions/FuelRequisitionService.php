@@ -53,11 +53,11 @@ class FuelRequisitionService
      * @param mixed $registrationNumber
      * @return mixed
      */
-    private static function getRequisitionDetailByVehicleRegistration(mixed $registrationNumber)
+    private static function getRequisitionDetailByVehicleRegistration(mixed $registrationNumber): mixed
     {
-        return MaterialHeader::where('veh_reg_no', $registrationNumber)
-            ->whereNotIn('status', [StatusHelper::cancelled(), StatusHelper::rejected()])
-            ->orderBy('created_at', 'desc')
+        return MaterialHeader::where("veh_reg_no", $registrationNumber)
+            ->whereNotIn("status", [StatusHelper::cancelled(), StatusHelper::rejected()])
+            ->orderBy("created_at", "desc")
             ->first();
     }
 
@@ -68,20 +68,20 @@ class FuelRequisitionService
     public function processRequest(FuelRequisitionPostRequest $requisitionPostRequest): JsonResponse
     {
         $isOutOfTownRequisition =
-            $requisitionPostRequest->get('requisition_type') == RequisitionTypes::OutOfTown->value;
+            $requisitionPostRequest->get("requisition_type") == RequisitionTypes::OutOfTown->value;
 
-        $isLocalRequisition = $requisitionPostRequest->get('requisition_type') == RequisitionTypes::Normal->value;
+        $isLocalRequisition = $requisitionPostRequest->get("requisition_type") == RequisitionTypes::Normal->value;
 
-        $isOverrideRequisition = $requisitionPostRequest->get('requisition_type') == RequisitionTypes::Override->value;
+        $isOverrideRequisition = $requisitionPostRequest->get("requisition_type") == RequisitionTypes::Override->value;
 
-        $registrationNumber = $requisitionPostRequest->get('vehicle_registration');
+        $registrationNumber = $requisitionPostRequest->get("vehicle_registration");
 
         $vehicle = $this->validateVehicleStatus($registrationNumber);
 
         //$this->validateVehicleResponsibleUserStatus($registrationNumber);
 
         // validate odometer reading
-        self::validateCurrentOdometerAgainstMileageReturn($registrationNumber, $requisitionPostRequest->get('odometer_reading'));
+        self::validateCurrentOdometerAgainstMileageReturn($registrationNumber, $requisitionPostRequest->get("odometer_reading"));
 
         DB::beginTransaction();
 
@@ -97,15 +97,15 @@ class FuelRequisitionService
             Log::info("Status of Previous Requisition for $registrationNumber . Is Empty");
         }
 
-        $valid_to = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('next_fuel_date'));
-        $valid_from = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('request_date'));
+        $valid_to = Carbon::createFromFormat("d/m/Y", $requisitionPostRequest->get("next_fuel_date"));
+        $valid_from = Carbon::createFromFormat("d/m/Y", $requisitionPostRequest->get("request_date"));
 
         if ($isLocalRequisition) {
             // quantity requested can not be more than allocated
-            if ($requisitionPostRequest->get('material_quantity') > $requisitionPostRequest->get('fuel_allocation')) {
+            if ($requisitionPostRequest->get("material_quantity") > $requisitionPostRequest->get("fuel_allocation")) {
                 return response()->json([
-                    'success' => false,
-                    'message' => 'Quantity requested can not be more than allocation'
+                    "success" => false,
+                    "message" => "Quantity requested can not be more than allocation"
                 ]);
             }
             if (!empty($latestPreviousRequisition)) {
@@ -116,14 +116,14 @@ class FuelRequisitionService
                         || RequisitionTypes::Override->value == $latestPreviousRequisition->requisition_type) {
 
                         return response()->json([
-                            'success' => false,
-                            'message' =>
-                                str_replace('@veh_reg', $registrationNumber,
-                                    str_replace('@date_valid_to',
-                                        Carbon::parse($latestPreviousRequisition->valid_date_to)->format('d/m/Y'),
-                                        str_replace('@req_no',
+                            "success" => false,
+                            "message" =>
+                                str_replace("@veh_reg", $registrationNumber,
+                                    str_replace("@date_valid_to",
+                                        Carbon::parse($latestPreviousRequisition->valid_date_to)->format("d/m/Y"),
+                                        str_replace("@req_no",
                                             $latestPreviousRequisition->st_pur ?? $latestPreviousRequisition->req_no,
-                                            ErrorMessages::getMessage('err_0001')
+                                            ErrorMessages::getMessage("err_0001")
                                         )
                                     )
                                 ),
@@ -155,8 +155,8 @@ class FuelRequisitionService
         } elseif ($isOutOfTownRequisition) {
 
             // out of town requisition can be more than allocated
-            $valid_from = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->get('departure_date'));
-            $valid_to = Carbon::createFromFormat('Y-m-d', $requisitionPostRequest->get('return_date'));
+            $valid_from = Carbon::createFromFormat("Y-m-d", $requisitionPostRequest->get("departure_date"));
+            $valid_to = Carbon::createFromFormat("Y-m-d", $requisitionPostRequest->get("return_date"));
 
             if (!empty($latestPreviousRequisition)) {
                 if (in_array($latestPreviousRequisition->status, $openRequisitionStatusList)) {
@@ -174,31 +174,31 @@ class FuelRequisitionService
         } elseif ($isOverrideRequisition) {
             // if there is no previous requisition, throw error
             if (empty($latestPreviousRequisition)) {
-                throw new FuelRequisitionException(ErrorMessages::getMessage('err_0008'));
+                throw new FuelRequisitionException(ErrorMessages::getMessage("err_0008"));
             }
 
             if (in_array($latestPreviousRequisition->status, $openRequisitionStatusList)) {
-                $message = '';
+                $message = "";
 
                 if (RequisitionTypes::Override->value == $latestPreviousRequisition->requisition_type) {
-                    $message = ErrorMessages::getMessage('err_0006');
+                    $message = ErrorMessages::getMessage("err_0006");
                 }
 
                 if (RequisitionTypes::Normal->value == $latestPreviousRequisition->requisition_type) {
-                    $message = ErrorMessages::getMessage('err_0007');
+                    $message = ErrorMessages::getMessage("err_0007");
                 }
 
                 if (RequisitionTypes::OutOfTown->value == $latestPreviousRequisition->requisition_type) {
-                    $message = ErrorMessages::getMessage('err_0014');
+                    $message = ErrorMessages::getMessage("err_0014");
                 }
 
                 return response()->json([
-                    'success' => false,
-                    'message' =>
-                        str_replace('@veh_reg', $registrationNumber,
-                            str_replace('@date_valid_to',
-                                Carbon::parse($latestPreviousRequisition->valid_date_to)->format('d/m/Y'),
-                                str_replace('@req_no',
+                    "success" => false,
+                    "message" =>
+                        str_replace("@veh_reg", $registrationNumber,
+                            str_replace("@date_valid_to",
+                                Carbon::parse($latestPreviousRequisition->valid_date_to)->format("d/m/Y"),
+                                str_replace("@req_no",
                                     $latestPreviousRequisition->st_pur ?? $latestPreviousRequisition->req_no,
                                     $message)
                             )
@@ -212,14 +212,14 @@ class FuelRequisitionService
                 || RequisitionTypes::OutOfTown->value == $latestPreviousRequisition->requisition_type
             ) {
                 return response()->json([
-                    'success' => false,
-                    'message' =>
-                        str_replace('@veh_reg', $registrationNumber,
-                            str_replace('@date_valid_to',
-                                Carbon::parse($latestPreviousRequisition->valid_date_to)->format('d/m/Y'),
-                                str_replace('@req_no',
+                    "success" => false,
+                    "message" =>
+                        str_replace("@veh_reg", $registrationNumber,
+                            str_replace("@date_valid_to",
+                                Carbon::parse($latestPreviousRequisition->valid_date_to)->format("d/m/Y"),
+                                str_replace("@req_no",
                                     $latestPreviousRequisition->st_pur ?? $latestPreviousRequisition->req_no,
-                                    ErrorMessages::getMessage('err_0006'))
+                                    ErrorMessages::getMessage("err_0006"))
                             )
                         ),
                 ]);
@@ -232,24 +232,24 @@ class FuelRequisitionService
                 && $valid_from->greaterThan(Carbon::parse($latestPreviousRequisition->valid_date_to))
             ) {
                 return response()->json([
-                    'success' => false,
-                    'message' =>
-                        str_replace('@veh_reg', $registrationNumber,
-                            str_replace('@date_valid_to',
-                                Carbon::parse($latestPreviousRequisition->valid_date_to->valid_date_to)->format('d/m/Y'),
-                                str_replace('@req_no',
+                    "success" => false,
+                    "message" =>
+                        str_replace("@veh_reg", $registrationNumber,
+                            str_replace("@date_valid_to",
+                                Carbon::parse($latestPreviousRequisition->valid_date_to->valid_date_to)->format("d/m/Y"),
+                                str_replace("@req_no",
                                     $latestPreviousRequisition->st_pur ?? $latestPreviousRequisition->req_no,
-                                    ErrorMessages::getMessage('err_0015'))
+                                    ErrorMessages::getMessage("err_0015"))
                             )
                         ),
                 ]);
             }
 
             // quantity requested can not be more than allocated
-            if ($requisitionPostRequest->get('fuel_allocation') < $requisitionPostRequest->get('material_quantity')) {
+            if ($requisitionPostRequest->get("fuel_allocation") < $requisitionPostRequest->get("material_quantity")) {
                 return response()->json([
-                    'success' => false,
-                    'message' => 'Quantity requested can not be more than allocation'
+                    "success" => false,
+                    "message" => "Quantity requested can not be more than allocation"
                 ]);
             }
         }
@@ -259,28 +259,30 @@ class FuelRequisitionService
             $this->validateOdometerAgainstLastNonCancelled($latestPreviousRequisition, $requisitionPostRequest);
         }
 
+        Log::info("Calculating Maximum Distance to be covered $registrationNumber");
+        $maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption)
+            + $requisitionPostRequest->odometer_reading;
+        Log::info("Maximum Distance That Should be Covered " . $maximumDistance);
 
-        $maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption) + $requisitionPostRequest->odometer_reading;
-        //Log::info($maximumDistance . ' distance is');
-
-        Log::info($registrationNumber);
+        Log::info("Vehicle Reg Is $registrationNumber");
         /********************************************** Save Data **************************************/
         $user = Auth()->user();
 
         $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::FUEL_REQUISITION);
-
         $form_order_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::STOCK_REQUISITION);
 
-        $workflowProcess = '';
+        $workflowProcess = "";
         $description = "";
-        Log::info('Requisition Type ' . $requisitionPostRequest->get('requisition_type'));
-        if ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::OutOfTown->value) {
+
+        Log::info("Requisition Type " . $requisitionPostRequest->get("requisition_type"));
+
+        if ($requisitionPostRequest->get("requisition_type") == RequisitionTypes::OutOfTown->value) {
             $workflowProcess = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
             $description = "Out Of Town ";
-        } elseif ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::Normal->value) {
+        } elseif ($requisitionPostRequest->get("requisition_type") == RequisitionTypes::Normal->value) {
             $workflowProcess = WorkflowProcessCodes::NormalFuelRequisition->value;
             $description = "Normal ";
-        } elseif ($requisitionPostRequest->get('requisition_type') == RequisitionTypes::Override->value) {
+        } elseif ($requisitionPostRequest->get("requisition_type") == RequisitionTypes::Override->value) {
             $workflowProcess = WorkflowProcessCodes::OverrideFuelRequisition->value;
             $description = "Override ";
         }
@@ -292,62 +294,62 @@ class FuelRequisitionService
             $requisition_reference_number,
             (int)$workflowProcess,
             WorkflowActions::submit(),
-            $requisitionPostRequest->get('justification'),
+            $requisitionPostRequest->get("justification"),
             $user,
-            $requisitionPostRequest->material_amount,
+            $requisitionPostRequest->get("material_amount"),
             $short_description,
             $long_description
         );
 
         $matHeader = MaterialHeader::create(
             [
-                'is_fuel' => 'Y',
-                'req_no' => $requisition_reference_number,
-                'form_order' => $form_order_number,
-                'status' => StatusHelper::new(),
-                'veh_reg_no' => $registrationNumber,
-                'cost_centre' => $requisitionPostRequest->get('cost_centre_code'),
-                'valid_date_from' => $valid_from,
-                'valid_date_to' => $valid_to,
-                'odometer' => $requisitionPostRequest->get('odometer_reading'),
-                'town_from' => $requisitionPostRequest->has('departureTown') ? $requisitionPostRequest->get('departureTown') : null,
-                'town_to' => $requisitionPostRequest->has('destinationTown') ? $requisitionPostRequest->get('destinationTown') : null,
-                'date_created' => Carbon::now(),
-                'created_by' => $user->id,
-                'requested_by' => $user->staff_no,
-                'comments' => $requisitionPostRequest->justification,
-                'requisition_type' => $requisitionPostRequest->requisition_type,
-                'cost_assigned_to' => $requisitionPostRequest->CostAssignedTo == 'CostCenterBasedRequisition' ? 'CostCenter' : 'Project'
+                "is_fuel" => "Y",
+                "req_no" => $requisition_reference_number,
+                "form_order" => $form_order_number,
+                "status" => StatusHelper::new(),
+                "veh_reg_no" => $registrationNumber,
+                "cost_centre" => $requisitionPostRequest->get("cost_centre_code"),
+                "valid_date_from" => $valid_from,
+                "valid_date_to" => $valid_to,
+                "odometer" => $requisitionPostRequest->get("odometer_reading"),
+                "town_from" => $requisitionPostRequest->has("departureTown") ? $requisitionPostRequest->get("departureTown") : null,
+                "town_to" => $requisitionPostRequest->has("destinationTown") ? $requisitionPostRequest->get("destinationTown") : null,
+                "date_created" => Carbon::now(),
+                "created_by" => $user->id,
+                "requested_by" => $user->staff_no,
+                "comments" => $requisitionPostRequest->get("justification"),
+                "requisition_type" => $requisitionPostRequest->get("requisition_type"),
+                "cost_assigned_to" => $requisitionPostRequest->get("CostAssignedTo") == "CostCenterBasedRequisition" ? "CostCenter" : "Project"
             ]
         );
 
         MaterialDetail::create([
-            'created_by' => $user->staff_no,
-            'date_created' => Carbon::now(),
-            'req_no' => $requisition_reference_number,
-            'material_code' => $requisitionPostRequest->material_article_code,
-            'quantity' => $requisitionPostRequest->material_quantity,
-            'unit_of_measure' => $requisitionPostRequest->unit_of_measure,
-            'specifications' => $requisitionPostRequest->material_description,
-            'project_code' => $requisitionPostRequest->project_code ?? $requisitionPostRequest->projectCode,
-            'cost_centre' => $requisitionPostRequest->cost_centre_code,
-            'cost_centre_name' => $requisitionPostRequest->cost_center_name,
-            'reg_no' => $requisitionPostRequest->vehicle_registration,
-            'amount' => $requisitionPostRequest->material_amount,
-            'price' => $requisitionPostRequest->material_price,
-            'max_allowed' => $requisitionPostRequest->fuel_allocation
+            "created_by" => $user->staff_no,
+            "date_created" => Carbon::now(),
+            "req_no" => $requisition_reference_number,
+            "material_code" => $requisitionPostRequest->get("material_article_code"),
+            "quantity" => $requisitionPostRequest->get("material_quantity"),
+            "unit_of_measure" => $requisitionPostRequest->get("unit_of_measure"),
+            "specifications" => $requisitionPostRequest->get("material_description"),
+            "project_code" => $requisitionPostRequest->get("project_code") ?? $requisitionPostRequest->get("projectCode"),
+            "cost_centre" => $requisitionPostRequest->get("cost_centre_code"),
+            "cost_centre_name" => $requisitionPostRequest->get("cost_center_name"),
+            "reg_no" => $requisitionPostRequest->get("vehicle_registration"),
+            "amount" => $requisitionPostRequest->get("material_amount"),
+            "price" => $requisitionPostRequest->get("material_price"),
+            "max_allowed" => $requisitionPostRequest->get("fuel_allocation")
         ]);
 
         DB::commit();
 
         // send notification
-        RequisitionRaised::dispatch($matHeader, 'fuel_requisition');
-        Log::info('Requisition ' . $requisition_reference_number . ' raised successfully');
+        RequisitionRaised::dispatch($matHeader, "fuel_requisition");
+        Log::info("Requisition " . $requisition_reference_number . " raised successfully");
 
         return response()->json([
-            'success' => true,
-            'message' => 'Requisition Submitted For Approval. Requisition Number ' . $requisition_reference_number,
-            'redirectUrl' => URL::signedRoute('show.fuel.requisition', ['ref' => $requisition_reference_number])
+            "success" => true,
+            "message" => "Requisition Submitted For Approval. Requisition Number " . $requisition_reference_number,
+            "redirectUrl" => URL::signedRoute("show.fuel.requisition", ["ref" => $requisition_reference_number])
         ]);
     }
 
@@ -361,10 +363,10 @@ class FuelRequisitionService
     {
         $allowedStatus = [StatusHelper::active()];
 
-        $vehicle = VehicleHeader::where('registration_number', '=', $reference)->first();
+        $vehicle = VehicleHeader::where("registration_number", "=", $reference)->first();
 
         if (empty($vehicle) || !in_array($vehicle->status, $allowedStatus)) {
-            throw new FuelRequisitionException(ErrorMessages::getMessage('err_0004'), 1000);
+            throw new FuelRequisitionException(ErrorMessages::getMessage("err_0004"), 1000);
         }
 
         return $vehicle;
@@ -374,18 +376,18 @@ class FuelRequisitionService
      */
     public function validateCurrentOdometerAgainstMileageReturn($registration_number, $currentOdometer): bool
     {
-        /*$vehicleDetail = DB::table('VM_VEHICLE_HEADER')
-            ->join('VM_CHASSIS_DETAILS',
-                'VM_VEHICLE_HEADER.id',
-                '=',
-                'VM_CHASSIS_DETAILS.vehicle_header_id')
-            ->where('VM_VEHICLE_HEADER.registration_number', trim($registration_number))
-            ->where('VM_VEHICLE_HEADER.status', '!=', StatusHelper::cancelled())
-            ->select('VM_VEHICLE_HEADER.*', 'VM_CHASSIS_DETAILS.initial_odometer_reading')
+        /*$vehicleDetail = DB::table("VM_VEHICLE_HEADER")
+            ->join("VM_CHASSIS_DETAILS",
+                "VM_VEHICLE_HEADER.id",
+                "=",
+                "VM_CHASSIS_DETAILS.vehicle_header_id")
+            ->where("VM_VEHICLE_HEADER.registration_number", trim($registration_number))
+            ->where("VM_VEHICLE_HEADER.status", "!=", StatusHelper::cancelled())
+            ->select("VM_VEHICLE_HEADER.*", "VM_CHASSIS_DETAILS.initial_odometer_reading")
             ->first();
 
         if ($vehicleDetail->initial_odometer_reading > $currentOdometer) {
-            throw new FuelRequisitionException(ErrorMessages::getMessage('err_0013'), 1000);
+            throw new FuelRequisitionException(ErrorMessages::getMessage("err_0013"), 1000);
         }*/
 
         return true;
@@ -398,20 +400,20 @@ class FuelRequisitionService
      */
     public function validateVehicleResponsibleUserStatus($vehicleReference): void
     {
-        $vehicleDetail = DB::table('VM_VEHICLE_HEADER')
-            ->join('VM_ASSIGNMENTS',
-                'VM_VEHICLE_HEADER.id',
-                '=',
-                'VM_ASSIGNMENTS.vehicle_header_id')
-            ->where('VM_VEHICLE_HEADER.registration_number', trim($vehicleReference))
-            ->where('VM_ASSIGNMENTS.assignment_state', StatusHelper::active())
-            ->select('VM_VEHICLE_HEADER.*', 'VM_ASSIGNMENTS.responsible_head_id')
+        $vehicleDetail = DB::table("VM_VEHICLE_HEADER")
+            ->join("VM_ASSIGNMENTS",
+                "VM_VEHICLE_HEADER.id",
+                "=",
+                "VM_ASSIGNMENTS.vehicle_header_id")
+            ->where("VM_VEHICLE_HEADER.registration_number", trim($vehicleReference))
+            ->where("VM_ASSIGNMENTS.assignment_state", StatusHelper::active())
+            ->select("VM_VEHICLE_HEADER.*", "VM_ASSIGNMENTS.responsible_head_id")
             ->first();
 
-        $responsibleHead = User::where('staff_no', '=', $vehicleDetail->responsible_head_id)->first();
+        $responsibleHead = User::where("staff_no", "=", $vehicleDetail->responsible_head_id)->first();
 
         if (empty($responsibleHead) || $responsibleHead->con_st_code != StatusHelper::activeUser()) {
-            throw new FuelRequisitionException(ErrorMessages::getMessage('err_0003'), 300);
+            throw new FuelRequisitionException(ErrorMessages::getMessage("err_0003"), 300);
         }
     }
 
@@ -427,12 +429,12 @@ class FuelRequisitionService
         // verify that odometer reading is not the same as previous requisition
         if ($requisitionPostRequest->odometer_reading <= $previousRequisition->odometer) {
             throw new FuelRequisitionException(
-                str_replace('@veh_reg', $previousRequisition->veh_reg_no,
-                    str_replace('@date_valid_to',
-                        Carbon::parse($previousRequisition->valid_date_to)->format('d/m/Y'),
-                        str_replace('@req_no',
+                str_replace("@veh_reg", $previousRequisition->veh_reg_no,
+                    str_replace("@date_valid_to",
+                        Carbon::parse($previousRequisition->valid_date_to)->format("d/m/Y"),
+                        str_replace("@req_no",
                             $previousRequisition->st_pur ?? $previousRequisition->req_no,
-                            ErrorMessages::getMessage('err_0017')))),
+                            ErrorMessages::getMessage("err_0017")))),
                 1000);
         }
     }
@@ -449,12 +451,12 @@ class FuelRequisitionService
         // check if previous requisition period elapsed
         if ($valid_from->lessThanOrEqualTo(Carbon::parse($previousRequisition->valid_date_to))) {
             throw new FuelRequisitionException(
-                str_replace('@veh_reg', $reg_num,
-                    str_replace('@date_valid_to',
-                        Carbon::parse($previousRequisition->valid_date_to)->format('d/m/Y'),
-                        str_replace('@req_no',
+                str_replace("@veh_reg", $reg_num,
+                    str_replace("@date_valid_to",
+                        Carbon::parse($previousRequisition->valid_date_to)->format("d/m/Y"),
+                        str_replace("@req_no",
                             $previousRequisition->st_pur ?? $previousRequisition->req_no,
-                            ErrorMessages::getMessage('err_0002')))),
+                            ErrorMessages::getMessage("err_0002")))),
                 999);
         }
     }
@@ -465,12 +467,12 @@ class FuelRequisitionService
      */
     public function getRequisitionDetail($req_no): mixed
     {
-        $results = DB::table('GEN_MATERIAL_HEADERS')
-            ->where('GEN_MATERIAL_HEADERS.req_no', $req_no)
-            ->join('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
-            ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
-            ->where('CONFIG_STATUSES.MODULE', '=', 'MAT')
-            ->select('GEN_MATERIAL_HEADERS.*', 'GEN_MATERIAL_DETAILS.*', 'CONFIG_STATUSES.name as status_name', 'CONFIG_STATUSES.color_code')
+        $results = DB::table("GEN_MATERIAL_HEADERS")
+            ->where("GEN_MATERIAL_HEADERS.req_no", $req_no)
+            ->join("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no", "=", "GEN_MATERIAL_DETAILS.req_no")
+            ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status", "=", "CONFIG_STATUSES.code")
+            ->where("CONFIG_STATUSES.MODULE", "=", "MAT")
+            ->select("GEN_MATERIAL_HEADERS.*", "GEN_MATERIAL_DETAILS.*", "CONFIG_STATUSES.name as status_name", "CONFIG_STATUSES.color_code")
             ->get();
 
         return $results->first();
@@ -494,11 +496,11 @@ class FuelRequisitionService
 
         if (empty($results)) {
             throw new FuelRequisitionException(
-                ErrorMessages::getMessage('err_0021')
+                ErrorMessages::getMessage("err_0021")
             );
         }
 
-        if (!str_contains($results, 'J01')) {
+        if (!str_contains($results, "J01")) {
             throw new FuelRequisitionException($results);
         }
 
@@ -508,12 +510,12 @@ class FuelRequisitionService
 
     public function getLatestRequisition($vehicle_registration)
     {
-        $queryResult = DB::table('GEN_MATERIAL_HEADERS')
-            ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
-            ->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
-            ->where('GEN_MATERIAL_HEADERS.veh_reg_no', '=', $vehicle_registration)
-            ->select('GEN_MATERIAL_HEADERS.*', 'CONFIG_STATUSES.name as status_name', 'CONFIG_REQUISITION_TYPES.name as requisition_type')
-            ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
+        $queryResult = DB::table("GEN_MATERIAL_HEADERS")
+            ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status", "=", "CONFIG_STATUSES.code")
+            ->leftJoin("CONFIG_REQUISITION_TYPES", "GEN_MATERIAL_HEADERS.requisition_type", "=", "CONFIG_REQUISITION_TYPES.code")
+            ->where("GEN_MATERIAL_HEADERS.veh_reg_no", "=", $vehicle_registration)
+            ->select("GEN_MATERIAL_HEADERS.*", "CONFIG_STATUSES.name as status_name", "CONFIG_REQUISITION_TYPES.name as requisition_type")
+            ->orderBy("GEN_MATERIAL_HEADERS.created_at", "desc")
             ->get();
 
         return empty($queryResult) ? [] : $queryResult->first();
@@ -522,39 +524,39 @@ class FuelRequisitionService
     public function getMyRequisitions($staff_no): Collection
     {
         if ($staff_no) {
-            return DB::table('GEN_MATERIAL_HEADERS')
-                ->leftJoin('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
-                ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
-                ->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
-                ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
-                ->where('GEN_MATERIAL_HEADERS.requested_by', '=', $staff_no)
-                ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
-                ->where('GEN_MATERIAL_HEADERS.IS_FUEL', '=', 'Y')
+            return DB::table("GEN_MATERIAL_HEADERS")
+                ->leftJoin("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no", "=", "GEN_MATERIAL_DETAILS.req_no")
+                ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status", "=", "CONFIG_STATUSES.code")
+                ->leftJoin("CONFIG_REQUISITION_TYPES", "GEN_MATERIAL_HEADERS.requisition_type", "=", "CONFIG_REQUISITION_TYPES.code")
+                ->leftJoin("SEC_USERS", "GEN_MATERIAL_HEADERS.requested_by", "=", "SEC_USERS.staff_no")
+                ->where("GEN_MATERIAL_HEADERS.requested_by", "=", $staff_no)
+                ->where("CONFIG_STATUSES.MODULE", "=", Modules::Material)
+                ->where("GEN_MATERIAL_HEADERS.IS_FUEL", "=", "Y")
                 ->select(
-                    'GEN_MATERIAL_HEADERS.*',
-                    'GEN_MATERIAL_DETAILS.quantity',
-                    'GEN_MATERIAL_DETAILS.quantity_issued',
-                    'SEC_USERS.name as originator',
-                    'CONFIG_STATUSES.name as status_name',
-                    'CONFIG_REQUISITION_TYPES.name as requisition_type')
-                ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
+                    "GEN_MATERIAL_HEADERS.*",
+                    "GEN_MATERIAL_DETAILS.quantity",
+                    "GEN_MATERIAL_DETAILS.quantity_issued",
+                    "SEC_USERS.name as originator",
+                    "CONFIG_STATUSES.name as status_name",
+                    "CONFIG_REQUISITION_TYPES.name as requisition_type")
+                ->orderBy("GEN_MATERIAL_HEADERS.created_at", "desc")
                 ->get();
         } else {
-            return DB::table('GEN_MATERIAL_HEADERS')
-                ->leftJoin('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
-                ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
-                ->leftJoin('CONFIG_REQUISITION_TYPES', 'GEN_MATERIAL_HEADERS.requisition_type', '=', 'CONFIG_REQUISITION_TYPES.code')
-                ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
-                ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
-                ->where('GEN_MATERIAL_HEADERS.IS_FUEL', '=', 'Y')
+            return DB::table("GEN_MATERIAL_HEADERS")
+                ->leftJoin("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no", "=", "GEN_MATERIAL_DETAILS.req_no")
+                ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status", "=", "CONFIG_STATUSES.code")
+                ->leftJoin("CONFIG_REQUISITION_TYPES", "GEN_MATERIAL_HEADERS.requisition_type", "=", "CONFIG_REQUISITION_TYPES.code")
+                ->leftJoin("SEC_USERS", "GEN_MATERIAL_HEADERS.requested_by", "=", "SEC_USERS.staff_no")
+                ->where("CONFIG_STATUSES.MODULE", "=", Modules::Material)
+                ->where("GEN_MATERIAL_HEADERS.IS_FUEL", "=", "Y")
                 ->select(
-                    'GEN_MATERIAL_HEADERS.*',
-                    'GEN_MATERIAL_DETAILS.quantity',
-                    'GEN_MATERIAL_DETAILS.quantity_issued',
-                    'SEC_USERS.name as originator',
-                    'CONFIG_STATUSES.name as status_name',
-                    'CONFIG_REQUISITION_TYPES.name as requisition_type')
-                ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
+                    "GEN_MATERIAL_HEADERS.*",
+                    "GEN_MATERIAL_DETAILS.quantity",
+                    "GEN_MATERIAL_DETAILS.quantity_issued",
+                    "SEC_USERS.name as originator",
+                    "CONFIG_STATUSES.name as status_name",
+                    "CONFIG_REQUISITION_TYPES.name as requisition_type")
+                ->orderBy("GEN_MATERIAL_HEADERS.created_at", "desc")
                 ->get();
         }
 
@@ -584,8 +586,8 @@ class FuelRequisitionService
     public function updateStatus(mixed $reference, string $status): void
     {
         DB::beginTransaction();
-        MaterialHeader::where('req_no', $reference)
-            ->update(['status' => $status]);
+        MaterialHeader::where("req_no", $reference)
+            ->update(["status" => $status]);
         DB::commit();
     }
 }

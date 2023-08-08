@@ -4,10 +4,12 @@ namespace App\Services\WorkShopManagement;
 
 use App\Enums\ConfigurationTypes;
 use App\Enums\Modules;
+use App\Enums\RequisitionItemTypes;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\JobCardRequest;
 use App\Http\Requests\VehicleDefectsRequest;
 use App\Http\Requests\WorkshopExitRequest;
+use App\Models\MaterialHeader;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\VehicleManagement\VehicleHeader;
@@ -16,7 +18,9 @@ use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\VehicleDefect;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
+use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\Workflow\DocumentNumberGenerationService;
+use App\Services\Workflow\WorkflowService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -28,6 +32,17 @@ use Illuminate\Support\Facades\URL;
 
 class WorkshopService
 {
+
+    private WorkflowService $workflowService;
+    protected ProcurementSystemIntegrationService $procurementService;
+
+    public function __construct(
+        WorkflowService                     $workflowService,
+        ProcurementSystemIntegrationService $procurementService)
+    {
+        $this->procurementService = $procurementService;
+        $this->workflowService = $workflowService;
+    }
 
     public function createJobCard(JobCardRequest $request)
     {
@@ -279,9 +294,18 @@ class WorkshopService
                 'total_amount' => $labourItem['totalAmount'],
                 'def_no' => $labourItem['defect'],
                 'created_by' => $user->staff_no,
-                //'authorised_by' => $labourItem[''],
                 'type_of_hour' => $labourItem['shiftType'],
             ]);
+        }
+
+        $stockItemRequisitions = MaterialHeader::where('veh_reg_no', $workOrder->reg_no)
+            ->whereIn('status', [StatusHelper::new(), StatusHelper::partiallyAuthorised()])
+            ->where('item_type', '=', RequisitionItemTypes::StockItem)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        foreach ($stockItemRequisitions as $requisition) {
+            $this->procurementService->cancelStoresRequisition($requisition->st_pur);
         }
 
         DB::commit();
