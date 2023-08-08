@@ -16,11 +16,14 @@ use App\Models\WorkShopManagement\VehicleDefect;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
 use App\Services\Workflow\DocumentNumberGenerationService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 
 class WorkshopService
 {
@@ -75,7 +78,7 @@ class WorkshopService
             "job_card_no" => $doc_number,
             // "workshop_doc_no" => $workshop_number,
             "wshp_act_code" => $workshop_number,
-            "date_in" => Carbon::now(), Carbon::createFromFormat("Y-m-d", trim($request->get("date_of_req"))),
+            "date_in" => Carbon::now(), //Carbon::createFromFormat("Y-m-d", trim($request->get("date_of_req"))),
             "workshop_code" => $request->get("workshop"),
             "time_in" => Carbon::now(),//(trim($request->get("timeIn")))->format("H:i:s"),
             "repair_type" => $request->get("repairType"),
@@ -242,7 +245,36 @@ class WorkshopService
         Log::info('Setting Vehicle State To In Workshop ' . $rowsAffected);
     }
 
-    public function exitVehicleFromWorkShop(WorkshopExitRequest $request)
+    public function exitVehicleFromWorkShop(WorkshopExitRequest $request): JsonResponse
     {
+        $user = Auth::user();
+
+        $rowsAffected =  JobCardHeader::where("job_card_no", "=", $request->get("job_card_number"))
+            ->update([
+                "status" => StatusHelper::closed(),
+
+                "date_out" => Carbon::now(),
+                "time_out" => Carbon::now(),
+
+                "dispatched_by" => $user->staff_no,
+
+                'sub_fuel_level_out' => '',
+                "millage_out" => $request->get("exitOdometer"),
+                "fuel_level_out" => $request->get("fuel_level"),
+
+                "driver_out" => $request->get("driver_out"),
+
+                "modified_by" => $user->id,
+                'updated_at' => Carbon::now()
+            ]);
+
+
+        return response()->json(
+            [
+                "success" => true,
+                "payload" => [],
+                "redirectUrl" => URL::signedRoute("jobCard.list"),
+            ]
+        );
     }
 }

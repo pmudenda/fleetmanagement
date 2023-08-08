@@ -23,7 +23,12 @@ class WorkshopExitRequest extends FormRequest
     public function rules(): array
     {
         return [
-
+            'exitDate' => 'required',
+            'timeOut' => 'required',
+            'exitOdometer' => 'required',
+            'exitFuelLevel' => 'required',
+            'driver_out' => 'required',
+            'driver_name_out' => 'required',
         ];
     }
 }

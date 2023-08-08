@@ -438,14 +438,7 @@ class MaintenanceController extends Controller
     public function processExitFromWorkShop(WorkshopExitRequest $request): JsonResponse
     {
         try {
-            $response = $this->workshopService->exitVehicleFromWorkShop($request);
-            return response()->json(
-                [
-                    "success" => true,
-                    "payload" => $response,
-                    "redirectUrl" => URL::signedRoute("jobCard.list"),
-                ]
-            );
+            return $this->workshopService->exitVehicleFromWorkShop($request);
         } catch (\Exception $e) {
             Log::error($e);
             return response()->json(
