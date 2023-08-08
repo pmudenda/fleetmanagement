@@ -11,6 +11,7 @@ use App\Http\Requests\WorkshopExitRequest;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\VehicleManagement\VehicleHeader;
+use App\Models\WorkshopLabour;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\VehicleDefect;
 use App\Models\WorkShopManagement\WorkShopComment;
@@ -249,24 +250,24 @@ class WorkshopService
     {
         $user = Auth::user();
 
-        $rowsAffected =  JobCardHeader::where("job_card_no", "=", $request->get("job_card_number"))
+        $rowsAffected = JobCardHeader::where("job_card_no", "=", $request->get("job_card_number"))
             ->update([
                 "status" => StatusHelper::closed(),
-
                 "date_out" => Carbon::now(),
                 "time_out" => Carbon::now(),
-
                 "dispatched_by" => $user->staff_no,
-
                 'sub_fuel_level_out' => '',
                 "millage_out" => $request->get("exitOdometer"),
                 "fuel_level_out" => $request->get("fuel_level"),
-
                 "driver_out" => $request->get("driver_out"),
-
                 "modified_by" => $user->id,
                 'updated_at' => Carbon::now()
             ]);
+
+
+        WorkshopLabour::create([
+
+        ]);
 
 
         return response()->json(
