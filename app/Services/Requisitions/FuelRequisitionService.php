@@ -76,7 +76,7 @@ class FuelRequisitionService
 
         $registrationNumber = $requisitionPostRequest->get('vehicle_registration');
 
-        $this->validateVehicleStatus($registrationNumber);
+        $vehicle = $this->validateVehicleStatus($registrationNumber);
 
         //$this->validateVehicleResponsibleUserStatus($registrationNumber);
 
@@ -86,21 +86,28 @@ class FuelRequisitionService
         DB::beginTransaction();
 
         // pick last requisition if any
-        $openRequisitionStatusList = [StatusHelper::new(), StatusHelper::partiallyReleased(), StatusHelper::authorised(), StatusHelper::partiallyAuthorised(),];
+        $openRequisitionStatusList = [StatusHelper::new(), StatusHelper::partiallyReleased(), StatusHelper::authorised(), StatusHelper::partiallyAuthorised()];
 
         $latestPreviousRequisition = self::getRequisitionDetailByVehicleRegistration($registrationNumber);
 
         if (!empty($latestPreviousRequisition)) {
-            Log::info('Status of Previous Requisition for ' .
-                $registrationNumber . ' has ' . $latestPreviousRequisition->status . ' status');
+            Log::info("Status of Previous Requisition for
+                $registrationNumber has $latestPreviousRequisition->status status");
         } else {
-            Log::info('Status of Previous Requisition for' . $registrationNumber . ' Is Empty');
+            Log::info("Status of Previous Requisition for $registrationNumber . Is Empty");
         }
 
         $valid_to = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('next_fuel_date'));
         $valid_from = Carbon::createFromFormat('d/m/Y', $requisitionPostRequest->get('request_date'));
 
         if ($isLocalRequisition) {
+            // quantity requested can not be more than allocated
+            if ($requisitionPostRequest->get('material_quantity') > $requisitionPostRequest->get('fuel_allocation')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Quantity requested can not be more than allocation'
+                ]);
+            }
             if (!empty($latestPreviousRequisition)) {
                 if (in_array($latestPreviousRequisition->status, $openRequisitionStatusList)) {
                     // requisition is open/pending
@@ -145,15 +152,6 @@ class FuelRequisitionService
                     }
                 }
             }
-
-            // quantity requested can not be more than allocated
-            if ($requisitionPostRequest->get('fuel_allocation') < $requisitionPostRequest->get('material_quantity')) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Quantity requested can not be more than allocation'
-                ]);
-            }
-
         } elseif ($isOutOfTownRequisition) {
 
             // out of town requisition can be more than allocated
@@ -262,7 +260,7 @@ class FuelRequisitionService
         }
 
 
-        //$maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption) + $requisitionPostRequest->odometer_reading;
+        $maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption) + $requisitionPostRequest->odometer_reading;
         //Log::info($maximumDistance . ' distance is');
 
         Log::info($registrationNumber);
@@ -359,7 +357,7 @@ class FuelRequisitionService
      * @return void
      * @throws FuelRequisitionException
      */
-    public function validateVehicleStatus($reference): void
+    public function validateVehicleStatus($reference)
     {
         $allowedStatus = [StatusHelper::active()];
 
@@ -368,6 +366,8 @@ class FuelRequisitionService
         if (empty($vehicle) || !in_array($vehicle->status, $allowedStatus)) {
             throw new FuelRequisitionException(ErrorMessages::getMessage('err_0004'), 1000);
         }
+
+        return $vehicle;
     }
 
     /**

@@ -49,6 +49,7 @@ class WorkshopService
             $details->accident_ref = $request->get("accident_number") ?? "N/A";
             $details->millage_in = $request->get("current_odometer");
             $details->fuel_level_in = $request->get("fuel_level");
+            $details->sub_fuel_level_in = $request->get("sub_fuel_level");
             $details->driver_in = $request->get("driver_staff_number");
             $details->modified_by = $user->id;
             $details->save();
@@ -117,6 +118,7 @@ class WorkshopService
         DB::beginTransaction();
         $job_card_voucher = $request->get("job_card_voucher");
         $reference_number = $request->get("workshop_reference");
+        $comment = $request->get("accessoriesRemarks");
         $accessoryNames = Accessory::where("status", "=", StatusHelper::active())
             ->get();
 
@@ -140,13 +142,27 @@ class WorkshopService
                 ]
             );
         }
+
+        if (!empty($comment)) {
+            WorkShopComment::firstOrCreate(
+                [
+                    "workshop_reference" => $request->workshop_reference,
+                    "type" => "ACC",
+                ],
+                [
+                    "remarks" => $request->remarks ?? " ",
+                    "status" => StatusHelper::new(),
+                    "created_by" => auth()->user()->staff_no
+                ]);
+        }
+
+
         DB::commit();
     }
 
     public function createJobCardDefects(VehicleDefectsRequest $request): void
     {
         DB::beginTransaction();
-        $models = [];
 
         foreach ($request->get("items") as $defect) {
             VehicleDefect::firstOrCreate(
@@ -164,16 +180,18 @@ class WorkshopService
                 ]);
         }
 
-        WorkShopComment::firstOrCreate(
-            [
-                "workshop_reference" => $request->workshop_reference,
-                "type" => "DEF",
-            ],
-            [
-                "remarks" => $request->remarks ?? " ",
-                "status" => StatusHelper::new(),
-                "created_by" => auth()->user()->staff_no
-            ]);
+        if (!empty($request->remarks)) {
+            WorkShopComment::firstOrCreate(
+                [
+                    "workshop_reference" => $request->workshop_reference,
+                    "type" => "DEF",
+                ],
+                [
+                    "remarks" => $request->remarks ?? " ",
+                    "status" => StatusHelper::new(),
+                    "created_by" => auth()->user()->staff_no
+                ]);
+        }
 
         DB::commit();
     }

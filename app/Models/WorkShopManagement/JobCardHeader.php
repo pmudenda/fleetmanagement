@@ -12,11 +12,10 @@ class JobCardHeader extends Model
     protected $table = 'WM_JOB_CARD_HEADER';
 
     protected $fillable = [
-        //'workshop_doc_no',
+
         'wshp_act_code',
         'workshop_code',
         'reg_no',
-        //'veh_reg',
         'job_card_no',
         'req_no',
         'driver_in',
@@ -25,6 +24,7 @@ class JobCardHeader extends Model
         'date_in',
         'time_in',
         'fuel_level_in',
+        'sub_fuel_level_in',
         'millage_in',
 
         'receiving_section',
@@ -35,6 +35,8 @@ class JobCardHeader extends Model
         'date_out',
         'time_out',
         'fuel_level_out',
+        'sub_fuel_level_out',
+
         'millage_out',
         'dispatching_section',
         'dispatched_by',

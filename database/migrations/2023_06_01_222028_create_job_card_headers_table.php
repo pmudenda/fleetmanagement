@@ -15,7 +15,6 @@ return new class extends Migration {
             //$table->string('workshop_doc_no', 20);
             $table->string('wshp_act_code', 20);
             $table->string('workshop_code', 7)->nullable();
-            //$table->string('veh_reg', 10)->nullable();
             $table->string('reg_no', 10)->nullable();
             $table->string('job_card_no', 20)->nullable();
             $table->string('req_no', 20)->nullable();
@@ -25,6 +24,7 @@ return new class extends Migration {
             $table->date('date_in')->nullable();
             $table->timestamp('time_in', 6)->nullable();
             $table->string('fuel_level_in', 10)->nullable();
+            $table->string('sub_fuel_level_in', 10)->nullable();
             $table->integer('millage_in')->nullable();
 
             $table->string('receiving_section', 10)->nullable();
@@ -35,6 +35,7 @@ return new class extends Migration {
             $table->date('date_out')->nullable();
             $table->timestamp('time_out', 6)->nullable();
             $table->string('fuel_level_out', 10)->nullable();
+            $table->string('sub_fuel_level_out', 10)->nullable();
             $table->integer('millage_out')->nullable();
             $table->string('dispatching_section', 10)->nullable();
             $table->string('dispatched_by', 10)->nullable();

@@ -34,6 +34,7 @@ class JobCardRequest extends FormRequest
             'accident_number' => 'exclude_unless:repairType,'.RepairTypes::AccidentRepair->value.'|required|string',
             'current_odometer' => 'required:numeric',
             'fuel_level' => 'required:string',
+            'sub_fuel_level' => 'nullable:string',
             'driver_staff_number' => 'required:string',
         ];
     }

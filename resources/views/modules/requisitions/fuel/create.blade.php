@@ -44,8 +44,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Registration #:
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                for="staff_no">Registration #:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group">
@@ -93,7 +93,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
@@ -145,7 +145,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
@@ -179,8 +179,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="staff_name">
                                                             Requisition Type:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -191,7 +191,7 @@
                                                                 <option value=""> --Select--</option>
                                                                 @foreach ($requisitionTypes as $requisitionType)
                                                                     <option
-                                                                        value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
+                                                                            value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -205,8 +205,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="staff_name">
                                                             Current Odometer Reading :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -234,8 +234,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="staff_name">
                                                             Driver:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -290,8 +290,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Departure Date:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="mobile_no">Departure Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group date"
                                                                  data-target-input="nearest">
@@ -327,8 +327,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Return Date:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="request_date">Return Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group date"
                                                                  data-target-input="nearest">
@@ -367,8 +367,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Departure Town:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="mobile_no">Departure Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input id="departureTown" name="departureTown"
                                                                    class="form-control"/>
@@ -382,8 +382,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Destination Town:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="request_date">Destination Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input id="destinationTown" name="destinationTown"
                                                                    class="form-control"/>
@@ -400,8 +400,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Allocation Per Week:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="mobile_no">Allocation Per Week:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group input-group-sm">
                                                                 <input type="text" class="form-control form-control-sm"
@@ -424,8 +424,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Request Date:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="request_date">Request Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="request_date"
@@ -445,8 +445,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                                            for="next_fuel_date">
+                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
+                                                                for="next_fuel_date">
                                                             Next Refueling Date :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
@@ -468,8 +468,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Purpose:</label>
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="mobile_no">Purpose:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <textarea type="text"
                                                                   id="justification"
@@ -587,9 +587,11 @@
                 <input type="hidden" value="{{route('fuel.last.requisition')}}" id="previousRequisitionUrl">
                 <input type="hidden" value="{{RequisitionTypes::OutOfTown}}" id="outOfTownReqCode">
 
-                <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding" id="incompleteOnBoarding" />
-                <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop" id="vehicleInWorkshop" />
-                <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive" />
+                <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding"
+                       id="incompleteOnBoarding"/>
+                <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop"
+                       id="vehicleInWorkshop"/>
+                <input type="hidden" value="{{StatusHelper::active()}}" name="vehicleActive" id="vehicleActive"/>
             </div>
         </div>
     </section>
@@ -1053,7 +1055,7 @@
                 removeSubmissionAndDetailsOptions();
             });
 
-            $('select[name="requisition_type"]').on('change', function () {
+            $(document).on('change', 'select[name="requisition_type"]', function () {
 
                 if (this.value === document.querySelector("#outOfTownReqCode").value) {
                     $(".outOfTown").removeClass('d-none');

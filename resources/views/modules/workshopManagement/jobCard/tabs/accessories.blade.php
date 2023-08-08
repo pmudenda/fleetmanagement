@@ -76,6 +76,31 @@
                 </div>
 
             </div>
+            <div class="row">
+                <div class="form-group">
+                    <label
+                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                            for="accessoriesRemarks">
+                       General Comment (optional):
+                    </label>
+                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
+                        @if(!empty($comments))
+                            <textarea type="text"
+                                      id="accessoriesRemarks"
+                                      name="accessoriesRemarks"
+                                      style="height: 129px;"
+                                      class="form-control form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
+                        @else
+                            <textarea type="text"
+                                      id="accessoriesRemarks"
+                                      name="accessoriesRemarks"
+                                      style="height: 129px;"
+                                      class="form-control form-control-sm"></textarea>
+                        @endif
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

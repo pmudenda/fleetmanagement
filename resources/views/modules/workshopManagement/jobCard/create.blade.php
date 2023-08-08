@@ -42,9 +42,9 @@
 @section('content')
 
     <x-content-header
-        :activeCrumb="'New Job Card'"
-        :linkText="'Job Card'"
-        :pageTitle="'Workshop Management'"/>
+            :activeCrumb="'New Job Card'"
+            :linkText="'Job Card'"
+            :pageTitle="'Workshop Management'"/>
 
     <section class="content">
         <div class="card">
@@ -160,49 +160,49 @@
         <tr class="increment">
             <td class="showNumber">
                 <input
-                    name="registration"
-                    required
-                    value=""
-                    class="form-control form-control-sm vehicle_registration"/>
+                        name="registration"
+                        required
+                        value=""
+                        class="form-control form-control-sm vehicle_registration"/>
             </td>
             <td>
                 <select
-                    name="articles"
-                    required
-                    data-value=""
-                    class="form-control form-control-sm articlesDropDownList">
+                        name="articles"
+                        required
+                        data-value=""
+                        class="form-control form-control-sm articlesDropDownList">
                     <option></option>
                 </select>
             </td>
             <td>
                 <input
-                    name="articleCode"
-                    required
-                    readonly
-                    class="form-control form-control-sm articleCode"/>
+                        name="articleCode"
+                        required
+                        readonly
+                        class="form-control form-control-sm articleCode"/>
             </td>
             <td>
                 <input
-                    name="technical_specification"
-                    required
-                    class="form-control form-control-sm technical_specification"/>
-            </td>
-
-            <td>
-                <input
-                    type="text"
-                    min="1"
-                    name="quantity"
-                    required
-                    class="form-control form-control-sm quantity number_input"/>
+                        name="technical_specification"
+                        required
+                        class="form-control form-control-sm technical_specification"/>
             </td>
 
             <td>
                 <input
-                    name="unit_of_measure"
-                    required
-                    readonly
-                    class="form-control form-control-sm unit_of_measure"/>
+                        type="text"
+                        min="1"
+                        name="quantity"
+                        required
+                        class="form-control form-control-sm quantity number_input"/>
+            </td>
+
+            <td>
+                <input
+                        name="unit_of_measure"
+                        required
+                        readonly
+                        class="form-control form-control-sm unit_of_measure"/>
             </td>
 
             <td>
@@ -233,52 +233,52 @@
         <tr class="increment">
             <td class="showNumber">
                 <input
-                    name="vehicle_registration"
-                    required
-                    value=""
-                    class="form-control form-control-sm vehicle_registration"/>
+                        name="vehicle_registration"
+                        required
+                        value=""
+                        class="form-control form-control-sm vehicle_registration"/>
             </td>
             <td>
                 <select
-                    name="service_article"
-                    required
-                    data-value=""
-                    class="form-control form-control-sm servicesArticlesDropDownList">
+                        name="service_article"
+                        required
+                        data-value=""
+                        class="form-control form-control-sm servicesArticlesDropDownList">
                     <option></option>
                 </select>
             </td>
             <td>
                 <input
-                    name="serviceArticleCode"
-                    required
-                    readonly
-                    class="form-control form-control-sm serviceArticleCode"/>
+                        name="serviceArticleCode"
+                        required
+                        readonly
+                        class="form-control form-control-sm serviceArticleCode"/>
             </td>
             <td>
                 <input
-                    name="service_technical_specification"
-                    required
-                    class="form-control form-control-sm service_technical_specification"/>
-            </td>
-
-            <td>
-                <input
-                    readonly
-                    type="text"
-                    min="1"
-                    value="1"
-                    max="1"
-                    name="service_quantity"
-                    required
-                    class="form-control form-control-sm service_quantity number_input"/>
+                        name="service_technical_specification"
+                        required
+                        class="form-control form-control-sm service_technical_specification"/>
             </td>
 
             <td>
                 <input
-                    name="service_unit_of_measure"
-                    required
-                    readonly
-                    class="form-control form-control-sm unit_of_measure"/>
+                        readonly
+                        type="text"
+                        min="1"
+                        value="1"
+                        max="1"
+                        name="service_quantity"
+                        required
+                        class="form-control form-control-sm service_quantity number_input"/>
+            </td>
+
+            <td>
+                <input
+                        name="service_unit_of_measure"
+                        required
+                        readonly
+                        class="form-control form-control-sm unit_of_measure"/>
             </td>
 
             <td>
@@ -1094,22 +1094,30 @@
                 fetch(document.querySelector('#fuelLevelsUrl').value)
                     .then(response => response.json())
                     .then(response => {
-                        let selectElem = $('select[name="fuel_level"]');
+                        let $mainTankFuelLevel = $('select[name="fuel_level"]');
+                        let $subTankFuelLevelCtl = $('select[name="sub_fuel_level"]');
 
                         if (response.state === 'failure') {
-                            //show errors
-                            toastr.error('Connection error, no data found')
+                            toastr.error('Connection error, no fuel data found')
                             return;
                         }
 
                         let fuelLevels = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, fuelLevels, "code", ["name"], "");
+                        tmsApp.populateDropDownList($mainTankFuelLevel, fuelLevels, "code", ["name"], "");
+                        tmsApp.populateDropDownList($subTankFuelLevelCtl, fuelLevels, "code", ["name"], "");
 
-                        let location = selectElem.attr('data-value');
+                        let mainTankLevel = $mainTankFuelLevel.attr('data-value');
 
                         if (location) {
-                            selectElem.val(location);
-                            selectElem.trigger('change');
+                            $mainTankFuelLevel.val(mainTankLevel);
+                            $mainTankFuelLevel.trigger('change');
+                        }
+
+                        let subTankFuelLevel = $subTankFuelLevelCtl.attr('data-value');
+
+                        if (location) {
+                            $subTankFuelLevelCtl.val(subTankFuelLevel);
+                            $subTankFuelLevelCtl.trigger('change');
                         }
                     })
                     .catch(function (error) {
@@ -1641,15 +1649,6 @@
                     initArticleSelector($_defect_sel);
                     initArticleSelector($_defect_sel_);
                 }
-
-                /* Inputmask({
-                     "mask": "AAA 9{1,4}"
-                 }).mask('.vehicle_registration');
-
-                 Inputmask({
-                     "mask": "AAA 9{1,4}"
-                 }).mask('.registration');*/
-
             }
 
             function deleteTableRow(eventSource) {
@@ -1923,16 +1922,16 @@
                     eventHandler(this, e);
                 });
 
-              /*  $(document).off('click', 'button[value="addRow"][data-table-id]')
+                $(document).off('click', 'button[value="addRow"][data-table-id]')
                     .on('click', 'button[value="addRow"][data-table-id]', function () {
                         let tableId = $(this).data('tableId');
                         addTableRow(tableId);
-                    });*/
+                    });
 
                 $(document).on('click', 'button[value="insertRow"][data-table-id]', function () {
-                        let tableId = $(this).data('tableId');
-                        insertTableRow(tableId);
-                    });
+                    let tableId = $(this).data('tableId');
+                    insertTableRow(tableId);
+                });
 
                 $(document).on('click', 'button[value="deleteRow"]', function (e) {
                     deleteTableRow(this);
@@ -2017,8 +2016,6 @@
         })(window.tmsApp || {}, jQuery)
     </script>
 
-
-
     <!--  -->
     <script type="text/javascript">
 
@@ -2064,7 +2061,6 @@
         });
 
     </script>
-
 
     <SCRIPT language="javascript">
         function addRow(tableID) {
@@ -2121,7 +2117,6 @@
         }
 
     </SCRIPT>
-
 
     <script>
         $(document).ready(function () {

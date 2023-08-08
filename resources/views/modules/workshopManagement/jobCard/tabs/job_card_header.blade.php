@@ -268,7 +268,7 @@
                             <div class="form-group row">
                                 <label
                                     class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                    for="next_fuel_date">
+                                    for="fuel_level">
                                     Fuel Level :
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -277,6 +277,26 @@
                                             id="fuel_level"
                                             class="form-select form-select-sm when_valid"
                                             required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="container-fluid pl-0">
+                        <div class="row">
+                            <div class="form-group row">
+                                <label
+                                    class="col-xs-12 col-sm-12 col-md-5 col-lg-4"
+                                    for="sub_fuel_level">
+                                    Sub Task Fuel Level :
+                                </label>
+                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                    <select name="sub_fuel_level"
+                                            data-value="{{$details->fuel_level_in ?? ''}}"
+                                            id="sub_fuel_level"
+                                            class="form-select form-select-sm when_valid">
                                     </select>
                                 </div>
                             </div>
