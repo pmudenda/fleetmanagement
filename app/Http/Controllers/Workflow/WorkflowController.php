@@ -270,7 +270,7 @@ class WorkflowController extends Controller
             }*/
 
             $actionTaken = '';
-            $process_code = WorkflowProcessCodes::WorkOrderClosure;
+            $process_code = WorkflowProcessCodes::WorkOrderClosure->value;
             $message = '';
             $action = 0;
             switch (strtolower(trim($request->get('Approved')))) {
