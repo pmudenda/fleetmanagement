@@ -72,7 +72,9 @@
                            id="documentStatus"
                            value="{{$details->status ?? ''}}"/>
 
-                    <input type="hidden" value="{{StatusHelper::new()}}"
+                    <input type="hidden"
+                           value="{{StatusHelper::new()}}"
+                           data-value="{{StatusHelper::new()}}"
                            name="newDocumentStatus"
                            id="newDocumentStatus"/>
 
