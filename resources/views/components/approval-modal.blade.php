@@ -114,12 +114,12 @@
     </div>
 </div>
 
-<div class="modal fade" id="eSignature-modal" data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal fade" id="-modal" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-md modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title" id="approvalModalTitle">
-                    <i class="fa fa-pencil-square-o"></i> Approval
+                <div class="modal-title" id="">
+                    <i class="fa fa-pencil-square-o"></i> eSignature
                 </div>
             </div>
             <form action="{{route('sign.assessment')}}" name="eSignDocument">
@@ -193,15 +193,22 @@
                                 </div>
                             </div>
                             <div style="clear:both;">
-                                <div>
-                                    <p id="newApproval_Remarks">
-                                        <input
-                                                id="acceptance"
-                                                name="acceptance"
-                                                type="checkbox"
-                                                class="checkbox">
-                                        I hereby, acknowledge that the assessment has been done truthfully and fairly
-                                    </p>
+                                <div class="mt-10">
+                                    <div class="row">
+                                        <div class="col-1">
+                                            <input
+                                                    id="acceptance"
+                                                    name="acceptance"
+                                                    type="checkbox"
+                                                    class="checkbox">
+                                        </div>
+                                        <div class="col-10">
+                                            <p id="newApproval_Remarks">
+                                                I hereby, acknowledge that the assessment has been done truthfully and fairly
+                                            </p>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -220,18 +227,20 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-end">
-                    <button id="btnSign" type="button"
-                            class="btn btn-sm btn-success mr-3">
-                        <i class="fas fa-save"></i>
-                        Sign
-                    </button>
-                    <button class="btn btn-sm btn-danger"
+
+                    <button class="btn btn-sm btn-danger pull-left"
+                            id="closeSignatureModal"
                             type="button"
-                            data-bs-target="#approval-modal"
+                            data-bs-target="#eSignature-modal"
                             data-bs-toggle="modal"
                             data-bs-dismiss="modal">
-                        <i class="fas fa-undo"></i>
                         Close
+                    </button>
+
+                    <button id="btnSign" type="submit"
+                                      class="btn btn-sm btn-success mr-3">
+                        <i class="fas fa-save"></i>
+                        Sign
                     </button>
                 </div>
             </form>

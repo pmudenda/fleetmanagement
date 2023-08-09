@@ -1874,7 +1874,10 @@
                     findVehicle();
                 });
 
-                $(document).on('click', '#btnSign', function () {
+                $(document).on('submit', '[name="eSignDocument"]', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
                     let form = document.querySelector('[name="eSignDocument"]');
                     let formData = new FormData(form);
                     $.ajax({
