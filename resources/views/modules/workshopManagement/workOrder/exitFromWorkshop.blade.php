@@ -1648,10 +1648,6 @@
                     @endif
                 </form>
 
-                @if(!empty($taskHeader))
-                    <x-workflow-approval-history :approvals="$approvalHistory" :request="$taskHeader"/>
-                @endif
-
                 <input type="hidden" value="{{route('user.search') }}" id="newUserSearchUrl"/>
                 <input type="hidden" value="{{route('search.project')}}" id="projects_url"/>
                 <input type="hidden" value="{{route('all.workshop.list')}}" id="workshopsUrl"/>
@@ -1678,6 +1674,10 @@
         </div>
         <input type="hidden" name="onboarding_status" id="onboarding_status"
                value="{{StatusHelper::onboardingComplete()}}">
+
+        @if(!empty($taskHeader))
+            <x-workflow-approval-history :approvals="$approvalHistory" :request="$taskHeader"/>
+        @endif
     </section>
     <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding"
            id="incompleteOnBoarding"/>
