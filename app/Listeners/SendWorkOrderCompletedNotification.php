@@ -26,7 +26,7 @@ class SendWorkOrderCompletedNotification
     public function handle(WorkOrderCompleted $event): void
     {
         try {
-            $workOrder = $event->requestHeader;
+            $workOrder = $event->workOrder;
             // send notification
             Log::info('Sending Notification To Work Order Approver');
 
