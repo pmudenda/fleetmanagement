@@ -1030,10 +1030,18 @@
                             return true;
                         }
 
+                        const driverAcknowledged = $('#driverAcknowledged').val();
+
                         if (currentIndex < newIndex) {
                             // To remove error styles
                             form.find(".body:eq(" + newIndex + ") label.error").remove();
                             form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+                        }
+
+                        if(currentIndex == 1 && driverAcknowledged==='Y'){
+                            let tmp = window.goToNext;
+                            window.goToNext = false;
+                            return tmp;
                         }
 
                         form.validate().settings.ignore = ":disabled,:hidden";
@@ -1048,7 +1056,6 @@
                         let tmp = window.goToNext;
                         window.goToNext = false;
                         return tmp;
-
                     },
                     onStepChanged: function (event, currentIndex, priorIndex) {
 

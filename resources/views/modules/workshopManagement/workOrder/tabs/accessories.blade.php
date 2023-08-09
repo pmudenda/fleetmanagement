@@ -2,9 +2,9 @@
 <div class="container-fluid">
     <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}" data-model-name="Accessories">
         <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
+        <input type="hidden" value="{{$details->driver_acknowledged ?? 'N'}}" id="driverAcknowledged" name="driverAcknowledged"/>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="row">
-
                 <div class="col">
                     <table
                             class="table table-row-dashed align-middle gs-0 table-bordered">
@@ -75,7 +75,6 @@
                         </tbody>
                     </table>
                 </div>
-
             </div>
 
             <div class="row h-2 bg-success"></div>
