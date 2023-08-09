@@ -146,6 +146,29 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-4 pl-0"
+                                                                for="job_card_no">
+                                                            Time In:
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                            <input type="text"
+                                                                   readonly
+                                                                   value="@if($details){{Carbon::parse($details->time_in)->format('H:i:s')}}@else{{Carbon::now()->format('H:i:s')}}@endif"
+                                                                   class="form-control form-control-sm when_valid number_input"
+                                                                   id="timeIn"
+                                                                   name="timeIn"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="row">
@@ -173,29 +196,6 @@
                                                                     autocomplete="off"
                                                                     id="workshop">
                                                             </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-4 pl-0"
-                                                                for="job_card_no">
-                                                            Time In:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <input type="text"
-                                                                   readonly
-                                                                   value="@if($details){{Carbon::parse($details->time_in)->format('H:i:s')}}@else{{Carbon::now()->format('H:i:s')}}@endif"
-                                                                   class="form-control form-control-sm when_valid number_input"
-                                                                   id="timeIn"
-                                                                   name="timeIn"
-                                                            />
                                                         </div>
                                                     </div>
                                                 </div>
