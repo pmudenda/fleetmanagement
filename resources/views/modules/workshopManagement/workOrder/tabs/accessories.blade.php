@@ -77,6 +77,8 @@
 
             </div>
 
+            <div class="row h-2 bg-success"></div>
+
             <div class="row mb-1 mt-4">
                 <div class="col-lg-2 col-sm-12">
                     <label>Driver Acknowledgement:</label>
@@ -87,32 +89,33 @@
                            class="form-control"
                            value="{{$details->driver_in ?? ''}}"
                            readonly required></div>
+                    @if()
+                    <div class="col-lg-2 col-sm-12 text-left">
+                        <label>eSignature:</label>
+                    </div>
+                    <div class="col-lg-1 col-sm-12">
+                        <input type="text"
+                               name="sig_of_claimant"
+                               class="form-control"
+                               {{--value="{{Auth::user()->staff_no}}"--}}
+                               readonly
+                               required/>
+                    </div>
 
-                <div class="col-lg-2 col-sm-12 text-left">
-                    <label>Signature:</label>
-                </div>
-                <div class="col-lg-1 col-sm-12">
-                    <input type="text"
-                           name="sig_of_claimant"
-                           class="form-control"
-                           {{--value="{{Auth::user()->staff_no}}"--}}
-                           readonly
-                           required/>
-                </div>
+                    <div class="col-lg-2 col-sm-12 text-left"><label>Date Acknowledged:</label></div>
 
-                <div class="col-lg-2 col-sm-12 text-left"><label>Date Acknowledged:</label></div>
-
-                <div class="col-lg-2 col-sm-12">
-                    <input type="Date"
-                           name="date_claimant"
-                           class="form-control"
-                           value="{{date('Y-m-d')}}"
-                           readonly
-                           required/>
-                </div>
+                    <div class="col-lg-2 col-sm-12">
+                        <input type="Date"
+                               name="date_claimant"
+                               class="form-control"
+                               value="{{date('Y-m-d')}}"
+                               readonly
+                               required/>
+                    </div>
+                    @endif
             </div>
 
-            <div class="row">
+            <div class="row mt-10">
                 <div class="form-group">
                     <label
                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
