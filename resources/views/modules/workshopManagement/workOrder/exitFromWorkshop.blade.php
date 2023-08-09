@@ -2141,7 +2141,16 @@
                     .then(response => {
 
                         if (response?.state === 'success') {
-                            setRate($row, response.payload, rateType);
+                            const $documentStatusCtl = $('[name="documentStatus"]');
+                            const $newDocumentStatusCtl = $('[name="newDocumentStatus"]');
+
+                            if (
+                                $documentStatusCtl.val() !== $newDocumentStatusCtl.attr('data-value')
+                                || $documentStatusCtl.val() === null
+                                || $documentStatusCtl.val() === 'undefined'
+                            ) {
+                                setRate($row, response.payload, rateType);
+                            }
                         } else {
                             //removeSubmissionAndDetailsOptions();
                             tmsApp.systemError(
@@ -3252,6 +3261,7 @@
             getSuppliers();
 
             const $documentStatusCtl = $('[name="documentStatus"]');
+
             if ($documentStatusCtl.val() === $documentStatusCtl.attr('data-value')) {
                 let prefilledShiftType = $('[name="shiftType"]').attr('data-value')
                 $('[name="shiftType"]').val(prefilledShiftType).change();
@@ -3259,7 +3269,10 @@
                 $('[name="driver_out"]').attr('readonly', true);
                 $('[name="exitOdometer"]').attr('readonly', true);
                 $('.workshopSection').attr('disabled', true);
+
                 $('[name="employeeSearchBtn"]').attr('disabled', true);
+
+                $('[name="exitFuelLevel"]').attr('disabled', true);
             }
 
             $('[name="fuel_level"]').attr('disabled', true);
