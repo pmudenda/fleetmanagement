@@ -40,7 +40,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col">
+                <div class="col-9">
                     <table
                             class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
@@ -138,7 +138,7 @@
                 </div>
             </div>
 
-            <div class="row bg-success" style="height: 15px;">
+            <div class="row bg-success" style="height: 30px;">
                 Acknowledgment of Assessment Finding
             </div>
 
