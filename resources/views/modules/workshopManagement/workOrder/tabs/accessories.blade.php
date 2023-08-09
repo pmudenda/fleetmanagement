@@ -108,7 +108,7 @@
                 <div class="col">
                     <div class="row">
                         <div class="table-responsive" style="max-height:500px;">
-                            <table class="table" id="observations">
+                            <table class="table table-bordered" id="observations">
                                 <thead>
                                 <tr class="bg-default-dark">
                                     <th>Observation</th>
