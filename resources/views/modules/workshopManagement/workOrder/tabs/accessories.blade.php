@@ -76,6 +76,42 @@
                 </div>
 
             </div>
+
+            <div class="row mb-1 mt-4">
+                <div class="col-lg-2 col-sm-12">
+                    <label>Driver Acknowledgement:</label>
+                </div>
+                <div class="col-lg-3 col-sm-12">
+                    <input type="text"
+                           name="claimant_name"
+                           class="form-control"
+                           value="{{$details->driver_in ?? ''}}"
+                           readonly required></div>
+
+                <div class="col-lg-2 col-sm-12 text-left">
+                    <label>Signature:</label>
+                </div>
+                <div class="col-lg-1 col-sm-12">
+                    <input type="text"
+                           name="sig_of_claimant"
+                           class="form-control"
+                           {{--value="{{Auth::user()->staff_no}}"--}}
+                           readonly
+                           required/>
+                </div>
+
+                <div class="col-lg-2 col-sm-12 text-left"><label>Date Acknowledged:</label></div>
+
+                <div class="col-lg-2 col-sm-12">
+                    <input type="Date"
+                           name="date_claimant"
+                           class="form-control"
+                           value="{{date('Y-m-d')}}"
+                           readonly
+                           required/>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="form-group">
                     <label

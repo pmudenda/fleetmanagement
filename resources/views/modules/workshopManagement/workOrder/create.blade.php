@@ -82,7 +82,7 @@
                         @include('modules.workshopManagement.workOrder.tabs.job_card_header')
                     </section>
 
-                    <h1>Accessories</h1>
+                    <h1>Assessments</h1>
                     <section>
                         @include('modules.workshopManagement.workOrder.tabs.accessories')
                     </section>
