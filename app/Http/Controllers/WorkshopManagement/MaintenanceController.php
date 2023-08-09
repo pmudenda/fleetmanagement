@@ -440,12 +440,18 @@ class MaintenanceController extends Controller
         try {
             return $this->workshopService->workOrderClosure($request);
         } catch (\Exception $e) {
-            Log::error($e);
+            $message = ErrorMessages::getMessage("err_0005");
+            if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException || $e instanceof VehicleStateException) {
+                $message = $e->getMessage();
+            } else {
+                Log::error($e);
+            }
+
             return response()->json(
                 [
                     "success" => false,
                     "payload" => [],
-                    "message" => ErrorMessages::getMessage("err_0005")
+                    "message" => $message
                 ]
             );
         }
@@ -482,7 +488,7 @@ class MaintenanceController extends Controller
         return view('modules.workshopManagement.workOrder.show')
             ->with(compact(
                 'user',
-              //  'requisitionTypes',
+                //  'requisitionTypes',
                 //'organizationalUnit',
                 'requestDetails',
                 //'daysToNextRefuel',
