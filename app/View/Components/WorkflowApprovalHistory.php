@@ -31,7 +31,7 @@ class WorkflowApprovalHistory extends Component
     public function render(): View|string|\Closure
     {
         $this->approvals = DB::table("WFL_WORKFLOW_LOGS")
-            ->where('reference', '=', $this->request->req_no)
+            ->where('reference', '=', $this->request->req_no ?? $this->request->reference)
             ->join('SEC_USERS', 'WFL_WORKFLOW_LOGS.actioning_officer', '=', 'SEC_USERS.staff_no')
             ->leftJoin('CONFIG_STATUSES', 'WFL_WORKFLOW_LOGS.status', '=', 'CONFIG_STATUSES.code')
             ->leftJoin('WFL_WORKFLOW_ACTIONS', 'WFL_WORKFLOW_LOGS.action', '=', 'WFL_WORKFLOW_ACTIONS.action_id')
