@@ -84,13 +84,15 @@
                 <div class="col-lg-2 col-sm-12">
                     <label>Driver Acknowledgement:</label>
                 </div>
-                <div class="col-lg-3 col-sm-12">
-                    <input type="text"
-                           name="claimant_name"
-                           class="form-control"
-                           value="{{$details->driver_in ?? ''}}"
-                           readonly required></div>
-
+                @if(!empty($details->driver_acknowledged))
+                    <div class="col-lg-3 col-sm-12">
+                        <span class="btn btn-success">Acknowledged</span>
+                    </div>
+                @else
+                    <div class="col-lg-3 col-sm-12">
+                        <span class="btn btn-success">Awaiting Acknowledgement</span>
+                    </div>
+                @endif
                 @if(!empty($details->driver_acknowledged))
                     <div class="col-lg-2 col-sm-12 text-left">
                         <label>eSignature:</label>
