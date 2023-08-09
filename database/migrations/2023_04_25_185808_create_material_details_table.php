@@ -18,6 +18,7 @@ return new class extends Migration
             $table->Integer('quantity');
             $table->string('unit_of_measure', 15);
             $table->string('specifications', 2000);
+            $table->string('description', 2000);
             $table->string('project_code', 20)->nullable();
             $table->string('supplier_code', 20)->nullable();
             $table->string('reg_no', 10)->nullable();

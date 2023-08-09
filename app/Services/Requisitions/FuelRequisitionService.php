@@ -331,6 +331,7 @@ class FuelRequisitionService
             "quantity" => $requisitionPostRequest->get("material_quantity"),
             "unit_of_measure" => $requisitionPostRequest->get("unit_of_measure"),
             "specifications" => $requisitionPostRequest->get("material_description"),
+            "description" => $requisitionPostRequest->get("material_description"),
             "project_code" => $requisitionPostRequest->get("project_code") ?? $requisitionPostRequest->get("projectCode"),
             "cost_centre" => $requisitionPostRequest->get("cost_centre_code"),
             "cost_centre_name" => $requisitionPostRequest->get("cost_center_name"),

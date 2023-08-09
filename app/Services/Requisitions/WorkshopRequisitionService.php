@@ -214,6 +214,7 @@ class WorkshopRequisitionService
                 "stores_code" => $store_code,
                 "req_no" => $requisition_reference_number,
                 "specifications" => $item["technical_specification"],
+                "description" => $item["technical_specification"],
                 "reg_no" => $item["registration"],
             ]);
 
@@ -421,9 +422,9 @@ class WorkshopRequisitionService
                 "stores_code" => $store_code,
                 "req_no" => $requisition_reference_number,
                 "specifications" => $item["technical_specification"],
+                "description" => $item["technical_specification"],
                 "reg_no" => $item["registration"],
             ]);
-
 
             /*   WorkShopMaterial::create([
                    "wshp_act_code" => $workshop_reference,
@@ -595,6 +596,7 @@ class WorkshopRequisitionService
                 "stores_code" => $store_code,
                 "req_no" => $purchase_process_reference,
                 "specifications" => $item["service_technical_specification"],
+                "description" => $item["service_technical_specification"],
                 "reg_no" => $item["vehicle_registration"],
             ]);
 
@@ -1041,6 +1043,7 @@ class WorkshopRequisitionService
                 "stores_code" => $store_code,
                 "req_no" => $purchase_process_reference,
                 "specifications" => $item["service_technical_specification"],
+                "description" => $item["service_technical_specification"],
                 "reg_no" => $item["vehicle_registration"],
             ]);
 

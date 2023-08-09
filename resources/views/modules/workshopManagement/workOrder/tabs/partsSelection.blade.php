@@ -23,7 +23,7 @@
             @endif
         @endif
 
-        <li class="nav-item" style="list-style: none; width: 178px; display: block;">
+        <li class="nav-item" style="list-style: none; width: 178px; display: none;">
             <a class="nav-link" data-toggle="tab" href="#imprest" role="tab">Imprest Buys</a>
         </li>
 

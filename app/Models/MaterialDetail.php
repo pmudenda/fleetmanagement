@@ -18,6 +18,7 @@ class MaterialDetail extends Model
         'quantity',
         'unit_of_measure',
         'specifications',
+        'description',
         'project_code',
         'project_name',
         'supplier_code',
