@@ -3241,8 +3241,15 @@
             if ($documentStatusCtl.val() === $documentStatusCtl.attr('data-value')) {
                 let prefilledShiftType = $('[name="shiftType"]').attr('data-value')
                 $('[name="shiftType"]').val(prefilledShiftType).change();
+                $('[name="mechanic"]').change();
+                $('[name="driver_out"]').attr('readonly', true);
+                $('[name="exitOdometer"]').attr('readonly', true);
+                $('.workshopSection').attr('disabled', true);
+                $('[name="employeeSearchBtn"]').attr('disabled', true);
+
             }
 
+            $('[name="fuel_level"]').attr('disabled', true);
         })(window.tmsApp || {}, jQuery)
     </script>
 
