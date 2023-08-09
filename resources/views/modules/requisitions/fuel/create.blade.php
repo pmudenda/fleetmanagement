@@ -1085,7 +1085,7 @@
 
                     $('[name="material_quantity"]').val('').removeAttribute('max');
 
-                    $('#returnDateContainer').addClass('d-none');
+                    $('#nextRefuelingDateContainer').addClass('d-none');
 
                     //document.querySelector('[name="next_fuel_date"]').style.display = 'none';
                 } else {
@@ -1100,7 +1100,7 @@
                     document.querySelector('[name="material_quantity"]')
                         .setAttribute('max', document.querySelector('[name="material_quantity"]').getAttribute('data-max'));
 
-                    $('#returnDateContainer').removeClass('d-none');
+                    $('#nextRefuelingDateContainer').removeClass('d-none');
                     // document.querySelector('#returnDateContainer').style.display = null;
                 }
             });
