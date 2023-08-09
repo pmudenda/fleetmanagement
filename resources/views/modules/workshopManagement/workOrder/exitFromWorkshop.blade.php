@@ -2010,6 +2010,8 @@
 
                     findDriver(document.querySelector('#driver_staff_number').value, 'show');
 
+                    findDriver(document.querySelector('#driver_out').value, 'out');
+
                     findVehicle("InWorkshop");
 
                 }, 600);
@@ -2747,8 +2749,6 @@
                         } else {
                             document.querySelector('#driver_name_out').value = response.payload.name;
                         }
-
-
                     })
                     .catch(function (xhr, settings, error) {
                         tmsApp.showErrorMessages(xhr, 'Driver Validation');
