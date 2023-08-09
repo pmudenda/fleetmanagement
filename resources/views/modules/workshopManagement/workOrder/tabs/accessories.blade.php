@@ -107,7 +107,7 @@
                     <div class="col-lg-2 col-sm-12 text-left"><label>Date Acknowledged:</label></div>
 
                     <div class="col-lg-2 col-sm-12">
-                        <input type="Date"
+                        <input type="text"
                                name="date_claimant"
                                class="form-control"
                                value="{{Carbon::parse($details->date_acknowledged)->format('d/m/Y')}}"
@@ -115,6 +115,18 @@
                                required/>
                     </div>
                 @else
+                    <div class="col-lg-2 col-sm-12 text-left">
+                        <label>eSignature:</label>
+                    </div>
+                    <div class="col-lg-1 col-sm-12">
+                        <input type="text"
+                               name="sig_of_claimant"
+                               class="form-control"
+                               value=""
+                               readonly
+                               required/>
+                    </div>
+
                     <div class="col-lg-2 col-sm-12 text-right">
                         <button type="button"
                                 class="btn btn-sm btn-success"
