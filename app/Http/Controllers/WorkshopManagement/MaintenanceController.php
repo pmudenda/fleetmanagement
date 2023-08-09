@@ -19,6 +19,7 @@ use App\Http\Requests\WorkshopMaterialResevationRequest;
 use App\Http\Requests\WorkshopRequisitionRequest;
 use App\Http\Requests\WorkshopServiceRequisitionRequest;
 use App\Http\Requests\WorkshopServiceReservationRequest;
+use App\Models\Driver;
 use App\Models\MaterialDetail;
 use App\Models\RequisitionType;
 use App\Models\Settings\Accessory;
@@ -750,17 +751,44 @@ class MaintenanceController extends Controller
     public function eSign(Request $request): JsonResponse
     {
         /*reference: ZFMJBC0000000181
-loginId: 71581
-password: dfGctaL777TxCQF
-acceptance: on*/
+            loginId: 71581
+            password: dfGctaL777TxCQF
+            acceptance: on
+        */
         try {
-            $entry = JobCardHeader::where("job_card_no", "=", $request->reference)
+            $loginId = $request->get('loginId');
+            $password = $request->get('password');
+
+            $driver = Driver::where('staff_number', '=', $loginId)->first();
+
+            if (empty($driver)) {
+                return response()->json([
+                    "success" => false,
+                    "message" => "Assessment Signatory is not a driver",
+                ]);
+            }
+
+            $entry = JobCardHeader::where("job_card_no", "=", $request->get('reference'))
                 ->first();
 
             if (empty($entry)) {
                 return response()->json([
                     "success" => false,
                     "message" => "Record Not Found",
+                ]);
+            }
+
+            if (($driver->staff_number != $loginId) || ($entry->driver_in != $loginId)) {
+                return response()->json([
+                    "success" => false,
+                    "message" => "Assessment Signatory is not the driver who brought the vehicle",
+                ]);
+            }
+
+            if ($driver->staff_number !== $entry->driver_in) {
+                return response()->json([
+                    "success" => false,
+                    "message" => "Assessment Signatory is not the driver who brought the vehicle",
                 ]);
             }
 
