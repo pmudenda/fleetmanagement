@@ -2066,8 +2066,9 @@
                             const newDocumentStatus = $('[name="newDocumentStatus"]').attr('data-value');
 
                             if (
-                                documentStatus !== newDocumentStatus
+                                documentStatus === newDocumentStatus
                                 || documentStatus === null
+                                || documentStatus === ""
                                 || documentStatus === 'undefined'
                             ) {
                                 //populateVehicleDetails(response.payload, "");
@@ -2148,7 +2149,7 @@
                             const newDocumentStatus = $('[name="newDocumentStatus"]').attr('data-value');
 
                             if (
-                                documentStatus !== newDocumentStatus
+                                documentStatus === newDocumentStatus
                                 || documentStatus === null
                                 || documentStatus === ''
                                 || documentStatus === 'undefined'
