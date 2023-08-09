@@ -7,7 +7,6 @@ use App\Enums\ConfigurationTypes;
 use App\Enums\Modules;
 use App\Enums\RequisitionItemTypes;
 use App\Enums\WorkflowProcessCodes;
-use App\Events\RequisitionRaised;
 use App\Events\WorkOrderCompleted;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
@@ -292,8 +291,11 @@ class WorkshopService
         $workOrder->fuel_level_out = $request->get("fuel_level");
         $workOrder->driver_out = $request->get("driver_out");
         $workOrder->modified_by = $user->id;
+
         $workOrder->updated_at = Carbon::now();
-        $totalWorkOrderAmount = 0;
+        $totalWorkOrderAmount = $request->get('workOrderTotalAmount');
+
+
         foreach ($request->get("items") as $labourItem) {
             WorkshopLabour::create([
                 'wshp_act_code' => $workOrder->wshp_act_code,
@@ -312,6 +314,10 @@ class WorkshopService
 
             $totalWorkOrderAmount += (float)$labourItem['totalAmount'];
         }
+
+        $workOrder->repair_cost = $totalWorkOrderAmount;
+
+        $workOrder->save();
 
         $closureRemarks = $request->get('closureRemarks');
 
