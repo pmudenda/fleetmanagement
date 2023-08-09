@@ -2012,7 +2012,7 @@
                     e.preventDefault();
                     e.stopPropagation();
 
-                    let form = document.querySelector('[name="eSignDocument"]');
+                    let form = document.querySelector('form[name="eSignDocument"]');
                     let formData = new FormData(form);
                     $.ajax({
                         type: "POST",
