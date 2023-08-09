@@ -419,7 +419,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer justify-content-end">
+                    <div class="modal-footer">
 
                         <button class="btn btn-sm btn-danger pull-left"
                                 id="closeSignatureModal"
@@ -2012,14 +2012,13 @@
                     e.preventDefault();
                     e.stopPropagation();
 
-                    let form = document.querySelector('form[name="eSignDocument"]');
+                    let form = this;
                     let formData = new FormData(form);
                     $.ajax({
                         type: "POST",
                         url: form.action,
-                        data: JSON.stringify(formData),
-                        dataType: "json",
-                        contentType: "application/json; charset=utf-8",
+                        data: formData,
+                        dataType: false
                     }).done(function (response) {
                         window.loaderMessage = "Loading... please wait";
                         if (response.hasOwnProperty("success") && response.success) {
