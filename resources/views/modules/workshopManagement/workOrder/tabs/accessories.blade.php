@@ -2,7 +2,8 @@
 <div class="container-fluid">
     <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}" data-model-name="Accessories">
         <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
-        <input type="hidden" value="{{$details->driver_acknowledged ?? 'N'}}" id="driverAcknowledged" name="driverAcknowledged"/>
+        <input type="hidden" value="{{$details->driver_acknowledged ?? 'N'}}" id="driverAcknowledged"
+               name="driverAcknowledged"/>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="row">
                 <div class="col">
@@ -83,7 +84,8 @@
 
             <div class="row mb-1 mt-4">
                 <div class="col-lg-2 col-sm-12">
-                    <label>Driver Acknowledgement: <small class="text-danger">(To Be Performed By Driver)</small></label>
+                    <label>Driver Acknowledgement: <small class="text-danger">(To Be Performed By
+                            Driver)</small></label>
                 </div>
                 @if(!empty($details->driver_acknowledged))
                     <div class="col-lg-3 col-sm-12">
@@ -167,13 +169,31 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
-                <table>
+                <table class="table" id="observations">
                     <thead>
-                        <th></th>
-                        <th></th>
+                    <th>Observation</th>
+                    <th>Attachment</th>
                     </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" name="observation[]" class="form-control">
+                        </td>
+                        <td>
+                            <input type="file" name="attachment[]" class="form-control">
+                        </td>
+                    </tr>
+                    </tbody>
                 </table>
+                <button type="button"
+                        data-table-id="observations"
+                        class="btn btn-sm btn-primary add pull-right"
+                        value="addRow">
+                    <i class="fa fa-plus"></i> Add Row
+                </button>
+
             </div>
         </div>
     </div>
