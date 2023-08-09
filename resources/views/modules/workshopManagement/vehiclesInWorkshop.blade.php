@@ -1,4 +1,4 @@
-@php use Carbon\Carbon; @endphp
+@php use App\Helpers\StatusHelper;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
 
@@ -46,8 +46,8 @@
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path
-                                                d="M19.0759 3H4.72777C3.95892 3 3.47768 3.83148 3.86067 4.49814L8.56967 12.6949C9.17923 13.7559 9.5 14.9582 9.5 16.1819V19.5072C9.5 20.2189 10.2223 20.7028 10.8805 20.432L13.8805 19.1977C14.2553 19.0435 14.5 18.6783 14.5 18.273V13.8372C14.5 12.8089 14.8171 11.8056 15.408 10.964L19.8943 4.57465C20.3596 3.912 19.8856 3 19.0759 3Z"
-                                                fill="currentColor">
+                                                    d="M19.0759 3H4.72777C3.95892 3 3.47768 3.83148 3.86067 4.49814L8.56967 12.6949C9.17923 13.7559 9.5 14.9582 9.5 16.1819V19.5072C9.5 20.2189 10.2223 20.7028 10.8805 20.432L13.8805 19.1977C14.2553 19.0435 14.5 18.6783 14.5 18.273V13.8372C14.5 12.8089 14.8171 11.8056 15.408 10.964L19.8943 4.57465C20.3596 3.912 19.8856 3 19.0759 3Z"
+                                                    fill="currentColor">
                                             </path>
                                         </svg>
                                     </span>
@@ -84,17 +84,20 @@
                                     @foreach($workshopsVehicleList as $key => $workshop)
                                         <tr>
                                             <td>
-                                               {{-- {{++$key}}--}}
+                                                {{-- {{++$key}}--}}
                                                 @if(Carbon::now()->isBefore(Carbon::parse($workshop->expected_date_out)))
-                                                    <span class="badge badge-success p-2" style="width: 20px;height: 20px; border-radius: 50%;">
+                                                    <span class="badge badge-success p-2"
+                                                          style="width: 20px;height: 20px; border-radius: 50%;">
                                                         <p></p>
                                                     </span>
                                                 @elseif(Carbon::now()->isAfter(Carbon::parse($workshop->expected_date_out)))
-                                                    <span class="badge badge-danger p-2" style="width: 20px;height: 20px; border-radius: 50%;">
+                                                    <span class="badge badge-danger p-2"
+                                                          style="width: 20px;height: 20px; border-radius: 50%;">
                                                         <p></p>
                                                     </span>
                                                 @elseif(Carbon::now()->addDays(3)->eq(Carbon::parse($workshop->expected_date_out)))
-                                                    <span class="badge badge-warning p-2" style="width: 20px;height: 20px; border-radius: 50%;">
+                                                    <span class="badge badge-warning p-2"
+                                                          style="width: 20px;height: 20px; border-radius: 50%;">
                                                         <p></p>
                                                     </span>
                                                 @endif
@@ -134,10 +137,10 @@
                                             <td>
                                                 <div class="dropdown">
                                                     <button
-                                                        class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
-                                                        type="button"
-                                                        id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">
+                                                            class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
+                                                            type="button"
+                                                            id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
                                                         Actions
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -146,16 +149,18 @@
                                                             <a class="dropdown-item"
                                                                data-kt-action="edit"
                                                                href="{{URL::signedRoute('accessories.job.card',['step'=> '1', 'reference'=>$workshop->job_card_no])}}">
-                                                                Open Job Card
+                                                                View Job Card
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a class="dropdown-item"
-                                                               data-kt-action="exit"
-                                                               href="{{URL::signedRoute('exit.from.card',['reference'=>$workshop->job_card_no])}}">
-                                                                Exit From Workshop
-                                                            </a>
-                                                        </li>
+                                                        @if($workshop->status != StatusHelper::authorised())
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   data-kt-action="exit"
+                                                                   href="{{URL::signedRoute('exit.from.card',['reference'=>$workshop->job_card_no])}}">
+                                                                    Exit From Workshop
+                                                                </a>
+                                                            </li>
+                                                        @endif
                                                         {{--@endcan--}}
                                                     </ul>
                                                 </div>
@@ -408,38 +413,38 @@
 
 
             $(document).on('click', 'button[value="addRow"][data-table-id]', function () {
-                    let tableId = $(this).data('tableId');
+                let tableId = $(this).data('tableId');
 
-                    function reinitializeSelect2($_defect_sel) {
-                        if ($_defect_sel) {
-                            $($_defect_sel).removeClass('select2-hidden-accessible');
-                            $($_defect_sel).select2({
-                                theme: "bootstrap4",
-                                width: "resolve",
-                            });
-                        }
+                function reinitializeSelect2($_defect_sel) {
+                    if ($_defect_sel) {
+                        $($_defect_sel).removeClass('select2-hidden-accessible');
+                        $($_defect_sel).select2({
+                            theme: "bootstrap4",
+                            width: "resolve",
+                        });
                     }
+                }
 
-                    if (tableId === "filterProperty") {
-                        if ($('.select_2_control').data('select2')) {
-                            $('.select_2_control').select2('destroy');
-                        }
+                if (tableId === "filterProperty") {
+                    if ($('.select_2_control').data('select2')) {
+                        $('.select_2_control').select2('destroy');
                     }
+                }
 
-                    Table.addRow($('table#' + tableId));
-                    let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
+                Table.addRow($('table#' + tableId));
+                let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
 
-                    lastRow.find('[name="registrationNumber"]').val('');
+                lastRow.find('[name="registrationNumber"]').val('');
 
-                    if (tableId === "filterProperty") {
-                        let row = lastRow[0];
-                        $(row).find('.select2-container').remove();
-                        let $_defect_sel = $('[name="organizationalUnit"]');
-                        reinitializeSelect2($_defect_sel);
-                    }
+                if (tableId === "filterProperty") {
+                    let row = lastRow[0];
+                    $(row).find('.select2-container').remove();
                     let $_defect_sel = $('[name="organizationalUnit"]');
                     reinitializeSelect2($_defect_sel);
-                });
+                }
+                let $_defect_sel = $('[name="organizationalUnit"]');
+                reinitializeSelect2($_defect_sel);
+            });
 
             $(document).on('click', 'button[value="deleteRow"]', function (e) {
                 e.preventDefault();
