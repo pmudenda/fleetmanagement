@@ -174,16 +174,6 @@
                             <input class="small" type="checkbox" id="approveChkSignAs"/>
                             Sign As Different User...
                         </div>
-                        <div style="clear:both;">
-                            <label class="app-label" id="remarksTitle">Comments</label>
-                            <div>
-                            <textarea id="newApproval_Remarks"
-                                      class="form-control" cols="35"
-                                      rows="4" maxlength="1000"></textarea>
-                                <br/>
-                                <br/>
-                            </div>
-                        </div>
                         {{--   <div id="approveAanDisapprove" style="display: none">
                                <label class="app-label">Approve / Disapprove</label>
                                <div>
@@ -223,20 +213,30 @@
                                        size="25" maxlength="25"/><br/>
                             </div>
                         </div>
-                        <div class="signAsElement">
+                       {{-- <div >
                             <label class="app-label field-required app-field-null">Login Password</label>
                             <div>
                                 <input type="password" id="loginPasswordInput"
                                        class="form-control"
                                        size="25" maxlength="25"/><br/>
                             </div>
-                        </div>
-                        <div>
+                        </div>--}}
+                        <div class="signAsElement">
                             <label class="app-label field-required app-field-null">eSignature Password</label>
                             <div>
                                 <input type="password"
                                        class="form-control"
                                        id="eSignaturePasswordInput" size="25" maxlength="25"/>
+                            </div>
+                        </div>
+                        <div style="clear:both;">
+                            <label class="app-label" id="remarksTitle">Comments</label>
+                            <div>
+                            <textarea id="newApproval_Remarks"
+                                      class="form-control" cols="35"
+                                      rows="4" maxlength="1000"></textarea>
+                                <br/>
+                                <br/>
                             </div>
                         </div>
                     </div>
