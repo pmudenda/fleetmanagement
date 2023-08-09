@@ -490,7 +490,7 @@ class MaintenanceController extends Controller
             $materials,
             $materialsHeader,
             $services, $labour
-            ) = $this->getFullJobCardDetails($request->get("reference"));
+            ) = $this->getFullJobCardDetails($req_no);
 
         $taskHeader = null;
         if ($request->get("reference")) {
