@@ -868,7 +868,7 @@ class MaintenanceController extends Controller
         $accessories_checked_in = null;
         $details = null;
         $defects = collect([]);
-        $comments = [];
+        $comments = collect([]);
         $officeDetails = null;
         $materials = collect([]);
         $materialsHeader = null;
