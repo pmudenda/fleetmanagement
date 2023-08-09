@@ -145,7 +145,7 @@
             </div>
 
             <div class="row mb-1 mt-4">
-                <div class="col-8">
+                <div class="col-12">
                     <div class="col-lg-2 col-sm-12">
                         <label>Driver Acknowledgement: <small class="text-danger">(To Be Performed By
                                 Driver)</small></label>
