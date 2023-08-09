@@ -328,36 +328,6 @@
                                     <input class="small" type="checkbox" id="approveChkSignAs"/>
                                     Sign As Different User...
                                 </div>
-                                {{--   <div id="approveAanDisapprove" style="display: none">
-                                       <label class="app-label">Approve / Disapprove</label>
-                                       <div>
-                                           <span id="spanApproveBtn" class="mr-3">
-                                               <input type="radio"
-                                                      name="optApprove"
-                                                      value="approve"
-                                                      checked="checked"
-                                                      id="approveSelectedPass"/>
-                                               Approve
-                                           </span>
-                                           <span id="spanDisapproveBtn">
-                                               <input type="radio"
-                                                      name="optApprove"
-                                                      value="reject"
-                                                      id="approveSelectedFail"/>
-                                               Disapprove
-                                           </span>
-                                           <span id="spanSendBackBtn">
-                                               <input type="radio"
-                                                      name="optApprove"
-                                                      value="send_back"
-                                                      id="approveSendBack"/>
-                                               Send Back
-                                           </span>
-                                           <br/>
-                                           <br/>
-                                       </div>
-                                   </div>--}}
-
                                 <div class="signAsElement">
                                     <label class="app-label field-required app-field-null">Login ID</label>
                                     <div>
