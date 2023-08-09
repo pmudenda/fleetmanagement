@@ -522,7 +522,7 @@
                                                             <div class="input-group">
                                                                 <input type="text"
                                                                        min="1"
-                                                                       value="{{$details->millage_out ?? $details->millage_in}}"
+                                                                       value="{{$details->millage_out ?? $details->millage_in ?? ''}}"
                                                                        class="form-control form-control-sm numberOnly"
                                                                        id="exitOdometer"
                                                                        name="exitOdometer" required/>
