@@ -150,7 +150,7 @@
             <div class="row mb-1 mt-4">
                 <div class="row">
                     <div class="col-lg-2 col-sm-12">
-                        <label>Driver Acknowledgement: <small class="text-danger">(To Be Performed By
+                        <label>Assessment Acknowledgement: <small class="text-danger">(To Be Performed By
                                 Driver)</small></label>
                     </div>
                     @if(!empty($details->driver_acknowledged))
