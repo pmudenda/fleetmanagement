@@ -2060,12 +2060,13 @@
                         console.log(response);
                         if (response?.state === 'success') {
                             const $documentStatusCtl = $('[name="documentStatus"]');
-                            const $newDocumentStatusCtl = $('[name="newDocumentStatus"]');
+                            const documentStatus = $documentStatusCtl.val()
+                            const newDocumentStatus = $('[name="newDocumentStatus"]').attr('data-value');
 
                             if (
-                                $documentStatusCtl.val() !== $newDocumentStatusCtl.attr('data-value')
-                                || $documentStatusCtl.val() === null
-                                || $documentStatusCtl.val() === 'undefined'
+                                documentStatus !== newDocumentStatus
+                                || documentStatus === null
+                                || documentStatus === 'undefined'
                             ) {
                                 //populateVehicleDetails(response.payload, "");
                                 $($row).find('[name="hoursWorked"]').attr('readonly', false);
