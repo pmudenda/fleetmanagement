@@ -362,6 +362,7 @@
                                     <label class="app-label field-required app-field-null">Login ID</label>
                                     <div>
                                         <input class="zqEditMode form-control"
+                                               name="loginId"
                                                type="text"
                                                required
                                                id="loginIdInput"
@@ -381,6 +382,7 @@
                                     <div>
                                         <input type="password"
                                                required
+                                               name="password"
                                                class="form-control"
                                                id="eSignaturePasswordInput" size="25" maxlength="25"/>
                                     </div>
@@ -2013,10 +2015,11 @@
                     e.preventDefault();
                     e.stopPropagation();
 
-                    let form = this;
-                    let formData = new FormData(form);
+                    let $form = document.forms['eSignDocument'];
+                    let formData = new FormData($form);
+
                     tmsApp.asyncPostFormData(
-                        form.action,
+                        $form.action,
                         formData,
                         function (response) {
                             window.loaderMessage = "Loading... please wait";
