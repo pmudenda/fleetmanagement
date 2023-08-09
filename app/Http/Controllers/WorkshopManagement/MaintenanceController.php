@@ -342,6 +342,8 @@ class MaintenanceController extends Controller
             ) = $this->getFullJobCardDetails($request->get("reference"));
 
 
+        $taskHeader = WorkflowTaskHeader::where('', $request->get("reference"))->first();
+
 
         return view("modules.workshopManagement.workOrder.exitFromWorkshop")
             ->with(
@@ -358,7 +360,8 @@ class MaintenanceController extends Controller
                     "materials",
                     "materialsHeader",
                     "services",
-                    "labour"
+                    "labour",
+                    'taskHeader'
                 )
             );
     }

@@ -311,7 +311,7 @@
                     Comment:
                 </label>
                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
-                    @if(!empty($comments) && !empty($comments->where('type','=','ACC')->first()))
+                    @if(!empty($taskHeader) && !empty($taskHeader->long_description))
                         <textarea type="text"
                                   id="closureRemarks"
                                   minlength="20"
@@ -320,16 +320,28 @@
                                   required
                                   name="closureRemarks"
                                   style="height: 129px;"
-                                  class="form-control comments form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
+                                  class="form-control comments form-control-sm">{{$taskHeader->long_description ??''}}</textarea>
                     @else
-                        <textarea type="text"
-                                  id="closureRemarks"
-                                  minlength="20"
-                                  maxlength="255"
-                                  required
-                                  name="closureRemarks"
-                                  style="height: 129px;"
-                                  class="form-control comments form-control-sm"></textarea>
+                        @if($details->status === StatusHelper::pendingApproval())
+                            <textarea type="text"
+                                      id="closureRemarks"
+                                      minlength="20"
+                                      maxlength="255"
+                                      readonly
+                                      required
+                                      name="closureRemarks"
+                                      style="height: 129px;"
+                                      class="form-control comments form-control-sm"></textarea>
+                        @else
+                            <textarea type="text"
+                                      id="closureRemarks"
+                                      minlength="20"
+                                      maxlength="255"
+                                      required
+                                      name="closureRemarks"
+                                      style="height: 129px;"
+                                      class="form-control comments form-control-sm"></textarea>
+                        @endif
                     @endif
                 </div>
             </div>
