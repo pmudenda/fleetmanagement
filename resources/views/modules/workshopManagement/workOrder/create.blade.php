@@ -2011,13 +2011,18 @@
                     findVehicle();
                 });
 
-                $(document).on('submit', '[name="eSignDocument"]', function (e) {
+                $(document).on('submit', 'form[name="eSignDocument"]', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
-
                     let $form = document.forms['eSignDocument'];
-                    let formData = new FormData($form);
 
+                    if (!$($form).valid()) {
+                        toastr.warning("Sorry, the data did not pass validation check, check the data and try again.");
+                        return;
+                    }
+
+                    let formData = new FormData($form);
+                    tmsApp.play_alert('sound-submit');
                     tmsApp.asyncPostFormData(
                         $form.action,
                         formData,
@@ -2047,7 +2052,8 @@
                         },
                         function (xhr) {
                             tmsApp.showErrorMessages(xhr, "Assessment Acknowledgement",);
-                        }
+                        },
+                        'POST'
                     );
                 });
 

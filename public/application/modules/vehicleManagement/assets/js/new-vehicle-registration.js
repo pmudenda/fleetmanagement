@@ -1251,6 +1251,7 @@ function checkOnboardingHeaderStatus() {
         tmsApp.play_alert('sound-submit');
         let formData = new FormData($form);
         formData.set('chargeOutRate', tmsApp.getRawNumber(formData.get('chargeOutRate')).toString());
+
         tmsApp.asyncPostFormData($form.action, formData, function (asyncResponse) {
             if ('state' in asyncResponse && asyncResponse.state != 'success') {
                 if (asyncResponse.hasOwnProperty('errors')) {
