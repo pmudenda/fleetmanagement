@@ -78,8 +78,68 @@
                 </div>
             </div>
 
+
+            <div class="row mt-10">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="row">
+                        <div class="table-responsive" style="max-height:500px;">
+                            <table class="table" id="observations">
+                                <thead>
+                                <tr class="bg-success">
+                                    <th>Observation</th>
+                                    <th>Attachment</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="observation[]" class="form-control">
+                                    </td>
+                                    <td>
+                                        <input type="file" name="attachment[]" class="form-control">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <button type="button"
+                                    data-table-id="observations"
+                                    class="btn btn-sm btn-primary add pull-right"
+                                    value="addRow">
+                                <i class="fa fa-plus"></i> Add Row
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-10">
+                <div class="form-group">
+                    <label
+                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                            for="accessoriesRemarks">
+                        General Comments and Observation (optional):
+                    </label>
+                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
+                        @if(!empty($comments))
+                            <textarea type="text"
+                                      id="accessoriesRemarks"
+                                      name="accessoriesRemarks"
+                                      style="height: 129px;"
+                                      class="form-control form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
+                        @else
+                            <textarea type="text"
+                                      id="accessoriesRemarks"
+                                      name="accessoriesRemarks"
+                                      style="height: 129px;"
+                                      class="form-control form-control-sm"></textarea>
+                        @endif
+
+                    </div>
+                </div>
+            </div>
+
             <div class="row bg-success" style="height: 15px;">
-                &nbsp;
+                Acknowledgment of Assessment Finding
             </div>
 
             <div class="row mb-1 mt-4">
@@ -144,64 +204,6 @@
                 @endif
             </div>
 
-            <div class="row mt-10">
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="row">
-                        <div class="table-responsive" style="max-height:500px;">
-                            <table class="table" id="observations">
-                                <thead>
-                                <tr class="bg-success">
-                                    <th>Observation</th>
-                                    <th>Attachment</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <input type="text" name="observation[]" class="form-control">
-                                    </td>
-                                    <td>
-                                        <input type="file" name="attachment[]" class="form-control">
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <button type="button"
-                                    data-table-id="observations"
-                                    class="btn btn-sm btn-primary add pull-right"
-                                    value="addRow">
-                                <i class="fa fa-plus"></i> Add Row
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-10">
-                <div class="form-group">
-                    <label
-                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                            for="accessoriesRemarks">
-                        General Comments and Observation (optional):
-                    </label>
-                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
-                        @if(!empty($comments))
-                            <textarea type="text"
-                                      id="accessoriesRemarks"
-                                      name="accessoriesRemarks"
-                                      style="height: 129px;"
-                                      class="form-control form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
-                        @else
-                            <textarea type="text"
-                                      id="accessoriesRemarks"
-                                      name="accessoriesRemarks"
-                                      style="height: 129px;"
-                                      class="form-control form-control-sm"></textarea>
-                        @endif
-
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
