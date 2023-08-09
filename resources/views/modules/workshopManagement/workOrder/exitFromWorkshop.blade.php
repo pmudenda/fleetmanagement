@@ -2142,7 +2142,7 @@
                     .then(response => {
 
                         if (response?.state === 'success') {
-                            const documentStatus = $('[name="documentStatus"]').val() ;
+                            const documentStatus = $('[name="documentStatus"]').val();
                             const newDocumentStatus = $('[name="newDocumentStatus"]').attr('data-value');
 
                             if (
@@ -3274,7 +3274,9 @@
 
                 $('[name="employeeSearchBtn"]').attr('disabled', true);
 
-                $('[name="exitFuelLevel"]').attr('disabled', true);
+                setTimeout(() => {
+                    $('[name="exitFuelLevel"]').attr('disabled', true);
+                }, 300);
             }
 
             $('[name="fuel_level"]').attr('disabled', true);
