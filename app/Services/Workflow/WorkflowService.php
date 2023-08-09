@@ -7,7 +7,6 @@ use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\Priority;
 use App\Helpers\StatusHelper;
 use App\Models\Common\OrganizationalUnit;
-use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\User;
 use App\Models\Workflow\WorkflowApprovalLimit;
 use App\Models\Workflow\WorkflowLog;
@@ -53,7 +52,7 @@ class WorkflowService
 
         if (empty($process)) throw new WorkflowTaskCreationFailedException("Process not Found");
 
-        //get the first step in this process
+        // get the first step in this process
         $process_first_step = WorkflowStep::where('process_id', '=', $processCode)
             ->where('is_initial_step', true)
             ->where('is_initial_step', '=', 1)
@@ -70,7 +69,7 @@ class WorkflowService
 
         $user_unit = $this->getUserUnit($currentUser);
 
-        // create submission line
+        // audit trail for submission of task
         WorkflowLog::create([
             'reference' => $taskReference,
             'step_id' => $process_first_step->step_id,
@@ -84,34 +83,10 @@ class WorkflowService
             'remarks' => $comment
         ]);
 
+
         /****************************** Determine User to assign task ******************************************/
-        //find user role required on step after submission
-        //$userRoles = [];//::where('RoleId', $stepAfterSubmission->PrivilegeId)->get();
+        $assignToUser = $this->getApprovingOfficer($currentUser);
 
-        $assignToUser = PHCMSEmployee::where('con_per_no', '=', $currentUser->supervisor_code)->first();
-        $smallestNumberOfTasks = 0;
-        //find user with the least number of tasks and assign this task
-        //$userId = $assignToUser->con_per_no ?? 0;
-        /*foreach ($userRoles as $userRole) {
-            //
-            $actioningTasks = WorkflowTaskDetail::where('actioning_officer', $userRole->UserId)->whereNotNull('current_step_id')
-                ->Count();
-
-            if ($userId == 0) {
-                // first run
-                $smallestNumberOfTasks = $actioningTasks;
-                $userId = $userRole->UserId;
-                continue;
-            }
-
-            if ($actioningTasks < $smallestNumberOfTasks) {
-                $smallestNumberOfTasks = $actioningTasks;
-                $userId = $userRole->UserId;
-            }
-        }*/
-        /****************************Determine User to assign task*************************************************/
-
-        //$assignToUser->UserId = $userId;
         $actionPage = $stepAfterSubmission->action_page;
 
         //'date_acted'
@@ -234,7 +209,7 @@ class WorkflowService
                 if ($currentStep->is_final_step
                     || $currentStep->is_final_step == '1'
                     || $currentStep->is_final_step == 1
-                || $currentStep == $lastStep) {
+                    || $currentStep == $lastStep) {
                     Log::info("Final Step Approving and Ending Process");
 
                     WorkflowLog::create([
@@ -311,35 +286,7 @@ class WorkflowService
                 }
 
                 // is supervisor of
-                $next_approver = User::where('staff_no', $current_user->supervisor_code)->first();
-                if (empty($next_approver)) {
-                    throw new WorkflowTaskCreationFailedException("Supervisor Not Found");
-                }
-
-                //$assign_to_user = new User([0]);
-
-                $smalletNumberOfTasks = 0;
-                //find current_user with the least number of tasks and assign this task
-                //$userId = 0;
-                /*foreach ($userRoles as $userRole) {
-                    //
-                     $actioningTasks = WorkflowTaskDetail::where(
-                         'actioning_officer','=' , $userRole->user_id && $next_step->current_step_id != null)
-                             .count();
-
-                         if ($userId == 0) {
-                             // first run
-                             smalletNumberOfTasks = actioningTasks;
-                             userId = (int)userRole . UserId;
-                             continue;
-                         }
-
-                         if (actioningTasks < smalletNumberOfTasks) {
-                             smalletNumberOfTasks = actioningTasks;
-                             userId = (int)userRole . UserId;
-                         }
-                     }
-                */
+                $next_approver = $this->getApprovingOfficer($current_user);
 
                 $assign_to_user = $next_approver;
                 Log::info("Next Approver Determine as " . $assign_to_user->staff_no);
@@ -482,6 +429,54 @@ class WorkflowService
             ->whereNull('WFL_WORKFLOW_TASK.date_ended')
             ->select('WFL_WORKFLOW_TASK.*', 'SEC_USERS.name as originator')
             ->get();
+    }
+
+    /**
+     * @param User $currentUser
+     * @return mixed
+     * @throws WorkflowTaskCreationFailedException
+     */
+    public function getApprovingOfficer(User $currentUser): mixed
+    {
+        /****************************Determine User to assign task*************************************************/
+
+        if ($currentUser->supervisor_code) {
+            throw new WorkflowTaskCreationFailedException("Supervisor Not Assigned Found");
+        }
+
+        $assignToUser = User::where('staff_no', '=', $currentUser->supervisor_code)
+            //->where('con_st_code', 'ACT')
+            ->first();
+
+        if (empty($assignToUser)) {
+            throw new WorkflowTaskCreationFailedException("Supervisor Is Not A Fleet Master User");
+        }
+
+        return $assignToUser;
+        //find user role required on step after submission
+        //$userRoles = [];//::where('RoleId', $stepAfterSubmission->PrivilegeId)->get();
+        //$smallestNumberOfTasks = 0;
+        //find user with the least number of tasks and assign this task
+        //$userId = $assignToUser->con_per_no ?? 0;
+        /*foreach ($userRoles as $userRole) {
+            //
+            $actioningTasks = WorkflowTaskDetail::where('actioning_officer', $userRole->UserId)->whereNotNull('current_step_id')
+                ->Count();
+
+            if ($userId == 0) {
+                // first run
+                $smallestNumberOfTasks = $actioningTasks;
+                $userId = $userRole->UserId;
+                continue;
+            }
+
+            if ($actioningTasks < $smallestNumberOfTasks) {
+                $smallestNumberOfTasks = $actioningTasks;
+                $userId = $userRole->UserId;
+            }
+        }*/
+        //$assignToUser->UserId = $userId;
+        /****************************Determine User to assign task*************************************************/
     }
 
     private function createUserNotification(string $taskReference, int $actioningOfficer, string $title, string $actionPage, $long_description): void

@@ -1438,6 +1438,60 @@
                 return false;
             }
 
+
+            function pettyCashTableHasItems() {
+                let inputs = $(".pettyCashItemsTable > tbody").find('.articleCode');
+                for (const input of inputs) {
+                    if (input.value > "") {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            function changePettyCashRequestType(selectedItemType) {
+
+                if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
+                    // showStockItemControls();
+                    document.querySelector('#pettyCashSupplierContainer').style.display = 'none';
+                    document.querySelector('[name="supplier"]').removeAttribute('required');
+
+                    document.querySelector('#pettyCashStoreContainer').style.display = null;
+                    document.querySelector('[name="store_code"]').setAttribute('required', 'required');
+                    $('.quantity').attr('readonly', false);
+                } else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
+                    document.querySelector('#pettyCashSupplierContainer').style.display = null;
+                    document.querySelector('[name="supplier"]').setAttribute('required', 'required');
+
+                    document.querySelector('#pettyCashStoreContainer').style.display = 'none';
+                    document.querySelector('[name="store_code"]').removeAttribute('required');
+                    $('.quantity').attr('readonly', 'readonly');
+                    $('.quantity').val(1);
+                } else if (selectedItemType == document.querySelector('[name="nonStockItemCode"]').value) {
+                    document.querySelector('#pettyCashSupplierContainer').style.display = null;
+                    document.querySelector('[name="supplier"]').setAttribute('required', 'required');
+
+                    document.querySelector('#storeContainer').style.display = 'none';
+                    document.querySelector('[name="store_code"]').removeAttribute('required');
+
+                    $('.quantity').attr('readonly', false);
+                    $('[name="unit_price"]').attr('readonly', false);
+
+                } else {
+                    document.querySelector('#pettyCashSupplierContainer').style.display = null;
+                    document.querySelector('[name="supplier"]').setAttribute('required', 'required');
+
+                    document.querySelector('#pettyCashStoreContainer').style.display = 'none';
+                    document.querySelector('[name="store_code"]').removeAttribute('required');
+
+                    $('.quantity').attr('readonly', false);
+                }
+
+                if (selectedItemType) {
+                    enableArticleSelectionWebUIControls();
+                }
+            }
+
             function changeRequestType(selectedItemType) {
 
                 if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
@@ -1738,6 +1792,31 @@
             }
 
             function initEventHandlers() {
+
+                $("#pettyCashBuyItemType").on('change', function () {
+                    const selectedItemType = this.value;
+
+                    if (tableHasItems()) {
+                        Swal.fire({
+                            title: 'Change Requisition Item Type',
+                            text: "Changing Item Type will clear the items you've selected already." +
+                                " Would you like to proceed ?",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // clear things here
+                                changeRequestType(selectedItemType);
+                            }
+                        });
+                        return;
+                    }
+
+                    changePettyCashRequestType(selectedItemType);
+                });
 
                 $("#itemType").on('change', function () {
                     const selectedItemType = this.value;
@@ -2058,68 +2137,6 @@
             $('#submit_possible').hide();
             $('#submit_not_possible').hide();
 
-        });
-
-    </script>
-
-    <SCRIPT language="javascript">
-        function addRow(tableID) {
-
-            const table = document.getElementById(tableID);
-
-            const rowCount = table.rows.length;
-            const row = table.insertRow(rowCount);
-
-            const colCount = table.rows[0].cells.length;
-
-            for (let i = 0; i < colCount; i++) {
-
-                const newCell = row.insertCell(i);
-
-                newCell.innerHTML = table.rows[0].cells[i].innerHTML;
-
-                switch (newCell.childNodes[0].type) {
-                    case "text":
-                        newCell.childNodes[0].value = "";
-                        break;
-                    case "checkbox":
-                        newCell.childNodes[0].checked = false;
-                        break;
-                    case "select-one":
-                        newCell.childNodes[0].selectedIndex = 0;
-                        break;
-                }
-            }
-        }
-
-        function deleteRow(tableID) {
-            try {
-                const table = document.getElementById(tableID);
-                let rowCount = table.rows.length;
-
-                for (let i = 0; i < rowCount; i++) {
-                    const row = table.rows[i];
-                    const chkbox = row.cells[0].childNodes[0];
-                    if (null != chkbox && true == chkbox.checked) {
-                        if (rowCount <= 1) {
-                            alert("Cannot delete all the rows.");
-                            break;
-                        }
-                        table.deleteRow(i);
-                        rowCount--;
-                        i--;
-                    }
-                }
-                getvalues();
-            } catch (e) {
-                alert(e);
-            }
-        }
-
-    </SCRIPT>
-
-    <script>
-        $(document).ready(function () {
             $("#divSubmit_hide").hide();
             //disable the submit button
             $("#btnSubmit").on('click', function () {
@@ -2131,6 +2148,60 @@
                     //continue submitting
                     e.currentTarget.submit();
                 });
+            });
+
+            $(document).on('click', '.deleteTaleRow', function () {
+                const tableID = $(this).attr('data-table-id');
+
+                const table = document.getElementById(tableID);
+
+                const rowCount = table.rows.length;
+                const row = table.insertRow(rowCount);
+
+                const colCount = table.rows[0].cells.length;
+
+                for (let i = 0; i < colCount; i++) {
+
+                    const newCell = row.insertCell(i);
+
+                    newCell.innerHTML = table.rows[0].cells[i].innerHTML;
+
+                    switch (newCell.childNodes[0].type) {
+                        case "text":
+                            newCell.childNodes[0].value = "";
+                            break;
+                        case "checkbox":
+                            newCell.childNodes[0].checked = false;
+                            break;
+                        case "select-one":
+                            newCell.childNodes[0].selectedIndex = 0;
+                            break;
+                    }
+                }
+            });
+            $(document).on('click', '.deleteTaleRow', function () {
+                const tableID = $(this).attr('data-table-id');
+                try {
+                    const table = document.getElementById(tableID);
+                    let rowCount = table.rows.length;
+
+                    for (let i = 0; i < rowCount; i++) {
+                        const row = table.rows[i];
+                        const chkbox = row.cells[0].childNodes[0];
+                        if (null != chkbox && true == chkbox.checked) {
+                            if (rowCount <= 1) {
+                                alert("Cannot delete all the rows.");
+                                break;
+                            }
+                            table.deleteRow(i);
+                            rowCount--;
+                            i--;
+                        }
+                    }
+                    getvalues();
+                } catch (e) {
+                    alert(e);
+                }
             });
         });
     </script>

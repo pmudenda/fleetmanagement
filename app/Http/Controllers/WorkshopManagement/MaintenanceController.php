@@ -86,7 +86,7 @@ class MaintenanceController extends Controller
     public function create(Request $request): View
     {
         if (!$request->hasValidSignature()) {
-            abort(401);
+            //abort(401);
         }
 
         list(
@@ -451,7 +451,7 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function approveWorkOrderClosure(Request $request)
+    public function approveWorkOrderClosure(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         if (!$request->hasValidSignature()) {
             abort(401);

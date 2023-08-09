@@ -27,17 +27,18 @@ class WorkOrderClosure extends FormRequest
             'timeOut' => 'required',
             'exitOdometer' => 'required',
             'exitFuelLevel' => 'required',
-            'driver_out' => 'required',
+            'driver_out' => 'required|string|max:10',
             'driver_name_out' => 'required',
+            'closureRemarks' => 'required:string|max:255',
 
-            'items.*.workshopSection',
-            'items.*.dateOfWork',
-            'items.*.mechanic',
-            'items.*.hoursWorked',
-            'items.*.ratePerHour',
-            'items.*.totalAmount',
-            'items.*.defect',
-            'items.*.shiftType',
+            'items.*.workshopSection' => 'required',
+            'items.*.dateOfWork' => 'required',
+            'items.*.mechanic' => 'required',
+            'items.*.hoursWorked' => 'required',
+            'items.*.ratePerHour' => 'required',
+            'items.*.totalAmount' => 'required',
+            'items.*.defect' => 'required',
+            'items.*.shiftType' => 'required',
         ];
     }
 }

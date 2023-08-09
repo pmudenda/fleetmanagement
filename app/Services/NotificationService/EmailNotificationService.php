@@ -15,8 +15,7 @@ class EmailNotificationService
     public static function sendNotification(User $recipient, User $sender, $record, string $action, $task): bool
     {
         try {
-
-            $recipientMail = 'mchitala@zesco.co.zm';//$recipient->email
+            $recipientMail = config("mail.default_mail") ?? $recipient->email;
             $to[] = ['email' => $recipientMail, 'name' => $recipient->name];
             $names = $recipient->name;
 
@@ -58,8 +57,21 @@ class EmailNotificationService
                         'title' => "New Task Needs Your Attention",
                         'body' => "Please be informed that {$sender->name} has raised a fuel request, with reference
                                <strong>{$record->req_no}</strong>
-                               <br>To Take action immediately, click on the button below to login
-                               .<br> Regards. "
+                               <br>To Take action immediately, click on the button below
+                               .<br>Regards. "
+                    ];
+                    break;
+                case 'workOrderCompleted':
+                    $details = [
+                        'name' => $names,
+                        'systemLink' => URL::signedRoute('show.workorder.closure', ['ref' => $record->job_card_no]),
+                        'identity' => $record->job_card_no,
+                        'subject' => "New Task Needs Your Attention",
+                        'title' => "New Task Needs Your Attention",
+                        'body' => "Work-Order No. <strong>{$record->job_card_no}</strong> assigned to {$sender->name} has been completed and submitted
+                                   for your approval.
+                               <br>To Take action immediately, click on the button below
+                               .<br>Regards. "
                     ];
                     break;
                 default:

@@ -2,9 +2,14 @@
 
 namespace App\Services\WorkShopManagement;
 
+use App\Constants\WorkflowActions;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Modules;
 use App\Enums\RequisitionItemTypes;
+use App\Enums\WorkflowProcessCodes;
+use App\Events\RequisitionRaised;
+use App\Events\WorkOrderCompleted;
+use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\JobCardRequest;
 use App\Http\Requests\VehicleDefectsRequest;
@@ -261,14 +266,22 @@ class WorkshopService
         Log::info('Setting Vehicle State To In Workshop ' . $rowsAffected);
     }
 
+    /**
+     * @throws WorkflowTaskCreationFailedException
+     */
     public function workOrderClosure(WorkOrderClosure $request): JsonResponse
     {
         $user = Auth::user();
 
         DB::beginTransaction();
 
-        $workOrder = JobCardHeader::where("job_card_no", "=", $request->get("job_card_number"))
+        $workOrderNumber = $request->get("job_card_number");
+        $workOrder = JobCardHeader::where("job_card_no", "=", $workOrderNumber)
             ->first();
+
+        // if work order is not found
+
+        $workOrderNumber = $workOrder->job_card_no;
 
         $workOrder->status = StatusHelper::closed();
         $workOrder->date_out = Carbon::now();
@@ -280,7 +293,7 @@ class WorkshopService
         $workOrder->driver_out = $request->get("driver_out");
         $workOrder->modified_by = $user->id;
         $workOrder->updated_at = Carbon::now();
-
+        $totalWorkOrderAmount = 0;
         foreach ($request->get("items") as $labourItem) {
             WorkshopLabour::create([
                 'wshp_act_code' => $workOrder->wshp_act_code,
@@ -296,7 +309,11 @@ class WorkshopService
                 'created_by' => $user->staff_no,
                 'type_of_hour' => $labourItem['shiftType'],
             ]);
+
+            $totalWorkOrderAmount += (float)$labourItem['totalAmount'];
         }
+
+        $closureRemarks = $request->get('closureRemarks');
 
         $stockItemRequisitions = MaterialHeader::where('veh_reg_no', $workOrder->reg_no)
             ->whereIn('status', [StatusHelper::new(), StatusHelper::partiallyAuthorised()])
@@ -308,13 +325,32 @@ class WorkshopService
             $this->procurementService->cancelStoresRequisition($requisition->st_pur);
         }
 
+        $short_description = "$closureRemarks for work-order $workOrderNumber";
+
+        $long_description = "$closureRemarks for work-order $workOrderNumber";
+
+        $workflowProcess = WorkflowProcessCodes::WorkOrderClosure->value;
+
+        $this->workflowService->initiateWorkflowProcess(
+            $workOrderNumber,
+            (int)$workflowProcess,
+            WorkflowActions::submit(),
+            $closureRemarks,
+            $user,
+            $totalWorkOrderAmount,
+            $short_description,
+            $long_description
+        );
+
         DB::commit();
+
+        WorkOrderCompleted::dispatch($workOrder, "fuel_requisition");
 
         return response()->json(
             [
                 "success" => true,
                 "payload" => [],
-                "message" => "Work Order Closure Submitted For Approval",
+                "message" => "Work Order Closure, for Work Order with reference $workOrderNumber, has been Submitted For Approval",
                 "redirectUrl" => URL::signedRoute("workOrder.list"),
             ]
         );

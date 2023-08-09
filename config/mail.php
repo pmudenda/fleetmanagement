@@ -128,6 +128,8 @@ return [
         'ZFMServiceDesk@zesco.co.zm',
         'lovemoredaka@zesco.co.zm',
         'vsingogo@zesco.co.zm'
-    ]
+    ],
+
+    'default_mail' => 'mchitala@zesco.co.zm'
 
 ];

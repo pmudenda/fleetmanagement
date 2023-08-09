@@ -66,7 +66,7 @@
                       action="{{route('save.exit.from.workshop')}}"
                       method="post">
                     @csrf
-
+                    <input type="hidden" name="workOrderTotalAmount" id="workOrderTotalAmount"/>
                     <h1>Entry Summary Details</h1>
                     <section>
                         <div class="container-fluid">
@@ -2930,11 +2930,15 @@
                         arr.push(obj);
                     });
                 }
+                //[name="workOrderTotalAmount"]
+               let workOrderTotalAmount  = Util.getFloat($("#material_table").find('#itemsTotal').text())
+                + Util.getFloat($("#services_table").find('#serviceTotalPrice').text())
 
                 for (const pair of jobCardFormExitData.entries()) {
                     obj[pair[0]] = pair[1];
                 }
 
+                obj['workOrderTotalAmount'] = workOrderTotalAmount;
                 formData['items'] = arr;
 
                 formData = {

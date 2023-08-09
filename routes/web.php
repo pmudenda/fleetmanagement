@@ -21,6 +21,7 @@ use App\Http\Controllers\WorkshopManagement\WorkshopController;
 use App\Models\Reference\LabourRates;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
@@ -54,6 +55,8 @@ Route::get('/mail_view', function () {
 });
 
 Route::get('test', function (Request $request) {
+
+    return view("workshopManagement.workOrder.tabs.imprest_buy");
 
     (config('rights.role_create'))
     (auth()->user()->can(config('rights.role_create')));
@@ -233,6 +236,14 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('approve/work-order', [MaintenanceController::class, 'approveWorkOrderClosure'])->name('show.workorder.closure');
 
             Route::post('store', function (Request $request) {
+
+                $response = Http::asForm()->post(
+                    'http://example.com/users',
+                    [
+                    'name' => 'Sara',
+                    'role' => 'Privacy Consultant',
+                    ]);
+
                 return response()->json(
                     [
                         'state' => 'success',
