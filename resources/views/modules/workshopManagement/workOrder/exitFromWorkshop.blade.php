@@ -71,6 +71,12 @@
                            name="documentStatus"
                            id="documentStatus"
                            value="{{$details->status ?? ''}}"/>
+
+                    <input type="hidden" data-value="{{StatusHelper::pendingApproval()}}"
+                           name="documentStatus"
+                           id="documentStatus"
+                           value="{{$details->status ?? ''}}"/>
+
                     <h1 class="mt-5">Entry Summary Details</h1>
                     <section>
                         <div class="container-fluid">
@@ -2054,9 +2060,13 @@
                     .then(response => {
                         console.log(response);
                         if (response?.state === 'success') {
-                            //populateVehicleDetails(response.payload, "");
-                            $($row).find('[name="hoursWorked"]').attr('readonly', false);
-                            $($row).find('[name="shiftType"]').attr('disabled', false);
+                            const $documentStatusCtl = $('[name="documentStatus"]');
+                            if ($documentStatusCtl.val() !== $documentStatusCtl.attr('data-value')) {
+                                //populateVehicleDetails(response.payload, "");
+                                $($row).find('[name="hoursWorked"]').attr('readonly', false);
+                                $($row).find('[name="shiftType"]').attr('disabled', false);
+                            }
+
                             $($row).find('[name="mechanicName"]').val(response?.payload['mechanic'].name);
                             $($row).find('[name="postCode"]').val(response?.payload['employee']['job_code']);
                             $($row).find('[name="workshopSection"]').val(response?.payload['mechanic']['section_code']).change();
@@ -2764,9 +2774,8 @@
                 switch (element.name) {
                     case 'hoursWorked':
                     case 'ratePerHour':
-                    case 'shiftType':
+                    //case 'shiftType':
                         //$('#quantityTotal').text(tmsApp.getRawNumber(summaryTotalQty));
-
                         let lineTotal = tmsApp.getFloat($(element).closest("tr").find("input[name=hoursWorked]").val())
                             * tmsApp.getFloat($(element).closest("tr").find("input[name=ratePerHour]").val());
 
@@ -3246,7 +3255,6 @@
                 $('[name="exitOdometer"]').attr('readonly', true);
                 $('.workshopSection').attr('disabled', true);
                 $('[name="employeeSearchBtn"]').attr('disabled', true);
-
             }
 
             $('[name="fuel_level"]').attr('disabled', true);

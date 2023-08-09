@@ -106,7 +106,7 @@ class MaintenanceController extends Controller
             ) = $this->getJobCardCreationData($request);
 
         $view_name = "modules.workshopManagement.workOrder.create";
-
+        $labour = collect([]);
         return view($view_name)
             ->with(
                 compact(
@@ -121,7 +121,8 @@ class MaintenanceController extends Controller
                     "officeDetails",
                     "materials",
                     "materialsHeader",
-                    "services"
+                    "services",
+                    'labour'
                 )
             );
     }
@@ -651,6 +652,7 @@ class MaintenanceController extends Controller
         $materials = collect([]);
         $materialsHeader = null;
         $services = collect([]);
+        $labour = collect([]);
 
         if ($reference) {
             $accessories_checked_in = WorkShopVehicleAccessory::where("job_card_no", "=", $reference)
@@ -687,7 +689,8 @@ class MaintenanceController extends Controller
             $officeDetails,
             $materials,
             $materialsHeader,
-            $services
+            $services,
+            $labour
         );
     }
 
