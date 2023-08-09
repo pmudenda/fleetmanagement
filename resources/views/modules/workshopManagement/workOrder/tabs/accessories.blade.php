@@ -85,11 +85,11 @@
                 </div>
                 @if(!empty($details->driver_acknowledged))
                     <div class="col-lg-3 col-sm-12">
-                        <span class="btn btn-success">Acknowledged</span>
+                        <span class="btn btn-sm btn-success">Acknowledged</span>
                     </div>
                 @else
                     <div class="col-lg-3 col-sm-12">
-                        <span class="btn btn-success">Awaiting Acknowledgement</span>
+                        <span class="btn btn-sm btn-success">Awaiting Acknowledgement</span>
                     </div>
                 @endif
                 @if(!empty($details->driver_acknowledged))
