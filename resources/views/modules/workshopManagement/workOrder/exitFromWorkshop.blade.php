@@ -72,10 +72,9 @@
                            id="documentStatus"
                            value="{{$details->status ?? ''}}"/>
 
-                    <input type="hidden" data-value="{{StatusHelper::pendingApproval()}}"
-                           name="documentStatus"
-                           id="documentStatus"
-                           value="{{$details->status ?? ''}}"/>
+                    <input type="hidden" value="{{StatusHelper::new()}}"
+                           name="newDocumentStatus"
+                           id="newDocumentStatus"/>
 
                     <h1 class="mt-5">Entry Summary Details</h1>
                     <section>
@@ -2061,7 +2060,13 @@
                         console.log(response);
                         if (response?.state === 'success') {
                             const $documentStatusCtl = $('[name="documentStatus"]');
-                            if ($documentStatusCtl.val() !== $documentStatusCtl.attr('data-value')) {
+                            const $newDocumentStatusCtl = $('[name="newDocumentStatus"]');
+
+                            if (
+                                $documentStatusCtl.val() !== $newDocumentStatusCtl.attr('data-value')
+                                || $documentStatusCtl.val() === null
+                                || $documentStatusCtl.val() === 'undefined'
+                            ) {
                                 //populateVehicleDetails(response.payload, "");
                                 $($row).find('[name="hoursWorked"]').attr('readonly', false);
                                 $($row).find('[name="shiftType"]').attr('disabled', false);
@@ -2774,7 +2779,7 @@
                 switch (element.name) {
                     case 'hoursWorked':
                     case 'ratePerHour':
-                    //case 'shiftType':
+                        //case 'shiftType':
                         //$('#quantityTotal').text(tmsApp.getRawNumber(summaryTotalQty));
                         let lineTotal = tmsApp.getFloat($(element).closest("tr").find("input[name=hoursWorked]").val())
                             * tmsApp.getFloat($(element).closest("tr").find("input[name=ratePerHour]").val());
