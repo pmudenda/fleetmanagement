@@ -1026,22 +1026,25 @@
                     },
                     onStepChanging: function (event, currentIndex, newIndex) {
 
+                        console.log('currentIndex', currentIndex);
+                        console.log('newIndex', newIndex);
+
                         if (currentIndex > newIndex) {
                             return true;
                         }
 
                         const driverAcknowledged = $('#driverAcknowledged').val();
 
+                        if (currentIndex === 1 && driverAcknowledged === 'Y') {
+                            let tmp = window.goToNext;
+                            window.goToNext = false;
+                            return tmp;
+                        }
+
                         if (currentIndex < newIndex) {
                             // To remove error styles
                             form.find(".body:eq(" + newIndex + ") label.error").remove();
                             form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
-                        }
-
-                        if(currentIndex == 1 && driverAcknowledged==='Y'){
-                            let tmp = window.goToNext;
-                            window.goToNext = false;
-                            return tmp;
                         }
 
                         form.validate().settings.ignore = ":disabled,:hidden";
