@@ -1626,6 +1626,26 @@
                         </div>
                     </section>
 
+                    @if(!empty($taskHeader->assigned_user))
+                        @if( (auth()->user()->staff_no == $taskHeader->assigned_user && empty($taskHeader->date_ended))
+                            ||
+                            (auth()->user()->hasRole('final_authoriser')&& empty($taskHeader->date_ended))
+                            )
+                            <div class="card-footer">
+                                <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
+                                    <button type="button" id="approveRequisitionBtn"
+                                            class="btn btn-success btn-sm mr-3">
+                                        <i class="fas fa-thumbs-up"></i> Approve
+                                    </button>
+                                    <button type="button"
+                                            id="declineRequisitionBtn"
+                                            class="btn btn-danger btn-sm mr-3">
+                                        <i class="fas fa-thumbs-down"></i> Reject
+                                    </button>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
                 </form>
 
                 <input type="hidden" value="{{ route('user.search') }}" id="newUserSearchUrl"/>

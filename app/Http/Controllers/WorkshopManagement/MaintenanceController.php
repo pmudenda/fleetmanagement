@@ -493,8 +493,8 @@ class MaintenanceController extends Controller
             ) = $this->getFullJobCardDetails($req_no);
 
         $taskHeader = null;
-        if ($request->get("reference")) {
-            $taskHeader = WorkflowTaskHeader::where('reference', '=', $req_no)->first();
+        if ($request->get("ref")) {
+            $taskHeader = WorkflowTaskHeader::where('reference', '=', $request->get('ref'))->first();
         }
         $approvalHistory = [];
 
