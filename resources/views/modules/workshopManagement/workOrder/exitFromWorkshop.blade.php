@@ -68,7 +68,7 @@
                       method="post">
                     @csrf
                     <input type="hidden" name="workOrderTotalAmount" id="workOrderTotalAmount"/>
-                    <h1>Entry Summary Details</h1>
+                    <h1 class="mt-5">Entry Summary Details</h1>
                     <section>
                         <div class="container-fluid">
                             <div class="row"
@@ -201,6 +201,42 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                                                for="staff_name">
+                                                            Service Advisor:
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                            @if($details && $details->service_advisor)
+                                                                <input type="text"
+                                                                       readonly
+                                                                       class="form-control form-control-sm when_valid number_input"
+                                                                       id="service_advisor"
+                                                                       value="{{ $details->service_advisor .' | '. $details->section_in_name}}"
+                                                                       required
+                                                                       name="service_advisor"
+                                                                />
+                                                            @else
+                                                                <input type="text"
+                                                                       readonly
+                                                                       class="form-control form-control-sm when_valid number_input"
+                                                                       id="service_advisor"
+                                                                       value="{{auth()->user()->name . ' | RECEPTION' }}"
+                                                                       required
+                                                                       name="service_advisor"
+                                                                />
+                                                            @endif
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="row">
@@ -238,41 +274,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                                                                for="staff_name">
-                                                            Service Advisor:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            @if($details && $details->service_advisor)
-                                                                <input type="text"
-                                                                       readonly
-                                                                       class="form-control form-control-sm when_valid number_input"
-                                                                       id="service_advisor"
-                                                                       value="{{ $details->service_advisor .' | '. $details->section_in_name}}"
-                                                                       required
-                                                                       name="service_advisor"
-                                                                />
-                                                            @else
-                                                                <input type="text"
-                                                                       readonly
-                                                                       class="form-control form-control-sm when_valid number_input"
-                                                                       id="service_advisor"
-                                                                       value="{{auth()->user()->name . ' | RECEPTION' }}"
-                                                                       required
-                                                                       name="service_advisor"
-                                                                />
-                                                            @endif
 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
 
                                     <div id="accidentRecordNo" class="row d-none">
