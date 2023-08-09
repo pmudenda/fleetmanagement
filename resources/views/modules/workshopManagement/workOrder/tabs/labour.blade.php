@@ -306,22 +306,34 @@
         <hr>
         <div class="row">
             <div class="form-group">
-                <label
-                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
-                        for="remarks">
+                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                       for="remarks">
                     Comment:
                 </label>
                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
-        <textarea type="text"
-                  id="closureRemarks"
-                  minlength="20"
-                  maxlength="255"
-                  required
-                  name="closureRemarks"
-                  style="height: 129px;"
-                  class="form-control comments form-control-sm"></textarea>
+                    @if(!empty($comments) && !empty($comments->where('type','=','ACC')->first()))
+                        <textarea type="text"
+                                  id="closureRemarks"
+                                  minlength="20"
+                                  readonly
+                                  maxlength="255"
+                                  required
+                                  name="closureRemarks"
+                                  style="height: 129px;"
+                                  class="form-control comments form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
+                    @else
+                        <textarea type="text"
+                                  id="closureRemarks"
+                                  minlength="20"
+                                  maxlength="255"
+                                  required
+                                  name="closureRemarks"
+                                  style="height: 129px;"
+                                  class="form-control comments form-control-sm"></textarea>
+                    @endif
                 </div>
             </div>
+
         </div>
 
         <div class="col-12 text-right">
