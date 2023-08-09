@@ -397,10 +397,7 @@
 
                         <button class="btn btn-sm btn-danger pull-left"
                                 id="closeSignatureModal"
-                                type="button"
-                                data-bs-target="#eSignature-modal"
-                                data-bs-toggle="modal"
-                                data-bs-dismiss="modal">
+                                type="button">
                             Close
                         </button>
 
@@ -1983,6 +1980,22 @@
                     const tr = $(this).closest('tr');
                     let selectElem = tr.find('select[name="defect"]');
                     getVehicleDefects(this.value, selectElem);
+                })
+
+                $(document).on('click', '#closeSignatureModal', function () {
+                    let modal = '';
+                    let myModalEl = document.querySelector('#eSignature-modal')
+                    if (myModalEl) {
+                        if (bootstrap) {
+                            modal = bootstrap.Modal.getOrCreateInstance(myModalEl);
+                        }
+                    }
+
+                    if (modal) {
+                        modal.hide();
+                        //window.loaderVisible = false;
+                    }
+
                 })
 
                 $(document).on('keyup paste', '[name="vehicle_registration"]', function () {
