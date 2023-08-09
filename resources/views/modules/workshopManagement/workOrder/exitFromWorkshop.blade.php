@@ -67,7 +67,8 @@
                       action="{{route('save.exit.from.workshop')}}"
                       method="post">
                     @csrf
-                    <input type="hidden" name="workOrderTotalAmount" id="workOrderTotalAmount"/>
+                    <input type="hidden" data-value="{{StatusHelper::pendingApproval()}}" name="documentStatus"
+                           id="{{$details->status ?? ''}}"/>
                     <h1 class="mt-5">Entry Summary Details</h1>
                     <section>
                         <div class="container-fluid">
@@ -89,7 +90,8 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             @if(!empty($details) && !empty($details->job_card_no))
                                                                 <div class="">
-                                                                    &nbsp; <span class="text-orange">{{ $details->job_card_no ?? '' }}</span>
+                                                                    &nbsp; <span
+                                                                            class="text-orange">{{ $details->job_card_no ?? '' }}</span>
                                                                 </div>
                                                             @endif
                                                         </div>
@@ -3231,6 +3233,12 @@
             }
 
             getSuppliers();
+
+            const $documentStatusCtl = $('[name="documentStatus"]');
+            if ($documentStatusCtl.val() === $documentStatusCtl.attr('data-value')) {
+                let prefilledShiftType = $('[name="shiftType"]').attr('data-value')
+                $('[name="shiftType"]').val(prefilledShiftType).change();
+            }
 
         })(window.tmsApp || {}, jQuery)
     </script>
