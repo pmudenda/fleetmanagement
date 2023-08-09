@@ -1,4 +1,4 @@
-@php use App\Helpers\StatusHelper;use App\Models\Reference\Store;use App\Models\Security\User; @endphp
+@php use App\Helpers\StatusHelper;use App\Models\Reference\Store;use App\Models\Security\User; use App\Models\Reference\PurchaseOrder; @endphp
 @php @endphp
 @extends('layouts.app')
 @push('styles')
