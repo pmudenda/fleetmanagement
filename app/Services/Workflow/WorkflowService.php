@@ -91,7 +91,7 @@ class WorkflowService
 
         //'date_acted'
         WorkflowTaskHeader::Create([
-            'assigned_user' => $assignToUser->con_per_no,
+            'assigned_user' => $assignToUser->con_per_no ?? $assignToUser->staff_no,
             'subject' => $short_description,
             'status' => StatusHelper::new(),
             'url' => $actionPage,
