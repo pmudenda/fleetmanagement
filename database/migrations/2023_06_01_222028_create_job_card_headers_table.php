@@ -49,7 +49,8 @@ return new class extends Migration {
             $table->string('service_due_after', 15)->nullable();
             $table->string('created_by', 15)->nullable();
             $table->string('modified_by', 15)->nullable();
-
+            $table->string('driver_acknowledged', 20)->nullable();
+            $table->date('date_acknowledged')->nullable();
             $table->timestamps();
         });
     }

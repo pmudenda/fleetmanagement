@@ -50,6 +50,8 @@ class JobCardHeader extends Model
         'service_due_after',
         'created_by',
         'modified_by',
-        'status'
+        'status',
+        'driver_acknowledged',
+        'date_acknowledged'
     ];
 }

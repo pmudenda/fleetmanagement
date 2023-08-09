@@ -6,7 +6,7 @@
 
                 <div class="col">
                     <table
-                        class="table table-row-dashed align-middle gs-0 table-bordered">
+                            class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
                         <tr class="bg-dark-subtle">
                             <th class="pl-2">Item</th>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="col">
                     <table
-                        class="table table-row-dashed align-middle gs-0 table-bordered">
+                            class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
                         <tr class="bg-dark-subtle">
                             <th class="pl-2">Item</th>
@@ -89,7 +89,8 @@
                            class="form-control"
                            value="{{$details->driver_in ?? ''}}"
                            readonly required></div>
-                    @if()
+
+                @if(!empty($details->driver_acknowledged))
                     <div class="col-lg-2 col-sm-12 text-left">
                         <label>eSignature:</label>
                     </div>
@@ -112,7 +113,9 @@
                                readonly
                                required/>
                     </div>
-                    @endif
+                @else
+                    <button class="btn btn-success" data-toggle="modal" data-target="#eSignature-modal">Sign</button>
+                @endif
             </div>
 
             <div class="row mt-10">
@@ -120,7 +123,7 @@
                     <label
                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
                             for="accessoriesRemarks">
-                       General Comment (optional):
+                        General Comment (optional):
                     </label>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
                         @if(!empty($comments))
@@ -173,35 +176,35 @@
                                 <br/>
                             </div>
                         </div>
-                     {{--   <div id="approveAanDisapprove" style="display: none">
-                            <label class="app-label">Approve / Disapprove</label>
-                            <div>
-                                <span id="spanApproveBtn" class="mr-3">
-                                    <input type="radio"
-                                           name="optApprove"
-                                           value="approve"
-                                           checked="checked"
-                                           id="approveSelectedPass"/>
-                                    Approve
-                                </span>
-                                <span id="spanDisapproveBtn">
-                                    <input type="radio"
-                                           name="optApprove"
-                                           value="reject"
-                                           id="approveSelectedFail"/>
-                                    Disapprove
-                                </span>
-                                <span id="spanSendBackBtn">
-                                    <input type="radio"
-                                           name="optApprove"
-                                           value="send_back"
-                                           id="approveSendBack"/>
-                                    Send Back
-                                </span>
-                                <br/>
-                                <br/>
-                            </div>
-                        </div>--}}
+                        {{--   <div id="approveAanDisapprove" style="display: none">
+                               <label class="app-label">Approve / Disapprove</label>
+                               <div>
+                                   <span id="spanApproveBtn" class="mr-3">
+                                       <input type="radio"
+                                              name="optApprove"
+                                              value="approve"
+                                              checked="checked"
+                                              id="approveSelectedPass"/>
+                                       Approve
+                                   </span>
+                                   <span id="spanDisapproveBtn">
+                                       <input type="radio"
+                                              name="optApprove"
+                                              value="reject"
+                                              id="approveSelectedFail"/>
+                                       Disapprove
+                                   </span>
+                                   <span id="spanSendBackBtn">
+                                       <input type="radio"
+                                              name="optApprove"
+                                              value="send_back"
+                                              id="approveSendBack"/>
+                                       Send Back
+                                   </span>
+                                   <br/>
+                                   <br/>
+                               </div>
+                           </div>--}}
 
                         <div class="signAsElement" style="display:none;">
                             <label class="app-label field-required app-field-null">Login ID</label>
