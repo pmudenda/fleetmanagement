@@ -77,11 +77,15 @@
                 </div>
             </div>
 
-            <div class="row h-2 bg-success"></div>
+            <div class="row bg-success" style="height: 5px;">
+                &nbsp;
+            </div>
+
+
 
             <div class="row mb-1 mt-4">
                 <div class="col-lg-2 col-sm-12">
-                    <label>Driver Acknowledgement:</label>
+                    <label>Driver Acknowledgement: <small>(To Be Performed By Driver)</small></label>
                 </div>
                 @if(!empty($details->driver_acknowledged))
                     <div class="col-lg-3 col-sm-12">

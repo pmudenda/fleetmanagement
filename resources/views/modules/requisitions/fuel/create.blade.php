@@ -397,7 +397,7 @@
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
-                                                <div class="row">
+                                                <div class="row" id="allocationContainer">
                                                     <div class="form-group row">
                                                         <label
                                                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
@@ -1059,16 +1059,19 @@
 
                 if (this.value === document.querySelector("#outOfTownReqCode").value) {
                     $(".outOfTown").removeClass('d-none');
+
                     document.querySelector('#departureTown').setAttribute('required', 'required');
+
                     document.querySelector('#destinationTown').setAttribute('required', 'required');
 
                     document.querySelector('#return_date').setAttribute('required', 'required');
+
                     document.querySelector('#departure_date').setAttribute('required', 'required');
-                    document.querySelector('[name="material_quantity"]').removeAttribute('max');
+
+                    document.querySelector('[name="material_quantity"]').val('').removeAttribute('max');
 
                     document.querySelector('#returnDateContainer').style.display = "none";
                     //document.querySelector('[name="next_fuel_date"]').style.display = 'none';
-
                 } else {
                     $(".outOfTown").addClass('d-none');
 
