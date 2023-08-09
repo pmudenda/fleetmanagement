@@ -2008,10 +2008,12 @@
                                     "Assessment Acknowledgement",
                                     message,
                                     function () {
+                                        window.location.reload();
                                     },
                                     "success"
                                 );
                             } else {
+                                tmsApp.play_alert('sound-error');
                                 if (!Util.isEmpty(response.errors)) {
                                     if (response.errors) {
                                         tmsApp.printErrorMsg(response.errors);
@@ -2022,6 +2024,7 @@
                             }
                         },
                         function (xhr) {
+                            tmsApp.play_alert('sound-error');
                             tmsApp.showErrorMessages(xhr, "Assessment Acknowledgement",);
                         },
                         'POST'

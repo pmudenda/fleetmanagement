@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; @endphp
 <div class="container-fluid">
     <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}" data-model-name="Accessories">
         <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
@@ -98,7 +99,7 @@
                         <input type="text"
                                name="sig_of_claimant"
                                class="form-control"
-                               {{--value="{{Auth::user()->staff_no}}"--}}
+                               value="{{$details->driver_in}}"
                                readonly
                                required/>
                     </div>
@@ -109,7 +110,7 @@
                         <input type="Date"
                                name="date_claimant"
                                class="form-control"
-                               value="{{date('Y-m-d')}}"
+                               value="{{Carbon::parse($details->date_acknowledged)->format('d/m/Y')}}"
                                readonly
                                required/>
                     </div>

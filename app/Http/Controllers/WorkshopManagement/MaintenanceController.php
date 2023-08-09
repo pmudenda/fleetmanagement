@@ -749,6 +749,10 @@ class MaintenanceController extends Controller
 
     public function eSign(Request $request): JsonResponse
     {
+        /*reference: ZFMJBC0000000181
+loginId: 71581
+password: dfGctaL777TxCQF
+acceptance: on*/
         try {
             $entry = JobCardHeader::where("job_card_no", "=", $request->reference)
                 ->first();
