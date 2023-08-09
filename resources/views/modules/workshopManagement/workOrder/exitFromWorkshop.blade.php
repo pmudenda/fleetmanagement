@@ -2764,6 +2764,7 @@
                 switch (element.name) {
                     case 'hoursWorked':
                     case 'ratePerHour':
+                    case 'shiftType':
                         //$('#quantityTotal').text(tmsApp.getRawNumber(summaryTotalQty));
 
                         let lineTotal = tmsApp.getFloat($(element).closest("tr").find("input[name=hoursWorked]").val())
