@@ -474,11 +474,7 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        $req_no = $request->get('ref') . str_replace('-C', '');
-
-        $user = Auth::user();
-
-        $workflowTask = WorkflowTaskHeader::where('reference', '=', $req_no)->first();
+        $req_no =  str_replace('-C', '', $request->get('ref'));
 
         $step = $request->get("step") ?? 0;
 
