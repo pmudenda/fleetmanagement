@@ -144,7 +144,7 @@
                                    required
                                    value="{{$labourItem->total_amount}}"
                                    readonly
-                                   class="form-control form-control-sm service_total_price"/>
+                                   class="form-control form-control-sm labour_total_price"/>
                         </td>
 
                     </tr>
@@ -277,7 +277,7 @@
                                 <input name="totalAmount"
                                        required
                                        readonly
-                                       class="form-control form-control-sm service_total_price"/>
+                                       class="form-control form-control-sm labour_total_price"/>
                             </td>
 
                         </tr>

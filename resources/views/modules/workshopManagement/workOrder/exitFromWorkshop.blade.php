@@ -3270,6 +3270,7 @@
             if ($documentStatusCtl.val() === $documentStatusCtl.attr('data-value')) {
                 let prefilledShiftType = $('[name="shiftType"]').attr('data-value')
                 $('[name="shiftType"]').val(prefilledShiftType).change();
+                $('.labour_total_price').change();
                 $('[name="mechanic"]').change();
                 $('[name="driver_out"]').attr('readonly', true);
                 $('[name="exitOdometer"]').attr('readonly', true);
