@@ -74,12 +74,16 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
-                                                            <input type="hidden"
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                            <input type="text"
                                                                    class="form-control form-control-sm"
                                                                    id="vehicle_description"
                                                                    name="vehicle_description"
                                                                    required readonly>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                                            <span id="vehicle_status" class="badge badge-success"
+                                                                  name="vehicle_status"></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -661,7 +665,9 @@
 
                 let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
                 $("#vehicle_description").val(vLabel);
-                let row = `<tr> <th>Make:</th><td id="make">${vehicle.brand_name}</td></tr>
+                $("#vehicle_status").text(vehicle['status_name']);
+
+                /*let row = `<tr> <th>Make:</th><td id="make">${vehicle.brand_name}</td></tr>
                                <tr>
                                     <th>Model:</th><td id="model">${vehicle['model_name']} ${vehicle.model_code}</td>
                                </tr>
@@ -672,7 +678,7 @@
                                      <th>State:</th><td id="registration">${vehicle['status_name']}</td>
                                 </tr>`;
 
-                $('tbody#vehicleDetails').html(row);
+                $('tbody#vehicleDetails').html(row);*/
 
                 if (vehicle.fuel_allocation) {
                     let perWeekAllocation = vehicle.fuel_allocation * 7;
@@ -843,8 +849,8 @@
                         $(element).closest("tr").find("input[name=material_amount]").val(totalAmount).change();
                         $(element).closest("tr").find("#material_amount").text(tmsApp.numberFormat(totalAmount));
                         break;
-                    case 'material_quantity':
 
+                    case 'material_quantity':
                         let summaryTotalQty = 0;
                         $table.find("input[name=material_quantity]").each(function (i, it) {
                             summaryTotalQty += tmsApp.getFloat(it.value);
