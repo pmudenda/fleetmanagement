@@ -301,7 +301,7 @@ class WorkshopService
                 'wshp_act_code' => $workOrder->wshp_act_code,
                 'wshp_code' => $workOrder->workshop_code,
                 'section' => $labourItem['workshopSection'],
-                'evaluation' => $labourItem['N'],
+                'evaluation' => 'N',
                 'date_lab' => Carbon::createFromFormat('d/m/Y', $labourItem['dateOfWork']),
                 'mechanic' => $labourItem['mechanic'],
                 'hours_worked' => $labourItem['hoursWorked'],
