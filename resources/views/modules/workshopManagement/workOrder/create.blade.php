@@ -307,7 +307,7 @@
         </tr>
     </template>
 
-    <div class="modal fade" id="-modal" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="eSignature-modal" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-md modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
