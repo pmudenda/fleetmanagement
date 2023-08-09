@@ -82,7 +82,12 @@
                                                                    required readonly>
                                                         </div>
                                                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                                            <span id="vehicle_status" class="badge badge-success"
+                                                            <label
+                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                    for="staff_no">Status:
+                                                            </label>
+
+                                                            <span id="vehicle_status" class="ml-3 badge badge-success"
                                                                   name="vehicle_status"></span>
                                                         </div>
                                                     </div>
@@ -500,15 +505,15 @@
                                 <div class="col-3">
                                     <div id="vehicleDetailsContainer" style="display: none;"
                                          class="col-xs-12 col-sm-12 col-md-12">
-                                       {{--<h1>Vehicle Details</h1>
-                                        <table class="table">
-                                            <tbody id="vehicleDetails" class="vehicleDetails">
-                                            </tbody>
-                                        </table>--}}
+                                        {{--<h1>Vehicle Details</h1>
+                                         <table class="table">
+                                             <tbody id="vehicleDetails" class="vehicleDetails">
+                                             </tbody>
+                                         </table>--}}
                                     </div>
 
                                     <div id="image_view" class="card text-center py-5 my-2" style="display: none;">
-                                      {{--  <h2 class="fs-2x fw-bold mb-10">Front View</h2>--}}
+                                        {{--  <h2 class="fs-2x fw-bold mb-10">Front View</h2>--}}
                                         <div class="form-group">
                                             <div class="imagePreview"></div>
                                         </div>
