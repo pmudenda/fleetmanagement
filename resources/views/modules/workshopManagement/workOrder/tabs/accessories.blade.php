@@ -262,11 +262,12 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-end">
-                    <button id="btnSign" class="btn btn-sm btn-success mr-3">
+                    <button id="btnSign" type="button" class="btn btn-sm btn-success mr-3">
                         <i class="fas fa-save"></i>
                         Sign
                     </button>
                     <button class="btn btn-sm btn-danger"
+                            type="button"
                             data-bs-target="#approval-modal"
                             data-bs-toggle="modal"
                             data-bs-dismiss="modal">
