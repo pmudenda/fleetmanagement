@@ -182,6 +182,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/fuel/last/requisition', [FuelRequisitionController::class, 'latestRequisition'])->name('fuel.last.requisition');
 
         Route::post('/workflow/fuel/approve', [WorkflowController::class, 'processFuelRequisitionApproval'])->name('workflow.approve');
+
     });
 
     Route::get('searchProjects', [ProjectsController::class, 'findProjectByCode'])->name('search.project');
@@ -234,6 +235,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('close/work-order', [MaintenanceController::class, 'processWorkOrderClosure'])->name('save.exit.from.workshop');
 
             Route::get('approve/work-order', [MaintenanceController::class, 'approveWorkOrderClosure'])->name('show.workorder.closure');
+
+            Route::post('/workflow/work-order/closure/approve', [WorkflowController::class, 'processWorkOrderClosureApproval'])->name('approve.work_order.closure');
 
             Route::post('store', function (Request $request) {
 

@@ -13,6 +13,7 @@ use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Workflow\WorkflowTaskHeader;
+use App\Models\WorkShopManagement\JobCardHeader;
 use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Requisitions\WorkshopRequisitionService;
 use App\Services\Workflow\WorkflowService;
@@ -21,6 +22,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -220,6 +223,109 @@ class WorkflowController extends Controller
 
                 $this->workshopRequisitionService->updateStatus($reference, $status);
                 $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, $status);
+            }
+
+            DB::commit();
+            return response()->json([
+                'requestPayload' => $request->all(),
+                'success' => true,
+                'redirectUrl' => route('home'),
+                'message' => $message
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            $message = ErrorMessages::getMessage('err_0005');
+            if ($e instanceof FuelRequisitionException || $e instanceof WorkflowTaskCreationFailedException) {
+                $message = $e->getMessage();
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => $message
+            ]);
+        }
+    }
+
+    public function processWorkOrderClosureApproval(Request $request): JsonResponse
+    {
+        try {
+
+            $reference = $request->get('reference');
+
+            //$requisitionDetail = $this->workshopRequisitionService->getReservationDetail($reference);
+
+            DB::beginTransaction();
+
+            /*;
+            switch ($requisitionDetail->item_type) {
+                case RequisitionItemTypes::Service:
+                case RequisitionItemTypes::NonStockItem:
+                    $process_code = WorkflowProcessCodes::PurchaseProcess->value;
+                    break;
+                case RequisitionItemTypes::StockItem:
+                    $process_code = WorkflowProcessCodes::StoresRequisition->value;
+                    break;
+                default:
+                    break;
+            }*/
+
+            $actionTaken = '';
+            $process_code = WorkflowProcessCodes::WorkOrderClosure;
+            $message = '';
+            $action = 0;
+            switch (strtolower(trim($request->get('Approved')))) {
+                case 'approve':
+                    $action = WorkflowActions::approve();
+                    $actionTaken = "Approved";
+                    $message = 'Request Approved Successfully.';
+                    break;
+                case 'reject':
+                    $action = WorkflowActions::rejected();
+                    $actionTaken = "Rejected";
+                    $message = 'Request Rejected.';
+                    break;
+                case 'send_back':
+                    $action = WorkflowActions::sendBack();
+                    $actionTaken = "SendBack";
+                    $message = 'Request Sent Back To Originator.';
+                    break;
+            }
+
+            list($nextStepId, $nextUser) = $this->workflowService->invokeWorkFlow(
+                $reference,
+                $process_code,
+                $action,
+                $actionTaken,
+                $request->get('Comments')
+            );
+
+            $user = Auth::user();
+            if ($nextStepId == 100 && $action == WorkflowActions::approve()) {
+                JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
+                    ->update([
+                        'modified_by' => $user->staff_no,
+                        'status' => StatusHelper::authorised(),
+                        'updated_at' => Carbon::now()
+                    ]);
+            } else {
+                $status = '';
+                switch (strtolower(trim($request->get('Approved')))) {
+                    case 'approve':
+                        $message = 'Request Approved and Submitted to the Next Authority For Approval';
+                        $status = StatusHelper::partiallyAuthorised();
+                        break;
+                    case 'reject':
+                        $message = 'Request Rejected';
+                        $status = StatusHelper::rejected();
+                        break;
+                }
+
+                JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
+                    ->update([
+                        'modified_by' => $user->staff_no,
+                        'status' => $status,
+                        'updated_at' => Carbon::now()
+                    ]);
             }
 
             DB::commit();
