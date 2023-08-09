@@ -80,12 +80,37 @@
 
 
             <div class="row mt-10">
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col">
+                    <div class="form-group">
+                        <label
+                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                for="accessoriesRemarks">
+                            General Comments and Observation (optional):
+                        </label>
+                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
+                            @if(!empty($comments))
+                                <textarea type="text"
+                                          id="accessoriesRemarks"
+                                          name="accessoriesRemarks"
+                                          style="height: 129px;"
+                                          class="form-control form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
+                            @else
+                                <textarea type="text"
+                                          id="accessoriesRemarks"
+                                          name="accessoriesRemarks"
+                                          style="height: 129px;"
+                                          class="form-control form-control-sm"></textarea>
+                            @endif
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
                     <div class="row">
                         <div class="table-responsive" style="max-height:500px;">
                             <table class="table" id="observations">
                                 <thead>
-                                <tr class="bg-success">
+                                <tr class="bg-default-dark">
                                     <th>Observation</th>
                                     <th>Attachment</th>
                                 </tr>
@@ -113,36 +138,14 @@
             </div>
 
             <div class="row mt-10">
-                <div class="form-group">
-                    <label
-                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                            for="accessoriesRemarks">
-                        General Comments and Observation (optional):
-                    </label>
-                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
-                        @if(!empty($comments))
-                            <textarea type="text"
-                                      id="accessoriesRemarks"
-                                      name="accessoriesRemarks"
-                                      style="height: 129px;"
-                                      class="form-control form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
-                        @else
-                            <textarea type="text"
-                                      id="accessoriesRemarks"
-                                      name="accessoriesRemarks"
-                                      style="height: 129px;"
-                                      class="form-control form-control-sm"></textarea>
-                        @endif
 
-                    </div>
-                </div>
             </div>
 
-            <div class="row bg-success" style="height: 30px;">
+            {{--<div class="row bg-success" style="height: 30px;">
                 <div class="col-12 text-white">
                     <h5 class="text-white">Acknowledgment of Assessment Finding</h5>
                 </div>
-            </div>
+            </div>--}}
 
             <div class="row mb-1 mt-4">
                 <div class="col-12">
