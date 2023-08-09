@@ -48,12 +48,13 @@
                 <div class="card-title">
                     <h4>Exit Vehicle From Workshop</h4>
                 </div>
-
-                @if(!empty($details) && !empty($details->status))
-                    <span class="badge {{$details->color_code}}">
+                <div class="card-toolbar justify-content-end">
+                    @if(!empty($details) && !empty($details->status))
+                        <span class="badge {{$details->color_code}}">
                        {{ $details->status_name ?? '' }}
                     </span>
-                @endif
+                    @endif
+                </div>
             </div>
 
             <div class="card-body pb-4 min-h-600px pt-0">
@@ -80,11 +81,15 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
+                                                        <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label pl-0"
+                                                                for="staff_no">
+                                                            JOB CARD NUMBER:
+                                                        </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             @if(!empty($details) && !empty($details->job_card_no))
-                                                                <div class="card-toolbar justify-content-end">
-                                                                    JOB CARD NUMBER: &nbsp; <span
-                                                                            class="text-orange">{{ $details->job_card_no ?? '' }}</span>
+                                                                <div class="">
+                                                                    &nbsp; <span class="text-orange">{{ $details->job_card_no ?? '' }}</span>
                                                                 </div>
                                                             @endif
                                                         </div>
