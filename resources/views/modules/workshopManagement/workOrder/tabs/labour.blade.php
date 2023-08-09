@@ -1,4 +1,4 @@
-@php use Carbon\Carbon; @endphp
+@php use App\Helpers\StatusHelper;use Carbon\Carbon; @endphp
 <div class="row pt-5">
     <div class="table-responsive">
         <table id="labour_table"
@@ -20,134 +20,134 @@
             <tbody>
             @if($labour->isNotEmpty())
                 @foreach($labour as $labourItem)
-                <tr class="increment">
-                    <td>
-                        <div class="d-none">
-                            <select name="vehicleSystem"
-                                    style="display: none;"
+                    <tr class="increment">
+                        <td>
+                            <div class="d-none">
+                                <select name="vehicleSystem"
+                                        style="display: none;"
+                                        required
+                                        disabled
+                                        data-value="{{$defect->veh_sys ?? ''}}"
+                                        class="form-select form-select-sm select_2_control vehicleSystem">
+                                    <option></option>
+                                </select>
+                                <select name="defectCategory"
+                                        required
+                                        style="display: none;"
+                                        disabled
+                                        data-value="{{$defect->defect_category_code ?? ''}}"
+                                        class="form-select form-select-sm select_2_control defectCategory">
+                                    <option></option>
+                                </select>
+                            </div>
+                            <select name="defect"
                                     required
                                     disabled
-                                    data-value="{{$defect->veh_sys ?? ''}}"
-                                    class="form-select form-select-sm select_2_control vehicleSystem">
+                                    data-value="{{$labourItem->def_no ?? ''}}"
+                                    class="form-select form-select-sm select_2_control defect">
                                 <option></option>
                             </select>
-                            <select name="defectCategory"
-                                    required
-                                    style="display: none;"
-                                    disabled
-                                    data-value="{{$defect->defect_category_code ?? ''}}"
-                                    class="form-select form-select-sm select_2_control defectCategory">
-                                <option></option>
-                            </select>
-                        </div>
-                        <select name="defect"
-                                required
-                                disabled
-                                data-value="{{$labourItem->def_no ?? ''}}"
-                                class="form-select form-select-sm select_2_control defect">
-                            <option></option>
-                        </select>
-                    </td>
-                    <td class="showNumber">
-                        <input type="text"
-                               readonly
-                               data-value="{{$labourItem->mechanic}}"
-                               value="{{$labourItem->mechanic ?? ''}}"
-                               class="form-control form-control-sm"
-                               autocapitalize="characters"
-                               id="mechanic"
-                               name="mechanic"/>
-                    </td>
-                    <td>
-                        <input type="text"
-                               class="form-control form-control-sm"
-                               id="mechanicName"
-                               name="mechanicName"
-                               readonly/>
-                    </td>
-                    <td>
-                        <div class="input-group date">
+                        </td>
+                        <td class="showNumber">
                             <input type="text"
-                                   required
                                    readonly
-                                   name="dateOfWork"
-                                   value="{{$labourItem->date_lab ?? ''}}"
-                                   id="dateOfWork"
-                                   class="form-control datePicker"
-                            />
-                            <div class="input-group-append">
-                                <div type="button"
-                                     data-action="openDatePicker"
-                                     class="input-group-text ui-datepicker-trigger">
-                                    <i data-action="openDatePicker"
-                                       class="fa fa-calendar"></i>
+                                   data-value="{{$labourItem->mechanic}}"
+                                   value="{{$labourItem->mechanic ?? ''}}"
+                                   class="form-control form-control-sm"
+                                   autocapitalize="characters"
+                                   id="mechanic"
+                                   name="mechanic"/>
+                        </td>
+                        <td>
+                            <input type="text"
+                                   class="form-control form-control-sm"
+                                   id="mechanicName"
+                                   name="mechanicName"
+                                   readonly/>
+                        </td>
+                        <td>
+                            <div class="input-group date">
+                                <input type="text"
+                                       required
+                                       readonly
+                                       name="dateOfWork"
+                                       value="{{$labourItem->date_lab ?? ''}}"
+                                       id="dateOfWork"
+                                       class="form-control datePicker"
+                                />
+                                <div class="input-group-append">
+                                    <div type="button"
+                                         data-action="openDatePicker"
+                                         class="input-group-text ui-datepicker-trigger">
+                                        <i data-action="openDatePicker"
+                                           class="fa fa-calendar"></i>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                    <td>
-                        <select name="workshopSection"
-                                required
-                                class="form-select form-select-sm workshopSection">
-                            <option></option>
-                            @foreach($workshop_sections as $workshop_section)
-                                @if($labourItem->section == $workshop_section->code)
-                                    <option
-                                            selected
-                                            value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
-                                @else
-                                    <option
-                                            value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </td>
-                    <td>
-                        <input type="hidden"
-                               id="postCode"
-                               name="postCode"
-                               required
-                               class=""/>
-                        <select name="shiftType"
-                                data-value="{{$labourItem->type_of_hour ?? ''}}"
-                                disabled
-                                required
-                                class="form-select form-select-sm shiftType">
-                            <option selected value="" disabled></option>
-                            <option value="1">Normal Shift</option>
-                            <option value="2">Normal Over-Time</option>
-                            <option value="4">Holiday Over-Time</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input
-                                readonly
-                                value="{{$labourItem->hours_worked ?? ''}}"
-                                id="hoursWorked"
-                                readonly
-                                name="hoursWorked"
-                                required
-                                class="form-control form-control-sm"/>
-                    </td>
-                    <td>
-                        <input
-                                id="ratePerHour"
-                                name="ratePerHour"
-                                required
-                                value="{{$labourItem->rate}}"
-                                readonly
-                                class="form-control form-control-sm"/>
-                    </td>
+                        </td>
+                        <td>
+                            <select name="workshopSection"
+                                    required
+                                    class="form-select form-select-sm workshopSection">
+                                <option></option>
+                                @foreach($workshop_sections as $workshop_section)
+                                    @if($labourItem->section == $workshop_section->code)
+                                        <option
+                                                selected
+                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                    @else
+                                        <option
+                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <input type="hidden"
+                                   id="postCode"
+                                   name="postCode"
+                                   required
+                                   class=""/>
+                            <select name="shiftType"
+                                    data-value="{{$labourItem->type_of_hour ?? ''}}"
+                                    disabled
+                                    required
+                                    class="form-select form-select-sm shiftType">
+                                <option selected value="" disabled></option>
+                                <option value="1">Normal Shift</option>
+                                <option value="2">Normal Over-Time</option>
+                                <option value="4">Holiday Over-Time</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input
+                                    readonly
+                                    value="{{$labourItem->hours_worked ?? ''}}"
+                                    id="hoursWorked"
+                                    readonly
+                                    name="hoursWorked"
+                                    required
+                                    class="form-control form-control-sm"/>
+                        </td>
+                        <td>
+                            <input
+                                    id="ratePerHour"
+                                    name="ratePerHour"
+                                    required
+                                    value="{{$labourItem->rate}}"
+                                    readonly
+                                    class="form-control form-control-sm"/>
+                        </td>
 
-                    <td>
-                        <input name="totalAmount"
-                               required
-                               value="{{$labourItem->total_amount}}"
-                               readonly
-                               class="form-control form-control-sm service_total_price"/>
-                    </td>
+                        <td>
+                            <input name="totalAmount"
+                                   required
+                                   value="{{$labourItem->total_amount}}"
+                                   readonly
+                                   class="form-control form-control-sm service_total_price"/>
+                        </td>
 
-                </tr>
+                    </tr>
                 @endforeach
             @else
                 @if($defects && $defects->isNotEmpty())
@@ -325,16 +325,18 @@
         </div>
 
         <div class="col-12 text-right">
-            <div>
-                <button type="button"
-                        name="saveJobCardExit"
-                        id="saveJobCardExit"
-                        style="background: #f59d33; color: #fff;"
-                        class="btn btn-sm btn-success add pull-right">
-                    <i class="fa fa-save"></i>
-                    Save
-                </button>
-            </div>
+            @if($details->status == StatusHelper::new())
+                <div>
+                    <button type="button"
+                            name="saveJobCardExit"
+                            id="saveJobCardExit"
+                            style="background: #f59d33; color: #fff;"
+                            class="btn btn-sm btn-success add pull-right">
+                        <i class="fa fa-save"></i>
+                        Save
+                    </button>
+                </div>
+            @endif
         </div>
     </div>
 </div>
