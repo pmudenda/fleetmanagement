@@ -474,7 +474,7 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        $req_no =  str_replace('-C', '', $request->get('ref'));
+        $req_no = str_replace('-C', '', $request->get('ref'));
 
         $step = $request->get("step") ?? 0;
 
@@ -734,6 +734,37 @@ class MaintenanceController extends Controller
             return response()->json([
                 "success" => true,
                 "message" => "Record Removed Successfully",
+            ]);
+
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+
+            return response()->json([
+                "success" => false,
+                "message" => "We could not complete processing your request to an error",
+            ]);
+        }
+    }
+
+    public function eSign(Request $request): JsonResponse
+    {
+        try {
+            /*$entry = VehicleDefect::where("id", "=", $request->record_id)
+                ->first();
+
+            if (empty($entry)) {
+                return response()->json([
+                    "success" => false,
+                    "message" => "Record Not Found",
+                ]);
+            }
+
+            $entry->deleted_at = Carbon::now();
+            $entry->save();*/
+            return response()->json([
+                'payload' => $request->all(),
+                "success" => true,
+                "message" => "Assessment Signed Successfully",
             ]);
 
         } catch (\Exception $exception) {

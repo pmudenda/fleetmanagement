@@ -1874,6 +1874,44 @@
                     findVehicle();
                 });
 
+                $(document).on('click', '#btnSign', function () {
+                    let form = document.querySelector('[name="eSignDocument"]');
+                    let formData = new FormData(form);
+                    $.ajax({
+                        type: "POST",
+                        url: form.action,
+                        data: JSON.stringify(formData),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                    }).done(function (response) {
+                        window.loaderMessage = "Loading... please wait";
+                        if (response.hasOwnProperty("success") && response.success) {
+                            const message = response.message > ""
+                                ? response.message
+                                : "Assessment Signed successfully, Click 'Ok' to Proceed";
+
+                            tmsApp.showSystemMessage(
+                                "Assessment Acknowledgement",
+                                message,
+                                function () {
+                                },
+                                "success"
+                            );
+                        } else {
+                            if (!Util.isEmpty(response.errors)) {
+                                if (response.errors) {
+                                    tmsApp.printErrorMsg(response.errors);
+                                }
+                            } else if (!Util.isEmpty(response.message)) {
+                                tmsApp.systemError("Assessment Acknowledgement", response.message);
+                            }
+                        }
+                    }).fail(function (xhr) {
+                        tmsApp.showErrorMessages(xhr, "Assessment Acknowledgement",);
+                    })
+
+                });
+
                 $(document).on('click', '#vehicleSearchBtn', function () {
                     if (!document.querySelector('[name="vehicle_registration"]').value) {
                         return;
