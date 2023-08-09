@@ -500,15 +500,15 @@
                                 <div class="col-3">
                                     <div id="vehicleDetailsContainer" style="display: none;"
                                          class="col-xs-12 col-sm-12 col-md-12">
-                                        <h1>Vehicle Details</h1>
+                                       {{-- <h1>Vehicle Details</h1>
                                         <table class="table">
                                             <tbody id="vehicleDetails" class="vehicleDetails">
                                             </tbody>
-                                        </table>
+                                        </table>--}}
                                     </div>
 
                                     <div id="image_view" class="card text-center py-5 my-2" style="display: none;">
-                                        <h2 class="fs-2x fw-bold mb-10">Front View</h2>
+                                      {{--  <h2 class="fs-2x fw-bold mb-10">Front View</h2>--}}
                                         <div class="form-group">
                                             <div class="imagePreview"></div>
                                         </div>
