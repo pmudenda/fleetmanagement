@@ -56,7 +56,7 @@ class StatusHelper
 
     public static function pendingApproval(): string
     {
-        return "01";
+        return "100";
     }
 
     public static function authorised(): string

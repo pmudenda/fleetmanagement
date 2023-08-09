@@ -126,9 +126,15 @@ class WorkshopService
         $query = DB::table("WM_JOB_CARD_HEADER")
             ->leftJoin("SEC_USERS", "WM_JOB_CARD_HEADER.received_by", "=", "SEC_USERS.staff_no")
             ->leftJoin("CONFIG_GENERAL_TABLES", "WM_JOB_CARD_HEADER.receiving_section", "=", "CONFIG_GENERAL_TABLES.code")
+            ->leftJoin("CONFIG_STATUSES", "WM_JOB_CARD_HEADER.status", "=", "CONFIG_STATUSES.code")
             ->where("CONFIG_GENERAL_TABLES.type", "=", ConfigurationTypes::WORK_SHOP_SECTION)
             ->where("WM_JOB_CARD_HEADER.job_card_no", "=", $reference)
-            ->select("WM_JOB_CARD_HEADER.*", "CONFIG_GENERAL_TABLES.name as section_in_name", "SEC_USERS.name as service_advisor")
+            ->select("WM_JOB_CARD_HEADER.*",
+                "CONFIG_GENERAL_TABLES.name as section_in_name",
+                "SEC_USERS.name as service_advisor",
+                "CONFIG_STATUSES.name as status_name",
+                "CONFIG_STATUSES.color_code",
+            )
             ->get();
 
         return $query->first();
@@ -282,7 +288,7 @@ class WorkshopService
 
         $workOrderNumber = $workOrder->job_card_no;
 
-        $workOrder->status = StatusHelper::closed();
+        $workOrder->status = StatusHelper::pendingApproval();
         $workOrder->date_out = Carbon::now();
         $workOrder->time_out = Carbon::now();
         $workOrder->dispatched_by = $user->staff_no;
