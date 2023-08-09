@@ -77,20 +77,22 @@
                       action="{{route('save.workshop.requisition')}}"
                       method="post">
                     @csrf
-                    <h1>Details</h1>
+                    <h1>DETAILS</h1>
                     <section>
                         @include('modules.workshopManagement.workOrder.tabs.job_card_header')
                     </section>
 
-                    <h1>Assessments</h1>
+                    <h1>ASSESSMENTS</h1>
                     <section>
                         @include('modules.workshopManagement.workOrder.tabs.accessories')
                     </section>
 
-                    <h1>Defects</h1>
+                    <h1>DEFECTS</h1>
                     <section>
                         @include('modules.workshopManagement.workOrder.tabs.defects')
                     </section>
+
+
                     <h1>Spares & Services</h1>
                     <section>
                         @include('modules.workshopManagement.workOrder.tabs.partsSelection')
