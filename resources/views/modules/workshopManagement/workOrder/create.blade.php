@@ -1986,16 +1986,14 @@
                     let modal = '';
                     let myModalEl = document.querySelector('#eSignature-modal')
                     if (myModalEl) {
-                        if (bootstrap) {
-                            modal = bootstrap.Modal.getOrCreateInstance(myModalEl);
-                        }
+                        //if (bootstrap) {
+                        modal = bootstrap.Modal.getOrCreateInstance(myModalEl);
+                        // }
                     }
 
                     if (modal) {
                         modal.hide();
-                        //window.loaderVisible = false;
                     }
-
                 })
 
                 $(document).on('keyup paste', '[name="vehicle_registration"]', function () {
