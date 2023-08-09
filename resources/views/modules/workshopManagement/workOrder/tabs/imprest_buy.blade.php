@@ -250,9 +250,9 @@
                                 <select
                                         data-value="{{$materialsHeader->supplier_code ?? ''}}"
                                         class="form-select form-select-sm"
-                                        name="supplier"
+                                        name="imprestBuySupplier"
                                         autocomplete="off"
-                                        id="supplier">
+                                        id="imprestBuySupplier">
                                 </select>
                             </div>
                         </div>

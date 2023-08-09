@@ -1454,35 +1454,41 @@
                 if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
                     // showStockItemControls();
                     document.querySelector('#pettyCashSupplierContainer').style.display = 'none';
-                    document.querySelector('[name="supplier"]').removeAttribute('required');
+                    //document.querySelector('[name="supplier"]').removeAttribute('required');
+                    document.querySelector('[name="imprestBuySupplier"]').removeAttribute('required');
 
                     document.querySelector('#pettyCashStoreContainer').style.display = null;
-                    document.querySelector('[name="store_code"]').setAttribute('required', 'required');
+                    //document.querySelector('[name="store_code"]').setAttribute('required', 'required');
                     $('.quantity').attr('readonly', false);
+
+
                 } else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
                     document.querySelector('#pettyCashSupplierContainer').style.display = null;
-                    document.querySelector('[name="supplier"]').setAttribute('required', 'required');
+                    //document.querySelector('[name="supplier"]').setAttribute('required', 'required');
+                    document.querySelector('[name="imprestBuySupplier"]').setAttribute('required', 'required');
 
                     document.querySelector('#pettyCashStoreContainer').style.display = 'none';
-                    document.querySelector('[name="store_code"]').removeAttribute('required');
+                    //document.querySelector('[name="store_code"]').removeAttribute('required');
                     $('.quantity').attr('readonly', 'readonly');
                     $('.quantity').val(1);
                 } else if (selectedItemType == document.querySelector('[name="nonStockItemCode"]').value) {
                     document.querySelector('#pettyCashSupplierContainer').style.display = null;
-                    document.querySelector('[name="supplier"]').setAttribute('required', 'required');
+                    document.querySelector('[name="imprestBuySupplier"]').setAttribute('required', 'required');
+                    //document.querySelector('[name="supplier"]').setAttribute('required', 'required');
 
                     document.querySelector('#storeContainer').style.display = 'none';
-                    document.querySelector('[name="store_code"]').removeAttribute('required');
+                    //document.querySelector('[name="store_code"]').removeAttribute('required');
 
                     $('.quantity').attr('readonly', false);
                     $('[name="unit_price"]').attr('readonly', false);
 
                 } else {
                     document.querySelector('#pettyCashSupplierContainer').style.display = null;
-                    document.querySelector('[name="supplier"]').setAttribute('required', 'required');
+                    document.querySelector('[name="imprestBuySupplier"]').setAttribute('required', 'required');
+                    //document.querySelector('[name="supplier"]').setAttribute('required', 'required');
 
                     document.querySelector('#pettyCashStoreContainer').style.display = 'none';
-                    document.querySelector('[name="store_code"]').removeAttribute('required');
+                    //document.querySelector('[name="store_code"]').removeAttribute('required');
 
                     $('.quantity').attr('readonly', false);
                 }
@@ -2022,6 +2028,7 @@
                 fetch(document.querySelector('#suppliersList').value)
                     .then(response => response.json())
                     .then(function (response) {
+                        let imprestBuySupplierElem = $('select[name="imprestBuySupplier"]');
                         let selectElem = $('select[name="supplier"]');
                         let serviceSupplierElem = $('select[name="service_supplier"]');
 
@@ -2033,6 +2040,10 @@
 
                         let suppliers = response['payload'];
                         tmsApp.populateDropDownList(selectElem, suppliers,
+                            "code_supplier", ["code_supplier", "name_of_supplier"],
+                            " ==> ", '--Select Supplier--');
+
+                        tmsApp.populateDropDownList(imprestBuySupplierElem, suppliers,
                             "code_supplier", ["code_supplier", "name_of_supplier"],
                             " ==> ", '--Select Supplier--');
 
@@ -2050,6 +2061,12 @@
                         if (service_supplier) {
                             serviceSupplierElem.val(service_supplier);
                             serviceSupplierElem.trigger('change');
+                        }
+
+                        let imprestSupplier = imprestBuySupplierElem.attr('data-value');
+                        if (imprestSupplier) {
+                            imprestBuySupplierElem.val(imprestSupplier);
+                            imprestBuySupplierElem.trigger('change');
                         }
                     }).catch(function (error) {
                     toastr.error('Could not Retrieve Data, some feature might not work.', 'Connection error');
