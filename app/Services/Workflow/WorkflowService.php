@@ -111,7 +111,7 @@ class WorkflowService
             'process_code' => $processCode,
             'user_id' => $currentUser->staff_no,
             'current_step_id' => $stepAfterSubmission->step_id,
-            'actioning_officer' => $assignToUser->con_per_no,
+            'actioning_officer' => $assignToUser->con_per_no ?? $assignToUser->staff_no,
             'status' => StatusHelper::new(),
             'step_after_submission' => $actionPage,
             'date_started' => Carbon::now(),
