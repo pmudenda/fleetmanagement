@@ -1,7 +1,5 @@
 @php
-    use App\Helpers\StatusHelper;
-    use Carbon\Carbon;
-    use App\Enums\RequisitionItemTypes;
+    use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use Carbon\Carbon;
 @endphp
 @extends('layouts.app')
 @push('styles')
@@ -1659,6 +1657,7 @@
                 <input type="hidden" value="{{route('load.articles')}}" id="articlesUrl"/>
                 <input type="hidden" value="{{route('load.article.details')}}" id="articleDetailsUrl"/>
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
+                <input type="hidden" value="{{$taskHeader->reference ?? '' }}" id="taskReference">
                 <input type="hidden" value="{{$details->veh_reg ?? ''}}" name="vehicle_registration"
                        id="vehicle_registration"/>
                 <input type="hidden" value="{{$details->wshp_act_code ?? ''}}" name="workshop_reference"
