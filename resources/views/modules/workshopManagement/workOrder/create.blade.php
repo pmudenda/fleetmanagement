@@ -1036,9 +1036,11 @@
                         const driverAcknowledged = $('#driverAcknowledged').val();
 
                         if (currentIndex === 1 && driverAcknowledged === 'Y') {
-                            let tmp = window.goToNext;
-                            window.goToNext = false;
-                            return tmp;
+                            // let tmp = window.goToNext;
+                            // window.goToNext = false;
+                            window.goToNext = true;
+                            form.steps("next");
+                            return true;
                         }
 
                         if (currentIndex < newIndex) {

@@ -17,12 +17,12 @@
                 <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
                     <button type="button" id="submitRequisitionBtn" class="btn btn-success btn-sm mr-3 when_odo_valid"
                             disabled>
-                        <i class="fas fa-save"></i> Submit
+                        <i class="fas fa-save"></i>
+                        Submit
                     </button>
                     <button type="button" id="resetRequisitionBtn" class="btn btn-danger btn-sm mr-3">
                         <i class="fas fa-undo"></i> Cancel
                     </button>
-
                 </div>
             </div>
 
@@ -1060,6 +1060,8 @@
                 if (this.value === document.querySelector("#outOfTownReqCode").value) {
                     $(".outOfTown").removeClass('d-none');
 
+                    $("#allocationContainer").addClass('d-none');
+
                     document.querySelector('#departureTown').setAttribute('required', 'required');
 
                     document.querySelector('#destinationTown').setAttribute('required', 'required');
@@ -1071,9 +1073,11 @@
                     document.querySelector('[name="material_quantity"]').val('').removeAttribute('max');
 
                     document.querySelector('#returnDateContainer').style.display = "none";
+
                     //document.querySelector('[name="next_fuel_date"]').style.display = 'none';
                 } else {
                     $(".outOfTown").addClass('d-none');
+                    $("#allocationContainer").removeClass('d-none');
 
                     document.querySelector('#departureTown').removeAttribute('required');
                     document.querySelector('#destinationTown').removeAttribute('required');
