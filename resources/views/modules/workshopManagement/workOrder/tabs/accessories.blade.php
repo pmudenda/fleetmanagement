@@ -235,14 +235,13 @@
                             </div>
                             <div style="clear:both;">
                                 <div>
-                                    <input
-                                            id="acceptance"
-                                            name="acceptance"
-                                            type="checkbox"
-                                            class="checkbox">
-                                    <p id="newApproval_Remarks"
-                                       class="form-control">
-                                        I hereby, acknowledge that the assessment has been done truthfully
+                                    <p id="newApproval_Remarks">
+                                        <input
+                                                id="acceptance"
+                                                name="acceptance"
+                                                type="checkbox"
+                                                class="checkbox">
+                                        I hereby, acknowledge that the assessment has been done truthfully and fairly
                                     </p>
                                 </div>
                             </div>
@@ -262,7 +261,8 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-end">
-                    <button id="btnSign" type="button" class="btn btn-sm btn-success mr-3">
+                    <button id="btnSign" type="button"
+                            class="btn btn-sm btn-success mr-3">
                         <i class="fas fa-save"></i>
                         Sign
                     </button>
