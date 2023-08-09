@@ -445,7 +445,7 @@
 
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div id="returnDateContainer" class="container-fluid pl-0">
+                                            <div id="nextRefuelingDateContainer" class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
@@ -500,7 +500,7 @@
                                 <div class="col-3">
                                     <div id="vehicleDetailsContainer" style="display: none;"
                                          class="col-xs-12 col-sm-12 col-md-12">
-                                       {{-- <h1>Vehicle Details</h1>
+                                       {{--<h1>Vehicle Details</h1>
                                         <table class="table">
                                             <tbody id="vehicleDetails" class="vehicleDetails">
                                             </tbody>
@@ -1076,9 +1076,11 @@
 
                     document.querySelector('#departure_date').setAttribute('required', 'required');
 
-                    document.querySelector('[name="material_quantity"]').val('').removeAttribute('max');
+                    //document.querySelector('[name="material_quantity"]').setAttribute('required', 'required');
 
-                    document.querySelector('#returnDateContainer').style.display = "none";
+                    $('[name="material_quantity"]').val('').removeAttribute('max');
+
+                    $('#returnDateContainer').addClass('d-none');
 
                     //document.querySelector('[name="next_fuel_date"]').style.display = 'none';
                 } else {
@@ -1093,7 +1095,8 @@
                     document.querySelector('[name="material_quantity"]')
                         .setAttribute('max', document.querySelector('[name="material_quantity"]').getAttribute('data-max'));
 
-                    document.querySelector('#returnDateContainer').style.display = null;
+                    $('#returnDateContainer').removeClass('d-none');
+                    // document.querySelector('#returnDateContainer').style.display = null;
                 }
             });
 
