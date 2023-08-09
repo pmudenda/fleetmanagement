@@ -3274,12 +3274,13 @@
 
                 $('[name="employeeSearchBtn"]').attr('disabled', true);
 
-                setTimeout(() => {
+                setInterval(() => {
                     $('[name="exitFuelLevel"]').attr('disabled', true);
+                    $('[name="fuel_level"]').attr('disabled', true);
                 }, 300);
             }
 
-            $('[name="fuel_level"]').attr('disabled', true);
+
         })(window.tmsApp || {}, jQuery)
     </script>
 
