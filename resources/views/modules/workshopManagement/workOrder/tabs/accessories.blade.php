@@ -171,30 +171,37 @@
             </div>
 
             <div class="row">
-                <table class="table" id="observations">
-                    <thead>
-                    <th>Observation</th>
-                    <th>Attachment</th>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>
-                            <input type="text" name="observation[]" class="form-control">
-                        </td>
-                        <td>
-                            <input type="file" name="attachment[]" class="form-control">
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <button type="button"
-                        data-table-id="observations"
-                        class="btn btn-sm btn-primary add pull-right"
-                        value="addRow">
-                    <i class="fa fa-plus"></i> Add Row
-                </button>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="row">
+                        <table class="table" id="observations">
+                            <thead>
+                            <th>Observation</th>
+                            <th>Attachment</th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <input type="text" name="observation[]" class="form-control">
+                                </td>
+                                <td>
+                                    <input type="file" name="attachment[]" class="form-control">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
 
+                        <button type="button"
+                                data-table-id="observations"
+                                class="btn btn-sm btn-primary add pull-right"
+                                value="addRow">
+                            <i class="fa fa-plus"></i> Add Row
+                        </button>
+                    </div>
+                </div>
             </div>
+
+
+
         </div>
     </div>
 </div>
