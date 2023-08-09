@@ -477,6 +477,7 @@
                                                                    id="exitDate"
                                                                    readonly
                                                                    value="{{Carbon::now()->format('d/m/Y')}}"
+
                                                                    name="exitDate"
                                                                    required>
                                                         </div>
@@ -496,7 +497,8 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <input type="text"
                                                                    readonly
-                                                                   value="@if($details){{Carbon::now()->format('H:i:s')}}@endif"
+                                                                   data-value="@if($details){{Carbon::now()->format('H:i:s')}}@endif"
+                                                                   value="@if($details){{Carbon::parse($details->time_out)->format('H:i:s')}}@else{{Carbon::now()->format('H:i:s')}}@endif"
                                                                    class="form-control form-control-sm when_valid number_input"
                                                                    id="timeOut"
                                                                    name="timeOut"
@@ -520,7 +522,7 @@
                                                             <div class="input-group">
                                                                 <input type="text"
                                                                        min="1"
-                                                                       value="{{$details->millage_in ?? ''}}"
+                                                                       value="{{$details->millage_out ?? $details->millage_in}}"
                                                                        class="form-control form-control-sm numberOnly"
                                                                        id="exitOdometer"
                                                                        name="exitOdometer" required/>

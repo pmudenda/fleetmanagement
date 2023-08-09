@@ -185,27 +185,27 @@
                                                 </div>
                                             </div>
                                         @endif
-                                            @if(!empty($requestDetails->supplier_code))
-                                                <div class="col-xs-12 col-sm-6 col-md-6">
-                                                    <div class="container-fluid pl-0">
-                                                        <div class="row">
-                                                            <div class="form-group row">
-                                                                <label
-                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                        for="request_date">Supplier:
-                                                                </label>
-                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                                    <input type="text" class="form-control form-control-sm"
-                                                                           id="store"
-                                                                           readonly
-                                                                           value="{{$requestDetails->supplier_code}} : {{PurchaseOrder::where('code_supplier','=',$requestDetails->supplier_code)->first()->name_of_supplier}}"
-                                                                           name="request_date">
-                                                                </div>
+                                        @if(!empty($requestDetails->supplier_code))
+                                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                                <div class="container-fluid pl-0">
+                                                    <div class="row">
+                                                        <div class="form-group row">
+                                                            <label
+                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                    for="request_date">Supplier:
+                                                            </label>
+                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                       id="store"
+                                                                       readonly
+                                                                       value="{{$requestDetails->supplier_code}} : {{PurchaseOrder::where('code_supplier','=',$requestDetails->supplier_code)->first()->name_of_supplier}}"
+                                                                       name="request_date">
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @endif
+                                            </div>
+                                        @endif
 
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
