@@ -67,8 +67,10 @@
                       action="{{route('save.exit.from.workshop')}}"
                       method="post">
                     @csrf
-                    <input type="hidden" data-value="{{StatusHelper::pendingApproval()}}" name="documentStatus"
-                           id="{{$details->status ?? ''}}"/>
+                    <input type="hidden" data-value="{{StatusHelper::pendingApproval()}}"
+                           name="documentStatus"
+                           id="documentStatus"
+                           value="{{$details->status ?? ''}}"/>
                     <h1 class="mt-5">Entry Summary Details</h1>
                     <section>
                         <div class="container-fluid">
