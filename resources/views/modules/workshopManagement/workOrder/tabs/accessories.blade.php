@@ -214,7 +214,7 @@
                                </div>
                            </div>--}}
 
-                        <div class="signAsElement" style="display:none;">
+                        <div class="signAsElement">
                             <label class="app-label field-required app-field-null">Login ID</label>
                             <div>
                                 <input class="zqEditMode form-control"
@@ -223,7 +223,7 @@
                                        size="25" maxlength="25"/><br/>
                             </div>
                         </div>
-                        <div class="signAsElement" style="display:none;">
+                        <div class="signAsElement">
                             <label class="app-label field-required app-field-null">Login Password</label>
                             <div>
                                 <input type="password" id="loginPasswordInput"
@@ -231,7 +231,7 @@
                                        size="25" maxlength="25"/><br/>
                             </div>
                         </div>
-                        <div style="display: none;">
+                        <div>
                             <label class="app-label field-required app-field-null">eSignature Password</label>
                             <div>
                                 <input type="password"
