@@ -140,7 +140,7 @@
 
             <div class="row bg-success" style="height: 30px;">
                 <div class="col-12 text-white">
-                    Acknowledgment of Assessment Finding
+                    <h5 class="text-white">Acknowledgment of Assessment Finding</h5>
                 </div>
             </div>
 
