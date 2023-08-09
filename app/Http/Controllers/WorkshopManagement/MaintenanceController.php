@@ -25,6 +25,7 @@ use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Models\WorkshopLabour;
+use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\VehicleDefect;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkShopMaterialHeader;
@@ -749,7 +750,7 @@ class MaintenanceController extends Controller
     public function eSign(Request $request): JsonResponse
     {
         try {
-            /*$entry = VehicleDefect::where("id", "=", $request->record_id)
+            $entry = JobCardHeader::where("job_card_no", "=", $request->reference)
                 ->first();
 
             if (empty($entry)) {
@@ -759,8 +760,11 @@ class MaintenanceController extends Controller
                 ]);
             }
 
-            $entry->deleted_at = Carbon::now();
-            $entry->save();*/
+            $entry->updated_at = Carbon::now();
+            $entry->driver_acknowledged = 'Y';
+            $entry->date_acknowledged = Carbon::now();
+            $entry->save();
+
             return response()->json([
                 'payload' => $request->all(),
                 "success" => true,
