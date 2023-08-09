@@ -114,7 +114,15 @@
                                required/>
                     </div>
                 @else
-                    <button class="btn btn-success" data-toggle="modal" data-target="#eSignature-modal">Sign</button>
+                    <div class="col-lg-2 col-sm-12 text-right">
+                        <button type="button"
+                                class="btn btn-sm btn-success"
+                                data-toggle="modal"
+                                data-target="#eSignature-modal">
+                            <i class="fas fa-signature"></i>
+                            Sign
+                        </button>
+                    </div>
                 @endif
             </div>
 
