@@ -440,7 +440,7 @@ class WorkflowService
     {
         /****************************Determine User to assign task*************************************************/
 
-        if ($currentUser->supervisor_code) {
+        if (empty($currentUser->supervisor_code)) {
             throw new WorkflowTaskCreationFailedException("Supervisor Not Assigned Found");
         }
 
