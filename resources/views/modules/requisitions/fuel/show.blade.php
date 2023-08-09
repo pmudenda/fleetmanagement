@@ -595,9 +595,9 @@
 @push('scripts')
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script>
-        (function (appInstance, $) {
+        (function (tmsApp, $) {
             $('#approveRequisitionBtn').on('click', function () {
-                appInstance.approval.dialog(
+                tmsApp.approval.dialog(
                     {
                         options: {
                             'recordId': document.querySelector("#taskReference").value,
@@ -611,7 +611,7 @@
                         if (ajaxResponse.success) {
 
                             setTimeout(function () {
-                                appInstance.showSystemMessage(
+                                tmsApp.showSystemMessage(
                                     'Approval',
                                     ajaxResponse.message,
                                     function () {
@@ -624,7 +624,7 @@
                             }, 300);
                         } else {
                             setTimeout(function () {
-                                appInstance.systemError('Requisition Approval', ajaxResponse.message);
+                                tmsApp.systemError('Requisition Approval', ajaxResponse.message);
                             }, 300);
                         }
                     },
@@ -632,7 +632,7 @@
             });
 
             $('#declineRequisitionBtn').on('click', function () {
-                appInstance.approval.dialog({
+                tmsApp.approval.dialog({
                         options: {
                             'recordId': document.querySelector("#taskReference").value,
                             'documentType': 'FuelRequisition',
@@ -644,7 +644,7 @@
                     function (ajaxResponse) {
                         if (ajaxResponse.success) {
                             setTimeout(function () {
-                                appInstance.showSystemMessage(
+                                tmsApp.showSystemMessage(
                                     'Rejection',
                                     ajaxResponse.message,
                                     function () {
@@ -656,7 +656,7 @@
                             }, 300);
                         } else {
                             setTimeout(function () {
-                                appInstance.systemError('Requisition Approval', ajaxResponse.message);
+                                tmsApp.systemError('Requisition Approval', ajaxResponse.message);
                             }, 300);
                         }
                     },

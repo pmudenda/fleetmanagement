@@ -1631,7 +1631,7 @@
                             ||
                             (auth()->user()->hasRole('final_authoriser')&& empty($taskHeader->date_ended))
                             )
-                            <div class="card-footer">
+                            <div class="card-footer pl-0">
                                 <div id="actionButtonsContainer" class="card-toolbar justify-content-end">
                                     <button type="button" id="approveRequisitionBtn"
                                             class="btn btn-success btn-sm mr-3">
@@ -2256,6 +2256,73 @@
                     messages: {}
                 }
             );
+
+            $('#approveRequisitionBtn').on('click', function () {
+                tmsApp.approval.dialog(
+                    {
+                        options: {
+                            'recordId': document.querySelector("#taskReference").value,
+                            'documentType': 'FuelRequisition',
+                            'action': 'approve'
+                        }
+                    },
+                    'fuelRequisition',
+                    document.querySelector('#approvalUrl').value,
+                    function (ajaxResponse) {
+                        if (ajaxResponse.success) {
+
+                            setTimeout(function () {
+                                tmsApp.showSystemMessage(
+                                    'Approval',
+                                    ajaxResponse.message,
+                                    function () {
+                                        setTimeout(function () {
+                                                window.location.href = ajaxResponse['redirectUrl'];
+                                            },
+                                            300);
+                                    },
+                                    'success');
+                            }, 300);
+                        } else {
+                            setTimeout(function () {
+                                tmsApp.systemError('Requisition Approval', ajaxResponse.message);
+                            }, 300);
+                        }
+                    },
+                );
+            });
+
+            $('#declineRequisitionBtn').on('click', function () {
+                tmsApp.approval.dialog({
+                        options: {
+                            'recordId': document.querySelector("#taskReference").value,
+                            'documentType': 'FuelRequisition',
+                            'action': 'reject'
+                        }
+                    },
+                    'fuelRequisition',
+                    document.querySelector('#approvalUrl').value,
+                    function (ajaxResponse) {
+                        if (ajaxResponse.success) {
+                            setTimeout(function () {
+                                tmsApp.showSystemMessage(
+                                    'Rejection',
+                                    ajaxResponse.message,
+                                    function () {
+                                        setTimeout(function () {
+                                            window.location.href = ajaxResponse['redirectUrl'];
+                                        }, 300);
+                                    },
+                                    'success');
+                            }, 300);
+                        } else {
+                            setTimeout(function () {
+                                tmsApp.systemError('Requisition Approval', ajaxResponse.message);
+                            }, 300);
+                        }
+                    },
+                );
+            });
 
             /*function initializeFormWizard() {
 
