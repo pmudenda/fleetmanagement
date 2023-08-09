@@ -40,7 +40,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-9">
+                <div class="col">
                     <table
                             class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
