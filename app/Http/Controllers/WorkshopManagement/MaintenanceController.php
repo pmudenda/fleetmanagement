@@ -24,6 +24,7 @@ use App\Models\RequisitionType;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\Workflow\WorkflowTaskHeader;
+use App\Models\WorkshopLabour;
 use App\Models\WorkShopManagement\VehicleDefect;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkShopMaterialHeader;
@@ -336,8 +337,10 @@ class MaintenanceController extends Controller
             $officeDetails,
             $materials,
             $materialsHeader,
-            $services
+            $services, $labour
             ) = $this->getFullJobCardDetails($request->get("reference"));
+
+
 
         return view("modules.workshopManagement.workOrder.exitFromWorkshop")
             ->with(
@@ -353,7 +356,8 @@ class MaintenanceController extends Controller
                     "officeDetails",
                     "materials",
                     "materialsHeader",
-                    "services"
+                    "services",
+                    "labour"
                 )
             );
     }
@@ -847,6 +851,8 @@ class MaintenanceController extends Controller
         $materialsHeader = null;
         $services = collect([]);
 
+        $labour = collect([]);
+
         if ($reference) {
             $accessories_checked_in = WorkShopVehicleAccessory::where("job_card_no", "=", $reference)
                 ->get();
@@ -863,6 +869,8 @@ class MaintenanceController extends Controller
             $materialsHeader = WorkShopMaterialHeader::where("job_card_no", "=", $reference)->first();
 
             $services = WorkShopServiceModel::where("wshp_act_code", "=", $details->wshp_act_code)->get();
+
+            $labour = WorkshopLabour::where("wshp_act_code", "=", $details->wshp_act_code)->get();
         }
 
         return array(
@@ -876,7 +884,8 @@ class MaintenanceController extends Controller
             $officeDetails,
             $materials,
             $materialsHeader,
-            $services
+            $services,
+            $labour
         );
     }
 }

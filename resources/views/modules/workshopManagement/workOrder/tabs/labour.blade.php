@@ -18,138 +18,271 @@
             </tr>
             </thead>
             <tbody>
-            @if($defects && $defects->isNotEmpty())
-                @foreach($defects as $defect)
-                    <tr class="increment">
-                        <td>
-                            <div class="d-none">
-                                <select name="vehicleSystem"
-                                        style="display: none;"
-                                        required
-                                        disabled
-                                        data-value="{{$defect->veh_sys}}"
-                                        class="form-select form-select-sm select_2_control vehicleSystem">
-                                    <option></option>
-                                </select>
-                                <select name="defectCategory"
-                                        required
-                                        style="display: none;"
-                                        disabled
-                                        data-value="{{$defect->defect_category_code}}"
-                                        class="form-select form-select-sm select_2_control defectCategory">
-                                    <option></option>
-                                </select>
-                            </div>
-                            <select name="defect"
+            @if($labour->isNotEmpty())
+                @foreach($labour as $labourItem)
+                <tr class="increment">
+                    <td>
+                        <div class="d-none">
+                            <select name="vehicleSystem"
+                                    style="display: none;"
                                     required
                                     disabled
-                                    data-value="{{$defect->defect_code}}"
-                                    class="form-select form-select-sm select_2_control defect">
+                                    data-value="{{$defect->veh_sys ?? ''}}"
+                                    class="form-select form-select-sm select_2_control vehicleSystem">
                                 <option></option>
                             </select>
-                        </td>
-                        <td class="showNumber">
-                            <input type="text"
-                                   class="form-control form-control-sm"
-                                   autocapitalize="characters"
-                                   id="mechanic"
-                                   name="mechanic"/>
-                            {{--<div class="input-group">
-                                <div class="input-group-addon">
-                                    <button type="button" id="mechanicSearchBtn"
-                                            name="mechanicSearchBtn"
-                                            class="btn btn-success btn-sm border-radius-0">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>--}}
-                        </td>
-                        <td>
-                            <input type="text"
-                                   class="form-control form-control-sm"
-                                   id="mechanicName"
-                                   name="mechanicName"
-                                   readonly/>
-                        </td>
-                        <td>
-                            <div class="input-group date">
-                                <input type="text"
-                                       required
-                                       name="dateOfWork"
-                                       id="dateOfWork"
-                                       class="form-control datePicker"
-                                />
-                                <div class="input-group-append"
-                                     data-target="#dateIssued"
-                                     data-action="openDatePicker">
-                                    <div type="button"
-                                         data-action="openDatePicker"
-                                         class="input-group-text ui-datepicker-trigger">
-                                        <i data-action="openDatePicker"
-                                           class="fa fa-calendar"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <select name="workshopSection"
+                            <select name="defectCategory"
                                     required
-                                    class="form-select form-select-sm workshopSection">
-                                <option></option>
-                                @foreach($workshop_sections as $workshop_section)
-                                    @if($defect->section_code == $workshop_section->code)
-                                        <option
-                                                selected
-                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
-                                    @else
-                                        <option
-                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </td>
-                        <td>
-                            <input type="hidden"
-                                   id="postCode"
-                                   name="postCode"
-                                   required
-                                   class=""/>
-                            <select name="shiftType"
+                                    style="display: none;"
                                     disabled
-                                    required
-                                    class="form-select form-select-sm shiftType">
-                                <option selected value="" disabled></option>
-                                <option value="1">Normal Shift</option>
-                                <option value="2">Normal Over-Time</option>
-                                <option value="4">Holiday Over-Time</option>
+                                    data-value="{{$defect->defect_category_code ?? ''}}"
+                                    class="form-select form-select-sm select_2_control defectCategory">
+                                <option></option>
                             </select>
-                        </td>
-                        <td>
-                            <input
-                                    readonly
-                                    id="hoursWorked"
-                                    name="hoursWorked"
-                                    required
-                                    class="form-control form-control-sm"/>
-                        </td>
-                        <td>
-                            <input
-                                    id="ratePerHour"
-                                    name="ratePerHour"
-                                    required
-                                    readonly
-                                    class="form-control form-control-sm"/>
-                        </td>
-
-                        <td>
-                            <input name="totalAmount"
+                        </div>
+                        <select name="defect"
+                                required
+                                disabled
+                                data-value="{{$labourItem->def_no ?? ''}}"
+                                class="form-select form-select-sm select_2_control defect">
+                            <option></option>
+                        </select>
+                    </td>
+                    <td class="showNumber">
+                        <input type="text"
+                               readonly
+                               data-value="{{$labourItem->mechanic}}"
+                               value="{{$labourItem->mechanic ?? ''}}"
+                               class="form-control form-control-sm"
+                               autocapitalize="characters"
+                               id="mechanic"
+                               name="mechanic"/>
+                    </td>
+                    <td>
+                        <input type="text"
+                               class="form-control form-control-sm"
+                               id="mechanicName"
+                               name="mechanicName"
+                               readonly/>
+                    </td>
+                    <td>
+                        <div class="input-group date">
+                            <input type="text"
                                    required
                                    readonly
-                                   class="form-control form-control-sm service_total_price"/>
-                        </td>
+                                   name="dateOfWork"
+                                   value="{{$labourItem->date_lab ?? ''}}"
+                                   id="dateOfWork"
+                                   class="form-control datePicker"
+                            />
+                            <div class="input-group-append">
+                                <div type="button"
+                                     data-action="openDatePicker"
+                                     class="input-group-text ui-datepicker-trigger">
+                                    <i data-action="openDatePicker"
+                                       class="fa fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <select name="workshopSection"
+                                required
+                                class="form-select form-select-sm workshopSection">
+                            <option></option>
+                            @foreach($workshop_sections as $workshop_section)
+                                @if($labourItem->section == $workshop_section->code)
+                                    <option
+                                            selected
+                                            value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                @else
+                                    <option
+                                            value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <input type="hidden"
+                               id="postCode"
+                               name="postCode"
+                               required
+                               class=""/>
+                        <select name="shiftType"
+                                data-value="{{$labourItem->type_of_hour ?? ''}}"
+                                disabled
+                                required
+                                class="form-select form-select-sm shiftType">
+                            <option selected value="" disabled></option>
+                            <option value="1">Normal Shift</option>
+                            <option value="2">Normal Over-Time</option>
+                            <option value="4">Holiday Over-Time</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input
+                                readonly
+                                value="{{$labourItem->hours_worked ?? ''}}"
+                                id="hoursWorked"
+                                readonly
+                                name="hoursWorked"
+                                required
+                                class="form-control form-control-sm"/>
+                    </td>
+                    <td>
+                        <input
+                                id="ratePerHour"
+                                name="ratePerHour"
+                                required
+                                value="{{$labourItem->rate}}"
+                                readonly
+                                class="form-control form-control-sm"/>
+                    </td>
 
-                    </tr>
+                    <td>
+                        <input name="totalAmount"
+                               required
+                               value="{{$labourItem->total_amount}}"
+                               readonly
+                               class="form-control form-control-sm service_total_price"/>
+                    </td>
+
+                </tr>
                 @endforeach
+            @else
+                @if($defects && $defects->isNotEmpty())
+                    @foreach($defects as $defect)
+                        <tr class="increment">
+                            <td>
+                                <div class="d-none">
+                                    <select name="vehicleSystem"
+                                            style="display: none;"
+                                            required
+                                            disabled
+                                            data-value="{{$defect->veh_sys}}"
+                                            class="form-select form-select-sm select_2_control vehicleSystem">
+                                        <option></option>
+                                    </select>
+                                    <select name="defectCategory"
+                                            required
+                                            style="display: none;"
+                                            disabled
+                                            data-value="{{$defect->defect_category_code}}"
+                                            class="form-select form-select-sm select_2_control defectCategory">
+                                        <option></option>
+                                    </select>
+                                </div>
+                                <select name="defect"
+                                        required
+                                        disabled
+                                        data-value="{{$defect->defect_code}}"
+                                        class="form-select form-select-sm select_2_control defect">
+                                    <option></option>
+                                </select>
+                            </td>
+                            <td class="showNumber">
+                                <input type="text"
+                                       class="form-control form-control-sm"
+                                       autocapitalize="characters"
+                                       id="mechanic"
+                                       name="mechanic"/>
+                                {{--<div class="input-group">
+                                    <div class="input-group-addon">
+                                        <button type="button" id="mechanicSearchBtn"
+                                                name="mechanicSearchBtn"
+                                                class="btn btn-success btn-sm border-radius-0">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>--}}
+                            </td>
+                            <td>
+                                <input type="text"
+                                       class="form-control form-control-sm"
+                                       id="mechanicName"
+                                       name="mechanicName"
+                                       readonly/>
+                            </td>
+                            <td>
+                                <div class="input-group date">
+                                    <input type="text"
+                                           required
+                                           name="dateOfWork"
+                                           id="dateOfWork"
+                                           class="form-control datePicker"
+                                    />
+                                    <div class="input-group-append"
+                                         data-target="#dateIssued"
+                                         data-action="openDatePicker">
+                                        <div type="button"
+                                             data-action="openDatePicker"
+                                             class="input-group-text ui-datepicker-trigger">
+                                            <i data-action="openDatePicker"
+                                               class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <select name="workshopSection"
+                                        required
+                                        class="form-select form-select-sm workshopSection">
+                                    <option></option>
+                                    @foreach($workshop_sections as $workshop_section)
+                                        @if($defect->section_code == $workshop_section->code)
+                                            <option
+                                                    selected
+                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                        @else
+                                            <option
+                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td>
+                                <input type="hidden"
+                                       id="postCode"
+                                       name="postCode"
+                                       required
+                                       class=""/>
+                                <select name="shiftType"
+                                        disabled
+                                        required
+                                        class="form-select form-select-sm shiftType">
+                                    <option selected value="" disabled></option>
+                                    <option value="1">Normal Shift</option>
+                                    <option value="2">Normal Over-Time</option>
+                                    <option value="4">Holiday Over-Time</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input
+                                        readonly
+                                        id="hoursWorked"
+                                        name="hoursWorked"
+                                        required
+                                        class="form-control form-control-sm"/>
+                            </td>
+                            <td>
+                                <input
+                                        id="ratePerHour"
+                                        name="ratePerHour"
+                                        required
+                                        readonly
+                                        class="form-control form-control-sm"/>
+                            </td>
+
+                            <td>
+                                <input name="totalAmount"
+                                       required
+                                       readonly
+                                       class="form-control form-control-sm service_total_price"/>
+                            </td>
+
+                        </tr>
+                    @endforeach
+                @endif
             @endif
             </tbody>
             <tfoot>
