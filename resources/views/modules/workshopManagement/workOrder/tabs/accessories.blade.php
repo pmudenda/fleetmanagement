@@ -211,6 +211,7 @@
                                 <div>
                                     <input class="zqEditMode form-control"
                                            type="text"
+                                           required
                                            id="loginIdInput"
                                            size="25" maxlength="25"/><br/>
                                 </div>
@@ -227,18 +228,22 @@
                                 <label class="app-label field-required app-field-null">eSignature Password</label>
                                 <div>
                                     <input type="password"
+                                           required
                                            class="form-control"
                                            id="eSignaturePasswordInput" size="25" maxlength="25"/>
                                 </div>
                             </div>
                             <div style="clear:both;">
-                                <label class="app-label" id="remarksTitle">Comments</label>
                                 <div>
-                            <textarea id="newApproval_Remarks"
-                                      class="form-control" cols="35"
-                                      rows="4" maxlength="1000"></textarea>
-                                    <br/>
-                                    <br/>
+                                    <input
+                                            id="acceptance"
+                                            name="acceptance"
+                                            type="checkbox"
+                                            class="checkbox">
+                                    <p id="newApproval_Remarks"
+                                       class="form-control">
+                                        I hereby, acknowledge that the assessment has been done truthfully
+                                    </p>
                                 </div>
                             </div>
                         </div>
