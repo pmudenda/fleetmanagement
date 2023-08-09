@@ -316,7 +316,7 @@
                     </div>
                 </div>
                 <form action="{{route('sign.assessment')}}" name="eSignDocument">
-                    <input type="hidden" value="{{$details->job_card_no ?? 0}}">
+                    <input type="hidden" name="reference" value="{{$details->job_card_no ?? 0}}">
                     <div class="modal-body">
                         <div>
                             <div id="approvalDialogSign">
@@ -362,6 +362,7 @@
                                         <div class="row">
                                             <div class="col-1">
                                                 <input
+                                                        required
                                                         id="acceptance"
                                                         name="acceptance"
                                                         type="checkbox"
