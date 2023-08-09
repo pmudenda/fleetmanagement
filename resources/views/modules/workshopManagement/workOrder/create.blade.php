@@ -1040,7 +1040,7 @@
                             // window.goToNext = false;
                             window.goToNext = true;
                             form.steps("next");
-                            return true;
+                            //return true;
                         }
 
                         if (currentIndex < newIndex) {

@@ -77,13 +77,13 @@
                 </div>
             </div>
 
-            <div class="row bg-success" style="height: 5px;">
+            <div class="row bg-success" style="height: 15px;">
                 &nbsp;
             </div>
 
             <div class="row mb-1 mt-4">
                 <div class="col-lg-2 col-sm-12">
-                    <label>Driver Acknowledgement: <small>(To Be Performed By Driver)</small></label>
+                    <label>Driver Acknowledgement: <small class="text-danger">(To Be Performed By Driver)</small></label>
                 </div>
                 @if(!empty($details->driver_acknowledged))
                     <div class="col-lg-3 col-sm-12">
@@ -147,7 +147,7 @@
                     <label
                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
                             for="accessoriesRemarks">
-                        General Comment (optional):
+                        General Comments and Observation (optional):
                     </label>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
                         @if(!empty($comments))
@@ -166,6 +166,14 @@
 
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                <table>
+                    <thead>
+                        <th></th>
+                        <th></th>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
