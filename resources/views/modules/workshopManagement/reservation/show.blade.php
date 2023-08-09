@@ -485,8 +485,6 @@
                                     </tfoot>
                                 </table>
                             </div>
-
-                            <x-workflow-approval-history :approvals="$approvalHistory" :request="$requestDetails"/>
                         </div>
                     </div>
 
@@ -515,6 +513,7 @@
         </div>
         <input type="hidden" name="onboarding_status" id="onboarding_status"
                value="{{StatusHelper::onboardingComplete()}}">
+        <x-workflow-approval-history :approvals="$approvalHistory" :request="$requestDetails"/>
     </section>
 @endsection
 @push('scripts')
