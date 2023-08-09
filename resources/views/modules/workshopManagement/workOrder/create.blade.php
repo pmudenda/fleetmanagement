@@ -1991,6 +1991,14 @@
                 });
 
                 $(document).on('submit', 'form[name="eSignDocument"]', function (e) {
+                    let modal = '';
+                    let myModalEl = document.querySelector('#eSignature-modal')
+                    if (myModalEl) {
+                        if (bootstrap) {
+                            modal = bootstrap.Modal.getOrCreateInstance(myModalEl);
+                        }
+                    }
+
                     e.preventDefault();
                     e.stopPropagation();
                     let $form = document.forms['eSignDocument'];
@@ -2016,7 +2024,11 @@
                                     "Assessment Acknowledgement",
                                     message,
                                     function () {
-                                        window.location.reload();
+                                        // window.location.reload();
+                                        if (modal) {
+                                            modal.hide();
+                                            //window.loaderVisible = false;
+                                        }
                                     },
                                     "success"
                                 );
