@@ -342,6 +342,7 @@ class MaintenanceController extends Controller
             ) = $this->getFullJobCardDetails($request->get("reference"));
 
         $taskHeader = null;
+        $approvalHistory = [];
         if ($request->get("reference")) {
             $taskHeader = WorkflowTaskHeader::where('reference', '=', $request->get("reference"))->first();
         }
@@ -362,7 +363,8 @@ class MaintenanceController extends Controller
                     "materialsHeader",
                     "services",
                     "labour",
-                    'taskHeader'
+                    'taskHeader',
+                    'approvalHistory'
                 )
             );
     }
@@ -472,38 +474,56 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        $req_no = $request->get('ref');
+        $req_no = $request->get('ref') . str_replace('-C', '');
 
         $user = Auth::user();
 
-        $requestDetails = $this->workshopService->getJobCardDetails($req_no);
-
-        if ($requestDetails == null) {
-            abort(404);
-        }
-
         $workflowTask = WorkflowTaskHeader::where('reference', '=', $req_no)->first();
 
-        //$costCenter = CostCenters::where('code_cost_center', $user->cc_code)->first();
-        /*$organizationalUnit = OrganizationalUnits::where('code_unit', $requestDetails->cc_code)
-            ->first();*/
+        $step = $request->get("step") ?? 0;
 
-        //$requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
+        list(
+            $repairTypes,
+            $accessories_checked_in,
+            $accessories,
+            $details,
+            $workshop_sections,
+            $defects,
+            $comments,
+            $officeDetails,
+            $materials,
+            $materialsHeader,
+            $services, $labour
+            ) = $this->getFullJobCardDetails($request->get("reference"));
 
-        //$daysToNextRefuel = config('settings.fuel_requisition_validity');
-
+        $taskHeader = null;
+        if ($request->get("reference")) {
+            $taskHeader = WorkflowTaskHeader::where('reference', '=', $req_no)->first();
+        }
         $approvalHistory = [];
 
-        return view('modules.workshopManagement.workOrder.show')
-            ->with(compact(
-                'user',
-                //  'requisitionTypes',
-                //'organizationalUnit',
-                'requestDetails',
-                //'daysToNextRefuel',
-                'approvalHistory',
-                'workflowTask'
-            ));
+        return view("modules.workshopManagement.workOrder.exitFromWorkshop")
+            ->with(
+                compact(
+                    "repairTypes",
+                    "accessories",
+                    "details",
+                    "accessories_checked_in",
+                    "step",
+                    "workshop_sections",
+                    "defects",
+                    "comments",
+                    "officeDetails",
+                    "materials",
+                    "materialsHeader",
+                    "services",
+                    "labour",
+                    'taskHeader',
+                    'approvalHistory'
+                )
+            );
+
+
     }
 
     public function processJobCardAccessories(Request $request): JsonResponse

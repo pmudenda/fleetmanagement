@@ -344,7 +344,7 @@ class WorkshopService
         $workflowProcess = WorkflowProcessCodes::WorkOrderClosure->value;
 
         $this->workflowService->initiateWorkflowProcess(
-            $workOrderNumber,
+            $workOrderNumber."-C",
             (int)$workflowProcess,
             WorkflowActions::submit(),
             $closureRemarks,
