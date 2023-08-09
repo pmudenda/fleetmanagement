@@ -397,7 +397,8 @@
                                             </div>
                                             <div class="col-10">
                                                 <p id="newApproval_Remarks">
-                                                    I hereby, acknowledge that the assessment has been done truthfully and fairly
+                                                    I hereby, acknowledge that the assessment has been done truthfully
+                                                    and fairly
                                                 </p>
                                             </div>
                                         </div>
@@ -2014,38 +2015,37 @@
 
                     let form = this;
                     let formData = new FormData(form);
-                    $.ajax({
-                        type: "POST",
-                        url: form.action,
-                        data: formData,
-                        dataType: false
-                    }).done(function (response) {
-                        window.loaderMessage = "Loading... please wait";
-                        if (response.hasOwnProperty("success") && response.success) {
-                            const message = response.message > ""
-                                ? response.message
-                                : "Assessment Signed successfully, Click 'Ok' to Proceed";
+                    tmsApp.asyncPostFormData(
+                        form.action,
+                        formData,
+                        function (response) {
+                            window.loaderMessage = "Loading... please wait";
+                            if (response.hasOwnProperty("success") && response.success) {
+                                const message = response.message > ""
+                                    ? response.message
+                                    : "Assessment Signed successfully, Click 'Ok' to Proceed";
 
-                            tmsApp.showSystemMessage(
-                                "Assessment Acknowledgement",
-                                message,
-                                function () {
-                                },
-                                "success"
-                            );
-                        } else {
-                            if (!Util.isEmpty(response.errors)) {
-                                if (response.errors) {
-                                    tmsApp.printErrorMsg(response.errors);
+                                tmsApp.showSystemMessage(
+                                    "Assessment Acknowledgement",
+                                    message,
+                                    function () {
+                                    },
+                                    "success"
+                                );
+                            } else {
+                                if (!Util.isEmpty(response.errors)) {
+                                    if (response.errors) {
+                                        tmsApp.printErrorMsg(response.errors);
+                                    }
+                                } else if (!Util.isEmpty(response.message)) {
+                                    tmsApp.systemError("Assessment Acknowledgement", response.message);
                                 }
-                            } else if (!Util.isEmpty(response.message)) {
-                                tmsApp.systemError("Assessment Acknowledgement", response.message);
                             }
+                        },
+                        function (xhr) {
+                            tmsApp.showErrorMessages(xhr, "Assessment Acknowledgement",);
                         }
-                    }).fail(function (xhr) {
-                        tmsApp.showErrorMessages(xhr, "Assessment Acknowledgement",);
-                    })
-
+                    );
                 });
 
                 $(document).on('click', '#vehicleSearchBtn', function () {
