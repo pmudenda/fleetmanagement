@@ -536,7 +536,7 @@
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <select disabled name="exitFuelLevel"
-                                                                    data-value="{{$details->fuel_level_in ?? ''}}"
+                                                                    data-value="{{$details->fuel_level_out ?? ''}}"
                                                                     id="exitFuelLevel"
                                                                     class="form-select form-select-sm when_valid"
                                                                     required>
@@ -566,7 +566,7 @@
                                                                        class="form-control form-control-sm"
                                                                        autocapitalize="characters"
                                                                        id="driver_out"
-                                                                       value=""
+                                                                       value="{{$details->driver_out ?? ''}}"
                                                                        placeholder=""
                                                                        name="driver_out"/>
                                                                 <div class="input-group-addon">
