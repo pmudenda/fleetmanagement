@@ -176,8 +176,10 @@
                         <div class="table-responsive" style="max-height:500px;">
                             <table class="table" id="observations">
                                 <thead>
-                                <th>Observation</th>
-                                <th>Attachment</th>
+                                <tr class="bg-success">
+                                    <th>Observation</th>
+                                    <th>Attachment</th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
