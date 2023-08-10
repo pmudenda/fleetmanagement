@@ -232,30 +232,26 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="row" style="display: none;">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
-                                                <div class="row">
+                                                <div style="display: none;" class="row">
                                                     <div class="form-group row">
                                                         <label
                                                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
-                                                            Requisition Type:
-                                                        </label>
+                                                                for="mobile_no">Collection Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            @if($requestDetails->item_type == RequisitionItemTypes::StockItem)
-                                                                Stock Items
-                                                            @elseif($requestDetails->item_type == RequisitionItemTypes::NonStockItem)
-                                                                Non-Stock Items
-                                                            @elseif($requestDetails->item_type == RequisitionItemTypes::Service)
-                                                                Service
-                                                            @endif
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   id="fuel_allocation"
+                                                                   value=""
+                                                                   name="fuel_allocation"
+                                                                   readonly
+                                                            />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             {{--<div class="container-fluid pl-0">
                                                 <div class="row">
@@ -304,18 +300,21 @@
 
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
-                                                <div style="display: none;" class="row">
+                                                <div class="row">
                                                     <div class="form-group row">
                                                         <label
                                                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Collection Date:</label>
+                                                                for="staff_name">
+                                                            Requisition Type:
+                                                        </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="text" class="form-control form-control-sm"
-                                                                   id="fuel_allocation"
-                                                                   value=""
-                                                                   name="fuel_allocation"
-                                                                   readonly
-                                                            />
+                                                            @if($requestDetails->item_type == RequisitionItemTypes::StockItem)
+                                                                Stock Items
+                                                            @elseif($requestDetails->item_type == RequisitionItemTypes::NonStockItem)
+                                                                Non-Stock Items
+                                                            @elseif($requestDetails->item_type == RequisitionItemTypes::Service)
+                                                                Service
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
