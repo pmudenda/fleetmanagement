@@ -128,8 +128,18 @@ class WorkshopRequisitionService
 
         }
 
-        // generate  ref
-        $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::WORKSHOP_REQUISITION);
+        // generate  reference
+        /*$requisition_reference_number = null;
+        switch ($requisitionPostRequest->itemType) {
+            case RequisitionItemTypes::StockItemCode:
+                $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::WORKSHOP_REQUISITION);
+                break;
+            case RequisitionItemTypes::NonStockItemCode:
+
+                break;
+        }*/
+        $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
+
         $form_order_number = null;
         switch ($requisitionPostRequest->get('itemType')) {
             case RequisitionItemTypes::StockItemCode:

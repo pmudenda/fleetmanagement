@@ -20,16 +20,13 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    @if(str_contains($requestDetails->req_no,'PUR'))
-                        @if($requestDetails->item_type == RequisitionItemTypes::NonStockItem)
-                            <h4>APPROVE NON-STOCK PURCHASE PROCESS</h4>
-                        @else
-                            <h4>APPROVE SERVICE PURCHASE PROCESS</h4>
-                        @endif
-                    @else
+                    @if($requestDetails->item_type == RequisitionItemTypes::StockItem)
                         <h4>APPROVE STORES RESERVATION</h4>
+                    @elseif($requestDetails->item_type == RequisitionItemTypes::NonStockItem)
+                        <h4>APPROVE NON-STOCK PURCHASE PROCESS</h4>
+                    @elseif($requestDetails->item_type == RequisitionItemTypes::Service)
+                        <h4>APPROVE SERVICE PURCHASE PROCESS</h4>
                     @endif
-
                 </div>
                 <div class="card-toolbar justify-content-end">
                     @if(!empty($requestDetails))
@@ -103,10 +100,12 @@
                                     </a>
                                 </th>
                                 <th width="33%" colspan="4" class="text-center">
-                                    @if(str_contains($requestDetails->req_no,'PUR'))
-                                        PURCHASE PROCESS
-                                    @else
+                                    @if($requestDetails->item_type == RequisitionItemTypes::StockItem)
                                         STORES RESERVATION
+                                    @elseif($requestDetails->item_type == RequisitionItemTypes::NonStockItem)
+                                        NON-STOCK PURCHASE PROCESS
+                                    @elseif($requestDetails->item_type == RequisitionItemTypes::Service)
+                                        SERVICE PURCHASE PROCESS
                                     @endif
                                 </th>
                                 <th width="34%" colspan="1" class="p-3">
