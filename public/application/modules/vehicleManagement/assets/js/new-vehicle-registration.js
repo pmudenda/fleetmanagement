@@ -5,8 +5,8 @@ window.businessUnits = [];
 
 function setSelectedAccessories() {
     $.each(window.selectedAccessories, function (index, element) {
-        $("input[name=" + element?.code + "][value=" + element?.is_present + "]").prop('checked', true);
-        $("input[name=COMMENT_" + element.code + "]").val(element?.remarks);
+        $("input[name=" + element?.code + "][value=" + element?.is_present + "]").prop('checked', true).attr('readonly', true);
+        $("input[name=COMMENT_" + element.code + "]").val(element?.remarks).attr('readonly', true);
     });
 }
 
