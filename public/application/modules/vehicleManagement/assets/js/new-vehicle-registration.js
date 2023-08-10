@@ -237,7 +237,8 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         assetNumberInput.value = assetNumber
         Vue.set(app['costingAndValuation'], 'assetNumber', assetNumber);
 
-        $('input[name="assetNumber"]').val(assetNumber);
+        $('input[name="assetNumber"]').val(assetNumber).attr('readonly', 'readonly');
+        
         $('input[name="assetNumber"]').trigger('change');
     }
     Vue.set(app['costingAndValuation'], 'costOfLicense', data['costoflicense']);
