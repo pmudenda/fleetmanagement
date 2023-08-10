@@ -1569,7 +1569,7 @@
                                     </div>
                                     <div class="col-6 row">
                                         <div class="col-md-6" v-if="images && images.frontView">
-                                            <div class="card text-center py-5 my-2">
+                                            <div class="card text-center my-2">
                                                 <div class="form-group">
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.frontView.path + ")",}'>
@@ -1581,7 +1581,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6" v-if="images && images.rearView">
-                                            <div class="card-px text-center py-5 my-2">
+                                            <div class="card-px text-center my-2">
                                                 <div class="form-group">
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.rearView.path + ")",}'>
@@ -1593,7 +1593,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6" v-if="images && images.rightView">
-                                            <div class="card text-center py-5 my-2">
+                                            <div class="card text-center my-2">
 
                                                 <div class="form-group">
                                                     <div class="imagePreview"
@@ -1606,7 +1606,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6" v-if="images && images.leftView">
-                                            <div class="card text-center py-5 my-2">
+                                            <div class="card text-center my-2">
 
                                                 <div class="form-group">
                                                     <div class="imagePreview"
@@ -2397,7 +2397,7 @@
                                             class="table align-middle table-row-dashed dataTable no-footer">
                                         <thead>
                                         <tr class="bg-dark">
-                                            <th>Document No.</th>
+                                            <th v-if="documents && documents.purchase_order">Document No.</th>
                                             <th>Document Type</th>
                                             <th>File Name</th>
                                             <th></th>
