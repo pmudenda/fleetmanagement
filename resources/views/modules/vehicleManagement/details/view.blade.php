@@ -1590,11 +1590,10 @@
                                     <div class="col-6 row">
                                         <div class="col-md-6" v-if="images && images.frontView">
                                             <div class="card text-center py-5 my-2">
-                                                <h2 class="fs-2x fw-bold mb-10">Front View</h2>
-
                                                 <div class="form-group">
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.frontView.path + ")",}'>
+                                                        <p class="fs-2x fw-bold mb-10">Front View</p>
                                                     </div>
                                                 </div>
                                             </div>
