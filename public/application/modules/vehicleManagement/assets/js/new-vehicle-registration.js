@@ -183,8 +183,9 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     Vue.set(app['otherDetails'], 'batterySize', data['battery_size']);
 
-    $('select[name="batterySize"]').val(data['battery_size']);
     $('select[name="batterySize"]').attr('data-value', data['battery_size']);
+    $('select[name="batterySize"]').val(data['battery_size']).change();
+
 
     Vue.set(app['otherDetails'], 'batteryPower', data['battery_power']);
     $('select[name="batteryPower"]').val(data['battery_power']);
@@ -198,8 +199,10 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     Vue.set(app['costingAndValuation'], 'supplierName', data['suppliername']);
 
-    $('select[name="supplierName"]').val(data['suppliername']);
+    $('select[name="supplierName"]').val(data['suppliername']).attr('readonly', 'readonly');
+
     $('select[name="supplierName"]').attr('data-value', data['suppliername']);
+
     $('select[name="supplierName"]').trigger('change');
 
 
@@ -238,7 +241,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         Vue.set(app['costingAndValuation'], 'assetNumber', assetNumber);
 
         $('input[name="assetNumber"]').val(assetNumber).attr('readonly', 'readonly');
-        
+
         $('input[name="assetNumber"]').trigger('change');
     }
     Vue.set(app['costingAndValuation'], 'costOfLicense', data['costoflicense']);
