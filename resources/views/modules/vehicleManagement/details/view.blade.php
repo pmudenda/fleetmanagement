@@ -38,7 +38,7 @@
             align-items: center !important;
         }
     </style>
-    <link rel="stylesheet" href="{{asset('assets/libs/handsontable/handsontable.full.min.css')}}"/>
+    <link rel="stylesheet" href="{{asset('libs/handsontable/handsontable.full.min.css')}}"/>
 @endpush
 @section('content')
     <x-content-header/>
@@ -58,17 +58,13 @@
                             </span>
                         </span>--}}
                     </div>
-
-                    {{--  <div v-if="!vehicleHeader.isHeaderSaved" id="actionButtonsContainer"
-                           class="card-toolbar justify-content-end">
-                          <button type="button" id="submitBtn" disabled class="btn btn-success btn-sm mr-3">
-                              <i class="fas fa-paper-plane"></i> Submit
-                          </button>
-                          <button type="button" id="resetFormBtn" class="btn btn-danger btn-sm mr-3">
-                              <i class="fas fa-undo"></i> Cancel
-                          </button>
-                      </div>--}}
                     <div class="card-toolbar justify-content-end" v-if="vehicleHeader.isHeaderSaved">
+                        <span v-else class="ml-2 indicator-pill whitespace-nowrap green">
+                            <span>
+                                @{{ vehicleHeader.on_boarding_status | formatStatus }}
+                            </span>
+                        </span>
+
                         <img id="barcode" alt="vehicle barcode" style="max-height: 40px;" src="">
                         {{--<button type="button" data-bs-target="#vehicleDisk" data-bs-toggle="modal"
                                 class="btn btn-default btn-sm mr-3">
@@ -859,28 +855,32 @@
                                                 <thead>
                                                 <tr class="bg-dark">
                                                     <th>Document Type</th>
-                                                    <th>File Name</th>
+                                                    <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tr>
                                                     <td>Motor Vehicle Certificate</td>
-                                                   {{-- <td>@{{ documents.certificate?.originalDocumentName }}</td>--}}
+                                                    {{-- <td>@{{ documents.certificate?.originalDocumentName }}</td>--}}
                                                     <td>
                                                         <button data-zfm-view-file="certificate"
                                                                 type="button"
                                                                 :data-document-url="'/storage'+documents.certificate?.path"
-                                                                class="btn btn-sm btn-success">View File
+                                                                class="btn btn-sm btn-success">
+                                                            <i class="fa fa-paperclip"></i>
+                                                            View File
                                                         </button>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Insurance Cover Note</td>
-                                                   {{-- <td>@{{ documents.insurance?.originalDocumentName }}</td>--}}
+                                                    {{-- <td>@{{ documents.insurance?.originalDocumentName }}</td>--}}
                                                     <td>
                                                         <button data-zfm-view-file="insurance"
                                                                 type="button"
                                                                 :data-document-url="'/storage'+documents.insurance?.path"
-                                                                class="btn btn-sm btn-success">View File
+                                                                class="btn btn-sm btn-success">
+                                                            <i class="fa fa-paperclip"></i>
+                                                            View File
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -1626,7 +1626,9 @@
                                                 <div class="form-group">
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.frontView.path + ")",}'>
-                                                        <p class="img_title fs-2x fw-bold mb-10 text-white">Front View</p>
+                                                        <p class="img_title fs-2x fw-bold mb-10 text-white">
+                                                            Front View
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1637,7 +1639,9 @@
                                                 <div class="form-group">
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.rearView.path + ")",}'>
-                                                        <p class="img_title fs-2x fw-bold mb-10 text-white">Rear View</p>
+                                                        <p class="img_title fs-2x fw-bold mb-10 text-white">
+                                                            Rear View
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1648,7 +1652,9 @@
                                                 <div class="form-group">
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.rightView.path + ")",}'>
-                                                        <p class="img_titlefs-2x fw-bold mb-10 text-white">Right View</p>
+                                                        <p class="img_titlefs-2x fw-bold mb-10 text-white">
+                                                            Right
+                                                            View</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1659,146 +1665,15 @@
                                                 <div class="form-group">
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.leftView.path + ")",}'>
-                                                        <p class="img_title fs-2x fw-bold mb-10 text-white">Left View</p>
+                                                        <p class="img_title fs-2x fw-bold mb-10 text-white">
+                                                            Left
+                                                            View</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                {{--<div class="row mt-5 mb-10 create_mode">
-                                    <div class="col-md-3">
-                                        <div class="card text-center py-5 my-2 pt-0">
-                                            <h2 class="fs-2x fw-bold mb-5">Front View</h2>
-                                            <small class="text-danger">JPG, JPEG, PNG, BMP</small>
-                                            <div class="form-group">
-                                                <p :title="[dataStatus < 5 ? 'You must complete data entry on tabs before uploading images':'','']"
-                                                   class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                                                    <button type="button"
-                                                            data-select="file"
-                                                            data-input="selectFrontViewFile"
-                                                            class="upload-file btn btn-sm btn-primary me-2">
-                                                        <i class="fas fa-cloud-arrow-up"></i> Select Image
-                                                    </button>
-                                                    <input type="file" accept="image/*"
-                                                           style="display: none;"
-                                                           class="fileElem"
-                                                           name="front_view"/>
-                                                </p>
-                                                <div class="imagePreview" style="display: none;">
-                                                    <button type="button"
-                                                            class="btn btn-xs clearImage" style="top: 1px;
-                                            position: relative;
-                                            right: 1px;
-                                            float: right;
-                                            padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="card-px text-center py-5 my-2 pt-0">
-                                            <h2 class="fs-2x fw-bold mb-5">Rear View</h2>
-                                            <small class="text-danger">JPG, JPEG, PNG, BMP</small>
-                                            <div class="form-group">
-                                                <p :title="[dataStatus < 5 ? 'You must complete data entry on tabs before uploading images':'','']"
-                                                   class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                                                    <button type="button"
-                                                            data-select="file"
-                                                            class="upload-file btn btn-sm btn-primary me-2">
-                                                        <i class="fas fa-cloud-arrow-up"></i> Select Image
-                                                    </button>
-                                                    <input type="file" accept="image/*"
-                                                           style="display: none;"
-                                                           class="fileElem"
-                                                           name="rear_view"/>
-                                                </p>
-
-                                                <div class="imagePreview" style="display: none;">
-                                                    <button type="button"
-                                                            class="btn btn-xs clearImage" style="top: 1px;
-                                            position: relative;
-                                            right: 1px;
-                                            float: right;
-                                            padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="card text-center py-5 my-2 pt-0">
-                                            <h2 class="fs-2x fw-bold mb-5">Right View</h2>
-                                            <small class="text-danger">JPG, JPEG, PNG, BMP</small>
-                                            <div class="form-group">
-                                                <p :title="[dataStatus < 5 ? 'You must complete data entry on tabs before uploading images':'','']"
-                                                   class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                                                    <button type="button"
-                                                            data-select="file"
-                                                            data-input="selectFrontViewFile"
-                                                            class="upload-file btn btn-sm btn-primary me-2">
-                                                        <i class="fas fa-cloud-arrow-up"></i> Select Image
-                                                    </button>
-                                                    <input type="file" accept="image/*"
-                                                           style="display: none;"
-                                                           class="fileElem"
-                                                           name="right_view"/>
-                                                </p>
-                                                <div class="imagePreview" style="display: none;">
-                                                    <button type="button"
-                                                            class="btn btn-xs clearImage" style="top: 1px;
-                                            position: relative;
-                                            right: 1px;
-                                            float: right;
-                                            padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="card text-center py-5 my-2 pt-0">
-                                            <h2 class="fs-2x fw-bold mb-5">Left View</h2>
-                                            <small class="text-danger">JPG, JPEG, PNG, BMP</small>
-                                            <div class="form-group">
-                                                <p :title="[dataStatus < 5 ? 'You must complete data entry on tabs before uploading images':'','']"
-                                                   class="text-gray-400 fs-4 fw-semibold mb-10 text-center">
-                                                    <button type="button"
-                                                            data-select="file"
-                                                            data-input="selectFrontViewFile"
-                                                            class="upload-file btn btn-sm btn-primary me-2">
-                                                        <i class="fas fa-cloud-arrow-up"></i> Select Image
-                                                    </button>
-                                                    <input type="file" accept="image/*"
-                                                           style="display: none;"
-                                                           class="fileElem"
-                                                           name="left_view"/>
-                                                </p>
-                                                <div class="imagePreview" style="display: none;">
-                                                    <button type="button"
-                                                            class="btn btn-xs clearImage" style="top: 1px;
-                                            position: relative;
-                                            right: 1px;
-                                            float: right;
-                                            padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
-                                                    </button>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>--}}
-
-                                {{-- <div class="mt-5">
-                                     <div class="form-group create_mode">
-                                         <button type="submit" id="tms_save_chassis" class="btn btn-success btn-sm">
-                                             <i class="fas fa-paper-plane"></i> Save
-                                         </button>
-                                     </div>
-                                 </div>--}}
                             </form>
 
 
@@ -1845,7 +1720,7 @@
                                                         <div class="link-field ui-front" style="position: relative;">
                                                             <div>
                                                                 {{--v-model="costingAndValuation.supplierName"--}}
-                                                                <select class="form-select form-control-sm view_mode"
+                                                                <select class="form-control form-control-sm view_mode"
                                                                         data-doctype="CostingDetails"
                                                                         data-value=""
                                                                         id="supplierName"
@@ -1876,7 +1751,7 @@
                                                                 <div class="input-group-prepend">
                                                                     <div class="input-group-addon">
                                                                         <select name="bookValueCurrency"
-                                                                                class="form-select form-select-sm"
+                                                                                class="form-control form-select-sm"
                                                                                 style="height: 2.5em; border-radius: 0;">
                                                                             <option value="001">ZMW</option>
                                                                             <option value="002">USD</option>
@@ -1947,7 +1822,7 @@
                                                                 <div class="input-group-prepend">
                                                                     <div class="input-group-addon">
                                                                         <select name="bookValueCurrency"
-                                                                                class="form-select form-select-sm"
+                                                                                class="form-control form-control-sm"
                                                                                 style="height: 2.5em; border-radius: 0;">
                                                                             <option value="001">ZMW</option>
                                                                             <option value="002">USD</option>
@@ -2345,7 +2220,7 @@
         window.reference = `{!! $reference !!}`;
     </script>
     <script type="text/javascript" src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/libs/handsontable/handsontable.full.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('libs/handsontable/handsontable.full.min.js')}}"></script>
 
     <script
             src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js').'?v='.Carbon::now()->format('his')}}"></script>
