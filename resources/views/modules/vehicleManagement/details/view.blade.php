@@ -3237,169 +3237,140 @@
 
                                     <fieldset style="" class="form-group border p-3">
                                         {{--<legend>General Information:</legend>--}}
-                                        <div class="col-6">
-                                            <table class="app_form_table table">
-                                                <tr>
-                                                    <td>
-                                                        <label class="app-field-label">
-                                                            Registration No.
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="app-field-input">
-                                                            <div class="input-group">
-                                                                <input type="text"
-                                                                       id="vehicleRegistration"
-                                                                       required
-                                                                       autocomplete="off"
-                                                                       name="vehicleRegistration"
-                                                                       class="form-control"/>
-                                                                <div class="input-group-addon">
-                                                                    <button type="button"
-                                                                            id="vehicleDetailsBtn"
-                                                                            class="btn btn-sm btn-success">
-                                                                        <i class="fas fa-search"></i>
-                                                                    </button>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <table class="app_form_table table">
+                                                    <tr>
+                                                        <td>
+                                                            <label class="app-field-label">
+                                                                Registration No.
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="app-field-input">
+                                                                <div class="input-group">
+                                                                    <input type="text"
+                                                                           id="vehicleRegistration"
+                                                                           required
+                                                                           autocomplete="off"
+                                                                           name="vehicleRegistration"
+                                                                           class="form-control"/>
+                                                                    <div class="input-group-addon">
+                                                                        <button type="button"
+                                                                                id="vehicleDetailsBtn"
+                                                                                class="btn btn-sm btn-success">
+                                                                            <i class="fas fa-search"></i>
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="pl-5">
-                                                    </td>
-                                                    <td>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="4">
-                                                        <label class="app-field-label" data-field="typeia">
-                                                            Comments
-                                                        </label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="background: none;" colspan="4">
-                                                        <div class="app-field-input">
+                                                        </td>
+                                                        <td class="pl-5">
+                                                        </td>
+                                                        <td>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="4">
+                                                            <label class="app-field-label" data-field="typeia">
+                                                                Comments
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="background: none;" colspan="4">
+                                                            <div class="app-field-input">
                                                     <textarea name="comments" id="comments"
                                                               class="form-control"></textarea>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <div class="col-6">
-                                            <table class="app_form_table table">
-                                                <tr>
-                                                    <td>
-                                                        <label class="app-field-label">
-                                                            Opening Reading (Km)
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="app-field-input">
-                                                            <div class="input-group">
-                                                                <input type="text"
-                                                                       id="previousMeterReading"
-                                                                       required
-                                                                       name="previousMeterReading"
-                                                                       class="form-control"/>
-                                                                <div class="input-group-addon">
-                                                                    <div>
-                                                                        <i class="fas fa-dashboard"></i>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="col-6">
+                                                <table class="app_form_table table">
+                                                    <tr>
+                                                        <td>
+                                                            <label class="app-field-label">
+                                                                Opening Reading (Km)
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="app-field-input">
+                                                                <div class="input-group">
+                                                                    <input type="text"
+                                                                           id="previousMeterReading"
+                                                                           required
+                                                                           name="previousMeterReading"
+                                                                           class="form-control"/>
+                                                                    <div class="input-group-addon">
+                                                                        <div>
+                                                                            <i class="fas fa-dashboard"></i>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label class="app-field-label">
-                                                            Current Reading (Km)
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="app-field-input">
-                                                            <div class="input-group">
-                                                                <input type="text"
-                                                                       id="currentReading"
-                                                                       required
-                                                                       name="currentReading"
-                                                                       class="form-control"/>
-                                                                <div class="input-group-addon">
-                                                                    <div>
-                                                                        <i class="fas fa-dashboard"></i>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <label class="app-field-label">
+                                                                Current Reading (Km)
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="app-field-input">
+                                                                <div class="input-group">
+                                                                    <input type="text"
+                                                                           id="currentReading"
+                                                                           required
+                                                                           name="currentReading"
+                                                                           class="form-control"/>
+                                                                    <div class="input-group-addon">
+                                                                        <div>
+                                                                            <i class="fas fa-dashboard"></i>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label class="app-field-label">
-                                                            Difference
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="app-field-input">
-                                                            <div class="input-group">
-                                                                <input type="text"
-                                                                       id="meterDifference"
-                                                                       required
-                                                                       name="meterDifference"
-                                                                       class="form-control"/>
-                                                                <div class="input-group-addon">
-                                                                    <div>
-                                                                        <i class="fas fa-dashboard"></i>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <label class="app-field-label">
+                                                                Difference
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="app-field-input">
+                                                                <div class="input-group">
+                                                                    <input type="text"
+                                                                           id="meterDifference"
+                                                                           required
+                                                                           name="meterDifference"
+                                                                           class="form-control"/>
+                                                                    <div class="input-group-addon">
+                                                                        <div>
+                                                                            <i class="fas fa-dashboard"></i>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
                                         </div>
 
                                         <div class="row">
                                             <table class="app_form_table table">
-                                                <tr>
-                                                    <td>
-                                                        <label class="app-field-label">
-                                                            Registration No.
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="app-field-input">
-                                                            <div class="input-group">
-                                                                <input type="text"
-                                                                       id="vehicleRegistration"
-                                                                       required
-                                                                       autocomplete="off"
-                                                                       name="vehicleRegistration"
-                                                                       class="form-control"/>
-                                                                <div class="input-group-addon">
-                                                                    <button type="button"
-                                                                            id="vehicleDetailsBtn"
-                                                                            class="btn btn-sm btn-success">
-                                                                        <i class="fas fa-search"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="pl-5">
-                                                    </td>
-                                                    <td>
-                                                    </td>
-                                                </tr>
                                                 <tr>
                                                     <td></td>
                                                 </tr>
