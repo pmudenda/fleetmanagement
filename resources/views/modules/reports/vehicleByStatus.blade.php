@@ -306,19 +306,13 @@
                     seriesData.push({value: valueObject[key], name: key});
                 }
 
-                console.log(
-                    {
-                        legendData,
-                        seriesData
-                    }
-                )
                 return {
                     legendData,
                     seriesData
                 }
             }
 
-            const data = genData();
+            const fleetMasterData = genData();
 
             const tmsData = tmsGenData();
             const cleanData = genCleanData();
@@ -362,7 +356,7 @@
                         data: ['sales']
                     },
                     xAxis: {
-                        data: data.legendData,
+                        data: fleetMasterData.legendData,
                         axisLabel: {
                             rotate: 45,
                             width: 50,
@@ -376,7 +370,7 @@
                             name: 'Vehicle By Status',
                             type: 'bar',
                             colorBy: 'data',
-                            data: data.seriesData
+                            data: fleetMasterData.seriesData
                         }
                     ]
                 };
@@ -413,7 +407,7 @@
                         right: 10,
                         top: 20,
                         bottom: 20,
-                        data: data.legendData
+                        data: fleetMasterData.legendData
                     },
                     series: [
                         {
@@ -421,7 +415,7 @@
                             type: 'pie',
                             radius: '55%',
                             center: ['40%', '50%'],
-                            data: data.seriesData,
+                            data: fleetMasterData.seriesData,
                             emphasis: {
                                 itemStyle: {
                                     shadowBlur: 10,
