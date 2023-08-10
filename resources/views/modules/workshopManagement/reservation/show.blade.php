@@ -309,11 +309,20 @@
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             @if($requestDetails->item_type == RequisitionItemTypes::StockItem)
-                                                                STOCK
+                                                                <input type="text"
+                                                                       class="form-control form-control-sm"
+                                                                       readonly
+                                                                       value="STOCK">
                                                             @elseif($requestDetails->item_type == RequisitionItemTypes::NonStockItem)
-                                                                NON-STOCK
+                                                                <input type="text"
+                                                                       class="form-control form-control-sm"
+                                                                       readonly
+                                                                       value="NON-STOCK">
                                                             @elseif($requestDetails->item_type == RequisitionItemTypes::Service)
-                                                                SERVICE
+                                                                <input type="text"
+                                                                       class="form-control form-control-sm"
+                                                                       readonly
+                                                                       value="SERVICE">
                                                             @endif
                                                         </div>
                                                     </div>
