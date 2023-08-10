@@ -3236,62 +3236,58 @@
                                     <label class="app-required-marker"></label>
 
                                     <fieldset style="" class="form-group border p-3">
-                                        {{--<legend>General Information:</legend>--}}
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <table class="app_form_table table">
-                                                    <tr>
-                                                        <td>
-                                                            <label class="app-field-label">
-                                                                Registration No.
-                                                                <span class="text-danger">*</span>
-                                                            </label>
-                                                        </td>
-                                                        <td>
-                                                            <div class="app-field-input">
-                                                                <div class="input-group">
-                                                                    <input type="text"
-                                                                           id="vehicleRegistration"
-                                                                           required
-                                                                           autocomplete="off"
-                                                                           name="vehicleRegistration"
-                                                                           class="form-control"/>
-                                                                    <div class="input-group-addon">
-                                                                        <button type="button"
-                                                                                id="vehicleDetailsBtn"
-                                                                                class="btn btn-sm btn-success">
-                                                                            <i class="fas fa-search"></i>
-                                                                        </button>
-                                                                    </div>
+                                        <legend>General Information:</legend>
+                                    </fieldset>
+                                    {{--<legend>General Information:</legend>--}}
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <table class="app_form_table table">
+                                                <tr>
+                                                    <td>
+                                                        <label class="app-field-label">
+                                                            Registration No.
+                                                            <span class="text-danger">*</span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="app-field-input">
+                                                            <div class="input-group">
+                                                                <input type="text"
+                                                                       id="vehicleRegistration"
+                                                                       required
+                                                                       autocomplete="off"
+                                                                       name="vehicleRegistration"
+                                                                       class="form-control"/>
+                                                                <div class="input-group-addon">
+                                                                    <button type="button"
+                                                                            id="vehicleDetailsBtn"
+                                                                            class="btn btn-sm btn-success">
+                                                                        <i class="fas fa-search"></i>
+                                                                    </button>
                                                                 </div>
                                                             </div>
-                                                        </td>
-                                                        <td class="pl-5">
-                                                        </td>
-                                                        <td>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="4">
-                                                            <label class="app-field-label" data-field="typeia">
-                                                                Comments
-                                                            </label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="background: none;" colspan="4">
-                                                            <div class="app-field-input">
-                                                    <textarea name="comments" id="comments"
-                                                              class="form-control"></textarea>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                            <div class="col-6">
+                                                        </div>
+                                                    </td>
+                                                    <td class="pl-5">
+                                                        <label class="app-field-label">
+                                                            Machinery Type.
+                                                            <span class="text-danger">*</span>
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-select form-select-sm">
+                                                            <option value="VEHICLE">VEHICLE</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-6">
+                                            <fieldset style="" class="form-group border p-3">
+                                                <legend>Odometer Information:</legend>
                                                 <table class="app_form_table table">
                                                     <tr>
                                                         <td>
@@ -3366,32 +3362,34 @@
                                                         </td>
                                                     </tr>
                                                 </table>
-                                            </div>
-                                        </div>
+                                            </fieldset>
 
-                                        <div class="row">
-                                            <table class="app_form_table table">
-                                                <tr>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="4">
-                                                        <label class="app-field-label" data-field="typeia">
-                                                            Comments
-                                                        </label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="background: none;" colspan="4">
-                                                        <div class="app-field-input">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <table class="app_form_table table">
+                                            <tr>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <label class="app-field-label" data-field="typeia">
+                                                        Comments
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="background: none;" colspan="4">
+                                                    <div class="app-field-input">
                                                     <textarea name="comments" id="comments"
                                                               class="form-control"></textarea>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </fieldset>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
                                 </form>
                             </div>
                         </div>
