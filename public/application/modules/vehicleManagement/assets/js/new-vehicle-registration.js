@@ -219,8 +219,11 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         //$('input[name="yearOfPurchase"]').trigger('change');
         //Vue.set(app['costingAndValuation'], 'yearOfPurchase', data['yearOfPurchase']);
 
-        $('input[name="bookValue"]').val(accounting.formatMoney(data['bookvalue'], '', 2, ",", "."));
+        $('input[name="bookValue"]').val(accounting.formatMoney(data['bookvalue'], '', 2, ",", "."))
+            .attr('readonly', 'readonly');
+
         $('input[name="isOperationsVehicle"]').val(data['ispoolvehicle']);
+
         //$('input[name="bookValue"]').trigger('change');
         //Vue.set(app['costingAndValuation'], 'bookValue', data['bookValue']);
 
@@ -242,10 +245,10 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     $('input[name="purchase_order_number"]').val(data['purchase_order_no']);
 
-    $('input[name="costOfLicense"]').val(accounting.formatMoney(data['costoflicense'], '', 2, ",", "."));
+    $('input[name="costOfLicense"]').val(accounting.formatMoney(data['costoflicense'], '', 2, ",", ".")).attr('readonly', 'readonly');
     $('input[name="costOfLicense"]').trigger('change');
 
-    $('input[name="premium"]').val(accounting.formatMoney(data['premium'], '', 2, ",", "."));
+    $('input[name="premium"]').val(accounting.formatMoney(data['premium'], '', 2, ",", ".")).attr('readonly', 'readonly');
     $('input[name="premium"]').trigger('change');
 
 
