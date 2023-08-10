@@ -81,7 +81,7 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-addon">
                                             <select name="bookValueCurrency" class="form-select form-select-sm"
-                                                    style="height: 2.5em; border-radius: 0;">
+                                                    style="height: 2.6em; border-radius: 0;">
                                                 <option value="001">ZMW</option>
                                                 <option value="002">USD</option>
                                             </select>
@@ -150,7 +150,7 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-addon">
                                             <select name="bookValueCurrency" class="form-select form-select-sm"
-                                                    style="height: 2.5em; border-radius: 0;">
+                                                    style="height: 2.6em; border-radius: 0;">
                                                 <option value="001">ZMW</option>
                                                 <option value="002">USD</option>
                                             </select>
