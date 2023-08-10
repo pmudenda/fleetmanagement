@@ -208,7 +208,7 @@ class VehicleOnBoardingController extends Controller
                 'request' => $request->all(),
                 'payload' => $model,
                 'redirectUrl' => URL::signedRoute('new.vehicle', ['step' => 2, 'reference' => $model->id]),
-                'message' => 'Your request has bee processed  Successfully, Click ok to proceed with onboarding process'
+                'message' => 'Your request has been processed  Successfully, Click ok to proceed with onboarding process'
             ]);
 
         } catch (Exception $e) {
