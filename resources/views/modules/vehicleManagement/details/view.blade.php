@@ -945,7 +945,7 @@
 
                                 <div class="row mt-10">
                                     <div class="col-6">
-                                        <div class="col-md-3" v-if="images && images.frontView">
+                                        <div class="col-md-6" v-if="images && images.frontView">
                                             <div class="card text-center py-5 my-2">
                                                 <h2 class="fs-2x fw-bold mb-10">Front View</h2>
 
@@ -956,7 +956,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3" v-if="images && images.rearView">
+                                        <div class="col-md-6" v-if="images && images.rearView">
                                             <div class="card-px text-center py-5 my-2">
                                                 <h2 class="fs-2x fw-bold mb-10">Rear View</h2>
                                                 <div class="form-group">
@@ -966,7 +966,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3" v-if="images && images.rightView">
+                                        <div class="col-md-6" v-if="images && images.rightView">
                                             <div class="card text-center py-5 my-2">
                                                 <h2 class="fs-2x fw-bold mb-10">Right View</h2>
                                                 <div class="form-group">
@@ -976,7 +976,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3" v-if="images && images.leftView">
+                                        <div class="col-md-6" v-if="images && images.leftView">
                                             <div class="card text-center py-5 my-2">
                                                 <h2 class="fs-2x fw-bold mb-10">Left View</h2>
                                                 <div class="form-group">
