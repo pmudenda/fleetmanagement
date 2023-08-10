@@ -223,10 +223,10 @@
                         <div class="card-body p-2">
                             <div class="row">
                                 <div class="col-6">
-                                    <div id="main" style="height:400px;"></div>
+                                    <div id="tmsMain" style="height:400px;"></div>
                                 </div>
                                 <div class="col-6">
-                                    <div id="pie" style="height:400px;"></div>
+                                    <div id="tmsPie" style="height:400px;"></div>
                                 </div>
                             </div>
                         </div>
@@ -235,7 +235,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                <h4>Clean Vehicle Data Report</h4>
+                                <h4>Vehicle Assignation Data Report</h4>
                             </div>
                             <div class="card-toolbar justify-content-end">
 
@@ -585,7 +585,7 @@
             }
 
             function createTMSVehicleChartByStatus() {
-                let myChart = echarts.init(document.getElementById('main'));
+                let myChart = echarts.init(document.getElementById('tmsMain'));
 
                 let option = {
                     title: {
@@ -646,7 +646,7 @@
             }
 
             function createTMSVehicleByStatusPie() {
-                let pieChartDom = document.getElementById('pie');
+                let pieChartDom = document.getElementById('tmsPie');
                 let myPieChart2 = echarts.init(pieChartDom);
 
                 myPieChart2.setOption({
