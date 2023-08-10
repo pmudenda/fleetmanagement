@@ -344,7 +344,7 @@
                             <a class="nav-link" data-toggle="tab" href="#renewalReminder" role="tab">Renewal
                                 Reminders</a>
                         </li>
-                        <li class="nav-item" style="list-style: none;">
+                        <li class="nav-item" style="list-style: none; display: none;">
                             <a class="nav-link" data-toggle="tab" href="#odometerHistory" role="tab">
                                 Meter History
                             </a>

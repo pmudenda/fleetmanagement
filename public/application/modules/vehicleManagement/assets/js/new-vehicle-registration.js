@@ -855,16 +855,17 @@ let app = new Vue({
                     toastr.error(
                         'Connection error. Could not retrieve license category data, some feature might not work.')
                 });
-            /*= [{'code': 'A', 'name': 'Class A'}, {'code': 'B', 'name': 'Class B'}, {
-               'code': 'C',
-               'name': 'Class C'
-           }, {'code': 'E', 'name': 'Class E'},];*/
         },
 
         loadRegistrationTypes: function () {
-            this.registrationTypes = [{
+            this.registrationTypes = [
+                {
                 "label": 'Motor Vehicle', 'code': 'MV'
-            }, /*{
+                },
+                /*{
+                    "label": 'Plant Equipment', 'code': 'PE'
+                }*/
+                /*{
                     "label": 'Boat',
                     'code': 'BT'
                 },
