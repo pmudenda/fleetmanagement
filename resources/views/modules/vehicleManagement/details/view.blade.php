@@ -363,6 +363,7 @@
                         </div>
 
                         <div class="tab-pane active" id="specs" role="tabpanel">
+
                             <div
                                     id="tms_chassis_details_form"
                                     name="tmsChassisDetailsForm"
@@ -377,512 +378,526 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="row">
-                                            <table class="gs-0 gy-3 my-0">
-                                                <tbody>
-                                                <tr>
-                                                    <td class="frappe-control ">
-                                                        <label for="chassisNumber" class="control-label reqd"
-                                                               style="padding-right: 0px;">
-                                                            Chassis #:
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        {{--@change="checkChassisNumberValidity" v-model="chassisDetails.chassisNumber"--}}
-                                                        <div class="control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <div class="">
-                                                                        <input type="text"
-                                                                               required
-                                                                               id="chassisNumber"
-                                                                               name="chassisNumber"
-                                                                               class="input-with-feedback form-control bold view_mode"
-                                                                               maxlength="140"
-                                                                               data-fieldtype="Link"
-                                                                               data-fieldname="company"
-                                                                               placeholder=""
-                                                                               data-doctype="ChassisDetails"
-                                                                               data-target="Company"
-                                                                               autocomplete="off" role="combobox"/>
+                                            <fieldset class="border p-3">
+                                                <legend style="width: inherit;">
+                                                    <h4 class="pt-2">Technical Details</h4>
+                                                </legend>
+                                                <table class="gs-0 gy-3 my-0">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td class="frappe-control ">
+                                                            <label for="chassisNumber" class="control-label reqd"
+                                                                   style="padding-right: 0px;">
+                                                                Chassis #:
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            {{--@change="checkChassisNumberValidity" v-model="chassisDetails.chassisNumber"--}}
+                                                            <div class="control-input-wrapper">
+                                                                <div class="control-input">
+                                                                    <div class="link-field ui-front"
+                                                                         style="position: relative;">
+                                                                        <div class="">
+                                                                            <input type="text"
+                                                                                   required
+                                                                                   id="chassisNumber"
+                                                                                   name="chassisNumber"
+                                                                                   class="input-with-feedback form-control bold view_mode"
+                                                                                   maxlength="140"
+                                                                                   data-fieldtype="Link"
+                                                                                   data-fieldname="company"
+                                                                                   placeholder=""
+                                                                                   data-doctype="ChassisDetails"
+                                                                                   data-target="Company"
+                                                                                   autocomplete="off" role="combobox"/>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="frappe-control">
-                                                        <div class="clearfix">
-                                                            <label for="engineNumber" class="control-label reqd"
-                                                                   style="padding-right: 0px;">Engine #:</label>
-                                                            <span class="help"></span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <div class="">
-                                                                        {{--v-model="chassisDetails.engineNumber"--}}
-                                                                        <input type="text"
-                                                                               required
-                                                                               class="input-with-feedback form-control view_mode"
-                                                                               maxlength="140" data-fieldtype="Link"
-                                                                               data-fieldname="company"
-                                                                               id="engineNumber"
-                                                                               name="engineNumber"
+                                                        </td>
+                                                        <td class="frappe-control">
+                                                            <div class="clearfix">
+                                                                <label for="engineNumber" class="control-label reqd"
+                                                                       style="padding-right: 0px;">Engine #:</label>
+                                                                <span class="help"></span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="control-input-wrapper">
+                                                                <div class="control-input">
+                                                                    <div class="link-field ui-front"
+                                                                         style="position: relative;">
+                                                                        <div class="">
+                                                                            {{--v-model="chassisDetails.engineNumber"--}}
+                                                                            <input type="text"
+                                                                                   required
+                                                                                   class="input-with-feedback form-control view_mode"
+                                                                                   maxlength="140" data-fieldtype="Link"
+                                                                                   data-fieldname="company"
+                                                                                   id="engineNumber"
+                                                                                   name="engineNumber"
+                                                                                   placeholder=""
+                                                                                   data-doctype="ChassisDetails"
+                                                                                   autocomplete="off"/>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="frappe-control ">
+                                                            <label for="whiteBookSerial" class="control-label reqd"
+                                                                   style="padding-right: 0px;">
+                                                                White Book Serial #:
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="control-input-wrapper">
+                                                                <div class="control-input">
+                                                                    <div class="link-field ui-front"
+                                                                         style="position: relative;">
+                                                                        <div class="">
+                                                                            {{--v-model="chassisDetails.whiteBookSerial"--}}
+                                                                            <input type="text"
+                                                                                   class="input-with-feedback form-control view_mode"
+                                                                                   maxlength="50"
+                                                                                   required
+                                                                                   data-fieldname="company"
+                                                                                   id="whiteBookSerial"
+                                                                                   name="whiteBookSerial"
+                                                                                   placeholder=""
+                                                                                   autocomplete="off">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="frappe-control">
+                                                            <div class="clearfix" style="display: none;">
+                                                                <label for="stickerRegistrationNumber"
+                                                                       class="control-label"
+                                                                       style="padding-right: 0px;">
+                                                                    Sticker #:
+                                                                </label>
+                                                                <span class="help"></span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="control-input-wrapper" style="display: none;">
+                                                                <div class="control-input">
+                                                                    <div class="link-field ui-front"
+                                                                         style="position: relative;">
+                                                                        <div class="">
+                                                                            <input type="text"
+                                                                                   class="input-with-feedback form-control view_mode"
+                                                                                   maxlength="140"
+                                                                                   name="stickerRegistrationNumber"
+                                                                                   id="stickerRegistrationNumber"
+                                                                                   placeholder=""
+                                                                                   data-doctype="ChassisDetails"
+                                                                                   autocomplete="off"/>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <p class="help-box small text-muted"></p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+
+                                                    <tr>
+                                                        <td class="frappe-control ">
+                                                            <label for="yearOfManufacture" class="control-label reqd"
+                                                                   style="padding-right: 0px;">
+                                                                Year Manufactured:
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="control-input-wrapper">
+                                                                <div class="control-input">
+                                                                    <div class="link-field ui-front"
+                                                                         style="position: relative;">
+                                                                        <div class="">
+                                                                            <input
+                                                                                    date-format="YYYY"
+                                                                                    class="input-with-feedback form-control bold number_input view_mode"
+                                                                                    type="number" min="1990"
+                                                                                    max="{{date('Y')}}"
+                                                                                    step="1"
+                                                                                    required
+                                                                                    id="yearOfManufacture"
+                                                                                    name="yearOfManufacture"
+                                                                                    v-model="chassisDetails.yearOfManufacture"
+                                                                                    placeholder=""
+                                                                                    data-doctype="ChassisDetails"/>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="frappe-control">
+                                                            <div class="clearfix">
+                                                                <label for="registrationDate" class="control-label reqd"
+                                                                       style="padding-right: 0px;">Reg. Date:</label>
+                                                                <span class="help"></span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            {{--min="{{ date('Y-m-d', strtotime($form->trip->date_to)) }}"--}}
+                                                            <div class="control-input-wrapper">
+                                                                <div class="control-input">
+                                                                    <div class="link-field ui-front"
+                                                                         style="position: relative;">
+                                                                        <div class="">
+                                                                            <input type="date"
+                                                                                   max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
+                                                                                   required
+                                                                                   class="input-with-feedback form-control view_mode"
+                                                                                   data-fieldname="registrationDate"
+                                                                                   name="registrationDate"
+                                                                                   id="registrationDate"
+                                                                                   placeholder=""
+                                                                                   data-doctype="ChassisDetails"
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr class="d-none">
+                                                        <td>
+                                                            <div class="clearfix">
+                                                                <label for="dateOnRoad" class="control-label"
+                                                                       style="padding-right: 0px;">
+                                                                    Date on road :
+                                                                </label>
+                                                                <span class="help"></span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="control-input-wrapper">
+                                                                <div class="control-input">
+                                                                    <input type="date" name="dateOnRoad" id="dateOnRoad"
+                                                                           disabled
+                                                                           autocomplete="off"
+                                                                           class="input-with-feedback form-control view_mode"
+                                                                           data-fieldtype="Datetime"
+                                                                           data-fieldname="first_date_on_road"
+                                                                           placeholder=""
+                                                                           data-doctype="ChassisDetails"/>
+                                                                </div>
+
+                                                            </div>
+                                                        </td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="frappe-control ">
+                                                            <label for="chargeOutRate" class="control-label reqd"
+                                                                   style="padding-right: 0px;">
+                                                                Charge-Out Rate:
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="control-input-wrapper">
+                                                                <div class="control-input">
+                                                                    <div class="link-field ui-front"
+                                                                         style="position: relative;">
+                                                                        <div class="input-group">
+                                                                            {{--v-model="chassisDetails."--}}
+                                                                            <input type="text"
+                                                                                   name="chargeOutRate"
+                                                                                   id="chargeOutRate"
+                                                                                   class="input-with-feedback form-control view_mode"
+                                                                                   required
+                                                                                   placeholder=""
+                                                                                   data-doctype="ChassisDetails"
+                                                                                   autocomplete="off"/>
+                                                                            <div
+                                                                                    class="input-group-append align-self-center pr-2">
+                                                                                /Km
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </td>
+                                                        <td class="frappe-control" colspan="1">
+                                                            <div class="clearfix">
+                                                                <label for="requiredMinimumDrivingLicense"
+                                                                       class="control-label reqd"
+                                                                       style="padding-right: 0px;">Driving License
+                                                                    Class:</label>
+                                                                <span class="help"></span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="control-input-wrapper">
+                                                                <div class="control-input">
+                                                                    <div class="link-field ui-front"
+                                                                         style="position: relative;">
+                                                                        <div class="">
+                                                                            <select class="form-control form-control-sm view_mode"
+                                                                                    required
+                                                                                    name="requiredMinimumDrivingLicense"
+                                                                                    id="requiredMinimumDrivingLicense"
+                                                                                    v-model="chassisDetails.requiredMinimumDrivingLicense"
+                                                                                    data-doctype="ChassisDetails"
+                                                                                    :placeholder="'License Class'">
+                                                                                <option>--Select Licence Class--
+                                                                                </option>
+                                                                                <option v-for="licenseClass in licenseTypes"
+                                                                                        :value="licenseClass.code">
+                                                                                    @{{ licenseClass.name}}
+                                                                                </option>
+                                                                            </select>
+
+                                                                            {{-- <input type="hidden"
+                                                                                    class="input-with-feedback form-control bold"
+                                                                                    required
+                                                                                    data-fieldtype="Link"
+                                                                                    :value="chassisDetails.requiredMinimumDrivingLicense"
+                                                                                    placeholder=""
+                                                                                    autocomplete="licenseTypes"/>--}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="frappe-control ">
+                                                            <label for="initialOdometerReading"
+                                                                   class="control-label reqd"
+                                                                   style="padding-right: 0px;">
+                                                                Initial Odometer Reading:
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="control-input-wrapper">
+                                                                <div class="control-input">
+                                                                    <div class="link-field ui-front"
+                                                                         style="position: relative;">
+                                                                        <input type="number"
+                                                                               v-model="chassisDetails.initialOdometerReading"
+                                                                               name="initialOdometerReading"
+                                                                               id="initialOdometerReading"
+                                                                               class="input-with-feedback number_input form-control view_mode"
                                                                                placeholder=""
+                                                                               required
                                                                                data-doctype="ChassisDetails"
                                                                                autocomplete="off"/>
                                                                     </div>
+                                                                </div>
 
+                                                            </div>
+                                                        </td>
+                                                        <td class="frappe-control" colspan="1">
+                                                            <div class="clearfix" style="display: none;">
+                                                                <label for="currentOdometerReading"
+                                                                       class="control-label reqd"
+                                                                       style="padding-right: 0px;">Km Done:</label>
+                                                                <span class="help"></span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="control-input-wrapper" style="display: none;">
+                                                                <div class="control-input">
+                                                                    <div class="link-field ui-front"
+                                                                         style="position: relative;">
+                                                                        <div class="">
+                                                                            <input type="text"
+                                                                                   class="input-with-feedback number_input form-control view_mode"
+                                                                                   required
+                                                                                   name="currentOdometerReading"
+                                                                                   id="currentOdometerReading"
+                                                                                   value="0"
+                                                                                   {{--v-model="chassisDetails.currentOdometerReading"--}}
+                                                                                   placeholder=""
+                                                                                   data-doctype="ChassisDetails"
+                                                                                   autocomplete="off"/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
+                                                        </td>
+                                                    </tr>
 
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td class="frappe-control ">
-                                                        <label for="whiteBookSerial" class="control-label reqd"
-                                                               style="padding-right: 0px;">
-                                                            White Book Serial #:
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <div class="">
-                                                                        {{--v-model="chassisDetails.whiteBookSerial"--}}
+                                                    <tr style="display: none;">
+                                                        <td class="frappe-control ">
+                                                            <label for="odometerReadingLastService"
+                                                                   class="control-label reqd"
+                                                                   style="padding-right: 0px;">
+                                                                Odometer Reading Last Service
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="control-input-wrapper">
+                                                                <div class="control-input">
+                                                                    <div class="link-field ui-front"
+                                                                         style="position: relative;">
                                                                         <input type="text"
-                                                                               class="input-with-feedback form-control view_mode"
-                                                                               maxlength="50"
+                                                                               name="odometerReadingLastService"
+                                                                               id="odometerReadingLastService"
+                                                                               value="0"
+                                                                               class="input-with-feedback number_input form-control bold view_mode"
                                                                                required
-                                                                               data-fieldname="company"
-                                                                               id="whiteBookSerial"
-                                                                               name="whiteBookSerial"
                                                                                placeholder=""
+                                                                               data-doctype="ChassisDetails"
                                                                                autocomplete="off">
                                                                     </div>
                                                                 </div>
+
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="frappe-control">
-                                                        <div class="clearfix" style="display: none;">
-                                                            <label for="stickerRegistrationNumber" class="control-label"
-                                                                   style="padding-right: 0px;">
-                                                                Sticker #:
-                                                            </label>
-                                                            <span class="help"></span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="control-input-wrapper" style="display: none;">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <div class="">
+                                                        </td>
+                                                        <td class="frappe-control" colspan="1">
+                                                            <div class="clearfix">
+                                                                <label for="nextServiceOdometerReading"
+                                                                       class="control-label reqd"
+                                                                       style="padding-right: 0px;">Next Service Odometer
+                                                                    Reading:</label>
+                                                                <span class="help"></span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="control-input-wrapper">
+                                                                <div class="control-input">
+                                                                    <div class="link-field ui-front"
+                                                                         style="position: relative;">
+
                                                                         <input type="text"
-                                                                               class="input-with-feedback form-control view_mode"
-                                                                               maxlength="140"
-                                                                               name="stickerRegistrationNumber"
-                                                                               id="stickerRegistrationNumber"
+                                                                               class="input-with-feedback number_input form-control bold"
+                                                                               required
+                                                                               name="nextServiceOdometerReading"
+                                                                               id="nextServiceOdometerReading"
+                                                                               value="0"
                                                                                placeholder=""
                                                                                data-doctype="ChassisDetails"
                                                                                autocomplete="off"/>
-                                                                    </div>
 
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <p class="help-box small text-muted"></p>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                    </tr>
 
-
-                                                <tr>
-                                                    <td class="frappe-control ">
-                                                        <label for="yearOfManufacture" class="control-label reqd"
-                                                               style="padding-right: 0px;">
-                                                            Year Manufactured:
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <div class="">
-                                                                        <input
-                                                                                date-format="YYYY"
-                                                                                class="input-with-feedback form-control bold number_input view_mode"
-                                                                                type="number" min="1990"
-                                                                                max="{{date('Y')}}"
-                                                                                step="1"
-                                                                                required
-                                                                                id="yearOfManufacture"
-                                                                                name="yearOfManufacture"
-                                                                                v-model="chassisDetails.yearOfManufacture"
-                                                                                placeholder=""
-                                                                                data-doctype="ChassisDetails"/>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="frappe-control">
-                                                        <div class="clearfix">
-                                                            <label for="registrationDate" class="control-label reqd"
-                                                                   style="padding-right: 0px;">Reg. Date:</label>
-                                                            <span class="help"></span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        {{--min="{{ date('Y-m-d', strtotime($form->trip->date_to)) }}"--}}
-                                                        <div class="control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <div class="">
+                                                    <tr style="display: none;">
+                                                        <td class="frappe-control ">
+                                                            <label for="inspectionDate" class="control-label reqd"
+                                                                   style="padding-right: 0px;">
+                                                                Inspection Date:
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="control-input-wrapper">
+                                                                <div class="control-input">
+                                                                    <div class="link-field ui-front"
+                                                                         style="position: relative;">
                                                                         <input type="date"
                                                                                max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
+                                                                               v-model="chassisDetails.inspectionDate"
+                                                                               name="inspectionDate"
+                                                                               id="inspectionDate"
+                                                                               value="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
                                                                                required
-                                                                               class="input-with-feedback form-control view_mode"
-                                                                               data-fieldname="registrationDate"
-                                                                               name="registrationDate"
-                                                                               id="registrationDate"
+                                                                               class="input-with-feedback form-control bold view_mode"
                                                                                placeholder=""
                                                                                data-doctype="ChassisDetails"
-                                                                        />
+                                                                               autocomplete="off">
                                                                     </div>
                                                                 </div>
+
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-                                                <tr class="d-none">
-                                                    <td>
-                                                        <div class="clearfix">
-                                                            <label for="dateOnRoad" class="control-label"
-                                                                   style="padding-right: 0px;">
-                                                                Date on road :
-                                                            </label>
-                                                            <span class="help"></span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <input type="date" name="dateOnRoad" id="dateOnRoad"
-                                                                       disabled
-                                                                       autocomplete="off"
-                                                                       class="input-with-feedback form-control view_mode"
-                                                                       data-fieldtype="Datetime"
-                                                                       data-fieldname="first_date_on_road"
-                                                                       placeholder=""
-                                                                       data-doctype="ChassisDetails"/>
+                                                        </td>
+                                                        <td class="frappe-control" colspan="1">
+                                                            <div class="clearfix" style="display: none;">
+                                                                <label for="odometerReset"
+                                                                       class="control-label"
+                                                                       style="padding-right: 0px;">
+                                                                    Odometer Reset:</label>
+                                                                <span class="help"></span>
                                                             </div>
-
-                                                        </div>
-                                                    </td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td class="frappe-control ">
-                                                        <label for="chargeOutRate" class="control-label reqd"
-                                                               style="padding-right: 0px;">
-                                                            Charge-Out Rate:
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <div class="input-group">
-                                                                        {{--v-model="chassisDetails."--}}
-                                                                        <input type="text"
-                                                                               name="chargeOutRate"
-                                                                               id="chargeOutRate"
-                                                                               class="input-with-feedback form-control view_mode"
-                                                                               required
+                                                        </td>
+                                                        <td>
+                                                            <div class="control-input-wrapper" style="display: none;">
+                                                                <div class="control-input">
+                                                                    <div class="link-field ui-front"
+                                                                         style="position: relative;">
+                                                                        <input type="checkbox"
+                                                                               class="input-with-feedback form-check-input bold"
+                                                                               disabled
+                                                                               name="odometerReset"
+                                                                               id="odometerReset"
+                                                                               v-model="chassisDetails.odometerReset"
                                                                                placeholder=""
-                                                                               data-doctype="ChassisDetails"
-                                                                               autocomplete="off"/>
-                                                                        <div
-                                                                                class="input-group-append align-self-center pr-2">
-                                                                            /Km
-                                                                        </div>
-                                                                    </div>
+                                                                               data-doctype="ChassisDetails"/>
 
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </td>
-                                                    <td class="frappe-control" colspan="1">
-                                                        <div class="clearfix">
-                                                            <label for="requiredMinimumDrivingLicense"
-                                                                   class="control-label reqd"
-                                                                   style="padding-right: 0px;">Driving License
-                                                                Class:</label>
-                                                            <span class="help"></span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <div class="">
-                                                                        <select class="form-control form-control-sm view_mode"
-                                                                                required
-                                                                                name="requiredMinimumDrivingLicense"
-                                                                                id="requiredMinimumDrivingLicense"
-                                                                                v-model="chassisDetails.requiredMinimumDrivingLicense"
-                                                                                data-doctype="ChassisDetails"
-                                                                                :placeholder="'License Class'">
-                                                                            <option>--Select Licence Class--</option>
-                                                                            <option v-for="licenseClass in licenseTypes"
-                                                                                    :value="licenseClass.code">
-                                                                                @{{ licenseClass.name}}
-                                                                            </option>
-                                                                        </select>
-
-                                                                        {{-- <input type="hidden"
-                                                                                class="input-with-feedback form-control bold"
-                                                                                required
-                                                                                data-fieldtype="Link"
-                                                                                :value="chassisDetails.requiredMinimumDrivingLicense"
-                                                                                placeholder=""
-                                                                                autocomplete="licenseTypes"/>--}}
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                    </tr>
 
-                                                <tr>
-                                                    <td class="frappe-control ">
-                                                        <label for="initialOdometerReading" class="control-label reqd"
-                                                               style="padding-right: 0px;">
-                                                            Initial Odometer Reading:
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <input type="number"
-                                                                           v-model="chassisDetails.initialOdometerReading"
-                                                                           name="initialOdometerReading"
-                                                                           id="initialOdometerReading"
-                                                                           class="input-with-feedback number_input form-control view_mode"
-                                                                           placeholder=""
-                                                                           required
-                                                                           data-doctype="ChassisDetails"
-                                                                           autocomplete="off"/>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </td>
-                                                    <td class="frappe-control" colspan="1">
-                                                        <div class="clearfix" style="display: none;">
-                                                            <label for="currentOdometerReading"
-                                                                   class="control-label reqd"
-                                                                   style="padding-right: 0px;">Km Done:</label>
-                                                            <span class="help"></span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="control-input-wrapper" style="display: none;">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <div class="">
-                                                                        <input type="text"
-                                                                               class="input-with-feedback number_input form-control view_mode"
-                                                                               required
-                                                                               name="currentOdometerReading"
-                                                                               id="currentOdometerReading"
-                                                                               value="0"
-                                                                               {{--v-model="chassisDetails.currentOdometerReading"--}}
-                                                                               placeholder=""
-                                                                               data-doctype="ChassisDetails"
-                                                                               autocomplete="off"/>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-                                                <tr style="display: none;">
-                                                    <td class="frappe-control ">
-                                                        <label for="odometerReadingLastService"
-                                                               class="control-label reqd"
-                                                               style="padding-right: 0px;">
-                                                            Odometer Reading Last Service
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <input type="text"
-                                                                           name="odometerReadingLastService"
-                                                                           id="odometerReadingLastService"
-                                                                           value="0"
-                                                                           class="input-with-feedback number_input form-control bold view_mode"
-                                                                           required
-                                                                           placeholder=""
-                                                                           data-doctype="ChassisDetails"
-                                                                           autocomplete="off">
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </td>
-                                                    <td class="frappe-control" colspan="1">
-                                                        <div class="clearfix">
-                                                            <label for="nextServiceOdometerReading"
-                                                                   class="control-label reqd"
-                                                                   style="padding-right: 0px;">Next Service Odometer
-                                                                Reading:</label>
-                                                            <span class="help"></span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-
-                                                                    <input type="text"
-                                                                           class="input-with-feedback number_input form-control bold"
-                                                                           required
-                                                                           name="nextServiceOdometerReading"
-                                                                           id="nextServiceOdometerReading"
-                                                                           value="0"
-                                                                           placeholder="" data-doctype="ChassisDetails"
-                                                                           autocomplete="off"/>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-                                                <tr style="display: none;">
-                                                    <td class="frappe-control ">
-                                                        <label for="inspectionDate" class="control-label reqd"
-                                                               style="padding-right: 0px;">
-                                                            Inspection Date:
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="control-input-wrapper">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <input type="date"
-                                                                           max="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
-                                                                           v-model="chassisDetails.inspectionDate"
-                                                                           name="inspectionDate"
-                                                                           id="inspectionDate"
-                                                                           value="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
-                                                                           required
-                                                                           class="input-with-feedback form-control bold view_mode"
-                                                                           placeholder=""
-                                                                           data-doctype="ChassisDetails"
-                                                                           autocomplete="off">
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </td>
-                                                    <td class="frappe-control" colspan="1">
-                                                        <div class="clearfix" style="display: none;">
-                                                            <label for="odometerReset"
-                                                                   class="control-label"
-                                                                   style="padding-right: 0px;">
-                                                                Odometer Reset:</label>
-                                                            <span class="help"></span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="control-input-wrapper" style="display: none;">
-                                                            <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-                                                                    <input type="checkbox"
-                                                                           class="input-with-feedback form-check-input bold"
-                                                                           disabled
-                                                                           name="odometerReset"
-                                                                           id="odometerReset"
-                                                                           v-model="chassisDetails.odometerReset"
-                                                                           placeholder=""
-                                                                           data-doctype="ChassisDetails"/>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-                                                </tbody>
-                                            </table>
+                                                    </tbody>
+                                                </table>
+                                            </fieldset>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="row"
                                              v-if="documents && documents.insurance && documents.certificate">
-                                            <table class="">
-                                                <thead>
-                                                <tr class="bg-dark">
-                                                    <th>Document Type</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                                </thead>
-                                                <tr>
-                                                    <td>Motor Vehicle Certificate</td>
-                                                    {{-- <td>@{{ documents.certificate?.originalDocumentName }}</td>--}}
-                                                    <td>
-                                                        <button data-zfm-view-file="certificate"
-                                                                type="button"
-                                                                :data-document-url="'/storage'+documents.certificate?.path"
-                                                                class="btn btn-sm btn-success">
-                                                            <i class="fa fa-paperclip"></i>
-                                                            View File
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Insurance Cover Note</td>
-                                                    {{-- <td>@{{ documents.insurance?.originalDocumentName }}</td>--}}
-                                                    <td>
-                                                        <button data-zfm-view-file="insurance"
-                                                                type="button"
-                                                                :data-document-url="'/storage'+documents.insurance?.path"
-                                                                class="btn btn-sm btn-success">
-                                                            <i class="fa fa-paperclip"></i>
-                                                            View File
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                            <fieldset class="border p-3">
+                                                <legend style="width: inherit;">
+                                                    <h4 class="pt-2">Documents</h4>
+                                                </legend>
+                                                <table class="">
+                                                    <thead>
+                                                    <tr class="bg-dark">
+                                                        <th>Document Type</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tr>
+                                                        <td>Motor Vehicle Certificate</td>
+                                                        {{-- <td>@{{ documents.certificate?.originalDocumentName }}</td>--}}
+                                                        <td>
+                                                            <button data-zfm-view-file="certificate"
+                                                                    type="button"
+                                                                    :data-document-url="'/storage'+documents.certificate?.path"
+                                                                    class="btn btn-sm btn-success">
+                                                                <i class="fa fa-paperclip"></i>
+                                                                View File
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Insurance Cover Note</td>
+                                                        {{-- <td>@{{ documents.insurance?.originalDocumentName }}</td>--}}
+                                                        <td>
+                                                            <button data-zfm-view-file="insurance"
+                                                                    type="button"
+                                                                    :data-document-url="'/storage'+documents.insurance?.path"
+                                                                    class="btn btn-sm btn-success">
+                                                                <i class="fa fa-paperclip"></i>
+                                                                View File
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </fieldset>
                                         </div>
                                     </div>
                                 </div>
@@ -1616,664 +1631,664 @@
                                 </div>
                             </div>
 
-                            <div id="tms_engine_details_form"
-                                 name="engineDetailsForm"
-                                 class="form"
-                                 action="{{route('vehicle.engine.detail')}}">
-                                <input type="hidden" name="doctype" value="EngineDetails"/>
-                                <input type="hidden" name="headerId" value="{{$reference}}"/>
-                                <input type="hidden" name="engineDetailsId" value="{{$vehicle->engineDetailsId ?? 0}}"/>
+                            {{-- <div id="tms_engine_details_form"
+                                  name="engineDetailsForm"
+                                  class="form"
+                                  action="{{route('vehicle.engine.detail')}}">
+                                 <input type="hidden" name="doctype" value="EngineDetails"/>
+                                 <input type="hidden" name="headerId" value="{{$reference}}"/>
+                                 <input type="hidden" name="engineDetailsId" value="{{$vehicle->engineDetailsId ?? 0}}"/>
 
-                                <x-error-view/>
-                                <fieldset class="border p-3">
-                                    <legend style="width: inherit;">
-                                        <h4 class="pt-2">Engine</h4>
-                                    </legend>
-                                    <div class="col-xs-12 col-sm-8 col-md-8">
-                                        <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
-                                            <tbody>
-                                            <tr>
-                                                <td class="frappe-control ">
-                                                    <label for="numberOfCylinders" class="control-label reqd"
-                                                           style="padding-right: 0px;">
-                                                        Number Of Cylinders:
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <div>
-                                                                    {{--v-model="engineDetails.numberOfCylinders"--}}
-                                                                    <input type="number"
-                                                                           max="16"
-                                                                           min="2"
-                                                                           required
-                                                                           id="numberOfCylinders"
-                                                                           name="numberOfCylinders"
-                                                                           class="input-with-feedback form-control bold number_input view_mode"
-                                                                           data-fieldtype="Link"
-                                                                           data-fieldname="company"
-                                                                           data-doctype="EngineDetails"
-                                                                           autocomplete="off"/>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="frappe-control">
-                                                    <div class="clearfix">
-                                                        <label for="engineCapacity" class="control-label reqd"
-                                                               style="padding-right: 0px;">Engine Capacity :</label>
-                                                        <span class="help"></span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <div class="input-group ">
-                                                                    {{--v-model="engineDetails.engineCapacity"--}}
-                                                                    <input type="number"
-                                                                           class="input-with-feedback form-control bold number_input view_mode"
-                                                                           max="10000"
-                                                                           required
-                                                                           data-fieldtype="Link"
-                                                                           data-fieldname="company"
-                                                                           id="engineCapacity"
-                                                                           name="engineCapacity"
-                                                                           placeholder=""
-                                                                           data-doctype="EngineDetails"/>
-                                                                    <div
-                                                                            class="input-group-addon align-self-center pl-3 pr-3">
-                                                                        cc
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="frappe-control">
-                                                    <div class="clearfix">
-                                                        <label for="actualEnginePower" class="control-label reqd"
-                                                               style="padding-right: 0px;">
-                                                            Engine Horse Power:
-                                                        </label>
-                                                        <span class="help"></span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <div class="input-group ">
-                                                                    {{--v-model="engineDetails.actualEnginePower"--}}
-                                                                    <input type="number"
-                                                                           required
-                                                                           class="input-with-feedback form-control bold number_input view_mode"
-                                                                           maxlength="140"
-                                                                           name="actualEnginePower"
-                                                                           id="actualEnginePower"
-                                                                           placeholder=""
-                                                                           data-doctype="EngineDetails"
-                                                                           autocomplete="off">
-                                                                    <div
-                                                                            class="input-group-append pl-3 pr-3 align-self-center">
-                                                                        hp
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <p class="help-box small text-muted"></p>
-                                                    </div>
-                                                </td>
-
-                                                <td style="display: none;" class="frappe-control ">
-                                                    <label for="claimedEnginePower"
-                                                           class="control-label reqd"
-                                                           style="padding-right: 0px;">
-                                                        Horse Power:
-                                                    </label>
-                                                </td>
-                                                <td style="display: none;">
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <div class="input-group ">
-                                                                    {{--v-model="engineDetails.claimedEnginePower"--}}
-                                                                    <input type="number"
-                                                                           required
-                                                                           class="input-with-feedback form-control bold number_input view_mode"
-                                                                           maxlength="140"
-                                                                           value="0"
-                                                                           data-fieldname="company"
-                                                                           id="claimedEnginePower"
-                                                                           name="claimedEnginePower"
-                                                                           placeholder=""
-                                                                           data-doctype="EngineDetails"
-                                                                           data-target="Company" autocomplete="off"/>
-                                                                    <div
-                                                                            class="input-group-append pl-3 pr-3 align-self-center">
-                                                                        hp
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="frappe-control">
-                                                    <div class="clearfix">
-                                                        <label for="fuelTypes" class="control-label reqd"
-                                                               style="padding-right: 0px;">
-                                                            Fuel Type:
-                                                        </label>
-                                                        <span class="help"></span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <div>
-                                                                    <select
-                                                                            required
-                                                                            class="input-with-feedback form-control bold view_mode"
-                                                                            id="fuelTypes"
-                                                                            name="fuelTypes"
-                                                                            data-doctype="EngineDetails">
-                                                                        <option v-for="fuelType in fuelTypes"
-                                                                                :value="fuelType.code_article"
-                                                                                :key="fuelType.code_article">
-                                                                            @{{ fuelType.description }}
-                                                                        </option>
-                                                                    </select>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </td>
-
-                                                <td class="frappe-control " style="display: none">
-                                                    <label for="engineBrand" class="control-label reqd"
-                                                           style="padding-right: 0px;">
-                                                        Engine Brand:
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <input type="hidden"
-                                                                       data-fieldtype="Link"
-                                                                       data-fieldname="company"
-                                                                       id="engineBrand"
-                                                                       name="engineBrand"
-                                                                       value="N/A"
-                                                                       data-doctype="EngineDetails"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="frappe-control ">
-                                                    <label for="engineType"
-                                                           class="control-label reqd"
-                                                           style="padding-right: 0px;">
-                                                        Engine Code:
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <input
-                                                                        required
-                                                                        class="input-with-feedback form-control bold view_mode"
-                                                                        data-fieldtype="Link"
-                                                                        data-fieldname="company"
-                                                                        placeholder="e.g 1NZ"
-                                                                        id="engineType"
-                                                                        name="engineType"
-                                                                        v-model="engineDetails.engineType"
-                                                                        data-doctype="EngineDetails"/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <label for="transmission_type"
-                                                           class="control-label reqd"
-                                                           style="padding-right: 0px;">
-                                                        Transmission Type:
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <select
-                                                                        required
-                                                                        id="transmission_type"
-                                                                        name="transmission_type"
-                                                                        class="form-control form-control-sm view_mode"
-                                                                        v-model="engineDetails.transmissionType"
-                                                                        data-doctype="EngineDetails"
-                                                                        @change="transmissionTypeChanged">
-                                                                    {{--<option value="">--Select Transmission--</option>--}}
-                                                                    <option v-for="transType in transmissionTypes"
-                                                                            :value="transType.code">
-                                                                        @{{ transType.name }}
-                                                                    </option>
-                                                                </select>
-                                                                <input type="hidden" required/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-
-                                            <tr>
-                                                <td class="frappe-control">
-                                                    <div class="clearfix">
-                                                        <label for="fuelConsumption" class="control-label reqd"
-                                                               style="padding-right: 0px;">
-                                                            Fuel Consumption:
-                                                        </label>
-                                                        <span class="help"></span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div title="Number of kilometers per litre"
-                                                         class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <div class="input-group ">
-                                                                    {{--v-model="engineDetails.fuelConsumption"--}}
-                                                                    <input type="text"
-                                                                           required
-                                                                           class="input-with-feedback form-control bold view_mode"
-                                                                           maxlength="4"
-                                                                           max="25"
-                                                                           name="fuelConsumption"
-                                                                           id="fuelConsumption"
-                                                                           placeholder=""
-                                                                           data-doctype="EngineDetails"
-                                                                           autocomplete="off">
-                                                                    <div
-                                                                            class="input-group-append pl-3 pr-3 align-self-center">
-                                                                        Km/Ltr
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <p class="help-box small text-muted"></p>
-                                                    </div>
-                                                </td>
-
-                                                <td class="frappe-control ">
-                                                    {{--<label for="fuelAllocation"
-                                                           class="control-label reqd"
-                                                           style="padding-right: 0px;">
-                                                        Fuel Allocation:
-                                                    </label>--}}
-                                                </td>
-                                                <td>
-                                                    {{-- <div class="control-input-wrapper">
+                                 <x-error-view/>
+                                 <fieldset class="border p-3">
+                                     <legend style="width: inherit;">
+                                         <h4 class="pt-2">Engine</h4>
+                                     </legend>
+                                     <div class="col-xs-12 col-sm-8 col-md-8">
+                                         <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+                                             <tbody>
+                                             <tr>
+                                                 <td class="frappe-control ">
+                                                     <label for="numberOfCylinders" class="control-label reqd"
+                                                            style="padding-right: 0px;">
+                                                         Number Of Cylinders:
+                                                     </label>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
                                                          <div class="control-input">
-                                                             <div class="link-field ui-front" style="position: relative;">
-                                                                 <div class="input-group ">
-                                                                     <input type="text"
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <div>
+                                                                     --}}{{--v-model="engineDetails.numberOfCylinders"--}}{{--
+                                                                     <input type="number"
+                                                                            max="16"
+                                                                            min="2"
                                                                             required
-                                                                            class="input-with-feedback form-control bold"
-                                                                            maxlength="140"
-                                                                            v-model="engineDetails.fuelAllocation"
-                                                                            name="fuelAllocation"
-                                                                            id="fuelAllocation"
+                                                                            id="numberOfCylinders"
+                                                                            name="numberOfCylinders"
+                                                                            class="input-with-feedback form-control bold number_input view_mode"
+                                                                            data-fieldtype="Link"
+                                                                            data-fieldname="company"
+                                                                            data-doctype="EngineDetails"
+                                                                            autocomplete="off"/>
+
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </td>
+                                                 <td class="frappe-control">
+                                                     <div class="clearfix">
+                                                         <label for="engineCapacity" class="control-label reqd"
+                                                                style="padding-right: 0px;">Engine Capacity :</label>
+                                                         <span class="help"></span>
+                                                     </div>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <div class="input-group ">
+                                                                     --}}{{--v-model="engineDetails.engineCapacity"--}}{{--
+                                                                     <input type="number"
+                                                                            class="input-with-feedback form-control bold number_input view_mode"
+                                                                            max="10000"
+                                                                            required
+                                                                            data-fieldtype="Link"
+                                                                            data-fieldname="company"
+                                                                            id="engineCapacity"
+                                                                            name="engineCapacity"
                                                                             placeholder=""
+                                                                            data-doctype="EngineDetails"/>
+                                                                     <div
+                                                                             class="input-group-addon align-self-center pl-3 pr-3">
+                                                                         cc
+                                                                     </div>
+                                                                 </div>
+
+                                                             </div>
+                                                         </div>
+
+                                                     </div>
+                                                 </td>
+                                             </tr>
+                                             <tr>
+                                                 <td class="frappe-control">
+                                                     <div class="clearfix">
+                                                         <label for="actualEnginePower" class="control-label reqd"
+                                                                style="padding-right: 0px;">
+                                                             Engine Horse Power:
+                                                         </label>
+                                                         <span class="help"></span>
+                                                     </div>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <div class="input-group ">
+                                                                     --}}{{--v-model="engineDetails.actualEnginePower"--}}{{--
+                                                                     <input type="number"
+                                                                            required
+                                                                            class="input-with-feedback form-control bold number_input view_mode"
+                                                                            maxlength="140"
+                                                                            name="actualEnginePower"
+                                                                            id="actualEnginePower"
+                                                                            placeholder=""
+                                                                            data-doctype="EngineDetails"
                                                                             autocomplete="off">
                                                                      <div
-                                                                         class="input-group-append pl-3 pr-3 align-self-center">
-                                                                         Ltrs-Daily
+                                                                             class="input-group-append pl-3 pr-3 align-self-center">
+                                                                         hp
+                                                                     </div>
+                                                                 </div>
+
+                                                             </div>
+                                                         </div>
+                                                         <p class="help-box small text-muted"></p>
+                                                     </div>
+                                                 </td>
+
+                                                 <td style="display: none;" class="frappe-control ">
+                                                     <label for="claimedEnginePower"
+                                                            class="control-label reqd"
+                                                            style="padding-right: 0px;">
+                                                         Horse Power:
+                                                     </label>
+                                                 </td>
+                                                 <td style="display: none;">
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <div class="input-group ">
+                                                                     --}}{{--v-model="engineDetails.claimedEnginePower"--}}{{--
+                                                                     <input type="number"
+                                                                            required
+                                                                            class="input-with-feedback form-control bold number_input view_mode"
+                                                                            maxlength="140"
+                                                                            value="0"
+                                                                            data-fieldname="company"
+                                                                            id="claimedEnginePower"
+                                                                            name="claimedEnginePower"
+                                                                            placeholder=""
+                                                                            data-doctype="EngineDetails"
+                                                                            data-target="Company" autocomplete="off"/>
+                                                                     <div
+                                                                             class="input-group-append pl-3 pr-3 align-self-center">
+                                                                         hp
                                                                      </div>
                                                                  </div>
                                                              </div>
                                                          </div>
-                                                     </div>--}}
-                                                </td>
-                                            </tr>
+                                                     </div>
+                                                 </td>
+                                             </tr>
 
-                                            <tr>
-                                                <td class="frappe-control">
-                                                    <div class="clearfix">
-                                                        <label for="tank_capacity" class="control-label reqd"
-                                                               style="padding-right: 0px;">
-                                                            Main Tank Capacity:
-                                                        </label>
-                                                        <span class="help"></span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <div class="input-group ">
-                                                                    {{--v-model="engineDetails.tank_capacity"--}}
-                                                                    <input type="number"
-                                                                           class="input-with-feedback number_input form-control bold view_mode"
-                                                                           maxlength="4"
-                                                                           required
-                                                                           name="tank_capacity"
-                                                                           id="tank_capacity"
-                                                                           placeholder=""
-                                                                           autocomplete="off">
-                                                                    <div
-                                                                            class="input-group-append pl-3 pr-3 align-self-center">
-                                                                        Litres
-                                                                    </div>
-                                                                </div>
+                                             <tr>
+                                                 <td class="frappe-control">
+                                                     <div class="clearfix">
+                                                         <label for="fuelTypes" class="control-label reqd"
+                                                                style="padding-right: 0px;">
+                                                             Fuel Type:
+                                                         </label>
+                                                         <span class="help"></span>
+                                                     </div>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <div>
+                                                                     <select
+                                                                             required
+                                                                             class="input-with-feedback form-control bold view_mode"
+                                                                             id="fuelTypes"
+                                                                             name="fuelTypes"
+                                                                             data-doctype="EngineDetails">
+                                                                         <option v-for="fuelType in fuelTypes"
+                                                                                 :value="fuelType.code_article"
+                                                                                 :key="fuelType.code_article">
+                                                                             @{{ fuelType.description }}
+                                                                         </option>
+                                                                     </select>
+                                                                 </div>
 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="clearfix">
-                                                        <label for="sub_tank_capacity" class="control-label"
-                                                               style="padding-right: 0px;">
-                                                            Sub Tank Capacity <small>(If Any)</small>:
-                                                        </label>
-                                                        <span class="help"></span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <div class="input-group ">
-                                                                    {{--v-model="engineDetails.sub_tank_capacity"--}}
-                                                                    <input type="number"
-                                                                           maxlength="4"
-                                                                           class="input-with-feedback number_input form-control bold view_mode"
-                                                                           name="sub_tank_capacity"
-                                                                           id="sub_tank_capacity"
-                                                                           placeholder=""
-                                                                           autocomplete="off">
-                                                                    <div
-                                                                            class="input-group-append pl-3 pr-3 align-self-center">
-                                                                        Litres
-                                                                    </div>
-                                                                </div>
+                                                             </div>
+                                                         </div>
 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                     </div>
+                                                 </td>
 
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </fieldset>
+                                                 <td class="frappe-control " style="display: none">
+                                                     <label for="engineBrand" class="control-label reqd"
+                                                            style="padding-right: 0px;">
+                                                         Engine Brand:
+                                                     </label>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <input type="hidden"
+                                                                        data-fieldtype="Link"
+                                                                        data-fieldname="company"
+                                                                        id="engineBrand"
+                                                                        name="engineBrand"
+                                                                        value="N/A"
+                                                                        data-doctype="EngineDetails"/>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </td>
+                                             </tr>
 
-                                <fieldset class="border p-3">
-                                    <legend style="width: inherit;">
-                                        <h4 class="pt-2">Tyres</h4>
-                                    </legend>
-                                    <div class="col-xs-12 col-sm-8 col-md-8">
-                                        <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
-                                            <tbody>
-                                            <tr>
-                                                <td class="frappe-control ">
-                                                    <label for="numberOfTyres" class="control-label reqd"
-                                                           style="padding-right: 0px;">
-                                                        Total Number:
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <div class="fv-row">
-                                                                    {{--v-model="otherDetails.numberOfTyres"--}}
-                                                                    <input type="number"
-                                                                           title="The number of tyres the vehicle has"
-                                                                           id="numberOfTyres"
-                                                                           name="numberOfTyres"
-                                                                           class="input-with-feedback form-control bold number_input view_mode"
-                                                                           maxlength="140"
-                                                                           placeholder=""
-                                                                           data-doctype="EngineDetails"
-                                                                           autocomplete="off"/>
+                                             <tr>
+                                                 <td class="frappe-control ">
+                                                     <label for="engineType"
+                                                            class="control-label reqd"
+                                                            style="padding-right: 0px;">
+                                                         Engine Code:
+                                                     </label>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <input
+                                                                         required
+                                                                         class="input-with-feedback form-control bold view_mode"
+                                                                         data-fieldtype="Link"
+                                                                         data-fieldname="company"
+                                                                         placeholder="e.g 1NZ"
+                                                                         id="engineType"
+                                                                         name="engineType"
+                                                                         v-model="engineDetails.engineType"
+                                                                         data-doctype="EngineDetails"/>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </td>
+                                                 <td>
+                                                     <label for="transmission_type"
+                                                            class="control-label reqd"
+                                                            style="padding-right: 0px;">
+                                                         Transmission Type:
+                                                     </label>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <select
+                                                                         required
+                                                                         id="transmission_type"
+                                                                         name="transmission_type"
+                                                                         class="form-control form-control-sm view_mode"
+                                                                         v-model="engineDetails.transmissionType"
+                                                                         data-doctype="EngineDetails"
+                                                                         @change="transmissionTypeChanged">
+                                                                     --}}{{--<option value="">--Select Transmission--</option>--}}{{--
+                                                                     <option v-for="transType in transmissionTypes"
+                                                                             :value="transType.code">
+                                                                         @{{ transType.name }}
+                                                                     </option>
+                                                                 </select>
+                                                                 <input type="hidden" required/>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </td>
+                                             </tr>
 
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="frappe-control">
-                                                    <div class="clearfix">
-                                                        <div class="clearfix">
-                                                            <label for="tyreBrand" class="control-label reqd"
-                                                                   style="padding-right: 0px;">Brand :</label>
-                                                            <span class="help"></span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                {{-- v-model="otherDetails.tyreBrand"--}}
-                                                                <input type="text"
-                                                                       title="The tyre make e.g Good Year"
-                                                                       class="form-control view_mode"
-                                                                       maxlength="140"
-                                                                       id="tyreBrand"
-                                                                       name="tyreBrand"
-                                                                       placeholder="e.g Good Year"/>
-                                                            </div>
-                                                        </div>
 
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="frappe-control ">
-                                                    <div class="clearfix">
-                                                        <label for="frontTyreSize" class="control-label reqd"
-                                                               style="padding-right: 0px;">
-                                                            Front Tyre Size:
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <div>
-                                                                    <select type="text"
-                                                                            class="input-with-feedback form-control bold tyre-size view_mode"
+                                             <tr>
+                                                 <td class="frappe-control">
+                                                     <div class="clearfix">
+                                                         <label for="fuelConsumption" class="control-label reqd"
+                                                                style="padding-right: 0px;">
+                                                             Fuel Consumption:
+                                                         </label>
+                                                         <span class="help"></span>
+                                                     </div>
+                                                 </td>
+                                                 <td>
+                                                     <div title="Number of kilometers per litre"
+                                                          class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <div class="input-group ">
+                                                                     --}}{{--v-model="engineDetails.fuelConsumption"--}}{{--
+                                                                     <input type="text"
                                                                             required
-                                                                            id="frontTyreSize"
-                                                                            name="frontTyreSize"
-                                                                            autocomplete="off"></select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="frappe-control">
-                                                    <div class="clearfix">
-                                                        <label for="rearTyreSize" class="control-label reqd"
-                                                               style="padding-right: 0px;">
-                                                            Rear Tyre Size:
-                                                        </label>
-                                                        <span class="help"></span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <div>
-                                                                    <select type="text"
-                                                                            class="input-with-feedback form-control bold tyre-size view_mode"
-                                                                            name="rearTyreSize"
-                                                                            id="rearTyreSize"
-                                                                            data-doctype="Work Order"
-                                                                            autocomplete="off"></select>
-                                                                </div>
+                                                                            class="input-with-feedback form-control bold view_mode"
+                                                                            maxlength="4"
+                                                                            max="25"
+                                                                            name="fuelConsumption"
+                                                                            id="fuelConsumption"
+                                                                            placeholder=""
+                                                                            data-doctype="EngineDetails"
+                                                                            autocomplete="off">
+                                                                     <div
+                                                                             class="input-group-append pl-3 pr-3 align-self-center">
+                                                                         Km/Ltr
+                                                                     </div>
+                                                                 </div>
 
-                                                            </div>
-                                                        </div>
-                                                        <p class="help-box small text-muted"></p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </fieldset>
+                                                             </div>
+                                                         </div>
+                                                         <p class="help-box small text-muted"></p>
+                                                     </div>
+                                                 </td>
 
-                                <fieldset class="border p-3">
-                                    <legend style="width: inherit;">
-                                        <h4 class="pt-2">Battery</h4>
-                                    </legend>
-                                    <div class="col-xs-12 col-sm-8 col-md-8">
-                                        <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
-                                            <tbody>
-                                            <tr>
-                                                <td class="frappe-control ">
-                                                    <label for="batteryBrand" class="control-label reqd"
-                                                           style="padding-right: 0px;">
-                                                        Brand:
-                                                    </label>
-                                                </td>
-                                                <td style="width: 25%;">
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <div>
-                                                                    {{--v-model="otherDetails.batteryBrand"--}}
-                                                                    <input type="text"
-                                                                           id="batteryBrand"
-                                                                           name="batteryBrand"
-                                                                           class="input-with-feedback form-control bold view_mode"
-                                                                           data-fieldtype="Link"
-                                                                           data-fieldname="company"
-                                                                           data-doctype="OtherDetails"
-                                                                           autocomplete="off"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="frappe-control">
-                                                    <div class="clearfix">
-                                                        <label for="batterySize" class="control-label reqd"
-                                                               style="padding-right: 0px;">Size :</label>
-                                                        <span class="help"></span>
-                                                    </div>
-                                                </td>
-                                                <td style="width: 25%;">
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <div>
-                                                                    <select class="form-control input-with-feedback view_mode"
+                                                 <td class="frappe-control ">
+                                                     --}}{{--<label for="fuelAllocation"
+                                                            class="control-label reqd"
+                                                            style="padding-right: 0px;">
+                                                         Fuel Allocation:
+                                                     </label>--}}{{--
+                                                 </td>
+                                                 <td>
+                                                     --}}{{-- <div class="control-input-wrapper">
+                                                          <div class="control-input">
+                                                              <div class="link-field ui-front" style="position: relative;">
+                                                                  <div class="input-group ">
+                                                                      <input type="text"
+                                                                             required
+                                                                             class="input-with-feedback form-control bold"
+                                                                             maxlength="140"
+                                                                             v-model="engineDetails.fuelAllocation"
+                                                                             name="fuelAllocation"
+                                                                             id="fuelAllocation"
+                                                                             placeholder=""
+                                                                             autocomplete="off">
+                                                                      <div
+                                                                          class="input-group-append pl-3 pr-3 align-self-center">
+                                                                          Ltrs-Daily
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                      </div>--}}{{--
+                                                 </td>
+                                             </tr>
+
+                                             <tr>
+                                                 <td class="frappe-control">
+                                                     <div class="clearfix">
+                                                         <label for="tank_capacity" class="control-label reqd"
+                                                                style="padding-right: 0px;">
+                                                             Main Tank Capacity:
+                                                         </label>
+                                                         <span class="help"></span>
+                                                     </div>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <div class="input-group ">
+                                                                     --}}{{--v-model="engineDetails.tank_capacity"--}}{{--
+                                                                     <input type="number"
+                                                                            class="input-with-feedback number_input form-control bold view_mode"
+                                                                            maxlength="4"
+                                                                            required
+                                                                            name="tank_capacity"
+                                                                            id="tank_capacity"
+                                                                            placeholder=""
+                                                                            autocomplete="off">
+                                                                     <div
+                                                                             class="input-group-append pl-3 pr-3 align-self-center">
+                                                                         Litres
+                                                                     </div>
+                                                                 </div>
+
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </td>
+                                                 <td>
+                                                     <div class="clearfix">
+                                                         <label for="sub_tank_capacity" class="control-label"
+                                                                style="padding-right: 0px;">
+                                                             Sub Tank Capacity <small>(If Any)</small>:
+                                                         </label>
+                                                         <span class="help"></span>
+                                                     </div>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <div class="input-group ">
+                                                                     --}}{{--v-model="engineDetails.sub_tank_capacity"--}}{{--
+                                                                     <input type="number"
+                                                                            maxlength="4"
+                                                                            class="input-with-feedback number_input form-control bold view_mode"
+                                                                            name="sub_tank_capacity"
+                                                                            id="sub_tank_capacity"
+                                                                            placeholder=""
+                                                                            autocomplete="off">
+                                                                     <div
+                                                                             class="input-group-append pl-3 pr-3 align-self-center">
+                                                                         Litres
+                                                                     </div>
+                                                                 </div>
+
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </td>
+                                             </tr>
+
+                                             </tbody>
+                                         </table>
+                                     </div>
+                                 </fieldset>
+
+                                 <fieldset class="border p-3">
+                                     <legend style="width: inherit;">
+                                         <h4 class="pt-2">Tyres</h4>
+                                     </legend>
+                                     <div class="col-xs-12 col-sm-8 col-md-8">
+                                         <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+                                             <tbody>
+                                             <tr>
+                                                 <td class="frappe-control ">
+                                                     <label for="numberOfTyres" class="control-label reqd"
+                                                            style="padding-right: 0px;">
+                                                         Total Number:
+                                                     </label>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <div class="fv-row">
+                                                                     --}}{{--v-model="otherDetails.numberOfTyres"--}}{{--
+                                                                     <input type="number"
+                                                                            title="The number of tyres the vehicle has"
+                                                                            id="numberOfTyres"
+                                                                            name="numberOfTyres"
+                                                                            class="input-with-feedback form-control bold number_input view_mode"
+                                                                            maxlength="140"
+                                                                            placeholder=""
+                                                                            data-doctype="EngineDetails"
+                                                                            autocomplete="off"/>
+
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </td>
+                                                 <td class="frappe-control">
+                                                     <div class="clearfix">
+                                                         <div class="clearfix">
+                                                             <label for="tyreBrand" class="control-label reqd"
+                                                                    style="padding-right: 0px;">Brand :</label>
+                                                             <span class="help"></span>
+                                                         </div>
+                                                     </div>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 --}}{{-- v-model="otherDetails.tyreBrand"--}}{{--
+                                                                 <input type="text"
+                                                                        title="The tyre make e.g Good Year"
+                                                                        class="form-control view_mode"
+                                                                        maxlength="140"
+                                                                        id="tyreBrand"
+                                                                        name="tyreBrand"
+                                                                        placeholder="e.g Good Year"/>
+                                                             </div>
+                                                         </div>
+
+                                                     </div>
+                                                 </td>
+                                             </tr>
+                                             <tr>
+                                                 <td class="frappe-control ">
+                                                     <div class="clearfix">
+                                                         <label for="frontTyreSize" class="control-label reqd"
+                                                                style="padding-right: 0px;">
+                                                             Front Tyre Size:
+                                                         </label>
+                                                     </div>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <div>
+                                                                     <select type="text"
+                                                                             class="input-with-feedback form-control bold tyre-size view_mode"
+                                                                             required
+                                                                             id="frontTyreSize"
+                                                                             name="frontTyreSize"
+                                                                             autocomplete="off"></select>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </td>
+                                                 <td class="frappe-control">
+                                                     <div class="clearfix">
+                                                         <label for="rearTyreSize" class="control-label reqd"
+                                                                style="padding-right: 0px;">
+                                                             Rear Tyre Size:
+                                                         </label>
+                                                         <span class="help"></span>
+                                                     </div>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <div>
+                                                                     <select type="text"
+                                                                             class="input-with-feedback form-control bold tyre-size view_mode"
+                                                                             name="rearTyreSize"
+                                                                             id="rearTyreSize"
+                                                                             data-doctype="Work Order"
+                                                                             autocomplete="off"></select>
+                                                                 </div>
+
+                                                             </div>
+                                                         </div>
+                                                         <p class="help-box small text-muted"></p>
+                                                     </div>
+                                                 </td>
+                                             </tr>
+                                             </tbody>
+                                         </table>
+                                     </div>
+                                 </fieldset>
+
+                                 <fieldset class="border p-3">
+                                     <legend style="width: inherit;">
+                                         <h4 class="pt-2">Battery</h4>
+                                     </legend>
+                                     <div class="col-xs-12 col-sm-8 col-md-8">
+                                         <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+                                             <tbody>
+                                             <tr>
+                                                 <td class="frappe-control ">
+                                                     <label for="batteryBrand" class="control-label reqd"
+                                                            style="padding-right: 0px;">
+                                                         Brand:
+                                                     </label>
+                                                 </td>
+                                                 <td style="width: 25%;">
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <div>
+                                                                     --}}{{--v-model="otherDetails.batteryBrand"--}}{{--
+                                                                     <input type="text"
+                                                                            id="batteryBrand"
+                                                                            name="batteryBrand"
+                                                                            class="input-with-feedback form-control bold view_mode"
                                                                             data-fieldtype="Link"
                                                                             data-fieldname="company"
-                                                                            id="batterySize"
-                                                                            name="batterySize"
-                                                                            data-doctype="OtherDetails"></select>
-                                                                </div>
+                                                                            data-doctype="OtherDetails"
+                                                                            autocomplete="off"/>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </td>
+                                                 <td class="frappe-control">
+                                                     <div class="clearfix">
+                                                         <label for="batterySize" class="control-label reqd"
+                                                                style="padding-right: 0px;">Size :</label>
+                                                         <span class="help"></span>
+                                                     </div>
+                                                 </td>
+                                                 <td style="width: 25%;">
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <div>
+                                                                     <select class="form-control input-with-feedback view_mode"
+                                                                             data-fieldtype="Link"
+                                                                             data-fieldname="company"
+                                                                             id="batterySize"
+                                                                             name="batterySize"
+                                                                             data-doctype="OtherDetails"></select>
+                                                                 </div>
 
-                                                            </div>
-                                                        </div>
+                                                             </div>
+                                                         </div>
 
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="frappe-control ">
-                                                    <label for="batteryPower" class="control-label reqd"
-                                                           style="padding-right: 0px;">
-                                                        Power:
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    {{--v-model="otherDetails.batteryPower"--}}
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <div class="input-group ">
-                                                                    <select type="number"
-                                                                            class="form-control view_mode"
-                                                                            data-fieldtype="Link"
-                                                                            data-fieldname="company"
-                                                                            id="batteryPower"
-                                                                            name="batteryPower"
-                                                                            data-target="Company">
-                                                                        <option value="12">12</option>
-                                                                        <option value="24">24</option>
-                                                                    </select>
-                                                                    <div
-                                                                            class="input-group-addon align-self-center pr-3 pl-3">
-                                                                        V
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
+                                                     </div>
+                                                 </td>
+                                             </tr>
+                                             <tr>
+                                                 <td class="frappe-control ">
+                                                     <label for="batteryPower" class="control-label reqd"
+                                                            style="padding-right: 0px;">
+                                                         Power:
+                                                     </label>
+                                                 </td>
+                                                 <td>
+                                                     --}}{{--v-model="otherDetails.batteryPower"--}}{{--
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <div class="input-group ">
+                                                                     <select type="number"
+                                                                             class="form-control view_mode"
+                                                                             data-fieldtype="Link"
+                                                                             data-fieldname="company"
+                                                                             id="batteryPower"
+                                                                             name="batteryPower"
+                                                                             data-target="Company">
+                                                                         <option value="12">12</option>
+                                                                         <option value="24">24</option>
+                                                                     </select>
+                                                                     <div
+                                                                             class="input-group-addon align-self-center pr-3 pl-3">
+                                                                         V
+                                                                     </div>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </td>
 
-                                                <td class="frappe-control"></td>
-                                                <td></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </fieldset>
+                                                 <td class="frappe-control"></td>
+                                                 <td></td>
+                                             </tr>
+                                             </tbody>
+                                         </table>
+                                     </div>
+                                 </fieldset>
 
-                                <div class="mt-5 create_mode">
-                                    <button type="submit" id="tms_save_engine" class="btn btn-success btn-sm">
-                                        <i class="fas fa-paper-plane"></i> Save
-                                    </button>
-                                </div>
-                            </div>
+                                 <div class="mt-5 create_mode">
+                                     <button type="submit" id="tms_save_engine" class="btn btn-success btn-sm">
+                                         <i class="fas fa-paper-plane"></i> Save
+                                     </button>
+                                 </div>
+                             </div>--}}
 
                             <div id="tms_accessories_form"
                                  name="tms_accessories_form"
@@ -3223,8 +3238,9 @@
 
                         <div class="tab-pane fade" id="odometerHistory" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5">
-                                <form class="" name="newETollCardForm"
-                                      action="{{route('e-toll.card.save')}}"
+                                <form class=""
+                                      name="newETollCardForm"
+                                      action=""
                                       id="newETollCardForm"
                                       method="post">
                                     @csrf
@@ -3235,8 +3251,6 @@
 
                                     <label class="app-required-marker"></label>
 
-
-                                    {{--<legend>General Information:</legend>--}}
                                     <div class="row">
                                         <div class="col-6">
                                             <fieldset style="" class="form-group border p-3">
@@ -3275,7 +3289,8 @@
                                                             </label>
                                                         </td>
                                                         <td>
-                                                            <select disabled class="form-select form-select-sm">
+                                                            <select disabled name="machineryType"
+                                                                    class="form-select form-select-sm">
                                                                 <option selected value="VEHICLE">VEHICLE</option>
                                                                 <option value="PLANT EQUIPMENT">PLANT EQUIPMENT</option>
                                                                 <option value="BOAT">BOAT</option>
@@ -3283,7 +3298,26 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td></td>
+                                                        <td>
+                                                            <label class="app-field-label">
+                                                                Meter Date :
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                        </td>
+                                                        <div class="app-field-input">
+                                                            <div class="input-group">
+                                                                <input type="text"
+                                                                       readonly
+                                                                       value="{{Carbon::now()->format('d/m/Y')}}"
+                                                                       name="vehicleRegistration"
+                                                                       class="form-control form-control-sm"/>
+                                                                <div class="input-group-append">
+                                                                    <div class="input-group-text">
+                                                                        <i class="fas fa-calender"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </tr>
                                                 </table>
                                             </fieldset>
@@ -3292,7 +3326,7 @@
                                         <div class="col-6">
                                             <fieldset style="" class="form-group border p-3">
                                                 <legend>Odometer Information:</legend>
-                                                <table class="app_form_table table">
+                                                <table class="app_form_table table" id="vehicleTable">
                                                     <tr>
                                                         <td>
                                                             <label class="app-field-label">
@@ -3304,9 +3338,9 @@
                                                             <div class="app-field-input">
                                                                 <div class="input-group">
                                                                     <input type="text"
-                                                                           id="previousMeterReading"
+                                                                           id="vehOpeningReading"
                                                                            required
-                                                                           name="previousMeterReading"
+                                                                           name="vehOpeningReading"
                                                                            class="form-control"/>
                                                                     <div class="input-group-addon">
                                                                         <div>
@@ -3328,9 +3362,9 @@
                                                             <div class="app-field-input">
                                                                 <div class="input-group">
                                                                     <input type="text"
-                                                                           id="currentReading"
+                                                                           id="vehClosingReading"
                                                                            required
-                                                                           name="currentReading"
+                                                                           name="vehClosingReading"
                                                                            class="form-control"/>
                                                                     <div class="input-group-addon">
                                                                         <div>
@@ -3344,7 +3378,7 @@
                                                     <tr>
                                                         <td>
                                                             <label class="app-field-label">
-                                                                Difference
+                                                                Difference (Km)
                                                                 <span class="text-danger">*</span>
                                                             </label>
                                                         </td>
@@ -3352,9 +3386,84 @@
                                                             <div class="app-field-input">
                                                                 <div class="input-group">
                                                                     <input type="text"
-                                                                           id="meterDifference"
+                                                                           id="vehDifference"
                                                                            required
-                                                                           name="meterDifference"
+                                                                           name="vehDifference"
+                                                                           class="form-control"/>
+                                                                    <div class="input-group-addon">
+                                                                        <div>
+                                                                            <i class="fas fa-dashboard"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <table class="app_form_table table" id="OtherMachineryTable"
+                                                       style="display: none">
+                                                    <tr>
+                                                        <td>
+                                                            <label class="app-field-label">
+                                                                Start Hour (Hrs)
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="app-field-input">
+                                                                <div class="input-group">
+                                                                    <input type="text"
+                                                                           id="openingReading"
+                                                                           required
+                                                                           name="openingReading"
+                                                                           class="form-control"/>
+                                                                    <div class="input-group-addon">
+                                                                        <div>
+                                                                            <i class="fas fa-dashboard"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <label class="app-field-label">
+                                                                Current Reading (Hrs)
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="app-field-input">
+                                                                <div class="input-group">
+                                                                    <input type="text"
+                                                                           id="closingReading"
+                                                                           required
+                                                                           name="closingReading"
+                                                                           class="form-control"/>
+                                                                    <div class="input-group-addon">
+                                                                        <div>
+                                                                            <i class="fas fa-dashboard"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <label class="app-field-label">
+                                                                Difference (Hrs)
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="app-field-input">
+                                                                <div class="input-group">
+                                                                    <input type="text"
+                                                                           id="difference"
+                                                                           required
+                                                                           name="difference"
                                                                            class="form-control"/>
                                                                     <div class="input-group-addon">
                                                                         <div>
@@ -3371,6 +3480,28 @@
                                     </div>
 
                                     <div class="row">
+                                        <table class="app_form_table table">
+                                            <thead>
+                                            <tr>
+                                                <th>Start Odometer</th>
+                                                <th>Closing Odometer</th>
+                                                <th>Km Done</th>
+                                                <th>Place From</th>
+                                                <th>Place To</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <th>
+                                                    <input class="form-control"/>
+                                                </th>
+                                                <th>Closing Odometer</th>
+                                                <th>Km Done</th>
+                                                <th>Place From</th>
+                                                <th>Place To</th>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                         <table class="app_form_table table">
                                             <tr>
                                                 <td></td>
