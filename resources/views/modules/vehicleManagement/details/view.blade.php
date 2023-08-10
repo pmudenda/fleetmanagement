@@ -7,7 +7,7 @@
             min-height: 280px;
             background-position: center center;
             background-color: #fff;
-            background-size: contain;
+            background-size: cover;
             background-repeat: no-repeat;
             display: inline-block;
             box-shadow: 0px -3px 6px 2px rgba(0, 0, 0, 0.2);
@@ -34,7 +34,6 @@
             align-items: center !important;
         }
     </style>
-
     <link rel="stylesheet" href="{{asset('assets/libs/handsontable/handsontable.full.min.css')}}"/>
 @endpush
 @section('content')
@@ -951,7 +950,8 @@
                                               action="{{route('vehicle.engine.detail')}}">
                                             <input type="hidden" name="doctype" value="EngineDetails"/>
                                             <input type="hidden" name="headerId" value="{{$reference}}"/>
-                                            <input type="hidden" name="engineDetailsId" value="{{$vehicle->engineDetailsId ?? 0}}"/>
+                                            <input type="hidden" name="engineDetailsId"
+                                                   value="{{$vehicle->engineDetailsId ?? 0}}"/>
 
                                             <x-error-view/>
                                             <fieldset class="border p-3">
@@ -963,7 +963,8 @@
                                                         <tbody>
                                                         <tr>
                                                             <td class="frappe-control ">
-                                                                <label for="numberOfCylinders" class="control-label reqd"
+                                                                <label for="numberOfCylinders"
+                                                                       class="control-label reqd"
                                                                        style="padding-right: 0px;">
                                                                     Number Of Cylinders:
                                                                 </label>
@@ -971,7 +972,8 @@
                                                             <td>
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <div>
                                                                                 {{--v-model="engineDetails.numberOfCylinders"--}}
                                                                                 <input type="number"
@@ -993,15 +995,18 @@
                                                             </td>
                                                             <td class="frappe-control">
                                                                 <div class="clearfix">
-                                                                    <label for="engineCapacity" class="control-label reqd"
-                                                                           style="padding-right: 0px;">Engine Capacity :</label>
+                                                                    <label for="engineCapacity"
+                                                                           class="control-label reqd"
+                                                                           style="padding-right: 0px;">Engine Capacity
+                                                                        :</label>
                                                                     <span class="help"></span>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <div class="input-group bg-gray-300">
                                                                                 {{--v-model="engineDetails.engineCapacity"--}}
                                                                                 <input type="number"
@@ -1029,7 +1034,8 @@
                                                         <tr>
                                                             <td class="frappe-control">
                                                                 <div class="clearfix">
-                                                                    <label for="actualEnginePower" class="control-label reqd"
+                                                                    <label for="actualEnginePower"
+                                                                           class="control-label reqd"
                                                                            style="padding-right: 0px;">
                                                                         Engine Horse Power:
                                                                     </label>
@@ -1039,7 +1045,8 @@
                                                             <td>
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <div class="input-group bg-gray-300">
                                                                                 {{--v-model="engineDetails.actualEnginePower"--}}
                                                                                 <input type="number"
@@ -1073,7 +1080,8 @@
                                                             <td style="display: none;">
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <div class="input-group bg-gray-300">
                                                                                 {{--v-model="engineDetails.claimedEnginePower"--}}
                                                                                 <input type="number"
@@ -1086,7 +1094,8 @@
                                                                                        name="claimedEnginePower"
                                                                                        placeholder=""
                                                                                        data-doctype="EngineDetails"
-                                                                                       data-target="Company" autocomplete="off"/>
+                                                                                       data-target="Company"
+                                                                                       autocomplete="off"/>
                                                                                 <div
                                                                                         class="input-group-append pl-3 pr-3 align-self-center">
                                                                                     hp
@@ -1111,7 +1120,8 @@
                                                             <td>
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <div>
                                                                                 {{--v-model="engineDetails.fuelTypes"--}}
                                                                                 <select
@@ -1121,7 +1131,8 @@
                                                                                         name="fuelTypes"
                                                                                         data-doctype="EngineDetails">
                                                                                     <option v-for="fuelType in fuelTypes"
-                                                                                            :value="fuelType.code_article" :key="fuelType.code_article">
+                                                                                            :value="fuelType.code_article"
+                                                                                            :key="fuelType.code_article">
                                                                                         @{{ fuelType.description }}
                                                                                     </option>
                                                                                 </select>
@@ -1142,7 +1153,8 @@
                                                             <td>
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <input type="hidden"
                                                                                    data-fieldtype="Link"
                                                                                    data-fieldname="company"
@@ -1167,7 +1179,8 @@
                                                             <td>
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <input
                                                                                     required
                                                                                     class="input-with-feedback form-control bold view_mode"
@@ -1192,7 +1205,8 @@
                                                             <td>
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <select
                                                                                     required
                                                                                     id="transmission_type"
@@ -1218,7 +1232,8 @@
                                                         <tr>
                                                             <td class="frappe-control">
                                                                 <div class="clearfix">
-                                                                    <label for="fuelConsumption" class="control-label reqd"
+                                                                    <label for="fuelConsumption"
+                                                                           class="control-label reqd"
                                                                            style="padding-right: 0px;">
                                                                         Fuel Consumption:
                                                                     </label>
@@ -1229,7 +1244,8 @@
                                                                 <div title="Number of kilometers per litre"
                                                                      class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <div class="input-group bg-gray-300">
                                                                                 {{--v-model="engineDetails.fuelConsumption"--}}
                                                                                 <input type="text"
@@ -1289,7 +1305,8 @@
                                                         <tr>
                                                             <td class="frappe-control">
                                                                 <div class="clearfix">
-                                                                    <label for="tank_capacity" class="control-label reqd"
+                                                                    <label for="tank_capacity"
+                                                                           class="control-label reqd"
                                                                            style="padding-right: 0px;">
                                                                         Main Tank Capacity:
                                                                     </label>
@@ -1299,7 +1316,8 @@
                                                             <td>
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <div class="input-group bg-gray-300">
                                                                                 {{--v-model="engineDetails.tank_capacity"--}}
                                                                                 <input type="number"
@@ -1332,7 +1350,8 @@
                                                             <td>
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <div class="input-group bg-gray-300">
                                                                                 {{--v-model="engineDetails.sub_tank_capacity"--}}
                                                                                 <input type="number"
@@ -1376,7 +1395,8 @@
                                                             <td>
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <div class="fv-row">
                                                                                 {{--v-model="otherDetails.numberOfTyres"--}}
                                                                                 <input type="number"
@@ -1397,8 +1417,10 @@
                                                             <td class="frappe-control">
                                                                 <div class="clearfix">
                                                                     <div class="clearfix">
-                                                                        <label for="tyreBrand" class="control-label reqd"
-                                                                               style="padding-right: 0px;">Brand :</label>
+                                                                        <label for="tyreBrand"
+                                                                               class="control-label reqd"
+                                                                               style="padding-right: 0px;">Brand
+                                                                            :</label>
                                                                         <span class="help"></span>
                                                                     </div>
                                                                 </div>
@@ -1406,7 +1428,8 @@
                                                             <td>
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             {{-- v-model="otherDetails.tyreBrand"--}}
                                                                             <input type="text"
                                                                                    title="The tyre make e.g Good Year"
@@ -1424,7 +1447,8 @@
                                                         <tr>
                                                             <td class="frappe-control ">
                                                                 <div class="clearfix">
-                                                                    <label for="frontTyreSize" class="control-label reqd"
+                                                                    <label for="frontTyreSize"
+                                                                           class="control-label reqd"
                                                                            style="padding-right: 0px;">
                                                                         Front Tyre Size:
                                                                     </label>
@@ -1433,7 +1457,8 @@
                                                             <td>
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <div>
                                                                                 <select type="text"
                                                                                         class="input-with-feedback form-select bold tyre-size view_mode"
@@ -1458,7 +1483,8 @@
                                                             <td>
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <div>
                                                                                 <select type="text"
                                                                                         class="input-with-feedback form-control bold tyre-size view_mode"
@@ -1496,7 +1522,8 @@
                                                             <td style="width: 25%;">
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <div>
                                                                                 {{--v-model="otherDetails.batteryBrand"--}}
                                                                                 <input type="text"
@@ -1522,7 +1549,8 @@
                                                             <td style="width: 25%;">
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <div>
                                                                                 {{--v-model="otherDetails.batterySize"--}}
                                                                                 <select class="form-select input-with-feedback form-control  view_mode"
@@ -1550,7 +1578,8 @@
                                                                 {{--v-model="otherDetails.batteryPower"--}}
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
-                                                                        <div class="link-field ui-front" style="position: relative;">
+                                                                        <div class="link-field ui-front"
+                                                                             style="position: relative;">
                                                                             <div class="input-group bg-gray-300">
                                                                                 <select type="number"
                                                                                         class="form-select view_mode"
@@ -1581,7 +1610,8 @@
                                             </fieldset>
 
                                             <div class="mt-5 create_mode">
-                                                <button type="submit" id="tms_save_engine" class="btn btn-success btn-sm">
+                                                <button type="submit" id="tms_save_engine"
+                                                        class="btn btn-success btn-sm">
                                                     <i class="fas fa-paper-plane"></i> Save
                                                 </button>
                                             </div>
@@ -1593,37 +1623,40 @@
                                                 <div class="form-group">
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.frontView.path + ")",}'>
-                                                        <p class="fs-2x fw-bold mb-10">Front View</p>
+                                                        <p class="fs-2x fw-bold mb-10 text-white">Front View</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6" v-if="images && images.rearView">
                                             <div class="card-px text-center py-5 my-2">
-                                                <h2 class="fs-2x fw-bold mb-10">Rear View</h2>
+
                                                 <div class="form-group">
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.rearView.path + ")",}'>
+                                                        <p class="fs-2x fw-bold mb-10 text-white">Rear View</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6" v-if="images && images.rightView">
                                             <div class="card text-center py-5 my-2">
-                                                <h2 class="fs-2x fw-bold mb-10">Right View</h2>
+
                                                 <div class="form-group">
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.rightView.path + ")",}'>
+                                                        <p class="fs-2x fw-bold mb-10 text-white">Right View</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6" v-if="images && images.leftView">
                                             <div class="card text-center py-5 my-2">
-                                                <h2 class="fs-2x fw-bold mb-10">Left View</h2>
+
                                                 <div class="form-group">
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.leftView.path + ")",}'>
+                                                        <p class="fs-2x fw-bold mb-10 text-white">Left View</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1756,13 +1789,13 @@
                                     </div>
                                 </div>--}}
 
-                               {{-- <div class="mt-5">
-                                    <div class="form-group create_mode">
-                                        <button type="submit" id="tms_save_chassis" class="btn btn-success btn-sm">
-                                            <i class="fas fa-paper-plane"></i> Save
-                                        </button>
-                                    </div>
-                                </div>--}}
+                                {{-- <div class="mt-5">
+                                     <div class="form-group create_mode">
+                                         <button type="submit" id="tms_save_chassis" class="btn btn-success btn-sm">
+                                             <i class="fas fa-paper-plane"></i> Save
+                                         </button>
+                                     </div>
+                                 </div>--}}
                             </form>
 
 
