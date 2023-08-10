@@ -3497,10 +3497,12 @@
                 element.style.display = 'none';
             });
 
+            $("#vehicleLocation").attr('disabled', true);
+
             const registrationNumber = document.querySelector('#registrationNumber');
-            if (registrationNumber && !registrationNumber.value) {
+            if (registrationNumber && registrationNumber.value) {
                 registrationNumber.setAttribute('disabled', 'disabled');
-                $('#vehicleRegistration').val(registrationNumber.value).attr('disabled', true);
+                $('#vehicleRegistration').val(registrationNumber.value).attr('readonly', true);
             }
 
         });
