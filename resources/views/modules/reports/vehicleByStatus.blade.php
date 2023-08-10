@@ -143,7 +143,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row d-none">
                 <!-- Left col -->
                 <div class="col-md-12 pl-0">
                     <div class="card">
