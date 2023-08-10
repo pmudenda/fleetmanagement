@@ -998,7 +998,7 @@
                                                                     <label for="actualEnginePower"
                                                                            class="control-label reqd"
                                                                            style="padding-right: 0px;">
-                                                                        Engine Horse Power:
+                                                                        Engine Horse Power (hp):
                                                                     </label>
                                                                     <span class="help"></span>
                                                                 </div>
@@ -1019,10 +1019,10 @@
                                                                                        placeholder=""
                                                                                        data-doctype="EngineDetails"
                                                                                        autocomplete="off">
-                                                                                <div
-                                                                                        class="input-group-append pl-3 pr-3 align-self-center">
-                                                                                    hp
-                                                                                </div>
+                                                                                {{--  <div
+                                                                                          class="input-group-append pl-3 pr-3 align-self-center">
+
+                                                                                  </div>--}}
                                                                             </div>
 
                                                                         </div>
@@ -1196,7 +1196,7 @@
                                                                     <label for="fuelConsumption"
                                                                            class="control-label reqd"
                                                                            style="padding-right: 0px;">
-                                                                        Fuel Consumption:
+                                                                        Fuel Consumption (Km/Ltr):
                                                                     </label>
                                                                     <span class="help"></span>
                                                                 </div>
@@ -1219,10 +1219,10 @@
                                                                                        placeholder=""
                                                                                        data-doctype="EngineDetails"
                                                                                        autocomplete="off">
-                                                                                <div
+                                                                                {{--<div
                                                                                         class="input-group-append pl-3 pr-3 align-self-center">
-                                                                                    Km/Ltr
-                                                                                </div>
+
+                                                                                </div>--}}
                                                                             </div>
 
                                                                         </div>
@@ -1269,7 +1269,7 @@
                                                                     <label for="tank_capacity"
                                                                            class="control-label reqd"
                                                                            style="padding-right: 0px;">
-                                                                        Main Tank Capacity:
+                                                                        Main Tank Capacity (Ltr):
                                                                     </label>
                                                                     <span class="help"></span>
                                                                 </div>
@@ -1280,7 +1280,6 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <div class="input-group">
-                                                                                {{--v-model="engineDetails.tank_capacity"--}}
                                                                                 <input type="number"
                                                                                        class="input-with-feedback number_input form-control bold view_mode"
                                                                                        maxlength="4"
@@ -1289,10 +1288,6 @@
                                                                                        id="tank_capacity"
                                                                                        placeholder=""
                                                                                        autocomplete="off">
-                                                                                <div
-                                                                                        class="input-group-append pl-3 pr-3 align-self-center">
-                                                                                    Litres
-                                                                                </div>
                                                                             </div>
 
                                                                         </div>
@@ -1303,7 +1298,7 @@
                                                                 <div class="clearfix">
                                                                     <label for="sub_tank_capacity" class="control-label"
                                                                            style="padding-right: 0px;">
-                                                                        Sub Tank Capacity <small>(If Any)</small>:
+                                                                        Sub Tank Capacity <small>(If Any)</small> (Ltr):
                                                                     </label>
                                                                     <span class="help"></span>
                                                                 </div>
@@ -1314,7 +1309,6 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <div class="input-group">
-                                                                                {{--v-model="engineDetails.sub_tank_capacity"--}}
                                                                                 <input type="number"
                                                                                        maxlength="4"
                                                                                        class="input-with-feedback number_input form-control bold view_mode"
@@ -1322,10 +1316,6 @@
                                                                                        id="sub_tank_capacity"
                                                                                        placeholder=""
                                                                                        autocomplete="off">
-                                                                                <div
-                                                                                        class="input-group-append pl-3 pr-3 align-self-center">
-                                                                                    Litres
-                                                                                </div>
                                                                             </div>
 
                                                                         </div>
