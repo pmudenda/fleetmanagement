@@ -984,18 +984,18 @@
                         </a>
                         <ul class="nav nav-treeview pl-3">
 
-                           {{-- <li class="nav-item">
-                                <a href="{{URL::signedRoute('reports.fuel.requisitions')}}"
-                                   class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>
-                                        Fuel Requisitions
-                                    </p>
-                                </a>
-                            </li>--}}
+                            {{-- <li class="nav-item">
+                                 <a href="{{URL::signedRoute('reports.fuel.requisitions')}}"
+                                    class="nav-link">
+                                     <i class="far fa-circle nav-icon"></i>
+                                     <p>
+                                         Fuel Requisitions
+                                     </p>
+                                 </a>
+                             </li>--}}
 
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{URL::signedRoute('reports.vehicle.status', ['step'=> 1])}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Vehicles</p>
                                 </a>
