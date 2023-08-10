@@ -22,7 +22,7 @@
             background-color: transparent !important;
         }
 
-        .form-select:disabled {
+        .form-control:disabled {
             border: none !important;
             background-color: transparent !important;
             box-shadow: none !important;
@@ -101,7 +101,7 @@
                                                      style="display: none; visibility: hidden; ">
                                                     <div class="col-md-9">
                                                         <div class="w-100 fv-row">
-                                                            <select class="form-select form-select-sm"
+                                                            <select class="form-control form-control-sm"
                                                                     id="registration_type"
                                                                     name="registration_type"
                                                                     @input="registrationTypeChanged"
@@ -186,7 +186,7 @@
                                                     <div class="col-md-9 fv-row ">
                                                         <div class="col-md-9">
                                                             <div class="w-100">
-                                                                <select class="form-select form-select-sm view_mode"
+                                                                <select class="form-control form-control-sm view_mode"
                                                                         required
                                                                         id="bodyType"
                                                                         name="bodyType">
@@ -1129,7 +1129,7 @@
                                                                                 {{--v-model="engineDetails.fuelTypes"--}}
                                                                                 <select
                                                                                         required
-                                                                                        class="input-with-feedback form-select bold view_mode"
+                                                                                        class="input-with-feedback form-control bold view_mode"
                                                                                         id="fuelTypes"
                                                                                         name="fuelTypes"
                                                                                         data-doctype="EngineDetails">
@@ -1214,7 +1214,7 @@
                                                                                     required
                                                                                     id="transmission_type"
                                                                                     name="transmission_type"
-                                                                                    class="form-select form-select-sm view_mode"
+                                                                                    class="form-control form-control-sm view_mode"
                                                                                     v-model="engineDetails.transmissionType"
                                                                                     data-doctype="EngineDetails"
                                                                                     @change="transmissionTypeChanged">
@@ -1464,7 +1464,7 @@
                                                                              style="position: relative;">
                                                                             <div>
                                                                                 <select type="text"
-                                                                                        class="input-with-feedback form-select bold tyre-size view_mode"
+                                                                                        class="input-with-feedback form-control bold tyre-size view_mode"
                                                                                         required
                                                                                         id="frontTyreSize"
                                                                                         name="frontTyreSize"
@@ -1555,8 +1555,7 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <div>
-                                                                                {{--v-model="otherDetails.batterySize"--}}
-                                                                                <select class="form-select input-with-feedback form-control  view_mode"
+                                                                                <select class="form-control input-with-feedback view_mode"
                                                                                         data-fieldtype="Link"
                                                                                         data-fieldname="company"
                                                                                         id="batterySize"
@@ -1585,7 +1584,7 @@
                                                                              style="position: relative;">
                                                                             <div class="input-group bg-gray-300">
                                                                                 <select type="number"
-                                                                                        class="form-select view_mode"
+                                                                                        class="form-control view_mode"
                                                                                         data-fieldtype="Link"
                                                                                         data-fieldname="company"
                                                                                         id="batteryPower"
@@ -1849,10 +1848,9 @@
                                                             <div class="link-field ui-front"
                                                                  style="position: relative;">
                                                                 <div>
-                                                                    {{--v-model="engineDetails.fuelTypes"--}}
                                                                     <select
                                                                             required
-                                                                            class="input-with-feedback form-select bold view_mode"
+                                                                            class="input-with-feedback form-control bold view_mode"
                                                                             id="fuelTypes"
                                                                             name="fuelTypes"
                                                                             data-doctype="EngineDetails">
@@ -1937,7 +1935,7 @@
                                                                         required
                                                                         id="transmission_type"
                                                                         name="transmission_type"
-                                                                        class="form-select form-select-sm view_mode"
+                                                                        class="form-control form-control-sm view_mode"
                                                                         v-model="engineDetails.transmissionType"
                                                                         data-doctype="EngineDetails"
                                                                         @change="transmissionTypeChanged">
@@ -2182,7 +2180,7 @@
                                                                  style="position: relative;">
                                                                 <div>
                                                                     <select type="text"
-                                                                            class="input-with-feedback form-select bold tyre-size view_mode"
+                                                                            class="input-with-feedback form-control bold tyre-size view_mode"
                                                                             required
                                                                             id="frontTyreSize"
                                                                             name="frontTyreSize"
@@ -2273,8 +2271,7 @@
                                                             <div class="link-field ui-front"
                                                                  style="position: relative;">
                                                                 <div>
-                                                                    {{--v-model="otherDetails.batterySize"--}}
-                                                                    <select class="form-select input-with-feedback form-control  view_mode"
+                                                                    <select class="form-control input-with-feedback view_mode"
                                                                             data-fieldtype="Link"
                                                                             data-fieldname="company"
                                                                             id="batterySize"
@@ -2303,7 +2300,7 @@
                                                                  style="position: relative;">
                                                                 <div class="input-group bg-gray-300">
                                                                     <select type="number"
-                                                                            class="form-select view_mode"
+                                                                            class="form-control view_mode"
                                                                             data-fieldtype="Link"
                                                                             data-fieldname="company"
                                                                             id="batteryPower"
@@ -2993,7 +2990,7 @@
                                                                 <div class="input-group-prepend">
                                                                     <div class="input-group-addon">
                                                                         <select name="bookValueCurrency"
-                                                                                class="form-control form-select-sm"
+                                                                                class="form-control form-control-sm"
                                                                                 style="height: 2.5em; border-radius: 0;">
                                                                             <option value="001">ZMW</option>
                                                                             <option value="002">USD</option>
