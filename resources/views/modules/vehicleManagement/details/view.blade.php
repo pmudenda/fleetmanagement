@@ -33,10 +33,10 @@
             background-color: transparent !important;
         }
 
-        .input-group {
+        /*.input-group {
             justify-content: center !important;
             align-items: center !important;
-        }
+        }*/
     </style>
     <link rel="stylesheet" href="{{asset('libs/handsontable/handsontable.full.min.css')}}"/>
 @endpush
