@@ -17,7 +17,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <h4>Approve Fuel Requisition</h4>
+                    <h4>APPROVE STORES REQUISITION</h4>
                 </div>
                 <div class="card-toolbar justify-content-end">
                     @if(!empty($requestDetails))

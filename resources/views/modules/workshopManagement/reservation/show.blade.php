@@ -1,4 +1,4 @@
-@php use App\Helpers\StatusHelper;use App\Models\Reference\Store;use App\Models\Security\User; use App\Models\Reference\PurchaseOrder; @endphp
+@php use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use App\Models\Reference\Store;use App\Models\Security\User; use App\Models\Reference\PurchaseOrder; @endphp
 @php @endphp
 @extends('layouts.app')
 @push('styles')
@@ -21,7 +21,12 @@
             <div class="card-header">
                 <div class="card-title">
                     @if(str_contains($requestDetails->req_no,'PUR'))
-                        <h4>APPROVE PURCHASE PROCESS</h4>
+                        @if($requestDetails->item_type == RequisitionItemTypes::NonStockItem)
+                            <h4>APPROVE NON-STOCK PURCHASE PROCESS</h4>
+                        @else
+                            <h4>APPROVE SERVICE PURCHASE PROCESS</h4>
+                        @endif
+
                     @else
                         <h4>APPROVE STORES RESERVATION</h4>
                     @endif
