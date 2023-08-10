@@ -3495,10 +3495,13 @@
 
             elementsOnCreate.forEach(function (element) {
                 element.style.display = 'none';
-                //('disabled', 'disabled');
             });
 
-            const container = document.querySelector('#example');
+            const registrationNumber = document.querySelector('#registrationNumber');
+            if (registrationNumber && !registrationNumber.value) {
+                registrationNumber.setAttribute('disabled', 'disabled');
+                $('#vehicleRegistration').val(registrationNumber.value).attr('disabled', true);
+            }
 
         });
 
