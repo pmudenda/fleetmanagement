@@ -1854,7 +1854,7 @@ function checkOnboardingHeaderStatus() {
                 let rearTyreSize = rearTyreSizeElem.attr('data-value');
 
                 if (rearTyreSize) {
-                    rearTyreSizeElem.val(frontSize);
+                    rearTyreSizeElem.val(rearTyreSize);
                     rearTyreSizeElem.trigger('change');
                 }
             })

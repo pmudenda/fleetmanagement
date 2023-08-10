@@ -432,7 +432,6 @@
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="fv-row">
-                                        {{--v-model="otherDetails.numberOfTyres"--}}
                                         <input type="number"
                                                title="The number of tyres the vehicle has"
                                                id="numberOfTyres"
@@ -461,7 +460,6 @@
                         <div class="control-input-wrapper">
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
-                                    {{-- v-model="otherDetails.tyreBrand"--}}
                                     <input type="text"
                                            title="The tyre make e.g Good Year"
                                            class="form-control view_mode"
@@ -552,7 +550,6 @@
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div>
-                                        {{--v-model="otherDetails.batteryBrand"--}}
                                         <input type="text"
                                                id="batteryBrand"
                                                name="batteryBrand"
@@ -578,7 +575,6 @@
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div>
-                                        {{--v-model="otherDetails.batterySize"--}}
                                         <select class="form-select input-with-feedback form-control  view_mode"
                                                 data-fieldtype="Link"
                                                 data-fieldname="company"
@@ -601,7 +597,6 @@
                         </label>
                     </td>
                     <td>
-                        {{--v-model="otherDetails.batteryPower"--}}
                         <div class="control-input-wrapper">
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
