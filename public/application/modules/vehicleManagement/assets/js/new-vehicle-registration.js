@@ -187,6 +187,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
 
     const $frontTyreSizeCtrl = document.querySelector('[name="frontTyreSize"]');
+
     if ($frontTyreSizeCtrl) {
         $frontTyreSizeCtrl.value = data['front_tyre_size'];
         $frontTyreSizeCtrl.setAttribute('data-value', data['front_tyre_size']);

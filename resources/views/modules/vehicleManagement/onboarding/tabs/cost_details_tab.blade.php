@@ -213,12 +213,10 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <div class="input-group-addon">
-                                            ZMW
-                                        </div>
+                                        <div class="input-group-text">ZMW</div>
                                     </div>
                                     <input type="text"
-                                           class="input-with-feedback form-control bold number_input view_mode"
+                                           class="input-with-feedback form-control form-control-sm bold number_input view_mode"
                                            id="costOfLicense"
                                            data-a-sign="ZMW"
                                            name="costOfLicense"
