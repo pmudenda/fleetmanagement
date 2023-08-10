@@ -52,7 +52,7 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-truck-pickup" style="font-size: 20px;"></i>
                             <p>
-                                Vehicle Management
+                                Vehicles
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
@@ -65,16 +65,14 @@
                                     </a>
                                 </li>
                             @endcan
-
-                            {{--@can([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])
+                            @canany(config('rights.view_meter_entries'), config('rights.add_meter_entries'))
                                 <li class="nav-item">
                                     <a href="{{ URL::signedRoute('view.vehicle.detail') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Vehicle Details</p>
+                                        <p>Meter Entry</p>
                                     </a>
                                 </li>
-                            @endcan--}}
-
+                            @endcanany
                             @canany([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])
                                 <li class="nav-item pl-2">
                                     <a href="{{ URL::signedRoute('vehicles.list') }}" class="nav-link">
@@ -594,7 +592,6 @@
                                         config('rights.add_workshop'),
                                         config('rights.edit_workshop'),
                                         config('rights.view_workshop'))
-
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>

@@ -322,7 +322,8 @@
                         </li>
                         <li class="nav-item" style="list-style: none; display: none;">
                             <a class="nav-link" data-toggle="tab" href="#inspectionHistory" role="tab">Inspection
-                                History</a>
+                                History
+                            </a>
                         </li>
                         <li class="nav-item" style="list-style: none; display: none;">
                             <a class="nav-link" data-toggle="tab" href="#workOrders" role="tab">Work Orders</a>
@@ -336,9 +337,10 @@
                             <a class="nav-link" data-toggle="tab" href="#renewalReminder" role="tab">Renewal
                                 Reminders</a>
                         </li>
-                        <li class="nav-item" style="list-style: none; display: none;">
-                            <a class="nav-link" data-toggle="tab" href="#odometerHistory" role="tab">Odometer
-                                History</a>
+                        <li class="nav-item" style="list-style: none;">
+                            <a class="nav-link" data-toggle="tab" href="#odometerHistory" role="tab">Meter (Odometer)
+                                History
+                            </a>
                         </li>
 
                         <li class="nav-item" style="list-style: none; display: none;">
@@ -374,10 +376,9 @@
                                 <input type="hidden" name="headerId" value="{{$reference}}"/>
                                 <input type="hidden" name="costAndValuationId"
                                        value="{{$vehicle->costAndValuationId ?? 0}}"/>
-
                                 <x-error-view/>
                                 <div class="col-8">
-                                    <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+                                    <table class="">
                                         <tbody>
                                         <tr>
                                             <td class="frappe-control d-none">
@@ -727,7 +728,7 @@
 
                         <div class="tab-pane fade" id="odometerHistory" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5">
-                                Odometer History
+                                Meter History
                             </div>
                         </div>
 
