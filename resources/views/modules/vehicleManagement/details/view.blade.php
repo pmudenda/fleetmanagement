@@ -35,7 +35,7 @@
         }
     </style>
 
-    <link rel="stylesheet" href="{{asset('assets/handsontable/handsontable.full.min.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/libs/handsontable/handsontable.full.min.css')}}"/>
 @endpush
 @section('content')
     <x-content-header/>
@@ -2309,7 +2309,7 @@
         window.reference = `{!! $reference !!}`;
     </script>
     <script type="text/javascript" src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/handsontable/handsontable.full.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('assets/libs/handsontable/handsontable.full.min.js')}}"></script>
 
     <script
             src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js').'?v='.Carbon::now()->format('his')}}"></script>
