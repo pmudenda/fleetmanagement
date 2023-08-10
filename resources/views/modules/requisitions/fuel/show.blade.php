@@ -589,6 +589,7 @@
         </div>
 
         <x-fuel-workflow-approvers :request="$requestDetails"/>
+
         <x-workflow-approval-history :approvals="$approvalHistory" :request="$requestDetails"/>
     </section>
 @endsection
