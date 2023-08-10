@@ -7,6 +7,7 @@ use App\Constants\SystemMessages;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Settings\Accessory;
+use App\Models\VehicleManagement\VehicleAccessory;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use Exception;
@@ -51,19 +52,22 @@ class VehicleController extends Controller
 
             $vehicle = $this->vehicleDetailsService->getVehicleDetails($ref);
 
-            if(!empty(!$vehicle)){
+            if (!empty(!$vehicle)) {
                 Log::info('Vehicle Details Found ');
-            }else{
+            } else {
                 Log::info('Vehicle Details Not Found ');
             }
 
 
             $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments($ref);
 
+            $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$ref)->get();
+
             return response()->json([
                 'payload' => [
                     'vehicle' => $vehicle,
-                    'documents' => $vehicleDocuments
+                    'documents' => $vehicleDocuments,
+                    'enteredAccessories' => $enteredAccessories
                 ],
                 'success' => !empty($vehicle),
                 'message' => !empty($vehicle) ? 'Vehicle Details retrieved successfully'
