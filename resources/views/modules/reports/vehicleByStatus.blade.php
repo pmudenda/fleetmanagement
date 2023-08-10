@@ -305,6 +305,13 @@
                 for (const key in valueObject) {
                     seriesData.push({value: valueObject[key], name: key});
                 }
+
+                console.log(
+                    {
+                        legendData,
+                        seriesData
+                    }
+                )
                 return {
                     legendData,
                     seriesData
