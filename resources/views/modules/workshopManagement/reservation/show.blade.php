@@ -26,7 +26,6 @@
                         @else
                             <h4>APPROVE SERVICE PURCHASE PROCESS</h4>
                         @endif
-
                     @else
                         <h4>APPROVE STORES RESERVATION</h4>
                     @endif
@@ -75,7 +74,7 @@
                                             TENDER NUMBER:
                                         @elseif(str_starts_with($requestDetails->st_pur, 'C0'))
                                             PURCHASE ORDER NUMBER:
-                                        @elseif(str_starts_with($requestDetails->st_pur, 'C0'))
+                                        @elseif(str_starts_with($requestDetails->st_pur, 'D0'))
                                             GOODS RECEIPT NUMBER:
                                         @endif
                                         <span class="text-orange">{{ $requestDetails->st_pur }}</span>
@@ -233,61 +232,53 @@
                                         </div>
                                     </div>
 
-                                    {{--  <div class="row">
-                                          <div class="col-xs-12 col-sm-6 col-md-6">
-                                              <div class="container-fluid pl-0">
-                                                  <div class="row">
-                                                      <div class="form-group row">
-                                                           <label
-                                                               class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                               for="staff_name">
-                                                               Requisition Type:
-                                                           </label>
-                                                          <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                              <select name="requisition_type" id="requisition_type"
-                                                                      class="form-control form-select-sm"
-                                                                      disabled
-                                                                      required>
-                                                                  <option value=""> --Select--</option>
-                                                                  @foreach ($requisitionTypes as $requisitionType)
-                                                                      @if($requestDetails->requisition_type == $requisitionType->code)
-                                                                          <option selected
-                                                                                  value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
-                                                                      @else
-                                                                          <option
-                                                                              value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
-                                                                      @endif
-                                                                  @endforeach
-                                                              </select>
-                                                          </div>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="staff_name">
+                                                            Requisition Type:
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            @if($requestDetails->item_type == RequisitionItemTypes::StockItem)
+                                                                Stock Items
+                                                            @elseif($requestDetails->item_type == RequisitionItemTypes::NonStockItem)
+                                                                Non-Stock Items
+                                                            @elseif($requestDetails->item_type == RequisitionItemTypes::Service)
+                                                                Service
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                          <div class="col-xs-12 col-sm-6 col-md-6">
-                                              <div class="container-fluid pl-0">
-                                                  <div class="row">
-                                                      <div class="form-group row">
-                                                          <label
-                                                              class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                              for="staff_name">
-                                                              Odometer Reading :
-                                                          </label>
-                                                          <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                              <input type="text" class="form-control form-control-sm"
-                                                                     id="odometer_reading"
-                                                                     value="{{$requestDetails->odometer ?? ''}}"
-                                                                     readonly
-                                                                     required
-                                                                     name="odometer_reading"
-                                                              />
-                                                          </div>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>--}}
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            {{--<div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="staff_name">
+                                                            Odometer Reading :
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   id="odometer_reading"
+                                                                   value="{{$requestDetails->odometer ?? ''}}"
+                                                                   readonly
+                                                                   required
+                                                                   name="odometer_reading"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>--}}
+                                        </div>
+                                    </div>
 
                                     <div class="row">
 
@@ -518,7 +509,9 @@
         </div>
         <input type="hidden" name="onboarding_status" id="onboarding_status"
                value="{{StatusHelper::onboardingComplete()}}">
-        
+
+        {{--<x-fuel-workflow-approvers :request="$requestDetails"/>--}}
+
         <x-workflow-approval-history :approvals="$approvalHistory" :request="$requestDetails"/>
 
 
