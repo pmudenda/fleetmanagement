@@ -1624,7 +1624,7 @@
 
                             <fieldset class="border p-3">
                                 <legend style="width: inherit;">
-                                    <h4 class="pt-2">Tyres</h4>
+                                    <h4 class="pt-2">Dimensions</h4>
                                 </legend>
                                 <div id="tms_body_weight_form"
                                      class="form fv-plugins-bootstrap5 fv-plugins-framework"
@@ -1635,12 +1635,6 @@
                                            value="{{$vehicle->weightDetailsId ?? 0}}"/>
                                     <x-error-view/>
                                     <div class="col-6">
-                                        <tr>
-                                            <td colspan="2">
-                                                <h4>Dimensions</h4>
-                                            </td>
-                                        </tr>
-
                                         <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
                                             <tbody>
                                             <tr>
@@ -2105,15 +2099,6 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    {{--<div class="mt-10 create_mode">
-                                        <button type="submit" id="tms_save_body" class="btn btn-success btn-sm">
-                                            <i class="fas fa-paper-plane"></i>
-                                            <span class="indicator-label">Save</span>
-                                            <span class="indicator-progress">Please wait...<span
-                                                        class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                                </span>
-                                        </button>
-                                    </div>--}}
                                 </div>
                             </fieldset>
                         </div>
