@@ -345,7 +345,90 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'reports'], function () {
         Route::get('fuel/requisitions', function () {
-            return view('modules.reports.index');
+            $data = [
+                (object)[
+                    'year' => '2022',
+                    'month' => '04',
+                    'full_date' => '202304',
+                    'reg_no' => 'BAE 3795',
+                    'fuel_type' => 'Diesel',
+                    'fuel_req_unit' => 'C1931',
+                    'qty' => '340',
+                    'ttl' => '34500',
+                ],
+                (object)[
+                    'year' => '2023',
+                    'month' => '04',
+                    'full_date' => '202304',
+                    'reg_no' => 'BAE 3795',
+                    'fuel_type' => 'Petrol',
+                    'fuel_req_unit' => 'C1931',
+                    'qty' => '340',
+                    'ttl' => '34500',
+                ],
+                (object)[
+                    'year' => '2021',
+                    'month' => '05',
+                    'full_date' => '202304',
+                    'reg_no' => 'BAE 3795',
+                    'fuel_type' => 'Petrol',
+                    'fuel_req_unit' => 'C1931',
+                    'qty' => '340',
+                    'ttl' => '34500',
+                ],
+                (object)[
+                    'year' => '2021',
+                    'month' => '05',
+                    'full_date' => '202304',
+                    'reg_no' => 'BAE 3795',
+                    'fuel_type' => 'Petrol',
+                    'fuel_req_unit' => 'C1931',
+                    'qty' => '340',
+                    'ttl' => '34500',
+                ],
+                (object)[
+                    'year' => '2023',
+                    'month' => '04',
+                    'full_date' => '202304',
+                    'reg_no' => 'BAE 3795',
+                    'fuel_type' => 'Petrol',
+                    'fuel_req_unit' => 'C1931',
+                    'qty' => '340',
+                    'ttl' => '34500',
+                ],
+                (object)[
+                    'year' => '2022',
+                    'month' => '06',
+                    'full_date' => '202304',
+                    'reg_no' => 'BAE 3795',
+                    'fuel_type' => 'Diesel',
+                    'fuel_req_unit' => 'C1931',
+                    'qty' => '340',
+                    'ttl' => '34500',
+                ],
+                (object)[
+                    'year' => '2023',
+                    'month' => '03',
+                    'full_date' => '202304',
+                    'reg_no' => 'BAB 1010',
+                    'fuel_type' => 'Petrol',
+                    'fuel_req_unit' => 'C1931',
+                    'qty' => '340',
+                    'ttl' => '34500',
+                ],
+                (object)[
+                    'year' => '2021',
+                    'month' => '04',
+                    'full_date' => '202304',
+                    'reg_no' => 'BAB 1014',
+                    'fuel_type' => 'Diesel',
+                    'fuel_req_unit' => 'C1931',
+                    'qty' => '340',
+                    'ttl' => '34500',
+                ]
+            ];
+            return view('modules.reports.index')
+                ->with(compact('data'));
         })->name('reports.fuel.requisitions');
 
         Route::get('vehicle/status', [\App\Http\Controllers\ReportsController::class, 'vehicleByStatus'])
