@@ -12,6 +12,7 @@
             display: inline-block;
             box-shadow: 0px -3px 6px 2px rgba(0, 0, 0, 0.2);
         }
+
         .form-control:disabled {
             border: none !important;
             background-color: transparent !important;
@@ -24,15 +25,17 @@
 
         }
 
-        .bg-gray-300{
+        .bg-gray-300 {
             background-color: transparent !important;
         }
 
-        .input-group{
+        .input-group {
             justify-content: center !important;
             align-items: center !important;
         }
     </style>
+
+    <link rel="stylesheet" href="{{asset('assets/handsontable/handsontable.full.min.css')}}"/>
 @endpush
 @section('content')
     <x-content-header/>
@@ -53,15 +56,15 @@
                         </span>--}}
                     </div>
 
-                  {{--  <div v-if="!vehicleHeader.isHeaderSaved" id="actionButtonsContainer"
-                         class="card-toolbar justify-content-end">
-                        <button type="button" id="submitBtn" disabled class="btn btn-success btn-sm mr-3">
-                            <i class="fas fa-paper-plane"></i> Submit
-                        </button>
-                        <button type="button" id="resetFormBtn" class="btn btn-danger btn-sm mr-3">
-                            <i class="fas fa-undo"></i> Cancel
-                        </button>
-                    </div>--}}
+                    {{--  <div v-if="!vehicleHeader.isHeaderSaved" id="actionButtonsContainer"
+                           class="card-toolbar justify-content-end">
+                          <button type="button" id="submitBtn" disabled class="btn btn-success btn-sm mr-3">
+                              <i class="fas fa-paper-plane"></i> Submit
+                          </button>
+                          <button type="button" id="resetFormBtn" class="btn btn-danger btn-sm mr-3">
+                              <i class="fas fa-undo"></i> Cancel
+                          </button>
+                      </div>--}}
                     <div class="card-toolbar justify-content-end" v-if="vehicleHeader.isHeaderSaved">
                         <img id="barcode" alt="vehicle barcode" style="max-height: 40px;" src="">
                         {{--<button type="button" data-bs-target="#vehicleDisk" data-bs-toggle="modal"
@@ -903,7 +906,9 @@
     <script>
         window.reference = `{!! $reference !!}`;
     </script>
-    <script src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <script type="text/javascript" src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <script type="text/javascript" src="{{asset('assets/handsontable/handsontable.full.min.js')}}"></script>
+
     <script
             src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js').'?v='.Carbon::now()->format('his')}}"></script>
     <script
