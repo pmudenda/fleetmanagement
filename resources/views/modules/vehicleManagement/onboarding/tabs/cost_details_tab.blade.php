@@ -83,7 +83,7 @@
                                             <select name="bookValueCurrency" class="form-select form-select-sm"
                                                     style="height: 2.6em; border-radius: 0;">
                                                 <option value="001">ZMW</option>
-                                                <option value="002">USD</option>
+                                               {{-- <option value="002">USD</option>--}}
                                             </select>
                                         </div>
                                     </div>
@@ -152,7 +152,7 @@
                                             <select name="bookValueCurrency" class="form-select form-select-sm"
                                                     style="height: 2.6em; border-radius: 0;">
                                                 <option value="001">ZMW</option>
-                                                <option value="002">USD</option>
+                                                {{--<option value="002">USD</option>--}}
                                             </select>
                                         </div>
                                     </div>
