@@ -305,7 +305,7 @@
                                                         <label
                                                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                 for="staff_name">
-                                                            ITEM TYPE:
+                                                            Item Type:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             @if($requestDetails->item_type == RequisitionItemTypes::StockItem)
