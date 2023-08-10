@@ -215,13 +215,13 @@
                                     </li>
                                     {{--@endcan--}}
                                     {{-- @canany([config('rights.requisition_fuel'),config('rights.approve_fuel_requisition')])--}}
-                                    <li class="nav-item">
+                                    {{--<li class="nav-item">
                                         <a class="nav-link"
                                            href="{{ URL::signedRoute('list.booking') }}">
                                             <i class="fas fa-list nav-icon"></i>
                                             <p>List</p>
                                         </a>
-                                    </li>
+                                    </li>--}}
                                     {{-- @endcanany--}}
                                 </ul>
                             </li>
