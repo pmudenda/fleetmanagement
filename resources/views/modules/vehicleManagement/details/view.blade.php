@@ -17,7 +17,7 @@
             background-color: #454546ad;
         }
 
-        .form-control:disabled {
+        /*.form-control:disabled {
             border: none !important;
             background-color: transparent !important;
         }
@@ -27,11 +27,8 @@
             background-color: transparent !important;
             box-shadow: none !important;
 
-        }
+        }*/
 
-        . {
-            background-color: transparent !important;
-        }
 
         /*.input-group {
             justify-content: center !important;
@@ -971,7 +968,6 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <div class="input-group">
-                                                                                {{--v-model="engineDetails.engineCapacity"--}}
                                                                                 <input type="number"
                                                                                        class="input-with-feedback form-control bold number_input view_mode"
                                                                                        max="10000"
