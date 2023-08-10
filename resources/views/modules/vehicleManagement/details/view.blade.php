@@ -141,14 +141,14 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group row" style="display: none;">
+                                                <div class="form-group row">
                                                     <label for="model" class="fs-6 fw-semibold form-label col-md-3">
                                                         <span class="required">Model</span>
                                                     </label>
                                                     <div class="col-md-9 fv-row ">
                                                         <div class="col-md-9">
                                                             <div class="w-100">
-                                                                <select class="form-select form-select-sm view_mode"
+                                                                <select class="form-control form-control-sm view_mode"
                                                                         required
                                                                         name="model"
                                                                         id="model">
@@ -158,7 +158,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group row">
+                                                <div class="form-group row" style="display: none;">
                                                     <label for="model_code"
                                                            class="fs-6 fw-semibold form-label col-md-3">
                                                         <span class="required">Model Code</span>
