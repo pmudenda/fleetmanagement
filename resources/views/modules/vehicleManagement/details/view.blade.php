@@ -13,6 +13,10 @@
             box-shadow: 0px -3px 6px 2px rgba(0, 0, 0, 0.2);
         }
 
+        .img_title {
+            background-color: #454546ad;
+        }
+
         .form-control:disabled {
             border: none !important;
             background-color: transparent !important;
@@ -1623,7 +1627,7 @@
                                                 <div class="form-group">
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.frontView.path + ")",}'>
-                                                        <p class="fs-2x fw-bold mb-10 text-white">Front View</p>
+                                                        <p class="img_title fs-2x fw-bold mb-10 text-white">Front View</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1634,7 +1638,7 @@
                                                 <div class="form-group">
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.rearView.path + ")",}'>
-                                                        <p class="fs-2x fw-bold mb-10 text-white">Rear View</p>
+                                                        <p class="img_title fs-2x fw-bold mb-10 text-white">Rear View</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1645,7 +1649,7 @@
                                                 <div class="form-group">
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.rightView.path + ")",}'>
-                                                        <p class="fs-2x fw-bold mb-10 text-white">Right View</p>
+                                                        <p class="img_titlefs-2x fw-bold mb-10 text-white">Right View</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1656,7 +1660,7 @@
                                                 <div class="form-group">
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.leftView.path + ")",}'>
-                                                        <p class="fs-2x fw-bold mb-10 text-white">Left View</p>
+                                                        <p class="img_title fs-2x fw-bold mb-10 text-white">Left View</p>
                                                     </div>
                                                 </div>
                                             </div>
