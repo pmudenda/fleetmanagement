@@ -3240,7 +3240,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <fieldset style="" class="form-group border p-3">
-                                                <legend>Machine Information:</legend>
+                                                <legend>General Information:</legend>
                                                 <table class="app_form_table table">
                                                     <tr>
                                                         <td>
