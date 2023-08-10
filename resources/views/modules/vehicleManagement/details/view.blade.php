@@ -303,11 +303,11 @@
                         role="tablist">
 
                         <li class="nav-item" style="list-style: none; display: none;">
-                            <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
+                            <a class="nav-link" data-toggle="tab" href="#overview" role="tab">Overview</a>
                         </li>
 
                         <li class="nav-item" style="list-style: none;">
-                            <a class="nav-link" data-toggle="tab" href="#specs" role="tab">Specs</a>
+                            <a class="nav-link active" data-toggle="tab" href="#specs" role="tab">Specs</a>
                         </li>
 
                         <li class="nav-item" style="list-style: none;">
@@ -361,13 +361,13 @@
                     </ul>
                     <hr/>
                     <div class="tab-content">
-                        <div class="tab-pane active" id="overview" role="tabpanel">
+                        <div class="tab-pane" id="overview" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5">
                                 Overview
                             </div>
                         </div>
 
-                        <div class="tab-pane" id="specs" role="tabpanel">
+                        <div class="tab-pane active" id="specs" role="tabpanel">
                             <div
                                     id="tms_chassis_details_form"
                                     name="tmsChassisDetailsForm"

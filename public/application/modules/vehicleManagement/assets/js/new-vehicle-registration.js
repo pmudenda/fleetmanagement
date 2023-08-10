@@ -4,7 +4,6 @@ window.organizationUnits = [];
 window.businessUnits = [];
 
 function setSelectedAccessories() {
-
     $.each(window.selectedAccessories, function (index, element) {
         $("input[name=" + element?.code + "][value=" + element?.is_present + "]").prop('checked', true);
         $("input[name=COMMENT_" + element.code + "]").val(element?.remarks);
