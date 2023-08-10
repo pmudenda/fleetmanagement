@@ -305,15 +305,15 @@
                                                         <label
                                                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                 for="staff_name">
-                                                            Requisition Type:
+                                                            ITEM TYPE:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             @if($requestDetails->item_type == RequisitionItemTypes::StockItem)
-                                                                Stock Items
+                                                                STOCK
                                                             @elseif($requestDetails->item_type == RequisitionItemTypes::NonStockItem)
-                                                                Non-Stock Items
+                                                                NON-STOCK
                                                             @elseif($requestDetails->item_type == RequisitionItemTypes::Service)
-                                                                Service
+                                                                SERVICE
                                                             @endif
                                                         </div>
                                                     </div>
