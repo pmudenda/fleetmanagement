@@ -3497,13 +3497,15 @@
                 element.style.display = 'none';
             });
 
-            $("#vehicleLocation").attr('disabled', true);
+            setInterval(function () {
+                $("#vehicleLocation").attr('disabled', true);
 
-            const registrationNumber = document.querySelector('#registrationNumber');
-            if (registrationNumber && registrationNumber.value) {
-                registrationNumber.setAttribute('disabled', 'disabled');
-                $('#vehicleRegistration').val(registrationNumber.value).attr('readonly', true);
-            }
+                const registrationNumber = document.querySelector('#registrationNumber');
+                if (registrationNumber && registrationNumber.value) {
+                    registrationNumber.setAttribute('disabled', 'disabled');
+                    $('#vehicleRegistration').val(registrationNumber.value).attr('readonly', true);
+                }
+            }, 600)
 
         });
 
