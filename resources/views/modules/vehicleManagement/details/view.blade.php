@@ -63,6 +63,7 @@
                         </span>
 
                         <img id="barcode" alt="vehicle barcode" style="max-height: 40px;" src="">
+
                         {{--<button type="button" data-bs-target="#vehicleDisk" data-bs-toggle="modal"
                                 class="btn btn-default btn-sm mr-3">
                             <i class="fas fa-print"></i> Print Disk
@@ -606,7 +607,7 @@
                                                         <td class="frappe-control ">
                                                             <label for="chargeOutRate" class="control-label reqd"
                                                                    style="padding-right: 0px;">
-                                                                Charge-Out Rate:
+                                                                Charge-Out Rate (/Km):
                                                             </label>
                                                         </td>
                                                         <td>
@@ -624,10 +625,10 @@
                                                                                    placeholder=""
                                                                                    data-doctype="ChassisDetails"
                                                                                    autocomplete="off"/>
-                                                                            <div
+                                                                           {{-- <div
                                                                                     class="input-group-append align-self-center pr-2">
-                                                                                /Km
-                                                                            </div>
+
+                                                                            </div>--}}
                                                                         </div>
 
                                                                     </div>
@@ -957,7 +958,7 @@
                                                                 <div class="clearfix">
                                                                     <label for="engineCapacity"
                                                                            class="control-label reqd"
-                                                                           style="padding-right: 0px;">Engine Capacity
+                                                                           style="padding-right: 0px;">Engine Capacity (cc)
                                                                         :</label>
                                                                     <span class="help"></span>
                                                                 </div>
@@ -978,10 +979,10 @@
                                                                                        name="engineCapacity"
                                                                                        placeholder=""
                                                                                        data-doctype="EngineDetails"/>
-                                                                                <div
+                                                                                {{--<div
                                                                                         class="input-group-addon align-self-center pl-3 pr-3">
-                                                                                    cc
-                                                                                </div>
+
+                                                                                </div>--}}
                                                                             </div>
 
                                                                         </div>
