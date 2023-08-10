@@ -311,6 +311,9 @@
 
             const data = genData();
 
+            const tmsData = tmsGenData();
+            const cleanData = genCleanData();
+
             function createVehicleChartByStatus() {
                 let myChart = echarts.init(document.getElementById('main'));
 
@@ -422,9 +425,288 @@
                 });
             }
 
+            function tmsGenData() {
+                let legendData = [];
+                let valueObject = {};
+                for (const vehicle of window['tmsVehicleData']) {
+                    if (legendData.indexOf(vehicle['vehicle_status']) === -1) {
+                        legendData.push(vehicle['vehicle_status']);
+                    }
+                    if (valueObject.hasOwnProperty(vehicle['vehicle_status'])) {
+                        valueObject[vehicle['vehicle_status']] += 1;
+                    } else {
+                        valueObject[vehicle['vehicle_status']] = 1;
+                    }
+                }
+
+                let seriesData = [];
+                for (const key in valueObject) {
+                    seriesData.push({value: valueObject[key], name: key});
+                }
+                return {
+                    legendData,
+                    seriesData
+                }
+            }
+
+            function genCleanData() {
+                let legendData = [];
+                let valueObject = {};
+                for (const vehicle of window['cleanVehicleData']) {
+                    if (legendData.indexOf(vehicle['vehicle_status']) === -1) {
+                        legendData.push(vehicle['vehicle_status']);
+                    }
+                    if (valueObject.hasOwnProperty(vehicle['vehicle_status'])) {
+                        valueObject[vehicle['vehicle_status']] += 1;
+                    } else {
+                        valueObject[vehicle['vehicle_status']] = 1;
+                    }
+                }
+
+                let seriesData = [];
+                for (const key in valueObject) {
+                    seriesData.push({value: valueObject[key], name: key});
+                }
+                return {
+                    legendData,
+                    seriesData
+                }
+            }
+
+            function createCleanVehicleChartByStatus() {
+                let myChart = echarts.init(document.getElementById('cleanMain'));
+
+                let option = {
+                    title: {
+                        text: 'Vehicle By Status',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow',
+                            label: {
+                                show: true,
+                            },
+                            formatter(params) {
+                                return params[0].data.name;
+                            }
+                        },
+                        formatter(params) {
+                            const value = params[0].data.value;
+                            return 'Status: ' + params[0].data.name
+                                + '<br/>No. Of Vehicles: ' + value;
+                        }
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: true},
+                            dataView: {show: true, readOnly: false},
+                            magicType: {show: true, type: ['line', 'bar', 'stack']},
+                            restore: {show: true},
+                            saveAsImage: {show: true},
+                        },
+                    },
+                    legend: {
+                        data: ['sales']
+                    },
+                    xAxis: {
+                        data: cleanData.legendData,
+                        axisLabel: {
+                            rotate: 45,
+                            width: 50,
+                            ellipsis: '...',
+                            overflow: 'truncate'
+                        }
+                    },
+                    yAxis: {},
+                    series: [
+                        {
+                            name: 'Vehicle By Status',
+                            type: 'bar',
+                            colorBy: 'data',
+                            data: cleanData.seriesData
+                        }
+                    ]
+                };
+
+                myChart.setOption(option);
+            }
+
+            function createCleanVehicleByStatusPie() {
+                let pieChartDom = document.getElementById('pieClean');
+                let myPieChart2 = echarts.init(pieChartDom);
+
+                myPieChart2.setOption({
+                    title: {
+                        text: 'Vehicle By Status',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: true},
+                            dataView: {show: true, readOnly: false},
+                            magicType: {show: true, type: ['line', 'bar', 'stack']},
+                            restore: {show: true},
+                            saveAsImage: {show: true},
+                        },
+                    },
+                    legend: {
+                        type: 'scroll',
+                        orient: 'vertical',
+                        right: 10,
+                        top: 20,
+                        bottom: 20,
+                        data: cleanData.legendData
+                    },
+                    series: [
+                        {
+                            name: 'Vehicle By Status',
+                            type: 'pie',
+                            radius: '55%',
+                            center: ['40%', '50%'],
+                            data: cleanData.seriesData,
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                });
+            }
+
+            function createTMSVehicleChartByStatus() {
+                let myChart = echarts.init(document.getElementById('main'));
+
+                let option = {
+                    title: {
+                        text: 'Vehicle By Status',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow',
+                            label: {
+                                show: true,
+                            },
+                            formatter(params) {
+                                return params[0].data.name;
+                            }
+                        },
+                        formatter(params) {
+                            const value = params[0].data.value;
+                            return 'Status: ' + params[0].data.name
+                                + '<br/>No. Of Vehicles: ' + value;
+                        }
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: true},
+                            dataView: {show: true, readOnly: false},
+                            magicType: {show: true, type: ['line', 'bar', 'stack']},
+                            restore: {show: true},
+                            saveAsImage: {show: true},
+                        },
+                    },
+                    legend: {
+                        data: ['sales']
+                    },
+                    xAxis: {
+                        data: tmsData.legendData,
+                        axisLabel: {
+                            rotate: 45,
+                            width: 50,
+                            ellipsis: '...',
+                            overflow: 'truncate'
+                        }
+                    },
+                    yAxis: {},
+                    series: [
+                        {
+                            name: 'Vehicle By Status',
+                            type: 'bar',
+                            colorBy: 'data',
+                            data: tmsData.seriesData
+                        }
+                    ]
+                };
+
+                myChart.setOption(option);
+            }
+
+            function createTMSVehicleByStatusPie() {
+                let pieChartDom = document.getElementById('pie');
+                let myPieChart2 = echarts.init(pieChartDom);
+
+                myPieChart2.setOption({
+                    title: {
+                        text: 'Vehicle By Status',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: true},
+                            dataView: {show: true, readOnly: false},
+                            magicType: {show: true, type: ['line', 'bar', 'stack']},
+                            restore: {show: true},
+                            saveAsImage: {show: true},
+                        },
+                    },
+                    legend: {
+                        type: 'scroll',
+                        orient: 'vertical',
+                        right: 10,
+                        top: 20,
+                        bottom: 20,
+                        data: tmsData.legendData
+                    },
+                    series: [
+                        {
+                            name: 'Vehicle By Status',
+                            type: 'pie',
+                            radius: '55%',
+                            center: ['40%', '50%'],
+                            data: tmsData.seriesData,
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                });
+            }
+
             createVehicleChartByStatus();
 
             createVehicleByStatusPie();
+
+            createTMSVehicleChartByStatus();
+
+            createTMSVehicleByStatusPie();
+
+            createCleanVehicleChartByStatus();
+
+            createCleanVehicleByStatusPie();
+
         })(window.tmsApp || {});
     </script>
 @endpush
