@@ -1518,13 +1518,13 @@ function checkOnboardingHeaderStatus() {
                 selectElem.attr('readonly', true).trigger('change');
 
                 let price = supplierData['price'];
-                let costPriceInput = document.querySelector('[name="costPrice"]');
-                costPriceInput.value = tmsApp.formatMoney(price, 2);
-                costPriceInput.setAttribute('readonly', 'readonly');
+                $('[name="costPrice"]').val(tmsApp.formatMoney(price, 2)).attr('readonly', true)
+                //costPriceInput.value = ;
+                //costPriceInput.setAttribute('readonly', 'readonly');
 
-                let bookValueInput = document.querySelector('[name="bookValue"]');
-                bookValueInput.value = tmsApp.formatMoney(price, 2);
-                bookValueInput.setAttribute('readonly', 'readonly');
+                $('[name="bookValue"]').val(tmsApp.formatMoney(price, 2)).attr('readonly', true);
+                //bookValueInput.value = ;
+                //bookValueInput.setAttribute('readonly', 'readonly');
 
                 document.querySelector('#purchase_order_number').value = supplierData['document_no'];
 
@@ -1663,10 +1663,7 @@ function checkOnboardingHeaderStatus() {
 
     function calculateInsurancePremium(currentValue) {
         let insurancePremium = tmsApp.formatMoney(((10 / 100) * currentValue), 2);
-        let insurancePremium_Ctl = document.querySelector('#premium')
-        insurancePremium_Ctl.value = insurancePremium;
-        insurancePremium_Ctl.setAttribute('readonly', 'readonly');
-
+        $('#premium').val(insurancePremium).attr('readonly', true);
     }
 
     function getCostCenters() {
