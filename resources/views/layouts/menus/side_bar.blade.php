@@ -984,7 +984,7 @@
                         </a>
                         <ul class="nav nav-treeview pl-3">
 
-                            <li class="nav-item">
+                           {{-- <li class="nav-item">
                                 <a href="{{URL::signedRoute('reports.fuel.requisitions')}}"
                                    class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -992,14 +992,14 @@
                                         Fuel Requisitions
                                     </p>
                                 </a>
-                            </li>
+                            </li>--}}
 
-                            {{--<li class="nav-item">
+                            <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Vehicle Requisition</p>
                                 </a>
-                            </li>--}}
+                            </li>
                             {{--<li class="nav-item">
                                 <a href="{{URL::signedRoute('workOrder.requisition', ['step'=> 1])}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>

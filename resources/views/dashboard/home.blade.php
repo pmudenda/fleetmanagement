@@ -30,8 +30,8 @@
 
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3 class="text-white">53<sup style="font-size: 20px">%</sup></h3>
-                            <p>Bounce Rate</p>
+                            <h3 class="text-white"><sup style="font-size: 20px"></sup></h3>
+                            <p></p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>

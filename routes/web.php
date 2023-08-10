@@ -56,14 +56,11 @@ Route::get('test', function (Request $request) {
     //return view("workshopManagement.workOrder.tabs.imprest_buy");
 
 
-
-
-    if(auth()->user()->can(config('rights.add_accident_nature'))){
+    if (auth()->user()->can(config('rights.add_accident_nature'))) {
         dd('Has Right ' . config('rights.add_accident_nature'));
-    }else{
+    } else {
         dd('Has No Right ' . config('rights.add_accident_nature'));
     }
-
 
 
     config('rights.role_access');
@@ -350,6 +347,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('fuel/requisitions', function () {
             return view('modules.reports.index');
         })->name('reports.fuel.requisitions');
+
+        Route::get('vehicle/status', [\App\Http\Controllers\ReportsController::class, 'vehicleByStatus'])
+            ->name('reports.vehicle.status');
     });
 
     Route::get('e-toll/cards', [eTollCardController::class, 'create'])->name('e-toll.card');
