@@ -29,7 +29,7 @@
 
         }
 
-        .bg-gray-300 {
+        . {
             background-color: transparent !important;
         }
 
@@ -607,7 +607,7 @@
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
-                                                                    <div class="input-group bg-gray-300">
+                                                                    <div class="input-group">
                                                                         {{--v-model="chassisDetails."--}}
                                                                         <input type="text"
                                                                                name="chargeOutRate"
@@ -951,7 +951,7 @@
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
-                                                                            <div class="input-group bg-gray-300">
+                                                                            <div class="input-group">
                                                                                 {{--v-model="engineDetails.engineCapacity"--}}
                                                                                 <input type="number"
                                                                                        class="input-with-feedback form-control bold number_input view_mode"
@@ -991,7 +991,7 @@
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
-                                                                            <div class="input-group bg-gray-300">
+                                                                            <div class="input-group">
                                                                                 {{--v-model="engineDetails.actualEnginePower"--}}
                                                                                 <input type="number"
                                                                                        required
@@ -1026,7 +1026,7 @@
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
-                                                                            <div class="input-group bg-gray-300">
+                                                                            <div class="input-group">
                                                                                 {{--v-model="engineDetails.claimedEnginePower"--}}
                                                                                 <input type="number"
                                                                                        required
@@ -1190,7 +1190,7 @@
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
-                                                                            <div class="input-group bg-gray-300">
+                                                                            <div class="input-group">
                                                                                 {{--v-model="engineDetails.fuelConsumption"--}}
                                                                                 <input type="text"
                                                                                        required
@@ -1225,7 +1225,7 @@
                                                                 {{-- <div class="control-input-wrapper">
                                                                      <div class="control-input">
                                                                          <div class="link-field ui-front" style="position: relative;">
-                                                                             <div class="input-group bg-gray-300">
+                                                                             <div class="input-group">
                                                                                  <input type="text"
                                                                                         required
                                                                                         class="input-with-feedback form-control bold"
@@ -1262,7 +1262,7 @@
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
-                                                                            <div class="input-group bg-gray-300">
+                                                                            <div class="input-group">
                                                                                 {{--v-model="engineDetails.tank_capacity"--}}
                                                                                 <input type="number"
                                                                                        class="input-with-feedback number_input form-control bold view_mode"
@@ -1296,7 +1296,7 @@
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
-                                                                            <div class="input-group bg-gray-300">
+                                                                            <div class="input-group">
                                                                                 {{--v-model="engineDetails.sub_tank_capacity"--}}
                                                                                 <input type="number"
                                                                                        maxlength="4"
@@ -1523,7 +1523,7 @@
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
-                                                                            <div class="input-group bg-gray-300">
+                                                                            <div class="input-group ">
                                                                                 <select type="number"
                                                                                         class="form-control view_mode"
                                                                                         data-fieldtype="Link"
@@ -1675,7 +1675,7 @@
                                                         <div class="control-input">
                                                             <div class="link-field ui-front"
                                                                  style="position: relative;">
-                                                                <div class="input-group bg-gray-300">
+                                                                <div class="input-group ">
                                                                     {{--v-model="engineDetails.engineCapacity"--}}
                                                                     <input type="number"
                                                                            class="input-with-feedback form-control bold number_input view_mode"
@@ -1714,7 +1714,7 @@
                                                         <div class="control-input">
                                                             <div class="link-field ui-front"
                                                                  style="position: relative;">
-                                                                <div class="input-group bg-gray-300">
+                                                                <div class="input-group ">
                                                                     {{--v-model="engineDetails.actualEnginePower"--}}
                                                                     <input type="number"
                                                                            required
@@ -1749,7 +1749,7 @@
                                                         <div class="control-input">
                                                             <div class="link-field ui-front"
                                                                  style="position: relative;">
-                                                                <div class="input-group bg-gray-300">
+                                                                <div class="input-group ">
                                                                     {{--v-model="engineDetails.claimedEnginePower"--}}
                                                                     <input type="number"
                                                                            required
@@ -1910,7 +1910,7 @@
                                                         <div class="control-input">
                                                             <div class="link-field ui-front"
                                                                  style="position: relative;">
-                                                                <div class="input-group bg-gray-300">
+                                                                <div class="input-group ">
                                                                     {{--v-model="engineDetails.fuelConsumption"--}}
                                                                     <input type="text"
                                                                            required
@@ -1945,7 +1945,7 @@
                                                     {{-- <div class="control-input-wrapper">
                                                          <div class="control-input">
                                                              <div class="link-field ui-front" style="position: relative;">
-                                                                 <div class="input-group bg-gray-300">
+                                                                 <div class="input-group ">
                                                                      <input type="text"
                                                                             required
                                                                             class="input-with-feedback form-control bold"
@@ -1981,7 +1981,7 @@
                                                         <div class="control-input">
                                                             <div class="link-field ui-front"
                                                                  style="position: relative;">
-                                                                <div class="input-group bg-gray-300">
+                                                                <div class="input-group ">
                                                                     {{--v-model="engineDetails.tank_capacity"--}}
                                                                     <input type="number"
                                                                            class="input-with-feedback number_input form-control bold view_mode"
@@ -2015,7 +2015,7 @@
                                                         <div class="control-input">
                                                             <div class="link-field ui-front"
                                                                  style="position: relative;">
-                                                                <div class="input-group bg-gray-300">
+                                                                <div class="input-group ">
                                                                     {{--v-model="engineDetails.sub_tank_capacity"--}}
                                                                     <input type="number"
                                                                            maxlength="4"
@@ -2239,7 +2239,7 @@
                                                         <div class="control-input">
                                                             <div class="link-field ui-front"
                                                                  style="position: relative;">
-                                                                <div class="input-group bg-gray-300">
+                                                                <div class="input-group ">
                                                                     <select type="number"
                                                                             class="form-control view_mode"
                                                                             data-fieldtype="Link"
