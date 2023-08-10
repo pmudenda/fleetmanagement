@@ -197,7 +197,7 @@
             <div class="row">
                 <!-- Left col -->
                 <div class="col-md-12 pl-0">
-                   {{-- <div class="card">
+                    <div class="card">
                         <div class="card-header">
                             <div class="card-title">
                                 <h4>TMS Vehicle Data Report</h4>
@@ -265,7 +265,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>--}}
+                    </div>
                 </div>
             </div>
         </div>

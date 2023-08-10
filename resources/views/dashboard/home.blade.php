@@ -44,7 +44,7 @@
                     <div class="small-box bg-warning">
                         <div class="inner">
                             <h3 class="text-white">{{User::where('con_st_code','=', StatusHelper::active())->count()}}</h3>
-                            <p>Active Users</p>
+                            <p class="text-white">Active Users</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
