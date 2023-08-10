@@ -503,19 +503,6 @@ let app = new Vue({
             this.value = this.value.toLocaleUpperCase();
         });
 
-        /*$(document).on('keyup', '#vehicleLocation', function () {
-            if (!this.value) {
-                this.focus();
-            }
-            this.value = this.value.toLocaleUpperCase();
-        });*/
-
-        /*$(document).on('keyup', '#vehicleLocation', function () {
-            if (!this.value) {
-                this.focus();
-            }
-            this.value = this.value.toLocaleUpperCase();
-        });*/
 
         Inputmask({
             "mask": "A{2,3} 9{1,4}"

@@ -3235,55 +3235,59 @@
 
                                     <label class="app-required-marker"></label>
 
-                                    <fieldset style="" class="form-group border p-3">
-                                        <legend>General Information:</legend>
-                                    </fieldset>
+
                                     {{--<legend>General Information:</legend>--}}
                                     <div class="row">
                                         <div class="col-6">
-                                            <table class="app_form_table table">
-                                                <tr>
-                                                    <td>
-                                                        <label class="app-field-label">
-                                                            Registration No.
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <div class="app-field-input">
-                                                            <div class="input-group">
-                                                                <input type="text"
-                                                                       id="vehicleRegistration"
-                                                                       required
-                                                                       autocomplete="off"
-                                                                       name="vehicleRegistration"
-                                                                       class="form-control"/>
-                                                                <div class="input-group-addon">
-                                                                    <button type="button"
-                                                                            id="vehicleDetailsBtn"
-                                                                            class="btn btn-sm btn-success">
-                                                                        <i class="fas fa-search"></i>
-                                                                    </button>
+                                            <fieldset style="" class="form-group border p-3">
+                                                <legend>Machine Information:</legend>
+                                                <table class="app_form_table table">
+                                                    <tr>
+                                                        <td>
+                                                            <label class="app-field-label">
+                                                                Registration No.
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <div class="app-field-input">
+                                                                <div class="input-group">
+                                                                    <input type="text"
+                                                                           id="vehicleRegistration"
+                                                                           required
+                                                                           autocomplete="off"
+                                                                           name="vehicleRegistration"
+                                                                           class="form-control form-control-sm"/>
+                                                                    <div class="input-group-append">
+                                                                        <button type="button"
+                                                                                id="vehicleDetailsBtn"
+                                                                                class="btn btn-sm btn-success">
+                                                                            <i class="fas fa-search"></i>
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="pl-5">
-                                                        <label class="app-field-label">
-                                                            Machinery Type.
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <select class="form-select form-select-sm">
-                                                            <option value="VEHICLE">VEHICLE</option>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                </tr>
-                                            </table>
+                                                        </td>
+                                                        <td class="pl-5">
+                                                            <label class="app-field-label">
+                                                                Machinery Type.
+                                                                <span class="text-danger">*</span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <select disabled class="form-select form-select-sm">
+                                                                <option selected value="VEHICLE">VEHICLE</option>
+                                                                <option value="PLANT EQUIPMENT">PLANT EQUIPMENT</option>
+                                                                <option value="BOAT">BOAT</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                    </tr>
+                                                </table>
+                                            </fieldset>
+
                                         </div>
                                         <div class="col-6">
                                             <fieldset style="" class="form-group border p-3">
@@ -3363,7 +3367,6 @@
                                                     </tr>
                                                 </table>
                                             </fieldset>
-
                                         </div>
                                     </div>
 
