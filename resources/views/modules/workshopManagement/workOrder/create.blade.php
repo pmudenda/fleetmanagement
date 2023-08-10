@@ -394,13 +394,13 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-
-                        <button class="btn btn-sm btn-danger pull-left"
+                        {{--<button class="btn btn-sm btn-danger "
                                 id="closeSignatureModal"
                                 type="button">
                             Close
-                        </button>
-
+                        </button>--}}
+                        <button type="button" class="btn btn-default pull-left"
+                                data-bs-dismiss="modal">Close</button>
                         <button id="btnSign" type="submit"
                                 class="btn btn-sm btn-success mr-3">
                             <i class="fas fa-save"></i>

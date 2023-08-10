@@ -12,6 +12,7 @@ use App\Exceptions\MaterialReservationException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
+use App\Models\MaterialHeader;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Services\Requisitions\FuelRequisitionService;
@@ -301,31 +302,49 @@ class WorkflowController extends Controller
 
             $user = Auth::user();
             if ($nextStepId == 100 && $action == WorkflowActions::approve()) {
-                JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
-                    ->update([
-                        'modified_by' => $user->staff_no,
-                        'status' => StatusHelper::authorised(),
-                        'updated_at' => Carbon::now()
-                    ]);
+                $workOrder = JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
+                    ->first();
+
+                $workOrder->modified_by = $user->staff_no;
+                $workOrder->status = StatusHelper::authorised();
+                $workOrder->updated_at = Carbon::now();
+                $workOrder->save();
+
+                $stockItemRequisitions = MaterialHeader::where('veh_reg_no', $workOrder->reg_no)
+                    ->whereIn('status', [StatusHelper::new(), StatusHelper::partiallyAuthorised()])
+                    ->where('item_type', '=', RequisitionItemTypes::StockItem)
+                    ->where('is_fuel', '=', 'N')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
+                foreach ($stockItemRequisitions as $requisition) {
+                    $this->procurementService->cancelStoresRequisition($requisition->st_pur);
+                }
+
             } else {
                 $status = '';
                 switch (strtolower(trim($request->get('Approved')))) {
                     case 'approve':
                         $message = 'Request Approved and Submitted to the Next Authority For Approval';
                         $status = StatusHelper::partiallyAuthorised();
+                        JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
+                            ->update([
+                                'modified_by' => $user->staff_no,
+                                'status' => $status,
+                                'updated_at' => Carbon::now()
+                            ]);
                         break;
                     case 'reject':
                         $message = 'Request Rejected';
                         $status = StatusHelper::rejected();
+                        JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
+                            ->update([
+                                'modified_by' => $user->staff_no,
+                                'status' => $status,
+                                'updated_at' => Carbon::now()
+                            ]);
                         break;
                 }
-
-                JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
-                    ->update([
-                        'modified_by' => $user->staff_no,
-                        'status' => $status,
-                        'updated_at' => Carbon::now()
-                    ]);
             }
 
             DB::commit();

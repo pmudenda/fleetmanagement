@@ -156,7 +156,7 @@
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
-                                            Work Order
+                                            Job Cards
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
@@ -170,21 +170,21 @@
                                                 </a>
                                             </li>
                                         @endcan
+
+                                        {{--@can(config('rights.view_job_card'))--}}
+                                        <li class="nav-item pl-2">
+                                            <a href="{{URL::signedRoute('jobCard.list')}}"
+                                               class="nav-link">
+                                                <i class="fas fa-list nav-icon"></i>
+                                                <p>
+                                                    Selection
+                                                </p>
+                                            </a>
+                                        </li>
+                                        {{-- @endcan--}}
                                     </ul>
                                 </li>
                             @endcanany
-
-                          {{--@can(config('rights.view_job_card'))
-                                <li class="nav-item pl-2">
-                                    <a href="{{URL::signedRoute('workOrder.list',['step'=> 1])}}"
-                                       class="nav-link">
-                                        <i class="fas fa-list nav-icon"></i>
-                                        <p>
-                                            In Workshop
-                                        </p>
-                                    </a>
-                                </li>
-                            @endcan--}}
 
                             @can(config('rights.view_job_card'))
                                 <li class="nav-item pl-2">
@@ -536,7 +536,6 @@
                         config('rights.add_workshop'),
                         config('rights.edit_workshop'),
                         config('rights.view_workshop'),
-                        config('rights.add_general_table_data'),
                         config('rights.add_license_class'),
                         config('rights.add_accident_nature')
                     ];
@@ -587,11 +586,15 @@
                                 </li>
                             @endcan
 
-                            @canany([
-                                        config('rights.add_general_table_data'),
+                            @canany(config('rights.add_vehicle_brand'),
+                                        config('rights.add_vehicle_model'),
+                                        config('rights.add_vehicle_type'),
                                         config('rights.add_license_class'),
-                                        config('rights.add_accident_nature')
-                                    ])
+                                        config('rights.add_accident_nature'),
+                                        config('rights.add_workshop'),
+                                        config('rights.edit_workshop'),
+                                        config('rights.view_workshop'))
+
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -601,261 +604,260 @@
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview pl-2">
+                                        @canany(config('rights.add_vehicle_brand'), config('rights.add_vehicle_model'), config('rights.add_vehicle_type'))
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>
+                                                        Vehicle
+                                                        <i class="right fas fa-angle-left"></i>
+                                                    </p>
+                                                </a>
+                                                <ul class="nav nav-treeview pl-2">
 
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>
-                                                    Vehicle
-                                                    <i class="right fas fa-angle-left"></i>
-                                                </p>
-                                            </a>
-                                            <ul class="nav nav-treeview pl-2">
-
-                                                <!--Define Vehicle Brands-->
-                                                @can(config('rights.add_vehicle_brand'))
-                                                    <li class="nav-item">
-                                                        <a class="nav-link"
-                                                           href="{{ URL::signedRoute('vehicle.make') }}">
+                                                    <!--Define Vehicle Brands-->
+                                                    @canany(config('rights.add_vehicle_brand'))
+                                                        <li class="nav-item">
+                                                            <a class="nav-link"
+                                                               href="{{ URL::signedRoute('vehicle.make') }}">
                                                             <span class="menu-bullet">
                                                                 <span class="bullet bullet-dot">
                                                                 </span>
                                                             </span>
-                                                            <span class="menu-title">
+                                                                <span class="menu-title">
                                                             Make (Brand)
                                                         </span>
-                                                        </a>
-                                                    </li>
-                                                @endcan
+                                                            </a>
+                                                        </li>
+                                                    @endcanany
 
-
-                                                @can(config('rights.add_vehicle_model'))
-                                                    <li class="nav-item">
-                                                        <a class="nav-link"
-                                                           href="{{ URL::signedRoute('vehicle.models') }}">
+                                                    @canany(config('rights.add_vehicle_model'))
+                                                        <li class="nav-item">
+                                                            <a class="nav-link"
+                                                               href="{{ URL::signedRoute('vehicle.models') }}">
                                                             <span class="menu-bullet">
                                                                 <span class="bullet bullet-dot">
                                                                 </span>
                                                             </span>
-                                                            <span class="menu-title">
+                                                                <span class="menu-title">
                                                             Models
                                                         </span>
-                                                        </a>
-                                                    </li>
-                                                @endcan
+                                                            </a>
+                                                        </li>
+                                                    @endcanany
 
-
-                                                <!--Define Vehicle Body Types-->
-                                                @can(config('rights.add_vehicle_type'))
-                                                    <li class="nav-item">
-                                                        <a class="nav-link"
-                                                           href="{{ URL::signedRoute('vehicle.body.types') }}">
+                                                    <!--Define Vehicle Body Types-->
+                                                    @canany(config('rights.add_vehicle_type'))
+                                                        <li class="nav-item">
+                                                            <a class="nav-link"
+                                                               href="{{ URL::signedRoute('vehicle.body.types') }}">
                                                             <span class="menu-bullet">
                                                                 <span class="bullet bullet-dot">
                                                                 </span>
                                                             </span>
-                                                            <p class="menu-title">
-                                                                Body Types
-                                                            </p>
-                                                        </a>
-                                                    </li>
-                                                @endcan
-                                            </ul>
-                                        </li>
+                                                                <p class="menu-title">
+                                                                    Body Types
+                                                                </p>
+                                                            </a>
+                                                        </li>
+                                                    @endcanany
 
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>
-                                                    Workshop Directory
-                                                    <i class="right fas fa-angle-left"></i>
-                                                </p>
-                                            </a>
-                                            <ul class="nav nav-treeview pl-2">
-                                                @canany([config('rights.add_workshop_section'),config('rights.edit_workshop_section'),config('rights.view_workshop_section')])
-                                                    <li class="nav-item">
-                                                        <a class="nav-link"
-                                                           href="{{ URL::signedRoute('workshop.sections') }}">
-                                                            <i class="far fa-circle nav-icon"></i>
-                                                            <p>Workshop Sections</p>
-                                                        </a>
-                                                    </li>
-                                                @endcanany
+                                                </ul>
+                                            </li>
+                                        @endcanany
 
-                                                @canany([
-                                                  config('rights.add_workshop'),
-                                                  config('rights.edit_workshop'),
-                                                  config('rights.view_workshop')
-                                              ])
-                                                    <li class="nav-item">
+                                        @canany(config('rights.add_workshop'),config('rights.edit_workshop'),config('rights.view_workshop'))
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>
+                                                        Workshop Directory
+                                                        <i class="right fas fa-angle-left"></i>
+                                                    </p>
+                                                </a>
+                                                <ul class="nav nav-treeview pl-2">
+                                                    @canany(config('rights.add_workshop'),config('rights.edit_workshop'),config('rights.view_workshop'))
+                                                        <li class="nav-item">
+                                                            <a class="nav-link"
+                                                               href="{{ URL::signedRoute('workshop.sections') }}">
+                                                                <i class="far fa-circle nav-icon"></i>
+                                                                <p>Workshop Sections</p>
+                                                            </a>
+                                                        </li>
+                                                    @endcanany
+
+                                                    @canany(config('rights.add_workshop'),config('rights.edit_workshop'),config('rights.view_workshop'))
+                                                        <li class="nav-item">
+                                                            <a href="{{ URL::signedRoute('workshop.list') }}"
+                                                               class="nav-link">
+                                                                <i class="far fa-circle nav-icon"></i>
+                                                                <p>Workshop</p>
+                                                            </a>
+                                                        </li>
+                                                    @endcanany
+
+                                                    <li class="nav-item d-none">
                                                         <a href="{{ URL::signedRoute('workshop.list') }}"
                                                            class="nav-link">
                                                             <i class="far fa-circle nav-icon"></i>
-                                                            <p>Workshop</p>
+                                                            <p>External Garages</p>
                                                         </a>
                                                     </li>
-                                                @endcanany
 
-                                                <li class="nav-item">
-                                                    <a href="{{ URL::signedRoute('workshop.list') }}"
-                                                       class="nav-link">
-                                                        <i class="far fa-circle nav-icon"></i>
-                                                        <p>External Garages</p>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
+                                                </ul>
+                                            </li>
+                                        @endcanany
 
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{ URL::signedRoute('configuration.general.table',['ref'=>'driver-license-class']) }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span></span>
+                                        @canany(config('rights.add_license_class'),config('rights.edit_license_class'))
+                                            <li class="nav-item">
+                                                <a class="nav-link"
+                                                   href="{{ URL::signedRoute('configuration.general.table',['ref'=>'driver-license-class']) }}">
+                                                    <p class="menu-title">
+                                                        License Class
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcanany
 
-                                                <p class="menu-title">
-                                                    License Class
-                                                </p>
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>
-                                                    Accidents
-                                                    <i class="right fas fa-angle-left"></i>
-                                                </p>
-                                            </a>
-                                            <ul class="nav nav-treeview pl-2">
-                                                <li class="nav-item">
-                                                    <a class="nav-link"
-                                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'accident-nature']) }}">
+                                        @canany(config('rights.add_accident_nature'), config('rights.update_accident_nature'))
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>
+                                                        Accidents
+                                                        <i class="right fas fa-angle-left"></i>
+                                                    </p>
+                                                </a>
+                                                <ul class="nav nav-treeview pl-2">
+                                                    @canany(config('rights.add_accident_nature'),config('rights.update_accident_nature'))
+                                                        <li class="nav-item">
+                                                            <a class="nav-link"
+                                                               href="{{ URL::signedRoute('configuration.general.table',['ref'=>'accident-nature']) }}">
                                                         <span class="menu-bullet">
                                                             <span class="bullet bullet-dot">
                                                             </span>
                                                         </span>
-                                                        <p class="menu-title">
-                                                            Accident Natures
-                                                        </p>
-                                                    </a>
-                                                </li>
+                                                                <p class="menu-title">
+                                                                    Accident Natures
+                                                                </p>
+                                                            </a>
+                                                        </li>
+                                                    @endcanany
 
-                                                <li class="nav-item">
-                                                    <a class="nav-link"
-                                                       href="{{ URL::signedRoute('configuration.general.table',['ref'=>'accident-types']) }}">
+                                                    @canany(config('rights.add_accident_type'), config('rights.add_accident_type'))
+                                                        <li class="nav-item">
+                                                            <a class="nav-link"
+                                                               href="{{ URL::signedRoute('configuration.general.table',['ref'=>'accident-types']) }}">
                                                         <span class="menu-bullet">
                                                             <span class="bullet bullet-dot"></span>
                                                         </span>
-                                                        <p class="menu-title">
-                                                            Accident Types
-                                                        </p>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
+                                                                <p class="menu-title">
+                                                                    Accident Types
+                                                                </p>
+                                                            </a>
+                                                        </li>
+                                                    @endcanany
+                                                </ul>
+                                            </li>
+                                        @endcanany
 
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{ URL::signedRoute('configuration.general.table',['ref'=>'fuel-levels']) }}">
+                                        @canany(config('rights.update_fuel_level'),config('rights.update_fuel_level') )
+                                            <li class="nav-item">
+                                                <a class="nav-link"
+                                                   href="{{ URL::signedRoute('configuration.general.table',['ref'=>'fuel-levels']) }}">
+                                                    <i class="fas fa-gas-pump"></i>
+                                                    <p class="menu-title">
+                                                        Fuel Level
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcanany
 
-                                                <i class="fas fa-gas-pump"></i>
+                                        @canany(config('rights.add_general_status'),config('rights.add_general_status'))
+                                            <li class="nav-item">
+                                                <a class="nav-link"
+                                                   href="{{ URL::signedRoute('configuration.general.table',['ref'=>'general-status']) }}">
+                                                    <p class="menu-title">
+                                                        General Statuses
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcanany
 
-                                                <p class="menu-title">
-                                                    Fuel Level
-                                                </p>
-                                            </a>
-                                        </li>
+                                        @canany(config('rights.update_insurance_company'), config('rights.update_insurance_company'))
+                                            <li class="nav-item">
+                                                <a class="nav-link"
+                                                   href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insurance-company']) }}">
+                                                    <p class="menu-title">
+                                                        Insurance Company
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcanany
 
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{ URL::signedRoute('configuration.general.table',['ref'=>'general-status']) }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span></span>
-                                                <p class="menu-title">
-                                                    General Statuses
-                                                </p>
-                                            </a>
-                                        </li>
+                                        @canany(config('rights.update_insurance_types'), config('rights.update_insurance_types'))
+                                            <li class="nav-item">
+                                                <a class="nav-link"
+                                                   href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insurance-types']) }}">
+                                                    <p class="menu-title">
+                                                        Insurance Types
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcanany
 
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insurance-company']) }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span>
-                                            </span>
-                                                <p class="menu-title">
-                                                    Insurance Company
-                                                </p>
-                                            </a>
-                                        </li>
+                                        @canany(config('rights.add_general_table_data'))
+                                            <li class="nav-item">
+                                                <a class="nav-link"
+                                                   href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insurance-sub-types']) }}">
+                                                    <p class="menu-title">
+                                                        Insurance Sub Types
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcanany
 
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insurance-types']) }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span></span>
-                                                <span class="menu-title">
-                                                Insurance Types
-                                        </span>
-                                            </a>
-                                        </li>
+                                        @canany(config('rights.add_repair_type'), config('rights.update_repair_type'))
+                                            <li class="nav-item">
+                                                <a class="nav-link"
+                                                   href="{{ URL::signedRoute('configuration.general.table',['ref'=>'repair-category']) }}">
+                                                    <p class="menu-title">
+                                                        Repair Types
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcanany
 
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insurance-sub-types']) }}">
-                                            <span class="menu-bullet">
-                                                <span class="bullet bullet-dot">
-                                                </span></span>
-                                                <span class="menu-title">
-                                                Insurance Sub Types
-                                        </span>
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{ URL::signedRoute('configuration.general.table',['ref'=>'repair-category']) }}">
+                                        @canany(config('rights.add_store_movement'), config('rights.edit_store_movement'))
+                                            <li class="nav-item">
+                                                <a class="nav-link"
+                                                   href="{{URL::signedRoute('configuration.general.table',['ref'=>'store-movement-type']) }}">
                                                 <span class="menu-bullet">
                                                     <span class="bullet bullet-dot">
                                                     </span>
                                                 </span>
 
-                                                <p class="menu-title">
-                                                    Repair Types
-                                                </p>
-                                            </a>
-                                        </li>
+                                                    <p class="menu-title">
+                                                        Stores Movement Types
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcanany
 
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{URL::signedRoute('configuration.general.table',['ref'=>'store-movement-type']) }}">
+                                        @canany(config('rights.add_vehicle_status'), config('rights.edit_vehicle_status'))
+                                            <li class="nav-item">
+                                                <a class="nav-link"
+                                                   href="{{ URL::signedRoute('configuration.general.table',['ref'=>'vehicle-status']) }}">
                                                 <span class="menu-bullet">
                                                     <span class="bullet bullet-dot">
                                                     </span>
                                                 </span>
-
-                                                <p class="menu-title">
-                                                    Stores Movement Types
-                                                </p>
-                                            </a>
-                                        </li>
-
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{ URL::signedRoute('configuration.general.table',['ref'=>'vehicle-status']) }}">
-                                                <span class="menu-bullet">
-                                                    <span class="bullet bullet-dot">
-                                                    </span>
-                                                </span>
-                                                <p class="menu-title">
-                                                    Vehicle Status
-                                                </p>
-                                            </a>
-                                        </li>
+                                                    <p class="menu-title">
+                                                        Vehicle Status
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        @endcanany
                                     </ul>
                                 </li>
                             @endcanany
@@ -927,39 +929,49 @@
                     </ul>
                 </li>
 
-                <li class="nav-item d-none">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-credit-card" style="font-size: 20px;"></i>
-                        <p>
-                            e-Toll Cards
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview pl-3">
-                        <li class="nav-item">
-                            <a href="{{URL::signedRoute('e-toll.card.report')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Usage</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{URL::signedRoute('e-toll.card')}}"
-                               class="nav-link">
-                                <i class="fas fa-plus nav-icon"></i>
-                                <p>
-                                    Add
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{URL::signedRoute('e-toll.card.list')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
+                @canany(['add_toll_card','view_toll_card','update_toll_card'])
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-credit-card" style="font-size: 20px;"></i>
+                            <p>
+                                e-Toll Cards
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview pl-3">
+                            <li class="nav-item">
+                                <a href="{{URL::signedRoute('e-toll.card.report')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Usage</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{URL::signedRoute('e-toll.card')}}"
+                                   class="nav-link">
+                                    <i class="fas fa-plus nav-icon"></i>
+                                    <p>
+                                        Add
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{URL::signedRoute('e-toll.card.transaction')}}"
+                                   class="nav-link">
+                                    <i class="fas fa-plus nav-icon"></i>
+                                    <p>
+                                        Transactions
+                                    </p>
+                                </a>
+                            </li>
+                            {{--<li class="nav-item">
+                                <a href="{{URL::signedRoute('e-toll.card.list')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>List</p>
+                                </a>
+                            </li>--}}
+                        </ul>
+                    </li>
+                @endcanany
 
                 @php
                     $reportsPermissions  = [config('right.access_reports')];

@@ -16,10 +16,12 @@ return new class extends Migration {
             $table->string('cardScheme', 255);
             $table->string('cardNumber', 20);
             $table->string('cardStatus', 50);
-            $table->timestamp('dateIssued');
-            $table->timestamp('expiryDate' );
+            $table->string('assigned_distributor', 50);
+            $table->string('card_value', 50);
+            $table->timestamp('dateIssued')->nullable();
+            $table->timestamp('expiryDate');
             $table->string('cvv', 3);
-            $table->string('contactNumber', 15);
+            $table->string('contactNumber', 20);
             $table->string('assignedTo', 255)->nullable();
             $table->string('responseHead', 255)->nullable();
             $table->string('responseHeadId', 8)->nullable();

@@ -16,13 +16,10 @@ use App\Http\Controllers\Security\PermissionsController;
 use App\Http\Controllers\Security\RolesController;
 use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkshopManagement\MaintenanceController;
-use App\Http\Controllers\WorkshopManagement\MechanicController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
-use App\Models\Reference\LabourRates;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 
@@ -56,10 +53,17 @@ Route::get('/mail_view', function () {
 
 Route::get('test', function (Request $request) {
 
-    return view("workshopManagement.workOrder.tabs.imprest_buy");
+    //return view("workshopManagement.workOrder.tabs.imprest_buy");
 
-    (config('rights.role_create'))
-    (auth()->user()->can(config('rights.role_create')));
+
+
+
+    if(auth()->user()->can(config('rights.add_accident_nature'))){
+        dd('Has Right ' . config('rights.add_accident_nature'));
+    }else{
+        dd('Has No Right ' . config('rights.add_accident_nature'));
+    }
+
 
 
     config('rights.role_access');
@@ -202,10 +206,12 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('workOrder', [MaintenanceController::class, 'create'])->name('workOrder.requisition');
 
-            Route::get('workOrder/job-card/accessories', [MaintenanceController::class, 'accessoriesTab'])->name('accessories.job.card');
+            Route::get('job-card/accessories', [MaintenanceController::class, 'accessoriesTab'])->name('accessories.job.card');
 
             // supporting
             Route::get('requisitions/workOrder/list', [MaintenanceController::class, 'list'])->name('workOrder.list');
+
+            Route::get('all/job-card/list', [MaintenanceController::class, 'list'])->name('jobCard.list');
 
             Route::post('requisitions/workOrder', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
 
@@ -245,8 +251,8 @@ Route::group(['middleware' => 'auth'], function () {
                 $response = Http::asForm()->post(
                     'http://example.com/users',
                     [
-                    'name' => 'Sara',
-                    'role' => 'Privacy Consultant',
+                        'name' => 'Sara',
+                        'role' => 'Privacy Consultant',
                     ]);
 
                 return response()->json(
@@ -283,43 +289,50 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('driver/find', [DriverController::class, 'findDriver'])->name('driver.search');
     });
 
-    Route::group(['prefix' => 'mechanic-management'], function () {
-        Route::get('mechanic/create', [MechanicController::class, 'create'])->name('mechanic.create');
+    Route::get('load/procurement/articles', [MaintenanceController::class, 'searchArticle'])
+        ->name('load.articles');
 
-        Route::post('mechanic/save', [MechanicController::class, 'store'])->name('mechanic.save');
+    Route::get('get/procurement/articles', [MaintenanceController::class, 'getArticlesByType'])
+        ->name('get.articles');
 
-        Route::get('mechanic/show', [MechanicController::class, 'show'])->name('mechanic.show');
+    Route::get('load/article/details', [ProcurementSystemIntegrationController::class, "getArticleDetails"])
+        ->name('load.article.details');
 
-        Route::get('mechanic/list', [MechanicController::class, 'list'])->name('mechanic.list');
+    Route::post('get/workshop/store-purchase-office', [MaintenanceController::class, 'getStoreAndPurchaseOffice'])
+        ->name('get.store.purchase_office');
 
-        Route::post('mechanic/find', [MechanicController::class, 'find'])->name('mechanic.search');
+    Route::post('document/followup', [DocumentController::class, 'documentFollowup'])
+        ->name('document.followup');
 
-        Route::post('labour/rates', function (Request $request) {
-            try {
+    Route::post('document/audit/trail', [DocumentController::class, 'documentAuditTrail'])
+        ->name('document.audit.trail');
 
-                $rate = LabourRates::where('post_code', '=', $request->get('postCode'))
-                    //->where('status', '=', StatusHelper::active())
-                    ->get();
-                if (empty($rate)) {
-                    return response()->json([
-                        'state' => 'failure',
-                        'payload' => []
-                    ]);
-                }
+    Route::get('parts-selection', function (Request $request) {
 
-                return response()->json([
-                    'state' => 'success',
-                    'payload' => $rate
-                ]);
-            } catch (\Exception $e) {
-                Log::error($e);
-                return response()->json([
-                    'state' => 'failure',
-                    'payload' => []
-                ]);
-            }
-        })->name('labour.rates');
-    });
+        $step = '1';
+        $repairTypes = [];
+        $accessories_checked_in = [];
+        $accessories = [];
+        $details = [];
+        $workshop_sections = [];
+        $defects = [];
+        $comments = [];
+
+        $view_name = 'modules.workshopManagement.workOrder.create_old';
+
+        return view($view_name)->with(
+            compact(
+                'repairTypes',
+                'accessories',
+                'details',
+                'accessories_checked_in',
+                'step',
+                'workshop_sections',
+                'defects',
+                'comments'
+            )
+        );
+    })->name('parts.selection');
 
     Route::group(['prefix' => 'reminders'], function () {
         Route::post('list', [RemindersController::class, 'index'])->name('reminder.list');
@@ -345,52 +358,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('e-toll/cards/list', [eTollCardController::class, 'list'])->name('e-toll.card.list');
 
+    Route::get('e-toll/cards/transactions', [eTollCardController::class, 'uploadTransaction'])->name('e-toll.card.transaction');
+
+    Route::post('save/e-toll/cards/transactions', [eTollCardController::class, 'saveTransaction'])->name('e-toll.card.save.transactions');
+
     Route::get('e-toll/cards/report', [eTollCardController::class, 'report'])->name('e-toll.card.report');
 });
-
-Route::get('load/procurement/articles', [MaintenanceController::class, 'searchArticle'])
-    ->name('load.articles');
-
-Route::get('get/procurement/articles', [MaintenanceController::class, 'getArticlesByType'])
-    ->name('get.articles');
-
-Route::get('load/article/details', [ProcurementSystemIntegrationController::class, "getArticleDetails"])
-    ->name('load.article.details');
-
-Route::post('get/workshop/store-purchase-office', [MaintenanceController::class, 'getStoreAndPurchaseOffice'])
-    ->name('get.store.purchase_office');
-
-Route::post('document/followup', [DocumentController::class, 'documentFollowup'])
-    ->name('document.followup');
-
-Route::post('document/audit/trail', [DocumentController::class, 'documentAuditTrail'])
-    ->name('document.audit.trail');
-
-Route::get('parts-selection', function (Request $request) {
-
-    $step = '1';
-    $repairTypes = [];
-    $accessories_checked_in = [];
-    $accessories = [];
-    $details = [];
-    $workshop_sections = [];
-    $defects = [];
-    $comments = [];
-
-    $view_name = 'modules.workshopManagement.workOrder.create_old';
-
-    return view($view_name)->with(
-        compact(
-            'repairTypes',
-            'accessories',
-            'details',
-            'accessories_checked_in',
-            'step',
-            'workshop_sections',
-            'defects',
-            'comments'
-        )
-    );
-})->name('parts.selection');
 
 

@@ -301,7 +301,6 @@ class WorkshopService
         $workOrder->updated_at = Carbon::now();
         $totalWorkOrderAmount = $request->get('workOrderTotalAmount');
 
-
         foreach ($request->get("items") as $labourItem) {
             WorkshopLabour::create([
                 'wshp_act_code' => $workOrder->wshp_act_code,
@@ -326,16 +325,6 @@ class WorkshopService
         $workOrder->save();
 
         $closureRemarks = $request->get('closureRemarks');
-
-        $stockItemRequisitions = MaterialHeader::where('veh_reg_no', $workOrder->reg_no)
-            ->whereIn('status', [StatusHelper::new(), StatusHelper::partiallyAuthorised()])
-            ->where('item_type', '=', RequisitionItemTypes::StockItem)
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        foreach ($stockItemRequisitions as $requisition) {
-            $this->procurementService->cancelStoresRequisition($requisition->st_pur);
-        }
 
         $short_description = "$closureRemarks for work-order $workOrderNumber";
 

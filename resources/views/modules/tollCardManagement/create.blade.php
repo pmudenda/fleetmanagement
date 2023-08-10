@@ -73,6 +73,37 @@
                                         <tr>
                                             <td>
                                                 <label class="app-field-label">
+                                                    Vehicle Registration Number
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <div class="app-field-input" data-field="taskOriginator">
+                                                    <div class="input-group">
+                                                        <input type="text"
+                                                               id="vehicleRegistration"
+                                                               required
+                                                               autocomplete="off"
+                                                               name="vehicleRegistration"
+                                                               class="form-control"/>
+                                                        <div class="input-group-append">
+                                                            <button type="button"
+                                                                    class="input-group-text">
+                                                                <i class="fas fa-car"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="pl-5">
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label class="app-field-label">
                                                     NRFA Batch Number <span class="text-danger">*</span>
                                                 </label>
                                             </td>
@@ -105,8 +136,8 @@
                                                 <div class="app-field-input" data-field="dateoriginated">
                                                     <div class="input-group">
                                                         <select
-                                                            name="cardScheme"
-                                                            class="form-select">
+                                                                name="cardScheme"
+                                                                class="form-select">
                                                             <option value="ST">Standard</option>
                                                         </select>
                                                     </div>
@@ -124,7 +155,7 @@
                                                 <div class="input-group">
                                                     <input type="text"
                                                            name="cardNumber"
-                                                           id="dateOpened"
+                                                           id="cardNumber"
                                                            autocomplete="off"
                                                            class="form-control"
                                                            required/>
@@ -202,23 +233,11 @@
                                                            class="form-control datetimepicker"
                                                            data-target="#dateOpened"
                                                            required/>
-                                                    <div class="input-group-append"
-                                                         data-target="#dateOpened"
-                                                         data-action="openDatePicker">
-                                                        <span data-action="openDatePicker"
-                                                              class="input-group-text">
-                                                            <i data-action="expiryDate"
-                                                               class="fa fa-calendar">
-                                                            </i>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">
+                                                            <i class="fa fa-calendar"></i>
                                                         </span>
                                                     </div>
-                                                    <button type="button"
-                                                            data-action="clearDate"
-                                                            class="input-group-text">
-                                                        <i data-action="clearDate"
-                                                           class="fa fa-eraser">
-                                                        </i>
-                                                    </button>
                                                 </div>
                                             </td>
 
@@ -262,8 +281,7 @@
                                                                required
                                                                class="form-control form-control-sm"/>
                                                         <div class="input-group-append">
-                                                            <div
-                                                                class="input-group-text">
+                                                            <div class="input-group-text">
                                                                 <i class="fa fa-phone"></i>
                                                             </div>
                                                         </div>
@@ -282,9 +300,9 @@
                                                 <div class="app-field-input">
                                                     <div class="input-group">
                                                         <select
-                                                            id="assignedTo"
-                                                            name="assignedTo"
-                                                            class="form-select">
+                                                                id="assignedTo"
+                                                                name="assignedTo"
+                                                                class="form-select">
                                                             <option value="ND">NORTHERN DIVISION</option>
                                                             <option value="LR">LUSAKA</option>
                                                         </select>
@@ -403,7 +421,7 @@
 
 @push('scripts')
     <script
-        src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
+            src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
     @include('layouts.partials.dataTableScripts')
     <script src="{{asset('libs/imageUpload/imageUpload.js')}}"></script>
     <!-- page script -->
@@ -411,12 +429,21 @@
         (function (tmsApp, $) {
 
             Inputmask({
-                "mask": "99999999"
-            }).mask("#permit_number");
+                "mask": "9999 9999 9999 9999"
+            }).mask("#cardNumber");
 
             Inputmask({
-                "mask": "99999999"
-            }).mask("#license_number");
+                "mask": "99/9999"
+            }).mask("#expiryDate");
+
+
+            /*Inputmask({
+                "mask": "{+99}999999999"
+            }).mask("#contactNumber");*/
+
+            Inputmask({
+                "mask": "A{2,3} 9{1,4}"
+            }).mask("#vehicleRegistration");
 
             tmsApp.appFormValidator('form[name="newETollCardForm"]',
                 {},
@@ -500,10 +527,10 @@
                 dateFormat: 'dd/mm/yy',
             });
 
-            $('[name="expiryDate"]').datepicker({
+            /*$('[name="expiryDate"]').datepicker({
                 minDate: new Date(),
                 dateFormat: 'dd/mm/yy',
-            });
+            });*/
 
             $(document).on('click', '[data-action="openDatePicker"]', function () {
                 $(".datetimepicker-opened").datepicker("show");

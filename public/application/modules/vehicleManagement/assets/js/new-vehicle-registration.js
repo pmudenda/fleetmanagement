@@ -1039,37 +1039,6 @@ let app = new Vue({
             console.log(selectedType)
         },
 
-        /*validateRegistrationNumber: function () {
-            let ref = app['vehicleHeader']['registration_number'] ?? document.querySelector('#registrationNumber').value
-
-            fetch(document.querySelector('#documentValidationUrl').value +
-                '?method=registration_number&key=' + ref)
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, Vehicle registration number could not be verified')
-                        return;
-                    }
-
-                    if (response['payload'].validity) {
-                        console.log(response['payload'].validity);
-                        let assetNumberInput = document.querySelector("#assetNumber");
-                        if (assetNumberInput) {
-                            assetNumberInput.value = window.removeSpaces(document.querySelector('#registrationNumber').value);
-                        }
-                    } else {
-                        toastr.error('Duplicate Registration Number' ,'Invalid Vehicle Registration Number')
-                    }
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
-                });
-        },*/
-
         switchTabs() {
             let tabs = document.querySelectorAll('a[role="tab"]');
             let activeIndex = 0;

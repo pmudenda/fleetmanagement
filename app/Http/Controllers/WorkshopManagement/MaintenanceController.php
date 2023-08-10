@@ -792,15 +792,26 @@ class MaintenanceController extends Controller
                 ]);
             }
 
-            $entry->updated_at = Carbon::now();
-            $entry->driver_acknowledged = 'Y';
-            $entry->date_acknowledged = Carbon::now();
-            $entry->save();
+            $credentials = $request->only('loginId', 'password');
+
+            if (Auth::attempt($credentials)) {
+
+                $entry->updated_at = Carbon::now();
+                $entry->driver_acknowledged = 'Y';
+                $entry->date_acknowledged = Carbon::now();
+                $entry->save();
+
+                return response()->json([
+                    'payload' => $request->all(),
+                    "success" => true,
+                    "message" => "Assessment Signed Successfully",
+                ]);
+            }
 
             return response()->json([
                 'payload' => $request->all(),
-                "success" => true,
-                "message" => "Assessment Signed Successfully",
+                "success" => false,
+                "message" => 'Opps! You have entered invalid credentials',
             ]);
 
         } catch (\Exception $exception) {

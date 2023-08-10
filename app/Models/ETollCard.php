@@ -23,6 +23,8 @@ class ETollCard extends Model
         'assignedTo' ,
         'responseHead' ,
         'responseHeadId' ,
-        'comments'
+        'comments',
+        'assigned_distributor',
+        'veh_reg'
     ];
 }
