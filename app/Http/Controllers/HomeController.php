@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataCleanUp;
 use App\Models\Reference\TMSDataCleanUp;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\WorkflowService;
@@ -36,6 +37,8 @@ class HomeController extends Controller
 
         $approvalTasks = $this->workflowService->getMyApprovalTasks($user->staff_no);
         $vehicleData = VehicleDetailsService::getAllVehicles();
-        return view('dashboard.home')->with(compact('approvalTasks', 'vehicleData'));
+        return view('dashboard.home')
+            ->with(compact('approvalTasks',
+                'vehicleData'));
     }
 }

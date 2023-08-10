@@ -184,7 +184,7 @@
                                 </li>
                             @endcanany
 
-                            @can(config('rights.view_job_card'))
+                            {{--@can(config('rights.view_job_card'))
                                 <li class="nav-item pl-2">
                                     <a href="{{URL::signedRoute('workOrder.list',['step'=> 1])}}"
                                        class="nav-link">
@@ -194,7 +194,7 @@
                                         </p>
                                     </a>
                                 </li>
-                            @endcan
+                            @endcan--}}
 
                             <li class="nav-item pl-2">
                                 <a href="#" class="nav-link">
@@ -984,7 +984,8 @@
                         </a>
                         <ul class="nav nav-treeview pl-3">
 
-                            {{-- <li class="nav-item">
+                            {{--
+                            <li class="nav-item">
                                  <a href="{{URL::signedRoute('reports.fuel.requisitions')}}"
                                     class="nav-link">
                                      <i class="far fa-circle nav-icon"></i>
@@ -992,7 +993,8 @@
                                          Fuel Requisitions
                                      </p>
                                  </a>
-                             </li>--}}
+                             </li>
+                             --}}
 
                             <li class="nav-item">
                                 <a href="{{URL::signedRoute('reports.vehicle.status', ['step'=> 1])}}" class="nav-link">
@@ -1000,12 +1002,14 @@
                                     <p>Vehicles</p>
                                 </a>
                             </li>
-                            {{--<li class="nav-item">
+                            {{--
+                            <li class="nav-item">
                                 <a href="{{URL::signedRoute('workOrder.requisition', ['step'=> 1])}}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Maintenance Requisition</p>
                                 </a>
-                            </li>--}}
+                            </li>
+                            --}}
                         </ul>
                     </li>
                 @endcanany
