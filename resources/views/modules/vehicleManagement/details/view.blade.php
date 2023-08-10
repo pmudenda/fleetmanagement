@@ -860,12 +860,11 @@
                                                 <tr class="bg-dark">
                                                     <th>Document Type</th>
                                                     <th>File Name</th>
-                                                    <th></th>
                                                 </tr>
                                                 </thead>
                                                 <tr>
                                                     <td>Motor Vehicle Certificate</td>
-                                                    <td>@{{ documents.certificate?.originalDocumentName }}</td>
+                                                   {{-- <td>@{{ documents.certificate?.originalDocumentName }}</td>--}}
                                                     <td>
                                                         <button data-zfm-view-file="certificate"
                                                                 type="button"
@@ -876,7 +875,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>Insurance Cover Note</td>
-                                                    <td>@{{ documents.insurance?.originalDocumentName }}</td>
+                                                   {{-- <td>@{{ documents.insurance?.originalDocumentName }}</td>--}}
                                                     <td>
                                                         <button data-zfm-view-file="insurance"
                                                                 type="button"
