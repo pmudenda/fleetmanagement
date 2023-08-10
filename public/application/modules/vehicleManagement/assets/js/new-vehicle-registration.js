@@ -26,7 +26,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         return;
     }
 
-    window.selectedAccessories = asyncResponse.payload['accessories'];
+    window.selectedAccessories = asyncResponse.payload['enteredAccessories'];
 
     if (window['selectedAccessories']) {
         setSelectedAccessories();
@@ -54,10 +54,8 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         setTimeout(function () {
             $('select[name="brand"]').trigger('change');
         }, 600);
-        //$('select[name="model"]').trigger('change');
     }
 
-    //Vue.set(app['vehicleHeader'], 'model_guid', data['model_guid']);
     Vue.set(app['vehicleHeader'], 'model_code', data['model_code']);
 
     const $registrationNumberCtrl = document.querySelector('[name="registrationNumber"]');
@@ -74,9 +72,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
             $('select[name="bodyType"]').trigger('change');
         }, 600);
     }
-
-    //Vue.set(app['vehicleHeader'], 'user_unit', data['business_unit_code']);
-    //Vue.set(app['vehicleHeader'], 'user_unit_code', data['business_unit_code']);
 
     if (data['business_unit_code']) {
         $('select[name="user_unit"]').val(data['business_unit_code']);
@@ -97,7 +92,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         $('select[name="user_unit"]').trigger('change');
     }, 300);
 
-    //$("#user_unit").change();
     Vue.set(app['chassisDetails'], 'chassisNumber', data['chassis_number']);
     $('input[name="chassisNumber"]').val(data['chassis_number']);
     Vue.set(app['chassisDetails'], 'engineNumber', data['engine_number']);
@@ -115,10 +109,8 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     if (data['registration_date']) {
         let dateOI = data['registration_date'].split(' ')[0];
-        //document.querySelector("#registrationDate").value = dateOI;
         document.getElementById("registrationDate").value = dateOI;
     }
-
 
     Vue.set(app['chassisDetails'], 'chargeOutRate', data['vehicle_charge_out_rate']);
 
@@ -145,12 +137,10 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     $('input[name="actualEnginePower"]').val(data['actual_engine_power']);
     $('input[name="actualEnginePower"]').trigger('change');
 
-
     Vue.set(app['engineDetails'], 'claimedEnginePower', data['claimed_engine_power']);
 
     Vue.set(app['engineDetails'], 'engineBrand', data['engine_brand']);
     Vue.set(app['engineDetails'], 'fuelTypes', data['fuel_types']);
-
 
     $('select[name="fuelTypes"]').val(data['fuel_types']);
     $('select[name="fuelTypes"]').trigger('change');
@@ -165,7 +155,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     $('input[name="fuelConsumption"]').val(data['fuel_consumption']);
     $('input[name="fuelConsumption"]').trigger('change');
-
 
     Vue.set(app['engineDetails'], 'tank_capacity', data['tank_capacity']);
     Vue.set(app['engineDetails'], 'sub_tank_capacity', data['sub_tank_capacity']);
@@ -186,19 +175,9 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     $('input[name="tyreBrand"]').val(data['tyre_brand']);
 
 
-    const $frontTyreSizeCtrl = document.querySelector('[name="frontTyreSize"]');
+    $('[name="frontTyreSize"]').val(data['front_tyre_size']).attr(('data-value', data['front_tyre_size']));
 
-    if ($frontTyreSizeCtrl) {
-        $frontTyreSizeCtrl.value = data['front_tyre_size'];
-        $frontTyreSizeCtrl.setAttribute('data-value', data['front_tyre_size']);
-    }
-    //Vue.set(app['otherDetails'], 'frontTyreSize', );
-    const $rearTyreSizeCtrl = document.querySelector('[name="rearTyreSize"]');
-    if ($rearTyreSizeCtrl) {
-        $rearTyreSizeCtrl.value = data['rear_tyre_size'];
-        $rearTyreSizeCtrl.setAttribute('data-value', data['rear_tyre_size']);
-    }
-    //Vue.set(app['otherDetails'], 'rearTyreSize', data['']);
+    $('[name="rearTyreSize"]').val(data['rear_tyre_size']).attr('data-value', data['rear_tyre_size'])
 
     Vue.set(app['otherDetails'], 'batteryBrand', data['battery_brand']);
     $('input[name="batteryBrand"]').val(data['battery_brand']);
@@ -220,7 +199,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     Vue.set(app['costingAndValuation'], 'supplierName', data['suppliername']);
 
-
     $('select[name="supplierName"]').val(data['suppliername']);
     $('select[name="supplierName"]').attr('data-value', data['suppliername']);
     $('select[name="supplierName"]').trigger('change');
@@ -231,12 +209,9 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['costingAndValuation'], 'costPrice', data['costprice']);
 
     let price = data['costprice'];
-    let costPriceInput = document.querySelector('[name="costPrice"]');
 
-    if (price && price !== "20") {
-        costPriceInput.value = accounting.formatMoney(price, '', 2, ",", ".");
-        costPriceInput.setAttribute('readonly', 'readonly');
-    }
+    $('[name="costPrice"]').val(accounting.formatMoney(price, '', 2, ",", ".")).attr('readonly', 'readonly');
+
 
     setTimeout(function () {
 
