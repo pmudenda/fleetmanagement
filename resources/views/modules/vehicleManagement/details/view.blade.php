@@ -340,8 +340,8 @@
                                 Reminders</a>
                         </li>
                         <li class="nav-item" style="list-style: none;">
-                            <a class="nav-link" data-toggle="tab" href="#odometerHistory" role="tab">Meter (Odometer)
-                                History
+                            <a class="nav-link" data-toggle="tab" href="#odometerHistory" role="tab">
+                                Meter History
                             </a>
                         </li>
 
@@ -745,7 +745,6 @@
                                                                            name="odometerReadingLastService"
                                                                            id="odometerReadingLastService"
                                                                            value="0"
-                                                                           {{--v-model="chassisDetails.odometerReadingLastService"--}}
                                                                            class="input-with-feedback number_input form-control bold view_mode"
                                                                            required
                                                                            placeholder=""
@@ -777,7 +776,6 @@
                                                                            name="nextServiceOdometerReading"
                                                                            id="nextServiceOdometerReading"
                                                                            value="0"
-                                                                           {{--v-model="chassisDetails.nextServiceOdometerReading"--}}
                                                                            placeholder="" data-doctype="ChassisDetails"
                                                                            autocomplete="off"/>
 
@@ -888,62 +886,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                {{--<div class="card card-default" v-if="!documents.insurance && !documents.certificate">
-                                    <div class="card-header pl-0">
-                                        <h3 class="card-title pl-0">Vehicle Document<small
-                                                    class="pl-3 link-info"><strong> Only .pdf, jpg,jpeg,png,bmp
-                                                    allowed</strong> </small></h3>
-                                    </div>
-                                    <div class="card-body pl-0">
-                                        <div class="row">
-                                            <div class="row">
-                                                <div class="col pl-0">
-                                                    <label for="inspectionDate"
-                                                           class="fs-6 fw-semibold form-label reqd col-md-5"
-                                                           style="padding-right: 0px;">
-                                                        Motor Vehicle Certificate (White Book):
-                                                        <small class="text-danger">.PDF, JPG, JPEG, PNG, BMP</small>
-                                                    </label>
-                                                    <div class="col-md-7 fv-row">
-                                                        <div class="col-md-9 pl-0">
-                                                            <input type="file" accept="image/*,.pdf"
-                                                                   required
-                                                                   id="motor_vehicle_certificate"
-                                                                   class="filer_input"
-                                                                   name="motor_vehicle_certificate"/>
-                                                        </div>
-                                                    </div>
-
-                                                    <canvas style="display: none;"
-                                                            id="motor_vehicle_certificatePdfViewer"></canvas>
-                                                </div>
-                                                <div class="col">
-                                                    <label for="inspectionDate"
-                                                           class="fs-6 fw-semibold form-label reqd col-md-5"
-                                                           style="padding-right: 0px;">
-                                                        Insurance Cover Note:
-                                                        <small class="text-danger">.PDF, JPG, JPEG, PNG, BMP</small>
-                                                    </label>
-
-                                                    <div class="col-md-7 fv-row">
-                                                        <div class="col-md-9 pl-0">
-                                                            <input type="file" accept="image/*,.pdf"
-                                                                   required
-                                                                   id="insurance_cover_note"
-                                                                   class="filer_input"
-                                                                   name="insurance_cover_note"/>
-                                                        </div>
-                                                    </div>
-
-                                                    <canvas style="display: none;"
-                                                            id="insurance_cover_notePdfViewer"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>--}}
-
 
                                 <div class="row mt-10">
                                     <div class="col-6">
@@ -1386,7 +1328,7 @@
                                                     <h4 class="pt-2">Tyres</h4>
                                                 </legend>
                                                 <div class="col-xs-12 col-sm-8 col-md-8">
-                                                    <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
+                                                    <table class="align-middle gs-0 gy-3 my-0">
                                                         <tbody>
                                                         <tr>
                                                             <td class="frappe-control ">
@@ -3282,8 +3224,359 @@
 
                         <div class="tab-pane fade" id="odometerHistory" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5">
-                                Meter History
-                                <div id="example"></div>
+                                <form class="" name="newETollCardForm"
+                                      action="{{route('e-toll.card.save')}}"
+                                      id="newETollCardForm"
+                                      method="post">
+                                    @csrf
+                                    <input type="hidden" name="relatedReference" id="relatedReference"
+                                           value="{{$relatedReference ?? ''}}"/>
+                                    <div class="errorTxt"></div>
+                                    <x-error-view></x-error-view>
+
+                                    <label class="app-required-marker"></label>
+
+                                    <fieldset style="" class="form-group border p-3">
+                                        <legend>General Information:</legend>
+                                        <table class="app_form_table table">
+                                            <tr>
+                                                <td>
+                                                    <label class="app-field-label">
+                                                        Vehicle Registration Number
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <div class="app-field-input" data-field="taskOriginator">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   id="vehicleRegistration"
+                                                                   required
+                                                                   autocomplete="off"
+                                                                   name="vehicleRegistration"
+                                                                   class="form-control"/>
+                                                            <div class="input-group-append">
+                                                                <button type="button"
+                                                                        class="input-group-text">
+                                                                    <i class="fas fa-car"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="pl-5">
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <label class="app-field-label">
+                                                        NRFA Batch Number <span class="text-danger">*</span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <div class="app-field-input" data-field="taskOriginator">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                   id="batchNumber"
+                                                                   required
+                                                                   autocomplete="off"
+                                                                   name="batchNumber"
+                                                                   class="form-control"/>
+                                                            <div class="input-group-append">
+                                                                <button type="button" data-assignmenttype="single"
+                                                                        data-inputfield="taskOriginator"
+                                                                        data-field="userSelection"
+                                                                        class="input-group-text">
+                                                                    <i class="fa fc-day-number"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="pl-5">
+                                                    <label class="field-required app-field-label-">
+                                                        Scheme
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <div class="app-field-input" data-field="dateoriginated">
+                                                        <div class="input-group">
+                                                            <select
+                                                                    name="cardScheme"
+                                                                    class="form-select">
+                                                                <option value="ST">Standard</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <label class="app-field-label field-required">
+                                                        Card Number
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <input type="text"
+                                                               name="cardNumber"
+                                                               id="cardNumber"
+                                                               autocomplete="off"
+                                                               class="form-control"
+                                                               required/>
+                                                        <div class="input-group-append">
+                                                        <span class="input-group-text">
+                                                            <i class="fas fa-credit-card"></i>
+                                                        </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="pl-5">
+                                                    <label class="hq-field field-required" data-field="">
+                                                        Card Status
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <div class="app-field-input" data-field="">
+                                                        <div class="input-group">
+                                                            <select id="cardStatus"
+                                                                    name="cardStatus"
+                                                                    required
+                                                                    class="form-select form-select-sm">
+                                                                <option disabled value=""></option>
+                                                                <option value="01">NEW</option>
+                                                                <option value="02">ASSIGNED</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <label class="app-field-label field-required">
+                                                        Date Issued
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group date">
+                                                        <input type="text"
+                                                               name="dateIssued"
+                                                               id="dateIssued"
+                                                               autocomplete="off"
+                                                               class="form-control datetimepicker"
+                                                               required/>
+                                                        <div class="input-group-append"
+                                                             data-target="#dateIssued"
+                                                             data-action="openDatePicker">
+                                                        <span type="button"
+                                                              data-action="openDatePicker"
+                                                              class="input-group-text ui-datepicker-trigger">
+                                                            <i data-action="datetimepicker"
+                                                               class="fa fa-calendar"></i>
+                                                        </span>
+                                                        </div>
+                                                        <button type="button" data-action="clearDate"
+                                                                class="input-group-text">
+                                                            <i data-action="clearDate" class="fa fa-eraser"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+
+                                                <td class="pl-5">
+                                                    <label class="app-field-label" data-field="specificlocationofia">
+                                                        Expiry Date <span class="text-danger">*</span>
+                                                    </label>
+                                                </td>
+
+                                                <td>
+                                                    <div class="input-group date">
+                                                        <input type="text"
+                                                               name="expiryDate"
+                                                               id="expiryDate"
+                                                               autocomplete="off"
+                                                               class="form-control datetimepicker"
+                                                               data-target="#dateOpened"
+                                                               required/>
+                                                        <div class="input-group-append">
+                                                        <span class="input-group-text">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <label class="app-field-label" data-field="specificlocationofia">
+                                                        Card Verification Value (<small>CVV</small>)
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group"
+                                                         id="date_opened"
+                                                         data-target-input="nearest">
+                                                        <input type="text" name="cvv" required
+                                                               id="cvv"
+                                                               autocomplete="off"
+                                                               class="form-control"
+                                                               data-target="#dateOpened"/>
+                                                        <div class="input-group-append">
+                                                        <span type="button" data-action="datetimepicker"
+                                                              class="input-group-text ui-datepicker-trigger">
+                                                            <i data-action="datetimepicker" class="fa fa-lock"></i>
+                                                        </span>
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+                                                <td class="pl-5">
+                                                    <label class="hq-field field-required" data-field="">
+                                                        Mobile
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <div class="app-field-input" data-field="">
+                                                        <div class="input-group">
+                                                            <input type="tel" id="contactNumber"
+                                                                   name="contactNumber"
+                                                                   required
+                                                                   class="form-control form-control-sm"/>
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">
+                                                                    <i class="fa fa-phone"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <label class="field-required app-field-label-">
+                                                        Assigned To
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <div class="app-field-input">
+                                                        <div class="input-group">
+                                                            <select
+                                                                    id="assignedTo"
+                                                                    name="assignedTo"
+                                                                    class="form-select">
+                                                                <option value="ND">NORTHERN DIVISION</option>
+                                                                <option value="LR">LUSAKA</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <td>
+                                                <label class="app-field-label" data-field="responseHead">
+                                                    Responsible Officer <span class="text-danger">*</span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <div class="app-field-input" data-field="responseHead">
+                                                    <div class="input-group">
+                                                        <input type="text"
+                                                               id="taskOriginator"
+                                                               required
+                                                               data-bs-toggle="modal"
+                                                               autocomplete="off"
+                                                               data-bs-target="#searchEmployeeModal"
+                                                               data-assignmenttype="single"
+                                                               data-inputfield="responseHead"
+                                                               name="responseHead"
+                                                               class="form-control"/>
+                                                        <input type="hidden"
+                                                               data-assignmenttype="single"
+                                                               data-inputfield="responseHeadId"
+                                                               id="responseHeadId"
+                                                               name="responseHeadId"/>
+                                                        <div class="input-group-append">
+                                                            <button type="button" data-assignmenttype="single"
+                                                                    data-inputfield="responseHead"
+                                                                    data-field="userSelection"
+                                                                    class="input-group-text">
+                                                                <i class="fa fa-user"></i>
+                                                            </button>
+                                                            <button type="button" data-action="clearUsers"
+                                                                    class="input-group-text">
+                                                                <i class="fa fa-eraser"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <tr>
+                                                <td colspan="4">
+                                                    <label class="app-field-label" data-field="typeia">
+                                                        Comments
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="background: none;" colspan="4">
+                                                    <div class="app-field-input">
+                                                    <textarea name="comments" id="comments"
+                                                              class="form-control"></textarea>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </fieldset>
+
+                                    <!--Attachments FieldsSets-->
+
+                                    <fieldset style="margin-top:10px;" class="form-group border p-3">
+                                        <legend>Attachments:</legend>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-6">
+                                                <div class="app-field-input">
+                                                    <input type="file" id="supportingDocument" name="supportingDocument"
+                                                           class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-3">
+                                                <div class="row pl-2 d-none">
+                                                    <div class="app-field-input" data-field="iaclassification">
+                                                        <button type="button" id="btn_link" name="btnExternalLink"
+                                                                class="btn btn-secondary toolbarButtonClick">
+                                                            External Link <i class="fa fa-paperclip"></i>
+                                                        </button>
+                                                        <input type="hidden" name="externalLink" class="form-control"/>
+                                                        <input type="hidden" name="externalLinkDescription"
+                                                               class="form-control"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-3">
+                                                <div class="row pl-2 d-none">
+                                                    <div class="app-field-input" data-field="associateRecord">
+                                                        <button type="button"
+                                                                data-bs-toggle="modal"
+                                                                data-="" id="btn_reference"
+                                                                class="btn btn-secondary toolbarButtonClick">
+                                                            Associate Record <i class="fa fa-history"></i>
+                                                        </button>
+                                                        <input type="hidden" name="internalLink" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
                             </div>
                         </div>
 
@@ -3390,18 +3683,6 @@
 
             const container = document.querySelector('#example');
 
-            const hot = new Handsontable(container, {
-                data: [
-                    ['', 'Tesla', 'Volvo', 'Toyota', 'Ford'],
-                    ['2019', 10, 11, 12, 13],
-                    ['2020', 20, 11, 14, 13],
-                    ['2021', 30, 15, 12, 13]
-                ],
-                rowHeaders: true,
-                colHeaders: true,
-                height: 'auto',
-                licenseKey: 'non-commercial-and-evaluation' // for non-commercial use only
-            });
         });
 
     </script>
