@@ -10,6 +10,7 @@ use App\Http\Controllers\eTollCardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\RemindersController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\Requisitions\FuelRequisitionController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\Security\PermissionsController;
@@ -344,11 +345,10 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['prefix' => 'reports'], function () {
-        Route::get('fuel/requisitions', function () {
-            return view('modules.reports.index');
-        })->name('reports.fuel.requisitions');
 
-        Route::get('vehicle/status', [\App\Http\Controllers\ReportsController::class, 'vehicleByStatus'])
+        Route::get('fuel/requisitions', [ReportsController::class, 'fuelCost'])->name('reports.fuel.requisitions');
+
+        Route::get('vehicle/status', [ReportsController::class, 'vehicleByStatus'])
             ->name('reports.vehicle.status');
     });
 
