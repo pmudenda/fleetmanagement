@@ -114,7 +114,9 @@
                         <div class="control-input">
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group">
-                                    <input type="number" min="1990" max="{{date('Y')}}" step="1"
+                                    <input type="number"
+                                           min="2000"
+                                           max="{{date('Y')}}" step="1"
                                            class="input-with-feedback form-control bold number_input view_mode"
                                            maxlength="4"
                                            name="yearOfPurchase"
