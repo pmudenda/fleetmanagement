@@ -94,19 +94,23 @@ class WorkflowController extends Controller
             );
 
             if ($nextStepId == 100) {
-                $this->fuelRequisitionService->createStoresRequisition($request->get('reference'));
+                $requisitionNumber=  $this->fuelRequisitionService->createStoresRequisition($request->get('reference'));
+                $message = $message . ' Stores Requisition No.: ' . $requisitionNumber;
 
                 $this->workshopRequisitionService->updateStatus($reference, StatusHelper::authorised());
 
                 $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, StatusHelper::authorised());
-            } else {
+            }
+            else {
                 $status = '';
                 switch (strtolower(trim($request->get('Approved')))) {
                     case 'approve':
                         $status = StatusHelper::partiallyAuthorised();
+                        $message = 'Request Approved and Submitted to the Next Authority For Approval';
                         break;
                     case 'reject':
                         $status = StatusHelper::rejected();
+                        $message = 'Request Rejected.';
                         break;
                 }
 

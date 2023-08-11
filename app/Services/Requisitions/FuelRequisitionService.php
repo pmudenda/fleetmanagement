@@ -483,7 +483,7 @@ class FuelRequisitionService
     /**
      * @throws FuelRequisitionException
      */
-    public function createStoresRequisition(string $reference): void
+    public function createStoresRequisition(string $reference): mixed
     {
         $requisitionDetail = self::getRequisitionDetail($reference);
 
@@ -507,6 +507,7 @@ class FuelRequisitionService
 
         Log::info("Stores Requisition Generated with document " . $results);
 
+        return $results;
     }
 
     public function getLatestRequisition($vehicle_registration)
