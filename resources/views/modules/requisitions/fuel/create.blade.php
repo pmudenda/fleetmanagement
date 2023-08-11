@@ -432,7 +432,7 @@
                                                             <td id="return_distance"></td>
                                                         </tr>
                                                     </table>
-                                                    <div class="col-sm-12">
+                                                    <div class="col-sm-3">
                                                         <input type="text" required class="form-control number_input"
                                                                name="covered_kilometers" id="covered_kilometers"
                                                                readonly
