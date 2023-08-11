@@ -290,7 +290,7 @@
                 if (response.state != 'success') {
                     return;
                 }
-                window.costByYear = response.payload['cost_by_year'];
+                window.costByYear = response.payload['costByYear'];
                 //fuelExpensesByVehicle();
                 //fuelExpenseTotalsByType();
                 fuelExpensesByYear();
