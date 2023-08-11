@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\DataCleanUp;
 use App\Models\Reference\TMSDataCleanUp;
-use App\Models\Reports\FuelCost;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
@@ -45,7 +44,7 @@ class ReportsController extends Controller
         $year = $request->get('year') ?? Carbon::now()->year;
         $cost_by_year = DB::table('zfm_fuel_cost')
             ->select(DB::raw('SUM(ttl) as cost, year, fuel_type'))
-            ->groupBy('year','fuel_type')
+            ->groupBy('year', 'fuel_type')
             ->get();
 
         $data = []; /*FuelCost::get()
@@ -56,8 +55,8 @@ class ReportsController extends Controller
         return response()->json([
             'state' => 'success',
             'payload' => [
-                $data,
-                $cost_by_year
+                'data' => $data,
+                'costByYear' => $cost_by_year
             ]
         ]);
     }
