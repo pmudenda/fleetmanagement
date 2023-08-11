@@ -181,7 +181,7 @@
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
                                             {{--Job Cards--}}
-                                            Maintenance Request
+                                            Service Request
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
@@ -196,13 +196,13 @@
                                             </li>
                                         @endcan
 
-                                        <li class="nav-item">
+                                        {{--<li class="nav-item">
                                             <a href="{{URL::signedRoute('new.job.card')}}"
                                                class="nav-link">
                                                 <i class="fas fa-plus nav-icon"></i>
                                                 <p>Create</p>
                                             </a>
-                                        </li>
+                                        </li>--}}
 
                                         {{--@can(config('rights.view_job_card'))--}}
                                         <li class="nav-item pl-2">
