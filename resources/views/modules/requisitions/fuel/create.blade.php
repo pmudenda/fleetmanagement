@@ -1267,7 +1267,7 @@
 
                 $("#one_way").text(departureVal + ' --> ' + destinationVal);
                /* $("#return_trip").text(destinationVal + ' --> ' + departureVal);*/
-                let roundTrip = departureVal + ' --> ' + destinationVal + ' --> ' + departureVal;
+                //let roundTrip = departureVal + ' --> ' + destinationVal + ' --> ' + departureVal;
 
                 //$('#trip_path').text(roundTrip);
                 let distance = destination.selectedOptions[0].dataset['distance'];
@@ -1276,7 +1276,7 @@
                 $("#one_way_distance").text(distance);
                /* $("#return_distance").text(distance);*/
 
-                $coveredKilometerCtrl.value = (2 * distance);
+                $coveredKilometerCtrl.value = (distance);
                 $($coveredKilometerCtrl).change();
             }
 
