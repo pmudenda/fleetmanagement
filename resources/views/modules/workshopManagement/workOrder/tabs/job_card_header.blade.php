@@ -290,7 +290,7 @@
                                 <label
                                     class="col-xs-12 col-sm-12 col-md-5 col-lg-4"
                                     for="sub_fuel_level">
-                                    Sub Tank Fuel Level :
+                                    Sub-Tank Fuel Level :
                                 </label>
                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                     <select name="sub_fuel_level"
