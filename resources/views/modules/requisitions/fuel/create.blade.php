@@ -1249,8 +1249,8 @@
             }
 
             function setDistance() {
-                let departureVal = document.querySelector("[name='departure']").value;
-                let destination = document.querySelector('[name="destination"]');
+                let departureVal = document.querySelector("[name='departureTown']").value;
+                let destination = document.querySelector('[name="destinationTown"]');
                 let destinationVal = destination.value;
                 if (!destinationVal) {
                     return;
