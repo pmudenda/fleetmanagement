@@ -439,10 +439,10 @@
                                                             <td id="one_way"></td>
                                                             <td id="one_way_distance"></td>
                                                         </tr>
-                                                        <tr>
+                                                        {{--<tr>
                                                             <td id="return_trip"></td>
                                                             <td id="return_distance"></td>
-                                                        </tr>
+                                                        </tr>--}}
                                                     </table>
                                                 </div>
 
@@ -1269,7 +1269,7 @@
                 }
 
                 $("#one_way").text(departureVal + ' --> ' + destinationVal);
-                $("#return_trip").text(destinationVal + ' --> ' + departureVal);
+               /* $("#return_trip").text(destinationVal + ' --> ' + departureVal);*/
                 let roundTrip = departureVal + ' --> ' + destinationVal + ' --> ' + departureVal;
 
                 //$('#trip_path').text(roundTrip);
@@ -1277,7 +1277,7 @@
                 let $coveredKilometerCtrl = document.querySelector('[name="covered_kilometers"]');
 
                 $("#one_way_distance").text(distance);
-                $("#return_distance").text(distance);
+               /* $("#return_distance").text(distance);*/
 
                 $coveredKilometerCtrl.value = (2 * distance);
                 $($coveredKilometerCtrl).change();
