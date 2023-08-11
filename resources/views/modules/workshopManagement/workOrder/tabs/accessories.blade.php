@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col">
                     <table
-                            class="table table-row-dashed align-middle gs-0 table-bordered">
+                        class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
                         <tr class="bg-dark-subtle">
                             <th class="pl-2">Item</th>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="col">
                     <table
-                            class="table table-row-dashed align-middle gs-0 table-bordered">
+                        class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
                         <tr class="bg-dark-subtle">
                             <th class="pl-2">Item</th>
@@ -83,8 +83,8 @@
                 <div class="col">
                     <div class="form-group">
                         <label
-                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                                for="accessoriesRemarks">
+                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                            for="accessoriesRemarks">
                             General Comments and Observation (optional):
                         </label>
                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
@@ -121,7 +121,10 @@
                                         <input type="text" name="observation[]" class="form-control">
                                     </td>
                                     <td>
-                                        <input type="file" name="attachment[]" class="form-control">
+                                        <button type="button">
+                                            <i class="fas fa-paperclip"></i>
+                                        </button>
+                                        <input type="file" class="d-none" name="attachment[]" class="form-control">
                                     </td>
                                 </tr>
                                 </tbody>
@@ -142,10 +145,10 @@
             </div>
 
             {{--<div class="row bg-success" style="height: 30px;">
-                <div class="col-12 text-white">
-                    <h5 class="text-white">Acknowledgment of Assessment Finding</h5>
-                </div>
-            </div>--}}
+                    <div class="col-12 text-white">
+                        <h5 class="text-white">Acknowledgment of Assessment Finding</h5>
+                    </div>
+                </div>--}}
 
             <div class="row mb-1 mt-4">
                 <div class="row">
@@ -172,7 +175,7 @@
                                    class="form-control"
                                    value="{{$details->driver_in}}"
                                    readonly
-                                   required/>
+                                   />
                         </div>
 
                         <div class="col-lg-2 col-sm-12 text-left"><label>Date Acknowledged:</label></div>
@@ -183,7 +186,7 @@
                                    class="form-control"
                                    value="{{Carbon::parse($details->date_acknowledged)->format('d/m/Y')}}"
                                    readonly
-                                   required/>
+                            />
                         </div>
                     @else
                         <div class="col-lg-2 col-sm-12 text-left">
@@ -195,7 +198,7 @@
                                    class="form-control"
                                    value=""
                                    readonly
-                                   required/>
+                                   />
                         </div>
 
                         <div class="col-lg-2 col-sm-12 text-right">
