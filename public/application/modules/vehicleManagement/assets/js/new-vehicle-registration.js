@@ -174,7 +174,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     $('input[name="tyreBrand"]').val(data['tyre_brand']);
 
 
-    $('[name="frontTyreSize"]').val(data['front_tyre_size']).attr(('data-value', data['front_tyre_size']));
+    $('[name="frontTyreSize"]').val(data['front_tyre_size']).attr('data-value', data['front_tyre_size']);
 
     $('[name="rearTyreSize"]').val(data['rear_tyre_size']).attr('data-value', data['rear_tyre_size'])
 

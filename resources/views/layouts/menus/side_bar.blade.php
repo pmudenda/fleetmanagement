@@ -985,7 +985,7 @@
                         <ul class="nav nav-treeview pl-3">
 
 
-                            <li class="nav-item">
+                           {{-- <li class="nav-item">
                                  <a href="{{URL::signedRoute('reports.fuel.requisitions')}}"
                                     class="nav-link">
                                      <i class="far fa-circle nav-icon"></i>
@@ -993,7 +993,7 @@
                                          Fuel
                                      </p>
                                  </a>
-                             </li>
+                             </li>--}}
 
 
                             <li class="nav-item">
