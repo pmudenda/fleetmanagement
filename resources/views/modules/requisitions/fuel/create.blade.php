@@ -430,20 +430,17 @@
                                                                        name="covered_kilometers" id="covered_kilometers"
                                                                        readonly
                                                                        placeholder="Enter the Kilometers to be Covered">
+                                                                <table id="trip_path">
+                                                                    <tr>
+                                                                        <td id="one_way"></td>
+                                                                        <td id="one_way_distance"></td>
+                                                                    </tr>
+                                                                </table>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <table id="trip_path">
-                                                        <tr>
-                                                            <td id="one_way"></td>
-                                                            <td id="one_way_distance"></td>
-                                                        </tr>
-                                                        {{--<tr>
-                                                            <td id="return_trip"></td>
-                                                            <td id="return_distance"></td>
-                                                        </tr>--}}
-                                                    </table>
+
                                                 </div>
 
                                             </div>
