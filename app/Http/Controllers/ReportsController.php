@@ -45,7 +45,7 @@ class ReportsController extends Controller
 
         $data = FuelCost::get()
             ->where('year', '=', Carbon::now()->year)
-            ->paginate(100);;
+            ->paginate(100);
 
         return response()->json([
             'state' => 'success',
