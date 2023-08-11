@@ -1081,9 +1081,9 @@
 
                     document.querySelector('#departure_date').setAttribute('required', 'required');
 
-                    //document.querySelector('[name="material_quantity"]').setAttribute('required', 'required');
+                    document.querySelector('[name="material_quantity"]').removeAttribute('max');
 
-                    $('[name="material_quantity"]').val('').removeAttribute('max');
+                    $('[name="material_quantity"]').val('');
 
                     $('#nextRefuelingDateContainer').addClass('d-none');
 
