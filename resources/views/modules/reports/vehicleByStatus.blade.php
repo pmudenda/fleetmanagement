@@ -375,6 +375,11 @@
                 };
 
                 myChart.setOption(option);
+                myChart.on('click', function(params) {
+                    window.open(
+                        'search?q=' + encodeURIComponent(params.name)
+                    );
+                });
             }
 
             function createVehicleByStatusPie() {
