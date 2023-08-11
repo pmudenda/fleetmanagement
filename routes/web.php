@@ -53,7 +53,15 @@ Route::get('/mail_view', function () {
 });
 
 Route::get('test', function (Request $request) {
-    return '<table><thead></thead><tbody>ABCD</tbody></table>';
+    return '<table><thead></thead><tbody><tr>' .
+
+        '<td>' . config('rights.role_create') . '</td><td>' . config('rights.role_create') . '</td>' .
+        '<td>' . config('rights.role_access') . '</td><td>' . config('rights.role_access') . '</td>' .
+        '<td>' . config('rights.role_show') . '</td><td>' . config('rights.role_show') . '</td>' .
+        '<td>' . config('rights.role_edit') . '</td><td>' . config('rights.role_edit') . '</td>' .
+        '<td>' . config('rights.role_destroy') . '</td><td>' . config('rights.role_destroy') . '</td>' .
+        '<td>' . config('rights.role_attach') . '</td><td>' . config('rights.role_attach') . '</td>' .
+        '<td>' . config('rights.role_detach') . '</td><td>' . config('rights.role_detach') . '</td>' . '</tr></tbody></table>';
 })->
 name('barcode.generate');
 
