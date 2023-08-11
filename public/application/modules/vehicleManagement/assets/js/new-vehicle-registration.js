@@ -249,11 +249,18 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     $('input[name="purchase_order_number"]').val(data['purchase_order_no']);
 
-    $('input[name="costOfLicense"]').val(accounting.formatMoney(data['costoflicense'], '', 2, ",", ".")).attr('readonly', 'readonly');
-    $('input[name="costOfLicense"]').trigger('change');
+    if (data['costoflicense']) {
+        const formatted = accounting.formatMoney(data['costoflicense'], '', 2, ",", ".")
+        if(formatted !== '0.00') {
+            $('input[name="costOfLicense"]').val(formatted).attr('readonly', 'readonly');
+            $('input[name="costOfLicense"]').trigger('change');
+        }
+    }
 
-    $('input[name="premium"]').val(accounting.formatMoney(data['premium'], '', 2, ",", ".")).attr('readonly', 'readonly');
-    $('input[name="premium"]').trigger('change');
+    if (data['premium']) {
+        $('input[name="premium"]').val(accounting.formatMoney(data['premium'], '', 2, ",", ".")).attr('readonly', 'readonly');
+        $('input[name="premium"]').trigger('change');
+    }
 
 
     Vue.set(app['bodyDetails'], 'height', data['height']);
@@ -860,7 +867,7 @@ let app = new Vue({
         loadRegistrationTypes: function () {
             this.registrationTypes = [
                 {
-                "label": 'Motor Vehicle', 'code': 'MV'
+                    "label": 'Motor Vehicle', 'code': 'MV'
                 },
                 /*{
                     "label": 'Plant Equipment', 'code': 'PE'

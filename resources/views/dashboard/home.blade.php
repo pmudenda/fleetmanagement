@@ -1,4 +1,4 @@
-@php use App\Helpers\StatusHelper;use App\Models\Driver;use App\Models\MaterialHeader;use App\Models\Security\User;use Carbon\Carbon; @endphp
+@php use App\Helpers\StatusHelper;use App\Models\Driver;use App\Models\MaterialHeader;use App\Models\Security\User;use App\Models\WorkShopManagement\Mechanic;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
 @push('styles')
@@ -30,11 +30,11 @@
 
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3 class="text-white">{{\App\Models\WorkShopManagement\Mechanic::get()->count()}} <sup style="font-size: 20px"></sup></h3>
+                            <h3 class="text-white">{{Mechanic::get()->count()}} <sup style="font-size: 20px"></sup></h3>
                             <p>Mechanics</p>
                         </div>
                         <div class="icon">
-                            <i class="ion ion-stats-bars"></i>
+                            <i class="fas fa-wrench"></i>
                         </div>
                         <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
