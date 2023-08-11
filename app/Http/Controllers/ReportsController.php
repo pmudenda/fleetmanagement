@@ -7,11 +7,11 @@ use App\Models\Reference\TMSDataCleanUp;
 use App\Models\Reports\FuelCost;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use Carbon\Carbon;
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ReportsController extends Controller
 {
