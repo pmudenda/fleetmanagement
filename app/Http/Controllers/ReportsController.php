@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Common\Directorate;
 use App\Models\DataCleanUp;
 use App\Models\Reference\TMSDataCleanUp;
 use App\Models\Reports\FuelCost;
 use App\Services\VehicleManagement\VehicleDetailsService;
+use Carbon\Carbon;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -34,12 +35,18 @@ class ReportsController extends Controller
             ->with(compact('data'));
     }
 
-    public function getFuelCost(): JsonResponse
+    public function getFuelCost(Request $request): JsonResponse
     {
-        $month = 60 * 60 * 24 * 30;
+        /*$month = 60 * 60 * 24 * 30;
         $data = cache()->remember('fuel_cost', $month, function () {
-            return FuelCost::get();
-        });
+
+        });*/
+        $year = $request . get('year') ?? Carbon::now()->year;
+
+        $data = FuelCost::get()
+            ->where('year', '=', Carbon::now()->year)
+            ->paginate(100);;
+
         return response()->json([
             'state' => 'success',
             'payload' => $data
