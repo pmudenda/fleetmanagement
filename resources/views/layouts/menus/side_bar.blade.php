@@ -46,7 +46,7 @@
                         config('rights.edit_vehicle_details'),
                         ];
                 @endphp
-                {{auth()->user()->can(config('rights.permission_revoke'))}}
+
                 @canany($vehicleManagementPermissions)
                     <li class="nav-item">
                         <a href="#" class="nav-link">
@@ -73,7 +73,7 @@
                                     </a>
                                 </li>
                             @endcanany
-                            @canany([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])
+                            @canany(config('rights.view_vehicle_details'), config('rights.edit_vehicle_details'))
                                 <li class="nav-item pl-2">
                                     <a href="{{ URL::signedRoute('vehicles.list') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -169,13 +169,13 @@
                             </span>
                         </span>
                             <p>
-                               {{-- Workshop Management--}} Maintenance
+                                {{-- Workshop Management--}} Maintenance
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
 
-                            @canany([config('rights.create_job_card')])
+                            @canany(config('rights.create_job_card'))
                                 <li class="nav-item pl-2">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -249,7 +249,7 @@
                                         </a>
                                     </li>
                                     {{--@endcan--}}
-                                    {{-- @canany([config('rights.requisition_fuel'),config('rights.approve_fuel_requisition')])--}}
+                                    {{-- @canany(config('rights.requisition_fuel'),config('rights.approve_fuel_requisition'))--}}
                                     {{--<li class="nav-item">
                                         <a class="nav-link"
                                            href="{{ URL::signedRoute('list.booking') }}">
@@ -308,7 +308,7 @@
                                                 </a>
                                             </li>
                                         @endcan
-                                        @canany([config('rights.requisition_fuel'),config('rights.approve_fuel_requisition')])
+                                        @canany(config('rights.requisition_fuel'),config('rights.approve_fuel_requisition'))
                                             <li class="nav-item">
                                                 <a class="nav-link"
                                                    href="{{ URL::signedRoute('list.fuel.requisition') }}">
@@ -398,7 +398,7 @@
                                 </li>
                             @endcanany
 
-                            @canany([config('rights.add_driver'),config('rights.view_drivers')])
+                            @canany(config('rights.add_driver'),config('rights.view_drivers'))
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="nav-icon fas fa-users"></i>
@@ -432,7 +432,7 @@
                                 </li>
                             @endcanany
 
-                            @canany([config('rights.add_driver'),config('rights.view_drivers')])
+                            @canany(config('rights.add_driver'),config('rights.view_drivers'))
                                 <li class="nav-item d-none">
                                     <a href="#" class="nav-link">
                                         <i class="nav-icon fas fa-users"></i>
@@ -950,7 +950,7 @@
                         {{-- @endcan--}}
 
 
-                        {{--@canany([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])--}}
+                        {{--@canany(config('rights.view_vehicle_details'), config('rights.edit_vehicle_details'))--}}
                         <li class="nav-item pl-2">
                             <a href="{{ URL::signedRoute('reminder.list') }}" class="nav-link">
                                 <i class="far fa-list nav-icon"></i>
@@ -961,7 +961,7 @@
                     </ul>
                 </li>
 
-                @canany(['add_toll_card','view_toll_card','update_toll_card'])
+                @canany('add_toll_card','view_toll_card','update_toll_card')
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-credit-card" style="font-size: 20px;"></i>

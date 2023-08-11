@@ -53,45 +53,7 @@ Route::get('/mail_view', function () {
 });
 
 Route::get('test', function (Request $request) {
-
-    //return view("workshopManagement.workOrder.tabs.imprest_buy");
-
-
-    if (auth()->user()->can(config('rights.add_accident_nature'))) {
-        dd('Has Right ' . config('rights.add_accident_nature'));
-    } else {
-        dd('Has No Right ' . config('rights.add_accident_nature'));
-    }
-
-
-    config('rights.role_access');
-    dd(auth()->user()->can(config('rights.role_access')));
-
-
-    config('rights.role_show');
-    dd(auth()->user()->can(config('rights.role_show')));
-
-
-    config('rights.role_edit');
-    dd(auth()->user()->can(config('rights.role_edit')));
-
-
-    config('rights.role_destroy');
-    (ddauth()->user()->can(config('rights.role_destroy')));
-
-
-    config('rights.role_attach');
-
-
-    dd(auth()->user()->can(config('rights.role_attach')));
-
-    config('rights.role_detach');
-    dd(auth()->user()->can(config('rights.role_detach')));
-
-    dd(config('rights'));
-
-
-    return $result->final_step;
+    return `<table></table>`;
 })->
 name('barcode.generate');
 
