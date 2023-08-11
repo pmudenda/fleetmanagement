@@ -376,6 +376,7 @@
 
                 myChart.setOption(option);
                 myChart.on('click', function(params) {
+                    console.log('Events', params);
                     window.open(
                         'search?q=' + encodeURIComponent(params.name)
                     );
@@ -429,6 +430,12 @@
                             }
                         }
                     ]
+                });
+                myPieChart2.on('click', function(params) {
+                    console.log('Events', params);
+                    window.open(
+                        'search?q=' + encodeURIComponent(params.name)
+                    );
                 });
             }
 
@@ -539,6 +546,12 @@
                 };
 
                 myChart.setOption(option);
+                myChart.on('click', function(params) {
+                    console.log('Events', params);
+                    window.open(
+                        'search?q=' + encodeURIComponent(params.name)
+                    );
+                });
             }
 
             function createCleanVehicleByStatusPie() {
@@ -588,6 +601,12 @@
                             }
                         }
                     ]
+                });
+                myPieChart2.on('click', function(params) {
+                    console.log('Events', params);
+                    window.open(
+                        'search?q=' + encodeURIComponent(params.name)
+                    );
                 });
             }
 
