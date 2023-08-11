@@ -411,6 +411,29 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <label for="covered_kilometers" class="col-sm-12 control-label">
+                                                        Kilometers to be Covered (<span class="text-success">C</span>)
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                    <table id="trip_path">
+                                                        <tr>
+                                                            <td id="one_way"></td>
+                                                            <td id="one_way_distance"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td id="return_trip"></td>
+                                                            <td id="return_distance"></td>
+                                                        </tr>
+                                                    </table>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" required class="form-control number_input"
+                                                               name="covered_kilometers" id="covered_kilometers" readonly
+                                                               placeholder="Enter the Kilometers to be Covered">
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -1308,23 +1331,23 @@
                 //document.getElementById("nights").textContent = diffInDays.toString();
             });
 
-            $("#departureTown").on("keyup", function () {
+            /*$("#departureTown").on("keyup", function () {
                 let value = $(this).val().toUpperCase();
                 $(this).val(value);
-            });
+            });*/
 
             $('[name="justification"]').on("keyup", function () {
                 let text = $(this).val().toUpperCase();
                 this.value = text;
             });
 
-            $("#destinationTown").on("keyup", function () {
+            /*$("#destinationTown").on("keyup", function () {
                 let value = $(this).val().toUpperCase();
                 $(this).val(value);
-            });
+            });*/
 
-            $('#departure').on('change', function () {
-                let selector = document.querySelector('[name="destination"]');
+            $('#destinationTown').on('change', function () {
+                let selector = document.querySelector('[name="destinationTown"]');
                 let otherCities = window.citiesMap[$(this).val()];
                 for (const [key, value] of Object.entries(otherCities)) {
                     const option = document.createElement("option");
@@ -1334,14 +1357,14 @@
                     selector.add(option, null);
                 }
                 // enable disabled destination input
-                let destinationSelector = document.querySelector('[name="destination"]');
+                let destinationSelector = document.querySelector('[name="destinationTown"]');
                 if (destinationSelector.attributes.getNamedItem('disabled')) {
                     destinationSelector.attributes.removeNamedItem('disabled');
                 }
                 setDistance();
             });
 
-            $('#destination').on('change', function () {
+            $('#destinationTown').on('change', function () {
                 /*  let selector = document.querySelector('[name="destination"]');
                   let otherCities = window.citiesMap[$(this).val()];
                   for (const [key, value] of Object.entries(otherCities)) {
