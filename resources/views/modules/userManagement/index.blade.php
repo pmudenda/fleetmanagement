@@ -29,7 +29,8 @@
                             </div>
                             <div class="card-toolbar justify-content-end">
                                 <!--begin::Filter-->
-                                <button style="display: none;" type="button" class="btn btn-sm btn-primary me-3" data-menu-trigger="click"
+                                <button style="display: none;" type="button" class="btn btn-sm btn-primary me-3"
+                                        data-menu-trigger="click"
                                         data-menu-placement="bottom-end">
                                         <span class="svg-icon svg-icon-2">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -121,7 +122,7 @@
                                                 <td>
                                                     <a href="{{URL::signedRoute('user.show', $user->id)}}"
                                                        class="btn btn-sm btn-success m-1">
-                                                        <i class="fas fa-eye">Details</i>
+                                                        Details <i class="fas fa-eye"></i>
                                                     </a>
                                                 </td>
                                             @endcan
