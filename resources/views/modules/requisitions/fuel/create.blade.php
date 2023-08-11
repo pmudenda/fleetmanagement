@@ -411,7 +411,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-4">
+
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="covered_kilometers" class="col-sm-12 control-label">
                                                         Kilometers to be Covered (<span class="text-success">C</span>)
