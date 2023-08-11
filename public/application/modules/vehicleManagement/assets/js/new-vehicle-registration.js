@@ -174,7 +174,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     $('input[name="tyreBrand"]').val(data['tyre_brand']);
 
 
-    $('[name="frontTyreSize"]').val(data['front_tyre_size']).attr(('data-value', data['front_tyre_size']));
+    $('[name="frontTyreSize"]').val(data['front_tyre_size']).attr('data-value', data['front_tyre_size']);
 
     $('[name="rearTyreSize"]').val(data['rear_tyre_size']).attr('data-value', data['rear_tyre_size'])
 
@@ -249,7 +249,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     $('input[name="purchase_order_number"]').val(data['purchase_order_no']);
 
-    $('input[name="costOfLicense"]').val(accounting.formatMoney(data['costoflicense'], '', 2, ",", ".")).attr('readonly', 'readonly');
+    $('input[name="costOfLicense"]').val(accounting.formatMoney(data['costoflicense'], '', 2, ",", "."));//.attr('readonly', 'readonly');
     $('input[name="costOfLicense"]').trigger('change');
 
     $('input[name="premium"]').val(accounting.formatMoney(data['premium'], '', 2, ",", ".")).attr('readonly', 'readonly');
