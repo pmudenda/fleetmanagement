@@ -45,6 +45,7 @@ class ReportsController extends Controller
         $year = $request->get('year') ?? Carbon::now()->year;
         $cost_by_year = DB::table('zfm_fuel_cost')
             ->select(DB::raw('SUM(ttl) as cost, year, fuel_type'))
+            ->groupBy('year','fuel_type')
             ->get();
 
         $data = []; /*FuelCost::get()
