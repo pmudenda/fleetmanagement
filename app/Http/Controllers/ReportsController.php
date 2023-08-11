@@ -7,11 +7,11 @@ use App\Models\Reference\TMSDataCleanUp;
 use App\Models\Reports\FuelCost;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use Carbon\Carbon;
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ReportsController extends Controller
 {
@@ -41,10 +41,11 @@ class ReportsController extends Controller
         $data = cache()->remember('fuel_cost', $month, function () {
 
         });*/
-        $year = $request . get('year') ?? Carbon::now()->year;
+
+        $year = $request->get('year') ?? Carbon::now()->year;
 
         $data = FuelCost::get()
-            ->where('year', '=', Carbon::now()->year)
+            ->where('year', '=', $year)
             ->paginate(100);
 
         return response()->json([
