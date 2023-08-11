@@ -53,7 +53,7 @@ Route::get('/mail_view', function () {
 });
 
 Route::get('test', function (Request $request) {
-    return `<table></table>`;
+    return '<table><thead></thead><tbody>ABCD</tbody></table>';
 })->
 name('barcode.generate');
 
