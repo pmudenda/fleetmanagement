@@ -169,7 +169,7 @@
                             </span>
                         </span>
                             <p>
-                                Workshop Management
+                               {{-- Workshop Management--}} Maintenance
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
@@ -180,7 +180,8 @@
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
-                                            Job Cards
+                                            {{--Job Cards--}}
+                                            Maintenance Request
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
@@ -194,6 +195,14 @@
                                                 </a>
                                             </li>
                                         @endcan
+
+                                        <li class="nav-item">
+                                            <a href="{{URL::signedRoute('new.job.card')}}"
+                                               class="nav-link">
+                                                <i class="fas fa-plus nav-icon"></i>
+                                                <p>Create</p>
+                                            </a>
+                                        </li>
 
                                         {{--@can(config('rights.view_job_card'))--}}
                                         <li class="nav-item pl-2">

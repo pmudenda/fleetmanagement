@@ -85,6 +85,10 @@ class MaintenanceController extends Controller
             );
     }
 
+    public function start()
+    {
+        
+    }
 
     public function create(Request $request): View
     {
