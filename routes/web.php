@@ -152,7 +152,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/fuel-requisitions/list', [FuelRequisitionController::class, 'index'])->name('list.fuel.requisition');
         Route::post('/fuel/odometer/validation', [FuelRequisitionController::class, 'validateOdometer'])->name('fuel.odometer.validation');
         Route::post('/fuel/last/requisition', [FuelRequisitionController::class, 'latestRequisition'])->name('fuel.last.requisition');
-
+        Route::get('intercity/distance', [FuelRequisitionController::class, 'getDistance'])->name('intercity.distance');
         Route::post('/workflow/fuel/approve', [WorkflowController::class, 'processFuelRequisitionApproval'])->name('workflow.approve');
 
     });

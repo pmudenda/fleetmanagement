@@ -460,13 +460,19 @@
                         <div class="control-input-wrapper">
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
-                                    <input type="text"
-                                           title="The tyre make e.g Good Year"
-                                           class="form-control view_mode"
-                                           maxlength="140"
-                                           id="tyreBrand"
-                                           name="tyreBrand"
-                                           placeholder="e.g Good Year"/>
+                                    <select class="form-select form-select-sm view_mode"
+                                            id="tyreBrand"
+                                            name="tyreBrand">
+                                        <option value="MICHELIN">MICHELIN</option>
+                                        <option value="PIRELLI">PIRELLI</option>
+                                        <option value="FIRESTONE">FIRESTONE</option>
+                                        <option value="DUNLOP">DUNLOP</option>
+                                        <option value="CONTINENTAL">CONTINENTAL</option>
+                                        <option value="BRIDGESTONE">BRIDGESTONE</option>
+                                        <option value="GOOD YEAR">GOOD YEAR</option>
+                                        <option value="HANKOOK">HANKOOK</option>
+                                        <option value="YOKOHAMA">YOKOHAMA</option>
+                                    </select>
                                 </div>
                             </div>
 

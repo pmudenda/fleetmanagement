@@ -375,12 +375,16 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                 for="mobile_no">Departure Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input id="departureTown" name="departureTown"
-                                                                   class="form-control"/>
+                                                            {{--<input id="" name="departureTown"
+                                                                   class="form-control"/>--}}
+                                                            <select required class="form-control city select2"
+                                                                    name="departureTown"
+                                                                    id="departureTown">
+                                                                <option value="">--Select Departure--</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -394,8 +398,15 @@
                                                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                                 for="request_date">Destination Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input id="destinationTown" name="destinationTown"
-                                                                   class="form-control"/>
+                                                           {{-- <input id="destinationTown" name=""
+                                                                   class="form-control"/>--}}
+                                                            <select required
+                                                                    class="form-control city select2"
+                                                                    disabled
+                                                                    name="destinationTown"
+                                                                    id="destinationTown">
+                                                                <option value="">--Select Destination--</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -607,6 +618,9 @@
     </section>
 @endsection
 @push('scripts')
+    <script>
+        window.citiesMap = {!! json_encode($cities) !!};
+    </script>
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script src="{{asset('assets/js/system/project_code.js')}}"></script>
     <script>
@@ -923,6 +937,18 @@
                 tmsApp.numberOnly(event);
             })
 
+            let selector = document.querySelector('#departureTown');
+            for (const [key, value] of Object.entries(window['citiesMap'])) {
+                const option = document.createElement("option");
+                option.value = key;
+                option.text = key;
+                selector.add(option, null);
+            }
+
+            $('.select2').select2({
+                theme: 'bootstrap4'
+            });
+
             Inputmask({
                 "mask": "AAA 9{1,4}"
             }).mask("#vehicle_registration");
@@ -1194,6 +1220,32 @@
 
             }
 
+            function setDistance() {
+                let departureVal = document.querySelector("[name='departure']").value;
+                let destination = document.querySelector('[name="destination"]');
+                let destinationVal = destination.value;
+                if (!destinationVal) {
+                    return;
+                }
+                if (!departureVal) {
+                    return;
+                }
+
+                $("#one_way").text(departureVal +' --> '+destinationVal);
+                $("#return_trip").text(destinationVal+' --> '+ departureVal);
+                let roundTrip =  departureVal +' --> '+destinationVal+' --> '+ departureVal;
+
+                //$('#trip_path').text(roundTrip);
+                let distance = destination.selectedOptions[0].dataset['distance'];
+                let $coveredKilometerCtrl = document.querySelector('[name="covered_kilometers"]');
+
+                $("#one_way_distance").text(distance);
+                $("#return_distance").text(distance);
+
+                $coveredKilometerCtrl.value = (2 * distance);
+                $($coveredKilometerCtrl).change();
+            }
+
             function determineAppropriateEndDate() {
                 const startDate = document.getElementById("departure_date").value;
                 let date = new Date(startDate);
@@ -1270,6 +1322,38 @@
                 let value = $(this).val().toUpperCase();
                 $(this).val(value);
             });
+
+            $('#departure').on('change', function () {
+                let selector = document.querySelector('[name="destination"]');
+                let otherCities = window.citiesMap[$(this).val()];
+                for (const [key, value] of Object.entries(otherCities)) {
+                    const option = document.createElement("option");
+                    option.value = key;
+                    option.text = key;
+                    option.dataset.distance = value;
+                    selector.add(option, null);
+                }
+                // enable disabled destination input
+                let destinationSelector = document.querySelector('[name="destination"]');
+                if (destinationSelector.attributes.getNamedItem('disabled')) {
+                    destinationSelector.attributes.removeNamedItem('disabled');
+                }
+                setDistance();
+            });
+
+            $('#destination').on('change', function () {
+                /*  let selector = document.querySelector('[name="destination"]');
+                  let otherCities = window.citiesMap[$(this).val()];
+                  for (const [key, value] of Object.entries(otherCities)) {
+                      const option = document.createElement("option");
+                      option.value = key;
+                      option.text = key;
+                      option.dataset.distance = value;
+                      selector.add(option, null);
+                  }*/
+                setDistance();
+            });
+
 
             $('#materialDetailsTable').on('change', 'select,input', function (e) {
                 eventHandler(this, e);
