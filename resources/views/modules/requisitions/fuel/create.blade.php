@@ -44,8 +44,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                for="staff_no">Registration #:
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                            for="staff_no">Registration #:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group">
@@ -83,8 +83,8 @@
                                                         </div>
                                                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                                             <label
-                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
-                                                                    for="staff_no">Status:
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                for="staff_no">Status:
                                                             </label>
 
                                                             <span id="vehicle_status" class="ml-3 badge badge-success"
@@ -102,7 +102,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
@@ -154,7 +154,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
@@ -188,8 +188,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Requisition Type:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -200,7 +200,7 @@
                                                                 <option value=""> --Select--</option>
                                                                 @foreach ($requisitionTypes as $requisitionType)
                                                                     <option
-                                                                            value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
+                                                                        value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -214,8 +214,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Current Odometer Reading :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -243,8 +243,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Driver:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -299,8 +299,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Departure Date:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Departure Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group date"
                                                                  data-target-input="nearest">
@@ -336,8 +336,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">Return Date:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="request_date">Return Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group date"
                                                                  data-target-input="nearest">
@@ -375,8 +375,9 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Departure Town:</label>
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Departure Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             {{--<input id="" name="departureTown"
                                                                    class="form-control"/>--}}
@@ -395,11 +396,11 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">Destination Town:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="request_date">Destination Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                           {{-- <input id="destinationTown" name=""
-                                                                   class="form-control"/>--}}
+                                                            {{-- <input id="destinationTown" name=""
+                                                                    class="form-control"/>--}}
                                                             <select required
                                                                     class="form-control city select2"
                                                                     disabled
@@ -432,7 +433,8 @@
                                                     </table>
                                                     <div class="col-sm-12">
                                                         <input type="text" required class="form-control number_input"
-                                                               name="covered_kilometers" id="covered_kilometers" readonly
+                                                               name="covered_kilometers" id="covered_kilometers"
+                                                               readonly
                                                                placeholder="Enter the Kilometers to be Covered">
                                                     </div>
                                                 </div>
@@ -446,8 +448,8 @@
                                                 <div class="row" id="allocationContainer">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Allocation Per Week:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Allocation Per Week:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <div class="input-group input-group-sm">
                                                                 <input type="text" class="form-control form-control-sm"
@@ -470,8 +472,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">Request Date:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="request_date">Request Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    id="request_date"
@@ -491,8 +493,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                                                for="next_fuel_date">
+                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
+                                                            for="next_fuel_date">
                                                             Next Refueling Date :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
@@ -514,8 +516,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Purpose:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Purpose:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <textarea type="text"
                                                                   id="justification"
@@ -1257,9 +1259,9 @@
                     return;
                 }
 
-                $("#one_way").text(departureVal +' --> '+destinationVal);
-                $("#return_trip").text(destinationVal+' --> '+ departureVal);
-                let roundTrip =  departureVal +' --> '+destinationVal+' --> '+ departureVal;
+                $("#one_way").text(departureVal + ' --> ' + destinationVal);
+                $("#return_trip").text(destinationVal + ' --> ' + departureVal);
+                let roundTrip = departureVal + ' --> ' + destinationVal + ' --> ' + departureVal;
 
                 //$('#trip_path').text(roundTrip);
                 let distance = destination.selectedOptions[0].dataset['distance'];
@@ -1334,22 +1336,16 @@
                 //document.getElementById("nights").textContent = diffInDays.toString();
             });
 
-            /*$("#departureTown").on("keyup", function () {
+            /*$("#").on("keyup", function () {
                 let value = $(this).val().toUpperCase();
                 $(this).val(value);
             });*/
 
             $('[name="justification"]').on("keyup", function () {
-                let text = $(this).val().toUpperCase();
-                this.value = text;
+                this.value = this.value.toUpperCase();
             });
 
-            /*$("#destinationTown").on("keyup", function () {
-                let value = $(this).val().toUpperCase();
-                $(this).val(value);
-            });*/
-
-            $('#destinationTown').on('change', function () {
+            $(document).on('change', '#departureTown', function () {
                 let selector = document.querySelector('[name="destinationTown"]');
                 let otherCities = window.citiesMap[$(this).val()];
                 for (const [key, value] of Object.entries(otherCities)) {
@@ -1364,6 +1360,7 @@
                 if (destinationSelector.attributes.getNamedItem('disabled')) {
                     destinationSelector.attributes.removeNamedItem('disabled');
                 }
+
                 setDistance();
             });
 
