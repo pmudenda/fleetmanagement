@@ -367,7 +367,7 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview pl-3">
-                            @canany([config('rights.can_add_user'),config('rights.view_user')])
+                            @canany(config('rights.can_add_user'),config('rights.view_user'))
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="nav-icon fas fa-users"></i>
