@@ -206,6 +206,8 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('job-card/accessories', [MaintenanceController::class, 'accessoriesTab'])->name('accessories.job.card');
 
+            Route::get('new/job-card', [MaintenanceController::class, 'start'])->name('new.job.card');
+
             // supporting
             Route::get('requisitions/workOrder/list', [MaintenanceController::class, 'list'])->name('workOrder.list');
 
