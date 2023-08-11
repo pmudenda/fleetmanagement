@@ -416,34 +416,38 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="container-fluid pl-0">
-                                                <div class="col-6 pl-0">
+                                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                                <div class="container-fluid pl-0">
                                                     <div class="row">
-                                                        <label for="covered_kilometers" class="col-md-4 control-label">
-                                                            Kilometers to be Covered (<span
-                                                                class="text-success">C</span>)
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                        <div class="col-sm-9">
-                                                            <input type="text" required
-                                                                   class="form-control number_input"
-                                                                   name="covered_kilometers" id="covered_kilometers"
-                                                                   readonly
-                                                                   placeholder="Enter the Kilometers to be Covered">
-                                                            <table id="trip_path">
-                                                                <tr>
-                                                                    <td id="one_way"></td>
-                                                                    <td id="one_way_distance"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td id="return_trip"></td>
-                                                                    <td id="return_distance"></td>
-                                                                </tr>
-                                                            </table>
+                                                        <div class="form-group row">
+                                                            <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                for="covered_kilometers">Kilometers to be Covered:
+                                                            </label>
+                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                <input type="text" required
+                                                                       class="form-control number_input"
+                                                                       name="covered_kilometers" id="covered_kilometers"
+                                                                       readonly
+                                                                       placeholder="Enter the Kilometers to be Covered">
+                                                            </div>
                                                         </div>
                                                     </div>
+
+                                                    <table id="trip_path">
+                                                        <tr>
+                                                            <td id="one_way"></td>
+                                                            <td id="one_way_distance"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td id="return_trip"></td>
+                                                            <td id="return_distance"></td>
+                                                        </tr>
+                                                    </table>
                                                 </div>
+
                                             </div>
+
                                         </div>
                                     </div>
 
