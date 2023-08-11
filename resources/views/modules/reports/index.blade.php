@@ -66,7 +66,7 @@
 
         </div>
     </section>
-
+   <input type="hidden" name="fuelExpenseReport" value="{{route('reports.fuel.data')}}">
 @endsection
 
 @push('scripts')
@@ -281,11 +281,11 @@
     </script>
     <script>
         window.data = {!! json_encode($data)!!};
-        window.dataUrl = {!! route('reports.fuel.data') !!};
+
         (function (appInstance) {
             appInstance.initDatatable("#listTable", false);
 
-            $.getJSON(window.dataUrl).done((response) => {
+            $.getJSON($('[name="fuelExpenseReport"]').val()).done((response) => {
                 if (response.state != 'success') {
                     return;
                 }
