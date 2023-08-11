@@ -418,10 +418,16 @@
                                         <div class="row">
                                             <div class="col-6 pl-0">
                                                 <div class="form-group">
-                                                    <label for="covered_kilometers" class="col-sm-12 control-label">
+                                                    <label for="covered_kilometers" class="control-label">
                                                         Kilometers to be Covered (<span class="text-success">C</span>)
                                                         <span class="text-danger">*</span>
                                                     </label>
+                                                    <div class="col-sm-3">
+                                                        <input type="text" required class="form-control number_input"
+                                                               name="covered_kilometers" id="covered_kilometers"
+                                                               readonly
+                                                               placeholder="Enter the Kilometers to be Covered">
+                                                    </div>
                                                     <table id="trip_path">
                                                         <tr>
                                                             <td id="one_way"></td>
@@ -432,12 +438,6 @@
                                                             <td id="return_distance"></td>
                                                         </tr>
                                                     </table>
-                                                    <div class="col-sm-3">
-                                                        <input type="text" required class="form-control number_input"
-                                                               name="covered_kilometers" id="covered_kilometers"
-                                                               readonly
-                                                               placeholder="Enter the Kilometers to be Covered">
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
