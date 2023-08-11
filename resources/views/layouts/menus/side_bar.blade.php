@@ -1008,8 +1008,8 @@
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
-                        <ul class="nav nav-treeview pl-3" style="display: none;">
-                            <li class="nav-item">
+                        <ul class="nav nav-treeview pl-3">
+                            <li class="nav-item" style="display: none;">
                                 <a href="{{URL::signedRoute('reports.fuel.requisitions')}}"
                                    class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
