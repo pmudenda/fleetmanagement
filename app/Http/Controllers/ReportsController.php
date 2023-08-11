@@ -46,6 +46,7 @@ class ReportsController extends Controller
 
         $data = FuelCost::get()
             ->where('year', '=', $year)
+            ->where('month', '=', Carbon::now()->month)
             ->paginate(100);
 
         return response()->json([
