@@ -41,10 +41,11 @@ class ReportsController extends Controller
         $data = cache()->remember('fuel_cost', $month, function () {
 
         });*/
-        $year = $request . get('year') ?? Carbon::now()->year;
+
+        $year = $request->get('year') ?? Carbon::now()->year;
 
         $data = FuelCost::get()
-            ->where('year', '=', Carbon::now()->year)
+            ->where('year', '=', $year)
             ->paginate(100);
 
         return response()->json([
