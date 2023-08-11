@@ -63,16 +63,15 @@
                         <thead>
                         <tr class="border-success">
                             <th width="33%" class="text-center"><a href="#">
-                                    <img src="{{ asset('assets/dist/img/zesco1.png') }}"
+                                    {{--<img src="{{ asset('assets/dist/img/zesco1.png') }}"
                                          title="ZESCO" alt="ZESCO"
-                                         width="30%">
+                                         width="30%">--}}
                                 </a>
                             </th>
-                            <th width="33%" colspan="4" class="text-center">
+                            <th width="33%" colspan="4" class="text-center" style="font-size: 26px;">
                                 FUEL REQUISITION
                             </th>
-                            <th width="34%" colspan="1" class="p-3">Doc Number:<br>XX.YYYYY.DOC_TYPE.NUMBER<br>Version:
-                                5
+                            <th width="34%" colspan="1" class="p-3">
                             </th>
                         </tr>
                         </thead>
