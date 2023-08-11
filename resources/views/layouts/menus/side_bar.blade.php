@@ -142,6 +142,80 @@
                 @endcanany
 
                 @php
+                    $requisitionsPermissions = [
+                        config('rights.requisition_fuel'),
+                        config('rights.approve_fuel_requisition')
+                    ];
+                @endphp
+                @canany($requisitionsPermissions)
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-gas-pump" style="font-size: 20px;"></i>
+                            <p>
+                                Fuel Management
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview pl-3">
+                            @canany($requisitionsPermissions)
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Fuel Requisitions
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview pl-4">
+                                        @can(config('rights.requisition_fuel'))
+                                            <li class="nav-item">
+                                                <a class="nav-link"
+                                                   href="{{ URL::signedRoute('new.fuel.requisition') }}">
+                                                    <i class="fas fa-plus nav-icon"></i>
+                                                    <p>New</p>
+                                                </a>
+                                            </li>
+                                        @endcan
+                                        @canany(config('rights.requisition_fuel'),config('rights.approve_fuel_requisition'))
+                                            <li class="nav-item">
+                                                <a class="nav-link"
+                                                   href="{{ URL::signedRoute('list.fuel.requisition') }}">
+                                                    <i class="fas fa-list nav-icon"></i>
+                                                    <p>List</p>
+                                                </a>
+                                            </li>
+                                        @endcanany
+                                    </ul>
+                                </li>
+                            @endcanany
+                            {{--@can(config('rights.set_vehicle_fuel_allocation'))
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       href="{{ URL::signedRoute('vehicle.fuel.allocation') }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Fuel Allocation</p>
+                                    </a>
+                                </li>
+                            @endcan--}}
+
+                            {{--<li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Vehicle Requisition</p>
+                                </a>
+                            </li>--}}
+
+                            {{--<li class="nav-item">
+                                <a href="{{URL::signedRoute('workOrder.requisition', ['step'=> 1])}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Maintenance Requisition</p>
+                                </a>
+                            </li>--}}
+                        </ul>
+                    </li>
+                @endcanany
+
+                @php
                     $workshopPermissions = [
                         config('rights.create_job_card'),
                         config('rights.view_job_card'),
@@ -149,8 +223,6 @@
                         config('rights.requisition_spares'),
                     ];
                 @endphp
-
-
 
                 @canany($workshopPermissions)
                     <li class="nav-item">
@@ -269,80 +341,6 @@
                                     </a>
                                 </li>
                             @endcan
-                        </ul>
-                    </li>
-                @endcanany
-
-                @php
-                    $requisitionsPermissions = [
-                        config('rights.requisition_fuel'),
-                        config('rights.approve_fuel_requisition')
-                    ];
-                @endphp
-                @canany($requisitionsPermissions)
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-gas-pump" style="font-size: 20px;"></i>
-                            <p>
-                                Fuel Management
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview pl-3">
-                            @canany($requisitionsPermissions)
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>
-                                            Fuel Requisitions
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview pl-4">
-                                        @can(config('rights.requisition_fuel'))
-                                            <li class="nav-item">
-                                                <a class="nav-link"
-                                                   href="{{ URL::signedRoute('new.fuel.requisition') }}">
-                                                    <i class="fas fa-plus nav-icon"></i>
-                                                    <p>New</p>
-                                                </a>
-                                            </li>
-                                        @endcan
-                                        @canany(config('rights.requisition_fuel'),config('rights.approve_fuel_requisition'))
-                                            <li class="nav-item">
-                                                <a class="nav-link"
-                                                   href="{{ URL::signedRoute('list.fuel.requisition') }}">
-                                                    <i class="fas fa-list nav-icon"></i>
-                                                    <p>List</p>
-                                                </a>
-                                            </li>
-                                        @endcanany
-                                    </ul>
-                                </li>
-                            @endcanany
-                            {{--@can(config('rights.set_vehicle_fuel_allocation'))
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       href="{{ URL::signedRoute('vehicle.fuel.allocation') }}">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Fuel Allocation</p>
-                                    </a>
-                                </li>
-                            @endcan--}}
-
-                            {{--<li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Vehicle Requisition</p>
-                                </a>
-                            </li>--}}
-
-                            {{--<li class="nav-item">
-                                <a href="{{URL::signedRoute('workOrder.requisition', ['step'=> 1])}}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Maintenance Requisition</p>
-                                </a>
-                            </li>--}}
                         </ul>
                     </li>
                 @endcanany
