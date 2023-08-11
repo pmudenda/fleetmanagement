@@ -47,10 +47,10 @@ class ReportsController extends Controller
             ->select(DB::raw('SUM(ttl) as cost, year, fuel_type'))
             ->get();
 
-        $data = FuelCost::get()
+        $data = []; /*FuelCost::get()
             ->where('year', '=', '2023')
             ->where('month', '=', '04')
-            ->paginate(10);
+            ->paginate(10);*/
 
         return response()->json([
             'state' => 'success',
