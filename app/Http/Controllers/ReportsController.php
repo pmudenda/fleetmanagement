@@ -12,6 +12,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReportsController extends Controller
 {
@@ -43,7 +44,7 @@ class ReportsController extends Controller
         });*/
 
         $year = $request->get('year') ?? Carbon::now()->year;
-
+$cost_by_year = DB::
         $data = FuelCost::get()
             ->where('year', '=', $year)
             ->where('month', '=', Carbon::now()->month)

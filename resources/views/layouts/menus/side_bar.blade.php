@@ -378,22 +378,22 @@
                                     </a>
                                     <ul class="nav nav-treeview pl-3">
 
-                                        @can(config('rights.can_add_user'))
+                                        @canany(config('rights.can_add_user'))
                                             <li class="nav-item">
                                                 <a class="nav-link" href="{{ URL::signedRoute('users.new') }}">
                                                     <i class="fas fa-user-plus nav-icon"></i>
                                                     <p class="menu-title">Add</p>
                                                 </a>
                                             </li>
-                                        @endcan
-                                        @can(config('rights.view_user'))
+                                        @endcanany
+                                        @canany(config('rights.view_user'))
                                             <li class="nav-item">
                                                 <a class="nav-link" href="{{ URL::signedRoute('users.list') }}">
                                                     <i class="fas fa-users nav-icon"></i>
                                                     <p>List</p>
                                                 </a>
                                             </li>
-                                        @endcan
+                                        @endcanany
                                     </ul>
                                 </li>
                             @endcanany
