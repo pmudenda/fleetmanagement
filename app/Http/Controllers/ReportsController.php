@@ -40,19 +40,24 @@ class ReportsController extends Controller
     {
         /*$month = 60 * 60 * 24 * 30;
         $data = cache()->remember('fuel_cost', $month, function () {
-
         });*/
 
         $year = $request->get('year') ?? Carbon::now()->year;
-$cost_by_year = DB::
+        $cost_by_year = DB::table('zfm_fuel_cost')
+            ->select(DB::raw('SUM(ttl) as cost, year, fuel_type'))
+            ->get();
+
         $data = FuelCost::get()
-            ->where('year', '=', $year)
-            ->where('month', '=', Carbon::now()->month)
+            ->where('year', '=', '2023')
+            ->where('month', '=', '04')
             ->paginate(10);
 
         return response()->json([
             'state' => 'success',
-            'payload' => $data
+            'payload' => [
+                $data,
+                $cost_by_year
+            ]
         ]);
     }
 }
