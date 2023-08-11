@@ -7,7 +7,6 @@ use App\Constants\SystemMessages;
 use App\Enums\Modules;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
-use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Http\Requests\OdometerValidationRequest;
@@ -16,6 +15,7 @@ use App\Models\RequisitionType;
 use App\Models\VehicleManagement\ChassisDetail;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Models\Workflow\WorkflowTaskHeader;
+use App\Services\KilometerAllowance\InterCityDistanceService;
 use App\Services\Requisitions\FuelRequisitionService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -23,8 +23,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Mockery\CountValidator\Exception;
 
 class FuelRequisitionController extends Controller
 {
@@ -41,7 +41,7 @@ class FuelRequisitionController extends Controller
         $requisitions = $this->requisitionService->getMyRequisitions(null);
         $requisition_type = "FUEL";
         return view("modules.requisitions.fuel.list")
-            ->with(compact('requisitions','requisition_type'));
+            ->with(compact('requisitions', 'requisition_type'));
     }
 
     public function validateOdometer(OdometerValidationRequest $request): JsonResponse
@@ -80,13 +80,18 @@ class FuelRequisitionController extends Controller
 
         $daysToNextRefuel = config('settings.fuel_requisition_validity');
 
+        $interCityDistanceService = new InterCityDistanceService();
+        $cities = $interCityDistanceService->getInterCityDistanceArray();
+        asort($cities);
+
         return view('modules.requisitions.fuel.create')
             ->with(
                 compact(
                     'user',
                     'requisitionTypes',
                     'organizationalUnit',
-                    'daysToNextRefuel'
+                    'daysToNextRefuel',
+                    'cities'
                 )
             );
     }
@@ -121,12 +126,12 @@ class FuelRequisitionController extends Controller
 
         $requestDetails = $this->requisitionService->getRequisitionDetail($req_no);
 
-        if($requestDetails == null){
+        if ($requestDetails == null) {
             abort(404);
         }
 
 
-        $workflowTask =  WorkflowTaskHeader::where('reference','=', $req_no)->first();
+        $workflowTask = WorkflowTaskHeader::where('reference', '=', $req_no)->first();
 
         //$costCenter = CostCenters::where('code_cost_center', $user->cc_code)->first();
         /*$organizationalUnit = OrganizationalUnits::where('code_unit', $requestDetails->cc_code)
@@ -167,5 +172,28 @@ class FuelRequisitionController extends Controller
             'payload' => $payload,
             'message' => !empty($payload) ? 'Found' : 'Not Found'
         ]);
+    }
+
+    public function getDistanceBetween($fromCity, $toCity): int
+    {
+        return $this->interCityDistanceService->getDistance($fromCity, $toCity);
+    }
+
+    public function getDistance(Request $request): JsonResponse
+    {
+        try {
+            $result = $this->kilometerService->getDistanceBetween($request->input('departure'), $request->input('destination'));
+            return response()->json(array(
+                'success' => true,
+                'data' => $result
+            ));
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json(array(
+                'success' => false,
+                'data' => $e->getMessage()
+            ));
+        }
+
     }
 }
