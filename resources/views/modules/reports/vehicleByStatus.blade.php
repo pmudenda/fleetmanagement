@@ -234,7 +234,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                <h4>Vehicle Assignation Data Report</h4>
+                                <h4>Vehicle Assigment Data Report</h4>
                             </div>
                             <div class="card-toolbar justify-content-end">
 
