@@ -37,7 +37,7 @@ class ReportsController extends Controller
     public function getFuelCost(): JsonResponse
     {
         $month = 60 * 60 * 24 * 30;
-        $data = cache()->remember('directorates', $month, function () {
+        $data = cache()->remember('fuel_cost', $month, function () {
             return FuelCost::get();
         });
         return response()->json([
