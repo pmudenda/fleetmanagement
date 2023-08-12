@@ -82,7 +82,7 @@
                         <div class="row">
                             <table>
                                 <tr>
-                                    <td style="vertical-align: baseline;">
+                                    <td style="vertical-align: baseline; width:15%;">
                                         <div v-if="images && images.frontView">
                                             <img style="height: 200px;" class="frontImagePreview"
                                                  v-bind:src='"/storage" + images.frontView.path' alt=""/>
@@ -91,22 +91,22 @@
                                     <td>
                                         <table>
                                             <tr>
-                                                <td>Brand(Make) :</td>
-                                                <td><input readonly
-                                                           class="form-control view_mode"
-                                                           name="brand"
-                                                           id="brand"/></td>
+                                               {{-- <td>Brand(Make) :</td>--}}
+                                                <td>
+                                                    <div class="row">
+                                                        <input readonly
+                                                               class="form-control view_mode"
+                                                               name="brand"
+                                                               id="brand"/>
+                                                        <input class="form-control form-control-sm view_mode"
+                                                               required
+                                                               name="model"
+                                                               id="model"/>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>
-                                                    Model
-                                                </td>
-                                                <td>
-                                                    <input class="form-control form-control-sm view_mode"
-                                                           required
-                                                           name="model"
-                                                           id="model"/>
-                                                </td>
+
                                             </tr>
                                         </table>
                                         <div class="col-md-12">

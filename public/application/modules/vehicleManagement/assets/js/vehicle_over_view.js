@@ -45,7 +45,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     $('input[name="model"]').val(data['model_name']);
     $('input[name="brand"]').val(data['brand_name']);
-    $('input[name="bodyType"]').val(parseInt(data['body_type_name']))
+    $('input[name="bodyType"]').val(data['body_type_name'])
     $('input[name="vehicleLocation"]').val(data['location_name']);
 /*if (data['model_guid']) {
         // $('select[name="model"]').attr('data-value', data['model_guid']);
@@ -67,13 +67,13 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['vehicleHeader'], 'on_boarding_status', data['on_boarding_status']);
     Vue.set(app['vehicleHeader'], 'body_type_guid', data['body_type_guid']);
 
-    if (data['body_type_guid']) {
+    /*if (data['body_type_guid']) {
 
         $('select[name="bodyType"]').attr('data-value', parseInt(data['body_type_guid']));
         setTimeout(function () {
             $('select[name="bodyType"]').trigger('change');
         }, 600);
-    }
+    }*/
 
     if (data['business_unit_code']) {
         $('select[name="user_unit"]').val(data['business_unit_code']);
