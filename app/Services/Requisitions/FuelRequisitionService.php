@@ -204,7 +204,6 @@ class FuelRequisitionService
                             )
                         ),
                 ]);
-
             }
 
             // if latest previous is override or out of town, fail
@@ -276,9 +275,14 @@ class FuelRequisitionService
 
         Log::info("Requisition Type " . $requisitionPostRequest->get("requisition_type"));
 
+        $townFrom = null;
+        $townTo = null;
         if ($requisitionPostRequest->get("requisition_type") == RequisitionTypes::OutOfTown->value) {
             $workflowProcess = WorkflowProcessCodes::OutOfTownFuelRequisition->value;
             $description = "Out Of Town ";
+            $townFrom = $requisitionPostRequest->has("departureTown") ? $requisitionPostRequest->get("departureTown") : null;
+            $townTo = $requisitionPostRequest->has("destinationTown") ? $requisitionPostRequest->get("destinationTown") : null;
+
         } elseif ($requisitionPostRequest->get("requisition_type") == RequisitionTypes::Normal->value) {
             $workflowProcess = WorkflowProcessCodes::NormalFuelRequisition->value;
             $description = "Normal ";
@@ -312,10 +316,11 @@ class FuelRequisitionService
                 "valid_date_from" => $valid_from,
                 "valid_date_to" => $valid_to,
                 "odometer" => $requisitionPostRequest->get("odometer_reading"),
-                "town_from" => $requisitionPostRequest->has("departureTown") ? $requisitionPostRequest->get("departureTown") : null,
-                "town_to" => $requisitionPostRequest->has("destinationTown") ? $requisitionPostRequest->get("destinationTown") : null,
+                "town_from" => $townFrom,
+                "town_to" => $townTo,
                 "date_created" => Carbon::now(),
                 "created_by" => $user->id,
+                "project_name" => $requisitionPostRequest->get('ProjectName') ?? null,
                 "requested_by" => $user->staff_no,
                 "comments" => $requisitionPostRequest->get("justification"),
                 "requisition_type" => $requisitionPostRequest->get("requisition_type"),

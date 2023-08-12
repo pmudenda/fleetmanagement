@@ -44,6 +44,7 @@ return new class extends Migration
             $table->string('requisition_type')->nullable();
             $table->string('cost_assigned_to', 20)->nullable()->change();
             $table->string('issue_balance', 20)->nullable();
+            $table->string('project_name', 255)->nullable();
             $table->timestamps();
         });
     }

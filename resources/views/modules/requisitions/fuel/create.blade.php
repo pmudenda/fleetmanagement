@@ -460,9 +460,9 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="col-xs-12 col-sm-6 col-md-6" id="allocationContainer">
                                             <div class="container-fluid pl-0">
-                                                <div class="row" id="allocationContainer">
+                                                <div class="row">
                                                     <div class="form-group row">
                                                         <label
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
@@ -552,7 +552,7 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-
+                                                        <input type="file" name="authorityToTravel" class="form-control filer_input">
                                                     </div>
                                                 </div>
                                             </div>
@@ -569,7 +569,7 @@
                                          </table>--}}
                                     </div>
 
-                                    <div id="image_view" class="card text-center py-5 my-2" style="display: none;">
+                                    <div id="image_view" class="card text-center my-2" style="display: none;">
                                         {{--  <h2 class="fs-2x fw-bold mb-10">Front View</h2>--}}
                                         <div class="form-group">
                                             <div class="imagePreview"></div>
@@ -648,11 +648,10 @@
                     </div>
                 </form>
 
-                <input type="hidden" value="{{ route('user.search') }}" id="newUserSearchUrl">
+                <input type="hidden" value="{{route('user.search') }}" id="newUserSearchUrl">
                 <input type="hidden" value="{{route('search.project')}}" id="projects_url">
                 <input type="hidden" value="{{route('fuel.last.requisition')}}" id="previousRequisitionUrl">
                 <input type="hidden" value="{{RequisitionTypes::OutOfTown}}" id="outOfTownReqCode">
-
                 <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding"
                        id="incompleteOnBoarding"/>
                 <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop"
@@ -671,7 +670,7 @@
     <script>
         (function (tmsApp, $) {
             let hasOpenRequisition = false;
-
+            new tmsApp.fileUploader().makeSingleFileUploader();
             function removeSubmissionAndDetailsOptions() {
                 let elements = document.querySelectorAll('.when_valid');
                 elements.forEach(function (element) {
@@ -1066,8 +1065,14 @@
                     return;
                 }
 
+                window.loaderMessage = 'Submitting Fuel Requisition.  Please wait...';
+
                 $('.print-error-msg').css('display', 'none');
                 let formData = new FormData($form);
+
+                formData.set('departureTown', $("#departureTown > option:selected").text())
+                formData.set('destinationTown', $("#destinationTown > option:selected").text())
+
                 tmsApp.confirm(
                     'Fuel Requisition',
                     'Are you sure you want to submit this request ?',
@@ -1078,7 +1083,7 @@
                             $form.action,
                             formData,
                             function (asyncResponse) {
-
+                                window.loaderMessage = "Please wait...";
                                 if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                                     setTimeout(function () {
                                         tmsApp.showSystemMessage(
@@ -1086,12 +1091,12 @@
                                             asyncResponse['message'],
                                             function () {
                                                 window.location.href = asyncResponse["redirectUrl"]
-                                                //window.location.reload();
                                             },
                                             'success'
                                         );
                                     }, 300);
                                 } else {
+                                    window.loaderMessage = "Please wait...";
                                     if (asyncResponse.hasOwnProperty('errors')) {
                                         tmsApp.printErrorMsg(asyncResponse.errors);
                                         return
@@ -1106,7 +1111,8 @@
                                 }
                             },
                             function (xhr, settings, errorThrown) {
-                                console.log(errorThrown)
+                                console.log(errorThrown);
+                                window.loaderMessage = "Please wait...";
                                 setTimeout(function () {
                                     if ('responseJSON' in xhr) {
                                         if (xhr.responseJSON.hasOwnProperty('errors')) {
@@ -1155,7 +1161,7 @@
 
                     document.querySelector('[name="material_quantity"]').removeAttribute('max');
 
-                    $('[name="material_quantity"]').val('');
+                    $('[name="material_quantity"]').val('').change();
 
                     $('#nextRefuelingDateContainer').addClass('d-none');
 
@@ -1251,7 +1257,6 @@
                 );
 
                 //tmsApp.showToast('We could not complete processing your request, please try again later')
-
             });
 
             function reformatDate(date, format = "ISO") {
@@ -1356,11 +1361,6 @@
                 //document.getElementById("nights").textContent = diffInDays.toString();
             });
 
-            /*$("#").on("keyup", function () {
-                let value = $(this).val().toUpperCase();
-                $(this).val(value);
-            });*/
-
             $('[name="justification"]').on("keyup", function () {
                 this.value = this.value.toUpperCase();
             });
@@ -1385,15 +1385,6 @@
             });
 
             $('#destinationTown').on('change', function () {
-                /*  let selector = document.querySelector('[name="destination"]');
-                  let otherCities = window.citiesMap[$(this).val()];
-                  for (const [key, value] of Object.entries(otherCities)) {
-                      const option = document.createElement("option");
-                      option.value = key;
-                      option.text = key;
-                      option.dataset.distance = value;
-                      selector.add(option, null);
-                  }*/
                 setDistance();
             });
 

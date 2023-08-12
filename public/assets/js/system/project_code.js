@@ -10,7 +10,7 @@ function initProjectSelector(selector) {
         multiple: false,
         quietMillis: 100,
         id: function (project) {
-            return project.code_project;
+            return project['code_project'];
         },
         theme: 'bootstrap4',
         ajax: {
@@ -33,16 +33,15 @@ function initProjectSelector(selector) {
                 return {
                     results: formatResults(data.items),
                     pagination: {
-                        more: (params.page * 30) < data.total_count
+                        more: (params.page * 30) < data['total_count']
                     }
                 };
             },
             cache: true
         },
-        placeholder: 'Enter Project name | Code',
+        placeholder: 'Enter Project Name or Project Code',
         minimumInputLength: 4,
         templateResult: formatRepo,
-        //formatRepo,
         templateSelection: formatRepoSelection
     });
 }
@@ -56,7 +55,7 @@ function formatRepo(project) {
 
 /**
  *
- * @param project {id: iValue, text:labelVal}
+ * @param project {id, text}
  * @returns {*|string}
  */
 function formatRepoSelection(project) {
@@ -75,12 +74,10 @@ function formatRepoSelection(project) {
  * @returns {*}
  */
 function formatResults(items) {
-
     return $.map(items, function (obj) {
         return {
             "id": obj['code_project'],
             "text": obj['code_project'] + ':' + obj.description
         };
     });
-
 }

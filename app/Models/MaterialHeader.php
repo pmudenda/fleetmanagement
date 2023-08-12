@@ -43,6 +43,7 @@ class MaterialHeader extends Model
         'store',
         'purchase_office',
         'issue_balance', // holds issue balance when there is partial issue
+        'project_name'
     ];
 
     public function originator(): BelongsTo
