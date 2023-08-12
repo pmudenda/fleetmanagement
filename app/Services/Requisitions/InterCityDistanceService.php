@@ -6,11 +6,8 @@ use App\Models\DistanceChart;
 
 class InterCityDistanceService
 {
-    private $interCityDistanceArray;
-
     public function __construct()
     {
-        $this->interCityDistanceArray = DistanceChart::orderBy('town_from')->get();
     }
 
     /**
@@ -18,6 +15,12 @@ class InterCityDistanceService
      */
     public function getInterCityDistanceArray(): mixed
     {
+        //$interCityDistanceArray = collect([]);
+        $timeToLive = 60 * 60 ;//* 24 * 30;
+        $interCityDistanceArray = cache()->remember('business_units', $timeToLive, function () {
+            return DistanceChart::orderBy('town_from')->get();
+        });
+
         return $this->interCityDistanceArray;
     }
 
