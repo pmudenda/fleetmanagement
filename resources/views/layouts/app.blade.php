@@ -51,9 +51,8 @@
     </style>
     @stack('styles')
 </head>
-
+{{--@php dd(config('rights')) @endphp--}}
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
-
 <div class="wrapper">
     <x-page-preloader/>
     <x-async-loader></x-async-loader>

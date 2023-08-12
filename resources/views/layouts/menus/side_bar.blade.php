@@ -37,7 +37,14 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
-
+                {{-- @canany([config('rights.view_meter_entries'), config('rights.add_meter_entries')])--}}
+                <li class="nav-item">
+                    <a href="{{ URL::signedRoute('new.fleet.movement') }}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Fleet Movement Entry</p>
+                    </a>
+                </li>
+                {{-- @endcanany--}}
                 @php
                     $vehicleManagementPermissions = [
                         config('rights.view_vehicle_details'),
@@ -46,7 +53,6 @@
                         config('rights.edit_vehicle_details'),
                         ];
                 @endphp
-
                 @canany($vehicleManagementPermissions)
                     <li class="nav-item">
                         <a href="#" class="nav-link">
@@ -65,15 +71,8 @@
                                     </a>
                                 </li>
                             @endcan
-                            @canany(config('rights.view_meter_entries'), config('rights.add_meter_entries'))
-                                <li class="nav-item">
-                                    <a href="{{ URL::signedRoute('view.vehicle.detail') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Meter Entry</p>
-                                    </a>
-                                </li>
-                            @endcanany
-                            @canany(config('rights.view_vehicle_details'), config('rights.edit_vehicle_details'))
+
+                            @canany([config('rights.view_vehicle_details'), config('rights.edit_vehicle_details')])
                                 <li class="nav-item pl-2">
                                     <a href="{{ URL::signedRoute('vehicles.list') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -176,7 +175,7 @@
                                                 </a>
                                             </li>
                                         @endcan
-                                        @canany(config('rights.requisition_fuel'),config('rights.approve_fuel_requisition'))
+                                        @canany([config('rights.requisition_fuel'), config('rights.approve_fuel_requisition')])
                                             <li class="nav-item">
                                                 <a class="nav-link"
                                                    href="{{ URL::signedRoute('list.fuel.requisition') }}">
@@ -247,7 +246,7 @@
                         </a>
                         <ul class="nav nav-treeview">
 
-                            @canany(config('rights.create_job_card'))
+                            @canany([config('rights.create_job_card')])
                                 <li class="nav-item pl-2">
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -258,7 +257,7 @@
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview pl-2">
-                                        @can(config('rights.create_job_card'))
+                                        @canany([config('rights.create_job_card')])
                                             <li class="nav-item">
                                                 <a href="{{URL::signedRoute('workOrder.requisition',['step'=> 1])}}"
                                                    class="nav-link">
@@ -266,7 +265,7 @@
                                                     <p>New</p>
                                                 </a>
                                             </li>
-                                        @endcan
+                                        @endcanany
 
                                         {{--<li class="nav-item">
                                             <a href="{{URL::signedRoute('new.job.card')}}"
@@ -333,21 +332,21 @@
                                 </ul>
                             </li>
 
-                            @can(config('rights.approve_workshop_requisition'))
+                            @canany([config('rights.approve_workshop_requisition')])
                                 <li class="nav-item pl-2">
                                     <a class="nav-link" href="{{ URL::signedRoute('list.workshop.requisition') }}">
                                         <i class="fas fa-list nav-icon"></i>
                                         <p>Requisitions</p>
                                     </a>
                                 </li>
-                            @endcan
+                            @endcanany
                         </ul>
                     </li>
                 @endcanany
 
                 @php
                     $userManagementPermissions = [
-                        config('rights.can_add_user'),
+                        config('rights.add_user'),
                         config('rights.view_user_detail'),
                         config('rights.view_user'),
                         config('rights.user_attach'),
@@ -355,6 +354,10 @@
                         config('rights.view_drivers'),
                     ];
                 @endphp
+
+                {{--@php
+                    dd( config('rights.add_driver') . (auth()->user()->roles()->count()));
+                    dd(  \auth()->user()->can( config('rights.add_driver'))) @endphp--}}
                 @canany($userManagementPermissions)
                     <li class="nav-item">
                         <a href="#" class="nav-link">
@@ -376,7 +379,7 @@
                                     </a>
                                     <ul class="nav nav-treeview pl-3">
 
-                                        @canany(config('rights.add_user'))
+                                        @canany([config('rights.add_user')])
                                             <li class="nav-item">
                                                 <a class="nav-link" href="{{URL::signedRoute('users.new')}}">
                                                     <i class="fas fa-user-plus nav-icon"></i>
@@ -384,7 +387,7 @@
                                                 </a>
                                             </li>
                                         @endcanany
-                                        @canany(config('rights.view_user'))
+                                        @canany([config('rights.view_user')])
                                             <li class="nav-item">
                                                 <a class="nav-link" href="{{URL::signedRoute('users.list')}}">
                                                     <i class="fas fa-users nav-icon"></i>
@@ -396,7 +399,7 @@
                                 </li>
                             @endcanany
 
-                            @canany(config('rights.add_driver'),config('rights.view_drivers'))
+                            @canany([config('rights.add_driver'),config('rights.view_drivers')])
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="nav-icon fas fa-users"></i>
@@ -430,7 +433,7 @@
                                 </li>
                             @endcanany
 
-                            @canany(config('rights.add_driver'),config('rights.view_drivers'))
+                            @canany([config('rights.add_driver'),config('rights.view_drivers')])
                                 <li class="nav-item d-none">
                                     <a href="#" class="nav-link">
                                         <i class="nav-icon fas fa-users"></i>
@@ -634,7 +637,7 @@
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview pl-2">
-                                        @canany(config('rights.add_vehicle_brand'), config('rights.add_vehicle_model'), config('rights.add_vehicle_type'))
+                                        @canany([config('rights.add_vehicle_brand'), config('rights.add_vehicle_model'), config('rights.add_vehicle_type')])
                                             <li class="nav-item">
                                                 <a href="#" class="nav-link">
                                                     <i class="far fa-circle nav-icon"></i>
@@ -646,7 +649,7 @@
                                                 <ul class="nav nav-treeview pl-2">
 
                                                     <!--Define Vehicle Brands-->
-                                                    @canany(config('rights.add_vehicle_brand'))
+                                                    @canany([config('rights.add_vehicle_brand')])
                                                         <li class="nav-item">
                                                             <a class="nav-link"
                                                                href="{{ URL::signedRoute('vehicle.make') }}">
@@ -661,7 +664,7 @@
                                                         </li>
                                                     @endcanany
 
-                                                    @canany(config('rights.add_vehicle_model'))
+                                                    @canany([config('rights.add_vehicle_model')])
                                                         <li class="nav-item">
                                                             <a class="nav-link"
                                                                href="{{ URL::signedRoute('vehicle.models') }}">
@@ -677,7 +680,7 @@
                                                     @endcanany
 
                                                     <!--Define Vehicle Body Types-->
-                                                    @canany(config('rights.add_vehicle_type'))
+                                                    @canany([config('rights.add_vehicle_type')])
                                                         <li class="nav-item">
                                                             <a class="nav-link"
                                                                href="{{ URL::signedRoute('vehicle.body.types') }}">
@@ -696,7 +699,7 @@
                                             </li>
                                         @endcanany
 
-                                        @canany(config('rights.add_workshop'),config('rights.edit_workshop'),config('rights.view_workshop'))
+                                        @canany([config('rights.add_workshop'),config('rights.edit_workshop'),config('rights.view_workshop')])
                                             <li class="nav-item">
                                                 <a href="#" class="nav-link">
                                                     <i class="far fa-circle nav-icon"></i>
@@ -706,7 +709,7 @@
                                                     </p>
                                                 </a>
                                                 <ul class="nav nav-treeview pl-2">
-                                                    @canany(config('rights.add_workshop'),config('rights.edit_workshop'),config('rights.view_workshop'))
+                                                    @canany([config('rights.add_workshop'),config('rights.edit_workshop'),config('rights.view_workshop')])
                                                         <li class="nav-item">
                                                             <a class="nav-link"
                                                                href="{{ URL::signedRoute('workshop.sections') }}">
@@ -716,7 +719,7 @@
                                                         </li>
                                                     @endcanany
 
-                                                    @canany(config('rights.add_workshop'),config('rights.edit_workshop'),config('rights.view_workshop'))
+                                                    @canany([config('rights.add_workshop'),config('rights.edit_workshop'),config('rights.view_workshop')])
                                                         <li class="nav-item">
                                                             <a href="{{ URL::signedRoute('workshop.list') }}"
                                                                class="nav-link">
@@ -738,7 +741,7 @@
                                             </li>
                                         @endcanany
 
-                                        @canany(config('rights.add_license_class'),config('rights.edit_license_class'))
+                                        @canany([config('rights.add_license_class'),config('rights.edit_license_class')])
                                             <li class="nav-item">
                                                 <a class="nav-link"
                                                    href="{{ URL::signedRoute('configuration.general.table',['ref'=>'driver-license-class']) }}">
@@ -749,7 +752,7 @@
                                             </li>
                                         @endcanany
 
-                                        @canany(config('rights.add_accident_nature'), config('rights.update_accident_nature'))
+                                        @canany([config('rights.add_accident_nature'), config('rights.update_accident_nature')])
                                             <li class="nav-item">
                                                 <a href="#" class="nav-link">
                                                     <i class="far fa-circle nav-icon"></i>
@@ -759,7 +762,7 @@
                                                     </p>
                                                 </a>
                                                 <ul class="nav nav-treeview pl-2">
-                                                    @canany(config('rights.add_accident_nature'),config('rights.update_accident_nature'))
+                                                    @canany([config('rights.add_accident_nature'),config('rights.update_accident_nature')])
                                                         <li class="nav-item">
                                                             <a class="nav-link"
                                                                href="{{ URL::signedRoute('configuration.general.table',['ref'=>'accident-nature']) }}">
@@ -774,7 +777,7 @@
                                                         </li>
                                                     @endcanany
 
-                                                    @canany(config('rights.add_accident_type'), config('rights.add_accident_type'))
+                                                    @canany([config('rights.add_accident_type'), config('rights.add_accident_type')])
                                                         <li class="nav-item">
                                                             <a class="nav-link"
                                                                href="{{ URL::signedRoute('configuration.general.table',['ref'=>'accident-types']) }}">
@@ -791,7 +794,7 @@
                                             </li>
                                         @endcanany
 
-                                        @canany(config('rights.update_fuel_level'),config('rights.update_fuel_level') )
+                                        @canany([config('rights.update_fuel_level'),config('rights.update_fuel_level')])
                                             <li class="nav-item">
                                                 <a class="nav-link"
                                                    href="{{ URL::signedRoute('configuration.general.table',['ref'=>'fuel-levels']) }}">
@@ -803,7 +806,7 @@
                                             </li>
                                         @endcanany
 
-                                        @canany(config('rights.add_general_status'),config('rights.add_general_status'))
+                                        @canany([config('rights.add_general_status'),config('rights.add_general_status')])
                                             <li class="nav-item">
                                                 <a class="nav-link"
                                                    href="{{ URL::signedRoute('configuration.general.table',['ref'=>'general-status']) }}">
@@ -814,7 +817,7 @@
                                             </li>
                                         @endcanany
 
-                                        @canany(config('rights.update_insurance_company'), config('rights.update_insurance_company'))
+                                        @canany([config('rights.update_insurance_company'), config('rights.update_insurance_company')])
                                             <li class="nav-item">
                                                 <a class="nav-link"
                                                    href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insurance-company']) }}">
@@ -825,7 +828,7 @@
                                             </li>
                                         @endcanany
 
-                                        @canany(config('rights.update_insurance_types'), config('rights.update_insurance_types'))
+                                        @canany([config('rights.update_insurance_types'), config('rights.update_insurance_types')])
                                             <li class="nav-item">
                                                 <a class="nav-link"
                                                    href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insurance-types']) }}">
@@ -836,7 +839,7 @@
                                             </li>
                                         @endcanany
 
-                                        @canany(config('rights.add_general_table_data'))
+                                        @canany([config('rights.add_general_table_data')])
                                             <li class="nav-item">
                                                 <a class="nav-link"
                                                    href="{{ URL::signedRoute('configuration.general.table',['ref'=>'insurance-sub-types']) }}">
@@ -847,7 +850,7 @@
                                             </li>
                                         @endcanany
 
-                                        @canany(config('rights.add_repair_type'), config('rights.update_repair_type'))
+                                        @canany([config('rights.add_repair_type'), config('rights.update_repair_type')])
                                             <li class="nav-item">
                                                 <a class="nav-link"
                                                    href="{{ URL::signedRoute('configuration.general.table',['ref'=>'repair-category']) }}">
@@ -858,7 +861,7 @@
                                             </li>
                                         @endcanany
 
-                                        @canany(config('rights.add_store_movement'), config('rights.edit_store_movement'))
+                                        @canany([config('rights.add_store_movement'), config('rights.edit_store_movement')])
                                             <li class="nav-item">
                                                 <a class="nav-link"
                                                    href="{{URL::signedRoute('configuration.general.table',['ref'=>'store-movement-type']) }}">
@@ -874,7 +877,7 @@
                                             </li>
                                         @endcanany
 
-                                        @canany(config('rights.add_vehicle_status'), config('rights.edit_vehicle_status'))
+                                        @canany([config('rights.add_vehicle_status'), config('rights.edit_vehicle_status')])
                                             <li class="nav-item">
                                                 <a class="nav-link"
                                                    href="{{ URL::signedRoute('configuration.general.table',['ref'=>'vehicle-status']) }}">
@@ -959,7 +962,7 @@
                     </ul>
                 </li>
 
-                @canany('add_toll_card','view_toll_card','update_toll_card')
+                @canany(['add_toll_card','view_toll_card','update_toll_card'])
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-credit-card" style="font-size: 20px;"></i>

@@ -81,6 +81,17 @@ class FuelRequisitionService
 
         //$this->validateVehicleResponsibleUserStatus($registrationNumber);
 
+
+        if (!empty($latestPreviousRequisition)) {
+            // validate odometer against last issue
+            $this->validateOdometerAgainstLastNonCancelled($latestPreviousRequisition, $requisitionPostRequest);
+        }
+
+        Log::info("Calculating Maximum Distance to be covered $registrationNumber");
+        $maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption)
+            + $requisitionPostRequest->odometer_reading;
+        Log::info("Maximum Distance That Should be Covered " . $maximumDistance);
+
         // validate odometer reading
         self::validateCurrentOdometerAgainstMileageReturn($registrationNumber, $requisitionPostRequest->get("odometer_reading"));
 
@@ -253,16 +264,6 @@ class FuelRequisitionService
                 ]);
             }
         }
-
-        if (!empty($latestPreviousRequisition)) {
-            // validate odometer against last issue
-            $this->validateOdometerAgainstLastNonCancelled($latestPreviousRequisition, $requisitionPostRequest);
-        }
-
-        Log::info("Calculating Maximum Distance to be covered $registrationNumber");
-        $maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption)
-            + $requisitionPostRequest->odometer_reading;
-        Log::info("Maximum Distance That Should be Covered " . $maximumDistance);
 
         Log::info("Vehicle Reg Is $registrationNumber");
         /********************************************** Save Data **************************************/

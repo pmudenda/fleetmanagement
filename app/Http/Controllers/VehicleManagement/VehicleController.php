@@ -141,6 +141,62 @@ class VehicleController extends Controller
             ]);
         }
     }
+    public function getVehicleDetails(Request $request): JsonResponse
+    {
+        try {
+            if (empty($request->vehicle_registration)) {
+                return response()->json([
+                    'success' => false,
+                    'statusDescription' => 'Bad Request',
+                    'message' => 'Missing required parameter'
+                ]);
+            }
+
+            // determine material type in form of fuel
+            $vehicle = $this->vehicleDetailsService->getVehicleDetails($request->vehicle_registration);
+
+            if (empty($vehicle)) {
+                return response()->json([
+                    'success' => false,
+                    'statusDescription' => 'Not Found',
+                    'message' => 'Vehicle not found'
+                ]);
+            }
+
+            //$vehicleImages = $this->vehicleDetailsService->getVehicleImages($vehicle->vehicle_header_id);
+
+            //$accessories = $this->vehicleDetailsService->getSubmittedAccessories($vehicle->vehicle_header_id);
+
+            //$article = $this->procurementService->getArticleByCode($vehicle->fuel_types);
+
+
+            $vehicle_state = '';
+
+            if ($vehicle->on_boarding_status != StatusHelper::onboardingComplete()) {
+                $vehicle_state = str_replace("@reg",
+                    $vehicle->registration_number, SystemMessages::vehiclePendingOnboardingCompletion());
+            } elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
+                $vehicle_state = str_replace("@reg",
+                    $vehicle->registration_number,
+                    SystemMessages::vehicleInWorkshop());
+            }
+
+            return response()->json([
+                'payload' => [
+                    'vehicle' => $vehicle,
+                    'vehicle_state' => $vehicle_state
+                ],
+                'success' => !empty($vehicle),
+                'message' => 'Vehicle Details retrieved successfully'
+            ]);
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'success' => false,
+                'message' => ErrorMessages::getMessage('err_0005')
+            ]);
+        }
+    }
 
     public function list(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {

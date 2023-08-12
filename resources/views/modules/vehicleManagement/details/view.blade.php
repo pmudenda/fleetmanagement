@@ -2574,9 +2574,9 @@
                         <div class="tab-pane fade" id="odometerHistory" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5">
                                 <form class=""
-                                      name="newETollCardForm"
+                                      name="newFleetEntryMovementForm"
                                       action=""
-                                      id="newETollCardForm"
+                                      id="newFleetEntryMovementForm"
                                       method="post">
                                     @csrf
                                     <input type="hidden" name="relatedReference" id="relatedReference"

@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('vm_meter_entry_header', function (Blueprint $table) {
+        Schema::create('vm_fleet_movement_header', function (Blueprint $table) {
             $table->id();
             $table->string('source');
             $table->string('auto_void_reason');
@@ -30,6 +30,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('vm_meter_entry_header');
+        Schema::dropIfExists('vm_fleet_movement_header');
     }
 };
