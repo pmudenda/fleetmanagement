@@ -127,7 +127,7 @@ class FuelRequisitionController extends Controller
 
         $requestDetails = $this->requisitionService->getRequisitionDetail($req_no);
 
-        $supportingDocument = File::where('reference_number','=', $requestDetails->req_no)->first();
+        $supportingDocument = File::where('reference_number','=', $req_no)->first();
 
         if ($requestDetails == null) {
             abort(404);
