@@ -74,6 +74,32 @@ class EmailNotificationService
                                .<br>Regards. "
                     ];
                     break;
+                case 'partiallyAuthorised':
+                    $details = [
+                        'name' => $names,
+                        'systemLink' => URL::signedRoute('show.fuel.requisition', ['ref' => $record->req_no]),
+                        'identity' => $record->req_no,
+                        'subject' => "Requisition Update",
+                        'title' => "Requisition Update",
+                        'body' => "Please be informed that fuel requisition, Ref. No.
+                        <strong>{$record->req_no} has raised a partially authorised and submitted for further approval.
+                        <br>To Take action immediately, click on the button below
+                        .<br>Regards. "
+                    ];
+                    break;
+                case 'fullyAuthorised':
+                    $details = [
+                        'name' => $names,
+                        'systemLink' => URL::signedRoute('show.fuel.requisition', ['ref' => $record->req_no]),
+                        'identity' => $record->req_no,
+                        'subject' => "Requisition Update",
+                        'title' => "Requisition Update",
+                        'body' => "Please be informed that the fuel requisition
+                                Ref. No. <strong>{$record->req_no}</strong> has been fully Authorised. Your SPMS requisition no. is {$record->spms_ref}.
+                               <br>
+                               .<br>Regards. "
+                    ];
+                    break;
                 default:
                     return false;
             }

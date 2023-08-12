@@ -2,8 +2,11 @@
 
 namespace App\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Events\FuelRequisitionApproved;
+use App\Models\Security\User;
+use App\Models\Workflow\WorkflowTaskHeader;
+use App\Services\NotificationService\EmailNotificationService;
+use Illuminate\Support\Facades\Log;
 
 class SendFuelRequisitionApprovedEmail
 {
@@ -18,8 +21,23 @@ class SendFuelRequisitionApprovedEmail
     /**
      * Handle the event.
      */
-    public function handle(object $event): void
+    public function handle(FuelRequisitionApproved $event): void
     {
-        //
+        try {
+            $reference = $event->reference;
+            $user = $event->user;
+            $action = $event->action; //$action = $event->action ?? 'requisition';
+            // send notification
+            Log::info('Sending Mail Notification To Request Originator');
+            $sender = User::where('staff_no', '=', trim($user->staff_no))->first();
+            $task = WorkflowTaskHeader::where('reference', '=', trim($reference))->first();
+
+            $recipient = User::where('staff_no', trim($task->created_by))->first();
+
+            EmailNotificationService::sendNotification($recipient, $sender, ['req_no' => $reference, 'spms_ref' => $event->requisitionNumber], $action, $task);
+        } catch (\Exception $e) {
+            Log::info('Error When Sending Mail');
+            Log::error($e);
+        }
     }
 }

@@ -19,12 +19,14 @@ class FuelRequisitionApproved
     public string $reference;
     public Authenticatable|null $user;
     public string $action;
+    public string|null $requisitionNumber;
 
-    public function __construct($reference, $user, $action)
+    public function __construct($reference, $user, $action, $requisitionNumber)
     {
         $this->user = $user;
         $this->reference = $reference;
         $this->action = $action;
+        $this->requisitionNumber = $requisitionNumber;
     }
 
     /**

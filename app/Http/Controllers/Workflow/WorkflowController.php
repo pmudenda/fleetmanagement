@@ -94,6 +94,7 @@ class WorkflowController extends Controller
                 $request->get('Comments')
             );
 
+            $requisitionNumber = null;
             if ($nextStepId == 100) {
                 $requisitionNumber = $this->fuelRequisitionService->createStoresRequisition($request->get('reference'));
                 $message = $message . ' Stores Requisition No.: ' . $requisitionNumber;
@@ -123,9 +124,9 @@ class WorkflowController extends Controller
             DB::commit();
 
             if ($nextStepId == 100) {
-                FuelRequisitionApproved::dispatch($reference, Auth::user(), 'fullyAuthorised');
+                FuelRequisitionApproved::dispatch($reference, Auth::user(), 'fullyAuthorised', $requisitionNumber);
             } else {
-                FuelRequisitionApproved::dispatch($reference, Auth::user(), 'partialApproved');
+                FuelRequisitionApproved::dispatch($reference, Auth::user(), 'partiallyAuthorised', null);
             }
 
             return response()->json([
