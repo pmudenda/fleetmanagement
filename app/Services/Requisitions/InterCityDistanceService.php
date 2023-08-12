@@ -10,7 +10,7 @@ class InterCityDistanceService
 
     public function __construct()
     {
-        $this->interCityDistanceArray = DistanceChart::get()->orderBy('town_from');
+        $this->interCityDistanceArray = DistanceChart::orderBy('town_from')->get();
     }
 
     /**
