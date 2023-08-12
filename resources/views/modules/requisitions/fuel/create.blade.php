@@ -1065,6 +1065,7 @@
             $('#submitRequisitionBtn').on('click', function () {
                 let $form = document.forms['fuelRequisitionForm'];
                 if (!$($form).valid()) {
+                    tmsApp.systemError('Data Validation', 'One or more input has invalid or missing data', null);
                     return;
                 }
 
@@ -1158,7 +1159,7 @@
 
                     document.querySelector('#authorityToTravel').setAttribute('required', 'required');
 
-                    if(!$('#authorityToTravel').parent().hasClass('jFiler')){
+                    if (!$('#authorityToTravel').parent().hasClass('jFiler')) {
                         new tmsApp.fileUploader().makeSingleFileUploader();
                     }
 
@@ -1246,9 +1247,13 @@
                 let formData = new FormData();
                 formData.append('odometer_reading', odometerReading);
                 formData.append('vehicle_registration', numberPlate);
+
                 document.querySelector('#submitRequisitionBtn').setAttribute('disabled', 'disabled');
+
                 const dataSet = document.querySelector('#odometer_reading').dataset;
+
                 window.loaderMessage = "Validating Odometer, Please Wait !";
+
                 tmsApp.asyncPostFormData(
                     dataSet['url'],
                     formData,
