@@ -440,7 +440,7 @@
                                                         <input type="text" class="form-control form-control-sm"
                                                                id="requester"
                                                                readonly
-                                                               value="{{$requestDetails->requested_by}}"
+                                                               value="{{$requestDetails->originator}}"
                                                                name="requester">
                                                     </div>
                                                 </div>

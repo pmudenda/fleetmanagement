@@ -491,8 +491,14 @@ class FuelRequisitionService
             ->where("GEN_MATERIAL_HEADERS.req_no", $req_no)
             ->join("GEN_MATERIAL_DETAILS", "GEN_MATERIAL_HEADERS.req_no", "=", "GEN_MATERIAL_DETAILS.req_no")
             ->leftJoin("CONFIG_STATUSES", "GEN_MATERIAL_HEADERS.status", "=", "CONFIG_STATUSES.code")
+            ->leftJoin("SEC_USERS", "GEN_MATERIAL_HEADERS.requested_by", "=", "SEC_USERS.staff_no")
             ->where("CONFIG_STATUSES.MODULE", "=", "MAT")
-            ->select("GEN_MATERIAL_HEADERS.*", "GEN_MATERIAL_DETAILS.*", "CONFIG_STATUSES.name as status_name", "CONFIG_STATUSES.color_code")
+            ->select("GEN_MATERIAL_HEADERS.*",
+                "GEN_MATERIAL_DETAILS.*",
+                'SEC_USERS.name as originator',
+                'SEC_USERS.job_title',
+                "CONFIG_STATUSES.name as status_name",
+                "CONFIG_STATUSES.color_code")
             ->get();
 
         return $results->first();
