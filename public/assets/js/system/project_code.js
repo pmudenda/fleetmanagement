@@ -64,7 +64,9 @@ function formatRepoSelection(project) {
         return project['text'];
     }
     $('[name="projectCode"]').val(project['id']);
-    return project['id'] + ":" + project['text'];
+    $('[name="ProjectName"]').val(project['text']);
+    // + ":" + project['text']
+    return project['id'];
 }
 
 /**
