@@ -357,7 +357,7 @@
 
 
                                 <div class="row">
-                                    @if($requestDetails->requisition_type != RequisitionTypes::OutOfTown)
+                                    @if($requestDetails->requisition_type != RequisitionTypes::OutOfTown->value)
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
@@ -555,17 +555,17 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <td>
+                                    <td class="text-right">
                                         @if($requestDetails->cost_assigned_to =='CostCenter')
                                             <strong>Total Quantity</strong>
                                         @endif
                                     </td>
                                     @if($requestDetails->cost_assigned_to !='CostCenter')
-                                        <td>
+                                        <td class="text-right">
                                             <strong>Total Quantity</strong>
                                         </td>
                                     @endif
-                                    <td class="text-right">
+                                    <td class="text-left">
                                         <span class="text-bold"
                                               id="totalQty">{{number_format($requestDetails->quantity)}}</span>
                                     </td>
