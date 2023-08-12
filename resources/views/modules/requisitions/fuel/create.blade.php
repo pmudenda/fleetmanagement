@@ -86,9 +86,8 @@
                                                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
                                                                 for="staff_no">Status:
                                                             </label>
-
                                                             <span id="vehicle_status" class="ml-3 badge badge-success"
-                                                                  name="vehicle_status"></span>
+                                                                  data-name="vehicle_status"></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -185,18 +184,12 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                                             <input type="text"
                                                                    readonly
                                                                    id="ProjectName"
                                                                    class="form-control form-control-sm"
                                                                    name="ProjectName">
-                                                           {{-- <div class="control-input">
-                                                                <div class="link-field ui-front"
-                                                                     style="position: relative;">
-
-                                                                </div>
-                                                            </div>--}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -401,8 +394,6 @@
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="mobile_no">Departure Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            {{--<input id="" name="departureTown"
-                                                                   class="form-control"/>--}}
                                                             <select required class="form-control city select2"
                                                                     name="departureTown"
                                                                     id="departureTown">
@@ -421,8 +412,6 @@
                                                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
                                                             for="request_date">Destination Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            {{-- <input id="destinationTown" name=""
-                                                                    class="form-control"/>--}}
                                                             <select required
                                                                     class="form-control city select2"
                                                                     disabled
