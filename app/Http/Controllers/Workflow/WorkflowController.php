@@ -7,6 +7,7 @@ use App\Constants\WorkflowActions;
 use App\Enums\RequisitionItemTypes;
 use App\Enums\RequisitionTypes;
 use App\Enums\WorkflowProcessCodes;
+use App\Events\FuelRequisitionApproved;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\MaterialReservationException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
@@ -94,19 +95,19 @@ class WorkflowController extends Controller
             );
 
             if ($nextStepId == 100) {
-                $requisitionNumber=  $this->fuelRequisitionService->createStoresRequisition($request->get('reference'));
+                $requisitionNumber = $this->fuelRequisitionService->createStoresRequisition($request->get('reference'));
                 $message = $message . ' Stores Requisition No.: ' . $requisitionNumber;
 
                 $this->workshopRequisitionService->updateStatus($reference, StatusHelper::authorised());
 
                 $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, StatusHelper::authorised());
-            }
-            else {
+            } else {
                 $status = '';
                 switch (strtolower(trim($request->get('Approved')))) {
                     case 'approve':
                         $status = StatusHelper::partiallyAuthorised();
                         $message = 'Request Approved and Submitted to the Next Authority For Approval';
+
                         break;
                     case 'reject':
                         $status = StatusHelper::rejected();
@@ -120,6 +121,12 @@ class WorkflowController extends Controller
             }
 
             DB::commit();
+
+            if ($nextStepId == 100) {
+                FuelRequisitionApproved::dispatch($reference, Auth::user(), 'fullyAuthorised');
+            } else {
+                FuelRequisitionApproved::dispatch($reference, Auth::user(), 'partialApproved');
+            }
 
             return response()->json([
                 'requestPayload' => $request->all(),
