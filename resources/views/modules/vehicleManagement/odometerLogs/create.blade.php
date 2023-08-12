@@ -22,10 +22,9 @@
 
                         <div class="clearfix"></div>
 
-                        <form class=""
-                              name="newFleetEntryMovementForm"
-                              action=""
-                              id="newFleetEntryMovementForm"
+                        <form name="newOdometerLogForm"
+                              id="newOdometerLogForm"
+                              action="{{route('save.odometer.log')}}"
                               method="post">
                             @csrf
 
@@ -265,22 +264,44 @@
                                         <table class="app_form_table table table-bordered">
                                             <thead>
                                             <tr class="bg-success">
+                                                <th>Date From| Date To</th>
                                                 <th>Start Odometer</th>
                                                 <th>Closing Odometer</th>
-                                                <th>Km Done</th>
-                                                <th>Place From</th>
-                                                <th>Place To</th>
+                                                <th>Total Distance</th>
+                                                <th>Place From | Place To</th>
+                                                <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr>
-                                                <th>
-                                                    <input class="form-control"/>
-                                                </th>
-                                                <th>Closing Odometer</th>
-                                                <th>Km Done</th>
-                                                <th>Place From</th>
-                                                <th>Place To</th>
+                                                <td>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm datepicker"/>
+                                                    |
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm datepicker"/>
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"/>
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"/>
+                                                </td>
+                                                <td><input
+                                                        type="text"
+                                                        class="form-control form-control-sm"/></td>
+                                                <td>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control form-control-sm"/>
+                                                </td>
+                                                <td></td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -309,13 +330,13 @@
                 "mask": "A{2,3} 9{1,4}"
             }).mask("#vehicleRegistration");
 
-            tmsApp.appFormValidator('form[name="newETollCardForm"]',
+            tmsApp.appFormValidator('form[name="newOdometerLogForm"]',
                 {},
                 {}
             );
 
-            $("#submitRequisitionBtn").on('click', function () {
-                let $form = document.forms['newETollCardForm'];
+            $("#submitDataBtn").on('click', function () {
+                let $form = document.forms['newOdometerLogForm'];
                 if (!$($form).valid()) {
                     return;
                 }
@@ -323,7 +344,7 @@
                 $('.print-error-msg').css('display', 'none');
                 let formData = new FormData($form);
                 tmsApp.confirm(
-                    'eToll Card onboarding',
+                    'Odometer Log Entry',
                     'Are you sure you want to onboard the data ?',
                     'Yes',
                     'No',
@@ -375,7 +396,7 @@
                                     }
 
                                     tmsApp.systemError(
-                                        'eToll Card Saving',
+                                        'Odometer Log Entry',
                                         'We could not complete processing your request, please try again later');
                                 }, 300)
                             }
@@ -386,24 +407,9 @@
                 );
             });
 
-            $('[name="dateIssued"]').datepicker({
+            $('.datepicker').datepicker({
                 maxDate: new Date(),
                 dateFormat: 'dd/mm/yy',
-            });
-
-            $(document).on('click', '[data-action="openDatePicker"]', function () {
-                $(".datetimepicker-opened").datepicker("show");
-            });
-
-            let clearDateBtns = document.querySelectorAll('[data-action="clearDate"]');
-            clearDateBtns.forEach(function (button) {
-                button.addEventListener('click', function (event) {
-                    let input = $(event.target).parent().find('input');
-                    if (input.length === 0) {
-                        input = $(this).parent().parent().find('input')
-                    }
-                    $(input).datepicker('setDate', null);
-                });
             });
 
             $(document).on('click', '#vehicleSearchBtn', function () {

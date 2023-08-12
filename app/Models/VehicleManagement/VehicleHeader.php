@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class VehicleHeader extends Model
 {
-    use HasFactory;
     use SoftDeletes;
 
     protected $table = 'VM_VEHICLE_HEADER';
@@ -30,6 +29,7 @@ class VehicleHeader extends Model
         'status',
         'on_boarding_status',
         'registration_type',
-        'barcode'
+        'barcode',
+        'has_tom_card'
     ];
 }

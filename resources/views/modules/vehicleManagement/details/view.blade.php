@@ -29,7 +29,6 @@
 
         }
 
-
         /*.input-group {
             justify-content: center !important;
             align-items: center !important;
@@ -124,16 +123,16 @@
                                                     <div class="col-md-9 fv-row">
                                                         <div class="col-md-9">
                                                             <div class="w-100 fv-row">
-                                                                <select class="form-control view_mode"
-                                                                        name="brand"
-                                                                        id="brand">
-                                                                    <option>--Select Brand--</option>
-                                                                    <option v-for="brand in vehicleBrands"
-                                                                            :key="brand.id"
-                                                                            :value="brand.id | trimSpaces">
-                                                                        @{{brand.name}}
-                                                                    </option>
-                                                                </select>
+                                                                <input readonly
+                                                                       class="form-control view_mode"
+                                                                       name="brand"
+                                                                       id="brand"/>
+                                                                {{--<option>--Select Brand--</option>
+                                                                <option v-for="brand in vehicleBrands"
+                                                                        :key="brand.id"
+                                                                        :value="brand.id | trimSpaces">
+                                                                    @{{brand.name}}
+                                                                </option>--}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -146,11 +145,10 @@
                                                     <div class="col-md-9 fv-row ">
                                                         <div class="col-md-9">
                                                             <div class="w-100">
-                                                                <select class="form-control form-control-sm view_mode"
-                                                                        required
-                                                                        name="model"
-                                                                        id="model">
-                                                                </select>
+                                                                <input class="form-control form-control-sm view_mode"
+                                                                       required
+                                                                       name="model"
+                                                                       id="model"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -165,7 +163,6 @@
                                                     <div class="col-md-9 fv-row">
                                                         <div class="col-md-9">
                                                             <div class="w-100">
-                                                                {{-- :value="vehicleHeader.model_code"--}}
                                                                 <input class="form-control form-control-solid"
                                                                        name="model_code"
                                                                        readonly
@@ -244,7 +241,8 @@
                                                                    autocomplete="off"
                                                                    required
                                                             />
-                                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                                            <div
+                                                                class="fv-plugins-message-container invalid-feedback"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -258,13 +256,14 @@
                                                         <div class="col-md-9">
                                                             {{--v-model="vehicleHeader.location_code"--}}
                                                             <select
-                                                                    required
-                                                                    class="form-control"
-                                                                    name="vehicleLocation"
-                                                                    autocomplete="off"
-                                                                    id="vehicleLocation">
+                                                                required
+                                                                class="form-control"
+                                                                name="vehicleLocation"
+                                                                autocomplete="off"
+                                                                id="vehicleLocation">
                                                             </select>
-                                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                                            <div
+                                                                class="fv-plugins-message-container invalid-feedback"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -367,10 +366,10 @@
 
                         <div class="tab-pane active" id="specs" role="tabpanel">
                             <div
-                                    id="tms_chassis_details_form"
-                                    name="tmsChassisDetailsForm"
-                                    class="form"
-                                    action="{{route('vehicle.chassis.detail')}}">
+                                id="tms_chassis_details_form"
+                                name="tmsChassisDetailsForm"
+                                class="form"
+                                action="{{route('vehicle.chassis.detail')}}">
                                 <input type="hidden" name="doctype" value="ChassisDetails"/>
                                 <input type="hidden" name="headerId" value="{{$reference}}"/>
                                 <input type="hidden" name="chassisDetailsId"
@@ -526,17 +525,17 @@
                                                                          style="position: relative;">
                                                                         <div class="">
                                                                             <input
-                                                                                    date-format="YYYY"
-                                                                                    class="input-with-feedback form-control bold number_input view_mode"
-                                                                                    type="number" min="1990"
-                                                                                    max="{{date('Y')}}"
-                                                                                    step="1"
-                                                                                    required
-                                                                                    id="yearOfManufacture"
-                                                                                    name="yearOfManufacture"
-                                                                                    v-model="chassisDetails.yearOfManufacture"
-                                                                                    placeholder=""
-                                                                                    data-doctype="ChassisDetails"/>
+                                                                                date-format="YYYY"
+                                                                                class="input-with-feedback form-control bold number_input view_mode"
+                                                                                type="number" min="1990"
+                                                                                max="{{date('Y')}}"
+                                                                                step="1"
+                                                                                required
+                                                                                id="yearOfManufacture"
+                                                                                name="yearOfManufacture"
+                                                                                v-model="chassisDetails.yearOfManufacture"
+                                                                                placeholder=""
+                                                                                data-doctype="ChassisDetails"/>
                                                                         </div>
 
                                                                     </div>
@@ -651,17 +650,19 @@
                                                                     <div class="link-field ui-front"
                                                                          style="position: relative;">
                                                                         <div class="">
-                                                                            <select class="form-control form-control-sm view_mode"
-                                                                                    required
-                                                                                    name="requiredMinimumDrivingLicense"
-                                                                                    id="requiredMinimumDrivingLicense"
-                                                                                    v-model="chassisDetails.requiredMinimumDrivingLicense"
-                                                                                    data-doctype="ChassisDetails"
-                                                                                    :placeholder="'License Class'">
+                                                                            <select
+                                                                                class="form-control form-control-sm view_mode"
+                                                                                required
+                                                                                name="requiredMinimumDrivingLicense"
+                                                                                id="requiredMinimumDrivingLicense"
+                                                                                v-model="chassisDetails.requiredMinimumDrivingLicense"
+                                                                                data-doctype="ChassisDetails"
+                                                                                :placeholder="'License Class'">
                                                                                 <option>--Select Licence Class--
                                                                                 </option>
-                                                                                <option v-for="licenseClass in licenseTypes"
-                                                                                        :value="licenseClass.code">
+                                                                                <option
+                                                                                    v-for="licenseClass in licenseTypes"
+                                                                                    :value="licenseClass.code">
                                                                                     @{{ licenseClass.name}}
                                                                                 </option>
                                                                             </select>
@@ -1058,7 +1059,7 @@
                                                                                        data-target="Company"
                                                                                        autocomplete="off"/>
                                                                                 <div
-                                                                                        class="input-group-append pl-3 pr-3 align-self-center">
+                                                                                    class="input-group-append pl-3 pr-3 align-self-center">
                                                                                     hp
                                                                                 </div>
                                                                             </div>
@@ -1086,14 +1087,15 @@
                                                                             <div>
                                                                                 {{--v-model="engineDetails.fuelTypes"--}}
                                                                                 <select
-                                                                                        required
-                                                                                        class="input-with-feedback form-control bold view_mode"
-                                                                                        id="fuelTypes"
-                                                                                        name="fuelTypes"
-                                                                                        data-doctype="EngineDetails">
-                                                                                    <option v-for="fuelType in fuelTypes"
-                                                                                            :value="fuelType.code_article"
-                                                                                            :key="fuelType.code_article">
+                                                                                    required
+                                                                                    class="input-with-feedback form-control bold view_mode"
+                                                                                    id="fuelTypes"
+                                                                                    name="fuelTypes"
+                                                                                    data-doctype="EngineDetails">
+                                                                                    <option
+                                                                                        v-for="fuelType in fuelTypes"
+                                                                                        :value="fuelType.code_article"
+                                                                                        :key="fuelType.code_article">
                                                                                         @{{ fuelType.description }}
                                                                                     </option>
                                                                                 </select>
@@ -1143,15 +1145,15 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <input
-                                                                                    required
-                                                                                    class="input-with-feedback form-control bold view_mode"
-                                                                                    data-fieldtype="Link"
-                                                                                    data-fieldname="company"
-                                                                                    placeholder="e.g 1NZ"
-                                                                                    id="engineType"
-                                                                                    name="engineType"
-                                                                                    v-model="engineDetails.engineType"
-                                                                                    data-doctype="EngineDetails"/>
+                                                                                required
+                                                                                class="input-with-feedback form-control bold view_mode"
+                                                                                data-fieldtype="Link"
+                                                                                data-fieldname="company"
+                                                                                placeholder="e.g 1NZ"
+                                                                                id="engineType"
+                                                                                name="engineType"
+                                                                                v-model="engineDetails.engineType"
+                                                                                data-doctype="EngineDetails"/>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1169,16 +1171,17 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <select
-                                                                                    required
-                                                                                    id="transmission_type"
-                                                                                    name="transmission_type"
-                                                                                    class="form-control form-control-sm view_mode"
-                                                                                    v-model="engineDetails.transmissionType"
-                                                                                    data-doctype="EngineDetails"
-                                                                                    @change="transmissionTypeChanged">
+                                                                                required
+                                                                                id="transmission_type"
+                                                                                name="transmission_type"
+                                                                                class="form-control form-control-sm view_mode"
+                                                                                v-model="engineDetails.transmissionType"
+                                                                                data-doctype="EngineDetails"
+                                                                                @change="transmissionTypeChanged">
                                                                                 {{--<option value="">--Select Transmission--</option>--}}
-                                                                                <option v-for="transType in transmissionTypes"
-                                                                                        :value="transType.code">
+                                                                                <option
+                                                                                    v-for="transType in transmissionTypes"
+                                                                                    :value="transType.code">
                                                                                     @{{ transType.name }}
                                                                                 </option>
                                                                             </select>
@@ -1503,12 +1506,13 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <div>
-                                                                                <select class="form-control input-with-feedback view_mode"
-                                                                                        data-fieldtype="Link"
-                                                                                        data-fieldname="company"
-                                                                                        id="batterySize"
-                                                                                        name="batterySize"
-                                                                                        data-doctype="OtherDetails"></select>
+                                                                                <select
+                                                                                    class="form-control input-with-feedback view_mode"
+                                                                                    data-fieldtype="Link"
+                                                                                    data-fieldname="company"
+                                                                                    id="batterySize"
+                                                                                    name="batterySize"
+                                                                                    data-doctype="OtherDetails"></select>
                                                                             </div>
 
                                                                         </div>
@@ -2394,7 +2398,7 @@
                                 </div>
                                 <div class="col-4">
                                     <table
-                                            class="table align-middle table-row-dashed dataTable no-footer">
+                                        class="table align-middle table-row-dashed dataTable no-footer">
                                         <thead>
                                         <tr class="bg-dark">
                                             <th v-if="documents && documents.purchase_order">Document No.</th>
@@ -2471,7 +2475,8 @@
                                                 <div class="row">
 
                                                     <div class="col">
-                                                        <table class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                        <table
+                                                            class="table table-row-dashed align-middle gs-0 table-bordered">
                                                             <thead>
                                                             <tr class="bg-dark">
                                                                 <th class="pl-2">Item</th>
@@ -2504,7 +2509,8 @@
                                                         </table>
                                                     </div>
                                                     <div class="col">
-                                                        <table class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                        <table
+                                                            class="table table-row-dashed align-middle gs-0 table-bordered">
                                                             <thead>
                                                             <tr class="bg-dark">
                                                                 <th class="pl-2">Item</th>
@@ -2942,20 +2948,20 @@
     <script>
         window.reference = `{!! $reference !!}`;
     </script>
+
     <script type="text/javascript" src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
     <script type="text/javascript" src="{{asset('libs/handsontable/handsontable.full.min.js')}}"></script>
 
     <script
-            src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js').'?v='.Carbon::now()->format('his')}}"></script>
+        src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_over_view.js').'?v='.Carbon::now()->format('his')}}"></script>
     <script
-            src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
+        src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
     <script>
         $(document).ready(function () {
             let elements = document.querySelectorAll('.view_mode');
             let elementsOnCreate = document.querySelectorAll('.create_mode');
 
             elements.forEach(function (element) {
-                //element.removeAttribute('disabled');
                 element.setAttribute('disabled', 'disabled');
             });
 

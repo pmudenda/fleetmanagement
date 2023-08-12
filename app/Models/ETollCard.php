@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ETollCard extends Model
 {
-    use HasFactory;
-
     protected $table = 'CM_ETOLL_CARDS';
 
     protected $fillable = [

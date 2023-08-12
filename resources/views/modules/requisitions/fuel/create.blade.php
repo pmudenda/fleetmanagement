@@ -212,7 +212,7 @@
                                                                     disabled
                                                                     class="form-control form-select-sm when_valid"
                                                                     required>
-                                                                <option value=""> --Select--</option>
+                                                                <option value="">--Select--</option>
                                                                 @foreach ($requisitionTypes as $requisitionType)
                                                                     <option
                                                                         value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
@@ -433,7 +433,7 @@
                                                         <div class="form-group row">
                                                             <label
                                                                 class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="covered_kilometers">Kilometers to be Covered:
+                                                                for="covered_kilometers">Estimated Distance (Km):
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                 <input type="text" required
@@ -552,6 +552,12 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row d-none" id="authorityToTravelContainer">
                                                     <div class="form-group row">
+                                                        <label
+                                                            id="authority"
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required">
+                                                            Authority To Travel(<small>Any Authorization
+                                                                Document</small>)
+                                                        </label>
                                                         <input type="file"
                                                                id="authorityToTravel"
                                                                name="authorityToTravel"
@@ -590,7 +596,7 @@
                                     <tr class="bg-dark">
                                         <th>Material Description</th>
                                         <th class="project_view_item d-none">Project Number</th>
-                                        <th>Qty</th>
+                                        <th style="width: 15%;">Quantity</th>
                                         <th>Unit Of Measure</th>
                                         <th>Price (ZMW)</th>
                                         <th>Amount(ZMW)</th>
@@ -714,10 +720,19 @@
 
                 if (!vehicle.fuel_allocation) {
                     tmsApp.showSystemMessage("Vehicle State",
-                        'Vehicle has no Fuel Allocation, Request System Administrator to assign allocation', () => {
+                        'Vehicle has no not been assigned Fuel Allocation, Request System Administrator to assign allocation', () => {
                         },
                         "error")
 
+                    return;
+                }
+
+                if (vehicle['has_tom_card'] === 'Y') {
+                    tmsApp.showSystemMessage("Vehicle Has A Tom Card",
+                        vehicle_state,
+                        () => {
+                        },
+                        "error");
                     return;
                 }
 
@@ -1260,23 +1275,18 @@
                     function (response) {
                         window.loaderMessage = "Please wait...";
                         if (!response.success) {
-                            //document.querySelector('#submitRequisitionBtn').setAttribute('disabled', 'disabled');
-                            //tmsApp.showToast(, 'error');
                             tmsApp.systemError(
                                 'Odometer Validation',
                                 response['message']);
                         } else {
                             tmsApp.showToast(response['message'], 'success');
                             document.querySelector('#submitRequisitionBtn').removeAttribute('disabled');
-                            //document.querySelector('.when_odo_valid').removeAttribute('disabled');
                         }
                     },
                     function (xhr) {
                         window.loaderMessage = "Please wait...";
                     }
                 );
-
-                //tmsApp.showToast('We could not complete processing your request, please try again later')
             });
 
             function reformatDate(date, format = "ISO") {
@@ -1305,16 +1315,10 @@
                 }
 
                 $("#one_way").text(departureVal + ' --> ' + destinationVal);
-                /* $("#return_trip").text(destinationVal + ' --> ' + departureVal);*/
-                //let roundTrip = departureVal + ' --> ' + destinationVal + ' --> ' + departureVal;
-
-                //$('#trip_path').text(roundTrip);
                 let distance = destination.selectedOptions[0].dataset['distance'];
                 let $coveredKilometerCtrl = document.querySelector('[name="covered_kilometers"]');
 
                 $("#one_way_distance").text(distance);
-                /* $("#return_distance").text(distance);*/
-
                 $coveredKilometerCtrl.value = (distance);
                 $($coveredKilometerCtrl).change();
             }
@@ -1324,16 +1328,7 @@
                 let date = new Date(startDate);
                 // Add 7 Days
                 let maxDate = reformatDate(date.setDate(date.getDate() + 7));
-
-                //let calculatedDate = (date.toLocaleString().split(',')[0]).split('/');
-                /*let maxDate = calculatedDate[2]
-                    + '-' + calculatedDate[0]
-                    + '-' + calculatedDate[1];*/
-
-                console.log(maxDate);
-                //$("return_date").val(maxDate.toString());
                 document.querySelector('[name="return_date"]').setAttribute('max', maxDate);
-                return;
             }
 
             $(document).on('click', '[data-action="open_picker"]', function () {
@@ -1349,11 +1344,10 @@
 
 
             $(".date_input").on('change', function (e) {
-                //removeSubmissionAndDetailsOptions();
                 if (this.name === 'departure_date') {
                     determineAppropriateEndDate();
                 }
-                // document.getElementById("prevBtn").style.display = "none";
+
                 const startDate = document.getElementById("departure_date").value;
                 const endDate = document.getElementById("return_date").value;
 
@@ -1363,7 +1357,6 @@
                     return;
                 }
 
-                //document.getElementById("nights").textContent = diffInDays.toString();
                 if (diffInDays > 7) {
                     new Swal('Day Limit',
                         'You have selected more than the 7 Days Limit' +
@@ -1375,10 +1368,7 @@
                     new Swal('Invalid Dates Selected',
                         'Departure date is before Return date or ',
                         'info');
-                    //disableButtons();
                 }
-
-                //document.getElementById("nights").textContent = diffInDays.toString();
             });
 
             $('[name="justification"]').on("keyup", function () {

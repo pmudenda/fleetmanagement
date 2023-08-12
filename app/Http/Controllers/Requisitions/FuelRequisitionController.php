@@ -7,6 +7,7 @@ use App\Constants\SystemMessages;
 use App\Enums\Modules;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
+use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Http\Requests\OdometerValidationRequest;
@@ -77,7 +78,10 @@ class FuelRequisitionController extends Controller
             ->where('bu_code', $user->bu_code)
             ->first();
 
-        $requisitionTypes = RequisitionType::where('status', '01')->where('module', Modules::FuelReq)->get();
+        $requisitionTypes = RequisitionType::where('status', StatusHelper::active())
+            ->where('module', Modules::FuelReq)
+            ->orderBy('code')
+            ->get();
 
         $daysToNextRefuel = config('settings.fuel_requisition_validity');
 
@@ -127,7 +131,7 @@ class FuelRequisitionController extends Controller
 
         $requestDetails = $this->requisitionService->getRequisitionDetail($req_no);
 
-        $supportingDocument = File::where('reference_number','=', $req_no)->first();
+        $supportingDocument = File::where('reference_number', '=', $req_no)->first();
 
         if ($requestDetails == null) {
             abort(404);

@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('created_name');
             $table->timestamp('deleted_at')->nullable();
             $table->string('barcode')->nullable();
+            $table->string('has_tom_card')->default('N');
             $table->string('on_boarding_status')->nullable();
             $table->string('status')->nullable();
 
