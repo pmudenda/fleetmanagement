@@ -16,7 +16,7 @@ class InterCityDistanceService
     /**
      * @return array
      */
-    public function getInterCityDistanceArray(): array
+    public function getInterCityDistanceArray(): mixed
     {
         return $this->interCityDistanceArray;
     }
