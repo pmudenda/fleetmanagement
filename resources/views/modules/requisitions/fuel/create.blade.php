@@ -550,7 +550,7 @@
 
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
-                                                <div class="row">
+                                                <div class="row d-none" id="authorityToTravelContainer">
                                                     <div class="form-group row">
                                                         <input type="file"
                                                                id="authorityToTravel"
@@ -1154,6 +1154,7 @@
 
                     $("#allocationContainer").addClass('d-none');
 
+                    $('#authorityToTravelContainer').removeClass('d-none');
                     document.querySelector('#authorityToTravel').setAttribute('required', 'required');
                     new tmsApp.fileUploader().makeSingleFileUploader();
 
@@ -1180,13 +1181,15 @@
                     document.querySelector('#destinationTown').removeAttribute('required');
                     document.querySelector('#return_date').removeAttribute('required');
                     document.querySelector('#departure_date').removeAttribute('required');
+
+                    $('#authorityToTravelContainer').addClass('d-none');
                     document.querySelector('#authorityToTravel').removeAttribute('required');
+                    $('#authorityToTravel').trigger("filer.reset")
 
                     document.querySelector('[name="material_quantity"]')
                         .setAttribute('max', document.querySelector('[name="material_quantity"]').getAttribute('data-max'));
 
                     $('#nextRefuelingDateContainer').removeClass('d-none');
-                    // document.querySelector('#returnDateContainer').style.display = null;
                 }
             });
 

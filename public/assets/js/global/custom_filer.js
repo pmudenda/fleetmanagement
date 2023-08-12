@@ -159,6 +159,7 @@
             //Example single
             $('.filer_input').filer({
                 limit: 1,
+                maxSize: 3,
                 extensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf'],
                 changeInput: true,
                 showThumbs: true,
