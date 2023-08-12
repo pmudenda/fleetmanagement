@@ -87,7 +87,6 @@ class FuelRequisitionController extends Controller
 
         $interCityDistanceService = new InterCityDistanceService();
         $cities = $interCityDistanceService->getInterCityDistanceArray();
-        asort($cities);
 
         return view('modules.requisitions.fuel.create')
             ->with(
