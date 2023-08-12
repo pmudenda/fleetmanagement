@@ -190,15 +190,13 @@
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
-                                                                    <label class="form-check-inline">
-                                                                        <input type="text"
-                                                                               readonly
-                                                                               id="ProjectName"
-                                                                               class="list-row-checkbox bold mr-3 when_valid"
-                                                                               autocomplete="off"
-                                                                               name="CostAssignedTo"
-                                                                               value="ProjectName">
-                                                                    </label>
+                                                                    <input type="text"
+                                                                           readonly
+                                                                           id="ProjectName"
+                                                                           class="form-control form-control-sm"
+                                                                           autocomplete="off"
+                                                                           name="CostAssignedTo"
+                                                                           value="ProjectName">
                                                                 </div>
                                                             </div>
                                                         </div>
