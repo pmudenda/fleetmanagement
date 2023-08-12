@@ -110,7 +110,7 @@
                                     <tbody>
                                     <tr>
                                         <td>
-                                            @if (in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]))
+                                            @if ($documentStatus != StatusHelper::new() || in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]))
                                                 <input type="checkbox" checked="checked">
                                             @else
                                                 <input type="checkbox" disabled>
