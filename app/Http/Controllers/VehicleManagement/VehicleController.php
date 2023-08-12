@@ -112,6 +112,7 @@ class VehicleController extends Controller
 
 
             $vehicle_state = '';
+            $vehicle_tom_card_message = '';
 
             if ($vehicle->on_boarding_status != StatusHelper::onboardingComplete()) {
                 $vehicle_state = str_replace("@reg",
@@ -121,7 +122,7 @@ class VehicleController extends Controller
                     $vehicle->registration_number,
                     SystemMessages::vehicleInWorkshop());
             }else if($vehicle->has_tom_card === 'Y'){
-                $vehicle_state = str_replace("@reg",
+                $vehicle_tom_card_message = str_replace("@reg",
                     $vehicle->registration_number, ErrorMessages::getMessage('err_0023'));
             }
 
@@ -131,7 +132,8 @@ class VehicleController extends Controller
                     'article' => $article,
                     'images' => $vehicleImages,
                     'accessories' => $accessories,
-                    'vehicle_state' => $vehicle_state
+                    'vehicle_state' => $vehicle_state,
+                    'vehicle_tom_card_message' => $vehicle_tom_card_message
                 ],
                 'success' => !empty($vehicle),
                 'message' => 'Vehicle Details retrieved successfully'

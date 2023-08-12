@@ -713,6 +713,7 @@
                 let article = payload['article'];
                 let images = payload['images'];
                 let vehicle_state = payload['vehicle_state'];
+                let vehicle_tom_card_message = payload['vehicle_tom_card_message'];
 
                 if (!vehicle || !vehicle.brand_name) {
                     return;
@@ -729,7 +730,7 @@
 
                 if (vehicle['has_tom_card'] === 'Y') {
                     tmsApp.showSystemMessage("Vehicle Has A Tom Card",
-                        vehicle_state,
+                        vehicle_tom_card_message,
                         () => {
                         },
                         "error");
