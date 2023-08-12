@@ -16,7 +16,8 @@ class FileUploadService
      * @param string $code for the request that will be used to associate uploaded files to the form
      * @param string $formType identifies the request type e.g subsistence, hotel-accommodation etc.
      * @param string $fileType identifies the nature of the file being uploaded e.g. invoice, receipt etc.
-     * @return void
+     * @param $user
+     * @return array
      */
     public static function uploadFile(
         Request $request,

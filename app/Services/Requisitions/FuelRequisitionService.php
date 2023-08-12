@@ -19,6 +19,7 @@ use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Models\Security\User;
 use App\Models\VehicleManagement\VehicleHeader;
+use App\Services\FileUploads\FileUploadService;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use App\Services\Workflow\DocumentNumberGenerationService;
@@ -345,6 +346,19 @@ class FuelRequisitionService
             "price" => $requisitionPostRequest->get("material_price"),
             "max_allowed" => $requisitionPostRequest->get("fuel_allocation")
         ]);
+
+        $files = $requisitionPostRequest->allFiles();
+        if (!empty($files)) {
+            FileUploadService::uploadFile(
+                $requisitionPostRequest,
+                'authorityToTravel',
+                'Attachments',
+                $requisition_reference_number,
+                'AuthorityToTravel',
+                'AuthorityToTravel',
+                $user
+            );
+        }
 
         DB::commit();
 
