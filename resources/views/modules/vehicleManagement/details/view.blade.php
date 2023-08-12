@@ -41,6 +41,7 @@
     <section class="content">
         <div class="row g-12 g-xl-12" id="kt_app_main">
 
+            {{dd($details)}}
             <!--BEGIN:::VEHICLE HEADER -->
             <div class="card mb-xl-10">
                 <div id="card_header" class="card-header min-h-2px">
