@@ -187,17 +187,18 @@
                                                     <div class="form-group row">
                                                         <div
                                                             class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
-                                                            <div class="control-input">
+                                                            <input type="text"
+                                                                   readonly
+                                                                   id="ProjectName"
+                                                                   class="form-control form-control-sm"
+                                                                   autocomplete="off"
+                                                                   name="ProjectName">
+                                                           {{-- <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
-                                                                    <input type="text"
-                                                                           readonly
-                                                                           id="ProjectName"
-                                                                           class="form-control form-control-sm"
-                                                                           autocomplete="off"
-                                                                           name="ProjectName">
+
                                                                 </div>
-                                                            </div>
+                                                            </div>--}}
                                                         </div>
                                                     </div>
                                                 </div>
