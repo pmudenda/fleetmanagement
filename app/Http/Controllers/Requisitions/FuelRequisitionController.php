@@ -10,6 +10,7 @@ use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FuelRequisitionPostRequest;
 use App\Http\Requests\OdometerValidationRequest;
+use App\Models\Common\File;
 use App\Models\Common\OrganizationalUnit;
 use App\Models\RequisitionType;
 use App\Models\VehicleManagement\ChassisDetail;
@@ -126,16 +127,14 @@ class FuelRequisitionController extends Controller
 
         $requestDetails = $this->requisitionService->getRequisitionDetail($req_no);
 
+        $supportingDocument = File::where('reference_number','=', $requestDetails->req_no)->first();
+
         if ($requestDetails == null) {
             abort(404);
         }
 
 
         $workflowTask = WorkflowTaskHeader::where('reference', '=', $req_no)->first();
-
-        //$costCenter = CostCenters::where('code_cost_center', $user->cc_code)->first();
-        /*$organizationalUnit = OrganizationalUnits::where('code_unit', $requestDetails->cc_code)
-            ->first();*/
 
         $requisitionTypes = RequisitionType::where('status', '01')->where('module', 'FR')->get();
 
@@ -151,7 +150,8 @@ class FuelRequisitionController extends Controller
                 'requestDetails',
                 'daysToNextRefuel',
                 'approvalHistory',
-                'workflowTask'
+                'workflowTask',
+                'supportingDocument'
             ));
     }
 

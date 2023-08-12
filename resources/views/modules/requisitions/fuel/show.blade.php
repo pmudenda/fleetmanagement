@@ -479,14 +479,24 @@
                                 </div>
                             </div>
                             <div class="col-3">
-                                <div id="vehicleDetailsContainer" style="display: none;"
-                                     class="col-xs-12 col-sm-12 col-md-12">
-                                    <h1>Vehicle Details</h1>
-                                    <table class="table">
-                                        <tbody id="vehicleDetails" class="vehicleDetails">
-                                        </tbody>
-                                    </table>
-                                </div>
+                                @if(!empty($supportingDocument))
+                                    <iframe id="{{ $supportingDocument->id }}"
+                                            src="{{ asset('storage/Attachments/' . $item->name) }}"
+                                            style="width:100%; height: 1000px " title="{{ $supportingDocument->name }}">
+                                    </iframe>
+                                    <span>Size:{{ number_format($supportingDocument->file_size, 2) }}MB Name: {{ $supportingDocument->name }} </span>
+                                    <span> | </span>
+                                    <a href="{{ asset('storage/Attachments/' . $supportingDocument->name) }}">View</a>
+                                @else
+                                    <div id="vehicleDetailsContainer" style="display: none;"
+                                         class="col-xs-12 col-sm-12 col-md-12">
+                                        <h1>Vehicle Details</h1>
+                                        <table class="table">
+                                            <tbody id="vehicleDetails" class="vehicleDetails">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

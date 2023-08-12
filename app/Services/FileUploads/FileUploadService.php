@@ -69,7 +69,8 @@ class FileUploadService
      * @param string $code
      * @param string $module
      * @param string $fileType
-     * @return void
+     * @param $user
+     * @return File
      */
     public static function upload(
                $file,
