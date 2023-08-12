@@ -185,13 +185,11 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        <div
-                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="text"
                                                                    readonly
                                                                    id="ProjectName"
                                                                    class="form-control form-control-sm"
-                                                                   autocomplete="off"
                                                                    name="ProjectName">
                                                            {{-- <div class="control-input">
                                                                 <div class="link-field ui-front"
