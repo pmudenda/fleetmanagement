@@ -1,4 +1,4 @@
-@php use App\Enums\RequisitionTypes; @endphp
+@php use App\Enums\RequisitionTypes;use Carbon\Carbon; @endphp
 @extends('layouts.app')
 @push('styles')
     <link href="{{asset("assets/plugins/select2/css/select2.min.css")}}" rel="stylesheet" type="text/css"/>
@@ -396,7 +396,8 @@
                                                         <input type="text" class="form-control form-control-sm"
                                                                id="request_date"
                                                                readonly
-                                                               value="{{date('Y-m-d', strtotime($requestDetails->valid_date_from))}}"
+                                                               value="{{Carbon::parse($requestDetails->valid_date_from)->format('d/m/Y')}}"
+                                                               data-value="{{date('Y-m-d', strtotime($requestDetails->valid_date_from))}}"
                                                                name="request_date">
                                                     </div>
                                                 </div>
