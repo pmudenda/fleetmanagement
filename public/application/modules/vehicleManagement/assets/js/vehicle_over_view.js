@@ -43,19 +43,20 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['vehicleHeader'], 'registration_type', data['registration_type']);
     Vue.set(app['vehicleHeader'], 'brand_guid', data['brand_guid']);
 
-    if (data['model_guid']) {
-        $('select[name="model"]').val(data['model_guid']);
-        $('select[name="model"]').attr('data-value', data['model_guid']);
+    $('input[name="model"]').val(data['model_name']);
+    $('input[name="brand"]').val(data['brand_name']);
+    $('input[name="bodyType"]').val(parseInt(data['body_type_name']))
+    $('input[name="vehicleLocation"]').val(data['location_name']);
+/*if (data['model_guid']) {
+        // $('select[name="model"]').attr('data-value', data['model_guid']);
     }
-
     if (data['brand_guid']) {
-        $('select[name="brand"]').val(data['brand_guid']);
-        $('select[name="brand"]').attr('data-value', data['brand_guid']);
 
+        /!*$('select[name="brand"]').attr('data-value', data['brand_guid']);
         setTimeout(function () {
             $('select[name="brand"]').trigger('change');
-        }, 600);
-    }
+        }, 600);*!/
+    }*/
 
     Vue.set(app['vehicleHeader'], 'model_code', data['model_code']);
 
@@ -67,7 +68,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['vehicleHeader'], 'body_type_guid', data['body_type_guid']);
 
     if (data['body_type_guid']) {
-        $('select[name="bodyType"]').val(parseInt(data['body_type_guid']))
+
         $('select[name="bodyType"]').attr('data-value', parseInt(data['body_type_guid']));
         setTimeout(function () {
             $('select[name="bodyType"]').trigger('change');
@@ -80,10 +81,10 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         userUnitChanged();
     }
 
-    if (data['location_name']) {
-        $('select[name="vehicleLocation"]').val(data['location_name']);
+   /* if (data['location_name']) {
+
         $('select[name="vehicleLocation"]').attr('data-value', data['location_name']);
-    }
+    }*/
 
     setTimeout(function () {
         $('select[name="vehicleLocation"]').trigger('change');

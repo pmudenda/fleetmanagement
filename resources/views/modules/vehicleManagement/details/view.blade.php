@@ -61,8 +61,10 @@
                             </span>
                         </span>
 
-                        <img id="barcode" alt="vehicle barcode" style="max-height: 40px;" src="">
 
+                        @if($vehicle && !$empty($vehicle->barcode))
+                            <img id="barcode" alt="vehicle barcode" style="max-height: 40px;" src="/storage/{{$vehicle->barcode}}">
+                        @endif
                         {{--<button type="button" data-bs-target="#vehicleDisk" data-bs-toggle="modal"
                                 class="btn btn-default btn-sm mr-3">
                             <i class="fas fa-print"></i> Print Disk
@@ -175,21 +177,16 @@
 
                                                 <div class="form-group row">
                                                     <label for="brand" class="fs-6 fw-semibold form-label col-md-3">
-                                                        <span class="required">Body Type</span>
+                                                        <span class="required">Type</span>
                                                     </label>
 
                                                     <div class="col-md-9 fv-row ">
                                                         <div class="col-md-9">
                                                             <div class="w-100">
-                                                                <select class="form-control form-control-sm view_mode"
-                                                                        required
-                                                                        id="bodyType"
-                                                                        name="bodyType">
-                                                                </select>
-                                                                <input type="hidden"
-                                                                       id="bodyType_holder"
-                                                                       name="bodyType_holder"
-                                                                />
+                                                                <input class="form-control form-control-sm view_mode"
+                                                                       required
+                                                                       id="bodyType"
+                                                                       name="bodyType">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -254,21 +251,18 @@
                                                     </label>
                                                     <div class="col-md-9 fv-row">
                                                         <div class="col-md-9">
-                                                            {{--v-model="vehicleHeader.location_code"--}}
-                                                            <select
+                                                            <input
                                                                 required
                                                                 class="form-control"
                                                                 name="vehicleLocation"
                                                                 autocomplete="off"
-                                                                id="vehicleLocation">
-                                                            </select>
+                                                                id="vehicleLocation"/>
                                                             <div
                                                                 class="fv-plugins-message-container invalid-feedback"></div>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                {{--@if($vehicle && !$empty($vehicle->barcode)) @endif--}}
                                                 {{--<div class="form-group row mt-10 d-none" id="barcodeContainer">
                                                     <label for="barcode" class="fs-6 fw-semibold form-label col-md-3">
                                                         <span class="required">Vehicle Badge</span>
