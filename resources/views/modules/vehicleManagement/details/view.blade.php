@@ -54,8 +54,8 @@
                             </span>
                         </span>--}}
                     </div>
-                    <div class="card-toolbar justify-content-end" v-if="vehicleHeader.isHeaderSaved">
-                        <span v-else class="ml-2 indicator-pill whitespace-nowrap green">
+                    <div class="card-toolbar justify-content-end">
+                        <span class="ml-2 indicator-pill whitespace-nowrap green">
                             <span>
                                 @{{ vehicleHeader.on_boarding_status | formatStatus }}
                             </span>
