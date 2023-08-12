@@ -55,11 +55,11 @@
                         </span>--}}
                     </div>
                     <div class="card-toolbar justify-content-end">
-                        <span class="ml-2 indicator-pill whitespace-nowrap green">
+                        {{--<span class="ml-2 indicator-pill whitespace-nowrap green">
                             <span>
                                 @{{ vehicleHeader.on_boarding_status | formatStatus }}
                             </span>
-                        </span>
+                        </span>--}}
 
 
                         @if($vehicle && !$empty($vehicle->barcode))
@@ -89,6 +89,26 @@
                                         </div>
                                     </td>
                                     <td>
+                                        <table>
+                                            <tr>
+                                                <td>Brand(Make) :</td>
+                                                <td><input readonly
+                                                           class="form-control view_mode"
+                                                           name="brand"
+                                                           id="brand"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Model
+                                                </td>
+                                                <td>
+                                                    <input class="form-control form-control-sm view_mode"
+                                                           required
+                                                           name="model"
+                                                           id="model"/>
+                                                </td>
+                                            </tr>
+                                        </table>
                                         <div class="col-md-12">
                                             <div class="form-group row">
                                                 <label style="display: none;"
@@ -118,43 +138,30 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-6">
-                                                <div class="form-group row">
+                                                {{--<div class="form-group row">
                                                     <label for="brand" class="fs-6 fw-semibold form-label col-md-3">
-                                                        <span class="required">Brand/Make</span>
+                                                        <span class="required"></span>
                                                     </label>
                                                     <div class="col-md-9 fv-row">
                                                         <div class="col-md-9">
                                                             <div class="w-100 fv-row">
-                                                                <input readonly
-                                                                       class="form-control view_mode"
-                                                                       name="brand"
-                                                                       id="brand"/>
-                                                                {{--<option>--Select Brand--</option>
-                                                                <option v-for="brand in vehicleBrands"
-                                                                        :key="brand.id"
-                                                                        :value="brand.id | trimSpaces">
-                                                                    @{{brand.name}}
-                                                                </option>--}}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>--}}
 
-                                                <div class="form-group row">
+                                               {{-- <div class="form-group row">
                                                     <label for="model" class="fs-6 fw-semibold form-label col-md-3">
-                                                        <span class="required">Model</span>
+                                                        <span class="required"></span>
                                                     </label>
                                                     <div class="col-md-9 fv-row ">
                                                         <div class="col-md-9">
                                                             <div class="w-100">
-                                                                <input class="form-control form-control-sm view_mode"
-                                                                       required
-                                                                       name="model"
-                                                                       id="model"/>
+
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>--}}
 
                                                 <div class="form-group row" style="display: none;">
                                                     <label for="model_code"
