@@ -122,7 +122,7 @@ class VehicleController extends Controller
                     SystemMessages::vehicleInWorkshop());
             }else if($vehicle->has_tom_card === 'Y'){
                 $vehicle_state = str_replace("@reg",
-                    $vehicle->registration_number, ErrorMessages::get('err_0023'));
+                    $vehicle->registration_number, ErrorMessages::getMessage('err_0023'));
             }
 
             return response()->json([
