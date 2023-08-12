@@ -481,13 +481,14 @@
                             <div class="col-3">
                                 @if(!empty($supportingDocument))
                                     <iframe id="{{ $supportingDocument->id }}"
-                                            src="{{ asset('storage/Attachments/' . $supportingDocument->name) }}"
+                                            src="{{ asset('storage/Attachments/' . $supportingDocument->originaldocumentname) }}"
                                             style="width:100%; height: 500px "
-                                            title="{{ $supportingDocument->name }}">
+                                            title="{{ $supportingDocument->originaldocumentname }}">
                                     </iframe>
-                                    <span>Size:{{ number_format($supportingDocument->file_size, 2) }}MB Name: {{ $supportingDocument->name }} </span>
+                                    <span>Size:{{ number_format($supportingDocument->file_size, 2) }}MB Name: {{ $supportingDocument->originaldocumentname }} </span>
                                     <span> | </span>
-                                    <a href="{{ asset('storage/Attachments/' . $supportingDocument->name) }}">View</a>
+                                    <a target="_blank" style="cursor: pointer;"
+                                       href="{{ asset('storage/Attachments/' . $supportingDocument->originaldocumentname) }}">View</a>
                                 @else
                                     <div id="vehicleDetailsContainer" style="display: none;"
                                          class="col-xs-12 col-sm-12 col-md-12">
