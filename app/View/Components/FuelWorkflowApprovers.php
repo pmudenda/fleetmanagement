@@ -34,7 +34,7 @@ class FuelWorkflowApprovers extends Component
             ->orderBy('action_date')
             ->get();
 
-        $steps = $approvals_array->pluck('step_id');
+        $steps = $approvals_array->pluck('step_id')->toArray();
         $currentStep = WorkflowTaskDetail::where('reference', $this->task->reference)->first();
 
         $claimant = User::where('staff_no', '=', $this->request->created_by)->first();
