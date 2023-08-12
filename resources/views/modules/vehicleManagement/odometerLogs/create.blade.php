@@ -264,9 +264,9 @@
                                         <table class="app_form_table table table-bordered">
                                             <thead>
                                             <tr class="bg-success">
-                                                <th>Date From| Date To</th>
-                                                <th>Start Odometer</th>
-                                                <th>Closing Odometer</th>
+                                                <th style="width: 20%;">Date From | Date To</th>
+                                                <th style="width: 12%;">Start Odometer</th>
+                                                <th style="width: 12%;">Closing Odometer</th>
                                                 <th>Total Distance</th>
                                                 <th>Place From | Place To</th>
                                                 <th></th>
@@ -275,23 +275,46 @@
                                             <tbody>
                                             <tr>
                                                 <td>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm datepicker"/>
-                                                    |
-                                                    <input
-                                                        type="text"
-                                                        class="form-control form-control-sm datepicker"/>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="input-group">
+                                                                <input
+                                                                    type="text"
+                                                                    name="dateFrom"
+                                                                    class="form-control form-control-sm ui_datepicker"/>
+                                                                <div class="input-group-append">
+                                                                    <div class="input-group-text">
+                                                                        <i class="fas fa-calendar"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="input-group">
+                                                                <input
+                                                                    name="dateTo"
+                                                                    type="text"
+                                                                    class="form-control form-control-sm ui_datepicker"/>
+                                                                <div class="input-group-append">
+                                                                    <div class="input-group-text">
+                                                                        <i class="fas fa-calendar"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <input
+                                                        name="startOdometer"
                                                         type="text"
-                                                        class="form-control form-control-sm"/>
+                                                        class="form-control form-control-sm odometer_entry"/>
                                                 </td>
                                                 <td>
                                                     <input
+                                                        name="endOdometer"
                                                         type="text"
-                                                        class="form-control form-control-sm"/>
+                                                        class="form-control form-control-sm odometer_entry"/>
                                                 </td>
                                                 <td><input
                                                         type="text"
@@ -321,6 +344,10 @@
 @push('scripts')
     <script>
         (function (tmsApp, $) {
+
+            //AutoNumeric.multiple('.odometer_entry > input');
+
+            $('.ui_datepicker').on('keypress', ()=> { return false;});
 
             Inputmask({
                 "mask": "99/9999"
@@ -407,7 +434,7 @@
                 );
             });
 
-            $('.datepicker').datepicker({
+            $('.ui_datepicker').datepicker({
                 maxDate: new Date(),
                 dateFormat: 'dd/mm/yy',
             });
@@ -437,7 +464,7 @@
                 formData.append('vehicle_registration', numberPlate);
 
                 tmsApp.asyncGetFormData(
-                    $('#vehicleRegistration').attr('data-action'),
+                    $('#vehicleRegistration').attr('data-action') + '?vehicle_registration=' + numberPlate,
                     formData,
                     function (response_data) {
                         if (response_data.success === 'true' || response_data.success === true) {
