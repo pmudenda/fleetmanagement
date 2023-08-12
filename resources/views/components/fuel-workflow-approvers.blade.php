@@ -148,9 +148,11 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-1">
-                            <span class="arrow"></span>
-                        </div>
+                        @if ($documentStatus != StatusHelper::new() || in_array($documentStatus, [StatusHelper::partiallyAuthorised(), StatusHelper::authorised()]))
+                            <div class="col-1">
+                                <span class="arrow"></span>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
