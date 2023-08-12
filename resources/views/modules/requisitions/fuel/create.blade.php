@@ -1155,8 +1155,12 @@
                     $("#allocationContainer").addClass('d-none');
 
                     $('#authorityToTravelContainer').removeClass('d-none');
+
                     document.querySelector('#authorityToTravel').setAttribute('required', 'required');
-                    new tmsApp.fileUploader().makeSingleFileUploader();
+
+                    if(!$('#authorityToTravel').parent().hasClass('jFiler')){
+                        new tmsApp.fileUploader().makeSingleFileUploader();
+                    }
 
                     document.querySelector('#departureTown').setAttribute('required', 'required');
 
@@ -1184,6 +1188,7 @@
 
                     $('#authorityToTravelContainer').addClass('d-none');
                     document.querySelector('#authorityToTravel').removeAttribute('required');
+
                     $('#authorityToTravel').trigger("filer.reset")
 
                     document.querySelector('[name="material_quantity"]')
