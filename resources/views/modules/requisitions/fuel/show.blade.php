@@ -482,7 +482,8 @@
                                 @if(!empty($supportingDocument))
                                     <iframe id="{{ $supportingDocument->id }}"
                                             src="{{ asset('storage/Attachments/' . $supportingDocument->name) }}"
-                                            style="width:100%; height: 1000px " title="{{ $supportingDocument->name }}">
+                                            style="width:100%; height: 500px "
+                                            title="{{ $supportingDocument->name }}">
                                     </iframe>
                                     <span>Size:{{ number_format($supportingDocument->file_size, 2) }}MB Name: {{ $supportingDocument->name }} </span>
                                     <span> | </span>
