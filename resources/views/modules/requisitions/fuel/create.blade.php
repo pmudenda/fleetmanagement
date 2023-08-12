@@ -195,8 +195,7 @@
                                                                            id="ProjectName"
                                                                            class="form-control form-control-sm"
                                                                            autocomplete="off"
-                                                                           name="CostAssignedTo"
-                                                                           value="ProjectName">
+                                                                           name="ProjectName">
                                                                 </div>
                                                             </div>
                                                         </div>
