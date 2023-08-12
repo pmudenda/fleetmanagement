@@ -552,7 +552,10 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        <input type="file" name="authorityToTravel" class="form-control filer_input">
+                                                        <input type="file"
+                                                               id="authorityToTravel"
+                                                               name="authorityToTravel"
+                                                               class="form-control filer_input">
                                                     </div>
                                                 </div>
                                             </div>
@@ -670,7 +673,7 @@
     <script>
         (function (tmsApp, $) {
             let hasOpenRequisition = false;
-            new tmsApp.fileUploader().makeSingleFileUploader();
+
             function removeSubmissionAndDetailsOptions() {
                 let elements = document.querySelectorAll('.when_valid');
                 elements.forEach(function (element) {
@@ -1151,6 +1154,9 @@
 
                     $("#allocationContainer").addClass('d-none');
 
+                    document.querySelector('#authorityToTravel').setAttribute('required', 'required');
+                    new tmsApp.fileUploader().makeSingleFileUploader();
+
                     document.querySelector('#departureTown').setAttribute('required', 'required');
 
                     document.querySelector('#destinationTown').setAttribute('required', 'required');
@@ -1174,6 +1180,7 @@
                     document.querySelector('#destinationTown').removeAttribute('required');
                     document.querySelector('#return_date').removeAttribute('required');
                     document.querySelector('#departure_date').removeAttribute('required');
+                    document.querySelector('#authorityToTravel').removeAttribute('required');
 
                     document.querySelector('[name="material_quantity"]')
                         .setAttribute('max', document.querySelector('[name="material_quantity"]').getAttribute('data-max'));
