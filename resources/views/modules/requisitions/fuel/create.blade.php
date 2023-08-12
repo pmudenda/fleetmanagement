@@ -184,7 +184,7 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                                        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                                                             <input type="text"
                                                                    readonly
                                                                    id="ProjectName"
@@ -1188,12 +1188,15 @@
                     $projectCodeCtrl.setAttribute('disabled', 'disabled');
                     $projectCodeCtrl.removeAttribute('required');
 
+                    $($projectCodeCtrl).val('').change();
+
                     // make cost center code visible and required
                     $costCentreCodeCtrl.setAttribute('required', 'required');
                     $costCentreCodeCtrl.style.display = null;
 
                     $costCentreNameCtrl.setAttribute('required', 'required');
                     $costCentreNameCtrl.style.display = null;
+                    $('[name="ProjectName"]').val('');
 
                     $('.project_view_item').addClass('d-none');
 
