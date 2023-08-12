@@ -180,6 +180,32 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <div
+                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            <div class="control-input">
+                                                                <div class="link-field ui-front"
+                                                                     style="position: relative;">
+                                                                    <label class="form-check-inline">
+                                                                        <input type="text"
+                                                                               readonly
+                                                                               id="ProjectName"
+                                                                               class="list-row-checkbox bold mr-3 when_valid"
+                                                                               autocomplete="off"
+                                                                               name="CostAssignedTo"
+                                                                               value="ProjectName">
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="row">
@@ -1266,7 +1292,7 @@
                 }
 
                 $("#one_way").text(departureVal + ' --> ' + destinationVal);
-               /* $("#return_trip").text(destinationVal + ' --> ' + departureVal);*/
+                /* $("#return_trip").text(destinationVal + ' --> ' + departureVal);*/
                 //let roundTrip = departureVal + ' --> ' + destinationVal + ' --> ' + departureVal;
 
                 //$('#trip_path').text(roundTrip);
@@ -1274,7 +1300,7 @@
                 let $coveredKilometerCtrl = document.querySelector('[name="covered_kilometers"]');
 
                 $("#one_way_distance").text(distance);
-               /* $("#return_distance").text(distance);*/
+                /* $("#return_distance").text(distance);*/
 
                 $coveredKilometerCtrl.value = (distance);
                 $($coveredKilometerCtrl).change();
