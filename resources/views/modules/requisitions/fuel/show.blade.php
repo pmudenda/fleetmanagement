@@ -45,14 +45,14 @@
                             <th width="33%" colspan="4" style="border:none;" class="text-left">
                                 @if(!empty($requestDetails)  && !empty($requestDetails->proc_ref))
                                     REQUISITION NUMBER: <span
-                                            class="text-orange">{{ $requestDetails->proc_ref }}</span>
+                                        class="text-orange">{{ $requestDetails->proc_ref }}</span>
                                 @endif
                             </th>
                             <th width="33%" colspan="4" style="border:none;" class="text-center"></th>
                             <th width="34%" colspan="1" style="border:none; text-align:right;"
                                 class="p-3 text-right">
                                 DOCUMENT REFERENCE NUMBER: <span
-                                        class="text-orange">{{ $requestDetails->req_no }}</span>
+                                    class="text-orange">{{ $requestDetails->req_no }}</span>
                             </th>
                         </tr>
                         </thead>
@@ -87,8 +87,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                            for="staff_no">Registration #:
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                        for="staff_no">Registration #:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                         <div class="input-group">
@@ -131,7 +131,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
@@ -143,7 +143,7 @@
                                                                                value="CostCenterBasedRequisition"
                                                                                @if($requestDetails->cost_assigned_to =='CostCenter')
                                                                                    checked
-                                                                                @endif
+                                                                            @endif
                                                                         />
                                                                         User Department
                                                                     </label>
@@ -185,7 +185,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
@@ -224,8 +224,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        for="staff_name">
                                                         Requisition Type:
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -240,7 +240,7 @@
                                                                             value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
                                                                 @else
                                                                     <option
-                                                                            value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
+                                                                        value="{{$requisitionType->code}}">{{$requisitionType->name}}</option>
                                                                 @endif
                                                             @endforeach
                                                         </select>
@@ -255,8 +255,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="staff_name">
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        for="staff_name">
                                                         Odometer Reading :
                                                     </label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
@@ -281,8 +281,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Departure Date:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Departure Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input type="date" class="form-control form-control-sm"
                                                                    id="departure_date"
@@ -300,8 +300,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">Return Date:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="request_date">Return Date:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             {{--max="{{ }}"--}}
                                                             <input type="date" class="form-control form-control-sm"
@@ -322,8 +322,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="mobile_no">Departure Town:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Departure Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input id="departureTown" name="departureTown"
                                                                    readonly
@@ -339,8 +339,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="request_date">Destination Town:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="request_date">Destination Town:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                             <input id="destinationTown"
                                                                    readonly
@@ -363,8 +363,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Allocation Per Week:</label>
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        for="mobile_no">Allocation Per Week:</label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                         <div class="input-group input-group-sm">
                                                             <input type="text" class="form-control form-control-sm"
@@ -388,8 +388,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="request_date">Request Date:</label>
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        for="request_date">Request Date:</label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                         <input type="text" class="form-control form-control-sm"
                                                                id="request_date"
@@ -410,8 +410,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                                                for="next_fuel_date">
+                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
+                                                            for="next_fuel_date">
                                                             Next Refueling Date :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
@@ -432,8 +432,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="requester">Request Originator:</label>
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        for="requester">Request Originator:</label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                         <input type="text" class="form-control form-control-sm"
                                                                id="requester"
@@ -453,8 +453,8 @@
                                             <div class="row">
                                                 <div class="form-group row">
                                                     <label
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                            for="mobile_no">Purpose:</label>
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                        for="mobile_no">Purpose:</label>
                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
                                                         <textarea type="text"
                                                                   readonly
@@ -521,7 +521,7 @@
                                     @endif
                                     <td>
                                             <span name="material_quantity"
-                                                  id="material_quantity">{{$requestDetails->quantity}}</span>
+                                                  id="material_quantity">{{number_format($requestDetails->quantity)}}</span>
                                     </td>
                                     <td>
                                             <span data-material-input="unit_of_measure"
@@ -541,13 +541,19 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <td></td>
+                                    <td>
+                                        @if($requestDetails->cost_assigned_to =='CostCenter')
+                                            <strong>Total Quantity</strong>
+                                        @endif
+                                    </td>
                                     @if($requestDetails->cost_assigned_to !='CostCenter')
-                                        <td></td>
+                                        <td>
+                                            <strong>Total Quantity</strong>
+                                        </td>
                                     @endif
-                                    <td class="text-right"><strong>Total Quantity</strong>
+                                    <td class="text-right">
                                         <span class="text-bold"
-                                              id="totalQty">{{number_format($requestDetails->price, 2)}}</span>
+                                              id="totalQty">{{number_format($requestDetails->quantity)}}</span>
                                     </td>
                                     <td></td>
                                     <td class="text-right"><strong>Total Amount</strong></td>
