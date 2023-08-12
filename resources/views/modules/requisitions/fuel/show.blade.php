@@ -357,32 +357,34 @@
 
 
                                 <div class="row">
-                                    @if($requestDetails->requisition_type != RequisitionTypes::OutOfTown) @endif
-                                    <div class="col-xs-12 col-sm-6 col-md-6">
-                                        <div class="container-fluid pl-0">
-                                            <div class="row">
-                                                <div class="form-group row">
-                                                    <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                        for="mobile_no">Allocation Per Week:</label>
-                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                        <div class="input-group input-group-sm">
-                                                            <input type="text" class="form-control form-control-sm"
-                                                                   id="fuel_allocation"
-                                                                   value="{{$requestDetails->max_allowed}}"
-                                                                   name="fuel_allocation"
-                                                                   readonly
-                                                            />
-                                                            <div class="input-group-text">
-                                                                Ltr
+                                    @if($requestDetails->requisition_type != RequisitionTypes::OutOfTown)
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="mobile_no">Allocation Per Week:</label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <div class="input-group input-group-sm">
+                                                                <input type="text" class="form-control form-control-sm"
+                                                                       id="fuel_allocation"
+                                                                       value="{{$requestDetails->max_allowed}}"
+                                                                       name="fuel_allocation"
+                                                                       readonly
+                                                                />
+                                                                <div class="input-group-text">
+                                                                    Ltr
+                                                                </div>
                                                             </div>
-                                                        </div>
 
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
+
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="container-fluid pl-0">
                                             <div class="row">
