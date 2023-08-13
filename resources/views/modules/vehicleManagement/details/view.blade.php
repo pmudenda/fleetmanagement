@@ -254,7 +254,9 @@
                                                 <div class="form-group row">
                                                     <label for="vehicleLocation"
                                                            class="fs-6 fw-semibold form-label col-md-3">
-                                                        <span class="required">Location</span>
+                                                        <span class="required">
+                                                            <i class="fas fa-location"></i>
+                                                        </span>
                                                     </label>
                                                     <div class="col-md-9 fv-row">
                                                         <div class="col-md-9">
