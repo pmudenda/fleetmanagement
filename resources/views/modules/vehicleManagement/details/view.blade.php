@@ -120,7 +120,7 @@
                                                               id="vehicleLocation"></span>
                                                     </td>
                                                     <td>
-                                                        <i class="fas fa-credit-card-alt" style="font-size: "></i>
+                                                        <i class="fa fa-credit-card-alt" style="font-size: 18px; color: red;"></i>
                                                         <span data-name="tom_card">Tom Card</span>
                                                     </td>
                                                 </tr>
