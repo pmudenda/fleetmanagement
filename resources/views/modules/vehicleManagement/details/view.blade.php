@@ -331,8 +331,7 @@
             </div>
 
             <div class="card">
-                <div class="card-header"></div>
-                <div class="card-block">
+                <div class="card-body">
                     <div class="tab-content">
                         <div class="tab-pane active" id="overview" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5">
@@ -343,11 +342,11 @@
                                                 <div class="card-title">
                                                     <h2>Cost Of Ownership</h2>
                                                 </div>
-                                                <div class="card-toolbar justify-content-end">
+                                               {{-- <div class="card-toolbar justify-content-end">
                                                     <button class="btn btn-link" type="button">Filter</button>
-                                                </div>
+                                                </div>--}}
                                             </div>
-                                            <div class="card-body">
+                                            <div class="card-body px-0 py-0">
                                                 <div id="main" style="height:400px;"></div>
                                             </div>
                                         </div>
