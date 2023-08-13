@@ -115,7 +115,7 @@
                                                 <tr>
                                                     <td>
                                                         <i class="ion ion-location ion-solid mr-1"
-                                                           style="font-size: 26px; color: green;"></i>
+                                                           style="font-size: 16px; color: green;"></i>
                                                         <span data-name="vehicleLocation"
                                                               id="vehicleLocation"></span>
                                                     </td>
