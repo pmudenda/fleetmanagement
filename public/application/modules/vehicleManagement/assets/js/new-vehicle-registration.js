@@ -501,9 +501,9 @@ let app = new Vue({
             "mask": "9999"
         }).mask("#yearOfManufacture");
 
-        Inputmask({
+       /* Inputmask({
             "mask": "999/99/A99"
-        }).mask(".tyre-size");
+        }).mask(".tyre-size");*/
 
         /*Inputmask({
             "mask": "99.9"
