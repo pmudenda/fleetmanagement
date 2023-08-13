@@ -1,6 +1,17 @@
 @php use Carbon\Carbon; @endphp
 @extends('layouts.app')
 @push('styles')
+    <style>
+        th {
+            white-space: nowrap;
+        }
+
+        /**===NO WRAP ON TABLE =====**/
+        table.dataTable.nowrap th,
+        table.dataTable.nowrap td {
+            white-space: nowrap;
+        }
+    </style>
 @endpush
 @section('content')
     <x-content-header :pageTitle="'Odometer Log Entry'"/>
@@ -10,25 +21,15 @@
                 <div class="card-title">
                     <h4>Odometer Log</h4>
                 </div>
-                <div class="card-toolbar card-toolbar justify-content-end">
-                    <button type="button" name="submitDataBtn" class="btn btn-success btn-sm mr-3">
-                        <i class="fas fa-paper-plane"></i> Submit
-                    </button>
-                </div>
             </div>
-            <div class="row">
-                <div class="col-md-12 mt-10">
-                    <div class="wizard">
-
-                        <div class="clearfix"></div>
-
-                        <form name="newOdometerLogForm"
-                              id="newOdometerLogForm"
-                              action="{{route('save.odometer.log')}}"
-                              method="post">
-                            @csrf
-
-                            <div class="errorTxt"></div>
+            <form name="newOdometerLogForm"
+                  id="newOdometerLogForm"
+                  action="{{route('save.odometer.log')}}"
+                  method="post">
+                @csrf
+                <div class="card-block">
+                    <div class="col-md-12">
+                        <div class="wizard">
                             <x-error-view></x-error-view>
 
                             <label class="app-required-marker"></label>
@@ -36,27 +37,12 @@
                             <div class="row">
                                 <div class="col-6">
                                     <fieldset style="" class="form-group border p-3">
-                                        <legend class="text-bold">General Information:</legend>
+                                        {{-- <legend class="text-bold">General Information:</legend>--}}
                                         <table class="app_form_table table">
                                             <tr>
                                                 <td>
-                                                    <label class="app-field-label">
-                                                        Date :
-                                                        <span class="text-danger">*</span>
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <input type="text"
-                                                           readonly
-                                                           value="{{Carbon::now()->format('d/m/Y')}}"
-                                                           class="form-control form-control-sm"/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <label class="app-field-label">
-                                                        Registration No.
-                                                        <span class="text-danger">*</span>
+                                                    <label class="app-field-label field-required">
+                                                        Reg No.
                                                     </label>
                                                 </td>
                                                 <td>
@@ -80,27 +66,72 @@
                                                     </div>
                                                 </td>
                                                 <td class="pl-5">
-                                                    <label class="app-field-label">
+                                                    <label class="app-field-label field-required">
                                                         Machinery Type.
-                                                        <span class="text-danger">*</span>
                                                     </label>
                                                 </td>
                                                 <td>
                                                     <select name="machineryType"
                                                             class="form-select form-select-sm">
                                                         <option selected value="VEHICLE">VEHICLE</option>
-                                                        <option value="PLANT EQUIPMENT">PLANT EQUIPMENT</option>
-                                                        <option value="BOAT">BOAT</option>
+                                                        {{--<option value="PLANT EQUIPMENT">PLANT EQUIPMENT</option>
+                                                        <option value="BOAT">BOAT</option>--}}
                                                     </select>
                                                 </td>
                                             </tr>
-
+                                            <tr>
+                                                <td>
+                                                    <label class="app-field-label">
+                                                        Date :
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <input type="text"
+                                                           readonly
+                                                           value="{{Carbon::now()->format('d/m/Y')}}"
+                                                           class="form-control form-control-sm"/>
+                                                </td>
+                                            </tr>
                                         </table>
+                                    </fieldset>
+                                    <fieldset class="form-group border p-3">
+                                        <legend>Date/Period</legend>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="input-group">
+                                                    <input
+                                                        type="date"
+                                                        name="dateFrom"
+                                                        max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                        class="form-control form-control-sm"/>
+                                                    <div class="input-group-append">
+                                                        <div class="input-group-text">
+                                                            <i class="fas fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="input-group">
+                                                    <input
+                                                        max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                        name="dateTo"
+                                                        type="date"
+                                                        class="form-control form-control-sm "/>
+                                                    <div class="input-group-append">
+                                                        <div class="input-group-text">
+                                                            <i class="fas fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </fieldset>
                                 </div>
                                 <div class="col-6">
                                     <fieldset style="" class="form-group border p-3">
-                                        <legend class="text-bold">Odometer Information:</legend>
+                                        {{-- <legend class="text-bold">Odometer Information:</legend>--}}
                                         <table class="app_form_table table" id="vehicleTable">
                                             <tr>
                                                 <td>
@@ -259,16 +290,21 @@
                             </div>
 
                             <div class="row">
-                                <div class="container-fluid">
-                                    <div class="col-12">
-                                        <table class="app_form_table table table-bordered">
+                                {{--<div class="container-fluid">--}}
+                                <div class="col-12">
+                                    <div class="table-responsive">
+                                        <table id="logsTable" class="app_form_table table table-bordered">
                                             <thead>
                                             <tr class="bg-success">
-                                                <th style="width: 20%;">Date From | Date To</th>
-                                                <th style="width: 12%;">Start Odometer</th>
-                                                <th style="width: 12%;">Closing Odometer</th>
-                                                <th>Total Distance</th>
-                                                <th>Place From | Place To</th>
+                                                <th style="width: 20%;">Date From - To</th>
+                                                <th style="width: 5%;">Fuel Issued (Ltr)</th>
+                                                <th style="width: 8%;">Start Odometer</th>
+                                                <th style="width: 10%;">Closing Odometer</th>
+                                                <th style="width: 10%;">Total Distance</th>
+                                                <th style="width: 20%">Place From - To</th>
+                                                <th>Authorised By</th>
+                                                <th>Authorisation Date</th>
+                                                <th>Driver</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -279,9 +315,10 @@
                                                         <div class="col-6">
                                                             <div class="input-group">
                                                                 <input
-                                                                    type="text"
+                                                                    type="date"
                                                                     name="dateFrom"
-                                                                    class="form-control form-control-sm ui_datepicker"/>
+                                                                    max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                                    class="form-control form-control-sm"/>
                                                                 <div class="input-group-append">
                                                                     <div class="input-group-text">
                                                                         <i class="fas fa-calendar"></i>
@@ -292,9 +329,10 @@
                                                         <div class="col-6">
                                                             <div class="input-group">
                                                                 <input
+                                                                    max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                                                     name="dateTo"
-                                                                    type="text"
-                                                                    class="form-control form-control-sm ui_datepicker"/>
+                                                                    type="date"
+                                                                    class="form-control form-control-sm "/>
                                                                 <div class="input-group-append">
                                                                     <div class="input-group-text">
                                                                         <i class="fas fa-calendar"></i>
@@ -312,31 +350,93 @@
                                                 </td>
                                                 <td>
                                                     <input
+                                                        name="fuelIssued"
+                                                        type="number"
+                                                        class="form-control form-control-sm odometer_entry"/>
+                                                </td>
+                                                <td>
+                                                    <input
                                                         name="endOdometer"
                                                         type="text"
                                                         class="form-control form-control-sm odometer_entry"/>
                                                 </td>
-                                                <td><input
-                                                        type="text"
-                                                        class="form-control form-control-sm"/></td>
                                                 <td>
                                                     <input
+                                                        readonly
+                                                        name="difference"
                                                         type="text"
                                                         class="form-control form-control-sm"/>
                                                 </td>
-                                                <td></td>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <input
+                                                                type="text"
+                                                                class="form-control form-control-sm"/>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <input
+                                                                type="text"
+                                                                class="form-control form-control-sm"/>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        readonly
+                                                        name="authorisedBy"
+                                                        type="text"
+                                                        class="form-control form-control-sm"/>
+                                                    <span id="authorisedByName"></span>
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                        name="authorizationDate"
+                                                        type="date"
+                                                        class="form-control form-control-sm "/>
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        readonly
+                                                        name="driver"
+                                                        type="text"
+                                                        class="form-control form-control-sm"/>
+                                                    <span id="driverName"></span>
+                                                </td>
+                                                <td>
+                                                    <button type="button"
+                                                            data-value="0"
+                                                            value="deleteRow"
+                                                            class="btn btn-danger p-2">
+                                                        <i class="fas fa-trash m-0"></i>
+                                                    </button>
+                                                </td>
                                             </tr>
                                             </tbody>
                                         </table>
+                                        <button type="button"
+                                                data-table-id="logsTable"
+                                                class="btn btn-sm btn-primary add pull-right"
+                                                value="addRow">
+                                            <i class="fa fa-plus"></i>
+                                            Add Row
+                                        </button>
                                     </div>
+                                    {{--</div>--}}
                                 </div>
                             </div>
-
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-
+                <div class="card-footer">
+                    <div class="card-toolbar card-toolbar justify-content-end">
+                        <button type="button" name="submitDataBtn" class="btn btn-success btn-sm mr-3">
+                            <i class="fas fa-paper-plane"></i> Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
         <x-employee-search-modal/>
     </section>
@@ -346,8 +446,32 @@
         (function (tmsApp, $) {
 
             //AutoNumeric.multiple('.odometer_entry > input');
+            function addTableRow(tableId) {
+                function reinitializeSelect2($_defect_sel) {
+                    if ($_defect_sel) {
+                        $($_defect_sel).removeClass('select2-hidden-accessible');
+                        $($_defect_sel).select2({
+                            theme: "bootstrap4",
+                            width: "resolve",
+                        });
+                    }
+                }
 
-            $('.ui_datepicker').on('keypress', ()=> { return false;});
+                Table.addRow($('table#' + tableId));
+                let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
+
+                lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
+
+                $(lastRow).find('.ui_datepicker').datepicker({
+                    maxDate: new Date(),
+                    dateFormat: 'dd/mm/yy',
+                });
+            }
+
+
+            $(document).on('keypress', '.ui_datepicker', () => {
+                return false;
+            });
 
             Inputmask({
                 "mask": "99/9999"
@@ -361,6 +485,12 @@
                 {},
                 {}
             );
+
+            $(document).off('click', 'button[value="addRow"][data-table-id]')
+                .on('click', 'button[value="addRow"][data-table-id]', function () {
+                    let tableId = $(this).data('tableId');
+                    addTableRow(tableId);
+                });
 
             $("#submitDataBtn").on('click', function () {
                 let $form = document.forms['newOdometerLogForm'];
