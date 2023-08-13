@@ -192,10 +192,11 @@
                                                                     <label class="form-check-inline">
                                                                         <input type="radio"
                                                                                id="projectInput"
+                                                                               disabled
                                                                                class="list-row-checkbox bold mr-3"
                                                                                autocomplete="off"
                                                                                name="CostAssignedTo"
-                                                                               @if($requestDetails->cost_assigned_to =='Project')
+                                                                               @if($requestDetails->cost_assigned_to == 'Project')
                                                                                    checked
                                                                                @endif
                                                                                value="ProjectBasedRequisition">
@@ -205,17 +206,28 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
-                                                            <input type="form-control" readonly
+                                                            <input type="text" class="form-control form-control-sm" readonly
                                                                    value="{{$requestDetails->project_code}}"/>
-                                                            {{--<select type="text" name="project_code"
-                                                                    class="form-select mt-1 project-code-ajax"
-                                                                    id="project_code">
-                                                            </select>--}}
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+{{dd($requestDetails)}}
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                            <input type="text" class="form-control form-control-sm" readonly
+                                                                   value="{{$requestDetails->project_code}}"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                 @endif
                                 <div class="row">
