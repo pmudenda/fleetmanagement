@@ -63,7 +63,8 @@
 
 
                         @if($vehicle && !$empty($vehicle->barcode))
-                            <img id="barcode" alt="vehicle barcode" style="max-height: 40px;" src="/storage/{{$vehicle->barcode}}">
+                            <img id="barcode" alt="vehicle barcode" style="max-height: 40px;"
+                                 src="/storage/{{$vehicle->barcode}}">
                         @endif
                         {{--<button type="button" data-bs-target="#vehicleDisk" data-bs-toggle="modal"
                                 class="btn btn-default btn-sm mr-3">
@@ -93,10 +94,8 @@
                                             <tr>
                                                 <td>
                                                     <div class="row">
-                                                        <h5><span data-name="brand"
-                                                                  id="brand"/>
-                                                            <span data-name="model"
-                                                                  id="model"/></h5>
+                                                        <span class="text-bold" data-name="brand" id="brand"></span>
+                                                        <span class="text-bold" data-name="model" id="model"></span>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -208,7 +207,6 @@
                                                     </label>
                                                     <div class="col-md-9 fv-row">
                                                         <div class="col-md-9">
-                                                            {{--v-model="vehicleHeader.registration_number"--}}
                                                             <input type="text"
                                                                    class="form-control"
                                                                    name="registrationNumber"
@@ -225,16 +223,13 @@
                                                 <div class="form-group row">
                                                     <label for="vehicleLocation"
                                                            class="fs-6 fw-semibold form-label col-md-3">
-                                                        <span class="required">
-
-                                                        </span>
+                                                        <span class="required"></span>
                                                     </label>
                                                     <div class="col-md-9 fv-row">
                                                         <div class="col-md-9">
                                                             <i class="fas fa-location-pin"></i>
-                                                            <span
-                                                                data-name="vehicleLocation"
-                                                                id="vehicleLocation"></span>
+                                                            <span data-name="vehicleLocation"
+                                                                  id="vehicleLocation"></span>
                                                         </div>
                                                     </div>
                                                 </div>
