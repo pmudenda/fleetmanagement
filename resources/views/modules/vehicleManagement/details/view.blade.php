@@ -93,6 +93,12 @@
                                         <table>
                                             <tr>
                                                 <td>
+                                                    <span class="text-bold" data-name="brand" id="brand"></span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-bold" data-name="model" id="model"></span>
+                                                </td>
+                                                <td>
                                                     <input type="text"
                                                            class="form-control"
                                                            name="registrationNumber"
@@ -100,12 +106,6 @@
                                                            autocomplete="off"
                                                            required
                                                     />
-                                                </td>
-                                                <td>
-                                                    <span class="text-bold" data-name="brand" id="brand"></span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-bold" data-name="model" id="model"></span>
                                                 </td>
                                             </tr>
                                             <tr>
