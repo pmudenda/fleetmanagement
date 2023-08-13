@@ -60,7 +60,7 @@
                 </div>
 
                 <!--begin::Card body-->
-                <div class="card-body pt-0">
+                <div class="card-body py-0">
                     <x-error-view/>
                     <form name="vehicleHeaderForm" id="tms_vehicle_header_form"
                           class="form mb-10">
@@ -326,17 +326,17 @@
                                 History</a>
                         </li>
                     </ul>
-                    <hr/>
+                   {{-- <hr/>--}}
                 </div>
             </div>
 
             <div class="card">
+                <div class="card-header"></div>
                 <div class="card-block">
                     <div class="tab-content">
                         <div class="tab-pane active" id="overview" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5">
                                 Overview
-
                             </div>
                         </div>
 
