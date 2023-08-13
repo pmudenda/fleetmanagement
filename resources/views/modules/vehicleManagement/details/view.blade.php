@@ -42,7 +42,7 @@
         <div class="row g-12 g-xl-12" id="kt_app_main">
 
             <!--BEGIN:::VEHICLE HEADER -->
-            <div class="card mb-xl-10">
+            <div class="card mb-xl-5">
                 <div id="card_header" class="card-header min-h-2px">
                     <div class="card-title">
                         <h2>Vehicle Details</h2>
@@ -331,15 +331,15 @@
             </div>
 
             <div class="card">
-                <div class="card-body py-0 px-1">
-                    <div class="tab-content" style="background-color: #f5f8fa;">
+                <div class="card-body py-0 px-1" style="background-color: #f5f8fa;">
+                    <div class="tab-content" >
                         <div class="tab-pane active" id="overview" role="tabpanel">
                             <div class="container-fluid pl-0" >
                                 <div class="row">
                                     <div class="col-4">
                                         <div class="card">
                                             <div class="card-header px-0 py-0">
-                                                <div class="card-title pl-0">
+                                                <div class="card-title">
                                                     <h2>Cost Of Ownership</h2>
                                                 </div>
                                             </div>
