@@ -2558,12 +2558,12 @@ function checkOnboardingHeaderStatus() {
         getPurchaseOrderDetails();
     });
 
-    $(document).on('change', 'select[name="frontTyreSize"]', function () {
+    /*$(document).on('change', 'select[name="frontTyreSize"]', function () {
         const frontTyreSize = $('[name="frontTyreSize"]').val()
 
         $('select[name="rearTyreSize"]').val(frontTyreSize);
         $('select[name="rearTyreSize"]').trigger('change');
-    });
+    });*/
 
     // vehicleWeightValidations
     $(document).on('change', 'select[name="brand"]', function () {
