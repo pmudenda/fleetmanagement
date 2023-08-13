@@ -110,7 +110,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <i class="fas fa-location-pin"></i>
+                                                    <i class="ion ion-location ion-solid mr-3"></i>
                                                     <span data-name="vehicleLocation"
                                                           id="vehicleLocation"></span>
                                                 </td>
