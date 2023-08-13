@@ -122,14 +122,22 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <span data-name="registrationNumber"
-                                                              id="registrationNumber"></span>
+                                                        <table>
+                                                            <tr>
+                                                                <td>
+                                                                    <span data-name="registrationNumber"
+                                                                          id="registrationNumber"></span>
+                                                                </td>
+                                                                <td>
+                                                                     <span class="badge badge-success badge-circle"
+                                                                           style="height: 8px; width: 8px;"></span>
+                                                                    Active
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
                                                     </td>
-                                                    <td>
-                                                        <span class="badge badge-success badge-circle"
-                                                              style="height: 8px; width: 8px;"></span>
-                                                        Active
-                                                    </td>
+                                                    <td></td>
                                                 </tr>
                                             </table>
                                             <div class="col-md-12">
