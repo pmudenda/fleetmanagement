@@ -2107,7 +2107,7 @@
                         </div>
 
                         <div class="tab-pane fade" id="financial" role="tabpanel">
-                            <form id="tms_costing_valuation_form"
+                            <form id="tms_costing_valuation_form" style="background-color: #fff;"
                                   name="tms_costing_valuation_form"
                                   class="form fv-plugins-bootstrap5 fv-plugins-framework"
                                   action="{{route('vehicle.cost.detail')}}">
@@ -2442,7 +2442,7 @@
                         </div>
 
                         <div class="tab-pane fade" id="accessoriesTab" role="tabpanel">
-                            <div class="container-fluid pl-0 mt-5">
+                            <div class="container-fluid pl-0 mt-5" style="background-color: #fff;">
                                 <div id="tms_accessories_form"
                                      name="tms_accessories_form"
                                      class="form fv-plugins-bootstrap5 fv-plugins-framework"
@@ -2885,7 +2885,7 @@
                         </div>
 
                         <div class="tab-pane fade" id="assignmentHistory" role="tabpanel">
-                            <div class="container-fluid pl-0 mt-5">
+                            <div class="container-fluid pl-0 mt-5" style="background-color: #fff;">
                                 @include('modules.vehicleManagement.onboarding.tabs.assignment_details')
                             </div>
                         </div>
