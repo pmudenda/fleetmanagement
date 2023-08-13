@@ -332,9 +332,9 @@
 
             <div class="card" style="background-color: #f5f8fa;">
                 <div class="card-body py-0 px-1" style="background-color: #f5f8fa;">
-                    <div class="tab-content" >
+                    <div class="tab-content">
                         <div class="tab-pane active" id="overview" role="tabpanel">
-                            <div class="container-fluid pl-0" >
+                            <div class="container-fluid pl-0">
                                 <div class="row">
                                     <div class="col-4">
                                         <div class="card mt-10">
@@ -347,11 +347,9 @@
                                                 <div class="card">
                                                     <div class="card-header pl-0 view_mode px-0 py-0">
                                                         <div class="card-title">
-                                                            Total Costs
+                                                            Total Costs <span style="font-weight: bold;"
+                                                                              id="totalOwnershipCosts"></span>
                                                         </div>
-                                                    </div>
-                                                    <div class="card-body px-0 py-0">
-                                                        <span id="totalOwnershipCosts"></span>
                                                     </div>
                                                 </div>
                                                 <div id="main" style="height:300px;"></div>
@@ -370,10 +368,10 @@
 
                         <div class="tab-pane" id="specs" role="tabpanel">
                             <div style="background-color: #fff;"
-                                id="tms_chassis_details_form"
-                                name="tmsChassisDetailsForm"
-                                class="form"
-                                action="{{route('vehicle.chassis.detail')}}">
+                                 id="tms_chassis_details_form"
+                                 name="tmsChassisDetailsForm"
+                                 class="form"
+                                 action="{{route('vehicle.chassis.detail')}}">
                                 <input type="hidden" name="doctype" value="ChassisDetails"/>
                                 <input type="hidden" name="headerId" value="{{$reference}}"/>
                                 <input type="hidden" name="chassisDetailsId"
@@ -1516,7 +1514,7 @@
                                                                                     data-fieldname="company"
                                                                                     id="batterySize"
                                                                                     name="batterySize"
-                                                                                    data-doctype="OtherDetails" />
+                                                                                    data-doctype="OtherDetails"/>
                                                                             </div>
 
                                                                         </div>
@@ -1846,112 +1844,112 @@
                                                 </td>
                                             </tr>
 
-                                           {{-- <tr>
-                                                <td colspan="2">
-                                                    <h4>Exterior</h4>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="frappe-control ">
-                                                    <label for="distanceAxle1" class="control-label"
-                                                           style="padding-right: 0px;">
-                                                        Dist Axle 1:
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <input type="text"
-                                                                       class="input-with-feedback form-control bold view_mode"
-                                                                       maxlength="140"
-                                                                       id="distanceAxle1"
-                                                                       name="distanceAxle1"
-                                                                       data-doctype="BodyDetails"
-                                                                       v-model="bodyDetails.distanceAxle1"
-                                                                       placeholder=""
-                                                                       data-target="Company">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
+                                            {{-- <tr>
+                                                 <td colspan="2">
+                                                     <h4>Exterior</h4>
+                                                 </td>
+                                             </tr>
+                                             <tr>
+                                                 <td class="frappe-control ">
+                                                     <label for="distanceAxle1" class="control-label"
+                                                            style="padding-right: 0px;">
+                                                         Dist Axle 1:
+                                                     </label>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <input type="text"
+                                                                        class="input-with-feedback form-control bold view_mode"
+                                                                        maxlength="140"
+                                                                        id="distanceAxle1"
+                                                                        name="distanceAxle1"
+                                                                        data-doctype="BodyDetails"
+                                                                        v-model="bodyDetails.distanceAxle1"
+                                                                        placeholder=""
+                                                                        data-target="Company">
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </td>
 
-                                                <td class="frappe-control ">
-                                                    <label for="distanceAxle2" class="control-label"
-                                                           style="padding-right: 0px;">
-                                                        Dist Axle 2:
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <input type="text"
-                                                                       class="input-with-feedback form-control bold view_mode"
-                                                                       maxlength="140"
-                                                                       id="distanceAxle2"
-                                                                       name="distanceAxle2"
-                                                                       data-doctype="BodyDetails"
-                                                                       v-model="bodyDetails.distanceAxle2"
-                                                                       placeholder=""/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
+                                                 <td class="frappe-control ">
+                                                     <label for="distanceAxle2" class="control-label"
+                                                            style="padding-right: 0px;">
+                                                         Dist Axle 2:
+                                                     </label>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <input type="text"
+                                                                        class="input-with-feedback form-control bold view_mode"
+                                                                        maxlength="140"
+                                                                        id="distanceAxle2"
+                                                                        name="distanceAxle2"
+                                                                        data-doctype="BodyDetails"
+                                                                        v-model="bodyDetails.distanceAxle2"
+                                                                        placeholder=""/>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </td>
 
-                                            </tr>
-                                            <tr>
-                                                <td class="frappe-control ">
-                                                    <label for="distanceAxle3" class="control-label"
-                                                           style="padding-right: 0px;">
-                                                        Dist Axle 3:
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <input type="text"
-                                                                       class="input-with-feedback form-control bold view_mode"
-                                                                       maxlength="140"
-                                                                       id="distanceAxle3"
-                                                                       name="distanceAxle3"
-                                                                       v-model="bodyDetails.distanceAxle3"
-                                                                       placeholder=""
-                                                                       data-doctype="BodyDetails"
-                                                                       data-target="Company">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
+                                             </tr>
+                                             <tr>
+                                                 <td class="frappe-control ">
+                                                     <label for="distanceAxle3" class="control-label"
+                                                            style="padding-right: 0px;">
+                                                         Dist Axle 3:
+                                                     </label>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <input type="text"
+                                                                        class="input-with-feedback form-control bold view_mode"
+                                                                        maxlength="140"
+                                                                        id="distanceAxle3"
+                                                                        name="distanceAxle3"
+                                                                        v-model="bodyDetails.distanceAxle3"
+                                                                        placeholder=""
+                                                                        data-doctype="BodyDetails"
+                                                                        data-target="Company">
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </td>
 
-                                                <td class="frappe-control ">
-                                                    <label for="distanceAxle5" class="control-label"
-                                                           style="padding-right: 0px;">
-                                                        Dist Axle 4 Rda/Ult:
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <div class="control-input-wrapper">
-                                                        <div class="control-input">
-                                                            <div class="link-field ui-front"
-                                                                 style="position: relative;">
-                                                                <input type="text"
-                                                                       class="input-with-feedback form-control bold view_mode"
-                                                                       maxlength="140"
-                                                                       id="distanceAxle4"
-                                                                       name="distanceAxle4"
-                                                                       v-model="bodyDetails.distanceAxle4"
-                                                                       placeholder=""/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
+                                                 <td class="frappe-control ">
+                                                     <label for="distanceAxle5" class="control-label"
+                                                            style="padding-right: 0px;">
+                                                         Dist Axle 4 Rda/Ult:
+                                                     </label>
+                                                 </td>
+                                                 <td>
+                                                     <div class="control-input-wrapper">
+                                                         <div class="control-input">
+                                                             <div class="link-field ui-front"
+                                                                  style="position: relative;">
+                                                                 <input type="text"
+                                                                        class="input-with-feedback form-control bold view_mode"
+                                                                        maxlength="140"
+                                                                        id="distanceAxle4"
+                                                                        name="distanceAxle4"
+                                                                        v-model="bodyDetails.distanceAxle4"
+                                                                        placeholder=""/>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </td>
 
-                                            </tr>--}}
+                                             </tr>--}}
 
                                             <tr>
                                                 <td colspan="2">
