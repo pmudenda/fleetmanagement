@@ -64,10 +64,16 @@ class VehicleController extends Controller
 
             $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$ref)->get();
 
-            $cost_by_year = DB::table('zfm_fuel_cost')
-                ->where('reg_no','=', $vehicle->registration_number)
+            $fuel_cost_by_year = DB::table('zfm_fuel_cost')
+                ->where('reg_no', '=', $vehicle->registration_number)
                 ->select(DB::raw('SUM(ttl) as cost,year'))
                 ->groupBy('year')
+                ->get();
+
+            $spares_cost_by_year = DB::table('zfm_spare_cost')
+                ->where('reg_no', '=', $vehicle->registration_number)
+                ->select(DB::raw('SUM(value_amount) as cost, EXTRACT(YEAR FROM TO_DATE(document_date)) year'))
+                ->groupBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
                 ->get();
 
             return response()->json([
@@ -75,7 +81,8 @@ class VehicleController extends Controller
                     'vehicle' => $vehicle,
                     'documents' => $vehicleDocuments,
                     'enteredAccessories' => $enteredAccessories,
-                    'cost_by_year'=> $cost_by_year
+                    'cost_by_year' => $fuel_cost_by_year,
+                    'spares_cost_by_year' => $spares_cost_by_year
                 ],
                 'success' => !empty($vehicle),
                 'message' => !empty($vehicle) ? 'Vehicle Details retrieved successfully'
