@@ -331,10 +331,10 @@
             </div>
 
             <div class="card">
-                <div class="card-body py-0">
-                    <div class="tab-content">
+                <div class="card-body py-0 px-1">
+                    <div class="tab-content" style="background-color: #f5f8fa;">
                         <div class="tab-pane active" id="overview" role="tabpanel">
-                            <div class="container-fluid pl-0 mt-5" style="background-color: #f5f8fa;">
+                            <div class="container-fluid pl-0 mt-5" >
                                 <div class="row mt-5">
                                     <div class="col-4">
                                         <div class="card">
@@ -370,7 +370,7 @@
                         </div>
 
                         <div class="tab-pane" id="specs" role="tabpanel">
-                            <div
+                            <div style="background-color: #fff;"
                                 id="tms_chassis_details_form"
                                 name="tmsChassisDetailsForm"
                                 class="form"
