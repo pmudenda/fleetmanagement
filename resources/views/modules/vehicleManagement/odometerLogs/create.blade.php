@@ -81,16 +81,22 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    Business Area
+                                                    <label class="app-field-label">
+                                                        Business Area
+                                                    </label>
                                                 </td>
-                                                <td><span id="businessArea"></span></td>
+                                                <td>
+                                                    <input type="text" readonly id="businessArea" class="form-control form-control-sm" />
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    User Unit
+                                                    <label class="app-field-label">
+                                                        User Unit
+                                                    </label>
                                                 </td>
                                                 <td>
-                                                    <span id="userUnit"></span>
+                                                    <input type="text" readonly id="userUnit" class="form-control form-control-sm" />
                                                 </td>
                                             </tr>
                                             <tr>
