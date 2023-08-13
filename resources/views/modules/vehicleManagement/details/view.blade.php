@@ -74,18 +74,17 @@
                 </div>
 
                 <!--begin::Card body-->
-                <div class="card-body">
+                <div class="card-body pt-0">
                     <x-error-view/>
                     <form name="vehicleHeaderForm" id="tms_vehicle_header_form"
-                          class="form mb-10"
-                          action="{{route('new.vehicle.header')}}">
+                          class="form mb-10">
                         <input type="hidden" name="doctype" value="VehicleHeader"/>
                         <div class="row">
                             <table>
                                 <tr>
                                     <td style="vertical-align: baseline; width:15%;">
                                         <div v-if="images && images.frontView">
-                                            <img style="height: 200px;" class="frontImagePreview"
+                                            <img style="height: 100px;" class="frontImagePreview"
                                                  v-bind:src='"/storage" + images.frontView.path' alt=""/>
                                         </div>
                                     </td>
@@ -101,7 +100,8 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="font-size: x-small;">
-                                                        <span id="description" class="text-extra-muted" data-name="description"></span>
+                                                        <span id="description" class="text-extra-muted"
+                                                              data-name="description"></span>
                                                         {{--<span class="text-bold" data-name="model" id="model"></span>--}}
                                                     </td>
                                                     <td>
@@ -268,20 +268,19 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td>
+                                        <div class="col-4">
+
+                                        </div>
+                                        <div class="col-8">
+
+                                        </div>
+                                    </td>
                                 </tr>
                             </table>
-                            <div class="col-4">
-
-                            </div>
-                            <div class="col-8">
-
-                            </div>
                         </div>
                     </form>
-
-                    <hr/>
-
-                    <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x border-transparent fs-4 fw-semibold mb-5"
+                    <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x border-transparent fs-4 fw-semibold"
                         role="tablist">
 
                         <li class="nav-item" style="list-style: none; display: none;">
