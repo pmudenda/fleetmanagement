@@ -101,7 +101,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     Vue.set(app['chassisDetails'], 'stickerRegistrationNumber', data['sticker_registration_number']);
     Vue.set(app['chassisDetails'], 'yearOfManufacture', data['year_of_manufacture']);
-
+    $("#yearOfPurchase").attr('min', data['year_of_manufacture']);
     Vue.set(app['chassisDetails'], 'registrationDate', data['registration_date']);
 
     $('input[name="registration_date"]').val(data['registration_date']);
@@ -251,7 +251,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     if (data['costoflicense']) {
         const formatted = accounting.formatMoney(data['costoflicense'], '', 2, ",", ".")
-        if(formatted !== '0.00') {
+        if (formatted !== '0.00') {
             $('input[name="costOfLicense"]').val(formatted).attr('readonly', 'readonly');
             $('input[name="costOfLicense"]').trigger('change');
         }
@@ -501,17 +501,10 @@ let app = new Vue({
             "mask": "9999"
         }).mask("#yearOfManufacture");
 
-       /* Inputmask({
-            "mask": "999/99/A99"
-        }).mask(".tyre-size");*/
+        Inputmask({
+            "mask": "9999"
+        }).mask("#yearOfPurchase");
 
-        /*Inputmask({
-            "mask": "99.9"
-        }).mask("#fuelConsumption");*/
-
-        /*Inputmask("decimal", {
-            "rightAlignNumerics": false
-        }).mask("#chargeOutRate");*/
 
         $(document).on('click', '[data-select="file"]', function () {
             let fileInput = $(this).closest('p').find('input[type="file"]');
@@ -2452,6 +2445,20 @@ function checkOnboardingHeaderStatus() {
 
     $(document).on('change', '.weight_control', function () {
         vehicleWeightValidations(this)
+    });
+
+    $(document).on('change', '[name="yearOfPurchase"]', function () {
+        const  yearOfManufacture = $('[name="yearOfManufacture"]').val();
+        const yearOfPurchase = $(this).val();
+
+        if (parseInt(yearOfPurchase) < parseInt(yearOfManufacture)) {
+            tmsApp.showToast(
+                'Vehicle could not have been bought before it was manufactured. Please check the year of purchase',
+                'error', 'Validation Error');
+            document.querySelector('#tms_save_engine').setAttribute('disabled', 'disabled');
+        } else {
+            document.querySelector('#tms_save_engine').removeAttribute('disabled');
+        }
     });
 
     $(document).on('change paste', '[name="whiteBookSerial"]', function () {

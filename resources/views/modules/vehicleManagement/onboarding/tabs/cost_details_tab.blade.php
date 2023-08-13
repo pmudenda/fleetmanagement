@@ -115,7 +115,7 @@
                             <div class="link-field ui-front" style="position: relative;">
                                 <div class="input-group">
                                     <input type="number"
-                                           min="2000"
+                                           min=""
                                            max="{{date('Y')}}" step="1"
                                            class="input-with-feedback form-control bold number_input view_mode"
                                            maxlength="4"
