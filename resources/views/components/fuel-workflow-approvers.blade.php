@@ -184,10 +184,10 @@
                                             </td>
                                             <td>
                                                 <div class="text-sm">
-                                                    <h5 class="text-white">{{$supervisor->name }}</h5>
+                                                    <h5 class="text-white">{{$manager->name }}</h5>
                                                 </div>
                                                 <small>
-                                                    {{$supervisor->job_title ?? '-'}}
+                                                    {{$manager->job_title ?? '-'}}
                                                 </small>
                                             </td>
                                         </tr>
@@ -206,7 +206,7 @@
                                                    </td>
                                                </tr>
                                            @endforeach--}}
-                                        @if (empty($supervisor))
+                                        @if (empty($manager))
                                             <tr class="text-danger">
                                                 <td><input type="checkbox" disabled></td>
                                                 <td> Not Aligned</td>
