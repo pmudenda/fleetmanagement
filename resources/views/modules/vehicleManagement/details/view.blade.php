@@ -89,7 +89,7 @@
                                                  v-bind:src='"/storage" + images.frontView.path' alt=""/>
                                         </div>
                                     </td>
-                                    <td class="pl-3">
+                                    <td class="pl-3" style="vertical-align: top;">
                                         <div>
                                             <table>
                                                 <tr>
