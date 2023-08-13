@@ -306,7 +306,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     console.log();
     let totalCost = parseFloat('0');
     let fuelDataset = [];
-    for(const fCost of fuelCost){
+    for (const fCost of fuelCost) {
         totalCost += parseFloat(fCost.cost);
         fuelDataset.push([fCost.year, fCost.cost]);
     }
@@ -329,8 +329,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
             },
             formatter(params) {
                 const value = params[0].data.value;
-                return 'ZMW: ' + params[0].data.name
-                    + '<br/>Cost: ' + value;
+                return 'ZMW: ' + value
             }
         },
         toolbox: {
@@ -367,21 +366,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         {
             dataGroupId: 'fuel',
             data: fuelDataset
-        },
-        {
-            dataGroupId: 'fruits',
-            data: [
-                ['Apples', 4],
-                ['Oranges', 2]
-            ]
-        },
-        {
-            dataGroupId: 'cars',
-            data: [
-                ['Toyota', 4],
-                ['Opel', 2],
-                ['Volkswagen', 2]
-            ]
         }
     ];
     myChart.on('click', function (event) {
@@ -397,6 +381,22 @@ function displayVehicleDetails(asyncResponse, requestReference) {
                     data: subData.data.map(function (item) {
                         return item[0];
                     })
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow',
+                        label: {
+                            show: true,
+                        },
+                        formatter(params) {
+                            return params[0].data.name;
+                        }
+                    },
+                    formatter(params) {
+                        const value = params[0].data.value;
+                        return 'ZMW: ' + value
+                    }
                 },
                 series: {
                     type: 'bar',
