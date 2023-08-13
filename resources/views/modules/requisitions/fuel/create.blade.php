@@ -1013,8 +1013,8 @@
             let selector = document.querySelector('#departureTown');
             for (const [key, value] of Object.entries(window['citiesMap'])) {
                 const option = document.createElement("option");
-                option.value = key;
-                option.text = key;
+                option.value = value['town_from'];
+                option.text = value['town_from'];
                 selector.add(option, null);
             }
 
@@ -1387,13 +1387,24 @@
             });
 
             $(document).on('change', '#departureTown', function () {
+                let selectedTown = $(this).val();
                 let selector = document.querySelector('[name="destinationTown"]');
-                let otherCities = window.citiesMap[$(this).val()];
-                for (const [key, value] of Object.entries(otherCities)) {
+                $('[name="destinationTown"]').empty();
+
+                let otherCities = [];
+                for (const [key, value] of Object.entries(window['citiesMap'])) {
+                     if( selectedTown === value['town_from']){
+                         otherCities.push(value);
+                     }
+                }
+
+                for (const value of otherCities) {
                     const option = document.createElement("option");
-                    option.value = key;
-                    option.text = key;
-                    option.dataset.distance = value;
+                    //option.value = key;
+                    //option.text = key;
+                    option.value = value['town_from'];
+                    option.text = value['town_from'];
+                    option.dataset.distance = value['distance'];
                     selector.add(option, null);
                 }
                 // enable disabled destination input
