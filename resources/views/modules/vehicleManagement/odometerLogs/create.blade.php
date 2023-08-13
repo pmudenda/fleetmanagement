@@ -665,20 +665,23 @@
                     case 'vehClosingReading':
                         let vehOpeningReading = $("input[name=vehOpeningReading]").val();
                         let vehClosingReading = $("input[name=vehClosingReading]").val()
-                        let lineAmountTotal = tmsApp.getRawNumber(vehClosingReading)
-                            - tmsApp.getRawNumber(vehOpeningReading);
+                        let lineAmountTotal =
+                            tmsApp.getRawNumber(vehOpeningReading) - tmsApp.getRawNumber(vehClosingReading);
 
                         $('#vehDifference').val(lineAmountTotal);
-                        /*let summaryTotalQty = 0;
-                        $(element).closest("table").find("input[name=quantity]").each(function (i, it) {
-                            summaryTotalQty += Util.getFloat(it.value);
+                        break;
+                    case 'service_quantity':
+                        let serviceSummaryTotalQty = 0;
+                        $(element).closest("table").find("input[name=service_quantity]").each(function (i, it) {
+                            serviceSummaryTotalQty += Util.getFloat(it.value);
                         });
 
+                        // set value in footer
+                        $('#serviceQuantityTotal').text(tmsApp.getRawNumber(serviceSummaryTotalQty));
 
-
-                        let lineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=unit_price]").val());
-                        $(element).closest("tr").find("input[name=total_price]").val(lineAmountTotal).change();
-                        $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(lineAmountTotal));*/
+                        let serviceLineAmountTotal = tmsApp.getFloat(element.value) * tmsApp.getFloat($(element).closest("tr").find("input[name=service_unit_price]").val());
+                        $(element).closest("tr").find("input[name=service_total_price]").val(serviceLineAmountTotal);//.change();
+                        $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(serviceLineAmountTotal));
                         break;
 
                     default:
