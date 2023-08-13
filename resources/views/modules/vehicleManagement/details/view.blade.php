@@ -1401,7 +1401,7 @@
                                                                     <label for="frontTyreSize"
                                                                            class="control-label reqd"
                                                                            style="padding-right: 0px;">
-                                                                        Front Tyre Size:
+                                                                        Front Size:
                                                                     </label>
                                                                 </div>
                                                             </td>
@@ -1426,7 +1426,7 @@
                                                                 <div class="clearfix">
                                                                     <label for="rearTyreSize" class="control-label reqd"
                                                                            style="padding-right: 0px;">
-                                                                        Rear Tyre Size:
+                                                                        Rear Size:
                                                                     </label>
                                                                     <span class="help"></span>
                                                                 </div>
@@ -1476,7 +1476,6 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <div>
-                                                                                {{--v-model="otherDetails.batteryBrand"--}}
                                                                                 <input type="text"
                                                                                        id="batteryBrand"
                                                                                        name="batteryBrand"
@@ -1492,7 +1491,8 @@
                                                             </td>
                                                             <td class="frappe-control">
                                                                 <div class="clearfix">
-                                                                    <label for="batterySize" class="control-label reqd"
+                                                                    <label for="batterySize"
+                                                                           class="control-label reqd"
                                                                            style="padding-right: 0px;">Size :</label>
                                                                     <span class="help"></span>
                                                                 </div>
@@ -1526,7 +1526,6 @@
                                                                 </label>
                                                             </td>
                                                             <td>
-                                                                {{--v-model="otherDetails.batteryPower"--}}
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
@@ -1542,10 +1541,6 @@
                                                                                     <option value="12">12</option>
                                                                                     <option value="24">24</option>
                                                                                 </select>
-                                                                                {{--<div
-                                                                                        class="input-group-addon align-self-center pr-3 pl-3">
-
-                                                                                </div>--}}
                                                                             </div>
                                                                         </div>
                                                                     </div>

@@ -484,7 +484,7 @@
                         <div class="clearfix">
                             <label for="frontTyreSize" class="control-label reqd"
                                    style="padding-right: 0px;">
-                                Front Tyre Size:
+                                Front Size:
                             </label>
                         </div>
                     </td>
@@ -508,7 +508,7 @@
                         <div class="clearfix">
                             <label for="rearTyreSize" class="control-label reqd"
                                    style="padding-right: 0px;">
-                                Rear Tyre Size:
+                                Rear Size:
                             </label>
                             <span class="help"></span>
                         </div>
