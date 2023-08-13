@@ -65,8 +65,8 @@ class VehicleController extends Controller
             $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$ref)->get();
 
             $cost_by_year = DB::table('zfm_fuel_cost')
-                ->select(DB::raw('SUM(ttl) as cost,year'))
                 ->where('reg_no','=', $vehicle->registration_number)
+                ->select(DB::raw('SUM(ttl) as cost,year'))
                 ->groupBy('year')
                 ->get();
 

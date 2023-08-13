@@ -303,7 +303,14 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
 
     let fuelCost = asyncResponse['payload']['cost_by_year'];
-    console.log(fuelCost);
+    console.log();
+    let totalCost = parseFloat('0');
+    let fuelDataset = [];
+    for(const fCost of fuelCost){
+        totalCost += parseFloat(fCost.cost);
+        fuelDataset.push([fCost.year, fCost.cost]);
+    }
+
     let myChart = echarts.init(document.getElementById('main'))
     const option = {
         xAxis: {
@@ -317,7 +324,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
             id: 'sales',
             data: [
                 {
-                    value: 5,
+                    value: totalCost,
                     groupId: 'fuel'
                 }
             ],
@@ -328,16 +335,10 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         }
     };
     myChart.setOption(option);
-    const drilldownData = [
+    const drillDownData = [
         {
-            dataGroupId: 'animals',
-            data: [
-                ['Cats', 4],
-                ['Dogs', 2],
-                ['Cows', 1],
-                ['Sheep', 2],
-                ['Pigs', 1]
-            ]
+            dataGroupId: 'fuel',
+            data: fuelDataset
         },
         {
             dataGroupId: 'fruits',
@@ -355,9 +356,9 @@ function displayVehicleDetails(asyncResponse, requestReference) {
             ]
         }
     ];
-    /*myChart.on('click', function (event) {
+    myChart.on('click', function (event) {
         if (event.data) {
-            var subData = drilldownData.find(function (data) {
+            let subData = drillDownData.find(function (data) {
                 return data.dataGroupId === event.data.groupId;
             });
             if (!subData) {
@@ -397,7 +398,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
                 ]
             });
         }
-    });*/
+    });
 
 }
 
