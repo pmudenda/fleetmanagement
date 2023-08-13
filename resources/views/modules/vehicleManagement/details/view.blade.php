@@ -339,13 +339,13 @@
                                     <div class="col-4">
                                         <div class="card">
                                             <div class="card-header">
-                                                <div class="card-title">
+                                                <div class="card-title pl-0">
                                                     <h2>Cost Of Ownership</h2>
                                                 </div>
                                             </div>
-                                            <div class="card-body px-0 py-0">
+                                            <div class="card-body px-0 py-0 pl-1">
                                                 <div class="card">
-                                                    <div class="card-header pl-0">
+                                                    <div class="card-header pl-0 view_mode px-0 py-0">
                                                         <div class="card-title">
                                                             Total Costs
                                                         </div>
