@@ -338,7 +338,7 @@
                                 <div class="row mt-5">
                                     <div class="col-4">
                                         <div class="card">
-                                            <div class="card-header">
+                                            <div class="card-header px-0 py-0">
                                                 <div class="card-title pl-0">
                                                     <h2>Cost Of Ownership</h2>
                                                 </div>
