@@ -335,7 +335,7 @@
                     <div class="tab-content" style="background-color: #f5f8fa;">
                         <div class="tab-pane active" id="overview" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5" >
-                                <div class="row mt-5">
+                                <div class="row">
                                     <div class="col-4">
                                         <div class="card">
                                             <div class="card-header px-0 py-0">
