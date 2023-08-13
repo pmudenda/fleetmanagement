@@ -331,7 +331,7 @@
             </div>
 
             <div class="card">
-                <div class="card-body">
+                <div class="card-body py-0">
                     <div class="tab-content">
                         <div class="tab-pane active" id="overview" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5" style="background-color: #f5f8fa;">
@@ -918,7 +918,7 @@
                                                 <legend style="width: inherit;">
                                                     <h4 class="pt-2">Engine Details</h4>
                                                 </legend>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 pl-0">
                                                     <table class="align-middle gs-0 gy-3 my-0">
                                                         <tbody>
                                                         <tr>
@@ -1333,7 +1333,7 @@
                                                 <legend style="width: inherit;">
                                                     <h4 class="pt-2">Tyres</h4>
                                                 </legend>
-                                                <div class="col-xs-12 col-sm-8 col-md-8">
+                                                <div class="col-xs-12 col-sm-8 col-md-8 pl-0">
                                                     <table class="align-middle gs-0 gy-3 my-0">
                                                         <tbody>
                                                         <tr>
@@ -1460,7 +1460,7 @@
                                                 <legend style="width: inherit;">
                                                     <h4 class="pt-2">Battery</h4>
                                                 </legend>
-                                                <div class="col-xs-12 col-sm-8 col-md-8">
+                                                <div class="col-xs-12 col-sm-8 col-md-8 pl-0">
                                                     <table class="table table-row-dashed align-middle gs-0 gy-3 my-0">
                                                         <tbody>
                                                         <tr>
@@ -1555,12 +1555,12 @@
                                                 </div>
                                             </fieldset>
 
-                                            <div class="mt-5 create_mode">
+                                            {{--<div class="mt-5 create_mode">
                                                 <button type="submit" id="tms_save_engine"
                                                         class="btn btn-success btn-sm">
                                                     <i class="fas fa-paper-plane"></i> Save
                                                 </button>
-                                            </div>
+                                            </div>--}}
                                         </form>
                                     </div>
                                     <div class="col-6 row">
