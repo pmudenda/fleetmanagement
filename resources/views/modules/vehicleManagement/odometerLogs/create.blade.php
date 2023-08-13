@@ -648,7 +648,7 @@
 
                 $('#userUnit').val(vehicle['business_area_code'] + ' ' + vehicle['business_area_name']);
 
-                $("#machineryType").val(vehicle['registration_type']).attr('disabled', true);
+                $('[name="machineryType"]').val(vehicle['registration_type']).attr('disabled', true);
             }
 
 
