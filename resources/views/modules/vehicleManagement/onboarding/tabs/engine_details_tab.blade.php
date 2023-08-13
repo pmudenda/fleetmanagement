@@ -596,6 +596,29 @@
                     </td>
                 </tr>
                 <tr>
+                    <td class="frappe-control">
+                        <label for="batteryPower" class="control-label"
+                               style="padding-right: 0px;">
+                            Number:
+                        </label>
+                    </td>
+                    <td>
+                        <div class="control-input-wrapper">
+                            <div class="control-input">
+                                <div class="link-field ui-front" style="position: relative;">
+                                    <div class="input-group bg-gray-300">
+                                        <input type="number"
+                                               value="1"
+                                               class="form-control form-control-sm view_mode"
+                                               data-fieldname="company"
+                                               id="numberOfBatteries"
+                                               name="numberOfBatteries"
+                                               data-target="Company"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                     <td class="frappe-control ">
                         <label for="batteryPower" class="control-label reqd"
                                style="padding-right: 0px;">
@@ -626,9 +649,6 @@
                             </div>
                         </div>
                     </td>
-
-                    <td class="frappe-control"></td>
-                    <td></td>
                 </tr>
                 </tbody>
             </table>
