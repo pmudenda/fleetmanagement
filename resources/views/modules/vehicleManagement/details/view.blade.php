@@ -91,17 +91,16 @@
                                     <td class="pl-3">
                                         <table>
                                             <tr>
-                                               {{-- <td>Brand(Make) :</td>--}}
                                                 <td>
                                                     <div class="row">
-                                                        <input readonly
-                                                               class="form-control view_mode"
-                                                               name="brand"
-                                                               id="brand"/>
-                                                        <input class="form-control form-control-sm view_mode"
-                                                               required
-                                                               name="model"
-                                                               id="model"/>
+                                                        <h5><span readonly
+                                                                  class="form-control view_mode"
+                                                                  name="brand"
+                                                                  id="brand"/>
+                                                            <span class="form-control form-control-sm view_mode"
+                                                                  required
+                                                                  name="model"
+                                                                  id="model"/></h5>
                                                     </div>
                                                 </td>
                                             </tr>
