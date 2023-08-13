@@ -101,7 +101,7 @@
                             @endif
                             " style="border-radius: 2em;">
                             <span class="font-weight-bold">
-                                2. SUPERVISOR APPROVAL
+                                2. FIRST LEVEL APPROVAL
                             </span>
                                 <table class="table table-sm ">
                                     <tbody>
@@ -170,7 +170,7 @@
                             @endif"
                                      style="border-radius: 2em;">
                                 <span class="font-weight-bold">
-                                    3. MANAGER APPROVAL
+                                        3. SECOND LEVEL APPROVAL
                                 </span>
                                     <table class="table table-sm ">
                                         <tbody>
@@ -239,7 +239,7 @@
                             @endif"
                                      style="border-radius: 2em;">
                                 <span class="font-weight-bold">
-                                    4. SNR MGR APPROVAL
+                                    4. THIRD LEVEL APPROVAL
                                 </span>
 
                                     <table class="table table-sm ">
@@ -293,7 +293,7 @@
                             @endif"
                                      style="border-radius: 2em;">
                             <span class="font-weight-bold">
-                                5. DEPUTY DIRECTOR APPROVAL
+                                5. FOURTH LEVEL APPROVAL
                             </span>
                                     <table class="table table-sm ">
 
@@ -347,7 +347,7 @@
                             @endif"
                                      style="border-radius: 2em;">
                             <span class="font-weight-bold">
-                                5. DIRECTOR APPROVAL
+                                5. FIFTH LEVEL APPROVAL
                             </span>
                                     <table class="table table-sm ">
                                         <tbody>
@@ -398,7 +398,7 @@
                             @endif"
                                      style="border-radius: 2em;">
                             <span class="font-weight-bold">
-                                6. MANAGING DIRECTOR
+                                6. SIXTH LEVEL APPROVAL
                             </span>
                                     <table class="table table-sm ">
 
