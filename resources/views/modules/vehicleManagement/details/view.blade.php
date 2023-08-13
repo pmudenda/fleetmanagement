@@ -126,7 +126,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <span class="badge badge-success badge-circle"></span> active
+                                                        <span class="badge badge-success badge-circle" style="height: 5px;"></span> Active
                                                     </td>
                                                 </tr>
                                             </table>
