@@ -81,7 +81,7 @@
                           action="{{route('new.vehicle.header')}}">
                         <input type="hidden" name="doctype" value="VehicleHeader"/>
                         <div class="row">
-                            <table class="table-bordered">
+                            <table>
                                 <tr>
                                     <td style="vertical-align: baseline; width:15%;">
                                         <div v-if="images && images.frontView">
@@ -100,7 +100,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
+                                                    <td style="font-size: x-small;">
                                                         <span id="description" class="text-extra-muted" data-name="description"></span>
                                                         {{--<span class="text-bold" data-name="model" id="model"></span>--}}
                                                     </td>
