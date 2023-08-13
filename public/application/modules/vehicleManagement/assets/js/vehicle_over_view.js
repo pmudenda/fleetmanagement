@@ -302,132 +302,153 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     }
 
 
-    let fuelCost = asyncResponse['payload']['cost_by_year'];
-    console.log();
-    let totalCost = parseFloat('0');
-    let fuelDataset = [];
-    for (const fCost of fuelCost) {
-        totalCost += parseFloat(fCost.cost);
-        fuelDataset.push([fCost.year, fCost.cost]);
-    }
+    function displayFuelCostGraph() {
+        let fuelCost = asyncResponse['payload']['cost_by_year'];
 
-    let myChart = echarts.init(document.getElementById('main'))
-    const option = {
-        xAxis: {
-            data: ['Fuel']
-        },
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow',
-                label: {
-                    show: true,
-                },
-                formatter(params) {
-                    return params[0].data.name;
-                }
-            },
-            formatter(params) {
-                const value = params[0].data.value;
-                return accounting.formatMoney(value, 'ZMW ')
-            }
-        },
-        toolbox: {
-            show: true,
-            feature: {
-                mark: {show: true},
-                dataView: {show: true, readOnly: false},
-                magicType: {show: true, type: ['line', 'bar', 'stack']},
-                restore: {show: true},
-                saveAsImage: {show: true},
-            },
-        },
-        yAxis: {},
-        dataGroupId: '',
-        animationDurationUpdate: 500,
-        series: {
-            type: 'bar',
-            id: 'sales',
-            colorBy: 'data',
-            data: [
-                {
-                    value: totalCost,
-                    groupId: 'fuel'
-                }
-            ],
-            universalTransition: {
-                enabled: true,
-                divideShape: 'clone'
-            }
+        let totalCost = parseFloat('0');
+        let fuelDataset = [];
+        for (const fCost of fuelCost) {
+            totalCost += parseFloat(fCost.cost);
+            fuelDataset.push([fCost.year, fCost.cost]);
         }
-    };
-    myChart.setOption(option);
-    const drillDownData = [
-        {
-            dataGroupId: 'fuel',
-            data: fuelDataset
+
+        let sparesCost = asyncResponse['payload']['spares_cost_by_year'];
+
+        let sparesTotalCost = parseFloat('0');
+        let sparesDataset = [];
+        for (const spareCost of sparesCost) {
+            sparesTotalCost += parseFloat(spareCost.cost);
+            sparesDataset.push([spareCost.year, spareCost.cost]);
         }
-    ];
-    myChart.on('click', function (event) {
-        if (event.data) {
-            let subData = drillDownData.find(function (data) {
-                return data.dataGroupId === event.data.groupId;
-            });
-            if (!subData) {
-                return;
-            }
-            myChart.setOption({
-                xAxis: {
-                    data: subData.data.map(function (item) {
-                        return item[0];
-                    })
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow',
-                        label: {
-                            show: true,
-                        },
-                        formatter(params) {
-                             console.log('child shadow', params);
-                            return params[0].data.name;
-                        }
+
+        let myChart = echarts.init(document.getElementById('main'))
+        const option = {
+            xAxis: {
+                data: ['Fuel', 'Maintenance']
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow',
+                    label: {
+                        show: true,
                     },
                     formatter(params) {
-                        const value = params[0].data;
-                        return   accounting.formatMoney(value, 'ZMW ')
+                        return params[0].data.name;
                     }
                 },
-                series: {
-                    type: 'bar',
-                    id: 'sales',
-                    dataGroupId: subData.dataGroupId,
-                    data: subData.data.map(function (item) {
-                        return item[1];
-                    }),
-                    universalTransition: {
-                        enabled: true,
-                        divideShape: 'clone'
-                    }
+                formatter(params) {
+                    const value = params[0].data.value;
+                    return accounting.formatMoney(value, 'ZMW ')
+                }
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: false},
+                    magicType: {show: true, type: ['line', 'bar', 'stack']},
+                    restore: {show: true},
+                    saveAsImage: {show: true},
                 },
-                graphic: [
+            },
+            yAxis: {},
+            dataGroupId: '',
+            animationDurationUpdate: 500,
+            series: {
+                type: 'bar',
+                id: 'sales',
+                colorBy: 'data',
+                data: [
                     {
-                        type: 'text',
-                        left: 50,
-                        top: 20,
-                        style: {
-                            text: 'Back',
-                            fontSize: 18
-                        },
-                        onclick: function () {
-                            myChart.setOption(option);
-                        }
+                        value: totalCost,
+                        groupId: 'fuel'
+                    },
+                    {
+                        value: sparesTotalCost,
+                        groupId: 'spares'
                     }
-                ]
-            });
-        }
-    });
+                ],
+                universalTransition: {
+                    enabled: true,
+                    divideShape: 'clone'
+                }
+            }
+        };
+        myChart.setOption(option);
+        const drillDownData = [
+            {
+                dataGroupId: 'fuel',
+                data: fuelDataset
+            },
+            {
+                dataGroupId: 'spares',
+                data: sparesDataset
+            }
+        ];
+        myChart.on('click', function (event) {
+            if (event.data) {
+                let subData = drillDownData.find(function (data) {
+                    return data.dataGroupId === event.data.groupId;
+                });
+                if (!subData) {
+                    return;
+                }
+                myChart.setOption({
+                    xAxis: {
+                        data: subData.data.map(function (item) {
+                            return item[0];
+                        })
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow',
+                            label: {
+                                show: true,
+                            },
+                            formatter(params) {
+                                console.log('child shadow', params);
+                                return params[0].data.name;
+                            }
+                        },
+                        formatter(params) {
+                            const value = params[0].data;
+                            return accounting.formatMoney(value, 'ZMW ')
+                        }
+                    },
+                    series: {
+                        type: 'bar',
+                        id: 'sales',
+                        dataGroupId: subData.dataGroupId,
+                        data: subData.data.map(function (item) {
+                            return item[1];
+                        }),
+                        universalTransition: {
+                            enabled: true,
+                            divideShape: 'clone'
+                        }
+                    },
+                    graphic: [
+                        {
+                            type: 'text',
+                            left: 50,
+                            top: 20,
+                            style: {
+                                text: 'Back',
+                                fontSize: 18
+                            },
+                            onclick: function () {
+                                myChart.setOption(option);
+                            }
+                        }
+                    ]
+                });
+            }
+        });
+    }
+
+    displayFuelCostGraph();
 
 }
 
