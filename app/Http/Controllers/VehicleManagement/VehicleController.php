@@ -68,12 +68,14 @@ class VehicleController extends Controller
                 ->where('reg_no', '=', $vehicle->registration_number)
                 ->select(DB::raw('SUM(ttl) as cost,year'))
                 ->groupBy('year')
+                ->orderBy('year')
                 ->get();
 
             $spares_cost_by_year = DB::table('zfm_spare_cost')
                 ->where('reg_no', '=', $vehicle->registration_number)
                 ->select(DB::raw('SUM(value_amount) as cost, EXTRACT(YEAR FROM TO_DATE(document_date)) year'))
                 ->groupBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
+                ->orderBy(DB::raw('EXTRACT(YEAR FROM TO_DATE(document_date))'))
                 ->get();
 
             return response()->json([
@@ -187,11 +189,8 @@ class VehicleController extends Controller
             }
 
             //$vehicleImages = $this->vehicleDetailsService->getVehicleImages($vehicle->vehicle_header_id);
-
             //$accessories = $this->vehicleDetailsService->getSubmittedAccessories($vehicle->vehicle_header_id);
-
             //$article = $this->procurementService->getArticleByCode($vehicle->fuel_types);
-
 
             $vehicle_state = '';
 
