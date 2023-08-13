@@ -664,9 +664,13 @@
                     case 'vehOpeningReading':
                     case 'vehClosingReading':
                         let vehOpeningReading = $("input[name=vehOpeningReading]").val();
-                        let vehClosingReading = $("input[name=vehClosingReading]").val()
+                        let vehClosingReading = $("input[name=vehClosingReading]").val();
+                        if (!vehClosingReading) {
+                            return;
+                        }
+
                         let lineAmountTotal =
-                            tmsApp.getRawNumber(vehOpeningReading) - tmsApp.getRawNumber(vehClosingReading);
+                            tmsApp.getRawNumber(vehClosingReading) - tmsApp.getRawNumber(vehOpeningReading);
 
                         $('#vehDifference').val(lineAmountTotal);
                         break;
