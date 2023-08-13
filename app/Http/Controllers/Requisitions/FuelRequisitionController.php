@@ -14,6 +14,7 @@ use App\Http\Requests\OdometerValidationRequest;
 use App\Models\Common\File;
 use App\Models\Common\OrganizationalUnit;
 use App\Models\RequisitionType;
+use App\Models\Town;
 use App\Models\VehicleManagement\ChassisDetail;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Models\Workflow\WorkflowTaskHeader;
@@ -87,6 +88,7 @@ class FuelRequisitionController extends Controller
 
         $interCityDistanceService = new InterCityDistanceService();
         $cities = $interCityDistanceService->getInterCityDistanceArray();
+        $citiesFrom = Town::get();
 
         return view('modules.requisitions.fuel.create')
             ->with(
@@ -95,7 +97,8 @@ class FuelRequisitionController extends Controller
                     'requisitionTypes',
                     'organizationalUnit',
                     'daysToNextRefuel',
-                    'cities'
+                    'cities',
+                    'citiesFrom'
                 )
             );
     }

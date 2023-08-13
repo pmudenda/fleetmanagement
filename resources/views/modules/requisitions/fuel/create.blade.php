@@ -679,6 +679,7 @@
 @push('scripts')
     <script>
         window.citiesMap = {!! json_encode($cities) !!};
+        window.citiesFrom = {!! json_encode($citiesFrom) !!};
 
         $(document).on('select2:open', () => {
             document.querySelector('.select2-search__field').focus();
@@ -1011,7 +1012,7 @@
             })
 
             let selector = document.querySelector('#departureTown');
-            for (const [key, value] of Object.entries(window['citiesMap'])) {
+            for (const value of window['citiesFrom']) {
                 const option = document.createElement("option");
                 option.value = value['town_from'];
                 option.text = value['town_from'];
