@@ -327,6 +327,11 @@
                         </li>
                     </ul>
                     <hr/>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-block">
                     <div class="tab-content">
                         <div class="tab-pane active" id="overview" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5">
