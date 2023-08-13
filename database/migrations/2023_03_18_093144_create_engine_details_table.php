@@ -28,6 +28,7 @@ return new class extends Migration {
             $table->string('battery_brand', 100);
             $table->string('battery_size', 100);
             $table->string('battery_power', 100);
+            $table->integer('num_batteries');
 
             $table->string('front_tyre_size', 100);
             $table->string('number_of_tyres', 100);

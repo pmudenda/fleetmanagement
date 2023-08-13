@@ -266,6 +266,7 @@ class OnBoardingService
                 'transmission_type' => $request->input('transmission_type'),
                 'battery_brand' => $request->input('batteryBrand'),
                 'battery_size' => $request->input('batterySize'),
+                'num_batteries' => $request->input('numberOfBatteries'),
                 'battery_power' => $request->input('batteryPower'),
                 'front_tyre_size' => $request->input('frontTyreSize'),
                 'number_of_tyres' => $request->input('numberOfTyres'),

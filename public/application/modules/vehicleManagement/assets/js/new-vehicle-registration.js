@@ -184,6 +184,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['otherDetails'], 'batterySize', data['battery_size']);
 
     $('select[name="batterySize"]').attr('data-value', data['battery_size']);
+    $('input[name="numberOfBatteries"]').val( data['num_batteries']);
     $('select[name="batterySize"]').val(data['battery_size']).change();
 
 

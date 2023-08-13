@@ -21,6 +21,7 @@ class EngineDetail extends Model
         'fuel_allocation',
         'fuel_consumption',
         'fuel_types',
+        'num_batteries',
         'number_of_cylinders',
         'tank_capacity',
         'sub_tank_capacity',
