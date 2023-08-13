@@ -59,8 +59,16 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     if (data['has_tom_card'] === 'Y') {
         $('[data-name="tom_card"]').text('Tom Card');
     }
-    /*if (data['brand_guid']) {
 
+    if (data['barcode'] != null && data['barcode'] !== 'undefined') {
+        setInterval(function () {
+            $('#barcode').attr('src', '/storage/' + data['barcode']);
+        }, 300);
+
+        $('#barcodeContainer').removeClass('d-none');
+    }
+
+    /*if (data['brand_guid']) {
         $('select[name="brand"]').attr('data-value', data['brand_guid']);
         setTimeout(function () {
             $('select[name="brand"]').trigger('change');
@@ -312,11 +320,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         Vue.set(app['images'], 'rearView', window.filterData("Back View", 'file_type', documents));
         Vue.set(app['images'], 'frontView', window.filterData("Front View", 'file_type', documents));
         Vue.set(app['documents'], 'purchase_order', window.filterData("Purchase Order", 'file_type', documents));
-    }
-
-    if (data['barcode']) {
-        $('#barcode').attr('src', '/storage/' + data['barcode']);
-        $('#barcodeContainer').removeClass('d-none');
     }
 }
 

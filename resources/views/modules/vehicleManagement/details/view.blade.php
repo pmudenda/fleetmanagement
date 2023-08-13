@@ -46,22 +46,8 @@
                 <div id="card_header" class="card-header min-h-2px">
                     <div class="card-title">
                         <h2> Vehicle Details</h2>
-                        {{--<span v-if="!vehicleHeader.isHeaderSaved"
-                              class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
-                        <span v-else class="ml-2 indicator-pill whitespace-nowrap green">
-                            <span>
-                                @{{ vehicleHeader.on_boarding_status | formatStatus }}
-                            </span>
-                        </span>--}}
                     </div>
                     <div class="card-toolbar justify-content-end">
-                        {{--<span class="ml-2 indicator-pill whitespace-nowrap green">
-                            <span>
-                                @{{ vehicleHeader.on_boarding_status | formatStatus }}
-                            </span>
-                        </span>--}}
-
-
                         @if($vehicle && !$empty($vehicle->barcode))
                             <img id="barcode" alt="vehicle barcode" style="max-height: 40px;"
                                  src="/storage/{{$vehicle->barcode}}">
