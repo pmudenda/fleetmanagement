@@ -120,7 +120,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
-                <form name="documentAuditTrail" action="{{route('document.audit.trail')}}" >
+                <form name="documentAuditTrail" action="{{route('document.audit.trail')}}">
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div class="row mb-2">
@@ -391,6 +391,7 @@
         </div>
     </div>
 </div>
+<input type="hidden" name="gatePassUrl" id="gatePassUrl" value="{{URL::signedRoute("gate.pass")}}"/>
 
 <audio preload="auto" id="sound-email" volume=0.1>
     <source src="{{asset('assets/sounds/email.mp3')}}"/>
@@ -449,7 +450,8 @@
         const toastTrigger = document.getElementById('liveToastBtn')
         const toastLiveExample = document.getElementById('liveToast')
         if (toastTrigger) {
-            toastTrigger.addEventListener('click', () => {});
+            toastTrigger.addEventListener('click', () => {
+            });
         }
 
         tmsApp.toast = new bootstrap.Toast(toastLiveExample)
@@ -558,6 +560,7 @@
                     tmsApp.showErrorMessages(xhr, 'Document Follow-up')
                 });
             });
+
         /* $('.periodTo').datepicker({
              // maxDate: new Date(),
              dateFormat: 'dd/mm/yy',

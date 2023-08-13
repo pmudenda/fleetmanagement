@@ -67,6 +67,12 @@ name('barcode.generate');
 
 Route::post('logout', [HomeController::class, 'logout'])->name('logout');
 
+Route::post('gate/pass', function (Request $request) {
+
+})->name('gate.pass');
+
+
+
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/accident/report', [VehicleRecordingController::class, 'create'])->name('accident.reporting');
