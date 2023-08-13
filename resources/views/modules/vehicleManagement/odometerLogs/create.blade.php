@@ -642,8 +642,8 @@
 
                 $('tbody#vehicleDetails').html(row);
 
-                $('#businessArea').text(vehicle['business_unit_code'] + ' ' + vehicle['business_unit_name']);
-                $('#userUnit').text(vehicle['business_area_code'] + ' ' + vehicle['business_area_name']);
+                $('#businessArea').val(vehicle['business_unit_code'] + ' ' + vehicle['business_unit_name']);
+                $('#userUnit').val(vehicle['business_area_code'] + ' ' + vehicle['business_area_name']);
 
                 // enableWebUIControls();
                 /*if (images && images.length > 0) {
