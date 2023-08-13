@@ -73,10 +73,24 @@
                                                 <td>
                                                     <select name="machineryType"
                                                             class="form-select form-select-sm">
-                                                        <option selected value="VEHICLE">VEHICLE</option>
+                                                        <option selected value="MV">VEHICLE</option>
                                                         {{--<option value="PLANT EQUIPMENT">PLANT EQUIPMENT</option>
                                                         <option value="BOAT">BOAT</option>--}}
                                                     </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Business Area
+                                                </td>
+                                                <td><span id="businessArea"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    User Unit
+                                                </td>
+                                                <td>
+                                                    <span id="userUnit"></span>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -445,7 +459,7 @@
     <script>
         (function (tmsApp, $) {
 
-            //AutoNumeric.multiple('.odometer_entry > input');
+            // AutoNumeric.multiple('.odometer_entry > input');
             function addTableRow(tableId) {
                 function reinitializeSelect2($_defect_sel) {
                     if ($_defect_sel) {
@@ -467,7 +481,6 @@
                     dateFormat: 'dd/mm/yy',
                 });
             }
-
 
             $(document).on('keypress', '.ui_datepicker', () => {
                 return false;
@@ -492,7 +505,7 @@
                     addTableRow(tableId);
                 });
 
-            $("#submitDataBtn").on('click', function () {
+            $(document).on('click', "#submitDataBtn", function () {
                 let $form = document.forms['newOdometerLogForm'];
                 if (!$($form).valid()) {
                     return;
@@ -587,6 +600,56 @@
                 }, 300);
             });
 
+            function populateVehicleDetails(payload) {
+                let vehicle = payload['vehicle'];
+                let images = payload['images'];
+                let vehicle_state = payload['vehicle_state'];
+
+                if (!vehicle || !vehicle.brand_name) {
+                    return;
+                }
+
+                // BAD 1010
+                /*if (state !== 'InWorkshop') {
+                    if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
+                        tmsApp.showSystemMessage("Vehicle State",
+                            vehicle_state,
+                            () => {
+                            },
+                            "error");
+                        return;
+                    }
+                }*/
+
+                let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
+                $("#vehicle_description").val(vLabel);
+                let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
+                               <tr>
+                                    <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>
+                               </tr>
+                               <tr style="">
+                                     <th>Type</th><td id="registration">${vehicle['body_type_name']}</td>
+                                </tr>
+                                <tr style="">
+                                     <th>State:</th><td id="registration">${vehicle['status_name']}</td>
+                                </tr>`;
+
+                $('tbody#vehicleDetails').html(row);
+
+                $('#businessArea').text(vehicle['business_unit_code'] + ' ' + vehicle['business_unit_name']);
+                $('#userUnit').text(vehicle['business_area_code'] + ' ' + vehicle['business_area_name']);
+
+                // enableWebUIControls();
+                /*if (images && images.length > 0) {
+                    let frontViewImages = images.filter((image) => {
+                        return image['file_type'] === 'Front View';
+                    })
+                    let imagePath = frontViewImages[0]?.path;
+                    document.querySelector(".imagePreview").style.backgroundImage = "url(/storage" + imagePath + ")";
+                }*/
+
+            }
+
 
             function findVehicle() {
                 const numberPlate = document.querySelector('#vehicleRegistration').value
@@ -598,7 +661,8 @@
                     formData,
                     function (response_data) {
                         if (response_data.success === 'true' || response_data.success === true) {
-                            // populateVehicleDetails(response_data.payload, response_data['message']);
+                            populateVehicleDetails(response_data.payload);
+                            // registration_type
                         } else {
                             //removeSubmissionAndDetailsOptions();
                             let $message = response_data['message'] ? response_data['message'] : ' No Vehicle Found, Check your input and try again';
