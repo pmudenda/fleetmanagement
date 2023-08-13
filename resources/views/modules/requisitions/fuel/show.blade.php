@@ -218,7 +218,7 @@
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                        <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
                                                             <input type="text" class="form-control form-control-sm"
                                                                    readonly
                                                                    value="{{$requestDetails->project_name}}"/>
@@ -526,9 +526,9 @@
                                 <tr class="bg-dark">
                                     <th>Material Description</th>
                                     @if($requestDetails->cost_assigned_to !='CostCenter')
-                                        <th>Project Number</th>
+                                        <th style="width:10%;">Project Number</th>
                                     @endif
-                                    <th>Qty</th>
+                                    <th style="width:15%;">Quantity</th>
                                     <th>Unit Of Measure</th>
                                     <th>Price</th>
                                     <th>Amount(ZMW)</th>
