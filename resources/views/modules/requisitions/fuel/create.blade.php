@@ -968,6 +968,59 @@
                 }
             }
 
+            function loadTowns() {
+                let selector = document.querySelector('#departureTown');
+                for (const value of window['citiesFrom']) {
+                    const option = document.createElement("option");
+                    option.value = value['town_name'];
+                    option.text = value['town_name'];
+                    selector.add(option, null);
+                }
+            }
+
+            function reformatDate(date, format = "ISO") {
+
+                let data = '';
+                if (format === 'ISO') {
+                    let datePart = new Intl.DateTimeFormat('en-GB').format(date);// .toDateString().split(' ')[0];
+                    console.log(datePart);
+                    let dateParts = datePart.split('/');
+                    data = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+                }
+
+                return data
+
+            }
+
+            function setDistance() {
+                let departureVal = document.querySelector("[name='departureTown']").value;
+                let destination = document.querySelector('[name="destinationTown"]');
+                let destinationVal = destination.value;
+                if (!destinationVal) {
+                    return;
+                }
+                if (!departureVal) {
+                    return;
+                }
+
+                $("#one_way").text(departureVal + ' --> ' + destinationVal);
+                let distance = destination.selectedOptions[0].dataset['distance'];
+                let $coveredKilometerCtrl = document.querySelector('[name="covered_kilometers"]');
+
+                $("#one_way_distance").text(distance);
+                $coveredKilometerCtrl.value = (distance);
+                $($coveredKilometerCtrl).change();
+            }
+
+            function determineAppropriateEndDate() {
+                const startDate = document.getElementById("departure_date").value;
+                let date = new Date(startDate);
+                // Add 7 Days
+                let maxDate = reformatDate(date.setDate(date.getDate() + 7));
+                document.querySelector('[name="return_date"]').setAttribute('max', maxDate);
+            }
+
+
             $('#vehicle_registration').on('keyup paste enter', function () {
                 if (!this.value || this.value.replace('_', '').length < 8) {
                     return;
@@ -1011,13 +1064,7 @@
                 tmsApp.numberOnly(event);
             })
 
-            let selector = document.querySelector('#departureTown');
-            for (const value of window['citiesFrom']) {
-                const option = document.createElement("option");
-                option.value = value['town_name'];
-                option.text = value['town_name'];
-                selector.add(option, null);
-            }
+            loadTowns();
 
             $('.select2').select2({
                 theme: 'bootstrap4'
@@ -1301,47 +1348,6 @@
                 );
             });
 
-            function reformatDate(date, format = "ISO") {
-
-                let data = '';
-                if (format === 'ISO') {
-                    let datePart = new Intl.DateTimeFormat('en-GB').format(date);// .toDateString().split(' ')[0];
-                    console.log(datePart);
-                    let dateParts = datePart.split('/');
-                    data = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
-                }
-
-                return data
-
-            }
-
-            function setDistance() {
-                let departureVal = document.querySelector("[name='departureTown']").value;
-                let destination = document.querySelector('[name="destinationTown"]');
-                let destinationVal = destination.value;
-                if (!destinationVal) {
-                    return;
-                }
-                if (!departureVal) {
-                    return;
-                }
-
-                $("#one_way").text(departureVal + ' --> ' + destinationVal);
-                let distance = destination.selectedOptions[0].dataset['distance'];
-                let $coveredKilometerCtrl = document.querySelector('[name="covered_kilometers"]');
-
-                $("#one_way_distance").text(distance);
-                $coveredKilometerCtrl.value = (distance);
-                $($coveredKilometerCtrl).change();
-            }
-
-            function determineAppropriateEndDate() {
-                const startDate = document.getElementById("departure_date").value;
-                let date = new Date(startDate);
-                // Add 7 Days
-                let maxDate = reformatDate(date.setDate(date.getDate() + 7));
-                document.querySelector('[name="return_date"]').setAttribute('max', maxDate);
-            }
 
             $(document).on('click', '[data-action="open_picker"]', function () {
                 const picker = this.getAttribute('data-target');
@@ -1403,8 +1409,8 @@
                     const option = document.createElement("option");
                     //option.value = key;
                     //option.text = key;
-                    option.value = value['town_from'];
-                    option.text = value['town_from'];
+                    option.value = value['town_to'];
+                    option.text = value['town_to'];
                     option.dataset.distance = value['distance'];
                     selector.add(option, null);
                 }
