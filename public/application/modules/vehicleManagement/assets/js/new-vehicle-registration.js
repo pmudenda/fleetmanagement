@@ -305,10 +305,10 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         Vue.set(app['documents'], 'purchase_order', window.filterData("Purchase Order", 'file_type', documents));
     }
 
-    if (data['barcode']) {
+    /*if (data['barcode']) {
         $('#barcode').attr('src', '/storage/' + data['barcode']);
         $('#barcodeContainer').removeClass('d-none');
-    }
+    }*/
 }
 
 function formatBookValueAsMoney(el) {

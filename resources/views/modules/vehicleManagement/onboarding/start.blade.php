@@ -234,6 +234,7 @@
                 if ($('#registrationNumber').val()) {
                     if (!$('#qrcode').attr('title')) {
                         generateBarcode($('#registrationNumber').val());
+                        $('#barcodeContainer').removeClass('d-none');
                     }
                 }
             },600);
