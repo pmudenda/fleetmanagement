@@ -105,13 +105,10 @@
                                                         {{--<span class="text-bold" data-name="model" id="model"></span>--}}
                                                     </td>
                                                     <td>
-                                                        <input type="text"
-                                                               class="form-control"
-                                                               name="registrationNumber"
+                                                        <span
+                                                               data-name="registrationNumber"
                                                                id="registrationNumber"
-                                                               autocomplete="off"
-                                                               required
-                                                        />
+                                                        ></span>
                                                     </td>
                                                 </tr>
                                                 <tr>

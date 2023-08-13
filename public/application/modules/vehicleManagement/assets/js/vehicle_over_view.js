@@ -69,10 +69,8 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     Vue.set(app['vehicleHeader'], 'model_code', data['model_code']);
 
-    const $registrationNumberCtrl = document.querySelector('[name="registrationNumber"]');
-    if ($registrationNumberCtrl) {
-        $registrationNumberCtrl.value = data['registration_number'];
-    }
+    $('[data-name="registrationNumber"]').text(data['registration_number'])
+
     Vue.set(app['vehicleHeader'], 'on_boarding_status', data['on_boarding_status']);
     Vue.set(app['vehicleHeader'], 'body_type_guid', data['body_type_guid']);
 
