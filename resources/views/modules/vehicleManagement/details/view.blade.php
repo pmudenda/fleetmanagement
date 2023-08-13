@@ -1558,13 +1558,6 @@
                                                     </table>
                                                 </div>
                                             </fieldset>
-
-                                            {{--<div class="mt-5 create_mode">
-                                                <button type="submit" id="tms_save_engine"
-                                                        class="btn btn-success btn-sm">
-                                                    <i class="fas fa-paper-plane"></i> Save
-                                                </button>
-                                            </div>--}}
                                         </form>
                                     </div>
                                     <div class="col-6 row">
