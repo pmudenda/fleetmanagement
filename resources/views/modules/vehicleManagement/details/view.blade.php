@@ -101,7 +101,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <span id="bodyType" data-name="bodyType"></span>
+                                                        <span id="description" data-name="description"></span>
                                                         <span class="text-bold" data-name="model" id="model"></span>
                                                     </td>
                                                     <td>
