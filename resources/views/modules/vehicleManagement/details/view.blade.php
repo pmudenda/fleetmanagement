@@ -109,7 +109,11 @@
                                                 </td>
                                             </tr>
                                             <tr>
-
+                                                <td>
+                                                    <i class="fas fa-location-pin"></i>
+                                                    <span data-name="vehicleLocation"
+                                                          id="vehicleLocation"></span>
+                                                </td>
                                             </tr>
                                         </table>
                                         <div class="col-md-12">
@@ -209,7 +213,7 @@
                                             </div>
 
                                             <div class="col-6">
-                                                <div class="form-group row">
+                                                {{--<div class="form-group row">
                                                     <label for="registrationNumber"
                                                            class="fs-6 fw-semibold form-label col-md-3">
                                                         <span class="required">Registration #.</span>
@@ -222,20 +226,18 @@
                                                         </div>
                                                     </div>
                                                 </div>
+--}}
+                                                {{-- <div class="form-group row">
+                                                     <label for="vehicleLocation"
+                                                            class="fs-6 fw-semibold form-label col-md-3">
+                                                         <span class="required"></span>
+                                                     </label>
+                                                     <div class="col-md-9 fv-row">
+                                                         <div class="col-md-9">
 
-                                                <div class="form-group row">
-                                                    <label for="vehicleLocation"
-                                                           class="fs-6 fw-semibold form-label col-md-3">
-                                                        <span class="required"></span>
-                                                    </label>
-                                                    <div class="col-md-9 fv-row">
-                                                        <div class="col-md-9">
-                                                            <i class="fas fa-location-pin"></i>
-                                                            <span data-name="vehicleLocation"
-                                                                  id="vehicleLocation"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>--}}
 
                                                 {{--<div class="form-group row mt-10 d-none" id="barcodeContainer">
                                                     <label for="barcode" class="fs-6 fw-semibold form-label col-md-3">
