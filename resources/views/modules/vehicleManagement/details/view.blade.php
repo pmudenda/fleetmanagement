@@ -2488,10 +2488,10 @@
                                                                     <tr>
                                                                         <td class="pl-2"
                                                                             style="width: 35%;">{{$accessory->name}}</td>
-                                                                        <td><input type="radio" value="YES" required
+                                                                        <td><input type="radio" value="YES" required disabled
                                                                                    name="{{str_replace(' ','', $accessory->code)}}">
                                                                         </td>
-                                                                        <td><input type="radio" value="NO" required
+                                                                        <td><input type="radio" value="NO" required disabled
                                                                                    name="{{str_replace(' ','', $accessory->code)}}">
                                                                         </td>
                                                                         <td style="width: 45%;">
@@ -2523,10 +2523,10 @@
                                                                         <td class="pl-2" style="width: 35%;">
                                                                             {{$accessory->name}}
                                                                         </td>
-                                                                        <td><input type="radio" required value="YES"
+                                                                        <td><input type="radio" required value="YES" disabled
                                                                                    name="{{str_replace(' ','', $accessory->code)}}">
                                                                         </td>
-                                                                        <td><input type="radio" required value="NO"
+                                                                        <td><input type="radio" required value="NO" disabled
                                                                                    name="{{str_replace(' ','', $accessory->code)}}">
                                                                         </td>
                                                                         <td style="width: 45%;">
@@ -2939,6 +2939,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @push('scripts')
@@ -2975,12 +2976,13 @@
                     registrationNumber.setAttribute('disabled', 'disabled');
                     $('#vehicleRegistration').val(registrationNumber.value).attr('readonly', true);
                 }
+
             }, 600)
 
             let myChart = echarts.init(document.getElementById('main'))
             const option = {
                 xAxis: {
-                    data: ['Animals', 'Fruits', 'Cars']
+                    data: ['Fuel', 'Spares']
                 },
                 yAxis: {},
                 dataGroupId: '',

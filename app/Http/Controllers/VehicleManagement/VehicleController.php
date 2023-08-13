@@ -16,6 +16,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class VehicleController extends Controller
@@ -63,11 +64,18 @@ class VehicleController extends Controller
 
             $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$ref)->get();
 
+            $cost_by_year = DB::table('zfm_fuel_cost')
+                ->select(DB::raw('SUM(ttl) as cost,fuel_type'))
+                ->where('')
+                ->groupBy('fuel_type')
+                ->get();
+
             return response()->json([
                 'payload' => [
                     'vehicle' => $vehicle,
                     'documents' => $vehicleDocuments,
-                    'enteredAccessories' => $enteredAccessories
+                    'enteredAccessories' => $enteredAccessories,
+                    'cost_by_year'=> $cost_by_year
                 ],
                 'success' => !empty($vehicle),
                 'message' => !empty($vehicle) ? 'Vehicle Details retrieved successfully'
