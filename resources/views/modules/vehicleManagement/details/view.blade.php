@@ -80,7 +80,7 @@
                           action="{{route('new.vehicle.header')}}">
                         <input type="hidden" name="doctype" value="VehicleHeader"/>
                         <div class="row">
-                            <table>
+                            <table class="table-bordered">
                                 <tr>
                                     <td style="vertical-align: baseline; width:15%;">
                                         <div v-if="images && images.frontView">
@@ -93,13 +93,9 @@
                                             <tr>
                                                 <td>
                                                     <div class="row">
-                                                        <h5><span readonly
-                                                                  class="form-control view_mode"
-                                                                  name="brand"
+                                                        <h5><span data-name="brand"
                                                                   id="brand"/>
-                                                            <span class="form-control form-control-sm view_mode"
-                                                                  required
-                                                                  name="model"
+                                                            <span data-name="model"
                                                                   id="model"/></h5>
                                                     </div>
                                                 </td>
@@ -230,19 +226,15 @@
                                                     <label for="vehicleLocation"
                                                            class="fs-6 fw-semibold form-label col-md-3">
                                                         <span class="required">
-                                                            <i class="fas fa-location"></i>
+
                                                         </span>
                                                     </label>
                                                     <div class="col-md-9 fv-row">
                                                         <div class="col-md-9">
-                                                            <input
-                                                                required
-                                                                class="form-control"
-                                                                name="vehicleLocation"
-                                                                autocomplete="off"
-                                                                id="vehicleLocation"/>
-                                                            <div
-                                                                class="fv-plugins-message-container invalid-feedback"></div>
+                                                            <i class="fas fa-location-pin"></i>
+                                                            <span
+                                                                data-name="vehicleLocation"
+                                                                id="vehicleLocation"></span>
                                                         </div>
                                                     </div>
                                                 </div>
