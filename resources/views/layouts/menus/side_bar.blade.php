@@ -38,12 +38,6 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 {{-- @canany([config('rights.view_meter_entries'), config('rights.add_meter_entries')])--}}
-                <li class="nav-item">
-                    <a href="{{ URL::signedRoute('new.fleet.movement') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Fleet Movement Entry</p>
-                    </a>
-                </li>
                 {{-- @endcanany--}}
                 @php
                     $vehicleManagementPermissions = [
@@ -81,34 +75,12 @@
                                 </li>
                             @endcanany
 
-                            @can('CleanUpData')
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-circle"></i>
-                                        <p>
-                                            Data Clean Up
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview pl-3">
-                                        <li class="nav-item">
-                                            <a href="{{URL::signedRoute('vehicle.data.cleanup')}}" class="nav-link">
-                                                <i class="fas fa-circle nav-icon"></i>
-                                                <p>
-                                                    By Vehicle Reg.
-                                                </p>
-                                            </a>
-
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="{{ URL::signedRoute('vehicle.migration.list') }}" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>By User Unit</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            @endcan
+                            <li class="nav-item">
+                                <a href="{{ URL::signedRoute('new.fleet.movement') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Fleet Movement Entry</p>
+                                </a>
+                            </li>
 
                             <li class="nav-item d-none">
                                 <a href="#" class="nav-link">

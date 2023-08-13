@@ -48,6 +48,7 @@
                         <h2>Vehicle Details</h2>
                     </div>
                     <div class="card-toolbar justify-content-end">
+                        <div id="qrcode"></div>
                         @if($vehicle && !$empty($vehicle->barcode))
                             <img id="barcode" alt="vehicle barcode" style="max-height: 40px;"
                                  src="/storage/{{$vehicle->barcode}}">
@@ -1628,7 +1629,7 @@
                                 <legend style="width: inherit;">
                                     <h4 class="pt-2">Dimensions</h4>
                                 </legend>
-                                <div id="tms_body_weight_form"
+                                <div id="tms_body_weight_form" style="background-color: #fff;"
                                      class="form fv-plugins-bootstrap5 fv-plugins-framework"
                                      data-action="{{route('vehicle.body.detail')}}">
                                     <input type="hidden" name="doctype" value="BodyDetails"/>
@@ -2952,7 +2953,18 @@
         window.reference = `{!! $reference !!}`;
         window.vehicle = `{!! $vehicle !!}`;
     </script>
-
+    <script type="text/javascript">
+        function generateBarcode(data) {
+            let qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: data,
+                width: 128,
+                height: 128,
+                colorDark: "#5868bf",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+    </script>
     <script type="text/javascript" src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
     <script type="text/javascript" src="{{asset('libs/handsontable/handsontable.full.min.js')}}"></script>
 

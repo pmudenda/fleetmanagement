@@ -434,6 +434,10 @@
                             </th>
 
                             <th>
+                                Has Tom Card
+                            </th>
+
+                            <th>
                                 Actions
                             </th>
                         </tr>
@@ -529,6 +533,18 @@
 
                                 <td>
                                     {{$vehicle->created_at }}
+                                </td>
+
+                                <td>
+                                    @if($vehicle->on_boarding_status == '030')
+                                        <div class="badge badge-success">
+                                            YES
+                                        </div>
+                                    @else
+                                        <div class="badge badge-danger">
+                                            No
+                                        </div>
+                                    @endif
                                 </td>
 
                                 <td class="text-start">

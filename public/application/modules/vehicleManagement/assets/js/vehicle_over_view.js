@@ -72,6 +72,8 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     $('[data-name="registrationNumber"]').text(data['registration_number'])
 
+    generateBarcode(window.encodeURI($('[name="gatePassUrl"]').val()+'?ref=' + data['registration_number']));
+
     Vue.set(app['vehicleHeader'], 'on_boarding_status', data['on_boarding_status']);
     Vue.set(app['vehicleHeader'], 'body_type_guid', data['body_type_guid']);
 
