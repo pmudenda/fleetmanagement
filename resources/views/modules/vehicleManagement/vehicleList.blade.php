@@ -536,7 +536,7 @@
                                 </td>
 
                                 <td>
-                                    @if($vehicle->on_boarding_status == '030')
+                                    @if($vehicle->has_tom_card == '030')
                                         <div class="badge badge-success">
                                             YES
                                         </div>
