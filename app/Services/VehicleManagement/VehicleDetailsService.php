@@ -37,6 +37,11 @@ class VehicleDetailsService
         }
     }
 
+    public static function getVehicleByReg(mixed $ref)
+    {
+        return (new VehicleDetailsService)->getBasicVehicleDetails($ref);
+    }
+
     public function getVehicleDetails($ref): object|null
     {
         try {
@@ -62,7 +67,7 @@ class VehicleDetailsService
                     'VM_COST_AND_VALUATIONS.*',
                     'VM_BODY_AND_WEIGHT_DETAILS.id as weightDetailsId',
                     'VM_BODY_AND_WEIGHT_DETAILS.*'
-            )->get();
+                )->get();
 
             return $results->first();
         } catch (\Exception $e) {

@@ -57,7 +57,10 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     $('[data-name="vehicleLocation"]').text(data['location_name']);
 
     if (data['has_tom_card'] === 'Y') {
+        $('#tom_cardRow').removeClass('d-none');
         $('[data-name="tom_card"]').text('Tom Card');
+    } else {
+        $('#tom_cardRow').addClass('d-none');
     }
 
     if (data['barcode'] != null && data['barcode'] !== 'undefined') {
@@ -72,7 +75,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     $('[data-name="registrationNumber"]').text(data['registration_number'])
 
-    generateBarcode(window.encodeURI($('[name="gatePassUrl"]').val()+'?ref=' + data['registration_number']));
+    generateBarcode(window.encodeURI($('[name="gatePassUrl"]').val() + '?ref=' + data['registration_number']));
 
     Vue.set(app['vehicleHeader'], 'on_boarding_status', data['on_boarding_status']);
     Vue.set(app['vehicleHeader'], 'body_type_guid', data['body_type_guid']);

@@ -18,6 +18,7 @@ use App\Http\Controllers\Security\RolesController;
 use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkshopManagement\MaintenanceController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
+use App\Services\VehicleManagement\VehicleDetailsService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -68,9 +69,15 @@ name('barcode.generate');
 Route::post('logout', [HomeController::class, 'logout'])->name('logout');
 
 Route::get('gate/pass', function (Request $request) {
+    if (!$request->has('ref')) {
+        return redirect(route('home'));
+    }
+
+    $vehicle = VehicleDetailsService::getVehicleByReg($request->get('ref'));
+    return view('dashboard.pass')
+        ->with(compact('vehicle'));
 
 })->name('gate.pass');
-
 
 
 Route::group(['middleware' => 'auth'], function () {

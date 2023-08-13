@@ -48,7 +48,6 @@
                         <h2>Vehicle Details</h2>
                     </div>
                     <div class="card-toolbar justify-content-end">
-                        <div id="qrcode"></div>
                         @if($vehicle && !$empty($vehicle->barcode))
                             <img id="barcode" alt="vehicle barcode" style="max-height: 40px;"
                                  src="/storage/{{$vehicle->barcode}}">
@@ -101,7 +100,7 @@
                                                         <span data-name="vehicleLocation" style="font-size: smaller"
                                                               id="vehicleLocation"></span>
                                                     </td>
-                                                    <td class="pl-2">
+                                                    <td class="pl-2" id="tom_cardRow">
                                                         <i class="fa fa-credit-card-alt"
                                                            style="font-size: 18px; color: red;"></i>
                                                         <span data-name="tom_card">Tom Card</span>
@@ -257,7 +256,7 @@
                                     </td>
                                     <td>
                                         <div class="col-4">
-
+                                            <div id="qrcode"></div>
                                         </div>
                                         <div class="col-8">
 
