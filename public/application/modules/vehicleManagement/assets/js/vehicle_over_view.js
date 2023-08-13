@@ -43,10 +43,10 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['vehicleHeader'], 'brand_guid', data['brand_guid']);
 
     let description = data['body_type_name']
-        + ' : '+ data['year_of_manufacture']
-        + ' '+ data['model_name']
-        + ' '+ data['model_code']
-        + '. ' +data['chassis_number'];
+        + ' : ' + data['year_of_manufacture']
+        + ' ' + data['model_name']
+        + ' ' + data['model_code']
+        + '. ' + data['chassis_number'];
 
     $('[data-name="model"]').text(data['model_name']);
     $('[data-name="brand"]').text(data['brand_name']);
@@ -300,6 +300,105 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         Vue.set(app['images'], 'frontView', window.filterData("Front View", 'file_type', documents));
         Vue.set(app['documents'], 'purchase_order', window.filterData("Purchase Order", 'file_type', documents));
     }
+
+
+    let fuelCost = asyncResponse['payload']['cost_by_year'];
+    console.log(fuelCost);
+    let myChart = echarts.init(document.getElementById('main'))
+    const option = {
+        xAxis: {
+            data: ['Fuel']
+        },
+        yAxis: {},
+        dataGroupId: '',
+        animationDurationUpdate: 500,
+        series: {
+            type: 'bar',
+            id: 'sales',
+            data: [
+                {
+                    value: 5,
+                    groupId: 'fuel'
+                }
+            ],
+            universalTransition: {
+                enabled: true,
+                divideShape: 'clone'
+            }
+        }
+    };
+    myChart.setOption(option);
+    const drilldownData = [
+        {
+            dataGroupId: 'animals',
+            data: [
+                ['Cats', 4],
+                ['Dogs', 2],
+                ['Cows', 1],
+                ['Sheep', 2],
+                ['Pigs', 1]
+            ]
+        },
+        {
+            dataGroupId: 'fruits',
+            data: [
+                ['Apples', 4],
+                ['Oranges', 2]
+            ]
+        },
+        {
+            dataGroupId: 'cars',
+            data: [
+                ['Toyota', 4],
+                ['Opel', 2],
+                ['Volkswagen', 2]
+            ]
+        }
+    ];
+    /*myChart.on('click', function (event) {
+        if (event.data) {
+            var subData = drilldownData.find(function (data) {
+                return data.dataGroupId === event.data.groupId;
+            });
+            if (!subData) {
+                return;
+            }
+            myChart.setOption({
+                xAxis: {
+                    data: subData.data.map(function (item) {
+                        return item[0];
+                    })
+                },
+                series: {
+                    type: 'bar',
+                    id: 'sales',
+                    dataGroupId: subData.dataGroupId,
+                    data: subData.data.map(function (item) {
+                        return item[1];
+                    }),
+                    universalTransition: {
+                        enabled: true,
+                        divideShape: 'clone'
+                    }
+                },
+                graphic: [
+                    {
+                        type: 'text',
+                        left: 50,
+                        top: 20,
+                        style: {
+                            text: 'Back',
+                            fontSize: 18
+                        },
+                        onclick: function () {
+                            myChart.setOption(option);
+                        }
+                    }
+                ]
+            });
+        }
+    });*/
+
 }
 
 function formatBookValueAsMoney(el) {
