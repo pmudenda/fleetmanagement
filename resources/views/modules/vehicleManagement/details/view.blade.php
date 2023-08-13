@@ -52,10 +52,10 @@
                             <img id="barcode" alt="vehicle barcode" style="max-height: 40px;"
                                  src="/storage/{{$vehicle->barcode}}">
                         @endif
-                        {{--<button type="button" data-bs-target="#vehicleDisk" data-bs-toggle="modal"
+                        <button type="button" data-bs-target="#vehicleDisk" data-bs-toggle="modal"
                                 class="btn btn-default btn-sm mr-3">
                             <i class="fas fa-print"></i> Print Disk
-                        </button>--}}
+                        </button>
                     </div>
                 </div>
 
@@ -270,11 +270,11 @@
                         role="tablist">
 
                         <li class="nav-item" style="list-style: none; display: none;">
-                            <a class="nav-link" data-toggle="tab" href="#overview" role="tab">Overview</a>
+                            <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
                         </li>
 
                         <li class="nav-item" style="list-style: none;">
-                            <a class="nav-link active" data-toggle="tab" href="#specs" role="tab">Specs</a>
+                            <a class="nav-link " data-toggle="tab" href="#specs" role="tab">Specs</a>
                         </li>
 
                         <li class="nav-item" style="list-style: none;">
@@ -328,13 +328,14 @@
                     </ul>
                     <hr/>
                     <div class="tab-content">
-                        <div class="tab-pane" id="overview" role="tabpanel">
+                        <div class="tab-pane active" id="overview" role="tabpanel">
                             <div class="container-fluid pl-0 mt-5">
                                 Overview
+
                             </div>
                         </div>
 
-                        <div class="tab-pane active" id="specs" role="tabpanel">
+                        <div class="tab-pane" id="specs" role="tabpanel">
                             <div
                                 id="tms_chassis_details_form"
                                 name="tmsChassisDetailsForm"
@@ -844,9 +845,9 @@
                                                     </tr>
                                                     </thead>
                                                     <tr>
-                                                        <td>Motor Vehicle Certificate</td>
+                                                        <td class="pl-3">Motor Vehicle Certificate</td>
                                                         {{-- <td>@{{ documents.certificate?.originalDocumentName }}</td>--}}
-                                                        <td>
+                                                        <td class="pl-3">
                                                             <button data-zfm-view-file="certificate"
                                                                     type="button"
                                                                     :data-document-url="'/storage'+documents.certificate?.path"
@@ -857,9 +858,9 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Insurance Cover Note</td>
+                                                        <td class="pl-3">Insurance Cover Note</td>
                                                         {{-- <td>@{{ documents.insurance?.originalDocumentName }}</td>--}}
-                                                        <td>
+                                                        <td class="pl-3">
                                                             <button data-zfm-view-file="insurance"
                                                                     type="button"
                                                                     :data-document-url="'/storage'+documents.insurance?.path"
@@ -2880,7 +2881,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center" id="diskArea">
-                    <img class="img-fluid" src="{{asset('assets/dist/img/disk.jpeg')}}"/>
+                    <img class="img-fluid" src="{{asset('assets/dist/img/disc.jpg')}}"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="print" class="btn btn-primary btn-sm">

@@ -185,7 +185,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center" id="diskArea">
-                    <img class="img-fluid" src="{{asset('assets/dist/img/disk.jpeg')}}" />
+                    <img class="img-fluid" src="{{asset('assets/dist/img/disc.jpg')}}" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="print" class="btn btn-primary btn-sm">

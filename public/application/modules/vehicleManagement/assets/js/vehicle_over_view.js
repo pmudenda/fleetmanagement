@@ -68,13 +68,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         $('#barcodeContainer').removeClass('d-none');
     }
 
-    /*if (data['brand_guid']) {
-        $('select[name="brand"]').attr('data-value', data['brand_guid']);
-        setTimeout(function () {
-            $('select[name="brand"]').trigger('change');
-        }, 600);
-    }*/
-
     Vue.set(app['vehicleHeader'], 'model_code', data['model_code']);
 
     $('[data-name="registrationNumber"]').text(data['registration_number'])
@@ -82,24 +75,11 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['vehicleHeader'], 'on_boarding_status', data['on_boarding_status']);
     Vue.set(app['vehicleHeader'], 'body_type_guid', data['body_type_guid']);
 
-    /*if (data['body_type_guid']) {
-
-        $('select[name="bodyType"]').attr('data-value', parseInt(data['body_type_guid']));
-        setTimeout(function () {
-            $('select[name="bodyType"]').trigger('change');
-        }, 600);
-    }*/
-
     if (data['business_unit_code']) {
         $('select[name="user_unit"]').val(data['business_unit_code']);
         $('select[name="user_unit"]').attr('data-value', data['business_unit_code']);
         userUnitChanged();
     }
-
-    /* if (data['location_name']) {
-
-         $('select[name="vehicleLocation"]').attr('data-value', data['location_name']);
-     }*/
 
     setTimeout(function () {
         $('select[name="vehicleLocation"]').trigger('change');
@@ -115,7 +95,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     $('input[name="engineNumber"]').val(data['engine_number']);
     Vue.set(app['chassisDetails'], 'whiteBookSerial', data['white_book_serial']);
     $('input[name="whiteBookSerial"]').val(data['white_book_serial']);
-
 
     Vue.set(app['chassisDetails'], 'stickerRegistrationNumber', data['sticker_registration_number']);
     Vue.set(app['chassisDetails'], 'yearOfManufacture', data['year_of_manufacture']);
