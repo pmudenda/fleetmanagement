@@ -342,20 +342,19 @@
                                                 <div class="card-title">
                                                     <h2>Cost Of Ownership</h2>
                                                 </div>
-                                                {{-- <div class="card-toolbar justify-content-end">
-                                                     <button class="btn btn-link" type="button">Filter</button>
-                                                 </div>--}}
                                             </div>
                                             <div class="card-body px-0 py-0">
                                                 <div class="card">
-                                                    <div class="card-header">
+                                                    <div class="card-header pl-0">
                                                         <div class="card-title">
                                                             Total Costs
                                                         </div>
                                                     </div>
-                                                    <span id="totalOwnershipCosts"></span>
+                                                    <div class="card-body px-0 py-0">
+                                                        <span id="totalOwnershipCosts"></span>
+                                                    </div>
                                                 </div>
-                                                <div id="main" style="height:400px;"></div>
+                                                <div id="main" style="height:300px;"></div>
                                             </div>
                                         </div>
                                     </div>
