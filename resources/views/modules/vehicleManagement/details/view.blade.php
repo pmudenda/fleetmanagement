@@ -100,7 +100,7 @@
                                                         <span data-name="vehicleLocation" style="font-size: smaller"
                                                               id="vehicleLocation"></span>
                                                     </td>
-                                                    <td class="pl-2" id="tom_cardRow">
+                                                    <td class="pl-2 d-none" id="tom_cardRow">
                                                         <i class="fa fa-credit-card-alt"
                                                            style="font-size: 18px; color: red;"></i>
                                                         <span data-name="tom_card">Tom Card</span>

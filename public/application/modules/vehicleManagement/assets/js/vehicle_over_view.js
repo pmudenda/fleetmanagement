@@ -61,6 +61,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         $('[data-name="tom_card"]').text('Tom Card');
     } else {
         $('#tom_cardRow').addClass('d-none');
+        $('[data-name="tom_card"]').text('');
     }
 
     if (data['barcode'] != null && data['barcode'] !== 'undefined') {
