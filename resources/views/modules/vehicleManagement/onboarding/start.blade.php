@@ -230,9 +230,13 @@
         src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
     <script>
         $(document).ready(function () {
-            if ($('#registrationNumber').val()) {
-                generateBarcode(data['registration_number']);
-            }
+            setInterval(function () {
+                if ($('#registrationNumber').val()) {
+                    if (!$('#qrcode').attr('title')) {
+                        generateBarcode(data['registration_number']);
+                    }
+                }
+            });
         });
 
     </script>

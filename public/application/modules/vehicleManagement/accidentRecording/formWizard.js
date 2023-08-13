@@ -1,9 +1,5 @@
 function initializeFormWizard() {
     let formWizard = $('#my-form');
-    // formWizard.on("click", function (e) {
-    //     e.stopPropagation();
-    //     $(this).remove();
-
     let form = formWizard.show();
 
     form.steps({
@@ -143,8 +139,6 @@ function initializeFormWizard() {
             }
         }
     });
-    //});
-    // })
 }
 
 
@@ -153,30 +147,6 @@ $(function () {
 });
 
 $(document).ready(function () {
-
-    $('.actions li a').addClass('btn btn-success')
-    $(".steps ul").addClass("d-flex justify-content-center")
-    $(".actions ul").addClass("d-flex justify-content-end")
-
-
-    // Registration No
-    // $('#vehicleQuery').click(function () {
-    //     let regValue = document.getElementById("registrationNo").value
-    //     $.ajax({
-    //         url: '/vehicledetails/' + regValue,
-    //         type: "GET",
-    //         dataType: 'json',
-    //         success: function (response) {
-    //
-    //
-    //
-    //         },
-    //         error: function (xhr, status, error) {
-    //
-    //         }
-    //
-    //     })
-    // })
 
     $("#vehicleClear").click(function () {
 
@@ -216,7 +186,7 @@ $(document).ready(function () {
                     vehicleMake.value = vehicleData.vehicleMake
                     chassisNo.value = vehicleData.chassisNo
                 } else {
-                    launchErrorModal(response.message, "errorDisplay")
+
                 }
 
             },
@@ -289,85 +259,5 @@ $(document).ready(function () {
             }
         });
     });
-
-
-    // $("#staffClear").click(function () {
-    //
-    //     let driverName = document.getElementById("driverName")
-    //     let driverEmail = document.getElementById("driverEmail")
-    //     let driverAge = document.getElementById("driverAge")
-    //     let driverPosition = document.getElementById("driverPosition")
-    //     let phoneNo = document.getElementById("phoneNo")
-    //
-    //     driverName.removeAttribute("disabled")
-    //     driverEmail.removeAttribute("disabled")
-    //     driverAge.removeAttribute("disabled")
-    //     driverPosition.removeAttribute("disabled")
-    //     phoneNo.removeAttribute("disabled")
-    //
-    //
-    //     driverName.value = ""
-    //     driverEmail.value = ""
-    //     driverAge.value = ""
-    //     driverPosition.value = ""
-    //     phoneNo.value = ""
-    // })
-
-
-
-    // Need to create a post request for the data ---> ended here
-    //
-    // Submit form
-    //
-    // $('#my-form').on('submit', function (e) {
-    //     e.preventDefault()
-    //     e.stopPropagation()
-    //
-    //
-    //     let formData = {
-    //         driverName: document.getElementById("driverName"),
-    //         driverEmail: document.getElementById("driverEmail"),
-    //         age: document.getElementById("driverAge"),
-    //         driverPosition: document.getElementById("driverPosition"),
-    //         phoneNo: document.getElementById("phoneNo"),
-    //         vehicleModel: document.getElementById("modelNo"),
-    //         vehicleMake: document.getElementById("vehicleMake"),
-    //         chassisNo: document.getElementById("chassisNo"),
-    //         accidentType: document.getElementById("accidentType"),
-    //         accidentNature: document.getElementById("accidentNature"),
-    //         peopleInvolved: document.getElementById("peopleInvolved"),
-    //         date: document.getElementById("date"),
-    //         time: document.getElementById("time"),
-    //         description: document.getElementById("description"),
-    //         policeNotified: document.getElementById("policeNotified")
-    //     }
-    //
-    //     console.log(document.getElementById("saveRecord").getAttribute())
-    //     $.ajax({
-    //         url: document.getElementById("saveRecord").getAttribute(),
-    //         type: 'POST',
-    //         data: formData,
-    //         headers: {
-    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //         },
-    //         success: function (response) {
-    //             console.log(response)
-    //
-    //             if (response.status === 'success') {
-    //                 console.log(response)
-    //                 launchErrorModal(response.message, "errorDisplay")
-    //             } else {
-    //                 launchErrorModal(response.message, "errorDisplay")
-    //             }
-    //
-    //         },
-    //         error: function () {
-    //
-    //         },
-    //
-    //     })
-    //
-    // })
-
 
 })
