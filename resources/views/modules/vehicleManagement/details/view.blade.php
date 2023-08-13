@@ -347,7 +347,7 @@
                                                 <div class="card">
                                                     <div class="card-header pl-0 view_mode px-0 py-0">
                                                         <div class="card-title pl-3">
-                                                            Total Costs <small>Fuel + Maintenance</small>
+                                                            Total Costs <small class="pl-2">Fuel + Maintenance</small>
                                                             <span style="font-weight: bold;" class="ml-3"
                                                                   id="totalOwnershipCosts"></span>
                                                         </div>
