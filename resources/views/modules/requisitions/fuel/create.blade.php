@@ -1014,8 +1014,8 @@
             let selector = document.querySelector('#departureTown');
             for (const value of window['citiesFrom']) {
                 const option = document.createElement("option");
-                option.value = value['town_from'];
-                option.text = value['town_from'];
+                option.value = value['town_name'];
+                option.text = value['town_name'];
                 selector.add(option, null);
             }
 
