@@ -329,7 +329,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
             },
             formatter(params) {
                 const value = params[0].data.value;
-                return 'ZMW: ' + accounting.formatMoney(value)
+                return accounting.formatMoney(value, 'ZMW ')
             }
         },
         toolbox: {
