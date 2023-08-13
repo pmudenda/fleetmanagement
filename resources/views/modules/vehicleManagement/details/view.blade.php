@@ -269,7 +269,7 @@
                     <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x border-transparent"
                         role="tablist">
 
-                        <li class="nav-item" style="list-style: none; display: none;">
+                        <li class="nav-item" style="list-style: none;">
                             <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
                         </li>
 
