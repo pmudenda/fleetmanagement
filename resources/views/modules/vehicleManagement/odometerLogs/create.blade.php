@@ -81,7 +81,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <label class="app-field-label">
+                                                    <label class="app-field-label field-required">
                                                         Business Area
                                                     </label>
                                                 </td>
@@ -92,7 +92,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <label class="app-field-label">
+                                                    <label class="app-field-label field-required">
                                                         User Unit
                                                     </label>
                                                 </td>
