@@ -342,9 +342,9 @@
                                                 <div class="card-title">
                                                     <h2>Cost Of Ownership</h2>
                                                 </div>
-                                               {{-- <div class="card-toolbar justify-content-end">
-                                                    <button class="btn btn-link" type="button">Filter</button>
-                                                </div>--}}
+                                                {{-- <div class="card-toolbar justify-content-end">
+                                                     <button class="btn btn-link" type="button">Filter</button>
+                                                 </div>--}}
                                             </div>
                                             <div class="card-body px-0 py-0">
                                                 <div id="main" style="height:400px;"></div>
@@ -1411,12 +1411,12 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <div>
-                                                                                <select type="text"
-                                                                                        class="input-with-feedback form-control bold tyre-size view_mode"
-                                                                                        required
-                                                                                        id="frontTyreSize"
-                                                                                        name="frontTyreSize"
-                                                                                        autocomplete="off"></select>
+                                                                                <input type="text"
+                                                                                       class="input-with-feedback form-control bold tyre-size view_mode"
+                                                                                       required
+                                                                                       id="frontTyreSize"
+                                                                                       name="frontTyreSize"
+                                                                                       autocomplete="off"/>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1437,12 +1437,12 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <div>
-                                                                                <select type="text"
-                                                                                        class="input-with-feedback form-control bold tyre-size view_mode"
-                                                                                        name="rearTyreSize"
-                                                                                        id="rearTyreSize"
-                                                                                        data-doctype="Work Order"
-                                                                                        autocomplete="off"></select>
+                                                                                <input type="text"
+                                                                                       class="input-with-feedback form-control bold tyre-size view_mode"
+                                                                                       name="rearTyreSize"
+                                                                                       id="rearTyreSize"
+                                                                                       data-doctype="Work Order"
+                                                                                       autocomplete="off"/>
                                                                             </div>
 
                                                                         </div>
@@ -2488,10 +2488,12 @@
                                                                     <tr>
                                                                         <td class="pl-2"
                                                                             style="width: 35%;">{{$accessory->name}}</td>
-                                                                        <td><input type="radio" value="YES" required disabled
+                                                                        <td><input type="radio" value="YES" required
+                                                                                   disabled
                                                                                    name="{{str_replace(' ','', $accessory->code)}}">
                                                                         </td>
-                                                                        <td><input type="radio" value="NO" required disabled
+                                                                        <td><input type="radio" value="NO" required
+                                                                                   disabled
                                                                                    name="{{str_replace(' ','', $accessory->code)}}">
                                                                         </td>
                                                                         <td style="width: 45%;">
@@ -2523,10 +2525,12 @@
                                                                         <td class="pl-2" style="width: 35%;">
                                                                             {{$accessory->name}}
                                                                         </td>
-                                                                        <td><input type="radio" required value="YES" disabled
+                                                                        <td><input type="radio" required value="YES"
+                                                                                   disabled
                                                                                    name="{{str_replace(' ','', $accessory->code)}}">
                                                                         </td>
-                                                                        <td><input type="radio" required value="NO" disabled
+                                                                        <td><input type="radio" required value="NO"
+                                                                                   disabled
                                                                                    name="{{str_replace(' ','', $accessory->code)}}">
                                                                         </td>
                                                                         <td style="width: 45%;">
