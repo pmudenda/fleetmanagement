@@ -169,8 +169,8 @@
                                                                    required
                                                                    name="vehOpeningReading"
                                                                    class="form-control"/>
-                                                            <div class="input-group-addon">
-                                                                <div>
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">
                                                                     <i class="fas fa-dashboard"></i>
                                                                 </div>
                                                             </div>
@@ -194,8 +194,8 @@
                                                                    required
                                                                    name="vehClosingReading"
                                                                    class="form-control"/>
-                                                            <div class="input-group-addon">
-                                                                <div>
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">
                                                                     <i class="fas fa-dashboard"></i>
                                                                 </div>
                                                             </div>
@@ -220,8 +220,8 @@
                                                                    required
                                                                    name="vehDifference"
                                                                    class="form-control"/>
-                                                            <div class="input-group-addon">
-                                                                <div>
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">
                                                                     <i class="fas fa-dashboard"></i>
                                                                 </div>
                                                             </div>
@@ -249,8 +249,8 @@
                                                                    required
                                                                    name="openingReading"
                                                                    class="form-control"/>
-                                                            <div class="input-group-addon">
-                                                                <div>
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">
                                                                     <i class="fas fa-dashboard"></i>
                                                                 </div>
                                                             </div>
@@ -273,8 +273,8 @@
                                                                    required
                                                                    name="closingReading"
                                                                    class="form-control"/>
-                                                            <div class="input-group-addon">
-                                                                <div>
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">
                                                                     <i class="fas fa-dashboard"></i>
                                                                 </div>
                                                             </div>
@@ -297,8 +297,8 @@
                                                                    required
                                                                    name="difference"
                                                                    class="form-control"/>
-                                                            <div class="input-group-addon">
-                                                                <div>
+                                                            <div class="input-group-append">
+                                                                <div class="input-group-text">
                                                                     <i class="fas fa-dashboard"></i>
                                                                 </div>
                                                             </div>
@@ -453,7 +453,8 @@
                 </div>
                 <div class="card-footer">
                     <div class="card-toolbar card-toolbar justify-content-end">
-                        <button type="button" id="submitDataBtn" name="submitDataBtn" class="btn btn-success btn-sm mr-3">
+                        <button type="button" id="submitDataBtn" name="submitDataBtn"
+                                class="btn btn-success btn-sm mr-3">
                             <i class="fas fa-paper-plane"></i> Submit
                         </button>
                     </div>
