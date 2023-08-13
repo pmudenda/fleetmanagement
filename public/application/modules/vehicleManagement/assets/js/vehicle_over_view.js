@@ -390,14 +390,13 @@ function displayVehicleDetails(asyncResponse, requestReference) {
                             show: true,
                         },
                         formatter(params) {
-                             console.log('shadow', params);
+                             console.log('child shadow', params);
                             return params[0].data.name;
                         }
                     },
                     formatter(params) {
-                        console.log('axis', params);
                         const value = params[0].data;
-                        return 'ZMW: ' + accounting.formatMoney(value)
+                        return   accounting.formatMoney(value, 'ZMW ')
                     }
                 },
                 series: {
