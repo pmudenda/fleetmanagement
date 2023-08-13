@@ -43,10 +43,10 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['vehicleHeader'], 'registration_type', data['registration_type']);
     Vue.set(app['vehicleHeader'], 'brand_guid', data['brand_guid']);
 
-    $('input[name="model"]').val(data['model_name']);
-    $('input[name="brand"]').val(data['brand_name']);
-    $('input[name="bodyType"]').val(data['body_type_name'])
-    $('input[name="vehicleLocation"]').val(data['location_name']);
+    $('[data-name="model"]').text(data['model_name']);
+    $('[data-name="brand"]').text(data['brand_name']);
+    $('[data-name="bodyType"]').text(data['body_type_name'])
+    $('[data-name="vehicleLocation"]').text(data['location_name']);
 /*if (data['model_guid']) {
         // $('select[name="model"]').attr('data-value', data['model_guid']);
     }

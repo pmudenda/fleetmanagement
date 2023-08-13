@@ -88,7 +88,7 @@
                                                  v-bind:src='"/storage" + images.frontView.path' alt=""/>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="pl-3">
                                         <table>
                                             <tr>
                                                {{-- <td>Brand(Make) :</td>--}}
@@ -138,30 +138,6 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-6">
-                                                {{--<div class="form-group row">
-                                                    <label for="brand" class="fs-6 fw-semibold form-label col-md-3">
-                                                        <span class="required"></span>
-                                                    </label>
-                                                    <div class="col-md-9 fv-row">
-                                                        <div class="col-md-9">
-                                                            <div class="w-100 fv-row">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>--}}
-
-                                               {{-- <div class="form-group row">
-                                                    <label for="model" class="fs-6 fw-semibold form-label col-md-3">
-                                                        <span class="required"></span>
-                                                    </label>
-                                                    <div class="col-md-9 fv-row ">
-                                                        <div class="col-md-9">
-                                                            <div class="w-100">
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>--}}
 
                                                 <div class="form-group row" style="display: none;">
                                                     <label for="model_code"
