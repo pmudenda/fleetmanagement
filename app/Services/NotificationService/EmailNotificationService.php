@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\URL;
 
 class EmailNotificationService
 {
-    public static function sendNotification(User $recipient, User $sender, $record, string $action, $task): bool
+    public static function sendNotification($recipient, $sender, $record, $action, $task): bool
     {
         try {
             $recipientMail = config("mail.default_mail") ?? $recipient->email;

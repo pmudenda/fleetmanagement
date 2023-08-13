@@ -18,8 +18,9 @@ class InterCityDistanceService
         //$interCityDistanceArray = collect([]);
         $timeToLive = 60 * 60 ;//* 24 * 30;
         return cache()->remember('business_units', $timeToLive, function () {
-            return DistanceChart::orderBy('town_from')->get();
+            return ;
         });
+        return DistanceChart::orderBy('town_from')->get();
     }
 
     public function getDistance($from, $to): mixed
