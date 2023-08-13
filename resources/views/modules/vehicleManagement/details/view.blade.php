@@ -337,8 +337,8 @@
                             <div class="container-fluid pl-0">
                                 <div class="row">
                                     <div class="col-4">
-                                        <div class="card mt-10">
-                                            <div class="card-header px-0 py-0">
+                                        <div class="card mt-5">
+                                            <div class="card-header py-0">
                                                 <div class="card-title">
                                                     <h2>Cost Of Ownership</h2>
                                                 </div>
