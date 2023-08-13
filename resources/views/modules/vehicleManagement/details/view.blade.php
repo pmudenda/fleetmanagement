@@ -95,10 +95,11 @@
                                                 <tr>
                                                     <td>
                                                         <div class="row">
-                                                            <span id="bodyType" data-name="bodyType"></span>
                                                             <span data-name="brand" class="text-bold" id="brand"></span>
                                                         </div>
                                                     </td>
+                                                </tr>
+                                                <tr>
                                                     <td>
                                                         <span class="text-bold" data-name="model" id="model"></span>
                                                     </td>
@@ -120,7 +121,8 @@
                                                               id="vehicleLocation"></span>
                                                     </td>
                                                     <td>
-                                                        <i class="fa fa-credit-card-alt" style="font-size: 18px; color: red;"></i>
+                                                        <i class="fa fa-credit-card-alt"
+                                                           style="font-size: 18px; color: red;"></i>
                                                         <span data-name="tom_card">Tom Card</span>
                                                     </td>
                                                 </tr>

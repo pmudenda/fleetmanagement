@@ -43,8 +43,8 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['vehicleHeader'], 'brand_guid', data['brand_guid']);
 
     $('[data-name="model"]').text(data['model_name']);
-    $('[data-name="brand"]').text(data['body_type_name'] + ' ' + data['brand_name']);
-    //$('[data-name="bodyType"]').text()
+    $('[data-name="brand"]').text(data['brand_name']);
+    $('[data-name="bodyType"]').text(data['body_type_name'])
     $('[data-name="vehicleLocation"]').text(data['location_name']);
     if (data['has_tom_card'] === 'Y') {
         $('[data-name="tom_card"]').text('Tom Card');
