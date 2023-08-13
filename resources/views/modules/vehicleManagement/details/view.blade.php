@@ -334,7 +334,7 @@
                 <div class="card-body py-0 px-1">
                     <div class="tab-content" style="background-color: #f5f8fa;">
                         <div class="tab-pane active" id="overview" role="tabpanel">
-                            <div class="container-fluid pl-0 mt-5" >
+                            <div class="container-fluid pl-0" >
                                 <div class="row">
                                     <div class="col-4">
                                         <div class="card">
@@ -2442,7 +2442,7 @@
                         </div>
 
                         <div class="tab-pane fade" id="accessoriesTab" role="tabpanel">
-                            <div class="container-fluid pl-0 mt-5" style="background-color: #fff;">
+                            <div class="container-fluid pl-0" style="background-color: #fff;">
                                 <div id="tms_accessories_form"
                                      name="tms_accessories_form"
                                      class="form fv-plugins-bootstrap5 fv-plugins-framework"
@@ -2557,31 +2557,31 @@
                         </div>
 
                         <div class="tab-pane fade" id="serviceHistory" role="tabpanel">
-                            <div class="container-fluid pl-0 mt-5">
+                            <div class="container-fluid pl-0">
                                 Service History
                             </div>
                         </div>
 
                         <div class="tab-pane fade" id="inspectionHistory" role="tabpanel">
-                            <div class="container-fluid pl-0 mt-5">
+                            <div class="container-fluid pl-0">
                                 Inspection History
                             </div>
                         </div>
 
                         <div class="tab-pane fade" id="workOrders" role="tabpanel">
-                            <div class="container-fluid pl-0 mt-5">
+                            <div class="container-fluid pl-0">
                                 Work Orders
                             </div>
                         </div>
 
                         <div class="tab-pane fade" id="serviceReminders" role="tabpanel">
-                            <div class="container-fluid pl-0 mt-5">
+                            <div class="container-fluid pl-0">
                                 Service Reminders
                             </div>
                         </div>
 
                         <div class="tab-pane fade" id="odometerHistory" role="tabpanel">
-                            <div class="container-fluid pl-0 mt-5">
+                            <div class="container-fluid pl-0">
                                 <form class=""
                                       name="newFleetEntryMovementForm"
                                       action=""
@@ -2873,19 +2873,19 @@
                         </div>
 
                         <div class="tab-pane fade" id="renewalReminder" role="tabpanel">
-                            <div class="container-fluid pl-0 mt-5">
+                            <div class="container-fluid pl-0">
                                 Renewal Reminder
                             </div>
                         </div>
 
                         <div class="tab-pane fade" id="fuelHistory" role="tabpanel">
-                            <div class="container-fluid pl-0 mt-5">
+                            <div class="container-fluid pl-0">
                                 Fuel History
                             </div>
                         </div>
 
                         <div class="tab-pane fade" id="assignmentHistory" role="tabpanel">
-                            <div class="container-fluid pl-0 mt-5" style="background-color: #fff;">
+                            <div class="container-fluid pl-0" style="background-color: #fff;">
                                 @include('modules.vehicleManagement.onboarding.tabs.assignment_details')
                             </div>
                         </div>
