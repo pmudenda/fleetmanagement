@@ -666,7 +666,7 @@
                         let vehOpeningReading = $("input[name=vehOpeningReading]").val();
                         let vehClosingReading = $("input[name=vehClosingReading]").val()
                         let lineAmountTotal = tmsApp.getRawNumber(vehClosingReading)
-                            + tmsApp.getRawNumber(vehOpeningReading);
+                            - tmsApp.getRawNumber(vehOpeningReading);
 
                         $('#vehDifference').val(lineAmountTotal);
                         /*let summaryTotalQty = 0;
