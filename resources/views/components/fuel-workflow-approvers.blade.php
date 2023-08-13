@@ -156,7 +156,6 @@
                     </div>
                 </div>
 
-VALUATION {{$currentStep == '03' || in_array('03', $steps)}}
                 @if($currentStep == '03' || in_array('03', $steps))
                     <div class="col-3">
                         <div class="row">

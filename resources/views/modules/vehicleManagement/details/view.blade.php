@@ -101,8 +101,8 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <span id="description" data-name="description"></span>
-                                                        <span class="text-bold" data-name="model" id="model"></span>
+                                                        <span id="description" class="text-extra-muted" data-name="description"></span>
+                                                        {{--<span class="text-bold" data-name="model" id="model"></span>--}}
                                                     </td>
                                                     <td>
                                                         <input type="text"
