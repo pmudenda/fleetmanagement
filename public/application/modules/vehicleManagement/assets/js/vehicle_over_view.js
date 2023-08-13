@@ -42,7 +42,12 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['vehicleHeader'], 'registration_type', data['registration_type']);
     Vue.set(app['vehicleHeader'], 'brand_guid', data['brand_guid']);
 
-    let description = data['body_type_name'] + ' - '+ data['year_of_manufacture'] + ' - '+data['model_name']
+    let description = data['body_type_name']
+        + ' : '+ data['year_of_manufacture']
+        + ' '+ data['model_name']
+        + ' '+ data['model_code']
+        + '. ' +data['chassis_number'];
+
     $('[data-name="model"]').text(data['model_name']);
     $('[data-name="brand"]').text(data['brand_name']);
     $('[data-name="bodyType"]').text(data['body_type_name']);
