@@ -560,7 +560,7 @@
                                                     <div class="form-group row">
                                                         <label
                                                             id="authority"
-                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required">
+                                                            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 field-required">
                                                             Authority To Travel(<small>Any Authorization
                                                                 Document</small>)
                                                         </label>
