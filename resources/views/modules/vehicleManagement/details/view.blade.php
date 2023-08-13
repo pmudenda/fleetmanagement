@@ -63,7 +63,7 @@
                 <div class="card-body py-0">
                     <x-error-view/>
                     <form name="vehicleHeaderForm" id="tms_vehicle_header_form"
-                          class="form mb-10">
+                          class="form mb-5">
                         <input type="hidden" name="doctype" value="VehicleHeader"/>
                         <div class="row">
                             <table>
