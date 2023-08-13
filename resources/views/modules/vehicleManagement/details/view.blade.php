@@ -88,7 +88,7 @@
                                                     <td style="font-size: x-small;">
                                                         <span id="description" class="text-extra-muted"
                                                               data-name="description"></span>
-                                                        {{--<span class="text-bold" data-name="model" id="model"></span>--}}
+                                                        {{--<span class="text-" data-name="model" id="model"></span>--}}
                                                     </td>
                                                     <td>
                                                     </td>
@@ -201,7 +201,7 @@
                                                                                     data-doctype="vehicleHeader"></select>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="control-value like-disabled-input bold"
+                                                                    <div class="control-value like-disabled-input"
                                                                          style="display: none;"></div>
                                                                     <p class="help-box small text-muted"></p>
                                                                 </div>
@@ -406,7 +406,7 @@
                                                                                    required
                                                                                    id="chassisNumber"
                                                                                    name="chassisNumber"
-                                                                                   class="input-with-feedback form-control bold view_mode"
+                                                                                   class="input-with-feedback form-control view_mode"
                                                                                    maxlength="140"
                                                                                    data-fieldtype="Link"
                                                                                    data-fieldname="company"
@@ -529,7 +529,7 @@
                                                                         <div class="">
                                                                             <input
                                                                                 date-format="YYYY"
-                                                                                class="input-with-feedback form-control bold number_input view_mode"
+                                                                                class="input-with-feedback form-control number_input view_mode"
                                                                                 type="number" min="1990"
                                                                                 max="{{date('Y')}}"
                                                                                 step="1"
@@ -671,7 +671,7 @@
                                                                             </select>
 
                                                                             {{-- <input type="hidden"
-                                                                                    class="input-with-feedback form-control bold"
+                                                                                    class="input-with-feedback form-control"
                                                                                     required
                                                                                     data-fieldtype="Link"
                                                                                     :value="chassisDetails.requiredMinimumDrivingLicense"
@@ -759,7 +759,7 @@
                                                                                name="odometerReadingLastService"
                                                                                id="odometerReadingLastService"
                                                                                value="0"
-                                                                               class="input-with-feedback number_input form-control bold view_mode"
+                                                                               class="input-with-feedback number_input form-control view_mode"
                                                                                required
                                                                                placeholder=""
                                                                                data-doctype="ChassisDetails"
@@ -785,7 +785,7 @@
                                                                          style="position: relative;">
 
                                                                         <input type="text"
-                                                                               class="input-with-feedback number_input form-control bold"
+                                                                               class="input-with-feedback number_input form-control "
                                                                                required
                                                                                name="nextServiceOdometerReading"
                                                                                id="nextServiceOdometerReading"
@@ -819,7 +819,7 @@
                                                                                id="inspectionDate"
                                                                                value="{{ date('Y-m-d', strtotime(\Carbon\Carbon::now())) }}"
                                                                                required
-                                                                               class="input-with-feedback form-control bold view_mode"
+                                                                               class="input-with-feedback form-control  view_mode"
                                                                                placeholder=""
                                                                                data-doctype="ChassisDetails"
                                                                                autocomplete="off">
@@ -843,7 +843,7 @@
                                                                     <div class="link-field ui-front"
                                                                          style="position: relative;">
                                                                         <input type="checkbox"
-                                                                               class="input-with-feedback form-check-input bold"
+                                                                               class="input-with-feedback form-check-input "
                                                                                disabled
                                                                                name="odometerReset"
                                                                                id="odometerReset"
@@ -947,7 +947,7 @@
                                                                                        required
                                                                                        id="numberOfCylinders"
                                                                                        name="numberOfCylinders"
-                                                                                       class="input-with-feedback form-control bold number_input view_mode"
+                                                                                       class="input-with-feedback form-control  number_input view_mode"
                                                                                        data-fieldtype="Link"
                                                                                        data-fieldname="company"
                                                                                        data-doctype="EngineDetails"
@@ -975,7 +975,7 @@
                                                                              style="position: relative;">
                                                                             <div class="input-group">
                                                                                 <input type="number"
-                                                                                       class="input-with-feedback form-control bold number_input view_mode"
+                                                                                       class="input-with-feedback form-control  number_input view_mode"
                                                                                        max="10000"
                                                                                        required
                                                                                        data-fieldtype="Link"
@@ -1016,7 +1016,7 @@
                                                                                 {{--v-model="engineDetails.actualEnginePower"--}}
                                                                                 <input type="number"
                                                                                        required
-                                                                                       class="input-with-feedback form-control bold number_input view_mode"
+                                                                                       class="input-with-feedback form-control  number_input view_mode"
                                                                                        maxlength="140"
                                                                                        name="actualEnginePower"
                                                                                        id="actualEnginePower"
@@ -1051,7 +1051,7 @@
                                                                                 {{--v-model="engineDetails.claimedEnginePower"--}}
                                                                                 <input type="number"
                                                                                        required
-                                                                                       class="input-with-feedback form-control bold number_input view_mode"
+                                                                                       class="input-with-feedback form-control number_input view_mode"
                                                                                        maxlength="140"
                                                                                        value="0"
                                                                                        data-fieldname="company"
@@ -1091,7 +1091,7 @@
                                                                                 {{--v-model="engineDetails.fuelTypes"--}}
                                                                                 <select
                                                                                     required
-                                                                                    class="input-with-feedback form-control bold view_mode"
+                                                                                    class="input-with-feedback form-control view_mode"
                                                                                     id="fuelTypes"
                                                                                     name="fuelTypes"
                                                                                     data-doctype="EngineDetails">
@@ -1149,7 +1149,7 @@
                                                                              style="position: relative;">
                                                                             <input
                                                                                 required
-                                                                                class="input-with-feedback form-control bold view_mode"
+                                                                                class="input-with-feedback form-control view_mode"
                                                                                 data-fieldtype="Link"
                                                                                 data-fieldname="company"
                                                                                 placeholder="e.g 1NZ"
@@ -1217,7 +1217,7 @@
                                                                                 {{--v-model="engineDetails.fuelConsumption"--}}
                                                                                 <input type="text"
                                                                                        required
-                                                                                       class="input-with-feedback form-control bold view_mode"
+                                                                                       class="input-with-feedback form-control view_mode"
                                                                                        maxlength="4"
                                                                                        max="25"
                                                                                        name="fuelConsumption"
@@ -1251,7 +1251,7 @@
                                                                              <div class="input-group">
                                                                                  <input type="text"
                                                                                         required
-                                                                                        class="input-with-feedback form-control bold"
+                                                                                        class="input-with-feedback form-control "
                                                                                         maxlength="140"
                                                                                         v-model="engineDetails.fuelAllocation"
                                                                                         name="fuelAllocation"
@@ -1287,7 +1287,7 @@
                                                                              style="position: relative;">
                                                                             <div class="input-group">
                                                                                 <input type="number"
-                                                                                       class="input-with-feedback number_input form-control bold view_mode"
+                                                                                       class="input-with-feedback number_input form-control view_mode"
                                                                                        maxlength="4"
                                                                                        required
                                                                                        name="tank_capacity"
@@ -1317,7 +1317,7 @@
                                                                             <div class="input-group">
                                                                                 <input type="number"
                                                                                        maxlength="4"
-                                                                                       class="input-with-feedback number_input form-control bold view_mode"
+                                                                                       class="input-with-feedback number_input form-control view_mode"
                                                                                        name="sub_tank_capacity"
                                                                                        id="sub_tank_capacity"
                                                                                        placeholder=""
@@ -1360,7 +1360,7 @@
                                                                                        title="The number of tyres the vehicle has"
                                                                                        id="numberOfTyres"
                                                                                        name="numberOfTyres"
-                                                                                       class="input-with-feedback form-control bold number_input view_mode"
+                                                                                       class="input-with-feedback form-control number_input view_mode"
                                                                                        maxlength="140"
                                                                                        placeholder=""
                                                                                        data-doctype="EngineDetails"
@@ -1418,7 +1418,7 @@
                                                                              style="position: relative;">
                                                                             <div>
                                                                                 <input type="text"
-                                                                                       class="form-control bold tyre-size view_mode"
+                                                                                       class="form-control tyre-size view_mode"
                                                                                        required
                                                                                        id="frontTyreSize"
                                                                                        name="frontTyreSize"
@@ -1444,7 +1444,7 @@
                                                                              style="position: relative;">
                                                                             <div>
                                                                                 <input type="text"
-                                                                                       class="form-control bold tyre-size view_mode"
+                                                                                       class="form-control tyre-size view_mode"
                                                                                        name="rearTyreSize"
                                                                                        id="rearTyreSize"/>
                                                                             </div>
@@ -1483,7 +1483,7 @@
                                                                                 <input type="text"
                                                                                        id="batteryBrand"
                                                                                        name="batteryBrand"
-                                                                                       class="input-with-feedback form-control bold view_mode"
+                                                                                       class="input-with-feedback form-control view_mode"
                                                                                        data-fieldtype="Link"
                                                                                        data-fieldname="company"
                                                                                        data-doctype="OtherDetails"
@@ -1651,7 +1651,7 @@
                                                                  style="position: relative;">
                                                                 <div>
                                                                     <input type="text"
-                                                                           class="input-with-feedback number_input form-control bold view_mode"
+                                                                           class="input-with-feedback number_input form-control view_mode"
                                                                            maxlength="4"
                                                                            data-fieldtype="Link"
                                                                            data-fieldname="company"
@@ -1674,7 +1674,7 @@
                                                 </td>
                                                 <td>
                                                     <input type="text"
-                                                           class="input-with-feedback number_input form-control bold view_mode"
+                                                           class="input-with-feedback number_input form-control view_mode"
                                                            maxlength="140"
                                                            required
                                                            data-fieldtype="Link"
@@ -1701,7 +1701,7 @@
                                                                  style="position: relative;">
                                                                 <div>
                                                                     <input type="text"
-                                                                           class="input-with-feedback number_input form-control bold view_mode"
+                                                                           class="input-with-feedback number_input form-control view_mode"
                                                                            maxlength="140"
                                                                            required
                                                                            data-fieldtype="Link"
@@ -1741,7 +1741,7 @@
                                                                  style="position: relative;">
                                                                 <div>
                                                                     <input type="text"
-                                                                           class="input-with-feedback form-control bold view_mode"
+                                                                           class="input-with-feedback form-control view_mode"
                                                                            maxlength="15"
                                                                            id="seatCapFront"
                                                                            name="seatCapFront"
@@ -1769,7 +1769,7 @@
                                                             <div class="link-field ui-front" style="position: relative;">
                                                                 <div>
                                                                     <input type="number"
-                                                                           class="input-with-feedback form-control bold"
+                                                                           class="input-with-feedback form-control"
                                                                            value="0"
                                                                            v-model="bodyDetails.seatCapRear"
                                                                            name="seatCapRear"
@@ -1799,7 +1799,7 @@
                                                                 <div>
                                                                     <input type="text"
                                                                            v-model="bodyDetails.volumeOfBootTanker"
-                                                                           class="input-with-feedback form-control bold"
+                                                                           class="input-with-feedback form-control"
                                                                            value="300"
                                                                            id="volumeOfBootTanker"
                                                                            name="volumeOfBootTanker"
@@ -1826,7 +1826,7 @@
                                                              <div class="link-field ui-front" style="position: relative;">
                                                                  <div>
                                                                      <input type="text"
-                                                                            class="input-with-feedback form-control bold"
+                                                                            class="input-with-feedback form-control"
                                                                             value="0"
                                                                             data-fieldtype="Link"
                                                                             data-fieldname="company"
@@ -1861,7 +1861,7 @@
                                                              <div class="link-field ui-front"
                                                                   style="position: relative;">
                                                                  <input type="text"
-                                                                        class="input-with-feedback form-control bold view_mode"
+                                                                        class="input-with-feedback form-control view_mode"
                                                                         maxlength="140"
                                                                         id="distanceAxle1"
                                                                         name="distanceAxle1"
@@ -1886,7 +1886,7 @@
                                                              <div class="link-field ui-front"
                                                                   style="position: relative;">
                                                                  <input type="text"
-                                                                        class="input-with-feedback form-control bold view_mode"
+                                                                        class="input-with-feedback form-control view_mode"
                                                                         maxlength="140"
                                                                         id="distanceAxle2"
                                                                         name="distanceAxle2"
@@ -1912,7 +1912,7 @@
                                                              <div class="link-field ui-front"
                                                                   style="position: relative;">
                                                                  <input type="text"
-                                                                        class="input-with-feedback form-control bold view_mode"
+                                                                        class="input-with-feedback form-control view_mode"
                                                                         maxlength="140"
                                                                         id="distanceAxle3"
                                                                         name="distanceAxle3"
@@ -1937,7 +1937,7 @@
                                                              <div class="link-field ui-front"
                                                                   style="position: relative;">
                                                                  <input type="text"
-                                                                        class="input-with-feedback form-control bold view_mode"
+                                                                        class="input-with-feedback form-control view_mode"
                                                                         maxlength="140"
                                                                         id="distanceAxle4"
                                                                         name="distanceAxle4"
@@ -1971,7 +1971,7 @@
                                                                 <div>
                                                                     <input type="text"
                                                                            required
-                                                                           class="input-with-feedback form-control bold view_mode weight_control"
+                                                                           class="input-with-feedback form-control view_mode weight_control"
                                                                            maxlength="140"
                                                                            data-fieldtype="Link"
                                                                            data-fieldname="company"
@@ -1994,7 +1994,7 @@
                                                 </td>
                                                 <td>
                                                     <input type="text"
-                                                           class="input-with-feedback form-control bold view_mode weight_control"
+                                                           class="input-with-feedback form-control view_mode weight_control"
                                                            maxlength="140"
                                                            required
                                                            data-fieldtype="Link"
@@ -2006,96 +2006,6 @@
                                                            data-doctype="WeightDetails"/>
                                                 </td>
                                             </tr>
-
-                                            {{--  <tr>
-                                                  <td class="frappe-control ">
-                                                      <label for="trailerWeight2" class="control-label reqd"
-                                                             style="padding-right: 0px;">
-                                                          Trailer Weight 2:
-                                                      </label>
-                                                  </td>
-                                                  <td>
-                                                      <div class="control-input-wrapper">
-                                                          <div class="control-input">
-                                                              <div class="link-field ui-front" style="position: relative;">
-                                                                  <div>
-                                                                      <input type="text"
-                                                                             class="input-with-feedback form-control bold"
-                                                                             maxlength="15"
-                                                                             id="trailerWeight2"
-                                                                             name="trailerWeight2"
-                                                                             v-model="weightDetails.trailerWeight2"
-                                                                             placeholder=""
-                                                                             autocomplete="off">
-                                                                  </div>
-                                                              </div>
-                                                          </div>
-                                                      </div>
-                                                  </td>
-                                                  <td class="frappe-control">
-                                                      <div class="clearfix">
-                                                          <label for="trailerWeight3" class="control-label reqd"
-                                                                 style="padding-right: 0px;">
-                                                              Trailer Weight 3:
-                                                          </label>
-                                                          <span class="help"></span>
-                                                      </div>
-                                                  </td>
-                                                  <td>
-                                                      <div class="control-input-wrapper">
-                                                          <div class="control-input">
-                                                              <div class="link-field ui-front" style="position: relative;">
-                                                                  <div>
-                                                                      <input type="text"
-                                                                             class="input-with-feedback form-control bold"
-                                                                             maxlength="15"
-                                                                             placeholder=""
-                                                                             v-model="weightDetails.trailerWeight3"
-                                                                             name="trailerWeight3"
-                                                                             id="trailerWeight3"
-                                                                             data-doctype="WeightDetails"
-                                                                             autocomplete="off">
-                                                                  </div>
-
-                                                              </div>
-                                                          </div>
-                                                          <p class="help-box small text-muted"></p>
-                                                      </div>
-                                                  </td>
-                                              </tr>
-
-                                              <tr>
-                                                  <td class="frappe-control ">
-                                                      <label for="trailerWeight4" class="control-label reqd"
-                                                             style="padding-right: 0px;">
-                                                          Trailer Weight 4:
-                                                      </label>
-                                                  </td>
-                                                  <td colspan="1">
-                                                      <div class="control-input-wrapper">
-                                                          <div class="control-input">
-                                                              <div class="link-field ui-front" style="position: relative;">
-                                                                  <div>
-                                                                      <input type="text"
-                                                                             class="input-with-feedback form-control bold"
-                                                                             maxlength="140"
-                                                                             data-fieldtype="Link"
-                                                                             data-fieldname="company"
-                                                                             id="trailerWeight4"
-                                                                             name="trailerWeight4"
-                                                                             v-model="weightDetails.trailerWeight4"
-                                                                             placeholder=""
-                                                                             data-doctype="WeightDetails"/>
-                                                                  </div>
-
-                                                              </div>
-                                                          </div>
-                                                      </div>
-                                                  </td>
-                                                  <td class="frappe-control"></td>
-                                                  <td></td>
-                                              </tr>--}}
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -2180,7 +2090,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <input type="text"
-                                                                       class="input-with-feedback form-control bold view_mode"
+                                                                       class="input-with-feedback form-control view_mode"
                                                                        maxlength="15"
                                                                        data-a-sign="ZMW "
                                                                        id="costPrice"
@@ -2208,7 +2118,7 @@
                                                             <div class="input-group">
                                                                 <input type="number" min="1990" max="{{date('Y')}}"
                                                                        step="1"
-                                                                       class="input-with-feedback form-control bold number_input view_mode"
+                                                                       class="input-with-feedback form-control number_input view_mode"
                                                                        maxlength="4"
                                                                        name="yearOfPurchase"
                                                                        id="yearOfPurchase"
@@ -2251,7 +2161,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <input type="text"
-                                                                       class="input-with-feedback form-control bold view_mode"
+                                                                       class="input-with-feedback form-control view_mode"
                                                                        id="bookValue"
                                                                        data-a-sign="ZMW "
                                                                        name="bookValue"
@@ -2278,7 +2188,7 @@
                                                         <div class="link-field ui-front" style="position: relative;">
                                                             <div>
                                                                 <input type="text"
-                                                                       class="input-with-feedback form-control bold view_mode"
+                                                                       class="input-with-feedback form-control view_mode"
                                                                        maxlength="140"
                                                                        data-fieldtype="Link"
                                                                        data-fieldname="company"
@@ -2312,7 +2222,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <input type="text"
-                                                                       class="input-with-feedback form-control bold number_input view_mode"
+                                                                       class="input-with-feedback form-control number_input view_mode"
                                                                        id="costOfLicense"
                                                                        data-a-sign="ZMW"
                                                                        name="costOfLicense"
@@ -2342,7 +2252,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <input type="text"
-                                                                       class="input-with-feedback form-control bold view_mode"
+                                                                       class="input-with-feedback form-control view_mode"
                                                                        maxlength="140"
                                                                        id="premium"
                                                                        name="premium"
