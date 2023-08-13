@@ -86,7 +86,8 @@
                                                     </label>
                                                 </td>
                                                 <td>
-                                                    <input type="text" readonly id="businessArea" class="form-control form-control-sm" />
+                                                    <input type="text" readonly id="businessArea"
+                                                           class="form-control form-control-sm"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -96,7 +97,8 @@
                                                     </label>
                                                 </td>
                                                 <td>
-                                                    <input type="text" readonly id="userUnit" class="form-control form-control-sm" />
+                                                    <input type="text" readonly id="userUnit"
+                                                           class="form-control form-control-sm"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -643,17 +645,10 @@
                 $('tbody#vehicleDetails').html(row);
 
                 $('#businessArea').val(vehicle['business_unit_code'] + ' ' + vehicle['business_unit_name']);
+
                 $('#userUnit').val(vehicle['business_area_code'] + ' ' + vehicle['business_area_name']);
 
-                // enableWebUIControls();
-                /*if (images && images.length > 0) {
-                    let frontViewImages = images.filter((image) => {
-                        return image['file_type'] === 'Front View';
-                    })
-                    let imagePath = frontViewImages[0]?.path;
-                    document.querySelector(".imagePreview").style.backgroundImage = "url(/storage" + imagePath + ")";
-                }*/
-
+                $("#machineryType").val(vehicle['registration_type']).attr('disabled', true);
             }
 
 
