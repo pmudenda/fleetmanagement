@@ -128,7 +128,7 @@
                                                                     <span data-name="registrationNumber"
                                                                           id="registrationNumber"></span>
                                                                 </td>
-                                                                <td>
+                                                                <td class="pl-3">
                                                                      <span class="badge badge-success badge-circle"
                                                                            style="height: 8px; width: 8px;"></span>
                                                                     Active
