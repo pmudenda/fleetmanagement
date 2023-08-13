@@ -22,7 +22,7 @@
             background-color: transparent !important;
         }
 
-        .form-control:disabled {
+        select.form-control:disabled {
             border: none !important;
             background-color: transparent !important;
             box-shadow: none !important;
