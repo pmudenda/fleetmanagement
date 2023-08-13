@@ -511,13 +511,24 @@ class FuelRequisitionService
     {
         $requisitionDetail = self::getRequisitionDetail($reference);
 
-        $results = $this->procurementService->createStoresRequisition(
-            $reference,
-            $requisitionDetail->veh_reg_no,
-            $requisitionDetail->form_order,
-            Accounts::MOTOR_VEHICLE_FUEL_LUBRICANTS_ACCOUNT,
-            TransactionType::STORES_REQUISITIONS,
-        );
+        if ($requisitionDetail->cost_assigned_to === 'CostCenter') {
+            $results = $this->procurementService->createStoresRequisition(
+                $reference,
+                $requisitionDetail->veh_reg_no,
+                $requisitionDetail->form_order,
+                Accounts::MOTOR_VEHICLE_FUEL_LUBRICANTS_ACCOUNT,
+                TransactionType::STORES_REQUISITIONS,
+            );
+        }
+        else {
+            $results = $this->procurementService->createStoresRequisition(
+                $reference,
+                $requisitionDetail->veh_reg_no,
+                $requisitionDetail->form_order,
+                Accounts::MOTOR_VEHICLE_PROJECTS_FUEL_ACCOUNT,
+                TransactionType::STORES_REQUISITIONS,
+            );
+        }
 
         if (empty($results)) {
             throw new FuelRequisitionException(
