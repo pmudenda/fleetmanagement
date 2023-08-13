@@ -170,10 +170,9 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['otherDetails'], 'tyreBrand', data['tyre_brand']);
     $('input[name="tyreBrand"]').val(data['tyre_brand']);
 
+    $('input[name="frontTyreSize"]').val(data['front_tyre_size']).attr('data-value', data['front_tyre_size']);
 
-    $('[name="frontTyreSize"]').val(data['front_tyre_size']).attr('data-value', data['front_tyre_size']);
-
-    $('[name="rearTyreSize"]').val(data['rear_tyre_size']).attr('data-value', data['rear_tyre_size'])
+    $('input[name="rearTyreSize"]').val(data['rear_tyre_size']).attr('data-value', data['rear_tyre_size'])
 
     Vue.set(app['otherDetails'], 'batteryBrand', data['battery_brand']);
     $('input[name="batteryBrand"]').val(data['battery_brand']);
@@ -190,8 +189,8 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     setTimeout(function () {
         $('select[name="batteryPower"]').trigger('change');
         //$('select[name="batterySize"]').trigger('change');
-        $('select[name="frontTyreSize"]').trigger('change');
-        $('select[name="rearTyreSize"]').trigger('change');
+        //$('select[name="frontTyreSize"]').trigger('change');
+        //$('select[name="rearTyreSize"]').trigger('change');
     }, 600);
 
     Vue.set(app['costingAndValuation'], 'supplierName', data['suppliername']);
@@ -1953,13 +1952,13 @@ function checkOnboardingHeaderStatus() {
         });
     }
 
-    function getTyresBrands() {
+ /*   function getTyresBrands() {
         fetch(document.querySelector('#tyreUrl').value)
             .then(response => response.json())
             .then(response => {
 
-                let frontTyreElem = $('select[name="frontTyreSize"]');
-                let rearTyreSizeElem = $('select[name="rearTyreSize"]');
+                let frontTyreElem = $('input[name="frontTyreSize"]');
+                let rearTyreSizeElem = $('input[name="rearTyreSize"]');
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
@@ -1969,9 +1968,9 @@ function checkOnboardingHeaderStatus() {
 
                 let tyreSizes = response['payload'];
 
-                tmsApp.populateDropDownList(frontTyreElem, tyreSizes, "description", ["description"], "");
+                //tmsApp.populateDropDownList(frontTyreElem, tyreSizes, "description", ["description"], "");
 
-                tmsApp.populateDropDownList(rearTyreSizeElem, tyreSizes, "description", ["description"], "");
+                //tmsApp.populateDropDownList(rearTyreSizeElem, tyreSizes, "description", ["description"], "");
 
                 let frontSize = frontTyreElem.attr('data-value');
 
@@ -1991,7 +1990,7 @@ function checkOnboardingHeaderStatus() {
                 // notify of error
                 toastr.error('Connection error. Could not retrieve tyre information, some feature might not work.')
             });
-    }
+    }*/
 
     function getBatterySizes() {
         fetch(document.querySelector('#batteryUrl').value)
@@ -2665,7 +2664,7 @@ function checkOnboardingHeaderStatus() {
 
     getLocations();
 
-    getTyresBrands();
+    // getTyresBrands();
 
     getBatterySizes();
 

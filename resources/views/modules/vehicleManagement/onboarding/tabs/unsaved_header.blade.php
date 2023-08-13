@@ -194,7 +194,7 @@
 
                     <div class="form-group row">
                         <label for="vehicleLocation" class="fs-6 fw-semibold form-label col-md-3">
-                            <span class="required">Location</span>
+                            <span class="required">Location</span> <i class="ion ion-location ion-solid mr-1" style="font-size: 16px; color: green;"></i>
                         </label>
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
