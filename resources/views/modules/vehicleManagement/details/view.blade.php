@@ -114,7 +114,7 @@
                                                         />
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <tr class="pl-2">
                                                     <td>
                                                         <i class="ion ion-location ion-solid mr-1"
                                                            style="font-size: 16px; color: green;"></i>
