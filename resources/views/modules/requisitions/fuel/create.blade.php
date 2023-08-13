@@ -4,6 +4,12 @@
     <link href="{{asset("assets/plugins/select2/css/select2.min.css")}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset("assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")}}" rel="stylesheet"
           type="text/css"/>
+
+    <style>
+        .select2-dropdown select2-dropdown--below{
+            width: 400px !important;
+        }
+    </style>
 @endpush
 @section('content')
 
@@ -673,6 +679,10 @@
 @push('scripts')
     <script>
         window.citiesMap = {!! json_encode($cities) !!};
+
+        $(document).on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
     </script>
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script src="{{asset('assets/js/system/project_code.js')}}"></script>
