@@ -396,7 +396,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
                     },
                     formatter(params) {
                         console.log('axis', params);
-                        const value = params[0].data.value;
+                        const value = params[0].data;
                         return 'ZMW: ' + accounting.formatMoney(value)
                     }
                 },
