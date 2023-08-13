@@ -179,8 +179,8 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     Vue.set(app['otherDetails'], 'batterySize', data['battery_size']);
 
-    $('select[name="batterySize"]').attr('data-value', data['battery_size']);
-    $('select[name="batterySize"]').val(data['battery_size']).change();
+    $('input[name="batterySize"]').attr('data-value', data['battery_size']);
+    $('input[name="batterySize"]').val(data['battery_size']);//.change();
 
 
     Vue.set(app['otherDetails'], 'batteryPower', data['battery_power']);
@@ -1992,7 +1992,7 @@ function checkOnboardingHeaderStatus() {
             });
     }*/
 
-    function getBatterySizes() {
+   /* function getBatterySizes() {
         fetch(document.querySelector('#batteryUrl').value)
             .then(response => response.json())
             .then(response => {
@@ -2019,7 +2019,7 @@ function checkOnboardingHeaderStatus() {
                 // notify of error
                 toastr.error('Connection error. Could not retrieve battery size information.', 'Connection error')
             });
-    }
+    }*/
 
     function checkWhiteBookSerialValidity() {
         let ref = document.querySelector('#whiteBookSerial').value
@@ -2665,8 +2665,7 @@ function checkOnboardingHeaderStatus() {
     getLocations();
 
     // getTyresBrands();
-
-    getBatterySizes();
+    // getBatterySizes();
 
     getSuppliers();
 

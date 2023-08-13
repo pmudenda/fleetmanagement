@@ -1503,13 +1503,13 @@
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <div>
-                                                                                <select
+                                                                                <input
                                                                                     class="form-control input-with-feedback view_mode"
                                                                                     data-fieldtype="Link"
                                                                                     data-fieldname="company"
                                                                                     id="batterySize"
                                                                                     name="batterySize"
-                                                                                    data-doctype="OtherDetails"></select>
+                                                                                    data-doctype="OtherDetails" />
                                                                             </div>
 
                                                                         </div>
@@ -1595,8 +1595,8 @@
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.rightView.path + ")",}'>
                                                         <p class="img_title fs-2x fw-bold mb-10 text-white">
-                                                            Right
-                                                            View</p>
+                                                            Right View
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1608,8 +1608,8 @@
                                                     <div class="imagePreview"
                                                          :style='{backgroundImage: "url(/storage" + images.leftView.path + ")",}'>
                                                         <p class="img_title fs-2x fw-bold mb-10 text-white">
-                                                            Left
-                                                            View</p>
+                                                            Left View
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1839,7 +1839,7 @@
                                                 </td>
                                             </tr>
 
-                                            <tr>
+                                           {{-- <tr>
                                                 <td colspan="2">
                                                     <h4>Exterior</h4>
                                                 </td>
@@ -1944,7 +1944,7 @@
                                                     </div>
                                                 </td>
 
-                                            </tr>
+                                            </tr>--}}
 
                                             <tr>
                                                 <td colspan="2">
