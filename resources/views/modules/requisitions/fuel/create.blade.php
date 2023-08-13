@@ -738,18 +738,18 @@
                     return;
                 }
 
-                if (vehicle['has_tom_card'] === 'Y') {
-                    tmsApp.showSystemMessage("Vehicle Has A Tom Card",
-                        vehicle_tom_card_message,
+                if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
+                    tmsApp.showSystemMessage("Vehicle State",
+                        vehicle_state,
                         () => {
                         },
                         "error");
                     return;
                 }
 
-                if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
-                    tmsApp.showSystemMessage("Vehicle State",
-                        vehicle_state,
+                if (vehicle['has_tom_card'] === 'Y') {
+                    tmsApp.showSystemMessage("Vehicle Has A Tom Card",
+                        vehicle_tom_card_message,
                         () => {
                         },
                         "error");

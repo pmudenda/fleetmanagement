@@ -121,7 +121,9 @@ class VehicleController extends Controller
                 $vehicle_state = str_replace("@reg",
                     $vehicle->registration_number,
                     SystemMessages::vehicleInWorkshop());
-            }else if($vehicle->has_tom_card === 'Y'){
+            }
+
+            if ($vehicle->has_tom_card === 'Y') {
                 $vehicle_tom_card_message = str_replace("@reg",
                     $vehicle->registration_number, ErrorMessages::getMessage('err_0023'));
             }
@@ -146,6 +148,7 @@ class VehicleController extends Controller
             ]);
         }
     }
+
     public function getVehicleDetails(Request $request): JsonResponse
     {
         try {
