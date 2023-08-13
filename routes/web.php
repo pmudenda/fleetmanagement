@@ -67,7 +67,7 @@ name('barcode.generate');
 
 Route::post('logout', [HomeController::class, 'logout'])->name('logout');
 
-Route::post('gate/pass', function (Request $request) {
+Route::get('gate/pass', function (Request $request) {
 
 })->name('gate.pass');
 
