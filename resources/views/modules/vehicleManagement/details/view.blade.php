@@ -280,7 +280,7 @@
                             </table>
                         </div>
                     </form>
-                    <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x border-transparent fs-4 fw-semibold"
+                    <ul class="nav nav-tabs nav-line-tabs nav-line-tabs-2x border-transparent"
                         role="tablist">
 
                         <li class="nav-item" style="list-style: none; display: none;">
