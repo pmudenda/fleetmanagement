@@ -87,11 +87,11 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         userUnitChanged();
     }
 
-    setTimeout(function () {
+    setTimeout(() => {
         $('select[name="vehicleLocation"]').trigger('change');
-    }, 300);
+    }, 600);
 
-    setTimeout(function () {
+    setTimeout(() => {
         $('select[name="user_unit"]').trigger('change');
     }, 300);
 
@@ -163,20 +163,23 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['engineDetails'], 'sub_tank_capacity', data['sub_tank_capacity']);
 
     $('input[name="tank_capacity"]').val(data['tank_capacity']);
-    $('input[name="tank_capacity"]').trigger('change');
+    //$('input[name="tank_capacity"]').trigger('change');
 
     $('input[name="sub_tank_capacity"]').val(data['sub_tank_capacity']);
-    $('input[name="sub_tank_capacity"]').trigger('change');
+    //$('input[name="sub_tank_capacity"]').trigger('change');
 
     Vue.set(app['otherDetails'], 'numberOfTyres', data['number_of_tyres']);
 
     $('input[name="numberOfTyres"]').val(data['number_of_tyres']);
-    $('input[name="numberOfTyres"]').trigger('change');
+    //$('input[name="numberOfTyres"]').trigger('change');
 
     Vue.set(app['otherDetails'], 'tyreBrand', data['tyre_brand']);
     $('input[name="tyreBrand"]').val(data['tyre_brand']);
 
+    console.log('Setting Front Tyre Size', data['front_tyre_size']);
     $('input[name="frontTyreSize"]').val(data['front_tyre_size']).attr('data-value', data['front_tyre_size']);
+
+    console.log('Setting Rear Tyre Size', data['rear_tyre_size']);
 
     $('input[name="rearTyreSize"]').val(data['rear_tyre_size']).attr('data-value', data['rear_tyre_size'])
 
