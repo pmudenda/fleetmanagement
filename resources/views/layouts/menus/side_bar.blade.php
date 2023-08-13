@@ -75,10 +75,10 @@
                                 </li>
                             @endcanany
 
-                            <li class="nav-item">
+                            <li class="nav-item pl-2">
                                 <a href="{{ URL::signedRoute('new.fleet.movement') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Fleet Movement Entry</p>
+                                    <p>Odometer Logs</p>
                                 </a>
                             </li>
 

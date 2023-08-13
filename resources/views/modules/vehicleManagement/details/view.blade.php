@@ -2952,18 +2952,6 @@
         window.reference = `{!! $reference !!}`;
         window.vehicle = `{!! $vehicle !!}`;
     </script>
-    <script type="text/javascript">
-        function generateBarcode(data) {
-            let qrcode = new QRCode(document.getElementById("qrcode"), {
-                text: data,
-                width: 128,
-                height: 128,
-                colorDark: "#5868bf",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
-        }
-    </script>
     <script type="text/javascript" src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
     <script type="text/javascript" src="{{asset('libs/handsontable/handsontable.full.min.js')}}"></script>
 

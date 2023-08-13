@@ -218,7 +218,8 @@
                             </label>
                             <div class="col-md-9 fv-row">
                                 <div class="col-md-9">
-                                    <img id="barcode" alt="vehicle barcode" src="">
+                                    {{--<img id="barcode" alt="vehicle barcode" src="">--}}
+                                    <div id="qrcode"></div>
                                 </div>
                             </div>
                         </div>

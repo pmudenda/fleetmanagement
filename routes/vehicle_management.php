@@ -144,9 +144,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/cleanup/filter', [VehicleDataCleaningController::class, 'filter'])->name('data.migration.filter');
 
 
-        Route::get('odometer/logs/new', [MeterEntryController::class, 'create'])->name('new.fleet.movement');
-        Route::post('odometer/logs/new', [MeterEntryController::class, 'store'])->name('save.odometer.log');
-        Route::get('odometer/log/vehicle/details', [VehicleController::class, 'getVehicleDetails'])->name('odometer.log.vehicle.details');
+        Route::get('odometer/logs/new', [MeterEntryController::class, 'create'])
+            ->name('new.fleet.movement');
+        Route::post('odometer/logs/new', [MeterEntryController::class, 'store'])
+            ->name('save.odometer.log');
+
+        Route::get('odometer/log/vehicle/details', [VehicleController::class, 'getVehicleDetails'])
+            ->name('odometer.log.vehicle.details');
 
     });
 

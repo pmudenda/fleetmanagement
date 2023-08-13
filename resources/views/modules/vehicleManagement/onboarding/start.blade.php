@@ -185,7 +185,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center" id="diskArea">
-                    <img class="img-fluid" src="{{asset('assets/dist/img/disc.jpg')}}" />
+                    <img class="img-fluid" src="{{asset('assets/dist/img/disc.jpg')}}"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="print" class="btn btn-primary btn-sm">
@@ -209,7 +209,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <iframe id="documentView" src="" style="border: none;" width="100%" height="600px;" ></iframe>
+                    <iframe id="documentView" src="" style="border: none;" width="100%" height="600px;"></iframe>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-bs-dismiss="modal" class="btn btn-default">Close</button>
@@ -228,4 +228,12 @@
         src="{{asset('application/modules/vehicleManagement/assets/js/new-vehicle-registration.js').'?v='.Carbon::now()->format('his')}}"></script>
     <script
         src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
+    <script>
+        $(document).ready(function () {
+            if ($('#registrationNumber').val()) {
+                generateBarcode(data['registration_number']);
+            }
+        });
+
+    </script>
 @endpush

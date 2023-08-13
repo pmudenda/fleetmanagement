@@ -481,7 +481,18 @@
 <script src="{{asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{ asset('libs/session.timeout/session.timeout.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{ asset('libs/qrcode/qrcode.min.js').'?v='.Carbon::now()->format('his')}}"></script>
-
+<script type="text/javascript">
+    function generateBarcode(data) {
+        let qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: data,
+            width: 128,
+            height: 128,
+            colorDark: "#5868bf",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    }
+</script>
 <script>
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
