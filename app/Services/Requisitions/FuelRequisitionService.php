@@ -35,8 +35,6 @@ use Illuminate\Support\Facades\URL;
 
 class FuelRequisitionService
 {
-
-
     private VehicleDetailsService $vehicleDetailsService;
     private WorkflowService $workflowService;
     private ProcurementSystemIntegrationService $procurementService;
@@ -509,7 +507,7 @@ class FuelRequisitionService
     /**
      * @throws FuelRequisitionException
      */
-    public function createStoresRequisition(string $reference): mixed
+    public function createStoresRequisition(string $reference): string
     {
         $requisitionDetail = self::getRequisitionDetail($reference);
 

@@ -119,6 +119,10 @@
                                                         <span data-name="vehicleLocation"
                                                               id="vehicleLocation"></span>
                                                     </td>
+                                                    <td>
+                                                        <i class="fas fa-credit-card-alt" style="font-size: "></i>
+                                                        <span data-name="tom_card">Tom Card</span>
+                                                    </td>
                                                 </tr>
                                             </table>
                                             <div class="col-md-12">

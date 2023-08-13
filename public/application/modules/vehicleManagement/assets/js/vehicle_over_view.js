@@ -1,4 +1,3 @@
-
 Vue.component('v-select', VueSelect.VueSelect);
 window.VehicleModels = [];
 window.organizationUnits = [];
@@ -47,15 +46,15 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     $('[data-name="brand"]').text(data['brand_name']);
     $('[data-name="bodyType"]').text(data['body_type_name'])
     $('[data-name="vehicleLocation"]').text(data['location_name']);
-/*if (data['model_guid']) {
-        // $('select[name="model"]').attr('data-value', data['model_guid']);
+    if (data['has_tom_card'] === 'Y') {
+        $('[data-name="tom_card"]').text('Tom Card');
     }
-    if (data['brand_guid']) {
+    /*if (data['brand_guid']) {
 
-        /!*$('select[name="brand"]').attr('data-value', data['brand_guid']);
+        $('select[name="brand"]').attr('data-value', data['brand_guid']);
         setTimeout(function () {
             $('select[name="brand"]').trigger('change');
-        }, 600);*!/
+        }, 600);
     }*/
 
     Vue.set(app['vehicleHeader'], 'model_code', data['model_code']);
@@ -81,10 +80,10 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         userUnitChanged();
     }
 
-   /* if (data['location_name']) {
+    /* if (data['location_name']) {
 
-        $('select[name="vehicleLocation"]').attr('data-value', data['location_name']);
-    }*/
+         $('select[name="vehicleLocation"]').attr('data-value', data['location_name']);
+     }*/
 
     setTimeout(function () {
         $('select[name="vehicleLocation"]').trigger('change');
@@ -254,7 +253,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
 
     if (data['costoflicense']) {
         const formatted = accounting.formatMoney(data['costoflicense'], '', 2, ",", ".")
-        if(formatted !== '0.00') {
+        if (formatted !== '0.00') {
             $('input[name="costOfLicense"]').val(formatted).attr('readonly', 'readonly');
             $('input[name="costOfLicense"]').trigger('change');
         }
