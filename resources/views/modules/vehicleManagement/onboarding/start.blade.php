@@ -233,10 +233,10 @@
             setInterval(function () {
                 if ($('#registrationNumber').val()) {
                     if (!$('#qrcode').attr('title')) {
-                        generateBarcode(data['registration_number']);
+                        generateBarcode($('#registrationNumber').val());
                     }
                 }
-            });
+            },600);
         });
 
     </script>
