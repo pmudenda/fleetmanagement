@@ -316,12 +316,40 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         xAxis: {
             data: ['Fuel']
         },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow',
+                label: {
+                    show: true,
+                },
+                formatter(params) {
+                    return params[0].data.name;
+                }
+            },
+            formatter(params) {
+                const value = params[0].data.value;
+                return 'ZMW: ' + params[0].data.name
+                    + '<br/>Cost: ' + value;
+            }
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar', 'stack']},
+                restore: {show: true},
+                saveAsImage: {show: true},
+            },
+        },
         yAxis: {},
         dataGroupId: '',
         animationDurationUpdate: 500,
         series: {
             type: 'bar',
             id: 'sales',
+            colorBy: 'data',
             data: [
                 {
                     value: totalCost,
