@@ -93,10 +93,19 @@
                                         <table>
                                             <tr>
                                                 <td>
-                                                    <div class="row">
-                                                        <span class="text-bold" data-name="brand" id="brand"></span>
-                                                        <span class="text-bold" data-name="model" id="model"></span>
-                                                    </div>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           name="registrationNumber"
+                                                           id="registrationNumber"
+                                                           autocomplete="off"
+                                                           required
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <span class="text-bold" data-name="brand" id="brand"></span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-bold" data-name="model" id="model"></span>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -207,13 +216,7 @@
                                                     </label>
                                                     <div class="col-md-9 fv-row">
                                                         <div class="col-md-9">
-                                                            <input type="text"
-                                                                   class="form-control"
-                                                                   name="registrationNumber"
-                                                                   id="registrationNumber"
-                                                                   autocomplete="off"
-                                                                   required
-                                                            />
+
                                                             <div
                                                                 class="fv-plugins-message-container invalid-feedback"></div>
                                                         </div>
