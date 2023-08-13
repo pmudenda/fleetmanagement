@@ -340,7 +340,7 @@
                                         <div class="card mt-5">
                                             <div class="card-header py-0">
                                                 <div class="card-title">
-                                                    <h2>Cost Of (Operational) Ownership</h2>
+                                                    <h2>Cost of Operations</h2>
                                                 </div>
                                             </div>
                                             <div class="card-body px-0 py-0 pl-1">
