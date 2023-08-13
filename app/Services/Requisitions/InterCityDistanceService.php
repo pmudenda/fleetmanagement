@@ -20,12 +20,11 @@ class InterCityDistanceService
        /* return cache()->remember('business_units', $timeToLive, function () {
             return ;
         });*/
-        return DistanceChart::orderBy('town_from')->get();
+        return DistanceChart::orderBy('town_to')->get();
     }
 
     public function getDistance($from, $to): mixed
     {
-        //$result = $this->interCityDistanceArray[$from];
         return DistanceChart::where('town_from', $from)
             ->where('town_to', $to)
             ->first()->distance;
