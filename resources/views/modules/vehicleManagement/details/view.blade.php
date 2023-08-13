@@ -105,10 +105,6 @@
                                                         {{--<span class="text-bold" data-name="model" id="model"></span>--}}
                                                     </td>
                                                     <td>
-                                                        <span
-                                                               data-name="registrationNumber"
-                                                               id="registrationNumber"
-                                                        ></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -126,7 +122,13 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <span class="badge badge-success badge-circle" style="height: 5px;"></span> Active
+                                                        <span data-name="registrationNumber"
+                                                              id="registrationNumber"></span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-success badge-circle"
+                                                              style="height: 8px; width: 8px;"></span>
+                                                        Active
                                                     </td>
                                                 </tr>
                                             </table>
