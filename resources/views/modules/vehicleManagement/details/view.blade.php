@@ -124,6 +124,11 @@
                                                         <span data-name="tom_card">Tom Card</span>
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="badge badge-success badge-circle"></span> active
+                                                    </td>
+                                                </tr>
                                             </table>
                                             <div class="col-md-12">
                                                 <div class="form-group row">
