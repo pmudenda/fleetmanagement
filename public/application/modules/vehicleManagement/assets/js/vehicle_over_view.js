@@ -320,6 +320,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
             sparesDataset.push([spareCost.year, spareCost.cost]);
         }
 
+        $("#totalOwnershipCosts").text(accounting.formatMoney((sparesTotalCost + totalCost), 'ZMW '));
         let myChart = echarts.init(document.getElementById('main'))
         const option = {
             xAxis: {
@@ -1952,74 +1953,74 @@ function checkOnboardingHeaderStatus() {
         });
     }
 
- /*   function getTyresBrands() {
-        fetch(document.querySelector('#tyreUrl').value)
-            .then(response => response.json())
-            .then(response => {
+    /*   function getTyresBrands() {
+           fetch(document.querySelector('#tyreUrl').value)
+               .then(response => response.json())
+               .then(response => {
 
-                let frontTyreElem = $('input[name="frontTyreSize"]');
-                let rearTyreSizeElem = $('input[name="rearTyreSize"]');
-                // Populate results
-                if (response.state === 'failure') {
-                    //show errors
-                    toastr.error('Connection error, no tyre brand information found')
-                    return;
-                }
+                   let frontTyreElem = $('input[name="frontTyreSize"]');
+                   let rearTyreSizeElem = $('input[name="rearTyreSize"]');
+                   // Populate results
+                   if (response.state === 'failure') {
+                       //show errors
+                       toastr.error('Connection error, no tyre brand information found')
+                       return;
+                   }
 
-                let tyreSizes = response['payload'];
+                   let tyreSizes = response['payload'];
 
-                //tmsApp.populateDropDownList(frontTyreElem, tyreSizes, "description", ["description"], "");
+                   //tmsApp.populateDropDownList(frontTyreElem, tyreSizes, "description", ["description"], "");
 
-                //tmsApp.populateDropDownList(rearTyreSizeElem, tyreSizes, "description", ["description"], "");
+                   //tmsApp.populateDropDownList(rearTyreSizeElem, tyreSizes, "description", ["description"], "");
 
-                let frontSize = frontTyreElem.attr('data-value');
+                   let frontSize = frontTyreElem.attr('data-value');
 
-                if (frontSize) {
-                    frontTyreElem.val(frontSize);
-                    frontTyreElem.trigger('change');
-                }
+                   if (frontSize) {
+                       frontTyreElem.val(frontSize);
+                       frontTyreElem.trigger('change');
+                   }
 
-                let rearTyreSize = rearTyreSizeElem.attr('data-value');
+                   let rearTyreSize = rearTyreSizeElem.attr('data-value');
 
-                if (rearTyreSize) {
-                    rearTyreSizeElem.val(rearTyreSize);
-                    rearTyreSizeElem.trigger('change');
-                }
-            })
-            .catch(function (error) {
-                // notify of error
-                toastr.error('Connection error. Could not retrieve tyre information, some feature might not work.')
-            });
-    }*/
+                   if (rearTyreSize) {
+                       rearTyreSizeElem.val(rearTyreSize);
+                       rearTyreSizeElem.trigger('change');
+                   }
+               })
+               .catch(function (error) {
+                   // notify of error
+                   toastr.error('Connection error. Could not retrieve tyre information, some feature might not work.')
+               });
+       }*/
 
-   /* function getBatterySizes() {
-        fetch(document.querySelector('#batteryUrl').value)
-            .then(response => response.json())
-            .then(response => {
+    /* function getBatterySizes() {
+         fetch(document.querySelector('#batteryUrl').value)
+             .then(response => response.json())
+             .then(response => {
 
-                let selectElem = $('select[name="batterySize"]');
-                // Populate results
-                if (response.state === 'failure') {
-                    //show errors
-                    toastr.error('Connection error, no battery size information found')
-                    return;
-                }
+                 let selectElem = $('select[name="batterySize"]');
+                 // Populate results
+                 if (response.state === 'failure') {
+                     //show errors
+                     toastr.error('Connection error, no battery size information found')
+                     return;
+                 }
 
-                let tyreBrands = response['payload'];
-                tmsApp.populateDropDownList(selectElem, tyreBrands, "description", ["description"], "");
+                 let tyreBrands = response['payload'];
+                 tmsApp.populateDropDownList(selectElem, tyreBrands, "description", ["description"], "");
 
-                let location = selectElem.attr('data-value');
+                 let location = selectElem.attr('data-value');
 
-                if (location) {
-                    selectElem.val(location);
-                    selectElem.trigger('change');
-                }
-            })
-            .catch(function (error) {
-                // notify of error
-                toastr.error('Connection error. Could not retrieve battery size information.', 'Connection error')
-            });
-    }*/
+                 if (location) {
+                     selectElem.val(location);
+                     selectElem.trigger('change');
+                 }
+             })
+             .catch(function (error) {
+                 // notify of error
+                 toastr.error('Connection error. Could not retrieve battery size information.', 'Connection error')
+             });
+     }*/
 
     function checkWhiteBookSerialValidity() {
         let ref = document.querySelector('#whiteBookSerial').value

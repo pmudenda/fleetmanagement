@@ -347,6 +347,14 @@
                                                  </div>--}}
                                             </div>
                                             <div class="card-body px-0 py-0">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <div class="card-title">
+                                                            Total Costs
+                                                        </div>
+                                                    </div>
+                                                    <span id="totalOwnershipCosts"></span>
+                                                </div>
                                                 <div id="main" style="height:400px;"></div>
                                             </div>
                                         </div>
