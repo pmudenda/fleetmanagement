@@ -258,7 +258,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row" style="display: none;">
+                                    <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
@@ -847,12 +847,12 @@
                     .then(response => {
                         //console.log(response);
 
-                        if (!response.success || response.payload.length == 0) {
+                        if (!response.success || response.payload.length === 0) {
                             tmsApp.systemError('Driver Verification', response['message']);
                             return;
                         }
 
-                        let optionListStr = '';
+                        /*let optionListStr = '';
                         if (Array.isArray(response.payload)) {
                             response.payload.forEach(function (item) {
                                 optionListStr += `<option value="${item['con_per_no']}">${item['con_per_no']} =>${item.name}</option>`;
@@ -860,7 +860,7 @@
 
                             $('#employee_list').html(optionListStr);
                             return;
-                        }
+                        }*/
 
                         document.querySelector('#driver_name').value = response.payload.name;
                     })

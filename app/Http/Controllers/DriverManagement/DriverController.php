@@ -6,6 +6,7 @@ use App\Constants\ErrorMessages;
 use App\Enums\ConfigurationTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DriverOnboardingRequest;
+use App\Models\Reference\PHCMSEmployee;
 use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\Driver;
 use App\Services\DriverManagement\DriverManagementService;
@@ -79,8 +80,54 @@ class DriverController extends Controller
     {
         $searchParam = strtoupper(trim($request->searchCriteria));
 
-        $driver = Driver::where('staff_number', '=', $searchParam)
+        $useDriverModule =(bool)config('systeminfo.enableDriverModule');
+
+        if($useDriverModule){
+            $driver = Driver::where('staff_number', '=', $searchParam)
+                ->orWhere('name', 'LIKE', "%{$searchParam}%")
+                ->first();
+
+            if (empty($driver)) {
+                return response()->json([
+                    'success' => 'false',
+                    'payload' => [],
+                    'message' => str_replace('@input', $searchParam, ErrorMessages::getMessage('err_0011'))
+                ]);
+            }
+
+            $nowDate = Carbon::now();
+
+            if ($nowDate->gt($driver->license_date_expiry)) {
+                return response()->json([
+                    'success' => 'false',
+                    'payload' => [],
+                    'message' => str_replace('@input',
+                        $searchParam,
+                        ErrorMessages::getMessage('err_0010')
+                    )
+                ]);
+            }
+
+            if ($nowDate->gt($driver->permit_date_expiry)) {
+                return response()->json([
+                    'success' => 'false',
+                    'payload' => [],
+                    'message' => str_replace('@input',
+                        $searchParam,
+                        ErrorMessages::getMessage('err_0009')
+                    )
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'payload' => $driver
+            ]);
+        }
+
+        $driver = PHCMSEmployee::where('con_per_no', '=', $searchParam)
             ->orWhere('name', 'LIKE', "%{$searchParam}%")
+            ->where('con_st_code','=', 'ACT')
             ->first();
 
         if (empty($driver)) {
@@ -91,34 +138,11 @@ class DriverController extends Controller
             ]);
         }
 
-        $nowDate = Carbon::now();
-
-        if ($nowDate->gt($driver->license_date_expiry)) {
-            return response()->json([
-                'success' => 'false',
-                'payload' => [],
-                'message' => str_replace('@input',
-                    $searchParam,
-                    ErrorMessages::getMessage('err_0010')
-                )
-            ]);
-        }
-
-        if ($nowDate->gt($driver->permit_date_expiry)) {
-            return response()->json([
-                'success' => 'false',
-                'payload' => [],
-                'message' => str_replace('@input',
-                    $searchParam,
-                    ErrorMessages::getMessage('err_0009')
-                )
-            ]);
-        }
-
         return response()->json([
             'success' => true,
             'payload' => $driver
         ]);
+
 
     }
 }

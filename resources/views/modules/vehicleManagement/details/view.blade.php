@@ -2953,12 +2953,12 @@
         window.vehicle = `{!! $vehicle !!}`;
     </script>
     <script type="text/javascript" src="{{asset('assets/plugins/daterangepicker/daterangepicker.js')}}"></script>
-    <script type="text/javascript" src="{{asset('libs/handsontable/handsontable.full.min.js')}}"></script>
-
+   {{-- <script type="text/javascript" src="{{asset('libs/handsontable/handsontable.full.min.js')}}"></script>
+--}}
     <script
         src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_over_view.js').'?v='.Carbon::now()->format('his')}}"></script>
-    <script
-        src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
+    {{--<script
+        src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>--}}
     <script>
         $(document).ready(function () {
             let elements = document.querySelectorAll('.view_mode');

@@ -274,7 +274,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('driver/list', [DriverController::class, 'driverList'])->name('driver.list');
 
-        Route::post('driver/find', [DriverController::class, 'findDriver'])->name('driver.search');
+        Route::post('driver/find', [DriverController::class, 'findDriver'])
+            ->name('driver.search');
     });
 
     Route::get('load/procurement/articles', [MaintenanceController::class, 'searchArticle'])
