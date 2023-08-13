@@ -122,7 +122,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('vehicle/all/details', [VehicleController::class, 'getAllDetails'])->name('vehicle.details');
 
-        Route::get('requisition/vehicle/details', [VehicleController::class, 'getDetails'])->name('requisition.vehicle.details');
+        Route::get('requisition/vehicle/details', [VehicleController::class, 'getVehicleDetailsByRegistration'])->name('requisition.vehicle.details');
 
         Route::get('articles/fuels', [ProcurementSystemIntegrationController::class, 'fuelTypes'])->name('fuel.types');
 

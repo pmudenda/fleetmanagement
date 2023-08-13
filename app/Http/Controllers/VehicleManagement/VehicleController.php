@@ -99,7 +99,7 @@ class VehicleController extends Controller
         }
     }
 
-    public function getDetails(Request $request): JsonResponse
+    public function getVehicleDetailsByRegistration(Request $request): JsonResponse
     {
         try {
             if (empty($request->vehicle_registration)) {
@@ -178,7 +178,7 @@ class VehicleController extends Controller
             }
 
             // determine material type in form of fuel
-            $vehicle = $this->vehicleDetailsService->getVehicleDetails($request->vehicle_registration);
+            $vehicle = $this->vehicleDetailsService->getBasicVehicleDetails($request->vehicle_registration);
 
             if (empty($vehicle)) {
                 return response()->json([
