@@ -118,7 +118,7 @@
                                                     <td class="pl-2">
                                                         <i class="ion ion-location ion-solid mr-1"
                                                            style="font-size: 16px; color: green;"></i>
-                                                        <span data-name="vehicleLocation"
+                                                        <span data-name="vehicleLocation" style="font-size: smaller"
                                                               id="vehicleLocation"></span>
                                                     </td>
                                                     <td class="pl-2">
