@@ -329,7 +329,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
             },
             formatter(params) {
                 const value = params[0].data.value;
-                return 'ZMW: ' + value
+                return 'ZMW: ' + accounting.formatMoney(value)
             }
         },
         toolbox: {
@@ -395,7 +395,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
                     },
                     formatter(params) {
                         const value = params[0].data.value;
-                        return 'ZMW: ' + value
+                        return 'ZMW: ' + accounting.formatMoney(value)
                     }
                 },
                 series: {
