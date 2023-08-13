@@ -453,7 +453,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="card-toolbar card-toolbar justify-content-end">
-                        <button type="button" name="submitDataBtn" class="btn btn-success btn-sm mr-3">
+                        <button type="button" id="submitDataBtn" name="submitDataBtn" class="btn btn-success btn-sm mr-3">
                             <i class="fas fa-paper-plane"></i> Submit
                         </button>
                     </div>
