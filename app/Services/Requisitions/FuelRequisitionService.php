@@ -515,7 +515,7 @@ class FuelRequisitionService
             $reference,
             $requisitionDetail->veh_reg_no,
             $requisitionDetail->form_order,
-            Accounts::DefaultNonFuelMaterialAccount,
+            Accounts::MOTOR_VEHICLE_FUEL_LUBRICANTS_ACCOUNT,
             TransactionType::STORES_REQUISITIONS,
         );
 
