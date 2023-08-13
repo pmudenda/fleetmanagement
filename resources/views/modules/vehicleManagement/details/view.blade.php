@@ -1405,7 +1405,7 @@
                                                             <td class="frappe-control ">
                                                                 <div class="clearfix">
                                                                     <label for="frontTyreSize"
-                                                                           class="control-label reqd"
+                                                                           class="control-label field-required"
                                                                            style="padding-right: 0px;">
                                                                         Front Size:
                                                                     </label>
@@ -1418,7 +1418,7 @@
                                                                              style="position: relative;">
                                                                             <div>
                                                                                 <input type="text"
-                                                                                       class="input-with-feedback form-control bold tyre-size view_mode"
+                                                                                       class="form-control bold tyre-size view_mode"
                                                                                        required
                                                                                        id="frontTyreSize"
                                                                                        name="frontTyreSize"
@@ -1430,7 +1430,7 @@
                                                             </td>
                                                             <td class="frappe-control">
                                                                 <div class="clearfix">
-                                                                    <label for="rearTyreSize" class="control-label reqd"
+                                                                    <label for="rearTyreSize" class="control-label field-required"
                                                                            style="padding-right: 0px;">
                                                                         Rear Size:
                                                                     </label>
@@ -1444,11 +1444,9 @@
                                                                              style="position: relative;">
                                                                             <div>
                                                                                 <input type="text"
-                                                                                       class="input-with-feedback form-control bold tyre-size view_mode"
+                                                                                       class="form-control bold tyre-size view_mode"
                                                                                        name="rearTyreSize"
-                                                                                       id="rearTyreSize"
-                                                                                       data-doctype="Work Order"
-                                                                                       autocomplete="off"/>
+                                                                                       id="rearTyreSize"/>
                                                                             </div>
 
                                                                         </div>
@@ -1503,7 +1501,7 @@
                                                                     <span class="help"></span>
                                                                 </div>
                                                             </td>
-                                                            <td style="width: 25%;">
+                                                            <td>
                                                                 <div class="control-input-wrapper">
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
