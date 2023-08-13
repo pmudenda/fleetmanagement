@@ -45,7 +45,7 @@
             <div class="card mb-xl-10">
                 <div id="card_header" class="card-header min-h-2px">
                     <div class="card-title">
-                        <h2> Vehicle Details</h2>
+                        <h2>Vehicle Details</h2>
                     </div>
                     <div class="card-toolbar justify-content-end">
                         @if($vehicle && !$empty($vehicle->barcode))
@@ -326,7 +326,7 @@
                                 History</a>
                         </li>
                     </ul>
-                   {{-- <hr/>--}}
+                    {{-- <hr/>--}}
                 </div>
             </div>
 
@@ -338,11 +338,19 @@
                             <div class="container-fluid pl-0 mt-5">
                                 <div class="row">
                                     <div class="col-4">
-                                       <div class="card">
-                                           <div class="card-body">
-                                               <div id="main" style="height:400px;"></div>
-                                           </div>
-                                       </div>
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    <h2>Cost Of Ownership</h2>
+                                                </div>
+                                                <div class="card-toolbar justify-content-end">
+                                                    <button class="btn btn-link" type="button">Filter</button>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id="main" style="height:400px;"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-4">
                                         <div id="pie" style="height:400px;"></div>
@@ -2970,7 +2978,7 @@
                 }
             }, 600)
 
-            let myChart =echarts.init(document.getElementById('main'))
+            let myChart = echarts.init(document.getElementById('main'))
             const option = {
                 xAxis: {
                     data: ['Animals', 'Fruits', 'Cars']
