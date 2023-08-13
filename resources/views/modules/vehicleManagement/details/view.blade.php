@@ -346,9 +346,10 @@
                                             <div class="card-body px-0 py-0 pl-1">
                                                 <div class="card">
                                                     <div class="card-header pl-0 view_mode px-0 py-0">
-                                                        <div class="card-title">
-                                                            Total Costs <span style="font-weight: bold;"
-                                                                              id="totalOwnershipCosts"></span>
+                                                        <div class="card-title pl-3">
+                                                            Total Costs
+                                                            <span style="font-weight: bold;" class="ml-3"
+                                                                  id="totalOwnershipCosts"></span>
                                                         </div>
                                                     </div>
                                                 </div>
