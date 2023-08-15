@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>ZESCO FLEET MASTER:: Login </title>
+    <title>ZESCO FLEET MASTER:: Gate Pass </title>
 
     <link rel="shortcut icon" href="{{asset('assets/dist/img/icons/logo.png')}}"
           type="image/x-icon">
@@ -13,33 +13,13 @@
     <link href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('assets/plugins/fontawesome/css/all.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('assets/plugins/themify-icons/themify-icons.css')}}" rel="stylesheet">
-    <link href="{{asset('assets/dist/css/login.css')}} " rel="stylesheet" type="text/css">
+    {{--
+        <link href="{{asset('assets/dist/css/login.css')}} " rel="stylesheet" type="text/css">
+    --}}
 </head>
 <body class="bg-white body-bg">
 <main class="register-content">
-    <iframe src="{{asset('assets/forms/VEHICLE-GATE-PASS-.svg')}}"/>
-   {{-- <div class="bg-img-hero position-fixed top-0 right-0 left-0">
-        <figure class="position-absolute right-0 bottom-0 left-0 m-0">
-            <img src="{{asset('assets/dist/img/icons/zesco_logo.png')}}" data-pagespeed-url-hash="2593638024"/>
-        </figure>
-    </div>--}}
-    {{--<div class="container py-5 py-sm-7">
-        <a class="d-flex justify-content-center mb-5 news365-logo" href="">
-            <img class="z-index-2" src="{{asset('assets/dist/img/icons/zesco_logo.png')}}" alt="Image Description"
-                 data-pagespeed-url-hash="799927880">
-        </a>
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-4">
-                <div class="">
-                </div>
-                <div class="form-card mb-5">
-                    <div class="form-card_body">
-                        @yield('content')
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>--}}
+    <object id="gatePass" style="width: 100%; height: 800px;" data="{{asset('forms/VEHICLE-GATE-PASS-.svg')}}"></object>
 </main>
 
 <script src="{{asset('assets/plugins/jquery/jquery-3.6.3.js')}}"></script>
@@ -49,8 +29,12 @@
 
 </body>
 <script>
-    $(document).on('keyup', '[name="email"]', function (event) {
-        this.value = this.value.toUpperCase();
+    window.addEventListener("load", function () {
+        let svgObject = document.getElementById('gatePass').contentDocument;
+        let svg = svgObject.getElementById('svg2');
+        //svg.querySelector('#registrationNumber').textContent = 'ADD 5952';
+        svg.querySelector('#department').textContent = 'INNOVATION AND SYSTEMS DEVELOPMENT';
+        console.log(svg);
     });
 </script>
 </html>

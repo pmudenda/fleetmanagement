@@ -233,7 +233,7 @@
                 let newUserPassword = $("#password").val();
                 let confirmUserPassword = $("#confirm_password").val();
                 if (newUserPassword == "" || newUserPassword !== confirmUserPassword) {
-                    $(document).find(".errorMessage").text('The passwords do not match. Please re-enter the new password.');
+                    $(document).find(".errorMessage").text('The password do not match. Please re-enter the new password.');
                     return;
                 } else {
                     $(document).find(".errorMessage").text('');

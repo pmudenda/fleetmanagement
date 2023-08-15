@@ -35,14 +35,17 @@ class FuelWorkflowApprovers extends Component
             ->get();
 
         $steps = $approvals_array->pluck('step_id')->toArray();
-        $currentStep = WorkflowTaskDetail::where('reference', $this->task->reference)->first();
+        $currentStep = WorkflowTaskDetail::where('reference', '=', $this->task->reference)->first();
 
         $claimant = User::where('staff_no', '=', $this->request->created_by)->first();
         $supervisor = User::where('staff_no', '=', $claimant->supervisor_code)->first();
         $manager = null;
 
         if (!empty($supervisor)) {
-            $manager = User::where('staff_no', '=', $supervisor->supervisor_code)->first();
+            // if($currentStep == '03' || in_array('03', $steps))
+            if($currentStep->current_step_id == '03' || in_array('03', $steps)) {
+                $manager = User::where('staff_no', '=', $supervisor->supervisor_code)->first();
+            }
         }
 
         $snrManager = null;

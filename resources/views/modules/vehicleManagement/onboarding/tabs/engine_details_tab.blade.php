@@ -607,8 +607,10 @@
                             <div class="control-input">
                                 <div class="link-field ui-front" style="position: relative;">
                                     <div class="input-group bg-gray-300">
-                                        <input type="number"
+                                        <input type="text"
                                                value="1"
+                                               min="1"
+                                               max="4"
                                                class="form-control form-control-sm view_mode"
                                                data-fieldname="company"
                                                id="numberOfBatteries"

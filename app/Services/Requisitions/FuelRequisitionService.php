@@ -15,9 +15,13 @@ use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\FuelRequisitionPostRequest;
+use App\Models\Common\BusinessUnit;
+use App\Models\Common\CostCenter;
+use App\Models\Common\OrganizationalUnit;
 use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Models\Security\User;
+use App\Models\VehicleManagement\EngineDetail;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\FileUploads\FileUploadService;
 use App\Services\Integration\ProcurementSystemIntegrationService;
@@ -52,10 +56,48 @@ class FuelRequisitionService
      * @param mixed $registrationNumber
      * @return mixed
      */
-    private static function getRequisitionDetailByVehicleRegistration(mixed $registrationNumber): mixed
+    private static function getFuelLastIssue(mixed $registrationNumber): array
+    {
+        //
+        $latestIssue = DB::table('gen_material_headers h')
+            ->leftJoin(
+                "gen_material_details d",
+                "h.req_no",
+                "=",
+                "d.req_no")
+            ->where(
+                "veh_reg_no",
+                "=",
+                $registrationNumber
+            )
+            ->where('h.created_at',
+                "=",
+                DB::raw("SELECT MAX(created_at)
+                                                   FROM gen_material_headers
+                                                   WHERE is_fuel = 'Y'
+                                                   AND veh_reg_no = $registrationNumber
+                                                   AND status NOT IN ( '45', '03', '01', '02' )")
+            )
+            ->select(
+                "h.req_no",
+                "h.created_at",
+                "h.odometer"
+            )->first();
+
+        //
+        $quantityLastIssued = DB::table('gen_material_details')
+            ->where("req_no", "=", $latestIssue->req_no)
+            ->select(DB::raw("SUM(quantity)"))
+            ->groupBy('req_no')
+            ->first();
+
+        return ["quantityLastIssued" => $quantityLastIssued, 'latestIssue' => $latestIssue];
+    }
+
+    private static function getLastIssuedRequisitionDetailsByRegNumber(mixed $registrationNumber): mixed
     {
         return MaterialHeader::where("veh_reg_no", $registrationNumber)
-            ->whereNotIn("status", [StatusHelper::cancelled(), StatusHelper::rejected()])
+            ->whereNotIn("status", [StatusHelper::cancelled(), StatusHelper::rejected(), StatusHelper::new(), StatusHelper::authorised()])
             ->orderBy("created_at", "desc")
             ->first();
     }
@@ -75,30 +117,76 @@ class FuelRequisitionService
 
         $registrationNumber = $requisitionPostRequest->get("vehicle_registration");
 
-        $vehicle = $this->validateVehicleStatus($registrationNumber);
+        $vehicle = $this->verifyVehicleStatusAndFetchData($registrationNumber);
 
-        //$this->validateVehicleResponsibleUserStatus($registrationNumber);
+        // check if odometer was reset SELECT
+        //    COUNT(*)
+        //FROM
+        //    gtaodores
+        //WHERE
+        //        reg_no = 'AAT 6303'
+        //    AND status = '10';
 
 
-        if (!empty($latestPreviousRequisition)) {
-            // validate odometer against last issue
-            $this->validateOdometerAgainstLastNonCancelled($latestPreviousRequisition, $requisitionPostRequest);
+        $latestOdometerLogs = $this->getLatestOdometerLogsEntry($registrationNumber);
+
+        Log::info("Latest Mileage Return $latestOdometerLogs");
+
+        [$quantityLastIssued, $latestIssue] = $this->getFuelLastIssue($registrationNumber);
+
+        $odometerOnLastIssue = $this->getOdometerOnLastIssue($registrationNumber);
+
+        $this->checkVehicleAssignedUserUnitAndBuCcStatus($registrationNumber);
+
+        [$fuel_consumption, $tank_capacity] = $this->getVehicleFuelConsumptionData($registrationNumber);
+
+            // check that current user provided odometer is greater than last issue
+        $userProvidedOdometer = $requisitionPostRequest->get('odometer_reading');
+
+        $this->validateOdometerAgainstLastIssue(
+                $odometerOnLastIssue,
+                $userProvidedOdometer,
+                $odometerOnLastIssue
+            );
+
+
+        // check that current user provided odometer is greater than last issue
+        $this->validateCurrentOdometerAgainstMileageReturn(
+            $latestOdometerLogs,
+            $userProvidedOdometer,
+        );
+
+        Log::info("Calculating Maximum Distance that should have been covered by  $registrationNumber");
+        Log::debug('Consumption '.$fuel_consumption);
+        Log::debug('Quantity Last Issued '.$quantityLastIssued);
+        $maximumDistance = ($quantityLastIssued * ($fuel_consumption ?? $vehicle->fuel_consumption));
+
+        Log::debug("Maximum Distance " . $maximumDistance);
+        Log::debug("Odometer Last Issue " .  $odometerOnLastIssue);
+        $newEstimatedOdometer = $maximumDistance + $odometerOnLastIssue;
+        Log::debug("Last Issue + Maximum Distance " .  $newEstimatedOdometer);
+
+        // check the value of deviation 5 - 8 = -3
+        $variance =   (float)$userProvidedOdometer - $newEstimatedOdometer;
+        Log::debug("Odometer Variance " .  $variance);
+
+        if($variance < 0 ){
+            throw new FuelRequisitionException("The Odometer Value is too low compared to Last Issue");
+        }elseif ($variance > 200){
+            throw new FuelRequisitionException("The Odometer Value is too High compared to Last Issue");
         }
 
-        Log::info("Calculating Maximum Distance to be covered $registrationNumber");
-        $maximumDistance = ($requisitionPostRequest->material_amount * $vehicle->fuel_consumption)
-            + $requisitionPostRequest->odometer_reading;
-        Log::info("Maximum Distance That Should be Covered " . $maximumDistance);
-
-        // validate odometer reading
-        self::validateCurrentOdometerAgainstMileageReturn($registrationNumber, $requisitionPostRequest->get("odometer_reading"));
+        $latestPreviousRequisition = self::getLastIssuedRequisitionDetailsByRegNumber($registrationNumber);
 
         DB::beginTransaction();
 
         // pick last requisition if any
-        $openRequisitionStatusList = [StatusHelper::new(), StatusHelper::partiallyReleased(), StatusHelper::authorised(), StatusHelper::partiallyAuthorised()];
-
-        $latestPreviousRequisition = self::getRequisitionDetailByVehicleRegistration($registrationNumber);
+        $openRequisitionStatusList = [
+            StatusHelper::new(),
+            StatusHelper::partiallyReleased(),
+            StatusHelper::authorised(),
+            StatusHelper::partiallyAuthorised()
+        ];
 
         if (!empty($latestPreviousRequisition)) {
             Log::info("Status of Previous Requisition for
@@ -264,7 +352,7 @@ class FuelRequisitionService
         }
 
         Log::info("Vehicle Reg Is $registrationNumber");
-        /********************************************** Save Data **************************************/
+        /******************************************* Save Data **************************************/
         $user = Auth()->user();
 
         $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::FUEL_REQUISITION);
@@ -282,7 +370,6 @@ class FuelRequisitionService
             $description = "Out Of Town ";
             $townFrom = $requisitionPostRequest->has("departureTown") ? $requisitionPostRequest->get("departureTown") : null;
             $townTo = $requisitionPostRequest->has("destinationTown") ? $requisitionPostRequest->get("destinationTown") : null;
-
         } elseif ($requisitionPostRequest->get("requisition_type") == RequisitionTypes::Normal->value) {
             $workflowProcess = WorkflowProcessCodes::NormalFuelRequisition->value;
             $description = "Normal ";
@@ -374,11 +461,9 @@ class FuelRequisitionService
 
     /**
      * Verifies Vehicle is Active otherwise throws exception
-     * @param $reference
-     * @return void
      * @throws FuelRequisitionException
      */
-    public function validateVehicleStatus($reference)
+    public function verifyVehicleStatusAndFetchData($reference)
     {
         $allowedStatus = [StatusHelper::active()];
 
@@ -392,44 +477,25 @@ class FuelRequisitionService
     }
 
     /**
+     * @throws FuelRequisitionException
      */
-    public function validateCurrentOdometerAgainstMileageReturn($registration_number, $currentOdometer): bool
+    public function validateCurrentOdometerAgainstMileageReturn($latestOdometerLogEntry, $userProvidedOdometer): bool
     {
-        /*$vehicleDetail = DB::table("VM_VEHICLE_HEADER")
-            ->join("VM_CHASSIS_DETAILS",
-                "VM_VEHICLE_HEADER.id",
-                "=",
-                "VM_CHASSIS_DETAILS.vehicle_header_id")
-            ->where("VM_VEHICLE_HEADER.registration_number", trim($registration_number))
-            ->where("VM_VEHICLE_HEADER.status", "!=", StatusHelper::cancelled())
-            ->select("VM_VEHICLE_HEADER.*", "VM_CHASSIS_DETAILS.initial_odometer_reading")
-            ->first();
-
-        if ($vehicleDetail->initial_odometer_reading > $currentOdometer) {
+        if ($userProvidedOdometer <= $latestOdometerLogEntry) {
             throw new FuelRequisitionException(ErrorMessages::getMessage("err_0013"), 1000);
-        }*/
+        }
 
         return true;
     }
 
     /**
-     * @param $vehicleReference
+     * @param $responsibleHeadStaffNumber
      * @return void
      * @throws FuelRequisitionException
      */
-    public function validateVehicleResponsibleUserStatus($vehicleReference): void
+    public function verifyVehicleResponsibleUserIsActive($responsibleHeadStaffNumber): void
     {
-        $vehicleDetail = DB::table("VM_VEHICLE_HEADER")
-            ->join("VM_ASSIGNMENTS",
-                "VM_VEHICLE_HEADER.id",
-                "=",
-                "VM_ASSIGNMENTS.vehicle_header_id")
-            ->where("VM_VEHICLE_HEADER.registration_number", trim($vehicleReference))
-            ->where("VM_ASSIGNMENTS.assignment_state", StatusHelper::active())
-            ->select("VM_VEHICLE_HEADER.*", "VM_ASSIGNMENTS.responsible_head_id")
-            ->first();
-
-        $responsibleHead = User::where("staff_no", "=", $vehicleDetail->responsible_head_id)->first();
+        $responsibleHead = User::where("staff_no", "=", $responsibleHeadStaffNumber)->first();
 
         if (empty($responsibleHead) || $responsibleHead->con_st_code != StatusHelper::activeUser()) {
             throw new FuelRequisitionException(ErrorMessages::getMessage("err_0003"), 300);
@@ -439,14 +505,15 @@ class FuelRequisitionService
     /**
      * Validates the odometer reading on request is greater than the previous issue
      * @param $previousRequisition
-     * @param FuelRequisitionPostRequest $requisitionPostRequest
+     * @param $userProvidedOdometerReading
+     * @param $odometerOnLastIssue
      * @return void
      * @throws FuelRequisitionException
      */
-    public function validateOdometerAgainstLastNonCancelled($previousRequisition, FuelRequisitionPostRequest $requisitionPostRequest): void
+    public function validateOdometerAgainstLastIssue($previousRequisition, $userProvidedOdometerReading, $odometerOnLastIssue): void
     {
         // verify that odometer reading is not the same as previous requisition
-        if ($requisitionPostRequest->odometer_reading <= $previousRequisition->odometer) {
+        if ($userProvidedOdometerReading <= $odometerOnLastIssue) {
             throw new FuelRequisitionException(
                 str_replace("@veh_reg", $previousRequisition->veh_reg_no,
                     str_replace("@date_valid_to",
@@ -519,8 +586,7 @@ class FuelRequisitionService
                 Accounts::MOTOR_VEHICLE_FUEL_LUBRICANTS_ACCOUNT,
                 TransactionType::STORES_REQUISITIONS,
             );
-        }
-        else {
+        } else {
             $results = $this->procurementService->createStoresRequisition(
                 $reference,
                 $requisitionDetail->veh_reg_no,
@@ -626,5 +692,95 @@ class FuelRequisitionService
         MaterialHeader::where("req_no", $reference)
             ->update(["status" => $status]);
         DB::commit();
+    }
+
+    private function getLatestOdometerLogsEntry(mixed $registrationNumber): Model|Builder|null
+    {
+        return DB::table('vm_fleet_movement_header')
+            ->where('reg_no', '=', $registrationNumber)
+            ->select(DB::raw('MAX(odometer_end)'))
+            ->first();
+    }
+
+    private function getOdometerOnLastIssue(mixed $registrationNumber): Model|Builder|null
+    {
+        return DB::table('gen_material_headers')
+            ->where('veh_reg_no', '=', $registrationNumber)
+            ->where("is_fuel", "=", "Y")
+            ->whereIn('status', [
+                StatusHelper::partiallyReleased(),
+                '32',
+                StatusHelper::partiallyReleasedExpired(),
+                '46'])
+            ->select(DB::raw('MAX(odometer)'))
+            ->first();
+    }
+
+    /**
+     * @param mixed $registrationNumber
+     * @return void
+     * @throws FuelRequisitionException
+     */
+    private function checkVehicleAssignedUserUnitAndBuCcStatus(mixed $registrationNumber): void
+    {
+        $assignmentInfo = DB::table('vm_vehicle_header vh')
+            ->where("vh.registration_number", '=', $registrationNumber)
+            ->leftJoin('vm_assignments as',
+                'vh.id',
+                '=',
+                "va.vehicle_header_id")
+            ->select("va.business_unit",
+                "va.cost_center",
+                "vh.business_unit_code as user_unit",
+                "'' as zone",
+                "va.business_area_code  as area",
+                "va.responsible_head_id as responsible",
+                "'' as supervisor")
+            ->first();
+
+        if (empty($assignmentInfo)) {
+            return;
+        }
+
+        $countBu = BusinessUnit::where('code_bu', $assignmentInfo->business_unit)
+            ->where("status", "=", StatusHelper::active())
+            ->count();
+
+        if ($countBu == 0) {
+            throw new FuelRequisitionException("Business Unit Is Not Active");
+        }
+
+
+        $countCc = CostCenter::where('code_cost_center', $assignmentInfo->cost_center)
+            ->where("status", "=", StatusHelper::active())
+            ->count();
+
+        if ($countCc == 0) {
+            throw new FuelRequisitionException("Cost Center Is Not Active");
+        }
+
+        $countUserUnit = OrganizationalUnit::where('code_unit', $assignmentInfo->user_unit)
+            ->where("status", "=", StatusHelper::organizationStructureActive())
+            ->count();
+
+        if ($countUserUnit == 0) {
+            throw new FuelRequisitionException("User Unit Is Not Active");
+        }
+
+    }
+
+    private function getVehicleFuelConsumptionData(mixed $vehicleReference): array
+    {
+        $consumptionData = EngineDetail::where('vehicle_header_id', '=', $vehicleReference)
+            ->first();
+
+        if (empty($consumptionData)) {
+            return ['fuel_consumption' => null, 'tank_capacity' => 0];
+        }
+
+        return [
+            'fuel_consumption' => $consumptionData->fuel_consumption,
+            'tank_capacity' => $consumptionData->tank_capacity
+        ];
     }
 }

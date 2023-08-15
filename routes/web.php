@@ -73,7 +73,7 @@ Route::get('gate/pass', function (Request $request) {
         return redirect(route('home'));
     }
 
-    $vehicle = VehicleDetailsService::getVehicleByReg($request->get('ref'));
+    $vehicle = null;// VehicleDetailsService::getVehicleByReg($request->get('ref'));
     return view('dashboard.pass')
         ->with(compact('vehicle'));
 

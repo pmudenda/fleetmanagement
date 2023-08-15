@@ -556,7 +556,6 @@
                                                   id="unit_of_measure">{{$requestDetails->unit_of_measure}}</span>
                                     </td>
                                     <td>
-
                                             <span data-material-input="material_price"
                                                   id="material_price">{{number_format($requestDetails->price, 2)}}</span>
                                     </td>

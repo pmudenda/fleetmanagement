@@ -54,7 +54,7 @@ class FortifyServiceProvider extends ServiceProvider
 
             $user = User::where(USERNAME_FIELD, $request->get(USER_NAME_INPUT_FIELD))
                 ->where(USER_STATUS_FIELD, StatusHelper::activeUser())
-                //->where(HAS_ACTIVE_SESSION_FIELD, ConfigHelper::currentLoginFalse())
+                // ->where(HAS_ACTIVE_SESSION_FIELD, ConfigHelper::currentLoginFalse())
                 ->first();
 
             if ($user &&

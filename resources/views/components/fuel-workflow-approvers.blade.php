@@ -61,25 +61,23 @@
                             <span class="font-weight-bold">
                                 1. CLAIMANT
                             </span>
-
-                                <table class="table table-sm ">
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" checked="checked">
-                                        </td>
-                                        <td>
-                                            <div class="text-sm">
-                                                <h5 class="text-white">{{$claimant->name}}</h5>
-                                            </div>
-                                            <small>
-                                                {{$claimant->job_title ?? '-'}}
-                                            </small>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
+                            <table class="table table-sm ">
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" checked="checked">
+                                    </td>
+                                    <td>
+                                        <div class="text-sm">
+                                            <h5 class="text-white">{{$claimant->name}}</h5>
+                                        </div>
+                                        <small>
+                                            {{$claimant->job_title ?? '-'}}
+                                        </small>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                             </div>
                         </div>
                         <div class="col-1  ">
@@ -122,21 +120,6 @@
                                             </small>
                                         </td>
                                     </tr>
-                                    {{--   @foreach ($hod_unit_users as $item)
-                                           <tr>
-                                               <td>
-                                                   @if (in_array(config('constants.subsistence_status.hod_approved'), $approvals_array))
-                                                       <input type="checkbox" checked="checked">
-                                                   @else
-                                                       <input type="checkbox" disabled>
-                                                   @endif
-                                               </td>
-                                               <td> <span class="text-sm"> {{ $item->name }}
-                                                       ({{ $item->position->code ?? '-' }} )
-                                                   </span>
-                                               </td>
-                                           </tr>
-                                       @endforeach--}}
                                     @if (empty($supervisor))
                                         <tr class="text-danger">
                                             <td><input type="checkbox" disabled></td>
@@ -156,7 +139,7 @@
                     </div>
                 </div>
 
-                @if($currentStep == '03' || in_array('03', $steps))
+                @if(!empty($manager)))
                     <div class="col-3">
                         <div class="row">
                             <div class="col-11">
@@ -191,25 +174,10 @@
                                                 </small>
                                             </td>
                                         </tr>
-                                        {{--   @foreach ($hod_unit_users as $item)
-                                               <tr>
-                                                   <td>
-                                                       @if (in_array(config('constants.subsistence_status.hod_approved'), $approvals_array))
-                                                           <input type="checkbox" checked="checked">
-                                                       @else
-                                                           <input type="checkbox" disabled>
-                                                       @endif
-                                                   </td>
-                                                   <td> <span class="text-sm"> {{ $item->name }}
-                                                           ({{ $item->position->code ?? '-' }} )
-                                                       </span>
-                                                   </td>
-                                               </tr>
-                                           @endforeach--}}
                                         @if (empty($manager))
                                             <tr class="text-danger">
                                                 <td><input type="checkbox" disabled></td>
-                                                <td> Not Aligned</td>
+                                                <td>Not Aligned</td>
                                             </tr>
                                         @endif
 
@@ -223,7 +191,6 @@
                         </div>
                     </div>
                 @endif
-
 
                 @if(!empty($snrManager))
                     <div class="col-3 d-none">
@@ -384,6 +351,7 @@
 
                     </div>
                 @endif
+
                 @if(!empty($managingDirector))
                     <div class="col-3">
                         <div class="row">

@@ -222,109 +222,6 @@
 
             <tr>
                 <td colspan="2">
-                    <h4>Exterior</h4>
-                </td>
-            </tr>
-            <tr>
-                <td class="frappe-control ">
-                    <label for="distanceAxle1" class="control-label"
-                           style="padding-right: 0px;">
-                        Dist Axle 1:
-                    </label>
-                </td>
-                <td>
-                    <div class="control-input-wrapper">
-                        <div class="control-input">
-                            <div class="link-field ui-front" style="position: relative;">
-                                <input type="text"
-                                       class="input-with-feedback form-control bold view_mode"
-                                       maxlength="140"
-                                       id="distanceAxle1"
-                                       name="distanceAxle1"
-                                       data-doctype="BodyDetails"
-                                       v-model="bodyDetails.distanceAxle1"
-                                       placeholder=""
-                                       data-target="Company">
-                            </div>
-                        </div>
-                    </div>
-                </td>
-
-                <td class="frappe-control ">
-                    <label for="distanceAxle2" class="control-label"
-                           style="padding-right: 0px;">
-                        Dist Axle 2:
-                    </label>
-                </td>
-                <td>
-                    <div class="control-input-wrapper">
-                        <div class="control-input">
-                            <div class="link-field ui-front" style="position: relative;">
-                                <input type="text"
-                                       class="input-with-feedback form-control bold view_mode"
-                                       maxlength="140"
-                                       id="distanceAxle2"
-                                       name="distanceAxle2"
-                                       data-doctype="BodyDetails"
-                                       v-model="bodyDetails.distanceAxle2"
-                                       placeholder=""/>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-
-            </tr>
-            <tr>
-                <td class="frappe-control ">
-                    <label for="distanceAxle3" class="control-label"
-                           style="padding-right: 0px;">
-                        Dist Axle 3:
-                    </label>
-                </td>
-                <td>
-                    <div class="control-input-wrapper">
-                        <div class="control-input">
-                            <div class="link-field ui-front" style="position: relative;">
-                                <input type="text"
-                                       class="input-with-feedback form-control bold view_mode"
-                                       maxlength="140"
-                                       id="distanceAxle3"
-                                       name="distanceAxle3"
-                                       v-model="bodyDetails.distanceAxle3"
-                                       placeholder=""
-                                       data-doctype="BodyDetails"
-                                       data-target="Company">
-                            </div>
-                        </div>
-                    </div>
-                </td>
-
-                <td class="frappe-control ">
-                    <label for="distanceAxle5" class="control-label"
-                           style="padding-right: 0px;">
-                        Dist Axle 4 Rda/Ult:
-                    </label>
-                </td>
-                <td>
-                    <div class="control-input-wrapper">
-                        <div class="control-input">
-                            <div class="link-field ui-front" style="position: relative;">
-                                <input type="text"
-                                       class="input-with-feedback form-control bold view_mode"
-                                       maxlength="140"
-                                       id="distanceAxle4"
-                                       name="distanceAxle4"
-                                       v-model="bodyDetails.distanceAxle4"
-                                       placeholder=""/>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-
-            </tr>
-
-            <tr>
-                <td colspan="2">
                     <h4>Weight</h4>
                 </td>
             </tr>
@@ -377,6 +274,109 @@
                            placeholder=""
                            data-doctype="WeightDetails"/>
                 </td>
+            </tr>
+
+
+            <tr class="d-none truckOnly">
+                <td colspan="2">
+                    <h4>Exterior</h4>
+                </td>
+            </tr>
+            <tr class="d-none truckOnly">
+                <td class="frappe-control ">
+                    <label for="distanceAxle1" class="control-label"
+                           style="padding-right: 0px;">
+                        Dist Axle 1:
+                    </label>
+                </td>
+                <td>
+                    <div class="control-input-wrapper">
+                        <div class="control-input">
+                            <div class="link-field ui-front" style="position: relative;">
+                                <input type="text"
+                                       class="input-with-feedback form-control bold view_mode"
+                                       maxlength="140"
+                                       id="distanceAxle1"
+                                       name="distanceAxle1"
+                                       data-doctype="BodyDetails"
+                                       v-model="bodyDetails.distanceAxle1"
+                                       placeholder=""
+                                       data-target="Company">
+                            </div>
+                        </div>
+                    </div>
+                </td>
+
+                <td class="frappe-control ">
+                    <label for="distanceAxle2" class="control-label"
+                           style="padding-right: 0px;">
+                        Dist Axle 2:
+                    </label>
+                </td>
+                <td>
+                    <div class="control-input-wrapper">
+                        <div class="control-input">
+                            <div class="link-field ui-front" style="position: relative;">
+                                <input type="text"
+                                       class="input-with-feedback form-control bold view_mode"
+                                       maxlength="140"
+                                       id="distanceAxle2"
+                                       name="distanceAxle2"
+                                       data-doctype="BodyDetails"
+                                       v-model="bodyDetails.distanceAxle2"
+                                       placeholder=""/>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="frappe-control ">
+                    <label for="distanceAxle3" class="control-label"
+                           style="padding-right: 0px;">
+                        Dist Axle 3:
+                    </label>
+                </td>
+                <td>
+                    <div class="control-input-wrapper">
+                        <div class="control-input">
+                            <div class="link-field ui-front" style="position: relative;">
+                                <input type="text"
+                                       class="input-with-feedback form-control bold view_mode"
+                                       maxlength="140"
+                                       id="distanceAxle3"
+                                       name="distanceAxle3"
+                                       v-model="bodyDetails.distanceAxle3"
+                                       placeholder=""
+                                       data-doctype="BodyDetails"
+                                       data-target="Company">
+                            </div>
+                        </div>
+                    </div>
+                </td>
+
+                <td class="frappe-control ">
+                    <label for="distanceAxle5" class="control-label"
+                           style="padding-right: 0px;">
+                        Dist Axle 4 Rda/Ult:
+                    </label>
+                </td>
+                <td>
+                    <div class="control-input-wrapper">
+                        <div class="control-input">
+                            <div class="link-field ui-front" style="position: relative;">
+                                <input type="text"
+                                       class="input-with-feedback form-control bold view_mode"
+                                       maxlength="140"
+                                       id="distanceAxle4"
+                                       name="distanceAxle4"
+                                       v-model="bodyDetails.distanceAxle4"
+                                       placeholder=""/>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+
             </tr>
 
             {{--  <tr>
