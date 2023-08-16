@@ -202,7 +202,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('job-card/accessories', [MaintenanceController::class, 'showAccessoriesTab'])->name('accessories.job.card');
 
-            /*  Route::get('new/job-card', [MaintenanceController::class, 'start'])->name('new.job.card');*/
+            /*Route::get('new/job-card', [MaintenanceController::class, 'start'])->name('new.job.card');*/
 
             // supporting
             Route::get('requisitions/workOrder/list', [MaintenanceController::class, 'list'])->name('workOrder.list');
@@ -220,7 +220,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::post('save/job/card/accessories', [MaintenanceController::class, 'processJobCardAccessories'])->name('job_card.accessories.checkin');
 
-            Route::post('save/job-card/defects', [MaintenanceController::class, 'processJobCardDefects'])->name('defects.job_card');
+            Route::post('save/job-card/defects', [MaintenanceController::class, 'saveJobCardDefects'])->name('defects.job_card');
 
             Route::post('save/workshop/material/requisition', [MaintenanceController::class, 'processWorkShopMaterials'])->name('process.requisition');
 
@@ -230,7 +230,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::post('save/workshop/services/reservation', [MaintenanceController::class, 'processWorkShopServicesReservation'])->name('save.service.reservation');
 
-            Route::get('workOrder/job-card/defects', [MaintenanceController::class, 'defectsTab'])->name('defects.job.card');
+            // Route::get('workOrder/job-card/defects', [MaintenanceController::class, 'defectsTab'])->name('defects.job.card');
 
             Route::get('exit/vehicle/from/workshop', [MaintenanceController::class, 'exitWorkShop'])->name('exit.from.card');
 

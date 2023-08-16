@@ -86,11 +86,13 @@ class MaintenanceController extends Controller
     public function create(Request $request): View
     {
         if (!$request->hasValidSignature()) {
-            //abort(401);
+            abort(401);
         }
 
+        $step = $request->get("step") ?? 0;
+        $reference = $request->get("reference") ?? $request->get('ref');
+
         list(
-            $step,
             $repairTypes,
             $accessories_checked_in,
             $accessories,
@@ -101,11 +103,12 @@ class MaintenanceController extends Controller
             $officeDetails,
             $materials,
             $materialsHeader,
-            $services
-            ) = $this->getJobCardCreationData($request);
+            $services,
+            $labour
+            ) = $this->getFullJobCardDetails($reference);
 
         $view_name = "modules.workshopManagement.workOrder.create";
-        $labour = collect([]);
+
         return view($view_name)
             ->with(
                 compact(
@@ -129,6 +132,8 @@ class MaintenanceController extends Controller
     public function start(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $view_name = 'modules.workshopManagement.workOrder.start';
+        $step = $request->get("step") ?? 0;
+        $reference = $request->get("reference") ?? $request->get('ref');
 
         list(
             $step,
@@ -143,7 +148,7 @@ class MaintenanceController extends Controller
             $materials,
             $materialsHeader,
             $services
-            ) = $this->getJobCardCreationData($request);
+            ) = $this->getJobCardCreationData($reference, $step);
 
         $labour = collect([]);
         return view($view_name)
@@ -274,7 +279,6 @@ class MaintenanceController extends Controller
         }
     }
 
-
     public function getArticlesByType(Request $request): JsonResponse
     {
         try {
@@ -332,6 +336,7 @@ class MaintenanceController extends Controller
         if (!$request->has("step")) {
             return redirect(URL::signedRoute("workOrder.requisition", ["step" => 1]));
         }
+        $step = $request->get("step");
 
         list($step,
             $repairTypes,
@@ -345,7 +350,7 @@ class MaintenanceController extends Controller
             $materials,
             $materialsHeader,
             $services
-            ) = $this->getJobCardCreationData($request);
+            ) = $this->getJobCardCreationData($request->get(), $step);
 
         return view("modules.workshopManagement.workOrder.show")
             ->with(
@@ -374,6 +379,9 @@ class MaintenanceController extends Controller
             return redirect(URL::signedRoute("workOrder.requisition", ["step" => 1]));
         }
 
+        $reference = $request->get("reference") ?? $request->get('ref');
+        $step = $request->get("step") ?? 0;
+
         list($step,
             $repairTypes,
             $accessories_checked_in,
@@ -386,7 +394,7 @@ class MaintenanceController extends Controller
             $materials,
             $materialsHeader,
             $services
-            ) = $this->getJobCardCreationData($request);
+            ) = $this->getJobCardCreationData($reference, $step);
 
         return view("modules.workshopManagement.workOrder.create")
             ->with(
@@ -407,7 +415,7 @@ class MaintenanceController extends Controller
             );
     }
 
-    public function partsSelection(Request $request)
+    public function partsSelection(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
 
         $step = '1';
@@ -456,7 +464,8 @@ class MaintenanceController extends Controller
             $officeDetails,
             $materials,
             $materialsHeader,
-            $services, $labour
+            $services,
+            $labour
             ) = $this->getFullJobCardDetails($request->get("reference"));
 
         $taskHeader = null;
@@ -490,6 +499,8 @@ class MaintenanceController extends Controller
     public function defectsTab(Request $request): Application|\Illuminate\Contracts\View\View|Factory|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
         $this->verifyRequestSignature($request);
+        $step = $request->get("step") ?? 0;
+        $reference = $request->get("reference") ?? $request->get('ref');
 
         list(
             $step,
@@ -504,7 +515,7 @@ class MaintenanceController extends Controller
             $materials,
             $materialsHeader,
             $services
-            ) = $this->getJobCardCreationData($request);
+            ) = $this->getJobCardCreationData($reference, $step);
 
         return view("modules.workshopManagement.workOrder.create")
             ->with(
@@ -524,7 +535,6 @@ class MaintenanceController extends Controller
                 )
             );
     }
-
 
     public function getFuelLevels(): JsonResponse
     {
@@ -659,14 +669,14 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function processJobCardDefects(VehicleDefectsRequest $request): JsonResponse
+    public function saveJobCardDefects(VehicleDefectsRequest $request): JsonResponse
     {
         try {
             $this->workshopService->createJobCardDefects($request);
             return response()->json([
                 "success" => true,
                 "message" => SystemMessages::defectRecorded(),
-                "redirectUrl" => URL::signedRoute("defects.job.card",
+                "redirectUrl" => URL::signedRoute("workOrder.requisition",
                     ["step" => 4, "reference" => $request->get("job_card_no")]),
             ]);
         } catch (\Exception $e) {
@@ -757,14 +767,12 @@ class MaintenanceController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param $reference
+     * @param $step
      * @return array
      */
-    public function getJobCardCreationData(Request $request): array
+    public function getJobCardCreationData($reference, $step): array
     {
-        $step = $request->get("step") ?? 0;
-        $reference = $request->get("reference") ?? $request->get('ref');
-
         $repairTypes = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
             ->where("active", "=", 1)
             ->orderBy("name")
@@ -800,7 +808,6 @@ class MaintenanceController extends Controller
             $defects = VehicleDefect::where("workshop_reference", "=", $details->wshp_act_code)->get();
 
             //$defectCodes = $defects->pluck('defect_code');
-
             // $comments = WorkShopComment::where("workshop_reference", "=", $details->workshop_doc_no)->get();
             $comments = WorkShopComment::where("workshop_reference", "=", $details->wshp_act_code)->get();
 
