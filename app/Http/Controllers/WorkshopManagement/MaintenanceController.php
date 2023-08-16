@@ -336,7 +336,9 @@ class MaintenanceController extends Controller
         if (!$request->has("step")) {
             return redirect(URL::signedRoute("workOrder.requisition", ["step" => 1]));
         }
+
         $step = $request->get("step");
+        $reference = $request->get("reference") ?? $request->get('ref');
 
         list($step,
             $repairTypes,
@@ -350,7 +352,7 @@ class MaintenanceController extends Controller
             $materials,
             $materialsHeader,
             $services
-            ) = $this->getJobCardCreationData($request->get(), $step);
+            ) = $this->getJobCardCreationData($reference, $step);
 
         return view("modules.workshopManagement.workOrder.show")
             ->with(
