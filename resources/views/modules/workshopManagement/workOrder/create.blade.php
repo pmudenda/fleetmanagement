@@ -408,8 +408,6 @@
                        id="vehicle_registration"/>
                 <input type="hidden" value="{{$details->veh_reg ?? ''}}" name="vehicle_reg_no"
                        id="vehicle_reg_no"/>
-                {{--<input type="hidden" value="{{$details->workshop_doc_no ?? ''}}" name="workshop_reference"
-                       id="workshop_reference"/>--}}
                 <input type="hidden" value="{{$details->wshp_act_code ?? ''}}" name="workshop_reference"
                        id="workshop_reference"/>
                 <input type="hidden" value="{{route('delete.defect.record')}}" name="deleteDefectUrl"
