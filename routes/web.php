@@ -194,6 +194,8 @@ Route::group(['middleware' => 'auth'], function () {
             // front desk
             Route::get('vehicle/workshop/checkin', [MaintenanceController::class, 'start'])->name('vehicle.workshop.checkin');
 
+            Route::post('vehicle/workshop/checkin', [MaintenanceController::class, 'start'])->name('vehicle.workshop.checkin');
+
             Route::post('assessment/acknowledgment', [MaintenanceController::class, "eSign"])->name('sign.assessment');
 
             Route::get('parts-selection', [MaintenanceController::class, 'partsSelection'])->name('parts.selection');
