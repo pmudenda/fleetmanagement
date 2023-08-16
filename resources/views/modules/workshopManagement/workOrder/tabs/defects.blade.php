@@ -181,7 +181,7 @@
 
                     </td>
                     <td class="text-right">
-                        <button class="btn btn-sm btn-success pull-left"
+                        <button class="btn btn-sm btn-success pull-right"
                                 id="saveDefects"
                                 name="saveDefects"
                                 type="button">
