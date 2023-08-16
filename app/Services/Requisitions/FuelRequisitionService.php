@@ -141,6 +141,7 @@ class FuelRequisitionService
         $quantityLastIssued = $this->getFuelLastIssue($registrationNumber);
 
         //$latestIssue]
+        Log::info("Latest Issued Amount $quantityLastIssued");
 
         $odometerOnLastIssue = $this->getOdometerOnLastIssue($registrationNumber);
 
@@ -733,7 +734,7 @@ class FuelRequisitionService
     {
         $assignmentInfo = DB::table('vm_vehicle_header vh')
             ->where("vh.registration_number", '=', $registrationNumber)
-            ->leftJoin('vm_assignments as',
+            ->leftJoin('vm_assignments as va',
                 'vh.id',
                 '=',
                 "va.vehicle_header_id")
