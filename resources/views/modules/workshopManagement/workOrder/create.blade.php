@@ -731,7 +731,7 @@
 
             $('select[name="repairType"]').attr("disabled", true);
 
-            $('[name="driver_staff_number"]').attr('readonly', true);
+            $('[name="driver_staff_number"]').attr('disabled', true);
             $('[name="current_odometer"]').attr('readonly', true);
         }
 
