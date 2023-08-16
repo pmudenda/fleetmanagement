@@ -737,7 +737,7 @@
 
         $(document).ready(function () {
 
-            $(document).on('keyup', '[name="commentsToSupervisor"]', function (event) {
+            $(document).on('oninput', '[name="commentsToSupervisor"]', function (event) {
                 this.value = this.value.toUpperCase();
             });
 
@@ -2055,15 +2055,15 @@
                     tmsApp.numberOnly(event);
                 });
 
-                $(document).on('keyup', '.comments', function (event) {
+                $(document).on('oninput', '.comments', function (event) {
                     this.value = this.value.toUpperCase();
                 });
 
-                $(document).on('keyup', '[name="remarks"]', function (event) {
+                $(document).on('oninput', '[name="remarks"]', function (event) {
                     this.value = this.value.toUpperCase();
                 });
 
-                $(document).on('keyup', '.technical_specification', function (event) {
+                $(document).on('oninput', '.technical_specification', function (event) {
                     this.value = this.value.toUpperCase();
                 });
 
