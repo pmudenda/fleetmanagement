@@ -779,6 +779,7 @@ class FuelRequisitionService
 
     private function getVehicleFuelConsumptionData(mixed $vehicleReference): array
     {
+        Log::info("Registration Number $vehicleReference");
         $consumptionData = DB::table('vm_vehicle_header vh')
             ->join(
                 'vm_engine_details ed',
