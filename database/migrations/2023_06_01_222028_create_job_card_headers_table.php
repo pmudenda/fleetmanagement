@@ -51,6 +51,7 @@ return new class extends Migration {
             $table->string('modified_by', 15)->nullable();
             $table->string('driver_acknowledged', 20)->nullable();
             $table->date('date_acknowledged')->nullable();
+            $table->integer('step')->nullable();
             $table->timestamps();
         });
     }
