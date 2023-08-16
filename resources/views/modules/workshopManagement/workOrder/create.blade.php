@@ -1051,7 +1051,9 @@
                     ) {
                         $(formElements).find("tbody").children().map(function (index, row) {
                             let obj = {};
-                            $(row).find('input[name], select[name]').each(function (i, item) {
+                            //$(row).hasClass('')
+
+                            $(row).find('input[name][type!=hidden], select[name]').each(function (i, item) {
                                 let val = item.value.replace(/,/g, '');
 
                                 if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
@@ -1733,7 +1735,6 @@
                 return false;
             }
 
-
             function pettyCashTableHasItems() {
                 let inputs = $(".pettyCashItemsTable > tbody").find('.articleCode');
                 for (const input of inputs) {
@@ -1844,6 +1845,7 @@
                 let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
 
                 lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
+                lastRow.attr('data-record-id', 0);
 
                 if (tableId === "material_table") {
                     lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
@@ -1875,6 +1877,7 @@
 
                 if (tableId === "part8") {
                     let row = lastRow[0];
+                    $(row).find('[name="vehicleSystem"]')
                     $(row).find('.select2-container').remove();
                     let $_defect_sel = $(".select_2_control");
                     reinitializeSelect2($_defect_sel);
@@ -2478,7 +2481,6 @@
             }
 
             getSuppliers();
-
 
         })(window.tmsApp || {}, jQuery)
     </script>

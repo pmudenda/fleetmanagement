@@ -22,7 +22,7 @@
                         <tbody>
                         @if($defects && $defects->isNotEmpty())
                             @foreach($defects as $defect)
-                                <tr class="increment" data-target="{{$defect->id}}">
+                                <tr class="savedRecord" data-record-id="{{$defect->id}}">
                                     <td class="showNumber">
                                         <select name="vehicleSystem"
                                                 required

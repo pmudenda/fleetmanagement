@@ -436,10 +436,6 @@
                 "mask": "99/9999"
             }).mask("#expiryDate");
 
-            /*Inputmask({
-                "mask": "{+99}999999999"
-            }).mask("#contactNumber");*/
-
             Inputmask({
                 "mask": "A{2,3} 9{1,4}"
             }).mask("#vehicleRegistration");
@@ -525,11 +521,6 @@
                 maxDate: new Date(),
                 dateFormat: 'dd/mm/yy',
             });
-
-            /*$('[name="expiryDate"]').datepicker({
-                minDate: new Date(),
-                dateFormat: 'dd/mm/yy',
-            });*/
 
             $(document).on('click', '[data-action="openDatePicker"]', function () {
                 $(".datetimepicker-opened").datepicker("show");

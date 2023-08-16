@@ -32,9 +32,12 @@ class SendFuelRequisitionApprovedEmail
             $sender = User::where('staff_no', '=', trim($user->staff_no))->first();
             $task = WorkflowTaskHeader::where('reference', '=', trim($reference))->first();
 
-            $recipient = User::where('staff_no', trim($task->created_by))->first();
+            $recipient = User::where('id', trim($task->created_by))->first();
 
-            EmailNotificationService::sendNotification($recipient, $sender, ['req_no' => $reference, 'spms_ref' => $event->requisitionNumber], $action, $task);
+            EmailNotificationService::sendNotification($recipient, $sender,
+                ['req_no' => $reference,
+                    'spms_ref' => $event->requisitionNumber],
+                $action, $task);
         } catch (\Exception $e) {
             Log::info('Error When Sending Mail');
             Log::error($e);
