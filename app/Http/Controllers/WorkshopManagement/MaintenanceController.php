@@ -522,7 +522,7 @@ class MaintenanceController extends Controller
                 [
                     "success" => true,
                     "payload" => $response,
-                    "redirectUrl" => URL::signedRoute("accessories.job.card", ["step" => 2, "reference" => $response->job_card_no]),
+                    "redirectUrl" => URL::signedRoute("vehicle.workshop.checkin", ["step" => 2, "reference" => $response->job_card_no]),
                 ]
             );
         } catch (\Exception $e) {
@@ -618,8 +618,9 @@ class MaintenanceController extends Controller
             return response()->json([
                 "success" => true,
                 "message" => SystemMessages::accessoriesCheckedIn(),
-                "redirectUrl" => URL::signedRoute("accessories.job.card",
-                    ["step" => 3, "reference" => $request->get("job_card_voucher")]),
+                "redirectUrl" =>
+                    URL::signedRoute("vehicle.workshop.checkin",
+                        ["step" => 3, "reference" => $request->get("job_card_voucher")]),
             ]);
         } catch (\Exception $e) {
             Log::error($e);
@@ -837,11 +838,6 @@ class MaintenanceController extends Controller
 
     public function eSign(Request $request): JsonResponse
     {
-        /*reference: ZFMJBC0000000181
-            loginId: 71581
-            password: dfGctaL777TxCQF
-            acceptance: on
-        */
         try {
             $loginId = $request->get('loginId');
             $password = $request->get('password');

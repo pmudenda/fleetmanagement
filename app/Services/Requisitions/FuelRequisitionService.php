@@ -189,8 +189,11 @@ class FuelRequisitionService
         // Maximum Distance You can Travel Before Issue [Mdbi] = [Tank Capacity - Quantity On Last Issue] * Fuel Consumption
         // Maximum Distance You can With Issue [Mdwi] = [Odometer On Last Issue + ( Quantity On Last Issue * Fuel Consumption )]
         // Maximum Odometer Acceptable (Moa) = [Mdbi]  + [Mdwi];
-        $maximumOdometerAcceptable = ($odometerOnLastIssue + ($quantityLastIssued * $fuel_consumption))
-            + (($tank_capacity - $quantityLastIssued) * $fuel_consumption);
+        $maximumOdometerAcceptable = ($odometerOnLastIssue + ($quantityLastIssued * $fuel_consumption));
+
+        if ($quantityLastIssued < $tank_capacity) {
+            $maximumOdometerAcceptable += (($tank_capacity - $quantityLastIssued) * $fuel_consumption);
+        }
 
         if ($variance < 0) {
             throw new FuelRequisitionException(
