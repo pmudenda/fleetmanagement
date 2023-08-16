@@ -56,7 +56,7 @@ class FuelRequisitionService
      * @param mixed $registrationNumber
      * @return mixed
      */
-    private static function getFuelLastIssue(mixed $registrationNumber): array
+    private static function getFuelLastIssue(mixed $registrationNumber): mixed
     {
         //
         $result = DB::table('gen_material_headers h')
@@ -97,7 +97,7 @@ class FuelRequisitionService
             ->groupBy('req_no')
             ->first();
 
-        return ["quantityLastIssued" => $quantityLastIssued->quantity ?? 0, 'latestIssue' => $latestIssue];
+        return $quantityLastIssued->quantity ?? 0; //, 'latestIssue' => $latestIssue];
     }
 
     private static function getLastIssuedRequisitionDetailsByRegNumber(mixed $registrationNumber): mixed
@@ -138,7 +138,9 @@ class FuelRequisitionService
 
         Log::info("Latest Mileage Return $latestOdometerLogs");
 
-        [$quantityLastIssued, $latestIssue] = $this->getFuelLastIssue($registrationNumber);
+        $quantityLastIssued = $this->getFuelLastIssue($registrationNumber);
+
+        //$latestIssue]
 
         $odometerOnLastIssue = $this->getOdometerOnLastIssue($registrationNumber);
 
