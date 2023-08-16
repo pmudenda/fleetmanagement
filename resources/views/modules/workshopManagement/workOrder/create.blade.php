@@ -728,6 +728,7 @@
             $('select[name="fuel_level"]').select2("enable", false);
             $('select[name="sub_fuel_level"]').select2("enable", false);
             $('select[name="workshop"]').select2("enable", false);
+
             $('select[name="repairType"]').attr("disabled", true);
 
             $('[name="driver_staff_number"]').attr('readonly', true);
@@ -739,10 +740,6 @@
             initArticleSelector($('.articlesDropDownList'));
 
             initServiceArticleSelector($('.servicesArticlesDropDownList'));
-
-            setTimeout(function () {
-                disableControls();
-            }, 300);
 
             Inputmask({
                 "mask": "AAA 9{1,4}"
@@ -2242,6 +2239,10 @@
             }
 
             getSuppliers();
+
+            setTimeout(function () {
+                disableControls();
+            }, 300);
 
         })(window.tmsApp || {}, jQuery)
     </script>
