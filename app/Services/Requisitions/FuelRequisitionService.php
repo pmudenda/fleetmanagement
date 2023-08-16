@@ -207,6 +207,7 @@ class FuelRequisitionService
             );
         }
 
+        Log::info("Maximum Acceptable $maximumOdometerAcceptable vs $userProvidedOdometer");
         if ($userProvidedOdometer > $maximumOdometerAcceptable) {
             throw new FuelRequisitionException(
                 str_replace("@cur_odometer",
