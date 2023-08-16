@@ -264,7 +264,7 @@
                     <tbody>
                     @if($materials && $materials->isNotEmpty())
                         @foreach($materials as $material)
-                            <tr class="increment" data-id="{{$material->id}}">
+                            <tr class="increment" data-record-id="{{$material->id}}">
                                 <td class="showNumber">
                                     <input
                                             readonly
@@ -352,7 +352,7 @@
                             </tr>
                         @endforeach
                     @else
-                        <tr class="increment" data-id="0">
+                        <tr class="increment" data-record-id="0">
                             <td class="showNumber">
                                 <input
                                         readonly="readonly"

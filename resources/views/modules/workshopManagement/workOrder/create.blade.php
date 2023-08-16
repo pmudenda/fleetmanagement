@@ -1847,7 +1847,7 @@
                 lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
                 lastRow.attr('data-record-id', 0);
 
-                if (tableId === "material_table") {
+                /*if (tableId === "material_table") {
                     lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
                     lastRow.find('[name="quantity"]').val('').attr('readonly', false);
                     lastRow.find('[name="articles"]').attr('readonly', false);
@@ -1856,9 +1856,9 @@
                     lastRow.find('[name="total_price"]').val('');
 
                     lastRow.find('#unit_price').text('');
-                }
+                }*/
 
-                if (tableId === "services_table") {
+                /*if (tableId === "services_table") {
                     // let row = lastRow[0];
                     // $(row).find('.select2-container').remove();
                     // $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
@@ -1871,9 +1871,7 @@
                     lastRow.find('[name="service_unit_of_measure"]').val('');
                     lastRow.find('[name="service_total_price"]').val('');
                     // initServiceArticleSelector('.')
-                } else {
-
-                }
+                } */
 
                 if (tableId === "part8") {
                     let row = lastRow[0];
@@ -1952,18 +1950,23 @@
                 }
 
                 const $table = $('table#' + tableId);
+
                 if (tableId === "material_table") {
-                    //const materialTableRowTemplate = document.querySelector('#materialTableRowTemplate');
+                    const vehicleReg = $table.find('tbody').find('[name="registration"]').val();
                     $table.find('tbody').append(materialTableRowTemplate);
+                    $table.find('tbody').find('[name="registration"]').val(vehicleReg).attr('readonly');
                 } else {
                     if (tableId === "services_table") {
-                        //const serviceTableRowTemplate = document.querySelector('#serviceTableRowTemplate');
+                        const vehicleReg = $table.find('tbody').find('[name="vehicle_registration"]').val();
                         $table.find('tbody').append(serviceTableRowTemplate);
+                        $table.find('tbody').find('[name="vehicle_registration"]').val(vehicleReg).attr('readonly');
                     }
                 }
+
                 let lastRow = $table.find('tbody tr').eq((0 + 1) * -1);
 
                 lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
+                lastRow.attr('data-record-id', 0);
 
                 if (tableId === "material_table") {
                     lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
@@ -1982,7 +1985,6 @@
                 }
 
                 if (tableId === "services_table") {
-                    // let row = lastRow[0];
                     $(lastRow).find('.select2-container').remove();
                     $(lastRow).find('.servicesArticlesDropDownList').removeClass('select2-hidden-accessible');
                     lastRow.find('[name="service_article"]').val('');

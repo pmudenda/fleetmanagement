@@ -264,7 +264,7 @@
                     <tbody>
                     @if($services->isNotEmpty())
                         @foreach($services as $service)
-                            <tr class="increment" data-id="{{$service->id}}">
+                            <tr class="increment" data-record-id="{{$service->id}}">
                                 <td class="showNumber">
                                     <input
                                         readonly="readonly"
@@ -346,7 +346,7 @@
                             </tr>
                         @endforeach
                     @else
-                        <tr class="increment" data-id="0">
+                        <tr class="increment" data-record-id="0">
                             <td class="showNumber">
                                 <input
                                     readonly="readonly"

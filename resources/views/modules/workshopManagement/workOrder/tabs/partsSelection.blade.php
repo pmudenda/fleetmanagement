@@ -27,9 +27,9 @@
             <a class="nav-link" data-toggle="tab" href="#imprest" role="tab">Imprest Buys</a>
         </li>
 
-       {{-- <li class="nav-item" style="list-style: none; width: 178px; display: none;">
+        <li class="nav-item" style="list-style: none; width: 178px;">
             <a class="nav-link" data-toggle="tab" href="#labour" role="tab">Labour</a>
-        </li>--}}
+        </li>
 
     </ul><!-- Tab panes -->
     <div class="tab-content">
@@ -58,6 +58,7 @@
         <div class="tab-pane" id="imprest" role="tabpanel">
             @include('modules.workshopManagement.workOrder.tabs.imprest_buy')
         </div>
+
         {{--<div class="tab-pane" id="labour" role="tabpanel">
             @include('modules.workshopManagement.workOrder.tabs.labour')
         </div>--}}
