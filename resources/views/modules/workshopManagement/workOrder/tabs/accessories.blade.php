@@ -85,7 +85,7 @@
                         <label
                             class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
                             for="accessoriesRemarks">
-                            General Comments and Observation (optional):
+                            General Comments and Observation (Damages):
                         </label>
                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
                             @if(!empty($comments))
