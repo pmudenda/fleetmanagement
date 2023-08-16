@@ -59,7 +59,7 @@ class FuelRequisitionService
     private static function getFuelLastIssue(mixed $registrationNumber): array
     {
         //
-        $latestIssue = DB::table('gen_material_headers h')
+        $latestIssues = DB::table('gen_material_headers h')
             ->leftJoin(
                 "gen_material_details d",
                 "h.req_no",
@@ -82,9 +82,10 @@ class FuelRequisitionService
                 "h.req_no",
                 "h.created_at",
                 "h.odometer"
-            )->first();
+            )->get();
 
         //
+        $latestIssue = $latestIssues->first();
         $quantityLastIssued = DB::table('gen_material_details')
             ->where("req_no", "=", $latestIssue->req_no)
             ->select(DB::raw("SUM(quantity)"))
