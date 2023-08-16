@@ -1963,6 +1963,11 @@
                                 } else if (!Util.isEmpty(response.message)) {
                                     tmsApp.systemError("Assessment Acknowledgement", response.message);
                                 }
+
+                                if (modal) {
+                                    modal.hide();
+                                    //window.loaderVisible = false;
+                                }
                             }
                         },
                         function (xhr) {
