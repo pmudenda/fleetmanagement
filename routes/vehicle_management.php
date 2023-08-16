@@ -132,9 +132,6 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/accessories', [VehicleController::class, 'accessories'])->name('vehicle.accessories');
 
-
-        // IS
-
         Route::get('/cleanup', [VehicleDataCleaningController::class, 'cleanUpWindow'])->name('vehicle.data.cleanup');
 
         Route::post('/save/clean/data', [VehicleDataCleaningController::class, 'saveData'])->name('save.clean.data');

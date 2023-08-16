@@ -19,8 +19,8 @@ use App\Http\Requests\WorkshopMaterialResevationRequest;
 use App\Http\Requests\WorkshopRequisitionRequest;
 use App\Http\Requests\WorkshopServiceRequisitionRequest;
 use App\Http\Requests\WorkshopServiceReservationRequest;
-use App\Models\Driver;
 use App\Models\MaterialDetail;
+use App\Models\Reference\PHCMSEmployee;
 use App\Models\RequisitionType;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
@@ -340,6 +340,7 @@ class MaintenanceController extends Controller
                 )
             );
     }
+
     public function showAccessoriesTab(Request $request): View
     {
         $this->verifyRequestSignature($request);
@@ -381,7 +382,8 @@ class MaintenanceController extends Controller
             );
     }
 
-    public function partsSelection(Request $request) {
+    public function partsSelection(Request $request)
+    {
 
         $step = '1';
         $repairTypes = [];
@@ -616,7 +618,7 @@ class MaintenanceController extends Controller
             return response()->json([
                 "success" => true,
                 "message" => SystemMessages::accessoriesCheckedIn(),
-                "redirectUrl" => URL::signedRoute("defects.job.card",
+                "redirectUrl" => URL::signedRoute("accessories.job.card",
                     ["step" => 3, "reference" => $request->get("job_card_voucher")]),
             ]);
         } catch (\Exception $e) {
@@ -844,7 +846,7 @@ class MaintenanceController extends Controller
             $loginId = $request->get('loginId');
             $password = $request->get('password');
 
-            $driver = Driver::where('staff_number', '=', $loginId)->first();
+            $driver = PHCMSEmployee::where('con_per_no', '=', $loginId)->first();
 
             if (empty($driver)) {
                 return response()->json([
@@ -878,8 +880,9 @@ class MaintenanceController extends Controller
             }
 
             $credentials = $request->only('loginId', 'password');
-
-            if (Auth::attempt($credentials)) {
+            Log::info(var_dump($credentials));
+            // Auth::attempt($credentials)
+            if ($driver->staff_number == $entry->driver_in) {
 
                 $entry->updated_at = Carbon::now();
                 $entry->driver_acknowledged = 'Y';

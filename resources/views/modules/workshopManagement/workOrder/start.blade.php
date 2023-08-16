@@ -42,9 +42,9 @@
 @section('content')
 
     <x-content-header
-        :activeCrumb="'New Job Card'"
-        :linkText="'Job Card'"
-        :pageTitle="'Workshop Management'"/>
+            :activeCrumb="'New Job Card'"
+            :linkText="'Job Card'"
+            :pageTitle="'Workshop Management'"/>
 
     <section class="content">
         <div class="card">
@@ -74,7 +74,6 @@
                 <label class="app-required-marker"></label>
                 <form name="jobCardForm"
                       id="jobCardForm"
-                     {{-- action="{{route('save.workshop.requisition')}}"--}}
                       method="post">
                     @csrf
                     <h1>DETAILS</h1>
@@ -85,6 +84,80 @@
                     <h1>ASSESSMENTS</h1>
                     <section>
                         @include('modules.workshopManagement.workOrder.tabs.accessories')
+                    </section>
+
+                    <h1>DRIVER SIGN OFF</h1>
+                    <section>
+                        {{--<div class="row bg-success" style="height: 30px;">
+                                <div class="col-12 text-white">
+                                    <h5 class="text-white">Acknowledgment of Assessment Finding</h5>
+                                </div>
+                            </div>
+                            --}}
+                        <div class="row mb-1 mt-4">
+                            <div class="row">
+                                <div class="col-lg-2 col-sm-12">
+                                    <label>Assessment Acknowledgement: <small class="text-danger">(To Be Performed By
+                                            Driver)</small></label>
+                                </div>
+                                @if(!empty($details->driver_acknowledged))
+                                    <div class="col-lg-3 col-sm-12">
+                                        <span class="btn btn-sm btn-success">Acknowledged</span>
+                                    </div>
+                                @else
+                                    <div class="col-lg-3 col-sm-12">
+                                        <span class="btn btn-sm btn-success">Awaiting Acknowledgement</span>
+                                    </div>
+                                @endif
+                                @if(!empty($details->driver_acknowledged))
+                                    <div class="col-lg-2 col-sm-12 text-left">
+                                        <label>eSignature:</label>
+                                    </div>
+                                    <div class="col-lg-1 col-sm-12">
+                                        <input type="text"
+                                               name="sig_of_claimant"
+                                               class="form-control"
+                                               value="{{$details->driver_in}}"
+                                               readonly
+                                        />
+                                    </div>
+
+                                    <div class="col-lg-2 col-sm-12 text-left"><label>Date Acknowledged:</label></div>
+
+                                    <div class="col-lg-2 col-sm-12">
+                                        <input type="text"
+                                               name="date_claimant"
+                                               class="form-control"
+                                               value="{{Carbon::parse($details->date_acknowledged)->format('d/m/Y')}}"
+                                               readonly
+                                        />
+                                    </div>
+                                @else
+                                    <div class="col-lg-2 col-sm-12 text-left">
+                                        <label>eSignature:</label>
+                                    </div>
+                                    <div class="col-lg-1 col-sm-12">
+                                        <input type="text"
+                                               name="sig_of_claimant"
+                                               class="form-control"
+                                               value=""
+                                               readonly
+                                        />
+                                    </div>
+
+                                    <div class="col-lg-2 col-sm-12 text-right">
+                                        <button type="button"
+                                                class="btn btn-sm btn-success"
+                                                data-toggle="modal"
+                                                data-target="#eSignature-modal">
+                                            <i class="fas fa-signature"></i>
+                                            Sign
+                                        </button>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
                     </section>
 
                 </form>
@@ -200,11 +273,11 @@
                                         <div class="row">
                                             <div class="col-1">
                                                 <input
-                                                    required
-                                                    id="acceptance"
-                                                    name="acceptance"
-                                                    type="checkbox"
-                                                    class="checkbox">
+                                                        required
+                                                        id="acceptance"
+                                                        name="acceptance"
+                                                        type="checkbox"
+                                                        class="checkbox">
                                             </div>
                                             <div class="col-10">
                                                 <p id="newApproval_Remarks">
@@ -238,7 +311,8 @@
                             Close
                         </button>--}}
                         <button type="button" class="btn btn-default pull-left"
-                                data-bs-dismiss="modal">Close</button>
+                                data-bs-dismiss="modal">Close
+                        </button>
                         <button id="btnSign" type="submit"
                                 class="btn btn-sm btn-success mr-3">
                             <i class="fas fa-save"></i>
