@@ -384,7 +384,7 @@
                             @include('modules.workshopManagement.workOrder.tabs.defects')
                         </section>
 
-                        <h1>LABOUR</h1>
+                        <h1>LABOUR & ASSIGNMENTS</h1>
                         <section>
                            {{-- @include('modules.workshopManagement.workOrder.tabs.labour')--}}
                             @include('modules.workshopManagement.workOrder.tabs.labourAssignments')

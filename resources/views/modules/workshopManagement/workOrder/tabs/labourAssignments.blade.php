@@ -67,7 +67,7 @@
                         </td>
                         <td>
                             <div class="input-group date">
-                                <input type="text"
+                                <input type="datetime-local"
                                        required
                                        readonly
                                        name="dateOfWork"
