@@ -740,9 +740,9 @@
 
             initServiceArticleSelector($('.servicesArticlesDropDownList'));
 
-            setTimeout(function(){
+            setTimeout(function () {
                 disableControls();
-            })
+            }, 300);
 
             Inputmask({
                 "mask": "AAA 9{1,4}"
