@@ -196,7 +196,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('parts-selection', [MaintenanceController::class, 'partsSelection'])->name('parts.selection');
 
-            Route::get('job-card/accessories', [MaintenanceController::class, 'accessoriesTab'])->name('accessories.job.card');
+            Route::get('job-card/accessories', [MaintenanceController::class, 'showAccessoriesTab'])->name('accessories.job.card');
 
             /*  Route::get('new/job-card', [MaintenanceController::class, 'start'])->name('new.job.card');*/
 
