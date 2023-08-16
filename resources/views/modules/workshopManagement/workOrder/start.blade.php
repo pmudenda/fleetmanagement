@@ -772,6 +772,7 @@
             window.goToNext = false;
             let bodyTag = "section";
 
+
             $(document).ready(function () {
                 setTimeout(function () {
                     let job_card_number = $('[name="job_card_number"]').val();
@@ -803,6 +804,10 @@
                     findVehicle("InWorkshop");
 
                 }, 600);
+
+                $(document).on('click','.selectAttachment',function () {
+                    $(this).closest('tr').find('input.file').click();
+                });
             });
 
             /*****************************Function Handlers************************************/
