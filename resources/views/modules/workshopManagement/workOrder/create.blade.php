@@ -160,16 +160,16 @@
                         </div>
                     </section>
 
-                    @if(!empty($details->driver_acknowledged)) @endif
-                    <h1>DEFECTS</h1>
-                    <section>
-                        @include('modules.workshopManagement.workOrder.tabs.defects')
-                    </section>
+                    @if(!empty($details->driver_acknowledged))
+                        <h1>DEFECTS</h1>
+                        <section>
+                            @include('modules.workshopManagement.workOrder.tabs.defects')
+                        </section>
 
-                    <h1>Spares & Services</h1>
-                    <section>
-                        @include('modules.workshopManagement.workOrder.tabs.partsSelection')
-                    </section>
+                        <h1>Spares & Services</h1>
+                        <section>
+                            @include('modules.workshopManagement.workOrder.tabs.partsSelection')
+                        </section>
                     @endif
                 </form>
 
