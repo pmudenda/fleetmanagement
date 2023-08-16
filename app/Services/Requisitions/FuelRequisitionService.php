@@ -59,10 +59,10 @@ class FuelRequisitionService
     private static function getFuelLastIssue(mixed $registrationNumber): array
     {
         //
-       $result =  DB::table('gen_material_headers h')
-            ->where('veh_reg_no', '=',$registrationNumber)
-            ->where('is_fuel', '=','Y')
-            ->whereNotIn('status',  [ '45', '03', '01', '02' ])
+        $result = DB::table('gen_material_headers h')
+            ->where('veh_reg_no', '=', $registrationNumber)
+            ->where('is_fuel', '=', 'Y')
+            ->whereNotIn('status', ['45', '03', '01', '02'])
             ->select(DB::raw('MAX(created_at) as max_date'));
 
         /*SELECT  FROM gen_material_headers WHERE  = AND  =  AND  NOT IN ;*/
@@ -145,14 +145,14 @@ class FuelRequisitionService
 
         [$fuel_consumption, $tank_capacity] = $this->getVehicleFuelConsumptionData($registrationNumber);
 
-            // check that current user provided odometer is greater than last issue
+        // check that current user provided odometer is greater than last issue
         $userProvidedOdometer = $requisitionPostRequest->get('odometer_reading');
 
         $this->validateOdometerAgainstLastIssue(
-                $odometerOnLastIssue,
-                $userProvidedOdometer,
-                $odometerOnLastIssue
-            );
+            $odometerOnLastIssue,
+            $userProvidedOdometer,
+            $odometerOnLastIssue
+        );
 
 
         // check that current user provided odometer is greater than last issue
@@ -162,22 +162,22 @@ class FuelRequisitionService
         );
 
         Log::info("Calculating Maximum Distance that should have been covered by  $registrationNumber");
-        Log::debug('Consumption '.$fuel_consumption);
-        Log::debug('Quantity Last Issued '.$quantityLastIssued);
+        Log::debug('Consumption ' . $fuel_consumption);
+        Log::debug('Quantity Last Issued ' . $quantityLastIssued);
         $maximumDistance = ($quantityLastIssued * ($fuel_consumption ?? $vehicle->fuel_consumption));
 
         Log::debug("Maximum Distance " . $maximumDistance);
-        Log::debug("Odometer Last Issue " .  $odometerOnLastIssue);
+        Log::debug("Odometer Last Issue " . $odometerOnLastIssue);
         $newEstimatedOdometer = $maximumDistance + $odometerOnLastIssue;
-        Log::debug("Last Issue + Maximum Distance " .  $newEstimatedOdometer);
+        Log::debug("Last Issue + Maximum Distance " . $newEstimatedOdometer);
 
         // check the value of deviation 5 - 8 = -3
-        $variance =   (float)$userProvidedOdometer - $newEstimatedOdometer;
-        Log::debug("Odometer Variance " .  $variance);
+        $variance = (float)$userProvidedOdometer - $newEstimatedOdometer;
+        Log::debug("Odometer Variance " . $variance);
 
-        if($variance < 0 ){
+        if ($variance < 0) {
             throw new FuelRequisitionException("The Odometer Value is too low compared to Last Issue");
-        }elseif ($variance > 200){
+        } elseif ($variance > 200) {
             throw new FuelRequisitionException("The Odometer Value is too High compared to Last Issue");
         }
 
