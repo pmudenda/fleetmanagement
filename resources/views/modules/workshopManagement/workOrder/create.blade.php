@@ -154,14 +154,8 @@
                         </div>
                     </section>
 
-                    <h1>DRIVER SIGN OFF</h1>
+                   {{-- <h1>DRIVER SIGN OFF</h1>
                     <section>
-                        {{--<div class="row bg-success" style="height: 30px;">
-                                <div class="col-12 text-white">
-                                    <h5 class="text-white">Acknowledgment of Assessment Finding</h5>
-                                </div>
-                            </div>
-                            --}}
                         <div class="row mb-1 mt-4">
                             <div class="row">
                                 <div class="col-lg-2 col-sm-12">
@@ -225,7 +219,7 @@
                                 @endif
                             </div>
                         </div>
-                    </section>
+                    </section>--}}
 
                     @if(!empty($details->driver_acknowledged))
                         <h1>DEFECTS</h1>
