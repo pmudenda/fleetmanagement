@@ -205,7 +205,9 @@ class FuelRequisitionService
                     )
                 )
             );
-        } elseif ($userProvidedOdometer > $maximumOdometerAcceptable) {
+        }
+
+        if ($userProvidedOdometer > $maximumOdometerAcceptable) {
             throw new FuelRequisitionException(
                 str_replace("@cur_odometer",
                     $userProvidedOdometer,
