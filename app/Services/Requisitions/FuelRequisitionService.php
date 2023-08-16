@@ -96,7 +96,7 @@ class FuelRequisitionService
             ->groupBy('req_no')
             ->first();
 
-        return $quantityLastIssued->quantity ?? 0; //, 'latestIssue' => $latestIssue];
+        return [$quantityLastIssued->quantity ?? 0, $latestIssue];
     }
 
     private static function getLastIssuedRequisitionDetailsByRegNumber(mixed $registrationNumber): mixed
@@ -137,9 +137,9 @@ class FuelRequisitionService
 
         Log::info("Latest Mileage Return $latestOdometerLogs");
 
-        $quantityLastIssued = $this->getFuelLastIssue($registrationNumber);
+        [$quantityLastIssued, $latestIssue] = $this->getFuelLastIssue($registrationNumber);
 
-        //$latestIssue]
+        //]
         Log::info("Latest Issued Amount $quantityLastIssued");
 
         $odometerOnLastIssue = $this->getOdometerOnLastIssue($registrationNumber);
@@ -793,10 +793,8 @@ class FuelRequisitionService
                 '=',
                 $vehicleReference
             )
-            ->select('ed.fuel_consumption','ed.tank_capacity')
+            ->select('ed.fuel_consumption', 'ed.tank_capacity')
             ->first();
-
-
 
         if (empty($consumptionData)) {
             return ['fuel_consumption' => 0, 'tank_capacity' => 0];
