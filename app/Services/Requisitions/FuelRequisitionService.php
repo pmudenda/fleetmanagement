@@ -794,7 +794,7 @@ class FuelRequisitionService
             )
             ->first();
 
-        dd($consumptionData);
+        Log::info("Count $consumptionData->count()");
 
         if (empty($consumptionData)) {
             return ['fuel_consumption' => 0, 'tank_capacity' => 0];
