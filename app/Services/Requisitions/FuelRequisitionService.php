@@ -155,8 +155,8 @@ class FuelRequisitionService
 
         $this->validateOdometerAgainstLastIssue(
             $latestIssue,
-            $odometerOnLastIssue,
             $userProvidedOdometer,
+            $odometerOnLastIssue,
             $registrationNumber
         );
 
