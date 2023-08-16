@@ -34,6 +34,10 @@
             border-color: #dee2e6 #dee2e6 #fff;
         }
 
+        .wizard > .steps > ul > li {
+            width: 20% !important;
+        }
+
         .error {
             color: orangered;
         }

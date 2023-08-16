@@ -128,7 +128,7 @@ class MaintenanceController extends Controller
 
     public function start(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $step = '1';
+        /*$step = '1';
         $repairTypes = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
             ->where("active", "=", 1)
             ->orderBy("name")
@@ -138,11 +138,13 @@ class MaintenanceController extends Controller
         $details = [];
         $workshop_sections = [];
         $defects = [];
-        $comments = [];
+        $comments = [];*/
 
         $view_name = 'modules.workshopManagement.workOrder.start';
 
-        return view($view_name)->with(
+
+
+        /*return view($view_name)->with(
             compact(
                 'repairTypes',
                 'accessories',
@@ -153,7 +155,42 @@ class MaintenanceController extends Controller
                 'defects',
                 'comments'
             )
-        );
+        );*/
+        list(
+            $step,
+            $repairTypes,
+            $accessories_checked_in,
+            $accessories,
+            $details,
+            $workshop_sections,
+            $defects,
+            $comments,
+            $officeDetails,
+            $materials,
+            $materialsHeader,
+            $services
+            ) = $this->getJobCardCreationData($request);
+
+        $labour = collect([]);
+        return view($view_name)
+            ->with(
+                compact(
+                    "repairTypes",
+                    "accessories",
+                    "details",
+                    "accessories_checked_in",
+                    "step",
+                    "workshop_sections",
+                    "defects",
+                    "comments",
+                    "officeDetails",
+                    "materials",
+                    "materialsHeader",
+                    "services",
+                    'labour'
+                )
+            );
+
     }
 
     public function show(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
