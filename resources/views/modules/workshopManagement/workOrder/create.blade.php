@@ -947,9 +947,6 @@
                     },
                     onStepChanging: function (event, currentIndex, newIndex) {
 
-                        console.log('currentIndex', currentIndex);
-                        console.log('newIndex', newIndex);
-
                         if (currentIndex > newIndex) {
                             return true;
                         }
@@ -957,6 +954,10 @@
                         const driverAcknowledged = $('#driverAcknowledged').val();
 
                         if (currentIndex === 1 && driverAcknowledged === 'Y') {
+                            return true;
+                        }
+
+                        if (currentIndex === 0 || currentIndex === 2 && $('[name="job_card_number"]').val()) {
                             return true;
                         }
 
