@@ -16,7 +16,7 @@ class EmailNotificationService
     {
         try {
             $recipientMail = config("mail.default_mail") ?? $recipient->email;
-            $to[] = ['email' => $recipientMail, 'name' => $recipient->name];
+            $to[] = ['email' => $recipientMail, 'name' => $recipient->name ?? ''];
             $names = $recipient->name;
 
             switch ($action) {

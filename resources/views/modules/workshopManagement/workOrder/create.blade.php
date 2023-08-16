@@ -160,7 +160,7 @@
                         </div>
                     </section>
 
-                    @if($details->step != 1) @endif
+                    @if(!empty($details->driver_acknowledged)) @endif
                     <h1>DEFECTS</h1>
                     <section>
                         @include('modules.workshopManagement.workOrder.tabs.defects')
