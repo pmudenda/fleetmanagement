@@ -83,9 +83,11 @@ class FuelRequisitionService
                 $result->max_date
             )
             ->select(
+                'h.st_pur',
                 "h.req_no",
                 "h.created_at",
-                "h.odometer"
+                "h.odometer",
+                'h.valid_date_to'
             )->get();
 
         //
@@ -152,9 +154,10 @@ class FuelRequisitionService
         $userProvidedOdometer = $requisitionPostRequest->get('odometer_reading');
 
         $this->validateOdometerAgainstLastIssue(
+            $latestIssue,
             $odometerOnLastIssue,
             $userProvidedOdometer,
-            $odometerOnLastIssue
+            $registrationNumber
         );
 
 
@@ -179,9 +182,9 @@ class FuelRequisitionService
         Log::debug("Odometer Variance " . $variance);
 
         if ($variance < 0) {
-            throw new FuelRequisitionException("The Odometer Value is too low compared to Last Issue");
+            throw new FuelRequisitionException(ErrorMessages::getMessage('err_0025'));
         } elseif ($variance > 200) {
-            throw new FuelRequisitionException("The Odometer Value is too High compared to Last Issue");
+            throw new FuelRequisitionException(ErrorMessages::getMessage('err_0026'));
         }
 
         $latestPreviousRequisition = self::getLastIssuedRequisitionDetailsByRegNumber($registrationNumber);
@@ -512,23 +515,28 @@ class FuelRequisitionService
 
     /**
      * Validates the odometer reading on request is greater than the previous issue
-     * @param $previousRequisition
+     * @param $latestIssue
      * @param $userProvidedOdometerReading
      * @param $odometerOnLastIssue
+     * @param $reg_no
      * @return void
      * @throws FuelRequisitionException
      */
-    public function validateOdometerAgainstLastIssue($previousRequisition, $userProvidedOdometerReading, $odometerOnLastIssue): void
+    public function validateOdometerAgainstLastIssue(
+        $latestIssue,
+        $userProvidedOdometerReading,
+        $odometerOnLastIssue,
+        $reg_no): void
     {
         // verify that odometer reading is not the same as previous requisition
         if ($userProvidedOdometerReading <= $odometerOnLastIssue) {
             throw new FuelRequisitionException(
-                str_replace("@veh_reg", $previousRequisition->veh_reg_no,
-                    str_replace("@date_valid_to",
-                        Carbon::parse($previousRequisition->valid_date_to)->format("d/m/Y"),
+                str_replace("@veh_reg", $reg_no,
+                    str_replace("@odometer",
+                        $latestIssue->odometer,
                         str_replace("@req_no",
-                            $previousRequisition->st_pur ?? $previousRequisition->req_no,
-                            ErrorMessages::getMessage("err_0017")))),
+                            $latestIssue->st_pur ?? $latestIssue->req_no,
+                            ErrorMessages::getMessage("err_0024")))),
                 1000);
         }
     }
