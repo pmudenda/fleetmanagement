@@ -5,7 +5,6 @@ namespace App\Services\WorkShopManagement;
 use App\Constants\WorkflowActions;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Modules;
-use App\Enums\RequisitionItemTypes;
 use App\Enums\WorkflowProcessCodes;
 use App\Events\WorkOrderCompleted;
 use App\Exceptions\WorkflowTaskCreationFailedException;
@@ -13,7 +12,6 @@ use App\Helpers\StatusHelper;
 use App\Http\Requests\JobCardRequest;
 use App\Http\Requests\VehicleDefectsRequest;
 use App\Http\Requests\WorkOrderClosure;
-use App\Models\MaterialHeader;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\VehicleManagement\VehicleHeader;
@@ -109,10 +107,12 @@ class WorkshopService
             "fuel_level_in" => $request->get("fuel_level"),
             "driver_in" => $request->get("driver_staff_number"),
             "created_by" => $user->id,
-            'status' => StatusHelper::new()
+            'status' => StatusHelper::new(),
+            'step' => 1
         ];
 
         DB::beginTransaction();
+
         $jobCardHeader = JobCardHeader::create($data);
 
         $this->moveVehicleToWorkShop($vehicleRegistration);
@@ -333,7 +333,7 @@ class WorkshopService
         $workflowProcess = WorkflowProcessCodes::WorkOrderClosure->value;
 
         $this->workflowService->initiateWorkflowProcess(
-            $workOrderNumber."-C",
+            $workOrderNumber . "-C",
             (int)$workflowProcess,
             WorkflowActions::submit(),
             $closureRemarks,
