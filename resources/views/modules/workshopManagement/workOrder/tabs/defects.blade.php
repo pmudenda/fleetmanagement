@@ -4,7 +4,7 @@
         <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="row">
-                <div class="table-responsive px-0" style="max-height:500px;">
+                <div class="table-responsive px-2" style="max-height:500px;">
                     <table id="part8"
                            data-form-url="{{route("defects.job_card")}}"
                            data-model-name="Defects"
