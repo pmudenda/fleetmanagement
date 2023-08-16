@@ -480,7 +480,7 @@ class MaintenanceController extends Controller
         );
     }
 
-    public function processJobCard(JobCardRequest $request): JsonResponse
+    public function saveJobCardHeader(JobCardRequest $request): JsonResponse
     {
         try {
             $response = $this->workshopService->createJobCard($request);
@@ -488,7 +488,7 @@ class MaintenanceController extends Controller
                 [
                     "success" => true,
                     "payload" => $response,
-                    "redirectUrl" => URL::signedRoute("accessories.job.card", ["step" => 2, "reference" => $response->job_card_no]),
+                    "redirectUrl" => URL::signedRoute("vehicle.workshop.checkin", ["step" => 2, "reference" => $response->job_card_no]),
                 ]
             );
         } catch (\Exception $e) {

@@ -189,7 +189,7 @@ Route::group(['middleware' => 'auth'], function () {
         /** Job Card Processing **/
         Route::group(['prefix' => 'maintenance'], function () {
 
-            Route::get('workOrder', [MaintenanceController::class, 'create'])->name('workOrder.requisition');
+            Route::get('open/job-card', [MaintenanceController::class, 'create'])->name('workOrder.requisition');
 
             // front desk
             Route::get('vehicle/workshop/checkin', [MaintenanceController::class, 'start'])->name('vehicle.workshop.checkin');
@@ -205,7 +205,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('all/job-card/list', [MaintenanceController::class, 'list'])->name('jobCard.list');
 
-            Route::post('requisitions/workOrder', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');
+            /*Route::post('open/job-card', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');*/
 
             //delete defect
             Route::post('/deleteRecord', [MaintenanceController::class, "deleteRecord"])->name('delete.defect.record');
@@ -214,7 +214,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::post('/deleteMaterialRecord', [MaintenanceController::class, "deleteMaterialRecord"])->name('delete.material.record');
 
-            Route::post('save/job/card', [MaintenanceController::class, 'processJobCard'])->name('process.job_card');
+            Route::post('save/job/card/header', [MaintenanceController::class, 'saveJobCardHeader'])->name('process.job_card');
 
             Route::post('save/job/card/accessories', [MaintenanceController::class, 'processJobCardAccessories'])->name('job_card.accessories.checkin');
 
