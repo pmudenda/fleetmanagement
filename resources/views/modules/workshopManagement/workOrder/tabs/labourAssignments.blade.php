@@ -66,14 +66,14 @@
                                    readonly/>
                         </td>
                         <td>
-                            <div class="input-group date">
+                            <div class="input-group">
                                 <input type="datetime-local"
                                        required
                                        readonly
                                        name="dateOfWork"
                                        value="{{$labourItem->date_lab ?? ''}}"
                                        id="dateOfWork"
-                                       class="form-control datePicker"
+                                       class="form-control"
                                 />
                                 <div class="input-group-append">
                                     <div type="button"
