@@ -22,30 +22,37 @@
                         <tbody>
                         @if($defects && $defects->isNotEmpty())
                             @foreach($defects as $defect)
-                                <tr class="increment">
+                                <tr class="increment" data-target="{{$defect->id}}">
                                     <td class="showNumber">
-                                        <select name="vehicleSystem" required
+                                        <select name="vehicleSystem"
+                                                required
+                                                disabled
                                                 data-value="{{$defect->veh_sys}}"
                                                 class="form-select form-select-sm select_2_control vehicleSystem">
                                             <option></option>
                                         </select>
                                     </td>
                                     <td>
-                                        <select name="defectCategory" required
+                                        <select name="defectCategory"
+                                                required
+                                                disabled
                                                 data-value="{{$defect->defect_category_code}}"
                                                 class="form-select form-select-sm select_2_control defectCategory">
                                             <option></option>
                                         </select>
                                     </td>
                                     <td>
-                                        <select name="defect" required
+                                        <select name="defect"
+                                                required
+                                                disabled
                                                 data-value="{{$defect->defect_code}}"
                                                 class="form-select form-select-sm select_2_control defect">
                                             <option></option>
                                         </select>
                                     </td>
                                     <td>
-                                        <select name="workshopSection" required
+                                        <select name="workshopSection"
+                                                required
                                                 class="form-select form-select-sm workshopSection">
                                             <option></option>
                                             @foreach($workshop_sections as $workshop_section)
