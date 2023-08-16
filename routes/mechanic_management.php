@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\WorkshopManagement\MechanicController;
+use App\Models\Reference\LabourRates;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
