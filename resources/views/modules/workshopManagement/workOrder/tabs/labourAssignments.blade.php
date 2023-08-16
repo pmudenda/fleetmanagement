@@ -288,23 +288,6 @@
                 @endif
             @endif
             </tbody>
-            <tfoot>
-            <tr>
-                <td class="pl-2"></td>
-                <td></td>
-                <td></td>
-                <td class="text-right"><strong></strong></td>
-                <td class="text-right">
-                    {{--<b id="serviceQuantityTotal"
-                                          class="input-number">0</b>--}}
-                </td>
-                <td></td>
-                <td></td>
-                <td class="text-right"><strong>TOTAL</strong></td>
-                <td class="text-right"><b id="labourTotalPrice"
-                                          class="input-number">0.00</b></td>
-            </tr>
-            </tfoot>
         </table>
         <hr>
         <div class="row">
