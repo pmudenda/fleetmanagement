@@ -87,7 +87,7 @@
                         @include('modules.workshopManagement.workOrder.tabs.accessories')
                     </section>
 
-                    <h1>DEFECTS</h1>
+                    {{--<h1>DEFECTS</h1>
                     <section>
                         @include('modules.workshopManagement.workOrder.tabs.defects')
                     </section>
@@ -96,7 +96,7 @@
                     <h1>Spares & Services</h1>
                     <section>
                         @include('modules.workshopManagement.workOrder.tabs.partsSelection')
-                    </section>
+                    </section>--}}
 
                 </form>
 
