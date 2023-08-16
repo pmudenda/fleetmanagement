@@ -1307,8 +1307,8 @@ class WorkshopRequisitionService
 
         return response()->json([
             "success" => true,
-            "message" => "Job Card Task Generated For Workshop Supervisor",
-            "redirectUrl" => URL::signedRoute("list.workshop.requisition"),
+            "message" => "Job Card Assignment Task Generated For Workshop Supervisor",
+            "redirectUrl" => URL::signedRoute("workOrder.list"),
         ]);
     }
 }
