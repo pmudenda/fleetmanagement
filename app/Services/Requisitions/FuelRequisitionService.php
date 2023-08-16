@@ -93,11 +93,11 @@ class FuelRequisitionService
         $latestIssue = $latestIssues->first();
         $quantityLastIssued = DB::table('gen_material_details')
             ->where("req_no", "=", $latestIssue->req_no)
-            ->select(DB::raw("SUM(quantity)"))
+            ->select(DB::raw("SUM(quantity) as quantity"))
             ->groupBy('req_no')
             ->first();
 
-        return ["quantityLastIssued" => $quantityLastIssued, 'latestIssue' => $latestIssue];
+        return ["quantityLastIssued" => $quantityLastIssued->quantity ?? 0, 'latestIssue' => $latestIssue];
     }
 
     private static function getLastIssuedRequisitionDetailsByRegNumber(mixed $registrationNumber): mixed
