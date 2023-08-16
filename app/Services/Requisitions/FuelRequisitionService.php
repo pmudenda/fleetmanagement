@@ -63,7 +63,8 @@ class FuelRequisitionService
             ->where('veh_reg_no', '=', $registrationNumber)
             ->where('is_fuel', '=', 'Y')
             ->whereNotIn('status', ['45', '03', '01', '02'])
-            ->select(DB::raw('MAX(created_at) as max_date'));
+            ->select(DB::raw('MAX(created_at) as max_date'))
+            ->first();
 
         /*SELECT  FROM gen_material_headers WHERE  = AND  =  AND  NOT IN ;*/
 
@@ -80,7 +81,7 @@ class FuelRequisitionService
             )
             ->where('h.created_at',
                 "=",
-                $result
+                $result->max_date
             )
             ->select(
                 "h.req_no",
