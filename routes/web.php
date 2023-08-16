@@ -205,7 +205,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('all/job-card/list', [MaintenanceController::class, 'list'])->name('jobCard.list');
 
-            /*Route::post('open/job-card', [MaintenanceController::class, 'create'])->name('save.workshop.requisition');*/
+            Route::post('job-card/show', [MaintenanceController::class, 'showJobCard'])->name('job.card.show');
 
             //delete defect
             Route::post('/deleteRecord', [MaintenanceController::class, "deleteRecord"])->name('delete.defect.record');

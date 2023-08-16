@@ -71,9 +71,7 @@ class MaintenanceController extends Controller
 
     public function list(Request $request): View
     {
-        if (!$request->hasValidSignature()) {
-            abort(401);
-        }
+        $this->verifyRequestSignature($request);
 
         $workshopsVehicleList = $this->workshopService->getJobCardHeader();
 
@@ -160,9 +158,7 @@ class MaintenanceController extends Controller
 
     public function show(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        if (!$request->hasValidSignature()) {
-            abort(401);
-        }
+        $this->verifyRequestSignature($request);
 
         $req_no = $request->get("ref");
 
@@ -304,11 +300,49 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function accessoriesTab(Request $request): View
+    public function showJobCard(Request $request): View
     {
-        if (!$request->hasValidSignature()) {
-            abort(401);
+        $this->verifyRequestSignature($request);
+
+        if (!$request->has("step")) {
+            return redirect(URL::signedRoute("workOrder.requisition", ["step" => 1]));
         }
+
+        list($step,
+            $repairTypes,
+            $accessories_checked_in,
+            $accessories,
+            $details,
+            $workshop_sections,
+            $defects,
+            $comments,
+            $officeDetails,
+            $materials,
+            $materialsHeader,
+            $services
+            ) = $this->getJobCardCreationData($request);
+
+        return view("modules.workshopManagement.workOrder.show")
+            ->with(
+                compact(
+                    "repairTypes",
+                    "accessories",
+                    "details",
+                    "accessories_checked_in",
+                    "step",
+                    "workshop_sections",
+                    "defects",
+                    "comments",
+                    "officeDetails",
+                    "materials",
+                    "materialsHeader",
+                    "services"
+                )
+            );
+    }
+    public function showAccessoriesTab(Request $request): View
+    {
+        $this->verifyRequestSignature($request);
 
         if (!$request->has("step")) {
             return redirect(URL::signedRoute("workOrder.requisition", ["step" => 1]));
@@ -428,9 +462,7 @@ class MaintenanceController extends Controller
 
     public function defectsTab(Request $request): Application|\Illuminate\Contracts\View\View|Factory|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
-        if (!$request->hasValidSignature()) {
-            abort(401);
-        }
+        $this->verifyRequestSignature($request);
 
         list(
             $step,
@@ -527,9 +559,7 @@ class MaintenanceController extends Controller
 
     public function approveWorkOrderClosure(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        if (!$request->hasValidSignature()) {
-            abort(401);
-        }
+        $this->verifyRequestSignature($request);
 
         $req_no = str_replace('-C', '', $request->get('ref'));
 
@@ -1043,5 +1073,16 @@ class MaintenanceController extends Controller
             $services,
             $labour
         );
+    }
+
+    /**
+     * @param Request $request
+     * @return void
+     */
+    public function verifyRequestSignature(Request $request): void
+    {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
     }
 }
