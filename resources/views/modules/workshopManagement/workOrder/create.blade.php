@@ -90,9 +90,11 @@
                     <section>
                         {{--@include('modules.workshopManagement.workOrder.tabs.accessories')--}}
                         <div class="container-fluid">
-                            <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}" data-model-name="Accessories">
+                            <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}"
+                                 data-model-name="Accessories">
                                 <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
-                                <input type="hidden" value="{{$details->driver_acknowledged ?? 'N'}}" id="driverAcknowledged"
+                                <input type="hidden" value="{{$details->driver_acknowledged ?? 'N'}}"
+                                       id="driverAcknowledged"
                                        name="driverAcknowledged"/>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="alert alert-info">
@@ -214,13 +216,15 @@
                                                         <tbody>
                                                         <tr>
                                                             <td>
-                                                                <input type="text" name="observation[]" class="form-control">
+                                                                <input type="text" name="observation[]"
+                                                                       class="form-control">
                                                             </td>
                                                             <td>
                                                                 <button type="button">
                                                                     <i class="fas fa-paperclip"></i>
                                                                 </button>
-                                                                <input type="file" class="d-none" name="attachment[]" class="form-control">
+                                                                <input type="file" class="d-none" name="attachment[]"
+                                                                       class="form-control">
                                                             </td>
                                                         </tr>
                                                         </tbody>
@@ -307,72 +311,72 @@
                         </div>
                     </section>
 
-                   {{-- <h1>DRIVER SIGN OFF</h1>
-                    <section>
-                        <div class="row mb-1 mt-4">
-                            <div class="row">
-                                <div class="col-lg-2 col-sm-12">
-                                    <label>Assessment Acknowledgement: <small class="text-danger">(To Be Performed By
-                                            Driver)</small></label>
-                                </div>
-                                @if(!empty($details->driver_acknowledged))
-                                    <div class="col-lg-3 col-sm-12">
-                                        <span class="btn btn-sm btn-success">Acknowledged</span>
-                                    </div>
-                                @else
-                                    <div class="col-lg-3 col-sm-12">
-                                        <span class="btn btn-sm btn-success">Awaiting Acknowledgement</span>
-                                    </div>
-                                @endif
-                                @if(!empty($details->driver_acknowledged))
-                                    <div class="col-lg-2 col-sm-12 text-left">
-                                        <label>eSignature:</label>
-                                    </div>
-                                    <div class="col-lg-1 col-sm-12">
-                                        <input type="text"
-                                               name="sig_of_claimant"
-                                               class="form-control"
-                                               value="{{$details->driver_in}}"
-                                               readonly
-                                        />
-                                    </div>
+                    {{-- <h1>DRIVER SIGN OFF</h1>
+                     <section>
+                         <div class="row mb-1 mt-4">
+                             <div class="row">
+                                 <div class="col-lg-2 col-sm-12">
+                                     <label>Assessment Acknowledgement: <small class="text-danger">(To Be Performed By
+                                             Driver)</small></label>
+                                 </div>
+                                 @if(!empty($details->driver_acknowledged))
+                                     <div class="col-lg-3 col-sm-12">
+                                         <span class="btn btn-sm btn-success">Acknowledged</span>
+                                     </div>
+                                 @else
+                                     <div class="col-lg-3 col-sm-12">
+                                         <span class="btn btn-sm btn-success">Awaiting Acknowledgement</span>
+                                     </div>
+                                 @endif
+                                 @if(!empty($details->driver_acknowledged))
+                                     <div class="col-lg-2 col-sm-12 text-left">
+                                         <label>eSignature:</label>
+                                     </div>
+                                     <div class="col-lg-1 col-sm-12">
+                                         <input type="text"
+                                                name="sig_of_claimant"
+                                                class="form-control"
+                                                value="{{$details->driver_in}}"
+                                                readonly
+                                         />
+                                     </div>
 
-                                    <div class="col-lg-2 col-sm-12 text-left"><label>Date Acknowledged:</label></div>
+                                     <div class="col-lg-2 col-sm-12 text-left"><label>Date Acknowledged:</label></div>
 
-                                    <div class="col-lg-2 col-sm-12">
-                                        <input type="text"
-                                               name="date_claimant"
-                                               class="form-control"
-                                               value="{{Carbon::parse($details->date_acknowledged)->format('d/m/Y')}}"
-                                               readonly
-                                        />
-                                    </div>
-                                @else
-                                    <div class="col-lg-2 col-sm-12 text-left">
-                                        <label>eSignature:</label>
-                                    </div>
-                                    <div class="col-lg-1 col-sm-12">
-                                        <input type="text"
-                                               name="sig_of_claimant"
-                                               class="form-control"
-                                               value=""
-                                               readonly
-                                        />
-                                    </div>
+                                     <div class="col-lg-2 col-sm-12">
+                                         <input type="text"
+                                                name="date_claimant"
+                                                class="form-control"
+                                                value="{{Carbon::parse($details->date_acknowledged)->format('d/m/Y')}}"
+                                                readonly
+                                         />
+                                     </div>
+                                 @else
+                                     <div class="col-lg-2 col-sm-12 text-left">
+                                         <label>eSignature:</label>
+                                     </div>
+                                     <div class="col-lg-1 col-sm-12">
+                                         <input type="text"
+                                                name="sig_of_claimant"
+                                                class="form-control"
+                                                value=""
+                                                readonly
+                                         />
+                                     </div>
 
-                                    <div class="col-lg-2 col-sm-12 text-right">
-                                        <button type="button"
-                                                class="btn btn-sm btn-success"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#eSignatureModal">
-                                            <i class="fas fa-signature"></i>
-                                            Sign
-                                        </button>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </section>--}}
+                                     <div class="col-lg-2 col-sm-12 text-right">
+                                         <button type="button"
+                                                 class="btn btn-sm btn-success"
+                                                 data-bs-toggle="modal"
+                                                 data-bs-target="#eSignatureModal">
+                                             <i class="fas fa-signature"></i>
+                                             Sign
+                                         </button>
+                                     </div>
+                                 @endif
+                             </div>
+                         </div>
+                     </section>--}}
 
                     @if(!empty($details->driver_acknowledged))
                         <h1>DEFECTS</h1>
@@ -1309,8 +1313,21 @@
                     // $('a[href="#finish"]').disableBtn();
                     if (form.valid()) {
                         tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
+                                postData(
+                                    $('#material_table'),
+                                    true
+                                );
+                            },
+                            function () {
+                            });
+                    }
+                });
+
+                $(document).on('click', '#saveDefects', function () {
+                    if (form.valid()) {
+                        tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
                             postData(
-                                $('#material_table'),
+                                $('#part8'),
                                 true
                             );
                         }, function () {

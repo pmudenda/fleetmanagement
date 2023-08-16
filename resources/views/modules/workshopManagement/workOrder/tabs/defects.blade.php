@@ -182,6 +182,8 @@
                     </td>
                     <td class="text-right">
                         <button class="btn btn-sm btn-success pull-left"
+                                id="saveDefects"
+                                name="saveDefects"
                                 type="button">
                             <i class="fas fa-save"></i>
                             Save
