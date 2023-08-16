@@ -995,7 +995,7 @@
                                 'No',
                                 function () {
                                     postData(
-                                        "",
+                                        $("#jobCardForm"),
                                         true
                                     );
                                 },

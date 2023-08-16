@@ -128,34 +128,8 @@ class MaintenanceController extends Controller
 
     public function start(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        /*$step = '1';
-        $repairTypes = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
-            ->where("active", "=", 1)
-            ->orderBy("name")
-            ->get();
-        $accessories_checked_in = [];
-        $accessories = [];
-        $details = [];
-        $workshop_sections = [];
-        $defects = [];
-        $comments = [];*/
-
         $view_name = 'modules.workshopManagement.workOrder.start';
 
-
-
-        /*return view($view_name)->with(
-            compact(
-                'repairTypes',
-                'accessories',
-                'details',
-                'accessories_checked_in',
-                'step',
-                'workshop_sections',
-                'defects',
-                'comments'
-            )
-        );*/
         list(
             $step,
             $repairTypes,
@@ -190,7 +164,21 @@ class MaintenanceController extends Controller
                     'labour'
                 )
             );
+    }
 
+    public function createTaskForWorkShopSupervisor(Request $request): ?JsonResponse
+    {
+        try {
+            return $this->workshopRequisitionService->createTaskForWorkShopSupervisor($request);
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                "success" => false,
+                "items" => [],
+                "total_count" => 0,
+                "message" => ErrorMessages::getMessage("err_0005")
+            ]);
+        }
     }
 
     public function show(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application

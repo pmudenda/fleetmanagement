@@ -34,6 +34,7 @@ use App\Services\Workflow\WorkflowService;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -1279,5 +1280,20 @@ class WorkshopRequisitionService
         MaterialHeader::where("req_no", $reference)
             ->update(["status" => $status]);
         DB::commit();*/
+    }
+
+    public function createTaskForWorkShopSupervisor(Request $request)
+    {
+
+        $this->workflowService->$this->workflowService->initiateWorkflowProcess(
+            $requisition_reference_number,
+            (int)$workflowProcess,
+            WorkflowActions::submit(),
+            $requisitionPostRequest->remarks,
+            $user,
+            $requisitionPostRequest->total_amount ?? 0,
+            $short_description,
+            $long_description
+        );
     }
 }
