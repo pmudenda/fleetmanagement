@@ -59,6 +59,14 @@ class FuelRequisitionService
     private static function getFuelLastIssue(mixed $registrationNumber): array
     {
         //
+       $result =  DB::table('gen_material_headers h')
+            ->where('veh_reg_no', '=',$registrationNumber)
+            ->where('is_fuel', '=','Y')
+            ->whereNotIn('status', '=', [ '45', '03', '01', '02' ])
+            ->select(DB::raw('MAX(created_at) as max_date'));
+
+        /*SELECT  FROM gen_material_headers WHERE  = AND  =  AND  NOT IN ;*/
+
         $latestIssues = DB::table('gen_material_headers h')
             ->leftJoin(
                 "gen_material_details d",
@@ -72,11 +80,7 @@ class FuelRequisitionService
             )
             ->where('h.created_at',
                 "=",
-                DB::raw("SELECT MAX(created_at)
-                                                   FROM gen_material_headers
-                                                   WHERE is_fuel = 'Y'
-                                                   AND veh_reg_no = $registrationNumber
-                                                   AND status NOT IN ( '45', '03', '01', '02' )")
+                $result->max_date
             )
             ->select(
                 "h.req_no",
