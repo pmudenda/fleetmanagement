@@ -171,22 +171,22 @@
                                                            name="commentsToSupervisor"
                                                            style="height: 129px;"
                                                            class="form-control form-control-sm comments"></textarea>
-                                           {{--     @if(!empty($comments))
-                                                    <textarea type="text"
-                                                              id="accessoriesRemarks"
-                                                              name="accessoriesRemarks"
-                                                              style="height: 129px;"
-                                                              class="form-control form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
-                                                @else
+                                                {{--     @if(!empty($comments))
+                                                         <textarea type="text"
+                                                                   id="accessoriesRemarks"
+                                                                   name="accessoriesRemarks"
+                                                                   style="height: 129px;"
+                                                                   class="form-control form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
+                                                     @else
 
-                                                @endif
---}}
+                                                     @endif
+     --}}
                                             </div>
                                         </div>
                                     </div>
 
+                                </div>
                             </div>
-                        </div>
                     </section>
 
                 </form>
@@ -337,7 +337,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                       {{-- <button type="button" class="btn btn-primary">Understood</button>--}}
+                        {{-- <button type="button" class="btn btn-primary">Understood</button>--}}
                         <button id="btnSign" type="submit"
                                 class="btn btn-sm btn-success mr-3">
                             <i class="fas fa-save"></i>
@@ -735,6 +735,10 @@
         }
 
         $(document).ready(function () {
+
+            $(document).on('keyup', '[name="commentsToSupervisor"]', function (event) {
+                this.value = this.value.toUpperCase();
+            });
 
             initArticleSelector($('.articlesDropDownList'));
 
