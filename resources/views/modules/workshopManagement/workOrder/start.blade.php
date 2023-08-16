@@ -73,6 +73,7 @@
 
                 <label class="app-required-marker"></label>
                 <form name="jobCardForm"
+                      data-model="PostJobCard"
                       id="jobCardForm"
                       method="post">
                     @csrf
@@ -736,7 +737,7 @@
 
         $(document).ready(function () {
 
-            $(document).on('keyup', '[name="commentsToSupervisor"]', function (event) {
+            $(document).on('keypress', '[name="commentsToSupervisor"]', function (event) {
                 this.value = this.value.toUpperCase();
             });
 
@@ -821,7 +822,10 @@
                     let arr = [];
                     let obj = {};
 
-                    if (
+                    if (formSel.data('modelName') === 'PostJobCard') {
+                        obj['commentsToSupervisor'] = $('input[name="commentsToSupervisor"]').val();
+                        obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
+                    } else if (
                         formSel.data('modelName') === 'Defects'
                         || formSel.data('modelName') === 'PartsHeader'
                         || formSel.data('modelName') === 'ServicesHeader'
@@ -2051,15 +2055,15 @@
                     tmsApp.numberOnly(event);
                 });
 
-                $(document).on('keyup', '.comments', function (event) {
+                $(document).on('keypress', '.comments', function (event) {
                     this.value = this.value.toUpperCase();
                 });
 
-                $(document).on('keyup', '[name="remarks"]', function (event) {
+                $(document).on('keypress', '[name="remarks"]', function (event) {
                     this.value = this.value.toUpperCase();
                 });
 
-                $(document).on('keyup', '.technical_specification', function (event) {
+                $(document).on('keypress', '.technical_specification', function (event) {
                     this.value = this.value.toUpperCase();
                 });
 
