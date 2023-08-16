@@ -728,7 +728,7 @@ class FuelRequisitionService
             ->first()->max_odometer;
     }
 
-    private function getOdometerOnLastIssue(mixed $registrationNumber): object|null
+    private function getOdometerOnLastIssue(mixed $registrationNumber)
     {
         return DB::table('gen_material_headers')
             ->where('veh_reg_no', '=', $registrationNumber)
