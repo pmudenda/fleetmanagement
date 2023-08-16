@@ -793,13 +793,15 @@ class FuelRequisitionService
             )
             ->first();
 
+        dd($consumptionData);
+
         if (empty($consumptionData)) {
-            return ['fuel_consumption' => null, 'tank_capacity' => 0];
+            return ['fuel_consumption' => 0, 'tank_capacity' => 0];
         }
 
         return [
-            'fuel_consumption' => $consumptionData->fuel_consumption,
-            'tank_capacity' => $consumptionData->tank_capacity
+            'fuel_consumption' => $consumptionData->fuel_consumption ?? 0,
+            'tank_capacity' => $consumptionData->tank_capacity ?? 0
         ];
     }
 }
