@@ -738,13 +738,13 @@ class FuelRequisitionService
                 'vh.id',
                 '=',
                 "va.vehicle_header_id")
-            ->select("va.business_unit",
-                "va.cost_center",
-                "vh.business_unit_code as user_unit",
-                "'' as zone",
-                "va.business_area_code  as area",
-                "va.responsible_head_id as responsible",
-                "'' as supervisor")
+            ->select('va.business_unit',
+                'va.cost_center',
+                'vh.business_unit_code as user_unit',
+                '"" as zone',
+                'va.business_area_code  as area',
+                'va.responsible_head_id as responsible',
+                '"" as supervisor')
             ->first();
 
         if (empty($assignmentInfo)) {
