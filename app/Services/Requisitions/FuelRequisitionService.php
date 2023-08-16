@@ -188,11 +188,14 @@ class FuelRequisitionService
 
         if ($variance < 0) {
             throw new FuelRequisitionException(
-                str_replace("@odometer",
-                    $latestIssue->odometer,
-                    str_replace("@req_no",
-                        $latestIssue->st_pur ?? $latestIssue->req_no,
-                        ErrorMessages::getMessage('err_0025')
+                str_replace("@cur_odometer",
+                    $userProvidedOdometer,
+                    str_replace("@odometer",
+                        $latestIssue->odometer,
+                        str_replace("@req_no",
+                            $latestIssue->st_pur ?? $latestIssue->req_no,
+                            ErrorMessages::getMessage('err_0025')
+                        )
                     )
                 )
             );
