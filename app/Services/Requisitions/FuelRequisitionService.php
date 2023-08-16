@@ -101,7 +101,7 @@ class FuelRequisitionService
         return [$quantityLastIssued->quantity ?? 0, $latestIssue];
     }
 
-    private static function getLastIssuedRequisitionDetailsByRegNumber(mixed $registrationNumber): mixed
+    private static function getLatestNonCancelledAndNonRejectedRequisitionByVehReg(mixed $registrationNumber): mixed
     {
         return MaterialHeader::where("veh_reg_no", $registrationNumber)
             ->whereNotIn("status", [
@@ -228,7 +228,7 @@ class FuelRequisitionService
             );
         }
 
-        $latestNonCancelledOrRejectedRequisition = self::getLastIssuedRequisitionDetailsByRegNumber($registrationNumber);
+        $latestNonCancelledOrRejectedRequisition = self::getLatestNonCancelledAndNonRejectedRequisitionByVehReg($registrationNumber);
 
         DB::beginTransaction();
 
@@ -259,6 +259,7 @@ class FuelRequisitionService
                 ]);
             }
             if (!empty($latestNonCancelledOrRejectedRequisition)) {
+
                 if (in_array($latestNonCancelledOrRejectedRequisition->status, $openRequisitionStatusList)) {
                     // requisition is open/pending
 

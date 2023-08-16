@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('town_from', 255);
             $table->string('town_to', 255);
             $table->decimal('distance', 19,4);
-            $table->string('created_by', 20);
-            $table->string('modified_by', 20);
-            $table->timestamp('deleted_at');
+            $table->string('created_by', 20)->nullable();
+            $table->string('modified_by', 20)->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }
