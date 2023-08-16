@@ -694,7 +694,7 @@ class FuelRequisitionService
         DB::commit();
     }
 
-    private function getLatestOdometerLogsEntry(mixed $registrationNumber): Model|Builder|null
+    private function getLatestOdometerLogsEntry(mixed $registrationNumber): object|null
     {
         return DB::table('vm_fleet_movement_header')
             ->where('reg_no', '=', $registrationNumber)
@@ -702,7 +702,7 @@ class FuelRequisitionService
             ->first();
     }
 
-    private function getOdometerOnLastIssue(mixed $registrationNumber): Model|Builder|null
+    private function getOdometerOnLastIssue(mixed $registrationNumber): object|null
     {
         return DB::table('gen_material_headers')
             ->where('veh_reg_no', '=', $registrationNumber)

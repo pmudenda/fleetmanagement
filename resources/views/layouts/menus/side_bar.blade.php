@@ -223,8 +223,8 @@
                                     <a href="#" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
-                                            {{--Job Cards--}}
-                                            Service Request
+                                            Job Card
+                                            {{--Service Request--}}
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
