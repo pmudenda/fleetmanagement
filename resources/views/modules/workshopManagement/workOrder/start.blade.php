@@ -737,7 +737,7 @@
 
         $(document).ready(function () {
 
-            $(document).on('keypress', '[name="commentsToSupervisor"]', function (event) {
+            $(document).on('keyup', '[name="commentsToSupervisor"]', function (event) {
                 this.value = this.value.toUpperCase();
             });
 
@@ -2051,19 +2051,19 @@
 
                 /*****************************Event Handlers*****************************************/
 
-                $(document).on('keypress', '.number_input', function (event) {
+                $(document).on('keyup', '.number_input', function (event) {
                     tmsApp.numberOnly(event);
                 });
 
-                $(document).on('keypress', '.comments', function (event) {
+                $(document).on('keyup', '.comments', function (event) {
                     this.value = this.value.toUpperCase();
                 });
 
-                $(document).on('keypress', '[name="remarks"]', function (event) {
+                $(document).on('keyup', '[name="remarks"]', function (event) {
                     this.value = this.value.toUpperCase();
                 });
 
-                $(document).on('keypress', '.technical_specification', function (event) {
+                $(document).on('keyup', '.technical_specification', function (event) {
                     this.value = this.value.toUpperCase();
                 });
 
