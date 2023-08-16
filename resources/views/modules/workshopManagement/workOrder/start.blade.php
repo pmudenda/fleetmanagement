@@ -1938,6 +1938,9 @@
                             console.log(response);
                             window.loaderMessage = "Loading... please wait";
                             if (response.hasOwnProperty("success") && response.success) {
+                                if (modal) {
+                                    modal.hide();
+                                }
                                 const message = response.message > ""
                                     ? response.message
                                     : "Assessment Signed successfully, Click 'Ok' to Proceed";
@@ -1946,11 +1949,8 @@
                                     "Assessment Acknowledgement",
                                     message,
                                     function () {
-                                        // window.location.reload();
-                                        if (modal) {
-                                            modal.hide();
-                                            //window.loaderVisible = false;
-                                        }
+                                        window.location.reload();
+
                                     },
                                     "success"
                                 );
