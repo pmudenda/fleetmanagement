@@ -80,7 +80,7 @@
                     <section>
                         <div class="container-fluid">
                             <div class="row"
-                                 data-form-url="{{route("process.job_card")}}"
+                                 data-form-url="{{route("save.job.card")}}"
                                  data-model-name="JobCardHeader">
 
                                 <div class="col-7">

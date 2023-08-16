@@ -1,6 +1,6 @@
 @php use Carbon\Carbon; @endphp
 <div class="container-fluid">
-    <div class="row" data-form-url="{{route("process.job_card")}}" data-model-name="JobCardHeader">
+    <div class="row" data-form-url="{{route("save.job.card")}}" data-model-name="JobCardHeader">
         <div class="col-9">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">

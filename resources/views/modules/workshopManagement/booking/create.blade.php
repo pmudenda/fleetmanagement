@@ -68,7 +68,6 @@
                 <label class="app-required-marker"></label>
                 <form name="jobCardForm"
                       id="jobCardForm"
-                      {{--action="{{route('save.workshop.requisition')}}"--}}
                       method="post">
                     @csrf
 
