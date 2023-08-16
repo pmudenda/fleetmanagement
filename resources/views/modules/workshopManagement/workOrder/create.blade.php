@@ -741,6 +741,10 @@
 
             initServiceArticleSelector($('.servicesArticlesDropDownList'));
 
+            setInterval(function () {
+                disableControls();
+            }, 600);
+
             Inputmask({
                 "mask": "AAA 9{1,4}"
             }).mask('[name="vehicle_registration"]');
@@ -2240,9 +2244,7 @@
 
             getSuppliers();
 
-            setTimeout(function () {
-                disableControls();
-            }, 300);
+
 
         })(window.tmsApp || {}, jQuery)
     </script>
