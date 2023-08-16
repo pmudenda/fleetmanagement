@@ -848,6 +848,8 @@ class MaintenanceController extends Controller
 
             $driver = PHCMSEmployee::where('con_per_no', '=', $loginId)->first();
 
+            $driverStaffNo = $driver->con_per_no;
+
             if (empty($driver)) {
                 return response()->json([
                     "success" => false,
@@ -865,14 +867,14 @@ class MaintenanceController extends Controller
                 ]);
             }
 
-            if (($driver->staff_number != $loginId) || ($entry->driver_in != $loginId)) {
+            if (($driverStaffNo != $loginId) || ($entry->driver_in != $loginId)) {
                 return response()->json([
                     "success" => false,
                     "message" => "Assessment Signatory is not the driver who brought the vehicle",
                 ]);
             }
 
-            if ($driver->staff_number !== $entry->driver_in) {
+            if ($driverStaffNo !== $entry->driver_in) {
                 return response()->json([
                     "success" => false,
                     "message" => "Assessment Signatory is not the driver who brought the vehicle",
@@ -882,7 +884,7 @@ class MaintenanceController extends Controller
             $credentials = $request->only('loginId', 'password');
             Log::info(var_dump($credentials));
             // Auth::attempt($credentials)
-            if ($driver->staff_number == $entry->driver_in) {
+            if ($driverStaffNo == $entry->driver_in) {
 
                 $entry->updated_at = Carbon::now();
                 $entry->driver_acknowledged = 'Y';
