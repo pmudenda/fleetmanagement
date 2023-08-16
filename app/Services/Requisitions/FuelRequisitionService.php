@@ -195,7 +195,7 @@ class FuelRequisitionService
             $maximumOdometerAcceptable += (($tank_capacity - $quantityLastIssued) * $fuel_consumption);
         }
 
-        if ($variance < 0) {
+        if ($variance <= 0) {
             throw new FuelRequisitionException(
                 str_replace("@cur_odometer",
                     $userProvidedOdometer,
