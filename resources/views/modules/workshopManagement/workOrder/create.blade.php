@@ -949,7 +949,9 @@
             $('[name="employeeSearchBtn"]').attr("disabled", true);
 
             $('[name="driver_staff_number"]').attr('disabled', true);
+
             $('[name="current_odometer"]').attr('readonly', true);
+            $('[name="accessoriesRemarks"]').attr('readonly', true);
         }
 
         $(document).ready(function () {
