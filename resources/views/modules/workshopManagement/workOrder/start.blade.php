@@ -823,8 +823,8 @@
                     let obj = {};
 
                     if (formSel.data('modelName') === 'PostJobCard') {
-                        obj['commentsToSupervisor'] = $('input[name="commentsToSupervisor"]').val();
-                        obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
+                        obj['commentsToSupervisor'] = $('[name="commentsToSupervisor"]').val();
+                        obj['workshop_reference'] = $('[name="workshop_reference"]').val();
                         $($container).find('input[name], select[name]').each(function (i, item) {
                             // let val = item.value.replace(/,/g, '');
                             if (item.type === 'radio') {
