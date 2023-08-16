@@ -192,6 +192,33 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('workOrder', [MaintenanceController::class, 'create'])->name('workOrder.requisition');
 
+            Route::get('parts-selection', function (Request $request) {
+
+                $step = '1';
+                $repairTypes = [];
+                $accessories_checked_in = [];
+                $accessories = [];
+                $details = [];
+                $workshop_sections = [];
+                $defects = [];
+                $comments = [];
+
+                $view_name = 'modules.workshopManagement.workOrder.create_old';
+
+                return view($view_name)->with(
+                    compact(
+                        'repairTypes',
+                        'accessories',
+                        'details',
+                        'accessories_checked_in',
+                        'step',
+                        'workshop_sections',
+                        'defects',
+                        'comments'
+                    )
+                );
+            })->name('parts.selection');
+
             Route::get('job-card/accessories', [MaintenanceController::class, 'accessoriesTab'])->name('accessories.job.card');
 
             Route::get('new/job-card', [MaintenanceController::class, 'start'])->name('new.job.card');
@@ -295,33 +322,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('document/audit/trail', [DocumentController::class, 'documentAuditTrail'])
         ->name('document.audit.trail');
-
-    Route::get('parts-selection', function (Request $request) {
-
-        $step = '1';
-        $repairTypes = [];
-        $accessories_checked_in = [];
-        $accessories = [];
-        $details = [];
-        $workshop_sections = [];
-        $defects = [];
-        $comments = [];
-
-        $view_name = 'modules.workshopManagement.workOrder.create_old';
-
-        return view($view_name)->with(
-            compact(
-                'repairTypes',
-                'accessories',
-                'details',
-                'accessories_checked_in',
-                'step',
-                'workshop_sections',
-                'defects',
-                'comments'
-            )
-        );
-    })->name('parts.selection');
 
     Route::group(['prefix' => 'reminders'], function () {
         Route::post('list', [RemindersController::class, 'index'])->name('reminder.list');

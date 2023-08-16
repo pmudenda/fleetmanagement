@@ -165,6 +165,7 @@ class FuelRequisitionService
         $this->validateCurrentOdometerAgainstMileageReturn(
             $latestOdometerLogs,
             $userProvidedOdometer,
+            $latestOdometerLogs
         );
 
         Log::info("Calculating Maximum Distance that should have been covered by  $registrationNumber");
@@ -182,7 +183,9 @@ class FuelRequisitionService
         Log::debug("Odometer Variance " . $variance);
 
         if ($variance < 0) {
-            throw new FuelRequisitionException(ErrorMessages::getMessage('err_0025'));
+            throw new FuelRequisitionException(
+                ErrorMessages::getMessage('err_0025')
+            );
         } elseif ($variance > 200) {
             throw new FuelRequisitionException(ErrorMessages::getMessage('err_0026'));
         }
@@ -490,10 +493,17 @@ class FuelRequisitionService
     /**
      * @throws FuelRequisitionException
      */
-    public function validateCurrentOdometerAgainstMileageReturn($latestOdometerLogEntry, $userProvidedOdometer): bool
+    public function validateCurrentOdometerAgainstMileageReturn($latestOdometerLogEntry,
+                                                                $userProvidedOdometer,
+                                                                $latestOdometerLogs): bool
     {
         if ($userProvidedOdometer <= $latestOdometerLogEntry) {
-            throw new FuelRequisitionException(ErrorMessages::getMessage("err_0013"), 1000);
+            throw new FuelRequisitionException(str_replace("@odometer",
+                $latestOdometerLogs,
+                ErrorMessages::getMessage("err_0013")
+            ),
+                1000
+            );
         }
 
         return true;
@@ -766,7 +776,6 @@ class FuelRequisitionService
             throw new FuelRequisitionException("Business Unit Is Not Active");
         }
 
-
         $countCc = CostCenter::where('code_cost_center', $assignmentInfo->cost_center)
             ->where("status", "=", StatusHelper::active())
             ->count();
@@ -807,6 +816,7 @@ class FuelRequisitionService
         if (empty($consumptionData)) {
             return ['fuel_consumption' => 0, 'tank_capacity' => 0];
         }
+
         Log::info("Consumption $consumptionData->fuel_consumption");
         Log::info("Tank Capacity $consumptionData->tank_capacity");
 
