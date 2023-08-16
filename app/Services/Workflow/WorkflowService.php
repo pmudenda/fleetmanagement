@@ -7,6 +7,7 @@ use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\Priority;
 use App\Helpers\StatusHelper;
 use App\Models\Common\OrganizationalUnit;
+use App\Models\Reference\PHCMSEmployee;
 use App\Models\Security\User;
 use App\Models\Workflow\WorkflowApprovalLimit;
 use App\Models\Workflow\WorkflowLog;
@@ -32,6 +33,7 @@ class WorkflowService
      * @param $amount
      * @param string $short_description
      * @param string $long_description
+     * @param null $assignTo
      * @return WorkflowTaskDetail
      * @throws WorkflowTaskCreationFailedException
      */
@@ -42,7 +44,8 @@ class WorkflowService
                                             User   $currentUser,
                                                    $amount,
                                             string $short_description,
-                                            string $long_description
+                                            string $long_description,
+                                                   $assignTo = null
     ): WorkflowTaskDetail
     {
 
@@ -83,9 +86,18 @@ class WorkflowService
             'remarks' => $comment
         ]);
 
-
         /****************************** Determine User to assign task ******************************************/
-        $assignToUser = $this->getApprovingOfficer($currentUser);
+        $assignTo = null; //$this->getApprovingOfficer($currentUser);
+        if (empty($assignTo)) {
+            $assignToUser = $this->getApprovingOfficer($currentUser);
+        } else {
+            $assignToUser =  PHCMSEmployee::where('con_st_code', '=', 'ACT')
+                ->where(function ($query) use ($assignTo) {
+                    $query->where('alt_per_no', '=', $assignTo)
+                        ->orWhere('con_per_no', '=', $assignTo);
+                })
+                ->first();
+        }
 
         $actionPage = $stepAfterSubmission->action_page;
 

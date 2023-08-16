@@ -1301,7 +1301,8 @@ class WorkshopRequisitionService
             $user,
             0,
             $short_description,
-            $long_description
+            $long_description,
+            '71997'
         );
 
         return response()->json([
