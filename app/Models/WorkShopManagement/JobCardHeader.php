@@ -52,6 +52,7 @@ class JobCardHeader extends Model
         'modified_by',
         'status',
         'driver_acknowledged',
-        'date_acknowledged'
+        'date_acknowledged',
+        'step'
     ];
 }
