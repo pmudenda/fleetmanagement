@@ -1876,7 +1876,11 @@
 
                 if (tableId === "part8") {
                     let row = lastRow[0];
-                    $(row).find('[name="vehicleSystem"]')
+                    $(row).find('[name="vehicleSystem"]').attr('disabled', false)
+                    $(row).find('[name="defectCategory"]').attr('disabled', false)
+                    $(row).find('[name="defect"]').attr('disabled', false)
+                    $(row).find('[name="workshopSection"]').attr('disabled', false)
+
                     $(row).find('.select2-container').remove();
                     let $_defect_sel = $(".select_2_control");
                     reinitializeSelect2($_defect_sel);
