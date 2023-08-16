@@ -386,7 +386,8 @@
 
                         <h1>LABOUR</h1>
                         <section>
-                            @include('modules.workshopManagement.workOrder.tabs.labour')
+                           {{-- @include('modules.workshopManagement.workOrder.tabs.labour')--}}
+                            @include('modules.workshopManagement.workOrder.tabs.labourAssignments')
                         </section>
 
                         <h1>SPARES & SERVICES</h1>
