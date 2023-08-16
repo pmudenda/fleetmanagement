@@ -173,7 +173,7 @@
             <table class="mt-10">
                 <tbody>
                 <tr>
-                    <td class="text-right">
+                    <td class="text-left">
                         <strong id="srfTotal" class="input-number">Prepared By:</strong>
                         <b id="section" class="input-number">RECEPTION</b>
                     </td>
