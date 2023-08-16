@@ -266,8 +266,6 @@
 @push('scripts')
     <script>
         window.selectedAccessories = {!! json_encode($accessories_checked_in) !!};
-  /*      window.defects = {!! json_encode($defects) !!};
-        window.materials = {!! json_encode($materials) !!};*/
         window.step_id = {!! $step !!};
     </script>
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
