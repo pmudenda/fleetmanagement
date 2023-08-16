@@ -2063,15 +2063,15 @@
                     tmsApp.numberOnly(event);
                 });
 
-                $(document).on('oninput', '.comments', function (event) {
+                $(document).on('input', '.comments', function (event) {
                     this.value = this.value.toUpperCase();
                 });
 
-                $(document).on('oninput', '[name="remarks"]', function (event) {
+                $(document).on('input', '[name="remarks"]', function (event) {
                     this.value = this.value.toUpperCase();
                 });
 
-                $(document).on('oninput', '.technical_specification', function (event) {
+                $(document).on('input', '.technical_specification', function (event) {
                     this.value = this.value.toUpperCase();
                 });
 
