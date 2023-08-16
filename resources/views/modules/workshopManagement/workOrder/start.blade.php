@@ -73,7 +73,7 @@
 
                 <label class="app-required-marker"></label>
                 <form name="jobCardForm"
-                      data-model="PostJobCard"
+                      data-model-name="PostJobCard"
                       id="jobCardForm"
                       method="post">
                     @csrf
