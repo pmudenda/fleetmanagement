@@ -214,8 +214,6 @@ Route::group(['middleware' => 'auth'], function () {
             // delete defect
             Route::post('/deleteRecord', [MaintenanceController::class, "deleteRecord"])->name('delete.defect.record');
 
-
-
             Route::post('/deleteMaterialRecord', [MaintenanceController::class, "deleteMaterialRecord"])->name('delete.material.record');
 
             Route::post('save/job/card/header', [MaintenanceController::class, 'saveJobCardHeader'])->name('save.job.card');

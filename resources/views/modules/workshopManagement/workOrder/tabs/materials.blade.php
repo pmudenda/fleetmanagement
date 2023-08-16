@@ -10,37 +10,37 @@
                         <input type="hidden" value="{{$materialsHeader->id ?? 0 }}" name="materialHeaderId">
                         <div class="form-group row">
                             <label
-                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                for="staff_no">Item Type:
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                    for="staff_no">Item Type:
                             </label>
                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                 @if(!empty($materialsHeader))
                                     <select
-                                        data-value="{{$materialsHeader->item_type_code ?? ''}}"
-                                        readonly="readonly"
-                                        class="form-select form-select-sm"
-                                        name="itemType"
-                                        id="itemType">
+                                            data-value="{{$materialsHeader->item_type_code ?? ''}}"
+                                            readonly="readonly"
+                                            class="form-select form-select-sm"
+                                            name="itemType"
+                                            id="itemType">
                                         <option></option>
                                         <option
-                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::StockItemCode) selected
-                                            @endif value="01">STOCK ITEM
+                                                @if($materialsHeader->item_type_code == RequisitionItemTypes::StockItemCode) selected
+                                                @endif value="01">STOCK ITEM
                                         </option>
                                         <option
-                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::NonStockItemCode) selected
-                                            @endif value="02">NON STOCK ITEM
+                                                @if($materialsHeader->item_type_code == RequisitionItemTypes::NonStockItemCode) selected
+                                                @endif value="02">NON STOCK ITEM
                                         </option>
-                                     {{--   <option
-                                            @if($materialsHeader->item_type_code ==  RequisitionItemTypes::ServiceItemCode) selected
-                                            @endif value="03">SERVICE
-                                        </option>--}}
+                                        {{--   <option
+                                               @if($materialsHeader->item_type_code ==  RequisitionItemTypes::ServiceItemCode) selected
+                                               @endif value="03">SERVICE
+                                           </option>--}}
                                     </select>
                                 @else
                                     <select
-                                        required
-                                        class="form-select form-select-sm"
-                                        name="itemType"
-                                        id="itemType">
+                                            required
+                                            class="form-select form-select-sm"
+                                            name="itemType"
+                                            id="itemType">
                                         <option></option>
                                         <option value="{{RequisitionItemTypes::StockItemCode}}">STOCK
                                             ITEM
@@ -48,9 +48,9 @@
                                         <option value="{{RequisitionItemTypes::NonStockItemCode}}">NON
                                             STOCK ITEM
                                         </option>
-                                       {{-- <option value="{{RequisitionItemTypes::ServiceItemCode}}">
-                                            SERVICE
-                                        </option>--}}
+                                        {{-- <option value="{{RequisitionItemTypes::ServiceItemCode}}">
+                                             SERVICE
+                                         </option>--}}
                                     </select>
                                 @endif
 
@@ -66,16 +66,16 @@
                     <div class="row">
                         <div class="form-group row">
                             <label
-                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                for="staff_no">Purchase Office:
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                    for="staff_no">Purchase Office:
                             </label>
                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                 <select
-                                    data-value=""
-                                    required
-                                    class="form-select form-select-sm"
-                                    name="purchase_office"
-                                    id="purchase_office">
+                                        data-value=""
+                                        required
+                                        class="form-select form-select-sm"
+                                        name="purchase_office"
+                                        id="purchase_office">
                                     <option value="{{$officeDetails->purchase_office_code ?? ''}}">
                                         {{$officeDetails->purchase_office ?? ''}}
                                     </option>
@@ -93,7 +93,7 @@
                     <div class="row">
                         <div class="form-group row">
                             <div
-                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                    class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                 <div class="control-input">
                                     <div class="link-field ui-front"
                                          style="position: relative;">
@@ -123,8 +123,8 @@
                     <div class="row">
                         <div class="form-group row">
                             <label
-                                class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                for="job_card_no">
+                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                    for="job_card_no">
                                 Request Date:
                             </label>
                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -160,7 +160,7 @@
 
                         <div id="supplierContainer" style="display: none;" class="form-group row">
                             <div
-                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                    class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                 <div class="control-input">
                                     <div class="link-field ui-front"
                                          style="position: relative;">
@@ -172,19 +172,19 @@
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                 <select
-                                    data-value="{{$materialsHeader->supplier_code ?? ''}}"
-                                    class="form-select form-select-sm"
-                                    name="supplier"
-                                    autocomplete="off"
-                                    id="supplier">
+                                        data-value="{{$materialsHeader->supplier_code ?? ''}}"
+                                        class="form-select form-select-sm"
+                                        name="supplier"
+                                        autocomplete="off"
+                                        id="supplier">
                                 </select>
                             </div>
                         </div>
 
                         <div id="storeContainer" style="display: none;" class="form-group row">
                             <label
-                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                for="staff_name">
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                    for="staff_name">
                                 Store:
                             </label>
                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -211,8 +211,8 @@
                     <div class="row">
                         <div class="form-group row">
                             <label
-                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                for="staff_no">Collection Date:
+                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                    for="staff_no">Collection Date:
                             </label>
                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                 @if($materialsHeader)
@@ -267,11 +267,11 @@
                             <tr class="increment" data-id="{{$material->id}}">
                                 <td class="showNumber">
                                     <input
-                                        readonly
-                                        name="registration"
-                                        required
-                                        value="{{$details->reg_no ?? ''}}"
-                                        class="form-control form-control-sm registration"/>
+                                            readonly
+                                            name="registration"
+                                            required
+                                            value="{{$details->reg_no ?? ''}}"
+                                            class="form-control form-control-sm registration"/>
                                 </td>
                                 <td>
                                     <select readonly
@@ -281,17 +281,17 @@
                                             data-value="{{$material->material_code ?? ''}}"
                                             class="form-control form-control-sm DropDownList">
                                         <option
-                                            value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}
+                                                value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}
                                             : {{$material->specifications ?? ''}}</option>
                                     </select>
                                 </td>
                                 <td>
                                     <input
-                                        name="articleCode"
-                                        value="{{$material->material_code ?? ''}}"
-                                        required
-                                        readonly
-                                        class="form-control form-control-sm articleCode"/>
+                                            name="articleCode"
+                                            value="{{$material->material_code ?? ''}}"
+                                            required
+                                            readonly
+                                            class="form-control form-control-sm articleCode"/>
                                 </td>
                                 <td>
                                     <input type="text"
@@ -315,11 +315,11 @@
 
                                 <td>
                                     <input
-                                        name="unit_of_measure"
-                                        required
-                                        value="{{$material->unit_of_measure ?? ''}}"
-                                        readonly
-                                        class="form-control form-control-sm unit_of_measure"/>
+                                            name="unit_of_measure"
+                                            required
+                                            value="{{$material->unit_of_measure ?? ''}}"
+                                            readonly
+                                            class="form-control form-control-sm unit_of_measure"/>
                                 </td>
 
                                 <td>
@@ -342,7 +342,7 @@
 
                                 <td class="view-mode">
                                     <button type="button"
-                                            @if($material->status == StatusHelper::authorised()) disabled @endif
+                                            @if(StatusHelper::authorised() == $material->status??'') disabled @endif
                                             data-value="{{$material->id ?? '0'}}"
                                             value="deleteRow"
                                             class="btn btn-danger p-2">
@@ -352,14 +352,14 @@
                             </tr>
                         @endforeach
                     @else
-                        <tr class="increment" data-id="{{$material->id}}">
+                        <tr class="increment" data-id="0">
                             <td class="showNumber">
                                 <input
-                                    readonly="readonly"
-                                    name="registration"
-                                    required
-                                    value="{{$details->reg_no ?? ''}}"
-                                    class="form-control form-control-sm registration"/>
+                                        readonly="readonly"
+                                        name="registration"
+                                        required
+                                        value="{{$details->reg_no ?? ''}}"
+                                        class="form-control form-control-sm registration"/>
                             </td>
                             <td>
                                 <select disabled
@@ -372,33 +372,33 @@
                             </td>
                             <td>
                                 <input
-                                    name="articleCode"
-                                    required
-                                    readonly
-                                    class="form-control form-control-sm articleCode"/>
+                                        name="articleCode"
+                                        required
+                                        readonly
+                                        class="form-control form-control-sm articleCode"/>
                             </td>
                             <td>
                                 <input
-                                    name="technical_specification"
-                                    required
-                                    class="form-control form-control-sm technical_specification"/>
-                            </td>
-
-                            <td>
-                                <input
-                                    type="text"
-                                    min="1"
-                                    name="quantity"
-                                    required
-                                    class="form-control form-control-sm quantity number_input"/>
+                                        name="technical_specification"
+                                        required
+                                        class="form-control form-control-sm technical_specification"/>
                             </td>
 
                             <td>
                                 <input
-                                    name="unit_of_measure"
-                                    required
-                                    readonly
-                                    class="form-control form-control-sm unit_of_measure"/>
+                                        type="text"
+                                        min="1"
+                                        name="quantity"
+                                        required
+                                        class="form-control form-control-sm quantity number_input"/>
+                            </td>
+
+                            <td>
+                                <input
+                                        name="unit_of_measure"
+                                        required
+                                        readonly
+                                        class="form-control form-control-sm unit_of_measure"/>
                             </td>
 
                             <td>
@@ -460,8 +460,8 @@
         <div class="row">
             <div class="form-group">
                 <label
-                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
-                    for="remarks">
+                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                        for="remarks">
                     Comments <small>Will be used as justification for Requisition</small>:
                 </label>
                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
@@ -501,16 +501,16 @@
             </tbody>
         </table>
         <div class="col-12 text-right">
-           <div>
-               <button type="button"
-                       id="saveMaterials"
-                       style="background: #f59d33; color: #fff;"
-                       data-table-id="material_table"
-                       class="btn btn-sm btn-success add pull-right">
-                   <i class="fa fa-save"></i>
-                   Save
-               </button>
-           </div>
+            <div>
+                <button type="button"
+                        id="saveMaterials"
+                        style="background: #f59d33; color: #fff;"
+                        data-table-id="material_table"
+                        class="btn btn-sm btn-success add pull-right">
+                    <i class="fa fa-save"></i>
+                    Save
+                </button>
+            </div>
         </div>
     </div>
 </div>
