@@ -88,7 +88,160 @@
 
                     <h1>ASSESSMENTS</h1>
                     <section>
-                        @include('modules.workshopManagement.workOrder.tabs.accessories')
+                        {{--@include('modules.workshopManagement.workOrder.tabs.accessories')--}}
+                        <div class="container-fluid">
+                            <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}" data-model-name="Accessories">
+                                <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
+                                <input type="hidden" value="{{$details->driver_acknowledged ?? 'N'}}" id="driverAcknowledged"
+                                       name="driverAcknowledged"/>
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="alert alert-info">
+                                        CUSTOMER IS REQUIRED TO REMOVE ALL PERSONAL EFFECTS FROM THE VEHICLE
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <table
+                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                <thead>
+                                                <tr class="bg-dark-subtle">
+                                                    <th class="pl-2">Item</th>
+                                                    <th>Present</th>
+                                                    <th class="pr-2">Not Present</th>
+                                                    <th class="pr-2">Remarks</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($accessories as $key => $accessory)
+                                                    @if(($key%2) == 0)
+                                                        <tr>
+                                                            <td class="pl-2"
+                                                                style="width: 35%;">{{$accessory->name}}</td>
+                                                            <td><input type="radio" value="YES" required
+                                                                       disabled
+                                                                       name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                            </td>
+                                                            <td><input type="radio" value="NO" required
+                                                                       disabled
+                                                                       name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                            </td>
+                                                            <td style="width: 45%;">
+                                                                <input typeof="text"
+                                                                       name="comment_{{str_replace(' ','', $accessory->code)}}"
+                                                                       class="form-control form-control-sm"/>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col">
+                                            <table
+                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                <thead>
+                                                <tr class="bg-dark-subtle">
+                                                    <th class="pl-2">Item</th>
+                                                    <th>Present</th>
+                                                    <th class="pr-2">Not Present</th>
+                                                    <th class="pr-2">Remarks</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($accessories as $key => $accessory)
+                                                    @if(($key%2) != 0)
+                                                        <tr>
+                                                            <td class="pl-2" style="width: 35%;">
+                                                                {{$accessory->name}}
+                                                            </td>
+                                                            <td><input type="radio" required value="YES"
+                                                                       disabled
+                                                                       name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                            </td>
+                                                            <td><input type="radio" required value="NO"
+                                                                       disabled
+                                                                       name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                            </td>
+                                                            <td style="width: 45%;">
+                                                                <input typeof="text"
+                                                                       name="comment_{{str_replace(' ','', $accessory->code)}}"
+                                                                       class="form-control form-control-sm">
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-10">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                                        for="accessoriesRemarks">
+                                                    General Comments and Observation (Damages):
+                                                </label>
+                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
+                                                    @if(!empty($comments))
+                                                        <textarea type="text"
+                                                                  id="accessoriesRemarks"
+                                                                  name="accessoriesRemarks"
+                                                                  style="height: 129px;"
+                                                                  class="form-control form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
+                                                    @else
+                                                        <textarea type="text"
+                                                                  id="accessoriesRemarks"
+                                                                  name="accessoriesRemarks"
+                                                                  style="height: 129px;"
+                                                                  class="form-control form-control-sm"></textarea>
+                                                    @endif
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="table-responsive" style="max-height:500px;">
+                                                    <table class="table table-bordered" id="observations">
+                                                        <thead>
+                                                        <tr class="bg-default-dark">
+                                                            <th>Observation</th>
+                                                            <th>Attachment</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="text" name="observation[]" class="form-control">
+                                                            </td>
+                                                            <td>
+                                                                <button type="button">
+                                                                    <i class="fas fa-paperclip"></i>
+                                                                </button>
+                                                                <input type="file" class="d-none" name="attachment[]" class="form-control">
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <button type="button"
+                                                            data-table-id="observations"
+                                                            class="btn btn-sm btn-primary add pull-right"
+                                                            value="addRow">
+                                                        <i class="fa fa-plus"></i> Add Row
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-10">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row mb-1 mt-4">
                             <div class="row">
                                 <div class="col-lg-2 col-sm-12">
