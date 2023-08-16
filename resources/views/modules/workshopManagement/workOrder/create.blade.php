@@ -945,6 +945,8 @@
             $('select[name="workshop"]').select2("enable", false);
 
             $('select[name="repairType"]').attr("disabled", true);
+            $('[name="vehicleSearchBtn"]').attr("disabled", true);
+            $('[name="employeeSearchBtn"]').attr("disabled", true);
 
             $('[name="driver_staff_number"]').attr('disabled', true);
             $('[name="current_odometer"]').attr('readonly', true);
