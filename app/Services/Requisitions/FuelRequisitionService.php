@@ -803,8 +803,8 @@ class FuelRequisitionService
         }
 
         return [
-            'fuel_consumption' => $consumptionData->fuel_consumption ?? 0,
-            'tank_capacity' => $consumptionData->tank_capacity ?? 0
+            $consumptionData->fuel_consumption ?? 0,
+            $consumptionData->tank_capacity ?? 0
         ];
     }
 }
