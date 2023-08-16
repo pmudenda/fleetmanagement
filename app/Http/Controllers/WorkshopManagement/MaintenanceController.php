@@ -897,7 +897,7 @@ class MaintenanceController extends Controller
                 $entry->save();
 
                 return response()->json([
-                    'payload' => $request->all(),
+                    'payload' => [],
                     "success" => true,
                     "message" => "Assessment Signed Successfully",
                 ]);
