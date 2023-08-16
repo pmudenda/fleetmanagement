@@ -846,9 +846,9 @@ class MaintenanceController extends Controller
             $loginId = $request->get('loginId');
             $password = $request->get('password');
 
-            $driver = PHCMSEmployee::where('con_per_no', '=', $loginId)->first();
+            $driver = PHCMSEmployee::where('alt_per_no', '=', $loginId)->first();
 
-            $driverStaffNo = $driver->con_per_no;
+            $driverStaffNo = $driver->alt_per_no;
 
             if (empty($driver)) {
                 return response()->json([
@@ -898,11 +898,11 @@ class MaintenanceController extends Controller
                 ]);
             }
 
-            return response()->json([
+            /*return response()->json([
                 'payload' => $request->all(),
                 "success" => false,
                 "message" => 'Opps! You have entered invalid credentials',
-            ]);
+            ]);*/
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
