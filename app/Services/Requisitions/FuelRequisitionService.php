@@ -199,7 +199,7 @@ class FuelRequisitionService
                     )
                 )
             );
-        } elseif ($variance > 200) {
+        } elseif ($userProvidedOdometer + 200) {
             throw new FuelRequisitionException(ErrorMessages::getMessage('err_0026'));
         }
 

@@ -379,14 +379,15 @@
             </td>
         </tr>
     </template>
-
-    <div class="modal fade" id="eSignature-modal" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal fade" id="eSignature-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div class="modal-title" id="">
+                    <h5 class="modal-title" id="staticBackdropLabel">
                         <i class="fa fa-pencil-square-o"></i> eSignature
-                    </div>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{route('sign.assessment')}}" name="eSignDocument">
                     <input type="hidden" name="reference" value="{{$details->job_card_no ?? 0}}">
@@ -467,14 +468,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        {{--<button class="btn btn-sm btn-danger "
-                                id="closeSignatureModal"
-                                type="button">
-                            Close
-                        </button>--}}
-                        <button type="button" class="btn btn-default pull-left"
-                                data-bs-dismiss="modal">Close
-                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Understood</button>
                         <button id="btnSign" type="submit"
                                 class="btn btn-sm btn-success mr-3">
                             <i class="fas fa-save"></i>
