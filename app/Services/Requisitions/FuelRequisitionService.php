@@ -793,9 +793,10 @@ class FuelRequisitionService
                 '=',
                 $vehicleReference
             )
+            ->select('ed.fuel_consumption','ed.tank_capacity')
             ->first();
 
-        Log::info(var_dump($consumptionData));
+        // Log::info(var_dump($consumptionData));
 
         if (empty($consumptionData)) {
             return ['fuel_consumption' => 0, 'tank_capacity' => 0];
