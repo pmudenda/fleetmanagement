@@ -33,7 +33,7 @@ class WorkflowService
      * @param $amount
      * @param string $short_description
      * @param string $long_description
-     * @param null $assignTo
+     * @param string|null $assignTo
      * @return WorkflowTaskDetail
      * @throws WorkflowTaskCreationFailedException
      */
@@ -45,7 +45,7 @@ class WorkflowService
                                                    $amount,
                                             string $short_description,
                                             string $long_description,
-                                                   $assignTo = null
+                                            string $assignTo = null
     ): WorkflowTaskDetail
     {
 
@@ -87,11 +87,11 @@ class WorkflowService
         ]);
 
         /****************************** Determine User to assign task ******************************************/
-        $assignTo = null; //$this->getApprovingOfficer($currentUser);
+        $assignToUser = null; //$this->getApprovingOfficer($currentUser);
         if (empty($assignTo)) {
             $assignToUser = $this->getApprovingOfficer($currentUser);
         } else {
-            $assignToUser =  PHCMSEmployee::where('con_st_code', '=', 'ACT')
+            $assignToUser = PHCMSEmployee::where('con_st_code', '=', 'ACT')
                 ->where(function ($query) use ($assignTo) {
                     $query->where('alt_per_no', '=', $assignTo)
                         ->orWhere('con_per_no', '=', $assignTo);

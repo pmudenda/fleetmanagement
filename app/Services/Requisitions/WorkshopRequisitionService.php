@@ -1292,10 +1292,9 @@ class WorkshopRequisitionService
 
         $jobCardNo = $request->get('workshop_reference');
         $reference = $workshopReference ?? $jobCardNo;
-        $workshopReference = "New Job Task ";
 
         $short_description = "New Job Task $reference $jobCardNo";
-        $long_description = "New Job Task $request->get('job_card_number') For Vehicle $jobCardNo";
+        $long_description = "New Job Task $jobCardNo For Vehicle $jobCardNo";
 
         $this->workflowService->initiateWorkflowProcess(
             $workshopReference,
