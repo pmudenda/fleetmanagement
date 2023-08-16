@@ -104,7 +104,11 @@ class FuelRequisitionService
     private static function getLastIssuedRequisitionDetailsByRegNumber(mixed $registrationNumber): mixed
     {
         return MaterialHeader::where("veh_reg_no", $registrationNumber)
-            ->whereNotIn("status", [StatusHelper::cancelled(), StatusHelper::rejected(), StatusHelper::new(), StatusHelper::authorised()])
+            ->whereNotIn("status", [StatusHelper::cancelled(),
+                StatusHelper::rejected(),
+                StatusHelper::new(),
+                StatusHelper::authorised()
+            ])
             ->orderBy("created_at", "desc")
             ->first();
     }

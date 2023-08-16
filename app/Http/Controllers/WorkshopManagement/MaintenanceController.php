@@ -131,7 +131,10 @@ class MaintenanceController extends Controller
     public function start(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $step = '1';
-        $repairTypes = [];
+        $repairTypes = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
+            ->where("active", "=", 1)
+            ->orderBy("name")
+            ->get();
         $accessories_checked_in = [];
         $accessories = [];
         $details = [];
