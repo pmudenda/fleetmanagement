@@ -520,7 +520,7 @@ class MaintenanceController extends Controller
                 [
                     "success" => true,
                     "payload" => $response,
-                    "redirectUrl" => URL::signedRoute("vehicle.workshop.checkin", ["step" => 2, "reference" => $response->job_card_no]),
+                    "redirectUrl" => URL::signedRoute("accessories.job.card", ["step" => 2, "reference" => $response->job_card_no]),
                 ]
             );
         } catch (\Exception $e) {
