@@ -243,7 +243,7 @@
                                             <a href="{{URL::signedRoute('vehicle.workshop.checkin')}}"
                                                class="nav-link">
                                                 <i class="fas fa-plus nav-icon"></i>
-                                                <p>Vehicle workshop Checkin</p>
+                                                <p>Vehicle Checkin</p>
                                             </a>
                                         </li>
 

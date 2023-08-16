@@ -738,8 +738,8 @@ class FuelRequisitionService
                 '32',
                 StatusHelper::partiallyReleasedExpired(),
                 '46'])
-            ->select(DB::raw('MAX(odometer)'))
-            ->first();
+            ->select(DB::raw('MAX(odometer) as odometer'))
+            ->first()->odometer ?? 0;
     }
 
     /**
