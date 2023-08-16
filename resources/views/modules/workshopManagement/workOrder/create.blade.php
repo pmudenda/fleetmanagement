@@ -947,11 +947,12 @@
             $('select[name="repairType"]').attr("disabled", true);
             $('[name="vehicleSearchBtn"]').attr("disabled", true);
             $('[name="employeeSearchBtn"]').attr("disabled", true);
-
+            $('[data-table-id="observations"]').attr('disabled', true);
             $('[name="driver_staff_number"]').attr('disabled', true);
 
             $('[name="current_odometer"]').attr('readonly', true);
             $('[name="accessoriesRemarks"]').attr('readonly', true);
+
         }
 
         $(document).ready(function () {
