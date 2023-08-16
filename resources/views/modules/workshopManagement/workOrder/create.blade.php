@@ -170,7 +170,12 @@
                             @include('modules.workshopManagement.workOrder.tabs.defects')
                         </section>
 
-                        <h1>Spares & Services</h1>
+                        <h1>LABOUR</h1>
+                        <section>
+                            @include('modules.workshopManagement.workOrder.tabs.labour')
+                        </section>
+
+                        <h1>SPARES & SERVICES</h1>
                         <section>
                             @include('modules.workshopManagement.workOrder.tabs.partsSelection')
                         </section>
@@ -2243,7 +2248,6 @@
             }
 
             getSuppliers();
-
 
 
         })(window.tmsApp || {}, jQuery)
