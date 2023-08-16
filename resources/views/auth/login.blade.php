@@ -16,7 +16,8 @@
             <label class="input-label font-weight-bold" for="username">Staff Number</label>
             <input type="text" name="email"
                    value="{{ old('email') }}"
-                   autocomplete="off" id="username"
+                   autocomplete="off"
+                   id="username"
                    placeholder=""
                    required=""
                    autofocus=""
