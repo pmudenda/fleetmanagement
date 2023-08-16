@@ -920,7 +920,7 @@ class MaintenanceController extends Controller
             }
 
             $credentials = $request->only('loginId', 'password');
-            Log::info(var_dump($credentials));
+
             // Auth::attempt($credentials)
             if ($driverStaffNo == $entry->driver_in) {
 
@@ -936,11 +936,11 @@ class MaintenanceController extends Controller
                 ]);
             }
 
-            /*return response()->json([
+            return response()->json([
                 'payload' => $request->all(),
                 "success" => false,
                 "message" => 'Opps! You have entered invalid credentials',
-            ]);*/
+            ]);
 
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
