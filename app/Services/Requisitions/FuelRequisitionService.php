@@ -76,7 +76,7 @@ class FuelRequisitionService
                                                    FROM gen_material_headers
                                                    WHERE is_fuel = 'Y'
                                                    AND veh_reg_no = $registrationNumber
-                                                   AND status NOT IN ( '45', '03', '01', '02' ))")
+                                                   AND status NOT IN ( '45', '03', '01', '02' )")
             )
             ->select(
                 "h.req_no",
