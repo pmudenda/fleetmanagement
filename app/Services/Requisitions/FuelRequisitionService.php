@@ -72,7 +72,7 @@ class FuelRequisitionService
             )
             ->where('h.created_at',
                 "=",
-                DB::raw("(MAX(created_at)
+                DB::raw("(SELECT MAX(created_at)
                                                    FROM gen_material_headers
                                                    WHERE is_fuel = 'Y'
                                                    AND veh_reg_no = $registrationNumber
