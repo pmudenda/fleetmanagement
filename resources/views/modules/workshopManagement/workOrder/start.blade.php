@@ -148,8 +148,8 @@
                                     <div class="col-lg-2 col-sm-12 text-right">
                                         <button type="button"
                                                 class="btn btn-sm btn-success"
-                                                data-toggle="modal"
-                                                data-target="#eSignature-modal">
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#eSignatureModal">
                                             <i class="fas fa-signature"></i>
                                             Sign
                                         </button>
