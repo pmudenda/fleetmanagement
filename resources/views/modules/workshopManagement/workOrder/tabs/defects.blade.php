@@ -170,7 +170,7 @@
                     </div>
                 </div>
             </div>
-            <table class="mt-10">
+            <table class="mt-10 table">
                 <tbody>
                 <tr>
                     <td class="text-left">
