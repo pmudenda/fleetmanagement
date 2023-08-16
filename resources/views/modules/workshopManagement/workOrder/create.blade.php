@@ -725,10 +725,10 @@
 
         function disableControls() {
 
-            $('select[name="fuel_level"]').attr('disabled', true);
-            $('select[name="sub_fuel_level"]').attr('disabled', true);
-            $('select[name="workshop"]').attr('disabled', true);
-            $('select[name="repairType"]').attr('disabled', true);
+            $('select[name="fuel_level"]').select2("enable",false);
+            $('select[name="sub_fuel_level"]').select2("enable",false);
+            $('select[name="workshop"]').select2("enable",false);
+            $('select[name="repairType"]').select2("enable",false);
 
             $('[name="driver_staff_number"]').attr('readonly', true);
             $('[name="current_odometer"]').attr('readonly', true);
