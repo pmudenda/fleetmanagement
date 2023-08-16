@@ -239,13 +239,13 @@
                                             </li>
                                         @endcanany
 
-                                        {{--<li class="nav-item">
-                                            <a href="{{URL::signedRoute('new.job.card')}}"
+                                        <li class="nav-item">
+                                            <a href="{{URL::signedRoute('vehicle.workshop.checkin')}}"
                                                class="nav-link">
                                                 <i class="fas fa-plus nav-icon"></i>
-                                                <p>Create</p>
+                                                <p>Vehicle workshop Checkin</p>
                                             </a>
-                                        </li>--}}
+                                        </li>
 
                                         {{--@can(config('rights.view_job_card'))--}}
                                         <li class="nav-item pl-2">

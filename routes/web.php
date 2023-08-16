@@ -18,7 +18,6 @@ use App\Http\Controllers\Security\RolesController;
 use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkshopManagement\MaintenanceController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
-use App\Services\VehicleManagement\VehicleDetailsService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -192,36 +191,14 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('workOrder', [MaintenanceController::class, 'create'])->name('workOrder.requisition');
 
-            Route::get('parts-selection', function (Request $request) {
+            // front desk
+            Route::get('vehicle/workshop/checkin', [MaintenanceController::class, 'start'])->name('vehicle.workshop.checkin');
 
-                $step = '1';
-                $repairTypes = [];
-                $accessories_checked_in = [];
-                $accessories = [];
-                $details = [];
-                $workshop_sections = [];
-                $defects = [];
-                $comments = [];
-
-                $view_name = 'modules.workshopManagement.workOrder.create_old';
-
-                return view($view_name)->with(
-                    compact(
-                        'repairTypes',
-                        'accessories',
-                        'details',
-                        'accessories_checked_in',
-                        'step',
-                        'workshop_sections',
-                        'defects',
-                        'comments'
-                    )
-                );
-            })->name('parts.selection');
+            Route::get('parts-selection', [MaintenanceController::class, 'partsSelection'])->name('parts.selection');
 
             Route::get('job-card/accessories', [MaintenanceController::class, 'accessoriesTab'])->name('accessories.job.card');
 
-            Route::get('new/job-card', [MaintenanceController::class, 'start'])->name('new.job.card');
+            /*  Route::get('new/job-card', [MaintenanceController::class, 'start'])->name('new.job.card');*/
 
             // supporting
             Route::get('requisitions/workOrder/list', [MaintenanceController::class, 'list'])->name('workOrder.list');

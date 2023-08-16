@@ -85,11 +85,6 @@ class MaintenanceController extends Controller
             );
     }
 
-    public function start()
-    {
-        
-    }
-
     public function create(Request $request): View
     {
         if (!$request->hasValidSignature()) {
@@ -133,6 +128,32 @@ class MaintenanceController extends Controller
             );
     }
 
+    public function start(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        $step = '1';
+        $repairTypes = [];
+        $accessories_checked_in = [];
+        $accessories = [];
+        $details = [];
+        $workshop_sections = [];
+        $defects = [];
+        $comments = [];
+
+        $view_name = 'modules.workshopManagement.workOrder.start';
+
+        return view($view_name)->with(
+            compact(
+                'repairTypes',
+                'accessories',
+                'details',
+                'accessories_checked_in',
+                'step',
+                'workshop_sections',
+                'defects',
+                'comments'
+            )
+        );
+    }
 
     public function show(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
@@ -321,6 +342,33 @@ class MaintenanceController extends Controller
                     "services"
                 )
             );
+    }
+
+    public function partsSelection(Request $request) {
+
+        $step = '1';
+        $repairTypes = [];
+        $accessories_checked_in = [];
+        $accessories = [];
+        $details = [];
+        $workshop_sections = [];
+        $defects = [];
+        $comments = [];
+
+        $view_name = 'modules.workshopManagement.workOrder.create_old';
+
+        return view($view_name)->with(
+            compact(
+                'repairTypes',
+                'accessories',
+                'details',
+                'accessories_checked_in',
+                'step',
+                'workshop_sections',
+                'defects',
+                'comments'
+            )
+        );
     }
 
     public function exitWorkShop(Request $request): View
