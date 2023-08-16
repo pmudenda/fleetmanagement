@@ -182,7 +182,7 @@
                             </td>
                             <td class="showNumber">
                                 <input type="text"
-                                       class="form-control form-control-sm"
+                                       class="form-control form-control-sm mechanicStaffNumber"
                                        autocapitalize="characters"
                                        id="mechanic"
                                        name="mechanic"/>

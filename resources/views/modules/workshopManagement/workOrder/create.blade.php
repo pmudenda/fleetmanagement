@@ -419,6 +419,8 @@
                        id="deleteDefectUrl"/>
                 <input type="hidden" value="{{route('delete.material.record')}}" name="deleteMaterialUrl"
                        id="deleteMaterialUrl"/>
+
+                <input type="hidden" value="{{route('mechanic.search')}}" id="mechanicDetails"/>
             </div>
         </div>
         <input type="hidden" name="onboarding_status" id="onboarding_status"
@@ -941,6 +943,76 @@
                 });
         }
 
+        function findMechanic($row, mechanic) {
+            if (!mechanic) {
+                return;
+            }
+
+            fetch(
+                $('#mechanicDetails').val() + '?staff_no=' + mechanic,
+                {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    body: JSON.stringify({staff_no: mechanic}),
+                    referrer: window.baseUrl,
+                    mode: 'cors',
+                    credentials: 'same-origin',
+                }
+            )
+                .then((response) => {
+                    if (!response.ok) {
+                        tmsApp.systemError(
+                            'System Message',
+                            'We could not complete Mechanic state checks',
+                            function () {
+                            });
+                        return;
+                    }
+
+                    return response.json();
+                })
+                .then(response => {
+                    console.log(response);
+                    if (response?.state === 'success') {
+                        const $documentStatusCtl = $('[name="documentStatus"]');
+                        const documentStatus = $documentStatusCtl.val()
+                        const newDocumentStatus = $('[name="newDocumentStatus"]').attr('data-value');
+
+                        if (
+                            documentStatus === newDocumentStatus
+                            || documentStatus === null
+                            || documentStatus === ""
+                            || documentStatus === 'undefined'
+                        ) {
+                            //populateVehicleDetails(response.payload, "");
+                            $($row).find('[name="hoursWorked"]').attr('readonly', false);
+                            $($row).find('[name="shiftType"]').attr('disabled', false);
+                        }
+
+                        $($row).find('[name="mechanicName"]').val(response?.payload['mechanic'].name);
+                        $($row).find('[name="postCode"]').val(response?.payload['employee']['job_code']);
+                        $($row).find('[name="workshopSection"]').val(response?.payload['mechanic']['section_code']).change();
+                    } else {
+                        //removeSubmissionAndDetailsOptions();
+                        tmsApp.systemError(
+                            'Mechanic',
+                            'Mechanic with Staff No.' + mechanic
+                            + ' was not found, Check your input and try again',
+                            function () {
+                            });
+                    }
+                })
+                .catch(function (error) {
+                    tmsApp.systemError(
+                        'System Message',
+                        'We could not complete Mechanic state checks',
+                        function () {
+                        });
+                });
+        }
+
         function disableControls() {
 
             $('select[name="fuel_level"]').select2("enable", false);
@@ -1026,6 +1098,11 @@
                     findVehicle("InWorkshop");
 
                 }, 600);
+
+                $('#labour_table').on('change', '[name="mechanic"]', function () {
+                    const $row = $(this).closest('tr');
+                    findMechanic($row, this.value);
+                });
             });
 
             /*****************************Function Handlers************************************/
