@@ -846,7 +846,12 @@ class MaintenanceController extends Controller
             $loginId = $request->get('loginId');
             $password = $request->get('password');
 
-            $driver = PHCMSEmployee::where('alt_per_no', '=', $loginId)->first();
+            $driver = PHCMSEmployee::where('con_st_code', '=', 'ACT')
+                ->where(function ($query) use ($loginId) {
+                    $query->where('alt_per_no', '=', $loginId)
+                        ->orWhere('con_per_no', '=', $loginId);
+                })
+                ->first();
 
             $driverStaffNo = $driver->alt_per_no;
 
