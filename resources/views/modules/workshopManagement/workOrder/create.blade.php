@@ -724,12 +724,14 @@
         }
 
         function disableControls() {
-            $('select[name="repairType"]').attr('disabled', true);
+
             $('select[name="fuel_level"]').attr('disabled', true);
-            $('[name="driver_staff_number"]').attr('disabled', true);
             $('select[name="sub_fuel_level"]').attr('disabled', true);
-            $('[name="current_odometer"]').attr('disabled', true);
             $('select[name="workshop"]').attr('disabled', true);
+            $('select[name="repairType"]').attr('disabled', true);
+
+            $('[name="driver_staff_number"]').attr('readonly', true);
+            $('[name="current_odometer"]').attr('readonly', true);
         }
 
         $(document).ready(function () {
@@ -738,7 +740,9 @@
 
             initServiceArticleSelector($('.servicesArticlesDropDownList'));
 
-            disableControls();
+            setTimeout(function(){
+                disableControls();
+            })
 
             Inputmask({
                 "mask": "AAA 9{1,4}"
