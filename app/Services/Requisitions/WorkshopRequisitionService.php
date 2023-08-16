@@ -1291,9 +1291,9 @@ class WorkshopRequisitionService
         $user = auth()->user();
 
         $jobCardNo = $request->get('job_card_number');
-        //$reference =
+
         $workshopReference = $jobCardNo;
-        $registration = $request->get('');
+        $registration = $request->get('vehicle_registration');
 
         $short_description = "New Job Task $jobCardNo";
         $long_description = "New Job Task $jobCardNo For Vehicle $registration";
