@@ -121,13 +121,13 @@
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <input type="text" name="observation[]" class="form-control">
-                                    </td>
-                                    <td>
-                                        <button type="button"  class="btn btn-primary selectAttachment">
+                                        <button type="button"  class="btn btn-primary btn-sm selectAttachment">
                                             <i class="fas fa-paperclip"></i>
                                         </button>
                                         <input type="file" name="attachment[]" class="form-control d-none file">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="observation[]" class="form-control">
                                     </td>
                                 </tr>
                                 </tbody>
