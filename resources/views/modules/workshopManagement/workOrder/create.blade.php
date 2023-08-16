@@ -166,14 +166,11 @@
                         @include('modules.workshopManagement.workOrder.tabs.defects')
                     </section>
 
-
                     <h1>Spares & Services</h1>
                     <section>
                         @include('modules.workshopManagement.workOrder.tabs.partsSelection')
                     </section>
                     @endif
-
-
                 </form>
 
                 <input type="hidden" value="{{ route('user.search') }}" id="newUserSearchUrl"/>
