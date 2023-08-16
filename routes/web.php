@@ -194,6 +194,8 @@ Route::group(['middleware' => 'auth'], function () {
             // front desk
             Route::get('vehicle/workshop/checkin', [MaintenanceController::class, 'start'])->name('vehicle.workshop.checkin');
 
+            Route::post('assessment/acknowledgment', [MaintenanceController::class, "eSign"])->name('sign.assessment');
+
             Route::get('parts-selection', [MaintenanceController::class, 'partsSelection'])->name('parts.selection');
 
             Route::get('job-card/accessories', [MaintenanceController::class, 'showAccessoriesTab'])->name('accessories.job.card');
@@ -210,7 +212,7 @@ Route::group(['middleware' => 'auth'], function () {
             // delete defect
             Route::post('/deleteRecord', [MaintenanceController::class, "deleteRecord"])->name('delete.defect.record');
 
-            Route::post('assessment/acknowledgment', [MaintenanceController::class, "eSign"])->name('sign.assessment');
+
 
             Route::post('/deleteMaterialRecord', [MaintenanceController::class, "deleteMaterialRecord"])->name('delete.material.record');
 

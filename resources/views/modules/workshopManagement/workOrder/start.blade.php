@@ -101,11 +101,11 @@
                                             Driver)</small></label>
                                 </div>
                                 @if(!empty($details->driver_acknowledged))
-                                    <div class="col-lg-3 col-sm-12">
+                                    <div class="col-lg-2 col-sm-12">
                                         <span class="btn btn-sm btn-success">Acknowledged</span>
                                     </div>
                                 @else
-                                    <div class="col-lg-3 col-sm-12">
+                                    <div class="col-lg-2 col-sm-12">
                                         <span class="btn btn-sm btn-success">Awaiting Acknowledgement</span>
                                     </div>
                                 @endif
@@ -139,6 +139,7 @@
                                     <div class="col-lg-1 col-sm-12">
                                         <input type="text"
                                                name="sig_of_claimant"
+                                               required
                                                class="form-control"
                                                value=""
                                                readonly
@@ -307,7 +308,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Understood</button>
+                       {{-- <button type="button" class="btn btn-primary">Understood</button>--}}
                         <button id="btnSign" type="submit"
                                 class="btn btn-sm btn-success mr-3">
                             <i class="fas fa-save"></i>
@@ -1891,11 +1892,9 @@
 
                 $(document).on('click', '#closeSignatureModal', function () {
                     let modal = '';
-                    let myModalEl = document.querySelector('#eSignature-modal')
+                    let myModalEl = document.querySelector('#eSignatureModal')
                     if (myModalEl) {
-                        //if (bootstrap) {
                         modal = bootstrap.Modal.getOrCreateInstance(myModalEl);
-                        // }
                     }
 
                     if (modal) {
@@ -1914,7 +1913,7 @@
 
                 $(document).on('submit', 'form[name="eSignDocument"]', function (e) {
                     let modal = '';
-                    let myModalEl = document.querySelector('#eSignature-modal')
+                    let myModalEl = document.querySelector('#eSignatureModal')
                     if (myModalEl) {
                         if (bootstrap) {
                             modal = bootstrap.Modal.getOrCreateInstance(myModalEl);
@@ -1936,6 +1935,7 @@
                         $form.action,
                         formData,
                         function (response) {
+                            console.log(response);
                             window.loaderMessage = "Loading... please wait";
                             if (response.hasOwnProperty("success") && response.success) {
                                 const message = response.message > ""
@@ -1966,6 +1966,7 @@
                             }
                         },
                         function (xhr) {
+                            console.log(xhr);
                             tmsApp.play_alert('sound-error');
                             tmsApp.showErrorMessages(xhr, "Assessment Acknowledgement",);
                         },
