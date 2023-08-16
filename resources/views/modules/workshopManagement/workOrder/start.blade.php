@@ -156,6 +156,35 @@
                                         </button>
                                     </div>
                                 @endif
+
+                                <div class="row mt-10">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                                    for="commentsToSupervisor">
+                                                Comments To Workshop Supervisor:
+                                            </label>
+                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
+                                                 <textarea type="text"
+                                                           id="commentsToSupervisor"
+                                                           name="commentsToSupervisor"
+                                                           style="height: 129px;"
+                                                           class="form-control form-control-sm"></textarea>
+                                           {{--     @if(!empty($comments))
+                                                    <textarea type="text"
+                                                              id="accessoriesRemarks"
+                                                              name="accessoriesRemarks"
+                                                              style="height: 129px;"
+                                                              class="form-control form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
+                                                @else
+
+                                                @endif
+--}}
+                                            </div>
+                                        </div>
+                                    </div>
+
                             </div>
                         </div>
                     </section>

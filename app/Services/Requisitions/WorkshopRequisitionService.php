@@ -238,7 +238,7 @@ class WorkshopRequisitionService
                 // proc_ref
                 // st_pur
                 // authorised_by
-                'sch_flouted'=> 'N',
+                'sch_flouted' => 'N',
                 // "req_no" => $requisition_reference_number,
                 "form_order" => $form_order_number,
                 "evaluation" => "Y",
@@ -1284,16 +1284,26 @@ class WorkshopRequisitionService
 
     public function createTaskForWorkShopSupervisor(Request $request)
     {
-
+        dd($request);
+        $process_code = WorkflowProcessCodes::WorkOrderOpened->value;
+        $user = auth()->user();
+        $short_description ="";
+        $long_description ="";
         $this->workflowService->$this->workflowService->initiateWorkflowProcess(
             $requisition_reference_number,
-            (int)$workflowProcess,
+            (int)$process_code,
             WorkflowActions::submit(),
-            $requisitionPostRequest->remarks,
+            $request->get('commentsToSupervisor'),
             $user,
-            $requisitionPostRequest->total_amount ?? 0,
+            0,
             $short_description,
             $long_description
         );
+
+        return response()->json([
+            "success" => true,
+            "message" => "Job Card Task Generated For Workshop Supervisor",
+            "redirectUrl" => URL::signedRoute("list.workshop.requisition"),
+        ]);
     }
 }

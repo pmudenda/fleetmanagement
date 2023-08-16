@@ -12,4 +12,5 @@ enum WorkflowProcessCodes: string
     case PurchaseProcess = "4000";
 
     case WorkOrderClosure = '4001';
+    case WorkOrderOpened = '4002';
 }
