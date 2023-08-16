@@ -89,6 +89,69 @@
                     <h1>ASSESSMENTS</h1>
                     <section>
                         @include('modules.workshopManagement.workOrder.tabs.accessories')
+                        <div class="row mb-1 mt-4">
+                            <div class="row">
+                                <div class="col-lg-2 col-sm-12">
+                                    <label>Assessment Acknowledgement: <small class="text-danger">(To Be Performed By
+                                            Driver)</small></label>
+                                </div>
+                                @if(!empty($details->driver_acknowledged))
+                                    <div class="col-lg-3 col-sm-12">
+                                        <span class="btn btn-sm btn-success">Acknowledged</span>
+                                    </div>
+                                @else
+                                    <div class="col-lg-3 col-sm-12">
+                                        <span class="btn btn-sm btn-success">Awaiting Acknowledgement</span>
+                                    </div>
+                                @endif
+                                @if(!empty($details->driver_acknowledged))
+                                    <div class="col-lg-2 col-sm-12 text-left">
+                                        <label>eSignature:</label>
+                                    </div>
+                                    <div class="col-lg-1 col-sm-12">
+                                        <input type="text"
+                                               name="sig_of_claimant"
+                                               class="form-control"
+                                               value="{{$details->driver_in}}"
+                                               readonly
+                                        />
+                                    </div>
+
+                                    <div class="col-lg-2 col-sm-12 text-left"><label>Date Acknowledged:</label></div>
+
+                                    <div class="col-lg-2 col-sm-12">
+                                        <input type="text"
+                                               name="date_claimant"
+                                               class="form-control"
+                                               value="{{Carbon::parse($details->date_acknowledged)->format('d/m/Y')}}"
+                                               readonly
+                                        />
+                                    </div>
+                                @else
+                                    <div class="col-lg-2 col-sm-12 text-left">
+                                        <label>eSignature:</label>
+                                    </div>
+                                    <div class="col-lg-1 col-sm-12">
+                                        <input type="text"
+                                               name="sig_of_claimant"
+                                               class="form-control"
+                                               value=""
+                                               readonly
+                                        />
+                                    </div>
+
+                                    <div class="col-lg-2 col-sm-12 text-right">
+                                        <button type="button"
+                                                class="btn btn-sm btn-success"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#eSignatureModal">
+                                            <i class="fas fa-signature"></i>
+                                            Sign
+                                        </button>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                     </section>
 
                     <h1>DRIVER SIGN OFF</h1>
