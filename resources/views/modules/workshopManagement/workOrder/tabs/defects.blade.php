@@ -175,11 +175,14 @@
                 <tr>
                     <td class="text-right">
                         <strong id="srfTotal" class="input-number">Prepared By:</strong>
-                    </td>
-                    <td>
                         <b id="section" class="input-number">RECEPTION</b>
                     </td>
-                    <td></td>
+                    <td>
+
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-success pull-left" type="button"><i class="fas fa-save"></i> Save</button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
