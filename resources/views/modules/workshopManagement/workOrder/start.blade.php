@@ -825,6 +825,14 @@
                     if (formSel.data('modelName') === 'PostJobCard') {
                         obj['commentsToSupervisor'] = $('input[name="commentsToSupervisor"]').val();
                         obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
+                        $($container).find('input[name], select[name]').each(function (i, item) {
+                            // let val = item.value.replace(/,/g, '');
+                            if (item.type === 'radio') {
+                                obj[item.name] = $('[name="' + item.name + '"]:checked').val();
+                            } else {
+                                obj[item.name] = item.value;
+                            }
+                        });
                     } else if (
                         formSel.data('modelName') === 'Defects'
                         || formSel.data('modelName') === 'PartsHeader'
