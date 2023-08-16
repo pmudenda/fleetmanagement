@@ -763,7 +763,7 @@ class MaintenanceController extends Controller
     public function getJobCardCreationData(Request $request): array
     {
         $step = $request->get("step") ?? 0;
-        $reference = $request->get("reference");
+        $reference = $request->get("reference") ?? $request->get('ref');
 
         $repairTypes = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
             ->where("active", "=", 1)
