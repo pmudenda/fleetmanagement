@@ -11,10 +11,10 @@
                 <th style="width: 15%;"></th>
                 <th style="width:10%;">Date Assigned</th>
                 <th>Section</th>
-                <th style="width: 11%;">Shift Type</th>
+               {{-- <th style="width: 11%;">Shift Type</th>
                 <th style="width: 5%;">Hours</th>
-                <th style="width: 5%;">Rate</th>
-                <th>Total</th>
+                <th style="width: 5%;">Rate</th>--}}
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -102,7 +102,7 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td>
+                        {{--<td>
                             <input type="hidden"
                                    id="postCode"
                                    name="postCode"
@@ -118,8 +118,8 @@
                                 <option value="2">Normal Over-Time</option>
                                 <option value="4">Holiday Over-Time</option>
                             </select>
-                        </td>
-                        <td>
+                        </td>--}}
+                       {{-- <td>
                             <input
                                     readonly
                                     value="{{$labourItem->hours_worked ?? ''}}"
@@ -128,8 +128,8 @@
                                     name="hoursWorked"
                                     required
                                     class="form-control form-control-sm"/>
-                        </td>
-                        <td>
+                        </td>--}}
+                        {{--<td>
                             <input
                                     id="ratePerHour"
                                     name="ratePerHour"
@@ -137,14 +137,15 @@
                                     value="{{$labourItem->rate}}"
                                     readonly
                                     class="form-control form-control-sm"/>
-                        </td>
+                        </td>--}}
 
                         <td>
-                            <input name="totalAmount"
-                                   required
-                                   value="{{$labourItem->total_amount}}"
-                                   readonly
-                                   class="form-control form-control-sm labour_total_price"/>
+                            <button type="button"
+                                    style="background: #f59d33; color: #fff;"
+                                    class="btn btn-sm btn-success reassignMechanic pull-right">
+                                <i class="fa fa-history"></i>
+                                Reassign
+                            </button>
                         </td>
 
                     </tr>
@@ -240,7 +241,7 @@
                                     @endforeach
                                 </select>
                             </td>
-                            <td>
+                            {{--<td>
                                 <input type="hidden"
                                        id="postCode"
                                        name="postCode"
@@ -255,29 +256,31 @@
                                     <option value="2">Normal Over-Time</option>
                                     <option value="4">Holiday Over-Time</option>
                                 </select>
-                            </td>
-                            <td>
+                            </td>--}}
+                           {{-- <td>
                                 <input
                                         readonly
                                         id="hoursWorked"
                                         name="hoursWorked"
                                         required
                                         class="form-control form-control-sm"/>
-                            </td>
-                            <td>
+                            </td>--}}
+                            {{--<td>
                                 <input
                                         id="ratePerHour"
                                         name="ratePerHour"
                                         required
                                         readonly
                                         class="form-control form-control-sm"/>
-                            </td>
+                            </td>--}}
 
                             <td>
-                                <input name="totalAmount"
-                                       required
-                                       readonly
-                                       class="form-control form-control-sm labour_total_price"/>
+                                <button type="button"
+                                        style="background: #f59d33; color: #fff;"
+                                        class="btn btn-sm btn-success saveAssignment pull-right">
+                                    <i class="fa fa-history"></i>
+                                    Save Assignment
+                                </button>
                             </td>
 
                         </tr>
@@ -348,19 +351,12 @@
 
         </div>
 
-        <div class="col-12 text-right">
+       {{-- <div class="col-12 text-right">
             @if($details->status == StatusHelper::new())
                 <div>
-                    <button type="button"
-                            name="saveJobCardExit"
-                            id="saveJobCardExit"
-                            style="background: #f59d33; color: #fff;"
-                            class="btn btn-sm btn-success add pull-right">
-                        <i class="fa fa-save"></i>
-                        Save
-                    </button>
+
                 </div>
             @endif
-        </div>
+        </div>--}}
     </div>
 </div>

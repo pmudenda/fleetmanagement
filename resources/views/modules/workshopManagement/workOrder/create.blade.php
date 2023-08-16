@@ -1105,6 +1105,81 @@
                 });
             });
 
+            $(document).on('click', '.reassignMechanic', function () {});
+
+            $(document).on('click', '.saveAssignment', function () {
+                let $form = document.forms['jobCardFormExit'];
+                if (!$($form).valid()) {
+                    return;
+                }
+
+                //let formData = getExitSummaryData();
+
+                $('.print-error-msg').css('display', 'none');
+
+                tmsApp.confirm(
+                    'Close Work Order',
+                    'Are you sure you want to close this work order ?',
+                    'Yes',
+                    'No',
+                    function () {
+                        $.ajax({
+                            type: "POST",
+                            url: $form.action,
+                            data: JSON.stringify(formData),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                        }).done(function (asyncResponse) {
+
+                            if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
+                                setTimeout(function () {
+                                    tmsApp.showSystemMessage(
+                                        'Close Work Order',
+                                        asyncResponse['message'],
+                                        function () {
+                                            window.location.href = asyncResponse["redirectUrl"]
+                                        },
+                                        'success'
+                                    );
+                                }, 300);
+                            } else {
+                                if (asyncResponse.hasOwnProperty('errors')) {
+                                    tmsApp.printErrorMsg(asyncResponse.errors);
+                                    return
+                                }
+                                setTimeout(function () {
+                                    tmsApp.systemError(
+                                        'Close Work Order',
+                                        asyncResponse['message'],
+                                        function () {
+                                        }, 'error');
+                                }, 300);
+                            }
+                        }).fail(function (xhr, settings, errorThrown) {
+                            console.log(errorThrown)
+                            setTimeout(function () {
+                                if ('responseJSON' in xhr) {
+                                    if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                    }
+                                    if (xhr.responseJSON.hasOwnProperty('message')) {
+                                        tmsApp.systemError(
+                                            'Close Work Order',
+                                            xhr.responseJSON['message']
+                                        );
+                                    }
+                                    return;
+                                }
+
+                                tmsApp.systemError(
+                                    'Close Work Order',
+                                    'We could not complete processing your request, please try again later');
+                            }, 300)
+                        });
+                    }
+                );
+            });
+
             /*****************************Function Handlers************************************/
             function postData(formElements, submitForm) {
                 window.loaderMessage = "Posting Data... please wait";
