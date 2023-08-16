@@ -1290,11 +1290,13 @@ class WorkshopRequisitionService
         $process_code = WorkflowProcessCodes::WorkOrderOpened->value;
         $user = auth()->user();
 
-        $jobCardNo = $request->get('workshop_reference');
-        $reference = $workshopReference ?? $jobCardNo;
+        $jobCardNo = $request->get('job_card_number');
+        //$reference =
+        $workshopReference = $jobCardNo;
+        $registration = $request->get('');
 
-        $short_description = "New Job Task $reference $jobCardNo";
-        $long_description = "New Job Task $jobCardNo For Vehicle $jobCardNo";
+        $short_description = "New Job Task $jobCardNo";
+        $long_description = "New Job Task $jobCardNo For Vehicle $registration";
 
         $this->workflowService->initiateWorkflowProcess(
             $workshopReference,
