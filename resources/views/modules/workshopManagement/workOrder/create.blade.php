@@ -947,7 +947,7 @@
             if (!mechanic) {
                 return;
             }
-
+            //$($row).find('[name="mechanicName"]').
             fetch(
                 $('#mechanicDetails').val() + '?staff_no=' + mechanic,
                 {
@@ -987,8 +987,8 @@
                             || documentStatus === 'undefined'
                         ) {
                             //populateVehicleDetails(response.payload, "");
-                            $($row).find('[name="hoursWorked"]').attr('readonly', false);
-                            $($row).find('[name="shiftType"]').attr('disabled', false);
+                            //$($row).find('[name="hoursWorked"]').attr('readonly', false);
+                            //$($row).find('[name="shiftType"]').attr('disabled', false);
                         }
 
                         $($row).find('[name="mechanicName"]').val(response?.payload['mechanic'].name);
