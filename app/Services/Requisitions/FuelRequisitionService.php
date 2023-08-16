@@ -21,7 +21,6 @@ use App\Models\Common\OrganizationalUnit;
 use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Models\Security\User;
-use App\Models\VehicleManagement\EngineDetail;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\FileUploads\FileUploadService;
 use App\Services\Integration\ProcurementSystemIntegrationService;
@@ -780,7 +779,18 @@ class FuelRequisitionService
 
     private function getVehicleFuelConsumptionData(mixed $vehicleReference): array
     {
-        $consumptionData = EngineDetail::where('vehicle_header_id', '=', $vehicleReference)
+        $consumptionData = DB::table('vm_vehicle_header vh')
+            ->join(
+                'vm_engine_details ed',
+                'vh.id',
+                '=',
+                'ed.vehicle_header_id'
+            )
+            ->where(
+                'vh.registration_number',
+                '=',
+                $vehicleReference
+            )
             ->first();
 
         if (empty($consumptionData)) {
