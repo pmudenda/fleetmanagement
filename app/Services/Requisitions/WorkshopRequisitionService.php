@@ -1282,15 +1282,19 @@ class WorkshopRequisitionService
         DB::commit();*/
     }
 
-    public function createTaskForWorkShopSupervisor(Request $request)
+    /**
+     * @throws WorkflowTaskCreationFailedException
+     */
+    public function createTaskForWorkShopSupervisor(Request $request): JsonResponse
     {
-        dd($request);
         $process_code = WorkflowProcessCodes::WorkOrderOpened->value;
         $user = auth()->user();
-        $short_description ="";
-        $long_description ="";
-        $this->workflowService->$this->workflowService->initiateWorkflowProcess(
-            $requisition_reference_number,
+
+        $short_description = "New Job Task $request->get('job_card_number')";
+        $long_description = "New Job Task $request->get('job_card_number') For Vehicle $request->get('vehicle_registration')";
+
+        $this->workflowService->initiateWorkflowProcess(
+            $request->get('job_card_number'),
             (int)$process_code,
             WorkflowActions::submit(),
             $request->get('commentsToSupervisor'),
