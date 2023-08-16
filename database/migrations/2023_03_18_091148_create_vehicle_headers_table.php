@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('registration_number');
             $table->string('business_unit_code');
             $table->string('business_unit_name');
+            $table->integer('invalid_odometer_entry');
             $table->string('location_code');
             $table->string('registration_type');
             $table->string('location_name');

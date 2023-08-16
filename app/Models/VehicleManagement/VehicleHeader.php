@@ -30,6 +30,7 @@ class VehicleHeader extends Model
         'on_boarding_status',
         'registration_type',
         'barcode',
-        'has_tom_card'
+        'has_tom_card',
+        'invalid_odometer_entry'
     ];
 }
