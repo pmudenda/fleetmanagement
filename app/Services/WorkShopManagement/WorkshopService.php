@@ -15,10 +15,10 @@ use App\Http\Requests\WorkShopManagement\WorkOrderClosure;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\VehicleManagement\VehicleHeader;
-use App\Models\WorkshopLabour;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\VehicleDefect;
 use App\Models\WorkShopManagement\WorkShopComment;
+use App\Models\WorkShopManagement\WorkshopLabour;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\Workflow\DocumentNumberGenerationService;
@@ -308,11 +308,11 @@ class WorkshopService
                 'wshp_code' => $workOrder->workshop_code,
                 'section' => $labourItem['workshopSection'],
                 'evaluation' => 'N',
-                'date_lab' => Carbon::createFromFormat('d/m/Y', $labourItem['dateOfWork']),
+                'date_lab' => Carbon::now(),
                 'mechanic' => $labourItem['mechanic'],
                 'hours_worked' => $labourItem['hoursWorked'],
-                'rate' => $labourItem['ratePerHour'],
-                'total_amount' => $labourItem['totalAmount'],
+                'rate' => (float)$labourItem['ratePerHour'],
+                'total_amount' => (float)$labourItem['totalAmount'],
                 'def_no' => $labourItem['defect'],
                 'created_by' => $user->staff_no,
                 'type_of_hour' => $labourItem['shiftType'],

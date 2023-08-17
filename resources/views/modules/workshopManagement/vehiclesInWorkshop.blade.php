@@ -148,7 +148,7 @@
                                                         <li>
                                                             <a class="dropdown-item"
                                                                data-kt-action="edit"
-                                                               href="{{URL::signedRoute('job.card.show',['step'=> '1', 'reference'=>$workshop->job_card_no])}}">
+                                                               href="{{URL::signedRoute('show.job.card',['step'=> '1', 'reference'=>$workshop->job_card_no])}}">
                                                                 View Job Card
                                                             </a>
                                                         </li>
