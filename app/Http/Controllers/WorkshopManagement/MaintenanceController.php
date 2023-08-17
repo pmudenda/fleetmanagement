@@ -333,11 +333,7 @@ class MaintenanceController extends Controller
     {
         $this->verifyRequestSignature($request);
 
-        if (!$request->has("step")) {
-            return redirect(URL::signedRoute("show.job.card", ["step" => 1]));
-        }
-
-        $step = $request->get("step");
+        $step = $request->get("step") ?? 1;
         $reference = $request->get("reference") ?? $request->get('ref');
 
         list($step,
