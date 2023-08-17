@@ -10,11 +10,8 @@
                 <th>Defect</th>
                 <th style="width: 6%;">Mechanic</th>
                 <th style="width: 15%;"></th>
-                <th style="width:10%;">Date Assigned</th>
+               {{-- <th style="width:10%;">Date Assigned</th>--}}
                 <th>Section</th>
-                {{-- <th style="width: 11%;">Shift Type</th>
-                 <th style="width: 5%;">Hours</th>
-                 <th style="width: 5%;">Rate</th>--}}
                 <th>Action</th>
             </tr>
             </thead>
@@ -66,7 +63,7 @@
                                    name="mechanicName"
                                    readonly/>
                         </td>
-                        <td>
+                       {{-- <td>
                             <div class="input-group">
                                 <input type="text"
                                        required
@@ -85,7 +82,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </td>
+                        </td>--}}
                         <td>
                             <select name="workshopSection"
                                     required

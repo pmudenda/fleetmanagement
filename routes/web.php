@@ -238,9 +238,9 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::post('close/work-order', [MaintenanceController::class, 'processWorkOrderClosure'])->name('save.exit.from.workshop');
 
-            Route::get('approve/work-order', [MaintenanceController::class, 'approveWorkOrderClosure'])->name('show.workorder.closure');
+            Route::get('open/job-card/closure', [MaintenanceController::class, 'openJobCardClosure'])->name('show.workorder.closure');
 
-            Route::post('/workflow/work-order/closure/approve', [WorkflowController::class, 'processWorkOrderClosureApproval'])->name('approve.work_order.closure');
+            Route::post('save/approve/job-order/closure', [WorkflowController::class, 'closeJobCard'])->name('approve.work_order.closure');
 
             Route::post('store', function (Request $request) {
 

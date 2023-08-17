@@ -570,7 +570,7 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function processWorkOrderClosure(WorkOrderClosure $request): JsonResponse
+    public function closeJobCard(WorkOrderClosure $request): JsonResponse
     {
         try {
             return $this->workshopService->workOrderClosure($request);
@@ -592,7 +592,7 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function approveWorkOrderClosure(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    public function openJobCardClosure(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $this->verifyRequestSignature($request);
 
