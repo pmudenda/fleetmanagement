@@ -32,7 +32,7 @@ class SendWorkOrderCompletedNotification
 
             $task = WorkflowTaskHeader::where('reference', '=', trim($workOrder->job_card_no))->first();
 
-            $sender = User::where('staff_no', trim($task->created_by))->first();
+            $sender = User::where('id', trim($task->created_by))->first();
 
             $recipient = User::where('staff_no', trim($task->assigned_user))->first();
 
