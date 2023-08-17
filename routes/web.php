@@ -189,7 +189,7 @@ Route::group(['middleware' => 'auth'], function () {
         /** Job Card Processing **/
         Route::group(['prefix' => 'maintenance'], function () {
 
-            Route::get('open/job-card', [MaintenanceController::class, 'create'])->name('workOrder.requisition');
+            Route::get('open/job-card', [MaintenanceController::class, 'create'])->name('show.job.card');
 
             // front desk
             Route::get('vehicle/workshop/checkin', [MaintenanceController::class, 'start'])->name('vehicle.workshop.checkin');

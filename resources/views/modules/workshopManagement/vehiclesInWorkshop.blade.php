@@ -54,7 +54,7 @@
                                     Filter
                                 </button>
                                 {{--@can(config('rights.create_workshop'))@endcan--}}
-                                <a href="{{URL::signedRoute('workOrder.requisition')}}"
+                                <a href="{{URL::signedRoute('show.job.card')}}"
                                    class="btn btn-sm btn-success float-right">
                                     <i class="fas fa-user-plus"></i>
                                     Create Job Card
@@ -152,6 +152,7 @@
                                                                 View Job Card
                                                             </a>
                                                         </li>
+
                                                         @if($workshop->status != StatusHelper::authorised())
                                                             <li>
                                                                 <a class="dropdown-item"

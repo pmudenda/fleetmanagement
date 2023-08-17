@@ -334,7 +334,7 @@ class MaintenanceController extends Controller
         $this->verifyRequestSignature($request);
 
         if (!$request->has("step")) {
-            return redirect(URL::signedRoute("workOrder.requisition", ["step" => 1]));
+            return redirect(URL::signedRoute("show.job.card", ["step" => 1]));
         }
 
         $step = $request->get("step");
@@ -378,7 +378,7 @@ class MaintenanceController extends Controller
         $this->verifyRequestSignature($request);
 
         if (!$request->has("step")) {
-            return redirect(URL::signedRoute("workOrder.requisition", ["step" => 1]));
+            return redirect(URL::signedRoute("show.job.card", ["step" => 1]));
         }
 
         $reference = $request->get("reference") ?? $request->get('ref');
@@ -678,7 +678,7 @@ class MaintenanceController extends Controller
             return response()->json([
                 "success" => true,
                 "message" => SystemMessages::defectRecorded(),
-                "redirectUrl" => URL::signedRoute("workOrder.requisition",
+                "redirectUrl" => URL::signedRoute("show.job.card",
                     ["step" => 4, "reference" => $request->get("job_card_no")]),
             ]);
         } catch (\Exception $e) {
