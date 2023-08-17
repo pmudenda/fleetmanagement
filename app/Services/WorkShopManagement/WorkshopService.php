@@ -225,14 +225,15 @@ class WorkshopService
 
     public function getJobCardHeader(): Collection
     {
-        return DB::table("WM_JOB_CARD_HEADER")
-            ->leftJoin("SEC_USERS", "WM_JOB_CARD_HEADER.received_by", "=", "SEC_USERS.staff_no")
-            ->leftJoin("CONFIG_GENERAL_TABLES", "WM_JOB_CARD_HEADER.receiving_section", "=", "CONFIG_GENERAL_TABLES.code")
-            ->leftJoin("CONFIG_GENERAL_TABLES as config", "WM_JOB_CARD_HEADER.repair_type", "=", "config.code")
-            ->leftJoin("CONFIG_WORKSHOP", "WM_JOB_CARD_HEADER.receiving_section", "=", "CONFIG_WORKSHOP.workshop_code")
+        return DB::table("WM_JOB_CARD_HEADER header")
+            ->leftJoin("SEC_USERS", "header.received_by", "=", "SEC_USERS.staff_no")
+            ->leftJoin("CONFIG_GENERAL_TABLES", "header.receiving_section", "=", "CONFIG_GENERAL_TABLES.code")
+            ->leftJoin("CONFIG_GENERAL_TABLES as config", "header.repair_type", "=", "config.code")
+            ->leftJoin("CONFIG_WORKSHOP", "header.receiving_section", "=", "CONFIG_WORKSHOP.workshop_code")
             ->where("CONFIG_GENERAL_TABLES.type", "=", ConfigurationTypes::WORK_SHOP_SECTION)
             ->where("config.type", "=", ConfigurationTypes::REPAIR_TYPE)
-            ->select("WM_JOB_CARD_HEADER.*",
+            ->whereNull("header.date_out")
+            ->select("header.*",
                 "CONFIG_WORKSHOP.workshop_name",
                 "config.name as repair_type_name",
                 "CONFIG_GENERAL_TABLES.name as section_in_name",
