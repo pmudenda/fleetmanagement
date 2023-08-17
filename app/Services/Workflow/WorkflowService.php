@@ -93,8 +93,8 @@ class WorkflowService
         } else {
             $assignToUser = PHCMSEmployee::where('con_st_code', '=', 'ACT')
                 ->where(function ($query) use ($assignTo) {
-                    $query->where('alt_per_no', '=', $assignTo)
-                        ->orWhere('con_per_no', '=', $assignTo);
+                    $query->where('alt_per_no', '=', $assignTo);
+                        //->orWhere('con_per_no', '=', $assignTo);
                 })
                 ->first();
         }
