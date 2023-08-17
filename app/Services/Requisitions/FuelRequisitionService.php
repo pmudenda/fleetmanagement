@@ -65,8 +65,6 @@ class FuelRequisitionService
             ->select(DB::raw('MAX(created_at) as max_date'))
             ->first();
 
-        /*SELECT  FROM gen_material_headers WHERE  = AND  =  AND  NOT IN ;*/
-
         $latestIssues = DB::table('gen_material_headers h')
             ->leftJoin(
                 "gen_material_details d",
@@ -90,8 +88,11 @@ class FuelRequisitionService
                 'h.valid_date_to'
             )->get();
 
-        //
         $latestIssue = $latestIssues->first();
+
+        if (empty($latestIssue)) {
+            return [0, null];
+        }
         $quantityLastIssued = DB::table('gen_material_details')
             ->where("req_no", "=", $latestIssue->req_no)
             ->select(DB::raw("SUM(quantity) as quantity"))
@@ -141,9 +142,9 @@ class FuelRequisitionService
         //    AND status = '10';
 
 
-        $latestOdometerLogs = $this->getLatestOdometerLogsEntry($registrationNumber);
+        $latestOdometerLogsMaxOdometer = $this->getLatestOdometerLogsEntry($registrationNumber);
 
-        Log::info("Latest Mileage Return $latestOdometerLogs");
+        Log::info("Latest Mileage Return $latestOdometerLogsMaxOdometer");
 
         [$quantityLastIssued, $latestIssue] = $this->getFuelLastIssue($registrationNumber);
 
@@ -159,20 +160,22 @@ class FuelRequisitionService
         // check that current user provided odometer is greater than last issue
         $userProvidedOdometer = $requisitionPostRequest->get('odometer_reading');
 
-        $this->validateOdometerAgainstLastIssue(
-            $latestIssue,
-            $userProvidedOdometer,
-            $odometerOnLastIssue,
-            $registrationNumber
-        );
+        if (!empty($latestIssue)) {
+            $this->validateOdometerAgainstLastIssue(
+                $latestIssue,
+                $userProvidedOdometer,
+                $odometerOnLastIssue,
+                $registrationNumber
+            );
+        }
 
 
         // check that current user provided odometer is greater than last issue
         $this->validateCurrentOdometerAgainstMileageReturn(
-            $latestOdometerLogs,
-            $userProvidedOdometer,
-            $latestOdometerLogs
+            $latestOdometerLogsMaxOdometer,
+            $userProvidedOdometer
         );
+
 
         Log::info("Calculating Maximum Distance that should have been covered by  $registrationNumber");
         Log::debug('Consumption ' . $fuel_consumption);
@@ -303,8 +306,7 @@ class FuelRequisitionService
                     }
                 }
             }
-        }
-        elseif ($isOutOfTownRequisition) {
+        } elseif ($isOutOfTownRequisition) {
 
             // out of town requisition request amount can be more than allocated
             $valid_from = Carbon::createFromFormat("Y-m-d", $requisitionPostRequest->get("departure_date"));
@@ -323,8 +325,7 @@ class FuelRequisitionService
                 }
             }
 
-        }
-        elseif ($isOverrideRequisition) {
+        } elseif ($isOverrideRequisition) {
 
             // if there is no previous requisition, throw error
             if (empty($latestNonCancelledOrRejectedRequisition)) {
@@ -542,17 +543,13 @@ class FuelRequisitionService
     /**
      * @throws FuelRequisitionException
      */
-    public function validateCurrentOdometerAgainstMileageReturn($latestOdometerLogEntry,
-                                                                $userProvidedOdometer,
-                                                                $latestOdometerLogs): bool
+    public function validateCurrentOdometerAgainstMileageReturn($latestOdometerValue, $userProvidedOdometer): bool
     {
-        if ($userProvidedOdometer <= $latestOdometerLogEntry) {
+        if ($userProvidedOdometer <= $latestOdometerValue) {
             throw new FuelRequisitionException(str_replace("@odometer",
-                $latestOdometerLogs,
+                $latestOdometerValue,
                 ErrorMessages::getMessage("err_0013")
-            ),
-                1000
-            );
+            ), 1000);
         }
 
         return true;
@@ -773,10 +770,16 @@ class FuelRequisitionService
 
     private function getLatestOdometerLogsEntry(mixed $registrationNumber)
     {
-        return DB::table('vm_fleet_movement_header')
+        $odometerLog = DB::table('vm_fleet_movement_header')
             ->where('reg_no', '=', $registrationNumber)
             ->select(DB::raw('MAX(odometer_end) as max_odometer'))
-            ->first()->max_odometer;
+            ->first();
+
+        if (!empty($odometerLog)) {
+            return $odometerLog->max_odometer;
+        }
+
+        return 0;
     }
 
     private function getOdometerOnLastIssue(mixed $registrationNumber)
