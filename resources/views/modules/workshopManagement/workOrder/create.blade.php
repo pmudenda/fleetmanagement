@@ -88,7 +88,7 @@
 
                     <h1>ASSESSMENTS</h1>
                     <section>
-                        {{--@include('modules.workshopManagement.workOrder.tabs.accessories')--}}
+
                         <div class="container-fluid">
                             <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}"
                                  data-model-name="Accessories">
@@ -97,7 +97,7 @@
                                        id="driverAcknowledged"
                                        name="driverAcknowledged"/>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="alert alert-info">
+                                    <div class="alert alert-danger">
                                         CUSTOMER IS REQUIRED TO REMOVE ALL PERSONAL EFFECTS FROM THE VEHICLE
                                     </div>
                                     <div class="row">
@@ -216,14 +216,15 @@
                                                         <tbody>
                                                         <tr>
                                                             <td>
-                                                                <input type="text" name="observation[]"
-                                                                       class="form-control">
-                                                            </td>
-                                                            <td>
-                                                                <button type="button">
+                                                                <button type="button"
+                                                                        class="btn btn-primary btn-sm selectAttachment">
                                                                     <i class="fas fa-paperclip"></i>
                                                                 </button>
-                                                                <input type="file" class="d-none" name="attachment[]"
+                                                                <input type="file" name="attachment[]"
+                                                                       class="form-control d-none file">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" name="observation[]"
                                                                        class="form-control">
                                                             </td>
                                                         </tr>
@@ -310,73 +311,6 @@
                             </div>
                         </div>
                     </section>
-
-                    {{-- <h1>DRIVER SIGN OFF</h1>
-                     <section>
-                         <div class="row mb-1 mt-4">
-                             <div class="row">
-                                 <div class="col-lg-2 col-sm-12">
-                                     <label>Assessment Acknowledgement: <small class="text-danger">(To Be Performed By
-                                             Driver)</small></label>
-                                 </div>
-                                 @if(!empty($details->driver_acknowledged))
-                                     <div class="col-lg-3 col-sm-12">
-                                         <span class="btn btn-sm btn-success">Acknowledged</span>
-                                     </div>
-                                 @else
-                                     <div class="col-lg-3 col-sm-12">
-                                         <span class="btn btn-sm btn-success">Awaiting Acknowledgement</span>
-                                     </div>
-                                 @endif
-                                 @if(!empty($details->driver_acknowledged))
-                                     <div class="col-lg-2 col-sm-12 text-left">
-                                         <label>eSignature:</label>
-                                     </div>
-                                     <div class="col-lg-1 col-sm-12">
-                                         <input type="text"
-                                                name="sig_of_claimant"
-                                                class="form-control"
-                                                value="{{$details->driver_in}}"
-                                                readonly
-                                         />
-                                     </div>
-
-                                     <div class="col-lg-2 col-sm-12 text-left"><label>Date Acknowledged:</label></div>
-
-                                     <div class="col-lg-2 col-sm-12">
-                                         <input type="text"
-                                                name="date_claimant"
-                                                class="form-control"
-                                                value="{{Carbon::parse($details->date_acknowledged)->format('d/m/Y')}}"
-                                                readonly
-                                         />
-                                     </div>
-                                 @else
-                                     <div class="col-lg-2 col-sm-12 text-left">
-                                         <label>eSignature:</label>
-                                     </div>
-                                     <div class="col-lg-1 col-sm-12">
-                                         <input type="text"
-                                                name="sig_of_claimant"
-                                                class="form-control"
-                                                value=""
-                                                readonly
-                                         />
-                                     </div>
-
-                                     <div class="col-lg-2 col-sm-12 text-right">
-                                         <button type="button"
-                                                 class="btn btn-sm btn-success"
-                                                 data-bs-toggle="modal"
-                                                 data-bs-target="#eSignatureModal">
-                                             <i class="fas fa-signature"></i>
-                                             Sign
-                                         </button>
-                                     </div>
-                                 @endif
-                             </div>
-                         </div>
-                     </section>--}}
 
                     @if(!empty($details->driver_acknowledged))
                         <h1>DEFECTS</h1>
@@ -1024,8 +958,10 @@
             $('[name="employeeSearchBtn"]').attr("disabled", true);
             $('[data-table-id="observations"]').attr('disabled', true);
             $('[name="driver_staff_number"]').attr('disabled', true);
+            $('.selectAttachment').attr('disabled', true);
 
             $('[name="current_odometer"]').attr('readonly', true);
+            $('[name="observation[]"]').attr('readonly', true);
             $('[name="accessoriesRemarks"]').attr('readonly', true);
 
         }
@@ -1113,10 +1049,6 @@
             });
 
             $(document).on('click', '.saveAssignment', function () {
-                /*let $form = document.forms['jobCardFormExit'];
-                if (!$($form).valid()) {
-                    return;
-                }*/
 
                 let formSel = $('#labour_table');
                 let formData = {
@@ -1160,7 +1092,7 @@
                 $('.print-error-msg').css('display', 'none');
 
                 tmsApp.confirm(
-                    'Save Work Assignment',
+                    'Assign Task',
                     'Are you sure you want to close this work order ?',
                     'Yes',
                     'No',
@@ -1176,7 +1108,7 @@
                             if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                                 setTimeout(function () {
                                     tmsApp.showSystemMessage(
-                                        'Save Work Assignment',
+                                        'Assign Task',
                                         asyncResponse['message'],
                                         function () {
                                             window.location.href = asyncResponse["redirectUrl"]
@@ -1191,7 +1123,7 @@
                                 }
                                 setTimeout(function () {
                                     tmsApp.systemError(
-                                        'Save Work Assignment',
+                                        'Assign Task',
                                         asyncResponse['message'],
                                         function () {
                                         }, 'error');
@@ -1206,7 +1138,7 @@
                                     }
                                     if (xhr.responseJSON.hasOwnProperty('message')) {
                                         tmsApp.systemError(
-                                            'Close Work Order',
+                                            'Assign Task',
                                             xhr.responseJSON['message']
                                         );
                                     }
@@ -1214,7 +1146,7 @@
                                 }
 
                                 tmsApp.systemError(
-                                    'Save Work Assignment',
+                                    'Assign Task',
                                     'We could not complete processing your request, please try again later');
                             }, 300)
                         });

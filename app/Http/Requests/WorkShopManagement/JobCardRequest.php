@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\WorkShopManagement;
 
 use App\Enums\RepairTypes;
-use App\Enums\RequisitionTypes;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
