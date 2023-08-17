@@ -11,16 +11,16 @@
                 <th style="width: 15%;"></th>
                 <th style="width:10%;">Date Assigned</th>
                 <th>Section</th>
-               {{-- <th style="width: 11%;">Shift Type</th>
-                <th style="width: 5%;">Hours</th>
-                <th style="width: 5%;">Rate</th>--}}
+                {{-- <th style="width: 11%;">Shift Type</th>
+                 <th style="width: 5%;">Hours</th>
+                 <th style="width: 5%;">Rate</th>--}}
                 <th>Action</th>
             </tr>
             </thead>
             <tbody>
             @if($labour->isNotEmpty())
                 @foreach($labour as $labourItem)
-                    <tr class="increment">
+                    <tr class="increment" data-record-id="{{$labourItem->id}}">
                         <td>
                             <div class="d-none">
                                 <select name="vehicleSystem"
@@ -102,6 +102,7 @@
                                 @endforeach
                             </select>
                         </td>
+
                         {{--<td>
                             <input type="hidden"
                                    id="postCode"
@@ -119,16 +120,16 @@
                                 <option value="4">Holiday Over-Time</option>
                             </select>
                         </td>--}}
-                       {{-- <td>
-                            <input
-                                    readonly
-                                    value="{{$labourItem->hours_worked ?? ''}}"
-                                    id="hoursWorked"
-                                    readonly
-                                    name="hoursWorked"
-                                    required
-                                    class="form-control form-control-sm"/>
-                        </td>--}}
+                        {{-- <td>
+                             <input
+                                     readonly
+                                     value="{{$labourItem->hours_worked ?? ''}}"
+                                     id="hoursWorked"
+                                     readonly
+                                     name="hoursWorked"
+                                     required
+                                     class="form-control form-control-sm"/>
+                         </td>--}}
                         {{--<td>
                             <input
                                     id="ratePerHour"
@@ -257,14 +258,14 @@
                                     <option value="4">Holiday Over-Time</option>
                                 </select>
                             </td>--}}
-                           {{-- <td>
-                                <input
-                                        readonly
-                                        id="hoursWorked"
-                                        name="hoursWorked"
-                                        required
-                                        class="form-control form-control-sm"/>
-                            </td>--}}
+                            {{-- <td>
+                                 <input
+                                         readonly
+                                         id="hoursWorked"
+                                         name="hoursWorked"
+                                         required
+                                         class="form-control form-control-sm"/>
+                             </td>--}}
                             {{--<td>
                                 <input
                                         id="ratePerHour"
@@ -334,12 +335,12 @@
 
         </div>
 
-       {{-- <div class="col-12 text-right">
-            @if($details->status == StatusHelper::new())
-                <div>
+        {{-- <div class="col-12 text-right">
+             @if($details->status == StatusHelper::new())
+                 <div>
 
-                </div>
-            @endif
-        </div>--}}
+                 </div>
+             @endif
+         </div>--}}
     </div>
 </div>

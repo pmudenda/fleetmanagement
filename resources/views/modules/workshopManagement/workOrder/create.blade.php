@@ -1202,6 +1202,7 @@
                     formSel.data('modelName') === 'Defects'
                     || formSel.data('modelName') === 'PartsHeader'
                     || formSel.data('modelName') === 'ServicesHeader'
+                    || formSel.data('modelName') === 'SummaryHeader'
                 ) {
                     $(formElements).find("tbody").children().map(function (index, row) {
                         let obj = {};

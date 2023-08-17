@@ -11,7 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('CONFIG_DISTANCES_CHART', function (Blueprint $table) {
+        Schema::create('CONFIG_DISTANCES_CHART',
+            function (Blueprint $table) {
             $table->id();
             $table->string('town_from', 255);
             $table->string('town_to', 255);
