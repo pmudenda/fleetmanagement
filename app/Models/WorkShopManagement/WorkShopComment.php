@@ -9,7 +9,7 @@ class WorkShopComment extends Model
 {
     use HasFactory;
 
-    protected $table = 'WM_WORK_SHOP_COMMENTS';
+    protected $table = 'WM_WORKSHOP_COMMENTS';
 
     protected $fillable = [
         'workshop_reference',

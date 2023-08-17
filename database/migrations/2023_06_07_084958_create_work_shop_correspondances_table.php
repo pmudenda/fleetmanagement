@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('WM_WORK_SHOP_COMMENTS', function (Blueprint $table) {
+        Schema::create('WM_WORKSHOP_COMMENTS', function (Blueprint $table) {
             $table->id();
             $table->string('workshop_reference', 20);
             $table->string('type', 20);
@@ -26,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('WM_WORK_SHOP_COMMENTS');
+        Schema::dropIfExists('WM_WORKSHOP_COMMENTS');
     }
 };
