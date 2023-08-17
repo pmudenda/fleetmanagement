@@ -259,7 +259,7 @@ class WorkflowController extends Controller
         }
     }
 
-    public function processWorkOrderClosureApproval(Request $request): JsonResponse
+    public function closeJobCard(Request $request): JsonResponse
     {
         try {
 
