@@ -1295,8 +1295,8 @@ class WorkshopRequisitionService
         $workshopReference = $jobCardNo;
         $registration = $request->get('vehicle_registration');
 
-        $short_description = "New Job Task $jobCardNo";
-        $long_description = "New Job Task $jobCardNo For Vehicle $registration";
+        $short_description = "New Job Card Task $jobCardNo";
+        $long_description = "New Job Card Task $jobCardNo For Vehicle $registration";
 
         $this->workflowService->initiateWorkflowProcess(
             $workshopReference,

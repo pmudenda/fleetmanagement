@@ -7,7 +7,9 @@ use App\Constants\SystemMessages;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Settings\Accessory;
+use App\Models\Settings\WorkShop;
 use App\Models\VehicleManagement\VehicleAccessory;
+use App\Models\WorkShopManagement\JobCardHeader;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
 use Exception;
@@ -135,9 +137,20 @@ class VehicleController extends Controller
                 $vehicle_state = str_replace("@reg",
                     $vehicle->registration_number, SystemMessages::vehiclePendingOnboardingCompletion());
             } elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
+                /*
                 $vehicle_state = str_replace("@reg",
                     $vehicle->registration_number,
                     SystemMessages::vehicleInWorkshop());
+                */
+
+                $workshopCode = JobCardHeader::where('reg_no', $vehicle->registration_number)->first()->workshop_code;
+                $workshopName = WorkShop::where('workshop_code', $workshopCode)->first()->workshop_name;
+                $vehicle_state = str_replace("@reg",
+                    $vehicle->registration_number,
+                    str_replace("@workshop",
+                        $workshopName,
+                        SystemMessages::vehicleInWorkshop())
+                );
             }
 
             if ($vehicle->has_tom_card === 'Y') {
@@ -169,6 +182,7 @@ class VehicleController extends Controller
     public function getVehicleDetails(Request $request): JsonResponse
     {
         try {
+
             if (empty($request->vehicle_registration)) {
                 return response()->json([
                     'success' => false,
@@ -188,9 +202,9 @@ class VehicleController extends Controller
                 ]);
             }
 
-            //$vehicleImages = $this->vehicleDetailsService->getVehicleImages($vehicle->vehicle_header_id);
-            //$accessories = $this->vehicleDetailsService->getSubmittedAccessories($vehicle->vehicle_header_id);
-            //$article = $this->procurementService->getArticleByCode($vehicle->fuel_types);
+            // $vehicleImages = $this->vehicleDetailsService->getVehicleImages($vehicle->vehicle_header_id);
+            // $accessories = $this->vehicleDetailsService->getSubmittedAccessories($vehicle->vehicle_header_id);
+            // $article = $this->procurementService->getArticleByCode($vehicle->fuel_types);
 
             $vehicle_state = '';
 
@@ -198,9 +212,14 @@ class VehicleController extends Controller
                 $vehicle_state = str_replace("@reg",
                     $vehicle->registration_number, SystemMessages::vehiclePendingOnboardingCompletion());
             } elseif ($vehicle->status == StatusHelper::vehicleInWorkshop()) {
+                $workshopCode = JobCardHeader::where('reg_no', $vehicle->registration_number)->first()->workshop_code;
+                $workshopName = WorkShop::where('workshop_code', $workshopCode)->first()->workshop_name;
                 $vehicle_state = str_replace("@reg",
                     $vehicle->registration_number,
-                    SystemMessages::vehicleInWorkshop());
+                    str_replace("@workshop",
+                        $workshopName,
+                        SystemMessages::vehicleInWorkshop())
+                );
             }
 
             return response()->json([

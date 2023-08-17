@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class WorkShop extends Model
 {
-    use HasFactory;
-
     protected $table = 'CONFIG_WORKSHOP';
 
     protected $fillable = [
