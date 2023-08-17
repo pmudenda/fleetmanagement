@@ -224,14 +224,20 @@
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
                                             Job Card
-                                            {{--Service Request--}}
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview pl-2">
                                         @canany([config('rights.create_job_card')])
-                                            <li class="nav-item">
+                                            {{--<li class="nav-item">
                                                 <a href="{{URL::signedRoute('workOrder.requisition',['step'=> 1])}}"
+                                                   class="nav-link">
+                                                    <i class="fas fa-plus nav-icon"></i>
+                                                    <p>New</p>
+                                                </a>
+                                            </li>--}}
+                                            <li class="nav-item">
+                                                <a href="{{URL::signedRoute('vehicle.workshop.checkin')}}"
                                                    class="nav-link">
                                                     <i class="fas fa-plus nav-icon"></i>
                                                     <p>New</p>
@@ -239,13 +245,7 @@
                                             </li>
                                         @endcanany
 
-                                        <li class="nav-item">
-                                            <a href="{{URL::signedRoute('vehicle.workshop.checkin')}}"
-                                               class="nav-link">
-                                                <i class="fas fa-plus nav-icon"></i>
-                                                <p>Vehicle Checkin</p>
-                                            </a>
-                                        </li>
+
 
                                         {{--@can(config('rights.view_job_card'))--}}
                                         <li class="nav-item pl-2">
