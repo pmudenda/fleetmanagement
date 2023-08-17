@@ -329,7 +329,7 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function showJobCard(Request $request): View
+    public function showJobCard(Request $request): \Illuminate\Contracts\Foundation\Application|Application|RedirectResponse|Redirector
     {
         $this->verifyRequestSignature($request);
 
