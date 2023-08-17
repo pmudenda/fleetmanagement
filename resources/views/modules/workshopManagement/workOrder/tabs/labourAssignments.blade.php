@@ -3,6 +3,7 @@
     <div class="table-responsive">
         <table id="labour_table"
                data-model-name="SummaryHeader"
+               data-form-url="{{route("save.job.assignment")}}"
                class="table dataTable table-row-dashed align-middle gs-0 nowrap mt-10">
             <thead>
             <tr class="bg-success-subtle">
@@ -142,6 +143,7 @@
 
                         <td>
                             <button type="button"
+                                    data-laour-item="{{json_encode($labourItem)}}"
                                     style="background: #f59d33; color: #fff;"
                                     class="btn btn-sm btn-success reassignMechanic pull-right">
                                 <i class="fa fa-history"></i>

@@ -750,6 +750,30 @@ class MaintenanceController extends Controller
         }
     }
 
+    public function saveJobCardWorkAssignments(WorkOrderClosure $request): JsonResponse
+    {
+        try {
+            return $this->workshopService->saveJobCardWorkAssignments($request);
+        } catch (\Exception $e) {
+            $message = ErrorMessages::getMessage("err_0005");
+            if ($e instanceof MaterialReservationException
+                || $e instanceof WorkflowTaskCreationFailedException
+                || $e instanceof VehicleStateException) {
+                $message = $e->getMessage();
+            } else {
+                Log::error($e);
+            }
+
+            return response()->json(
+                [
+                    "success" => false,
+                    "payload" => [],
+                    "message" => $message
+                ]
+            );
+        }
+    }
+
     public function processWorkShopServicesReservation(WorkshopServiceReservationRequest $request): JsonResponse
     {
         try {

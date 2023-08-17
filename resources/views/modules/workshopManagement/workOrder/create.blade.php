@@ -386,7 +386,7 @@
 
                         <h1>LABOUR & ASSIGNMENTS</h1>
                         <section>
-                           {{-- @include('modules.workshopManagement.workOrder.tabs.labour')--}}
+                            {{-- @include('modules.workshopManagement.workOrder.tabs.labour')--}}
                             @include('modules.workshopManagement.workOrder.tabs.labourAssignments')
                         </section>
 
@@ -1101,34 +1101,73 @@
 
                 $('#labour_table').on('change paste', '[name="mechanic"]', function () {
                     const $row = $(this).closest('tr');
-                    if(!this.value || this.value.length < 5){
+                    if (!this.value || this.value.length < 5) {
                         return;
                     }
                     findMechanic($row, this.value);
                 });
             });
 
-            $(document).on('click', '.reassignMechanic', function () {});
+            $(document).on('click', '.reassignMechanic', function () {
+
+            });
 
             $(document).on('click', '.saveAssignment', function () {
-                let $form = document.forms['jobCardFormExit'];
+                /*let $form = document.forms['jobCardFormExit'];
                 if (!$($form).valid()) {
                     return;
-                }
+                }*/
 
-                //let formData = getExitSummaryData();
+                let formSel = $('#labour_table');
+                let formData = {
+                    modelName: formSel.data('modelName'),
+                    submitForm: true
+                };
+
+                let arr = [];
+                let obj = {};
+
+                $(formSel).find("tbody").children().map(function (index, row) {
+                    let obj = {};
+
+                    if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
+                        console.log("Record with " + $(row).attr('data-record-id'));
+                    } else {
+                        $(row).find('input[name][type!=hidden], select[name]').each(function (i, item) {
+                            let val = item.value.replace(/,/g, '');
+
+                            if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
+                                let dateField = val;
+                                dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
+
+                                obj[item.name] = dateField;
+                            } else {
+                                obj[item.name] = item.value;
+                            }
+                        });
+                        arr.push(obj);
+                    }
+
+                });
+
+                formData['items'] = arr;
+
+                formData = {
+                    ...obj,
+                    ...formData
+                }
 
                 $('.print-error-msg').css('display', 'none');
 
                 tmsApp.confirm(
-                    'Close Work Order',
+                    'Save Work Assignment',
                     'Are you sure you want to close this work order ?',
                     'Yes',
                     'No',
                     function () {
                         $.ajax({
                             type: "POST",
-                            url: $form.action,
+                            url: formSel.data('formUrl'),
                             data: JSON.stringify(formData),
                             dataType: "json",
                             contentType: "application/json; charset=utf-8",
@@ -1137,7 +1176,7 @@
                             if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                                 setTimeout(function () {
                                     tmsApp.showSystemMessage(
-                                        'Close Work Order',
+                                        'Save Work Assignment',
                                         asyncResponse['message'],
                                         function () {
                                             window.location.href = asyncResponse["redirectUrl"]
@@ -1152,7 +1191,7 @@
                                 }
                                 setTimeout(function () {
                                     tmsApp.systemError(
-                                        'Close Work Order',
+                                        'Save Work Assignment',
                                         asyncResponse['message'],
                                         function () {
                                         }, 'error');
@@ -1175,7 +1214,7 @@
                                 }
 
                                 tmsApp.systemError(
-                                    'Close Work Order',
+                                    'Save Work Assignment',
                                     'We could not complete processing your request, please try again later');
                             }, 300)
                         });
@@ -1206,27 +1245,27 @@
                 ) {
                     $(formElements).find("tbody").children().map(function (index, row) {
                         let obj = {};
-                        $('#part8').find("tbody").children().map(function (index, row) {
+                        /*$('#part8').find("tbody").children().map(function (index, row) {*/
 
-                            if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
-                                console.log("Record with " + $(row).attr('data-record-id'));
-                            } else {
-                                $(row).find('input[name][type!=hidden], select[name]').each(function (i, item) {
-                                    let val = item.value.replace(/,/g, '');
+                        if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
+                            console.log("Record with " + $(row).attr('data-record-id'));
+                        } else {
+                            $(row).find('input[name][type!=hidden], select[name]').each(function (i, item) {
+                                let val = item.value.replace(/,/g, '');
 
-                                    if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
-                                        let dateField = val;
-                                        dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
+                                if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
+                                    let dateField = val;
+                                    dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
 
-                                        obj[item.name] = dateField;
-                                    } else {
-                                        obj[item.name] = item.value;
-                                    }
-                                });
-                                arr.push(obj);
-                            }
+                                    obj[item.name] = dateField;
+                                } else {
+                                    obj[item.name] = item.value;
+                                }
+                            });
+                            arr.push(obj);
+                        }
 
-                        });
+                        /*});*/
                     });
 
                     obj['workshop_reference'] = $('input[name="workshop_reference"]').val();

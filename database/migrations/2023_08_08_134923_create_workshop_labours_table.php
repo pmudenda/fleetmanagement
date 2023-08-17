@@ -18,13 +18,13 @@ return new class extends Migration {
             $table->string('evaluation')->nullable();
             $table->date('date_lab');
             $table->string('mechanic', 10);
-            $table->decimal('hours_worked', 10, 2);
-            $table->decimal('rate', 10, 2);
-            $table->decimal('total_amount', 19, 2);
+            $table->decimal('hours_worked', 10, 2)->nullable();
+            $table->decimal('rate', 10, 2)->nullable();
+            $table->decimal('total_amount', 19, 2)->nullable();
+            $table->string('type_of_hour')->nullable();
             $table->string('def_no');
             $table->string('created_by');
             $table->string('authorised_by')->nullable();
-            $table->string('type_of_hour');
             $table->timestamps();
         });
     }
