@@ -498,9 +498,15 @@
         $('[data-toggle="tooltip"]').tooltip()
     });
 
+    $(document).ready(function (event) {
+        $(document).on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
+    });
+
     (function (tmsApp, $) {
         $(document).on('keypress', '.number_input', function (event) {
-            // tmsApp.numberOnly(event);
+            tmsApp.numberOnly(event);
         });
 
         $(document).on('keyup', '.uppercase', function (event) {
