@@ -9,8 +9,8 @@
             <tr class="bg-success-subtle">
                 <th style="width: 16%;">Defect</th>
                 <th style="width: 16%;">Mechanic</th>
-                <th style="width: 15%;"></th>
-                <th style="width: 20%;"></th>
+                <th style="width: 15%;">Mechanic Name</th>
+                <th style="width: 20%;">Job Instruction</th>
                 <th>Section</th>
                 <th>Action</th>
             </tr>
@@ -83,23 +83,18 @@
                             </select>
                         </td>
 
-                        {{--<td>
-                            <input type="hidden"
-                                   id="postCode"
-                                   name="postCode"
-                                   required
-                                   class=""/>
-                            <select name="shiftType"
-                                    data-value="{{$labourItem->type_of_hour ?? ''}}"
-                                    disabled
-                                    required
-                                    class="form-select form-select-sm shiftType">
-                                <option selected value="" disabled></option>
-                                <option value="1">Normal Shift</option>
-                                <option value="2">Normal Over-Time</option>
-                                <option value="4">Holiday Over-Time</option>
-                            </select>
-                        </td>--}}
+                        <td>
+                        <td>
+                                 <textarea type="text"
+                                           id="jobCardInstruction"
+                                           minlength="20"
+                                           maxlength="255"
+                                           required
+                                           name="jobCardInstruction"
+                                           style="height: 129px;"
+                                           class="form-control comments form-control-sm"></textarea>
+                        </td>
+                        </td>
                         {{-- <td>
                              <input
                                      readonly
@@ -197,22 +192,16 @@
                                     @endforeach
                                 </select>
                             </td>
-                            {{--<td>
-                                <input type="hidden"
-                                       id="postCode"
-                                       name="postCode"
-                                       required
-                                       class=""/>
-                                <select name="shiftType"
-                                        disabled
-                                        required
-                                        class="form-select form-select-sm shiftType">
-                                    <option selected value="" disabled></option>
-                                    <option value="1">Normal Shift</option>
-                                    <option value="2">Normal Over-Time</option>
-                                    <option value="4">Holiday Over-Time</option>
-                                </select>
-                            </td>--}}
+                            <td>
+                                 <textarea type="text"
+                                           id="jobCardInstruction"
+                                           minlength="20"
+                                           maxlength="255"
+                                           required
+                                           name="jobCardInstruction"
+                                           style="height: 129px;"
+                                           class="form-control comments form-control-sm"></textarea>
+                            </td>
                             {{-- <td>
                                  <input
                                          readonly
