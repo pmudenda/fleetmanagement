@@ -36,14 +36,14 @@
                                    type="text"
                                    style="display: none;"
                                    required
-                                   value="{{$defect->defect_id}}"
+                                   value="{{$labourItem->defect_id}}"
                                    class="form-control-sm defect"/>
                             <input name="assignedDefect"
                                    type="text"
                                    style="display: none;"
                                    required
-                                   value="{{$defect->defect_code}}"
-                                   data-value="{{$defect->defect_code}}"
+                                   value="{{$labourItem->defect_code}}"
+                                   data-value="{{$labourItem->defect_code}}"
                                    class="form-control-sm defect"/>
                         </td>
                         <td class="showNumber">
