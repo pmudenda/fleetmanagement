@@ -192,7 +192,7 @@
                                        name="mechanicName"
                                        readonly/>
                             </td>
-                            <td>
+                          {{--  <td>
                                 <div class="input-group date">
                                     <input type="datetime-local"
                                            required
@@ -211,7 +211,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </td>
+                            </td>--}}
                             <td>
                                 <select name="workshopSection"
                                         required
