@@ -67,13 +67,15 @@
                         </td>
                         <td>
                             <div class="input-group date">
-                                <input type="text"
+                                <input type="date"
+                                       min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                       max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                        required
                                        readonly
                                        name="dateOfWork"
                                        value="{{$labourItem->date_lab ?? ''}}"
                                        id="dateOfWork"
-                                       class="form-control datePicker"
+                                       class="form-control"
                                 />
                                 <div class="input-group-append">
                                     <div type="button"
