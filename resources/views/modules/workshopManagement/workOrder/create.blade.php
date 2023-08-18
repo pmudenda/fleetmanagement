@@ -1249,7 +1249,7 @@
 
                         $.ajax({
                             type: "POST",
-                            url: form.action,
+                            url: $form.action,
                             data: formData,
                             dataType: 'json',
                             contentType: false,
