@@ -88,15 +88,12 @@ class WorkflowService
         ]);
 
         /****************************** Determine User to assign task ******************************************/
-        $assignToUser = null; //$this->getApprovingOfficer($currentUser);
+        // $assignToUser = null; // $this->getApprovingOfficer($currentUser);
         if (empty($assignTo)) {
             $assignToUser = $this->getApprovingOfficer($currentUser);
         } else {
             $assignToUser = PHCMSEmployee::where('con_st_code', '=', 'ACT')
-                ->where(function ($query) use ($assignTo) {
-                    $query->where('alt_per_no', '=', $assignTo);
-                        //->orWhere('con_per_no', '=', $assignTo);
-                })
+                ->where('alt_per_no', '=', $assignTo)
                 ->first();
         }
 
@@ -104,7 +101,7 @@ class WorkflowService
 
         //'date_acted'
         WorkflowTaskHeader::Create([
-            'assigned_user' => $assignToUser->con_per_no ?? $assignToUser->staff_no,
+            'assigned_user' => $assignToUser->alt_per_no ?? $assignToUser->staff_no,
             'subject' => $short_description,
             'status' => StatusHelper::new(),
             'url' => $actionPage,

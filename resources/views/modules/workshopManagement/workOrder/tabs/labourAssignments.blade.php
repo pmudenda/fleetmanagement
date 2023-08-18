@@ -10,6 +10,7 @@
                 <th style="width: 16%;">Defect</th>
                 <th style="width: 16%;">Mechanic</th>
                 <th style="width: 15%;"></th>
+                <th style="width: 20%;"></th>
                 <th>Section</th>
                 <th>Action</th>
             </tr>
@@ -288,13 +289,5 @@
             </div>
 
         </div>
-
-        {{-- <div class="col-12 text-right">
-             @if($details->status == StatusHelper::new())
-                 <div>
-
-                 </div>
-             @endif
-         </div>--}}
     </div>
 </div>
