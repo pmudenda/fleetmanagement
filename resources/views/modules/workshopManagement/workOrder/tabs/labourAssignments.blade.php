@@ -195,9 +195,11 @@
         </table>
         <hr>
         <datalist id="mechanics">
-            @foreach($mechanics as $mechanic)
-                <option value="{{$mechanic->staff_no}}">{{$mechanic->staff_no}} {{$mechanic->name}}</option>
-            @endforeach
+            @if(!empty($mechanics))
+                @foreach($mechanics as $mechanic)
+                    <option value="{{$mechanic->staff_no}}">{{$mechanic->staff_no}} {{$mechanic->name}}</option>
+                @endforeach
+            @endif
         </datalist>
         <div class="row">
             <div class="form-group">
