@@ -33,6 +33,7 @@
                                         </select>
                                     </td>
                                     <td>
+
                                         <select name="defectCategory"
                                                 required
                                                 disabled
@@ -42,13 +43,12 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select name="defect"
+                                        {{$defect->defect_name}}
+                                        <input name="defect" type="hidden"
                                                 required
                                                 disabled
                                                 data-value="{{$defect->defect_code}}"
-                                                class="form-select form-select-sm select_2_control defect">
-                                            <option></option>
-                                        </select>
+                                                class="form-select form-select-sm select_2_control defect"/>
                                     </td>
                                     <td>
                                         <select name="workshopSection"
