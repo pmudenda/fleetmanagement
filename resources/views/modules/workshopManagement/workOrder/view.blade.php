@@ -97,7 +97,8 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <div class="input-group">
                                                                 <input type="text"
-                                                                       @if(!empty($details->reg_no)) readonly="readonly" @endif
+                                                                       @if(!empty($details->reg_no)) readonly="readonly"
+                                                                       @endif
                                                                        data-action="{{route('requisition.vehicle.details')}}"
                                                                        class="form-control form-control-sm"
                                                                        value="{{$details->reg_no ?? ''}}"
@@ -114,7 +115,8 @@
                                                                 </div>
                                                             </div>
 
-                                                            <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_number"/>
+                                                            <input type="hidden" value="{{$details->job_card_no ?? 0}}"
+                                                                   name="job_card_number"/>
 
                                                         </div>
                                                     </div>
@@ -212,7 +214,8 @@
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <select name="repairType"
-                                                                    @if(!empty($details->reg_no)) readonly="readonly" @endif
+                                                                    @if(!empty($details->reg_no)) readonly="readonly"
+                                                                    @endif
                                                                     id="repairTypeDropdownList"
                                                                     data-value="{{$details->repair_type ?? ''}}"
                                                                     class="form-select form-select-sm when_valid"
@@ -696,7 +699,8 @@
                         <section>
                             <div class="container-fluid px-0">
                                 <div class="row">
-                                    <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
+                                    <input type="hidden" value="{{$details->job_card_no ?? 0}}"
+                                           name="job_card_voucher"/>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="row">
                                             <div class="table-responsive px-2" style="max-height:500px;">
@@ -810,7 +814,8 @@
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <select name="workshopSection" class="form-select form-select-sm workshopSection">
+                                                                <select name="workshopSection"
+                                                                        class="form-select form-select-sm workshopSection">
                                                                     <option></option>
                                                                     @foreach($workshop_sections as $workshop_section)
                                                                         <option
@@ -922,10 +927,12 @@
                                        value="{{route('suppliers.list')}}"/>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item" style="list-style: none; width: 178px; display: none;">
-                                        <a class="nav-link" data-toggle="tab" href="#accessories" role="tab">Accessories</a>
+                                        <a class="nav-link" data-toggle="tab" href="#accessories"
+                                           role="tab">Accessories</a>
                                     </li>
                                     <li class="nav-item" style="list-style: none; width: 178px;">
-                                        <a class="nav-link active" data-toggle="tab" href="#defects" role="tab">Defects</a>
+                                        <a class="nav-link active" data-toggle="tab" href="#defects"
+                                           role="tab">Defects</a>
                                     </li>
                                     <li class="nav-item" style="list-style: none; width: 178px;">
                                         <a class="nav-link" data-toggle="tab" href="#materials" role="tab">Spares</a>
@@ -1152,7 +1159,8 @@
                                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                                         <div class="container-fluid pl-0">
                                                             <div class="row">
-                                                                <input type="hidden" value="{{$materialsHeader->id ?? 0 }}"
+                                                                <input type="hidden"
+                                                                       value="{{$materialsHeader->id ?? 0 }}"
                                                                        name="materialHeaderId">
                                                                 <div class="form-group row">
                                                                     <label
@@ -1476,11 +1484,13 @@
                                                                 <td></td>
                                                                 <td class="text-right"><strong>TOTAL</strong></td>
                                                                 <td class="text-right"><b id="quantityTotal"
-                                                                                          class="input-number">0</b></td>
+                                                                                          class="input-number">0</b>
+                                                                </td>
                                                                 <td></td>
                                                                 <td class="text-right"><strong>TOTAL</strong></td>
                                                                 <td class="text-right"><b id="itemsTotal"
-                                                                                          class="input-number">0.00</b></td>
+                                                                                          class="input-number">0.00</b>
+                                                                </td>
                                                                 <td></td>
                                                             </tr>
                                                             </tfoot>
@@ -1528,7 +1538,8 @@
                                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                                         <div class="container-fluid pl-0">
                                                             <div class="row">
-                                                                <input type="hidden" value="{{$materialsHeader->id ?? 0 }}"
+                                                                <input type="hidden"
+                                                                       value="{{$materialsHeader->id ?? 0 }}"
                                                                        name="materialHeaderId">
                                                                 <div class="form-group row">
                                                                     <label
@@ -1558,7 +1569,8 @@
                                                                                name="stockItemCode"/>
                                                                         <input type="hidden"
                                                                                value="{{RequisitionItemTypes::ServiceItemCode}}"
-                                                                               id="serviceItemCode" name="serviceItemCode"/>
+                                                                               id="serviceItemCode"
+                                                                               name="serviceItemCode"/>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1834,11 +1846,13 @@
                                                                 <td></td>
                                                                 <td class="text-right"><strong>TOTAL</strong></td>
                                                                 <td class="text-right"><b id="serviceQuantityTotal"
-                                                                                          class="input-number">0</b></td>
+                                                                                          class="input-number">0</b>
+                                                                </td>
                                                                 <td></td>
                                                                 <td class="text-right"><strong>TOTAL</strong></td>
                                                                 <td class="text-right"><b id="serviceTotalPrice"
-                                                                                          class="input-number">0.00</b></td>
+                                                                                          class="input-number">0.00</b>
+                                                                </td>
                                                             </tr>
                                                             </tfoot>
 
@@ -1881,7 +1895,8 @@
                                                     <tbody>
                                                     <tr>
                                                         <td class="text-right">
-                                                            <strong id="srfTotal" class="input-number">Prepared By:</strong>
+                                                            <strong id="srfTotal" class="input-number">Prepared
+                                                                By:</strong>
                                                         </td>
                                                         <td>
                                                             <b id="section" class="input-number">RECEPTION</b>
@@ -2596,6 +2611,8 @@
             $('[name="current_odometer"]').attr('readonly', true);
             $('[name="observation[]"]').attr('readonly', true);
             $('[name="accessoriesRemarks"]').attr('readonly', true);
+
+            $('[value="insertRow"]').addClass('d-none');
 
         }
 
@@ -3758,7 +3775,7 @@
                     $(row).find('[name="workshopSection"]').attr('disabled', false)
 
                     $(row).find('.select2-container').remove();
-                    let $_defect_sel =  $(row).find(".select_2_control");
+                    let $_defect_sel = $(row).find(".select_2_control");
                     reinitializeSelect2($_defect_sel);
                 }
             }
