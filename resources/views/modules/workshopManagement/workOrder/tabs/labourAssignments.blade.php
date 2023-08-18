@@ -22,30 +22,14 @@
             </thead>
             <tbody>
             @if($labour->isNotEmpty())
+                {{dd($labourItem)}}
                 @foreach($labour as $labourItem)
                     <tr class="increment">
                         <td>
                             <input title="WIP" class="checkbox" data-toggle="tooltip" type="checkbox">
                         </td>
                         <td>
-                            <div class="d-none">
-                                <select name="vehicleSystem"
-                                        style="display: none;"
-                                        required
-                                        disabled
-                                        data-value="{{$defect->veh_sys ?? ''}}"
-                                        class="form-select form-select-sm select_2_control vehicleSystem">
-                                    <option></option>
-                                </select>
-                                <select name="defectCategory"
-                                        required
-                                        style="display: none;"
-                                        disabled
-                                        data-value="{{$defect->defect_category_code ?? ''}}"
-                                        class="form-select form-select-sm select_2_control defectCategory">
-                                    <option></option>
-                                </select>
-                            </div>
+
 
                             <select name="defect"
                                     required
@@ -103,25 +87,6 @@
                                            class="form-control comments form-control-sm"></textarea>
                         </td>
                         </td>
-                        {{-- <td>
-                             <input
-                                     readonly
-                                     value="{{$labourItem->hours_worked ?? ''}}"
-                                     id="hoursWorked"
-                                     readonly
-                                     name="hoursWorked"
-                                     required
-                                     class="form-control form-control-sm"/>
-                         </td>--}}
-                        {{--<td>
-                            <input
-                                    id="ratePerHour"
-                                    name="ratePerHour"
-                                    required
-                                    value="{{$labourItem->rate}}"
-                                    readonly
-                                    class="form-control form-control-sm"/>
-                        </td>--}}
 
                         <td>
                             <button type="button"
