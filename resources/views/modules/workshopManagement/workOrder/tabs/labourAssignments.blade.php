@@ -167,6 +167,7 @@
                                        class="form-control form-control-sm mechanicStaffNumber"
                                        autocapitalize="characters"
                                        id="mechanic"
+                                       list="mechanics"
                                        name="mechanic">
                                 </input>
                             </td>
@@ -257,6 +258,11 @@
             </tbody>
         </table>
         <hr>
+        <datalist id="mechanics">
+            @foreach($mechanics as $mechanic)
+                <option value="{{$mechanic->staff_no}}">
+            @endforeach
+        </datalist>
         <div class="row">
             <div class="form-group">
                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
