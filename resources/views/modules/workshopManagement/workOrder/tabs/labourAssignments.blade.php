@@ -37,11 +37,11 @@
                                     <option></option>
                                 </select>
                             </div>--}}
-                            {{$defect->defect_name}}
+                            {{$labourItem->defect_name}}
                             <input name="defect" type="hidden"
                                    required
                                    disabled
-                                   data-value="{{$defect->defect_code}}"
+                                   data-value="{{$labourItem->defect_code}}"
                                    class="form-control-sm defect"/>
                             {{--<select name="defect"
                                     required
@@ -68,6 +68,7 @@
                                    name="mechanicName"
                                    readonly/>
                         </td>
+
                        {{-- <td>
                             <div class="input-group">
                                 <input type="text"
@@ -88,6 +89,7 @@
                                 </div>
                             </div>
                         </td>--}}
+
                         <td>
                             <select name="workshopSection"
                                     required
