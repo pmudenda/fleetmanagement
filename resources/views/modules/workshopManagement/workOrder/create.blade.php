@@ -1200,7 +1200,7 @@
             });
 
             $(document).on('click', '.reassignMechanic', function () {
-                let item = $(this).attr('data-labour-item');
+                let item = JSON.parse($(this).attr('data-labour-item'));
                 console.log(item);
                 $('[name="reassignmentReference"]').val(item.id)
                 $("#reassignMechanicModal").modal('show');
