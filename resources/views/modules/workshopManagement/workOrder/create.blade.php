@@ -1102,6 +1102,37 @@
                     }
                     findMechanic($row, this.value);
                 });
+
+                $('[name="selectDefectToAssign"]').on('change', function () {
+
+                });
+
+                $('[name="selectAll"]').on('change', function () {
+
+                    function selects() {
+                        let ele = document.querySelector('#labour_table').getElementsByName('selectDefectToAssign');
+                        for (let i = 0; i < ele.length; i++) {
+                            if (ele[i].type === 'checkbox')
+                                ele[i].checked = true;
+                        }
+                    }
+
+                    function deSelect() {
+                        let ele = document.querySelector('#labour_table').getElementsByName('selectDefectToAssign');
+                        for (let i = 0; i < ele.length; i++) {
+                            if (ele[i].type === 'checkbox')
+                                ele[i].checked = false;
+
+                        }
+                    }
+
+                    if($(this).is(':checked')){
+                        selects()
+                    }else{
+                        deSelect();
+                    }
+
+                });
             });
 
             $(document).on('click', '.reassignMechanic', function () {

@@ -8,7 +8,9 @@
             <thead>
             <tr class="bg-success-subtle">
                 <th>
-                    <input title="Not Active Yet" class="checkbox" data-toggle="tooltip" type="checkbox">ALL
+                    <input name="selectAll"
+                            title="Not Active Yet"
+                           class="checkbox" data-toggle="tooltip" type="checkbox">ALL
                 </th>
                 <th style="width: 16%;">DEFECT</th>
                 <th style="width: 6%;">MECHANIC</th>
@@ -138,7 +140,7 @@
                     @foreach($defects as $defect)
                         <tr class="increment">
                             <td>
-                                <input title="WIP" class="checkbox" data-toggle="tooltip" type="checkbox">
+                                <input title="WIP" name="selectDefectToAssign" class="checkbox" data-toggle="tooltip" type="checkbox">
                             </td>
                             <td>
                                 {{$defect->defect_name}}
