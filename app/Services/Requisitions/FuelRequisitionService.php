@@ -191,6 +191,7 @@ class FuelRequisitionService
         if ($variance < 0) {
 
             $vehicleAge = Carbon::now()->diffInYears(Carbon::parse($vehicle->registration_date));
+            Log::debug("vehicle age  " . $vehicleAge);
 
             if ($vehicleAge < (integer)config('systeminfo.vehicle_age')
                 && abs($variance)
