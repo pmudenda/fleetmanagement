@@ -375,13 +375,14 @@ class WorkshopService
         $workOrder = JobCardHeader::where("job_card_no", "=", $jobCardNumber)
             ->first();
 
-        foreach ($request->get("items") as $labourItem) {
+        foreach ($request->validated("items") as $labourItem) {
             WorkshopLabour::create([
                 'wshp_act_code' => $workOrder->wshp_act_code,
                 'wshp_code' => $workOrder->workshop_code,
                 'section' => $labourItem['workshopSection'],
                 'evaluation' => 'N',
-                'date_lab' => Carbon::createFromFormat('d/m/Y', $labourItem['dateOfWork']),
+                'job_card_instruction' => $labourItem['jobCardInstruction'],
+                'date_lab' => Carbon::now(),
                 'mechanic' => $labourItem['mechanic'],
                 'def_no' => $labourItem['assignedDefect'],
                 'defect_id' => $labourItem['assignedDefectId'],

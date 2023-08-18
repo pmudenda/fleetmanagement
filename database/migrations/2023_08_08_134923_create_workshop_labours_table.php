@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->string('type_of_hour')->nullable();
             $table->string('def_no');
             $table->integer('defect_id')->nullable();
+            $table->string('job_card_instruction', 255)->nullable();
             $table->string('created_by', 10);
             $table->string('authorised_by')->nullable();
             $table->timestamps();

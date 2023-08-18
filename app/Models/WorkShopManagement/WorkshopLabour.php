@@ -21,6 +21,7 @@ class WorkshopLabour extends Model
         'defect_id',
         'created_by',
         'authorised_by',
-        'type_of_hour'
+        'type_of_hour',
+        'job_card_instruction'
     ];
 }

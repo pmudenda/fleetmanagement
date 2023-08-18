@@ -29,6 +29,7 @@ class JobCardTaskAssignment extends FormRequest
             'items.*.mechanic' => 'required',
             'items.*.assignedDefect' => 'required',
             'items.*.assignedDefectId' => 'required',
+            'items.*.jobCardInstruction' => 'required|string|max:500',
 
             'items.*.dateOfWork' => 'nullable',
             'items.*.shiftType' => 'nullable',
