@@ -56,7 +56,6 @@
                                    readonly
                                    data-value="{{$labourItem->mechanic}}"
                                    value="{{$labourItem->mechanic ?? ''}}"
-                                   list="mechanics"
                                    name="mechanic"/>
                         </td>
                         <td>
@@ -143,8 +142,7 @@
                                        autocapitalize="characters"
                                        id="mechanic"
                                        list="mechanics"
-                                       name="mechanic">
-                                </input>
+                                       name="mechanic" />
                             </td>
                             <td>
                                 <input type="text"
@@ -153,26 +151,6 @@
                                        name="mechanicName"
                                        readonly/>
                             </td>
-                            {{--  <td>
-                                  <div class="input-group date">
-                                      <input type="datetime-local"
-                                             required
-                                             name="dateOfWork"
-                                             id="dateOfWork"
-                                             class="form-control datePicker"
-                                      />
-                                      <div class="input-group-append"
-                                           data-target="#dateIssued"
-                                           data-action="openDatePicker">
-                                          <div type="button"
-                                               data-action="openDatePicker"
-                                               class="input-group-text ui-datepicker-trigger">
-                                              <i data-action="openDatePicker"
-                                                 class="fa fa-calendar"></i>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </td>--}}
                             <td>
                                 <select name="workshopSection"
                                         required
@@ -200,23 +178,6 @@
                                            style="height: 129px;"
                                            class="form-control comments form-control-sm"></textarea>
                             </td>
-                            {{-- <td>
-                                 <input
-                                         readonly
-                                         id="hoursWorked"
-                                         name="hoursWorked"
-                                         required
-                                         class="form-control form-control-sm"/>
-                             </td>--}}
-                            {{--<td>
-                                <input
-                                        id="ratePerHour"
-                                        name="ratePerHour"
-                                        required
-                                        readonly
-                                        class="form-control form-control-sm"/>
-                            </td>--}}
-
                             <td>
                                 <button type="button"
                                         style="background: #f59d33; color: #fff;"
