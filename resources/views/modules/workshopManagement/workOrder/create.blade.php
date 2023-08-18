@@ -88,7 +88,6 @@
 
                     <h1>ASSESSMENTS</h1>
                     <section>
-
                         <div class="container-fluid">
                             <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}"
                                  data-model-name="Accessories">
