@@ -266,7 +266,7 @@
                                 <button type="button"
                                         style="background: #f59d33; color: #fff;"
                                         class="btn btn-sm btn-success saveAssignment pull-right">
-                                    <i class="fa fa-history"></i>
+                                    <i class="fa fa-save"></i>
                                     Save Assignment
                                 </button>
                             </td>
