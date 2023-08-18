@@ -26,6 +26,7 @@ use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Models\WorkShopManagement\JobCardHeader;
+use App\Models\WorkShopManagement\Mechanic;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkshopLabour;
 use App\Models\WorkShopManagement\WorkShopMaterialHeader;
@@ -107,6 +108,7 @@ class MaintenanceController extends Controller
             $labour
             ) = $this->getFullJobCardDetails($reference);
 
+        $mechanics =  Mechanic::get();
         $view_name = "modules.workshopManagement.workOrder.create";
 
         return view($view_name)
@@ -124,16 +126,15 @@ class MaintenanceController extends Controller
                     "materials",
                     "materialsHeader",
                     "services",
-                    'labour'
+                    'labour',
+                    'mechanics'
                 )
             );
     }
 
     public function view(Request $request): View
     {
-        if (!$request->hasValidSignature()) {
-            abort(401);
-        }
+        $this->verifyRequestSignature($request);
 
         $step = $request->get("step") ?? 0;
         $reference = $request->get("reference") ?? $request->get('ref');

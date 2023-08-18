@@ -136,31 +136,6 @@
                     @foreach($defects as $defect)
                         <tr class="increment">
                             <td>
-                                <div class="d-none">
-                                    {{--<select name="vehicleSystem"
-                                            style="display: none;"
-                                            required
-                                            disabled
-                                            data-value="{{$defect->veh_sys}}"
-                                            class="form-select form-select-sm select_2_control vehicleSystem">
-                                        <option></option>
-                                    </select>--}}
-                                    {{--<select name="defectCategory"
-                                            required
-                                            style="display: none;"
-                                            disabled
-                                            data-value="{{$defect->defect_category_code}}"
-                                            class="form-select form-select-sm select_2_control defectCategory">
-                                        <option></option>
-                                    </select>--}}
-                                </div>
-                                {{--<select name="defect"
-                                        required
-                                        disabled
-                                        data-value="{{$defect->defect_code}}"
-                                        class="form-select form-select-sm select_2_control defect">
-                                    <option></option>
-                                </select>--}}
                                 {{$defect->defect_name}}
                                 <input name="assignedDefect" type="hidden"
                                        required
@@ -170,20 +145,15 @@
                                        class="form-control-sm defect"/>
                             </td>
                             <td class="showNumber">
-                                <input type="text"
-                                       class="form-control form-control-sm mechanicStaffNumber"
-                                       autocapitalize="characters"
-                                       id="mechanic"
-                                       name="mechanic"/>
-                                {{--<div class="input-group">
-                                    <div class="input-group-addon">
-                                        <button type="button" id="mechanicSearchBtn"
-                                                name="mechanicSearchBtn"
-                                                class="btn btn-success btn-sm border-radius-0">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>--}}
+                                <select type="text"
+                                        class="form-select form-select-sm mechanicStaffNumber"
+                                        autocapitalize="characters"
+                                        id="mechanic"
+                                        name="mechanic">
+                                    @foreach($mechanics as $mechanic)
+                                    <option value="{{$mechanic->staff_no}}">{{$mechanic->name}}</option>
+                                    @endforeach
+                                </select>
                             </td>
                             <td>
                                 <input type="text"
@@ -192,26 +162,26 @@
                                        name="mechanicName"
                                        readonly/>
                             </td>
-                          {{--  <td>
-                                <div class="input-group date">
-                                    <input type="datetime-local"
-                                           required
-                                           name="dateOfWork"
-                                           id="dateOfWork"
-                                           class="form-control datePicker"
-                                    />
-                                    <div class="input-group-append"
-                                         data-target="#dateIssued"
-                                         data-action="openDatePicker">
-                                        <div type="button"
-                                             data-action="openDatePicker"
-                                             class="input-group-text ui-datepicker-trigger">
-                                            <i data-action="openDatePicker"
-                                               class="fa fa-calendar"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>--}}
+                            {{--  <td>
+                                  <div class="input-group date">
+                                      <input type="datetime-local"
+                                             required
+                                             name="dateOfWork"
+                                             id="dateOfWork"
+                                             class="form-control datePicker"
+                                      />
+                                      <div class="input-group-append"
+                                           data-target="#dateIssued"
+                                           data-action="openDatePicker">
+                                          <div type="button"
+                                               data-action="openDatePicker"
+                                               class="input-group-text ui-datepicker-trigger">
+                                              <i data-action="openDatePicker"
+                                                 class="fa fa-calendar"></i>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </td>--}}
                             <td>
                                 <select name="workshopSection"
                                         required
