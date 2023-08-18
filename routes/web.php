@@ -216,6 +216,8 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::post('/deleteMaterialRecord', [MaintenanceController::class, "deleteMaterialRecord"])->name('delete.material.record');
 
+            Route::post('/deleteServiceRecord', [MaintenanceController::class, "deleteServiceRecord"])->name('delete.service.record');
+
             Route::post('save/job/card/header', [MaintenanceController::class, 'saveJobCardHeader'])->name('save.job.card');
 
             Route::post('save/job/card/accessories', [MaintenanceController::class, 'processJobCardAccessories'])->name('job_card.accessories.checkin');

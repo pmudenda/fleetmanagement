@@ -26,12 +26,12 @@ use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Models\WorkShopManagement\JobCardHeader;
-use App\Models\WorkShopManagement\VehicleDefect;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkshopLabour;
 use App\Models\WorkShopManagement\WorkShopMaterialHeader;
 use App\Models\WorkShopManagement\WorkShopServiceModel;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
+use App\Models\WorkShopManagement\WorkShopVehicleDefect;
 use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Requisitions\WorkshopRequisitionService;
 use App\Services\Workflow\DocumentNumberGenerationService;
@@ -827,7 +827,7 @@ class MaintenanceController extends Controller
             $officeDetails = $this->workshopService->getWorkShopPurchaseOfficeAndStore($details->workshop_code);
 
             // $defects = VehicleDefect::where("workshop_reference", "=", $details->workshop_doc_no)->get();
-            $defects = VehicleDefect::where("workshop_reference", "=", $details->wshp_act_code)->get();
+            $defects = WorkShopVehicleDefect::where("workshop_reference", "=", $details->wshp_act_code)->get();
 
             //$defectCodes = $defects->pluck('defect_code');
             // $comments = WorkShopComment::where("workshop_reference", "=", $details->workshop_doc_no)->get();
@@ -863,7 +863,7 @@ class MaintenanceController extends Controller
     {
         try {
 
-            $entry = VehicleDefect::where("id", "=", $request->record_id)
+            $entry = WorkShopVehicleDefect::where("id", "=", $request->record_id)
                 ->first();
 
             if (empty($entry)) {
@@ -969,6 +969,36 @@ class MaintenanceController extends Controller
         }
     }
 
+
+    public function deleteServiceRecord(Request $request): JsonResponse
+    {
+        try {
+            $entry = MaterialDetail::where("id", "=", $request->get('record_id'))
+                ->first();
+
+            if (empty($entry)) {
+                return response()->json([
+                    "success" => false,
+                    "message" => "Record Not Found",
+                ]);
+            }
+
+            $entry->deleted_at = Carbon::now();
+            $entry->save();
+            return response()->json([
+                "success" => true,
+                "message" => "Record Removed Successfully",
+            ]);
+
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+
+            return response()->json([
+                "success" => false,
+                "message" => "We could not complete processing your request to an error",
+            ]);
+        }
+    }
 
     public function deleteMaterialRecord(Request $request): JsonResponse
     {
@@ -1106,7 +1136,7 @@ class MaintenanceController extends Controller
 
             $officeDetails = $this->workshopService->getWorkShopPurchaseOfficeAndStore($details->workshop_code);
 
-            $defects = VehicleDefect::where("workshop_reference", "=", $details->wshp_act_code)->get();
+            $defects = WorkShopVehicleDefect::where("workshop_reference", "=", $details->wshp_act_code)->get();
 
             $comments = WorkShopComment::where("workshop_reference", "=", $details->wshp_act_code)->get();
 

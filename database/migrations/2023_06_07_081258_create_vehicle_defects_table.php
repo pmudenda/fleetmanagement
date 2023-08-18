@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('workshop_code',20);
             $table->string('veh_sys',20);
             $table->string('defect_category_code',20);
+            $table->string('defect_name', 255)->nullable();
+            $table->integer('defect_id')->nullable();
             $table->string('defect_code',20);
             $table->string('section_code',20);
             $table->timestamp('date_def')->nullable();
@@ -25,15 +27,13 @@ return new class extends Migration
             $table->string('modified_by',20)->nullable();
 
             /*
-             *
-                    SECTION_DEF            VARCHAR2(3)
-                    SECTION_CHK            VARCHAR2(3)
-                    DATE_CHK               DATE
-                    TIME_CHK               VARCHAR2(5)
-                    APPEARANCE             VARCHAR2(1)
-                    IDLER                  VARCHAR2(3)
-
-             * */
+               SECTION_DEF            VARCHAR2(3)
+               SECTION_CHK            VARCHAR2(3)
+               DATE_CHK               DATE
+               TIME_CHK               VARCHAR2(5)
+               APPEARANCE             VARCHAR2(1)
+               IDLER                  VARCHAR2(3)
+             */
 
             $table->timestamps();
         });

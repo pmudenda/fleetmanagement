@@ -341,13 +341,24 @@
                                 </td>
 
                                 <td class="view-mode">
-                                    <button type="button"
-                                            @if(StatusHelper::authorised() == $material->status??'') disabled @endif
-                                            data-value="{{$material->id ?? '0'}}"
-                                            value="deleteRow"
-                                            class="btn btn-danger p-2">
-                                        <i class="fas fa-trash m-0"></i>
-                                    </button>
+                                    @if(StatusHelper::authorised() == $material->status??'')
+                                        <button type="button"
+                                                @if(StatusHelper::authorised() == $material->status??'') disabled @endif
+                                                data-value="0"
+                                                value="deleteRow"
+                                                class="btn btn-danger p-2">
+                                            <i class="fas fa-trash m-0"></i>
+                                        </button>
+                                    @else
+                                        <button type="button"
+                                                disabled
+                                                data-value="{{$material->id ?? '0'}}"
+                                                value="deleteRow"
+                                                class="btn btn-danger p-2">
+                                            <i class="fas fa-trash m-0"></i>
+                                        </button>
+                                    @endif
+
                                 </td>
                             </tr>
                         @endforeach
@@ -417,7 +428,7 @@
 
                             <td class="view-mode">
                                 <button type="button"
-                                        data-value="{{$defect->id ?? '0'}}"
+                                        data-value="0"
                                         value="deleteRow"
                                         class="btn btn-danger p-2">
                                     <i class="fas fa-trash m-0"></i>

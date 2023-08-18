@@ -354,6 +354,9 @@
                 <input type="hidden" value="{{route('delete.material.record')}}" name="deleteMaterialUrl"
                        id="deleteMaterialUrl"/>
 
+                <input type="hidden" value="{{route('delete.service.record')}}" name="deleteServiceUrl"
+                       id="deleteServiceUrl"/>
+
                 <input type="hidden" value="{{route('mechanic.search')}}" id="mechanicDetails"/>
             </div>
         </div>
@@ -2147,8 +2150,8 @@
             function deleteTableRow(eventSource) {
 
                 let btnEl = $(eventSource);
-                let tableId = $(this).closest('table').attr('id');
-                let valueId = $(this).attr('data-value');
+                let tableId = $(btnEl).closest('table').attr('id');
+                let valueId = $(btnEl).attr('data-value');
                 let tableRow = btnEl.closest('tr');
                 let table = btnEl.closest('table');
 
@@ -2175,8 +2178,10 @@
                         let dataUrl = "";
                         if (tableId === 'part8') {
                             dataUrl = document.querySelector('[name="deleteDefectUrl"]').value;
-                        } else {
+                        } else if (tableId === "material_table") {
                             dataUrl = document.querySelector('[name="deleteMaterialUrl"]').value;
+                        } else {
+                            dataUrl = document.querySelector('[name="deleteServiceUrl"]').value;
                         }
 
                         let formData = new FormData();

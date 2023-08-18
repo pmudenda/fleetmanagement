@@ -21,7 +21,6 @@ use App\Models\Common\OrganizationalUnit;
 use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Models\Security\User;
-use App\Models\VehicleManagement\VehicleHeader;
 use App\Services\FileUploads\FileUploadService;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\VehicleManagement\VehicleDetailsService;
@@ -148,7 +147,7 @@ class FuelRequisitionService
 
         [$quantityLastIssued, $latestIssue] = $this->getFuelLastIssue($registrationNumber);
 
-        //]
+        //
         Log::info("Latest Issued Amount $quantityLastIssued");
 
         $odometerOnLastIssue = $this->getOdometerOnLastIssue($registrationNumber);
@@ -169,18 +168,16 @@ class FuelRequisitionService
             );
         }
 
-
         // check that current user provided odometer is greater than last issue
         $this->validateCurrentOdometerAgainstMileageReturn(
             $latestOdometerLogsMaxOdometer,
             $userProvidedOdometer
         );
 
-
         Log::info("Calculating Maximum Distance that should have been covered by  $registrationNumber");
         Log::debug('Consumption ' . $fuel_consumption);
         Log::debug('Quantity Last Issued ' . $quantityLastIssued);
-        $maximumDistance = ($quantityLastIssued * ($fuel_consumption ?? $vehicle->fuel_consumption));
+        $maximumDistance = ($quantityLastIssued * ($fuel_consumption));
         $newEstimatedOdometer = $maximumDistance + $odometerOnLastIssue;
 
         Log::debug("Maximum Distance " . $maximumDistance);
@@ -192,18 +189,26 @@ class FuelRequisitionService
         Log::debug("Odometer Variance " . $variance);
 
         if ($variance < 0) {
-            throw new FuelRequisitionException(
-                str_replace("@cur_odometer",
-                    $userProvidedOdometer,
-                    str_replace("@odometer",
-                        $latestIssue->odometer,
-                        str_replace("@req_no",
-                            $latestIssue->st_pur ?? $latestIssue->req_no,
-                            ErrorMessages::getMessage('err_0025')
+
+            $vehicleAge = Carbon::now()->diffInYears(Carbon::parse($vehicle->registration_date));
+
+            if ($vehicleAge < (integer)config('systeminfo.vehicle_age')
+                && abs($variance)
+                > $this->calculateVehicleConsumptionDegradation($vehicle, $vehicleAge, $fuel_consumption, $newEstimatedOdometer)) {
+
+                throw new FuelRequisitionException(
+                    str_replace("@cur_odometer",
+                        $userProvidedOdometer,
+                        str_replace("@odometer",
+                            $latestIssue->odometer,
+                            str_replace("@req_no",
+                                $latestIssue->st_pur ?? $latestIssue->req_no,
+                                ErrorMessages::getMessage('err_0025')
+                            )
                         )
                     )
-                )
-            );
+                );
+            }
         }
 
         if (!empty($latestIssue)) { // Maximum Distance You can Travel Before Issue [Mdbi] = [Tank Capacity - Quantity On Last Issue] * Fuel Consumption
@@ -526,11 +531,15 @@ class FuelRequisitionService
      * Verifies Vehicle is Active otherwise throws exception
      * @throws FuelRequisitionException
      */
-    public function verifyVehicleStatusAndFetchData($reference)
+    public function verifyVehicleStatusAndFetchData($reference): Model|Builder
     {
         $allowedStatus = [StatusHelper::active()];
 
-        $vehicle = VehicleHeader::where("registration_number", "=", $reference)->first();
+        $vehicle = DB::table('vm_vehicle_header header')
+            ->where("registration_number", "=", $reference)
+            ->join('vm_chassis_details details', 'header.id', '=', 'details.vehicle_header_id')
+            ->select('header.*', 'details.registration_date')
+            ->first();
 
         if (empty($vehicle) || !in_array($vehicle->status, $allowedStatus)) {
             throw new FuelRequisitionException(ErrorMessages::getMessage("err_0004"), 1000);
@@ -877,5 +886,14 @@ class FuelRequisitionService
             $consumptionData->fuel_consumption ?? 0,
             $consumptionData->tank_capacity ?? 0
         ];
+    }
+
+    private function calculateVehicleConsumptionDegradation(
+        $vehicle,
+        int $vehicleAge,
+        mixed $fuel_consumption,
+        mixed $newEstimatedOdometer): int
+    {
+        return 100;
     }
 }

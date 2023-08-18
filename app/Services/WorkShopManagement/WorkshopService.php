@@ -16,10 +16,11 @@ use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Models\WorkShopManagement\JobCardHeader;
-use App\Models\WorkShopManagement\VehicleDefect;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkshopLabour;
+use App\Models\WorkShopManagement\WorkShopTable;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
+use App\Models\WorkShopManagement\WorkShopVehicleDefect;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\Workflow\WorkflowService;
@@ -192,15 +193,20 @@ class WorkshopService
         DB::beginTransaction();
 
         foreach ($request->get("items") as $defect) {
-            VehicleDefect::firstOrCreate(
+            $dbDefect = WorkShopTable::where('parent', '=', $defect["defectCategory"])
+                ->where('code', '=', $defect["defect"])
+                ->first();
+
+            WorkShopVehicleDefect::firstOrCreate(
                 [
                     "workshop_reference" => $request["workshop_reference"],
                     "veh_sys" => $defect["vehicleSystem"],
-                    //"job_card_no" => $request["job_card_no"],
                     "defect_category_code" => $defect["defectCategory"],
                     "defect_code" => $defect["defect"],
                 ],
                 [
+                    "defect_id" => $dbDefect->id,
+                    "defect_name" => $dbDefect->description,
                     "section_code" => $defect["workshopSection"],
                     "created_by" => auth()->user()->staff_no,
                     "date_def" => Carbon::parse($defect["date_def"])
