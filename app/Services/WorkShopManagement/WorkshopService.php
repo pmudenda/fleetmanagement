@@ -429,7 +429,8 @@ class WorkshopService
         }*/
 
         $assignmentRecord->mechanic = $request->validated('reassignTo');
-        //$assignmentRecord->mechanic = $request->validated('reassignTo');
+        $assignmentRecord->section = $request->validated('reassignmentDefectSection');
+        $assignmentRecord->updated_at = Carbon::now();
 
         $assignmentRecord->save();
 
