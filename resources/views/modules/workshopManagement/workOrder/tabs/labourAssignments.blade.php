@@ -7,11 +7,14 @@
                class="table dataTable table-row-dashed align-middle nowrap mt-10">
             <thead>
             <tr class="bg-success-subtle">
+                <th>
+                    <input title="Not Active Yet" class="checkbox" data-toggle="tooltip" type="checkbox">Select All
+                </th>
                 <th style="width: 16%;">Defect</th>
                 <th style="width: 16%;">Mechanic</th>
                 <th style="width: 15%;">Mechanic Name</th>
-                <th style="width: 20%;">Job Instruction</th>
                 <th>Section</th>
+                <th style="width: 20%;">Job Instruction</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -19,6 +22,9 @@
             @if($labour->isNotEmpty())
                 @foreach($labour as $labourItem)
                     <tr class="increment" data-record-id="{{$labourItem->id}}">
+                        <td>
+                            <input title="WIP" class="checkbox" data-toggle="tooltip" type="checkbox">
+                        </td>
                         <td>
                             <div class="d-none">
                                 <select name="vehicleSystem"
@@ -142,10 +148,10 @@
                             </td>
                             <td class="showNumber">
                                 <input type="text"
-                                        class="form-control form-control-sm mechanicStaffNumber"
-                                        autocapitalize="characters"
-                                        id="mechanic"
-                                        name="mechanic">
+                                       class="form-control form-control-sm mechanicStaffNumber"
+                                       autocapitalize="characters"
+                                       id="mechanic"
+                                       name="mechanic">
                                 </input>
                             </td>
                             <td>
