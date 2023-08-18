@@ -22,7 +22,7 @@
             </thead>
             <tbody>
             @if($labour->isNotEmpty())
-                {{dd($labourItem)}}
+                {{dd($labour)}}
                 @foreach($labour as $labourItem)
                     <tr class="increment">
                         <td>
