@@ -25,7 +25,8 @@ class JobCardTaskAssignment extends FormRequest
         return [
             'items.*.workshopSection' => 'required',
             'items.*.mechanic' => 'required',
-            'items.*.defect' => 'required',
+            'items.*.assignedDefect' => 'required',
+            'items.*.assignedDefectId' => 'required',
 
             'items.*.dateOfWork' => 'nullable',
             'items.*.shiftType' => 'nullable',

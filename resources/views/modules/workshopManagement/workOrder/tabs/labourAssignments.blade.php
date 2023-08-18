@@ -148,12 +148,17 @@
                             </td>
                             <td>
                                 {{$defect->defect_name}}
+                                <input name="assignedDefectId"
+                                       type="text"
+                                       style="display: none;"
+                                       required
+                                       value="{{$defect->defect_id}}"
+                                       class="form-control-sm defect"/>
                                 <input name="assignedDefect"
                                        type="text"
                                        style="display: none;"
                                        required
                                        value="{{$defect->defect_code}}"
-                                       disabled
                                        data-value="{{$defect->defect_code}}"
                                        class="form-control-sm defect"/>
                             </td>

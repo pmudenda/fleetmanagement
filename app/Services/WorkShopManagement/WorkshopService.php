@@ -382,7 +382,7 @@ class WorkshopService
                 'evaluation' => 'N',
                 'date_lab' => Carbon::createFromFormat('d/m/Y', $labourItem['dateOfWork']),
                 'mechanic' => $labourItem['mechanic'],
-                'def_no' => $labourItem['defect'],
+                'def_no' => $labourItem['assignedDefect'],
                 'created_by' => $user->staff_no,
             ]);
         }
