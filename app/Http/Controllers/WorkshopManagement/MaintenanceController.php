@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\VehicleDefectsRequest;
 use App\Http\Requests\WorkShopManagement\JobCardRequest;
 use App\Http\Requests\WorkShopManagement\JobCardTaskAssignment;
+use App\Http\Requests\WorkShopManagement\JobCardTaskReassignment;
 use App\Http\Requests\WorkShopManagement\SubmitJobCardToSupervisor;
 use App\Http\Requests\WorkShopManagement\WorkOrderClosure;
 use App\Http\Requests\WorkShopManagement\WorkshopMaterialResevationRequest;
