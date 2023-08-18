@@ -2033,60 +2033,60 @@
                         });
                     }
                 }
-
-                const itemType = document.querySelector('[name="itemType"]').value;
-                // check if item type has been selected
-                if (!itemType) {
-                    Swal.fire({
-                        text: "Select Item Type",
-                        icon: "warning",
-                        showCancelButton: false,
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok",
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-primary",
-                            cancelButton: "btn fw-bold btn-active-light-primary"
-                        }
-                    });
-                    return;
-                }
-
-                // if supplier has been selected for service and non-stock
-                if (document.querySelector('[name="stockItemCode"]').value === itemType) {
-                    // check that supplier is selected
-                    if (!document.querySelector('[name="workshop_code"]').value) {
-                        Swal.fire({
-                            text: "Select a Workshop",
-                            icon: "warning",
-                            showCancelButton: false,
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                                cancelButton: "btn fw-bold btn-active-light-primary"
-                            }
-                        });
-                        return;
-                    }
-                } else {
-                    // check that supplier is selected
-                    if (!document.querySelector('[name="supplier"]').value) {
-                        Swal.fire({
-                            text: "Select a Supplier",
-                            icon: "warning",
-                            showCancelButton: false,
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                                cancelButton: "btn fw-bold btn-active-light-primary"
-                            }
-                        });
-                        return;
-                    }
-                }
-
                 const $table = $('table#' + tableId);
+                if (tableId === "material_table" || tableId ===  "services_table"){
+                    const itemType = document.querySelector('[name="itemType"]').value;
+                    // check if item type has been selected
+                    if (!itemType) {
+                        Swal.fire({
+                            text: "Select Item Type",
+                            icon: "warning",
+                            showCancelButton: false,
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok",
+                            customClass: {
+                                confirmButton: "btn fw-bold btn-primary",
+                                cancelButton: "btn fw-bold btn-active-light-primary"
+                            }
+                        });
+                        return;
+                    }
+
+                    // if supplier has been selected for service and non-stock
+                    if (document.querySelector('[name="stockItemCode"]').value === itemType) {
+                        // check that supplier is selected
+                        if (!document.querySelector('[name="workshop_code"]').value) {
+                            Swal.fire({
+                                text: "Select a Workshop",
+                                icon: "warning",
+                                showCancelButton: false,
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok",
+                                customClass: {
+                                    confirmButton: "btn fw-bold btn-primary",
+                                    cancelButton: "btn fw-bold btn-active-light-primary"
+                                }
+                            });
+                            return;
+                        }
+                    } else {
+                        // check that supplier is selected
+                        if (!document.querySelector('[name="supplier"]').value) {
+                            Swal.fire({
+                                text: "Select a Supplier",
+                                icon: "warning",
+                                showCancelButton: false,
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok",
+                                customClass: {
+                                    confirmButton: "btn fw-bold btn-primary",
+                                    cancelButton: "btn fw-bold btn-active-light-primary"
+                                }
+                            });
+                            return;
+                        }
+                    }
+                }
 
                 if (tableId === "material_table") {
                     const vehicleReg = $table.find('tbody').find('[name="registration"]').val();
