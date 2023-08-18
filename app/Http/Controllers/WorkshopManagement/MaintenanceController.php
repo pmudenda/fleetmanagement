@@ -129,6 +129,52 @@ class MaintenanceController extends Controller
             );
     }
 
+    public function view(Request $request): View
+    {
+        if (!$request->hasValidSignature()) {
+            abort(401);
+        }
+
+        $step = $request->get("step") ?? 0;
+        $reference = $request->get("reference") ?? $request->get('ref');
+
+        list(
+            $repairTypes,
+            $accessories_checked_in,
+            $accessories,
+            $details,
+            $workshop_sections,
+            $defects,
+            $comments,
+            $officeDetails,
+            $materials,
+            $materialsHeader,
+            $services,
+            $labour
+            ) = $this->getFullJobCardDetails($reference);
+
+        $view_name = "modules.workshopManagement.workOrder.view";
+
+        return view($view_name)
+            ->with(
+                compact(
+                    "repairTypes",
+                    "accessories",
+                    "details",
+                    "accessories_checked_in",
+                    "step",
+                    "workshop_sections",
+                    "defects",
+                    "comments",
+                    "officeDetails",
+                    "materials",
+                    "materialsHeader",
+                    "services",
+                    'labour'
+                )
+            );
+    }
+
     public function start(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $view_name = 'modules.workshopManagement.workOrder.start';

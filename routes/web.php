@@ -191,6 +191,8 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('open/job-card', [MaintenanceController::class, 'create'])->name('show.job.card');
 
+            Route::get('view/job-card', [MaintenanceController::class, 'view'])->name('view.job.card');
+
             // front desk
             Route::get('vehicle/workshop/checkin', [MaintenanceController::class, 'start'])->name('vehicle.workshop.checkin');
 

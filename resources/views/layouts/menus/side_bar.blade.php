@@ -240,7 +240,7 @@
                                                 <a href="{{URL::signedRoute('vehicle.workshop.checkin')}}"
                                                    class="nav-link">
                                                     <i class="fas fa-plus nav-icon"></i>
-                                                    <p>New</p>
+                                                    <p>New (Job Card)</p>
                                                 </a>
                                             </li>
                                         @endcanany
@@ -251,7 +251,7 @@
                                                class="nav-link">
                                                 <i class="fas fa-list nav-icon"></i>
                                                 <p>
-                                                    In Workshop
+                                                    View (Job Card)
                                                 </p>
                                             </a>
                                         </li>
