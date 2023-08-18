@@ -14,6 +14,7 @@ use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VehicleDefectsRequest;
 use App\Http\Requests\WorkShopManagement\JobCardRequest;
+use App\Http\Requests\WorkShopManagement\SubmitJobCardToSupervisor;
 use App\Http\Requests\WorkShopManagement\WorkOrderClosure;
 use App\Http\Requests\WorkShopManagement\WorkshopMaterialResevationRequest;
 use App\Http\Requests\WorkShopManagement\WorkshopRequisitionRequest;
@@ -218,7 +219,7 @@ class MaintenanceController extends Controller
             );
     }
 
-    public function createTaskForWorkShopSupervisor(Request $request): ?JsonResponse
+    public function createTaskForWorkShopSupervisor(SubmitJobCardToSupervisor $request): ?JsonResponse
     {
         try {
             return $this->workshopRequisitionService->createTaskForWorkShopSupervisor($request);
