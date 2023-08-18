@@ -4,7 +4,7 @@
         <table id="labour_table"
                data-model-name="SummaryHeader"
                data-form-url="{{route("save.job.assignment")}}"
-               class="table dataTable table-row-dashed align-middle gs-0 nowrap mt-10">
+               class="table dataTable table-row-dashed align-middle nowrap mt-10">
             <thead>
             <tr class="bg-success-subtle">
                 <th>Defect</th>
