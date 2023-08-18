@@ -500,71 +500,23 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        <i class="fa fa-pencil-square-o"></i> eSignature
+                        <i class="fa fa-pencil-square-o"></i> Task Reassignment
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{route('sign.assessment')}}" name="eSignDocument">
-                    <input type="hidden" name="reference" value="{{$details->job_card_no ?? 0}}">
+                    <input type="hidden" name="reference" value="">
                     <div class="modal-body">
                         <div>
-                            <div id="approvalDialogSign">
-                                <div style="float:left;">
-                                    <span id="spanMessage" style="color: #f00;" class="errorMessage"></span>
-                                    <label id="newApproveLblMessage" class="mediumMessage"></label>
-                                </div>
-                                <div style="float:right; padding-left:30px; display: none;">
-                                    <input class="small" type="checkbox" id="approveChkSignAs"/>
-                                    Sign As Different User...
-                                </div>
-                                <div class="signAsElement">
-                                    <label class="app-label field-required app-field-null">Login ID</label>
-                                    <div>
-                                        <input class="zqEditMode form-control"
-                                               name="loginId"
-                                               type="text"
-                                               required
-                                               id="loginIdInput"
-                                               size="25" maxlength="25"/><br/>
-                                    </div>
-                                </div>
-                                {{-- <div >
-                                     <label class="app-label field-required app-field-null">Login Password</label>
-                                     <div>
-                                         <input type="password" id="loginPasswordInput"
-                                                class="form-control"
-                                                size="25" maxlength="25"/><br/>
-                                     </div>
-                                 </div>--}}
-                                <div class="signAsElement">
-                                    <label class="app-label field-required app-field-null">eSignature Password</label>
-                                    <div>
-                                        <input type="password"
-                                               required
-                                               name="password"
-                                               class="form-control"
-                                               id="eSignaturePasswordInput" size="25" maxlength="25"/>
-                                    </div>
-                                </div>
+                            <div id="">
                                 <div style="clear:both;">
                                     <div class="mt-10">
                                         <div class="row">
-                                            <div class="col-1">
-                                                <input
-                                                        required
-                                                        id="acceptance"
-                                                        name="acceptance"
-                                                        type="checkbox"
-                                                        class="checkbox">
-                                            </div>
                                             <div class="col-10">
-                                                <p id="newApproval_Remarks">
-                                                    I hereby, acknowledge that the assessment has been done truthfully
-                                                    and fairly
-                                                </p>
+                                                <textarea id="reassignmentJustification"
+                                                        name="reassignmentJustification"></textarea>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -583,11 +535,14 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button id="btnSign" type="submit"
+                        <button type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                        <button id="saveReassignment"
+                                type="submit"
                                 class="btn btn-sm btn-success mr-3">
                             <i class="fas fa-save"></i>
-                            Sign
+                            Save
                         </button>
                     </div>
                 </form>
