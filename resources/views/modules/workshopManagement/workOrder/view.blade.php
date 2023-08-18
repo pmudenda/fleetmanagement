@@ -910,12 +910,1363 @@
                         <h1>LABOUR & ASSIGNMENTS</h1>
                         <section>
                             {{-- @include('modules.workshopManagement.workOrder.tabs.labour')--}}
-                            @include('modules.workshopManagement.workOrder.tabs.labourAssignments')
+                           {{-- @include('modules.workshopManagement.workOrder.tabs.labourAssignments')--}}
+                            <div class="row pt-5">
+                                <div class="table-responsive">
+                                    <table id="labour_table"
+                                           data-model-name="SummaryHeader"
+                                           data-form-url="{{route("save.job.assignment")}}"
+                                           class="table dataTable table-row-dashed align-middle gs-0 nowrap mt-10">
+                                        <thead>
+                                        <tr class="bg-success-subtle">
+                                            <th>Defect</th>
+                                            <th style="width: 6%;">Mechanic</th>
+                                            <th style="width: 15%;"></th>
+                                            <th>Section</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @if($labour->isNotEmpty())
+                                            @foreach($labour as $labourItem)
+                                                <tr class="increment" data-record-id="{{$labourItem->id}}">
+                                                    <td>
+                                                        {{--<div class="d-none">
+                                                            <select name="vehicleSystem"
+                                                                    style="display: none;"
+                                                                    required
+                                                                    disabled
+                                                                    data-value="{{$defect->veh_sys ?? ''}}"
+                                                                    class="form-select form-select-sm select_2_control vehicleSystem">
+                                                                <option></option>
+                                                            </select>
+                                                            <select name="defectCategory"
+                                                                    required
+                                                                    style="display: none;"
+                                                                    disabled
+                                                                    data-value="{{$defect->defect_category_code ?? ''}}"
+                                                                    class="form-select form-select-sm select_2_control defectCategory">
+                                                                <option></option>
+                                                            </select>
+                                                        </div>--}}
+                                                        {{$labourItem->defect_name}}
+                                                        <input name="defect" type="hidden"
+                                                               required
+                                                               disabled
+                                                               data-value="{{$labourItem->defect_code}}"
+                                                               class="form-control-sm defect"/>
+                                                        {{--<select name="defect"
+                                                                required
+                                                                disabled
+                                                                data-value="{{$labourItem->def_no ?? ''}}"
+                                                                class="form-select form-select-sm select_2_control defect">
+                                                            <option></option>
+                                                        </select>--}}
+                                                    </td>
+                                                    <td class="showNumber">
+                                                        <input type="text"
+                                                               readonly
+                                                               data-value="{{$labourItem->mechanic}}"
+                                                               value="{{$labourItem->mechanic ?? ''}}"
+                                                               class="form-control form-control-sm"
+                                                               autocapitalize="characters"
+                                                               id="mechanic"
+                                                               name="mechanic"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"
+                                                               class="form-control form-control-sm"
+                                                               id="mechanicName"
+                                                               name="mechanicName"
+                                                               readonly/>
+                                                    </td>
+
+                                                    {{-- <td>
+                                                         <div class="input-group">
+                                                             <input type="text"
+                                                                    required
+                                                                    readonly
+                                                                    name="dateOfWork"
+                                                                    value="{{$labourItem->date_lab ?? ''}}"
+                                                                    id="dateOfWork"
+                                                                    class="form-control"
+                                                             />
+                                                             <div class="input-group-append">
+                                                                 <div type="button"
+                                                                      data-action="openDatePicker"
+                                                                      class="input-group-text ui-datepicker-trigger">
+                                                                     <i data-action="openDatePicker"
+                                                                        class="fa fa-calendar"></i>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                     </td>--}}
+
+                                                    <td>
+                                                        <select name="workshopSection"
+                                                                required
+                                                                class="form-select form-select-sm workshopSection">
+                                                            <option></option>
+                                                            @foreach($workshop_sections as $workshop_section)
+                                                                @if($labourItem->section == $workshop_section->code)
+                                                                    <option
+                                                                            selected
+                                                                            value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                                @else
+                                                                    <option
+                                                                            value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+
+                                                    {{--<td>
+                                                        <input type="hidden"
+                                                               id="postCode"
+                                                               name="postCode"
+                                                               required
+                                                               class=""/>
+                                                        <select name="shiftType"
+                                                                data-value="{{$labourItem->type_of_hour ?? ''}}"
+                                                                disabled
+                                                                required
+                                                                class="form-select form-select-sm shiftType">
+                                                            <option selected value="" disabled></option>
+                                                            <option value="1">Normal Shift</option>
+                                                            <option value="2">Normal Over-Time</option>
+                                                            <option value="4">Holiday Over-Time</option>
+                                                        </select>
+                                                    </td>--}}
+                                                    {{-- <td>
+                                                         <input
+                                                                 readonly
+                                                                 value="{{$labourItem->hours_worked ?? ''}}"
+                                                                 id="hoursWorked"
+                                                                 readonly
+                                                                 name="hoursWorked"
+                                                                 required
+                                                                 class="form-control form-control-sm"/>
+                                                     </td>--}}
+                                                    {{--<td>
+                                                        <input
+                                                                id="ratePerHour"
+                                                                name="ratePerHour"
+                                                                required
+                                                                value="{{$labourItem->rate}}"
+                                                                readonly
+                                                                class="form-control form-control-sm"/>
+                                                    </td>--}}
+
+                                                    <td>
+                                                        <button type="button"
+                                                                data-laour-item="{{json_encode($labourItem)}}"
+                                                                style="background: #f59d33; color: #fff;"
+                                                                class="btn btn-sm btn-success reassignMechanic pull-right">
+                                                            <i class="fa fa-history"></i>
+                                                            Reassign
+                                                        </button>
+                                                    </td>
+
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            @if($defects && $defects->isNotEmpty())
+                                                @foreach($defects as $defect)
+                                                    <tr class="increment">
+                                                        <td>
+                                                            <div class="d-none">
+                                                                <select name="vehicleSystem"
+                                                                        style="display: none;"
+                                                                        required
+                                                                        disabled
+                                                                        data-value="{{$defect->veh_sys}}"
+                                                                        class="form-select form-select-sm select_2_control vehicleSystem">
+                                                                    <option></option>
+                                                                </select>
+                                                                <select name="defectCategory"
+                                                                        required
+                                                                        style="display: none;"
+                                                                        disabled
+                                                                        data-value="{{$defect->defect_category_code}}"
+                                                                        class="form-select form-select-sm select_2_control defectCategory">
+                                                                    <option></option>
+                                                                </select>
+                                                            </div>
+                                                            {{--<select name="defect"
+                                                                    required
+                                                                    disabled
+                                                                    data-value="{{$defect->defect_code}}"
+                                                                    class="form-select form-select-sm select_2_control defect">
+                                                                <option></option>
+                                                            </select>--}}
+                                                            {{$defect->defect_name}}
+                                                            <input name="defect" type="hidden"
+                                                                   required
+                                                                   disabled
+                                                                   data-value="{{$defect->defect_code}}"
+                                                                   class="form-control-sm defect"/>
+                                                        </td>
+                                                        <td class="showNumber">
+                                                            <input type="text"
+                                                                   class="form-control form-control-sm mechanicStaffNumber"
+                                                                   autocapitalize="characters"
+                                                                   id="mechanic"
+                                                                   name="mechanic"/>
+                                                            {{--<div class="input-group">
+                                                                <div class="input-group-addon">
+                                                                    <button type="button" id="mechanicSearchBtn"
+                                                                            name="mechanicSearchBtn"
+                                                                            class="btn btn-success btn-sm border-radius-0">
+                                                                        <i class="fas fa-search"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>--}}
+                                                        </td>
+                                                        <td>
+                                                            <input type="text"
+                                                                   class="form-control form-control-sm"
+                                                                   id="mechanicName"
+                                                                   name="mechanicName"
+                                                                   readonly/>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group date">
+                                                                <input type="datetime-local"
+                                                                       required
+                                                                       name="dateOfWork"
+                                                                       id="dateOfWork"
+                                                                       class="form-control datePicker"
+                                                                />
+                                                                <div class="input-group-append"
+                                                                     data-target="#dateIssued"
+                                                                     data-action="openDatePicker">
+                                                                    <div type="button"
+                                                                         data-action="openDatePicker"
+                                                                         class="input-group-text ui-datepicker-trigger">
+                                                                        <i data-action="openDatePicker"
+                                                                           class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <select name="workshopSection"
+                                                                    required
+                                                                    class="form-select form-select-sm workshopSection">
+                                                                <option></option>
+                                                                @foreach($workshop_sections as $workshop_section)
+                                                                    @if($defect->section_code == $workshop_section->code)
+                                                                        <option
+                                                                                selected
+                                                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                                    @else
+                                                                        <option
+                                                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                                    @endif
+                                                                @endforeach
+                                                            </select>
+                                                        </td>
+                                                        {{--<td>
+                                                            <input type="hidden"
+                                                                   id="postCode"
+                                                                   name="postCode"
+                                                                   required
+                                                                   class=""/>
+                                                            <select name="shiftType"
+                                                                    disabled
+                                                                    required
+                                                                    class="form-select form-select-sm shiftType">
+                                                                <option selected value="" disabled></option>
+                                                                <option value="1">Normal Shift</option>
+                                                                <option value="2">Normal Over-Time</option>
+                                                                <option value="4">Holiday Over-Time</option>
+                                                            </select>
+                                                        </td>--}}
+                                                        {{-- <td>
+                                                             <input
+                                                                     readonly
+                                                                     id="hoursWorked"
+                                                                     name="hoursWorked"
+                                                                     required
+                                                                     class="form-control form-control-sm"/>
+                                                         </td>--}}
+                                                        {{--<td>
+                                                            <input
+                                                                    id="ratePerHour"
+                                                                    name="ratePerHour"
+                                                                    required
+                                                                    readonly
+                                                                    class="form-control form-control-sm"/>
+                                                        </td>--}}
+
+                                                        <td>
+                                                            <button type="button"
+                                                                    style="background: #f59d33; color: #fff;"
+                                                                    class="btn btn-sm btn-success saveAssignment pull-right">
+                                                                <i class="fa fa-history"></i>
+                                                                Save Assignment
+                                                            </button>
+                                                        </td>
+
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+                                        @endif
+                                        </tbody>
+                                    </table>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                   for="remarks">
+                                                Comment:
+                                            </label>
+                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
+                                                @if(!empty($taskHeader) && !empty($taskHeader->long_description))
+                                                    <textarea type="text"
+                                                              id="closureRemarks"
+                                                              minlength="20"
+                                                              readonly
+                                                              maxlength="255"
+                                                              required
+                                                              name="closureRemarks"
+                                                              style="height: 129px;"
+                                                              class="form-control comments form-control-sm">{{$taskHeader->long_description ??''}}</textarea>
+                                                @else
+                                                    @if($details->status === StatusHelper::pendingApproval())
+                                                        <textarea type="text"
+                                                                  id="closureRemarks"
+                                                                  minlength="20"
+                                                                  maxlength="255"
+                                                                  readonly
+                                                                  required
+                                                                  name="closureRemarks"
+                                                                  style="height: 129px;"
+                                                                  class="form-control comments form-control-sm"></textarea>
+                                                    @else
+                                                        <textarea type="text"
+                                                                  id="closureRemarks"
+                                                                  minlength="20"
+                                                                  maxlength="255"
+                                                                  required
+                                                                  name="closureRemarks"
+                                                                  style="height: 129px;"
+                                                                  class="form-control comments form-control-sm"></textarea>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    {{-- <div class="col-12 text-right">
+                                         @if($details->status == StatusHelper::new())
+                                             <div>
+
+                                             </div>
+                                         @endif
+                                     </div>--}}
+                                </div>
+                            </div>
                         </section>
 
                         <h1>SPARES & SERVICES</h1>
                         <section>
-                            @include('modules.workshopManagement.workOrder.tabs.partsSelection')
+                            {{--@include('modules.workshopManagement.workOrder.tabs.partsSelection')--}}
+                            <div class="container-fluid pl-0">
+                                <input type="hidden"
+                                       id="suppliersList"
+                                       value="{{route('suppliers.list')}}"/>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item" style="list-style: none; width: 178px; display: none;">
+                                        <a class="nav-link" data-toggle="tab" href="#accessories" role="tab">Accessories</a>
+                                    </li>
+                                    <li class="nav-item" style="list-style: none; width: 178px;">
+                                        <a class="nav-link active" data-toggle="tab" href="#defects" role="tab">Defects</a>
+                                    </li>
+                                    <li class="nav-item" style="list-style: none; width: 178px;">
+                                        <a class="nav-link" data-toggle="tab" href="#materials" role="tab">Spares</a>
+                                    </li>
+                                    <li class="nav-item" style="list-style: none; width: 178px;">
+                                        <a class="nav-link" data-toggle="tab" href="#services" role="tab">Services</a>
+                                    </li>
+                                    <li class="nav-item" style="list-style: none; width: 178px;">
+                                        <a class="nav-link" data-toggle="tab" href="#labour" role="tab">Labour</a>
+                                    </li>
+                                </ul><!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div class="tab-pane" id="accessories" role="tabpanel">
+                                        <div class="container-fluid pl-0 mt-5">
+                                            <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}"
+                                                 data-model-name="Accessories">
+                                                <input type="hidden" value="{{$details->job_card_no ?? 0}}"
+                                                       name="job_card_voucher"/>
+                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                    <div class="row">
+
+                                                        <div class="col">
+                                                            <table
+                                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                                <thead>
+                                                                <tr class="bg-dark-subtle">
+                                                                    <th class="pl-2">Item</th>
+                                                                    <th>Present</th>
+                                                                    <th class="pr-2">Not Present</th>
+                                                                    <th class="pr-2">Remarks</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                @foreach($accessories as $key => $accessory)
+                                                                    @if(($key%2) == 0)
+                                                                        <tr>
+                                                                            <td class="pl-2"
+                                                                                style="width: 35%;">{{$accessory->name}}</td>
+                                                                            <td><input type="radio" value="YES" required
+                                                                                       name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                                            </td>
+                                                                            <td><input type="radio" value="NO" required
+                                                                                       name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                                            </td>
+                                                                            <td style="width: 45%;">
+                                                                                <input typeof="text"
+                                                                                       name="comment_{{str_replace(' ','', $accessory->code)}}"
+                                                                                       class="form-control form-control-sm"/>
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endif
+                                                                @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="col">
+                                                            <table
+                                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                                <thead>
+                                                                <tr class="bg-dark-subtle">
+                                                                    <th class="pl-2">Item</th>
+                                                                    <th>Present</th>
+                                                                    <th class="pr-2">Not Present</th>
+                                                                    <th class="pr-2">Remarks</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                @foreach($accessories as $key => $accessory)
+                                                                    @if(($key%2) != 0)
+                                                                        <tr>
+                                                                            <td class="pl-2" style="width: 35%;">
+                                                                                {{$accessory->name}}
+                                                                            </td>
+                                                                            <td><input type="radio" required value="YES"
+                                                                                       name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                                            </td>
+                                                                            <td><input type="radio" required value="NO"
+                                                                                       name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                                            </td>
+                                                                            <td style="width: 45%;">
+                                                                                <input typeof="text"
+                                                                                       name="comment_{{str_replace(' ','', $accessory->code)}}"
+                                                                                       class="form-control form-control-sm">
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endif
+                                                                @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane active" id="defects" role="tabpanel">
+                                        <div class="container-fluid pl-0 mt-5">
+                                            <div class="row">
+                                                <input type="hidden" value="{{$details->job_card_no ?? 0}}"
+                                                       name="job_card_voucher"/>
+                                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                                    <div class="row">
+                                                        <div class="table-responsive" style="max-height:500px;">
+                                                            <table
+                                                                    data-model-name="Defects"
+                                                                    class="table table-row-dashed align-middle gs-0">
+                                                                <thead>
+                                                                <tr class="bg-dark-subtle">
+                                                                    <th style="width: 25%;" class="pl-2">System</th>
+                                                                    <th style="width: 25%;">Category</th>
+                                                                    <th style="width: 25%;" class="pr-2">Defect</th>
+                                                                    <th style="width: 25%;" class="pr-2">Service Section
+                                                                    </th>
+                                                                    <th style="width: 25%;" class="pr-2">Date/Time
+                                                                        Detected
+                                                                    </th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                @if($defects && $defects->isNotEmpty())
+                                                                    @foreach($defects as $defect)
+                                                                        <tr class="increment">
+                                                                            <td class="showNumber">
+                                                                                <select name="vehicleSystem"
+                                                                                        required
+                                                                                        disabled
+                                                                                        data-value="{{$defect->veh_sys}}"
+                                                                                        class="form-select form-select-sm select_2_control vehicleSystem">
+                                                                                    <option></option>
+                                                                                </select>
+                                                                            </td>
+                                                                            <td>
+                                                                                <select name="defectCategory"
+                                                                                        required
+                                                                                        disabled
+                                                                                        data-value="{{$defect->defect_category_code}}"
+                                                                                        class="form-select form-select-sm select_2_control defectCategory">
+                                                                                    <option></option>
+                                                                                </select>
+                                                                            </td>
+                                                                            <td>
+                                                                                <select name="defect"
+                                                                                        required
+                                                                                        disabled
+                                                                                        data-value="{{$defect->defect_code}}"
+                                                                                        class="form-select form-select-sm select_2_control defect">
+                                                                                    <option></option>
+                                                                                </select>
+                                                                            </td>
+                                                                            <td>
+                                                                                <select name="workshopSection"
+                                                                                        disabled
+                                                                                        required
+                                                                                        class="form-select form-select-sm workshopSection">
+                                                                                    <option></option>
+                                                                                    @foreach($workshop_sections as $workshop_section)
+                                                                                        @if($defect->section_code == $workshop_section->code)
+                                                                                            <option
+                                                                                                    selected
+                                                                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                                                        @else
+                                                                                            <option
+                                                                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                </select>
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <input name="date_def"
+                                                                                       readonly="readonly"
+                                                                                       value="@if($defect){{date('Y-m-d',strtotime(Carbon::parse($defect->date_def)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
+                                                                                       class="tabledit-input form-control input-sm input-number"
+                                                                                       type="text">
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                @endif
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row pl-2">
+                                                        @if($comments->isNotEmpty() && !empty($comments->where('type','=','DEF')->first()))
+                                                            <div class="form-group">
+                                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                                                       for="remarks">
+                                                                    Comments (optional):
+                                                                </label>
+                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
+                                                                </div>
+                                                            </div>
+                                                            <textarea type="text"
+                                                                      id="remarks"
+                                                                      readonly
+                                                                      name="remarks"
+                                                                      class="form-control form-control-sm">{{$comments->where('type','=','DEF')->first()->remarks ??''}}</textarea>
+                                                        @endif
+                                                    </div>
+                                                    <table class="mt-10">
+                                                        <tbody>
+                                                        <tr>
+                                                            <td class="text-right">
+                                                                <strong id="srfTotal" class="input-number">Prepared
+                                                                    By:</strong>
+                                                            </td>
+                                                            <td>
+                                                                <b id="section" class="input-number">RECEPTION</b>
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="materials" role="tabpanel">
+                                        <div class="row pt-5">
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <input type="hidden" value="{{$materialsHeader->id ?? 0 }}"
+                                                                       name="materialHeaderId">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                            for="staff_no">Item Type:
+                                                                    </label>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                                        @if(!empty($materialsHeader))
+                                                                            <select
+                                                                                    data-value="{{$materialsHeader->item_type_code ?? ''}}"
+                                                                                    readonly="readonly"
+                                                                                    class="form-select form-select-sm"
+                                                                                    name="itemType"
+                                                                                    id="itemType">
+                                                                                <option></option>
+                                                                                <option
+                                                                                        @if($materialsHeader->item_type_code == RequisitionItemTypes::StockItemCode) selected
+                                                                                        @endif value="01">STOCK ITEM
+                                                                                </option>
+                                                                                <option
+                                                                                        @if($materialsHeader->item_type_code == RequisitionItemTypes::NonStockItemCode) selected
+                                                                                        @endif value="02">NON STOCK ITEM
+                                                                                </option>
+                                                                            </select>
+                                                                        @endif
+
+                                                                        <input type="hidden"
+                                                                               value="{{$details->job_card_no ?? 0}}"
+                                                                               name="job_card_number"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                           for="staff_no">
+                                                                        Purchase Office:
+                                                                    </label>
+                                                                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                                        <select
+                                                                                data-value=""
+                                                                                required
+                                                                                class="form-select form-select-sm"
+                                                                                name="purchase_office"
+                                                                                id="purchase_office">
+                                                                            <option value="{{$officeDetails->purchase_office_code ?? ''}}">
+                                                                                {{$officeDetails->purchase_office ?? ''}}
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <div class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        <div class="control-input">
+                                                                            <div class="link-field ui-front"
+                                                                                 style="position: relative;">
+                                                                                <label for="workshop_code"
+                                                                                       class="form-check-inline">
+                                                                                    Workshop:
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                                        <input type="text"
+                                                                               readonly
+                                                                               value="{{$officeDetails->workshop_name ?? 0}}"
+                                                                               class="form-control form-control-sm"/>
+                                                                        <input type="hidden"
+                                                                               name="workshop_code"
+                                                                               value="{{$officeDetails->workshop_code ?? 0}}"/>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <label class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                                           for="job_card_no">
+                                                                        Request Date:
+                                                                    </label>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                                        @if($details)
+                                                                            <input type="text"
+                                                                                   class="form-control form-control-sm"
+                                                                                   id="request_date"
+                                                                                   readonly
+                                                                                   value="{{Carbon::parse($details->date_in)->format('d/m/Y')}}"
+                                                                                   name="request_date"
+                                                                                   required>
+                                                                        @else
+                                                                            <input type="text"
+                                                                                   class="form-control form-control-sm"
+                                                                                   id="request_date"
+                                                                                   readonly
+                                                                                   value="{{Carbon::parse(Carbon::now())->format('d/m/Y')}}"
+                                                                                   name="request_date"
+                                                                                   required>
+                                                                        @endif
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div id="storeContainer"
+                                                                     class="form-group row">
+                                                                    <label
+                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                            for="staff_name">
+                                                                        Store:
+                                                                    </label>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                                        <input type="hidden"
+                                                                               id="store_code"
+                                                                               value="{{$officeDetails->store_code ?? ''}}"
+                                                                               name="store_code"/>
+                                                                        <input type="text"
+                                                                               class="form-control form-control-sm"
+                                                                               readonly
+                                                                               id="store_name"
+                                                                               value="{{$officeDetails->store_code ?? ''}}:{{$officeDetails->store_name ?? ''}}"
+                                                                               placeholder=""
+                                                                               name="store_name"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div id="supplierContainer" style="display: none;"
+                                                                     class="form-group row">
+                                                                    <div
+                                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        <div class="control-input">
+                                                                            <div class="link-field ui-front"
+                                                                                 style="position: relative;">
+                                                                                <label class="form-check-inline field-required">
+                                                                                    Suppliers
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                                        <select
+                                                                                data-value="{{$materialsHeader->supplier_code ?? ''}}"
+                                                                                class="form-select form-select-sm"
+                                                                                name="supplier"
+                                                                                autocomplete="off"
+                                                                                id="supplier">
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                            for="staff_no">Collection Date:
+                                                                    </label>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                                        @if($materialsHeader)
+                                                                            <input type="date"
+                                                                                   readonly
+                                                                                   class="form-control form-control-sm"
+                                                                                   id="date_expected"
+                                                                                   min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                                                   value="{{date('Y-m-d', strtotime(Carbon::parse($materialsHeader->collection_date)->format('Y-m-d')))}}"
+                                                                                   name="date_expected"
+                                                                            />
+
+                                                                        @else
+                                                                            <input type="date"
+                                                                                   readonly
+                                                                                   class="form-control form-control-sm"
+                                                                                   id="date_expected"
+                                                                                   min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                                                   value="{{date('Y-m-d', strtotime(Carbon::now()->addDays(7)))}}"
+                                                                                   name="date_expected"
+                                                                            />
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr style="color: orange;"/>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 px-0">
+                                                <div class="row">
+                                                    <div style="max-height:500px; overflow-x: auto;">
+                                                        <table id="material_table"
+                                                               data-form-url="{{route("process.requisition")}}"
+                                                               data-model-name="PartsHeader"
+                                                               class="table dataTable table-row-dashed align-middle gs-0 nowrap">
+                                                            <thead>
+                                                            <tr class="bg-success-subtle">
+                                                                <th style="width: 6%;" class="pl-2">Reg. No</th>
+                                                                <th style="width: 25%;">Article</th>
+                                                                <th>Article Code</th>
+                                                                <th style="width: 25%;">Tech. Specification</th>
+                                                                <th style="width: 4%; max-width: 4%;">Qty.</th>
+                                                                <th>UOM</th>
+                                                                <th>Unit Price</th>
+                                                                <th>Total</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            @if($materials && $materials->isNotEmpty())
+                                                                @foreach($materials as $material)
+                                                                    <tr class="increment">
+                                                                        <td class="showNumber">
+                                                                            <input
+                                                                                    readonly
+                                                                                    name="registration"
+                                                                                    required
+                                                                                    value="{{$details->reg_no ?? ''}}"
+                                                                                    class="form-control form-control-sm registration"/>
+                                                                        </td>
+                                                                        <td>
+                                                                            <select readonly
+                                                                                    name="articles"
+                                                                                    required
+                                                                                    data-text="{{$material->material_code ?? ''}} : {{$material->specifications ?? ''}}"
+                                                                                    data-value="{{$material->material_code ?? ''}}"
+                                                                                    class="form-control form-control-sm DropDownList">
+                                                                                <option
+                                                                                        value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}
+                                                                                    : {{$material->specifications ?? ''}}</option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input
+                                                                                    name="articleCode"
+                                                                                    value="{{$material->material_code ?? ''}}"
+                                                                                    required
+                                                                                    readonly
+                                                                                    class="form-control form-control-sm articleCode"/>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="text"
+                                                                                   maxlength="300"
+                                                                                   name="technical_specification"
+                                                                                   required
+                                                                                   readonly
+                                                                                   value="{{$material->specifications ?? ''}}"
+                                                                                   class="form-control form-control-sm technical_specification"/>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <input type="text"
+                                                                                   min="1"
+                                                                                   name="quantity"
+                                                                                   required
+                                                                                   readonly
+                                                                                   value="{{$material->quantity ?? ''}}"
+                                                                                   class="form-control form-control-sm quantity number_input"/>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <input
+                                                                                    name="unit_of_measure"
+                                                                                    required
+                                                                                    value="{{$material->unit_of_measure ?? ''}}"
+                                                                                    readonly
+                                                                                    class="form-control form-control-sm unit_of_measure"/>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <input name="unit_price"
+                                                                                   required
+                                                                                   value="{{$material->price ?? ''}}"
+                                                                                   readonly
+                                                                                   class="form-control form-control-sm unit_price"/>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <span id="total_price">{{$material->amount ?? ''}}</span>
+                                                                            <input name="total_price"
+                                                                                   type="hidden"
+                                                                                   required
+                                                                                   value="{{$material->amount ?? ''}}"
+                                                                                   readonly
+                                                                                   class="form-control form-control-sm total_price"/>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            @endif
+                                                            </tbody>
+                                                            <tfoot>
+                                                            <tr>
+                                                                <td class="pl-2"></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td class="text-right"><strong>TOTAL</strong></td>
+                                                                <td class="text-right"><b id="quantityTotal"
+                                                                                          class="input-number">0</b></td>
+                                                                <td></td>
+                                                                <td class="text-right"><strong>TOTAL</strong></td>
+                                                                <td class="text-right"><b id="itemsTotal"
+                                                                                          class="input-number">0.00</b></td>
+                                                                <td></td>
+                                                            </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-10"></div>
+                                                    <div class="col-2">
+                                                        <div class="row">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                                for="remarks">
+                                                            Comments <small>Will be used as justification for
+                                                                Requisition</small>:
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
+                                                            @if(!empty($comments))
+                                                                <textarea type="text"
+                                                                          required
+                                                                          readonly
+                                                                          class="form-control comments form-control-sm">{{$comments->where('type','=','REQ')->first()->remarks ??''}}</textarea>
+                                                            @else
+                                                                <textarea type="text"
+                                                                          required
+                                                                          readonly
+                                                                          class="form-control comments form-control-sm"></textarea>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="services" role="tabpanel">
+                                        <div class="row pt-5">
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <input type="hidden" value="{{$materialsHeader->id ?? 0 }}"
+                                                                       name="materialHeaderId">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                            for="staff_no">Item Type:
+                                                                    </label>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                                        @if(!empty($materialsHeader))
+                                                                            <select
+                                                                                    data-value="{{$materialsHeader->item_type_code ?? ''}}"
+                                                                                    readonly="readonly"
+                                                                                    class="form-select form-select-sm"
+                                                                                    name="serviceItemType"
+                                                                                    id="serviceItemType">
+                                                                                <option value="{{RequisitionItemTypes::ServiceItemCode}}">
+                                                                                    SERVICE
+                                                                                </option>
+                                                                            </select>
+                                                                        @endif
+
+                                                                        <input type="hidden"
+                                                                               value="{{$details->job_card_no ?? 0}}"
+                                                                               name="job_card_number"/>
+                                                                        <input type="hidden"
+                                                                               value="{{RequisitionItemTypes::StockItemCode}}"
+                                                                               id="stockItemCode"
+                                                                               name="stockItemCode"/>
+                                                                        <input type="hidden"
+                                                                               value="{{RequisitionItemTypes::ServiceItemCode}}"
+                                                                               id="serviceItemCode" name="serviceItemCode"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                            for="staff_no">Purchase Office:
+                                                                    </label>
+                                                                    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                                                        <select
+                                                                                data-value=""
+                                                                                required
+                                                                                class="form-select form-select-sm"
+                                                                                name="purchase_office"
+                                                                                id="purchase_office">
+                                                                            <option value="{{$officeDetails->purchase_office_code ?? ''}}">
+                                                                                {{$officeDetails->purchase_office ?? ''}}
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <div
+                                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        <div class="control-input">
+                                                                            <div class="link-field ui-front"
+                                                                                 style="position: relative;">
+                                                                                <label for="workshop_code"
+                                                                                       class="form-check-inline field-required">
+                                                                                    Workshop:
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                                        <input type="text"
+                                                                               readonly
+                                                                               value="{{$officeDetails->workshop_name ?? 0}}"
+                                                                               class="form-control form-control-sm"/>
+                                                                        <input type="hidden"
+                                                                               name="workshop_code"
+                                                                               value="{{$officeDetails->workshop_code ?? 0}}"/>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                                            for="job_card_no">
+                                                                        Request Date:
+                                                                    </label>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                                        @if($details)
+                                                                            <input type="text"
+                                                                                   class="form-control form-control-sm"
+                                                                                   id="request_date"
+                                                                                   readonly
+                                                                                   value="{{Carbon::parse($details->date_in)->format('d/m/Y')}}"
+                                                                                   name="request_date"
+                                                                                   required>
+                                                                        @else
+                                                                            <input type="text"
+                                                                                   class="form-control form-control-sm"
+                                                                                   id="request_date"
+                                                                                   readonly
+                                                                                   value="{{Carbon::parse(Carbon::now())->format('d/m/Y')}}"
+                                                                                   name="request_date"
+                                                                                   required>
+                                                                        @endif
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+
+                                                                <div id="supplierContainer" class="form-group row">
+                                                                    <div
+                                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        <div class="control-input">
+                                                                            <div class="link-field ui-front"
+                                                                                 style="position: relative;">
+                                                                                <label class="form-check-inline field-required">
+                                                                                    Suppliers
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                                        <select
+                                                                                data-value="{{$materialsHeader->supplier_code ?? ''}}"
+                                                                                class="form-select form-select-sm"
+                                                                                name="service_supplier"
+                                                                                autocomplete="off"
+                                                                                id="service_supplier">
+                                                                        </select>
+                                                                        @if($services && $services->isNotEmpty())
+                                                                            <input type="hidden" class="form-control"
+                                                                                   value="{{$services[0]->supplier_code}}">
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                                        <div class="container-fluid pl-0">
+                                                            <div class="row">
+                                                                <div class="form-group row">
+                                                                    <label
+                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                            for="staff_no">Collection Date:
+                                                                    </label>
+                                                                    <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                                        @if($materialsHeader)
+                                                                            <input type="date"
+                                                                                   readonly
+                                                                                   class="form-control form-control-sm"
+                                                                                   id="date_expected"
+                                                                                   min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                                                   value="{{date('Y-m-d', strtotime(Carbon::parse($materialsHeader->collection_date)->format('Y-m-d')))}}"
+                                                                                   name="date_expected"
+                                                                            />
+
+                                                                        @else
+                                                                            <input type="date"
+                                                                                   readonly
+                                                                                   class="form-control form-control-sm"
+                                                                                   id="date_expected"
+                                                                                   min="{{date('Y-m-d', strtotime(Carbon::now()->addDays(7)))}}"
+                                                                                   value="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                                                                   name="date_expected"
+                                                                            />
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr style="color: orange;"/>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 px-0">
+                                                <div class="row">
+                                                    <div style="max-height:500px; overflow-x: auto;">
+                                                        <table id="services_table"
+                                                               data-model-name="ServicesHeader"
+                                                               class="table dataTable table-row-dashed align-middle gs-0 nowrap">
+                                                            <thead>
+                                                            <tr class="bg-success-subtle">
+                                                                <th style="width: 6%;" class="pl-2">Reg. No</th>
+                                                                <th style="width: 25%;">Article</th>
+                                                                <th>Article Code</th>
+                                                                <th style="width: 25%;">Tech. Specification</th>
+                                                                <th style="width: 4%; max-width: 4%;">Qty.</th>
+                                                                <th>UOM</th>
+                                                                <th>Unit Price</th>
+                                                                <th>Total</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            @if($services->isNotEmpty())
+                                                                @foreach($services as $service)
+                                                                    <tr class="increment">
+                                                                        <td class="showNumber">
+                                                                            <input
+                                                                                    readonly="readonly"
+                                                                                    name="vehicle_registration"
+                                                                                    required
+                                                                                    value="{{$details->reg_no ?? ''}}"
+                                                                                    class="form-control form-control-sm vehicle_registration"/>
+                                                                        </td>
+                                                                        <td>
+                                                                            <select
+                                                                                    name="service_article"
+                                                                                    required
+                                                                                    value="{{$service->material_code ?? ''}}"
+                                                                                    data-value="{{$service->material_code ?? ''}}"
+                                                                                    class="form-control form-control-sm servicesArticlesDropDownList">
+                                                                                <option value="{{$service->material_code ?? ''}}">
+
+                                                                                </option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input
+                                                                                    name="serviceArticleCode"
+                                                                                    required
+                                                                                    value="{{$service->material_code ?? ''}}"
+                                                                                    readonly
+                                                                                    class="form-control form-control-sm serviceArticleCode"/>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input
+                                                                                    name="service_technical_specification"
+                                                                                    required
+                                                                                    value="{{$service->specification ?? ''}}"
+                                                                                    class="form-control form-control-sm service_technical_specification"/>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <input
+                                                                                    readonly
+                                                                                    type="text"
+                                                                                    min="1"
+                                                                                    value="1"
+                                                                                    max="1"
+                                                                                    name="service_quantity"
+                                                                                    required
+                                                                                    class="form-control form-control-sm service_quantity number_input"/>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <input
+                                                                                    name="service_unit_of_measure"
+                                                                                    required
+                                                                                    readonly
+                                                                                    class="form-control form-control-sm unit_of_measure"/>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <input name="service_unit_price"
+                                                                                   required
+                                                                                   readonly
+                                                                                   class="form-control form-control-sm service_unit_price"/>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <input name="service_total_price"
+                                                                                   required
+                                                                                   readonly
+                                                                                   class="form-control form-control-sm service_total_price"/>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            @endif
+                                                            </tbody>
+                                                            <tfoot>
+                                                            <tr>
+                                                                <td class="pl-2"></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td class="text-right"><strong>TOTAL</strong></td>
+                                                                <td class="text-right"><b id="serviceQuantityTotal"
+                                                                                          class="input-number">0</b></td>
+                                                                <td></td>
+                                                                <td class="text-right"><strong>TOTAL</strong></td>
+                                                                <td class="text-right"><b id="serviceTotalPrice"
+                                                                                          class="input-number">0.00</b></td>
+                                                            </tr>
+                                                            </tfoot>
+
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-10"></div>
+                                                    <div class="col-2">
+                                                        <div class="row">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    @if(!empty($comments) && !empty($comments->where('type','=','SREQ')->first()))
+                                                        <div class="form-group">
+                                                            <label
+                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                                    for="remarks">
+                                                                Comments <small>Will be used as justification for
+                                                                    Requisition</small>:
+                                                            </label>
+                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
+                                                            <textarea type="text"
+                                                                      id="service_comments"
+                                                                      minlength="20"
+                                                                      maxlength="255"
+                                                                      required
+                                                                      readonly
+                                                                      name="service_comments"
+                                                                      style="height: 129px;"
+                                                                      class="form-control comments form-control-sm">{{$comments->where('type','=','SREQ')->first()->remarks ??''}}</textarea>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+
+                                                </div>
+                                                <table class="mt-10">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td class="text-right">
+                                                            <strong id="srfTotal" class="input-number">Prepared By:</strong>
+                                                        </td>
+                                                        <td>
+                                                            <b id="section" class="input-number">RECEPTION</b>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                {{--<div class="col-12 text-right">
+                                                    <div>
+                                                        <button type="button"
+                                                                id="saveServices"
+                                                                style="background: #f59d33; color: #fff;"
+                                                                data-table-id="services_table"
+                                                                class="btn btn-sm btn-success add pull-right">
+                                                            <i class="fa fa-save"></i>
+                                                            Save
+                                                        </button>
+                                                    </div>
+                                                </div>--}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="labour" role="tabpanel">
+                                        @include('modules.workshopManagement.workOrder.tabs.labour')
+                                    </div>
+                                </div>
+                            </div>
                         </section>
                     @endif
                 </form>
