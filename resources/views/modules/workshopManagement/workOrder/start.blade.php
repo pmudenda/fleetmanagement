@@ -162,12 +162,13 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label
-                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
                                                     for="commentsToSupervisor">
                                                 Comments To Workshop Supervisor:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
                                                  <textarea type="text"
+                                                           required
                                                            id="commentsToSupervisor"
                                                            name="commentsToSupervisor"
                                                            style="height: 129px;"

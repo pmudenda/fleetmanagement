@@ -7,8 +7,8 @@
                class="table dataTable table-row-dashed align-middle nowrap mt-10">
             <thead>
             <tr class="bg-success-subtle">
-                <th>Defect</th>
-                <th style="width: 20%;">Mechanic</th>
+                <th style="width: 16%;">Defect</th>
+                <th style="width: 16%;">Mechanic</th>
                 <th style="width: 15%;"></th>
                 <th>Section</th>
                 <th>Action</th>
