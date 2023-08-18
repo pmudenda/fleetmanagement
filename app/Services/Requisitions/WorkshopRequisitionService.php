@@ -15,6 +15,7 @@ use App\Exceptions\MaterialReservationException;
 use App\Exceptions\VehicleStateException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
+use App\Http\Requests\WorkShopManagement\SubmitJobCardToSupervisor;
 use App\Http\Requests\WorkShopManagement\WorkshopMaterialResevationRequest;
 use App\Http\Requests\WorkShopManagement\WorkshopRequisitionRequest;
 use App\Http\Requests\WorkShopManagement\WorkshopServiceRequisitionRequest;
@@ -34,7 +35,6 @@ use App\Services\Workflow\WorkflowService;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -1285,24 +1285,24 @@ class WorkshopRequisitionService
     /**
      * @throws WorkflowTaskCreationFailedException
      */
-    public function createTaskForWorkShopSupervisor(Request $request): JsonResponse
+    public function createTaskForWorkShopSupervisor(SubmitJobCardToSupervisor $request): JsonResponse
     {
         $process_code = WorkflowProcessCodes::WorkOrderOpened->value;
         $user = auth()->user();
 
         $jobCardNo = $request->get('job_card_number');
+        $registration = $request->get('vehicle_registration');
+        $comments = $request->get('commentsToSupervisor');
 
         $workshopReference = $jobCardNo;
-        $registration = $request->get('vehicle_registration');
-
-        $short_description = "New Job Card Task $jobCardNo";
-        $long_description = "New Job Card Task $jobCardNo For Vehicle $registration";
+        $short_description = "New Job Card Task $jobCardNo For Vehicle $registration";
+        $long_description = $short_description;
 
         $this->workflowService->initiateWorkflowProcess(
             $workshopReference,
             (int)$process_code,
             WorkflowActions::submit(),
-            $request->get('commentsToSupervisor'),
+            $comments,
             $user,
             0,
             $short_description,
