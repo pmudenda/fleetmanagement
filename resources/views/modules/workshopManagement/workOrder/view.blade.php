@@ -2608,6 +2608,7 @@
             $('[name="driver_staff_number"]').attr('disabled', true);
             $('.selectAttachment').attr('disabled', true);
             $('#closureRemarks').attr('disabled', true);
+            $('[name="workshopSection"]').attr('disabled', true);
 
             $('[name="current_odometer"]').attr('readonly', true);
             $('[name="observation[]"]').attr('readonly', true);
