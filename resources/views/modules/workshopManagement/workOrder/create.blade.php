@@ -1026,11 +1026,11 @@
                 width: "resolve",
             });*/
 
-           /* $('.mechanicStaffNumber').on('change', function () {
-                const $row = $(this).closest('tr');
-                let mechanicName = this.selectedOptions[0].text;
-                $($row).find('[name="mechanicName"]').val(mechanicName);
-            });*/
+            /* $('.mechanicStaffNumber').on('change', function () {
+                 const $row = $(this).closest('tr');
+                 let mechanicName = this.selectedOptions[0].text;
+                 $($row).find('[name="mechanicName"]').val(mechanicName);
+             });*/
 
             setTimeout(function () {
                 disableControls();
@@ -1260,7 +1260,7 @@
                         /*});*/
                     });
 
-                    if(arr.length === 0){
+                    if (arr.length === 0) {
                         // tmsApp.systemError("Request Submission", 'No Records Selected for Saving');
                     }
 
@@ -2189,7 +2189,7 @@
                     $(row).find('[name="workshopSection"]').attr('disabled', false)
 
                     $(row).find('.select2-container').remove();
-                    let $_defect_sel =  $(row).find(".select_2_control");
+                    let $_defect_sel = $(row).find(".select_2_control");
                     reinitializeSelect2($_defect_sel);
                 }
             }
@@ -2471,7 +2471,11 @@
                     tmsApp.numberOnly(event);
                 });
 
-                $(document).on('keyup', '.comments', function (event) {
+                $(document).on('input', '.comments', function (event) {
+                    this.value = this.value.toUpperCase();
+                });
+
+                $(document).on('input', '[name="jobCardInstruction"]', function (event) {
                     this.value = this.value.toUpperCase();
                 });
 

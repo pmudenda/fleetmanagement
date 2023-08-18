@@ -89,12 +89,6 @@
 
                     <h1>DRIVER SIGN OFF</h1>
                     <section>
-                        {{--<div class="row bg-success" style="height: 30px;">
-                                <div class="col-12 text-white">
-                                    <h5 class="text-white">Acknowledgment of Assessment Finding</h5>
-                                </div>
-                            </div>
-                            --}}
                         <div class="row mb-1 mt-4">
                             <div class="row">
                                 <div class="col-lg-2 col-sm-12">
@@ -175,7 +169,7 @@
                                                            name="commentsToSupervisor"
                                                            style="height: 129px;"
                                                            class="form-control form-control-sm comments"></textarea>
-                                                {{--     @if(!empty($comments))
+                                                {{--@if(!empty($comments))
                                                          <textarea type="text"
                                                                    id="accessoriesRemarks"
                                                                    name="accessoriesRemarks"
@@ -186,9 +180,9 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
+                        </div>
                     </section>
 
                 </form>
@@ -806,7 +800,7 @@
 
                 }, 600);
 
-                $(document).on('click','.selectAttachment',function () {
+                $(document).on('click', '.selectAttachment', function () {
                     $(this).closest('tr').find('input.file').click();
                 });
             });
