@@ -362,6 +362,7 @@
         <input type="hidden" name="onboarding_status" id="onboarding_status"
                value="{{StatusHelper::onboardingComplete()}}">
     </section>
+
     <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding"
            id="incompleteOnBoarding"/>
     <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop" id="vehicleInWorkshop"/>
@@ -387,11 +388,113 @@
     <input type="hidden"
            value="{{RepairTypes::AccidentRepair->value}}"
            id="accidentRepairs" name="accidentRepairs"/>
+
     <input type="hidden"
            id="suppliersList"
            value="{{route('suppliers.list')}}"/>
 
     <div class="modal fade" id="eSignatureModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fa fa-pencil-square-o"></i> eSignature
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{route('sign.assessment')}}" name="eSignDocument">
+                    <input type="hidden" name="reference" value="{{$details->job_card_no ?? 0}}">
+                    <div class="modal-body">
+                        <div>
+                            <div id="approvalDialogSign">
+                                <div style="float:left;">
+                                    <span id="spanMessage" style="color: #f00;" class="errorMessage"></span>
+                                    <label id="newApproveLblMessage" class="mediumMessage"></label>
+                                </div>
+                                <div style="float:right; padding-left:30px; display: none;">
+                                    <input class="small" type="checkbox" id="approveChkSignAs"/>
+                                    Sign As Different User...
+                                </div>
+                                <div class="signAsElement">
+                                    <label class="app-label field-required app-field-null">Login ID</label>
+                                    <div>
+                                        <input class="zqEditMode form-control"
+                                               name="loginId"
+                                               type="text"
+                                               required
+                                               id="loginIdInput"
+                                               size="25" maxlength="25"/><br/>
+                                    </div>
+                                </div>
+                                {{-- <div >
+                                     <label class="app-label field-required app-field-null">Login Password</label>
+                                     <div>
+                                         <input type="password" id="loginPasswordInput"
+                                                class="form-control"
+                                                size="25" maxlength="25"/><br/>
+                                     </div>
+                                 </div>--}}
+                                <div class="signAsElement">
+                                    <label class="app-label field-required app-field-null">eSignature Password</label>
+                                    <div>
+                                        <input type="password"
+                                               required
+                                               name="password"
+                                               class="form-control"
+                                               id="eSignaturePasswordInput" size="25" maxlength="25"/>
+                                    </div>
+                                </div>
+                                <div style="clear:both;">
+                                    <div class="mt-10">
+                                        <div class="row">
+                                            <div class="col-1">
+                                                <input
+                                                        required
+                                                        id="acceptance"
+                                                        name="acceptance"
+                                                        type="checkbox"
+                                                        class="checkbox">
+                                            </div>
+                                            <div class="col-10">
+                                                <p id="newApproval_Remarks">
+                                                    I hereby, acknowledge that the assessment has been done truthfully
+                                                    and fairly
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="newApproval_DIVWait" style="visibility: hidden; display: none">
+                                <table border="0" style="width:100%; height:100%;">
+                                    <tr>
+                                        <td align="center">
+                                            Please wait . . .
+                                            <br/>
+                                            <br/>
+                                            Signature being verified.
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button id="btnSign" type="submit"
+                                class="btn btn-sm btn-success mr-3">
+                            <i class="fas fa-save"></i>
+                            Sign
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="reassignMechanicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -1142,7 +1245,9 @@
             });
 
             $(document).on('click', '.reassignMechanic', function () {
-
+                let item = $(this).attr('data-labour-item');
+                console.log(item);
+                $("#reassignMechanicModal").modal('show');
             });
 
             $(document).on('click', '.saveAssignment', function () {

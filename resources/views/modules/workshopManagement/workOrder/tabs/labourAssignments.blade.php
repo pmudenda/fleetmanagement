@@ -99,7 +99,7 @@
 
                         <td>
                             <button type="button"
-                                    data-laour-item="{{json_encode($labourItem)}}"
+                                    data-labour-item="{{json_encode($labourItem)}}"
                                     style="background: #f59d33; color: #fff;"
                                     class="btn btn-sm btn-success reassignMechanic pull-right">
                                 <i class="fa fa-history"></i>
