@@ -507,23 +507,24 @@
 
                 <form action="{{route('save.job.reassignment')}}" name="saveReassignmentForm">
                     <input type="hidden" name="reassignmentReference" value="">
+                    <input type="hidden" name="reassignmentDefect" value="">
+                    <input type="hidden" name="reassignmentDefectId" value="">
+                    <input type="hidden" name="reassignmentDefectSection" value="">
                     <div class="modal-body">
                         <div class="row">
                             <div class="row">
                                 <div class="form-group">
-                                    <label class="app-field-label">
+                                    {{--<label class="app-field-label">
                                         Mechanic
                                         <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="text"
-                                           id="newMechanic"
-                                           required
-                                           list="mechanics"
-                                           autocomplete="off"
-                                           name="newMechanic"
-                                           class="form-control"/>
+                                    </label>--}}
+                                    <input type="text" readonly
+                                           class="form-control form-control-sm"
+                                           name="reassignmentDefectDefectName"
+                                           value="">
                                 </div>
                             </div>
+
                             <div class="col-10">
                                 <textarea id="reassignmentJustification"
                                           style="height: 129px;"
@@ -1191,8 +1192,12 @@
 
             $(document).on('click', '.reassignMechanic', function () {
                 let item = JSON.parse($(this).attr('data-labour-item'));
-                console.log(item);
+
                 $('[name="reassignmentReference"]').val(item.id)
+                $('[name="reassignmentDefect"]').val(item.def_no)
+                $('[name="reassignmentDefectId"]').val(item.defect_id)
+                $('[name="reassignmentDefectDefectName"]').val(item.defect_name);
+                $('[name="reassignmentDefectSection"]').val(item.section);
                 $("#reassignMechanicModal").modal('show');
             });
 
@@ -1210,12 +1215,15 @@
                     'Yes',
                     'No',
                     function () {
+                        $("#reassignMechanicModal").modal('hide');
+
                         $.ajax({
                             type: "POST",
                             url: form.action,
                             data: formData,
-                            dataType: false,
+                            dataType: 'json',
                             contentType: false,
+                            processData: false
                         }).done(function (asyncResponse) {
                             if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                                 setTimeout(function () {
