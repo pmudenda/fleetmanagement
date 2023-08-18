@@ -1026,6 +1026,12 @@
                 width: "resolve",
             });
 
+            $('.mechanicStaffNumber').on('change', function () {
+                const $row = $(this).closest('tr');
+                let mechanicName = this.selectedIndex.text;;
+                $($row).find('[name="mechanicName"]').val(mechanicName);
+            });
+
             setTimeout(function () {
                 disableControls();
             }, 1000);
@@ -1089,13 +1095,13 @@
 
                 }, 600);
 
-                $('#labour_table').on('change paste', '[name="mechanic"]', function () {
+                /*$('#labour_table').on('change paste', '[name="mechanic"]', function () {
                     const $row = $(this).closest('tr');
                     if (!this.value || this.value.length < 5) {
                         return;
                     }
                     findMechanic($row, this.value);
-                });
+                });*/
             });
 
             $(document).on('click', '.reassignMechanic', function () {
