@@ -1110,7 +1110,7 @@
                 $('[name="selectAll"]').on('change', function () {
 
                     function selects() {
-                        let ele = document.querySelector('#labour_table').getElementsByName('selectDefectToAssign');
+                        let ele = document.querySelector('#labour_table').querySelectorAll('[name="selectDefectToAssign"]');
                         for (let i = 0; i < ele.length; i++) {
                             if (ele[i].type === 'checkbox')
                                 ele[i].checked = true;
@@ -1118,7 +1118,7 @@
                     }
 
                     function deSelect() {
-                        let ele = document.querySelector('#labour_table').getElementsByName('selectDefectToAssign');
+                        let ele = document.querySelector('#labour_table').querySelectorAll('[name="selectDefectToAssign"]');
                         for (let i = 0; i < ele.length; i++) {
                             if (ele[i].type === 'checkbox')
                                 ele[i].checked = false;
