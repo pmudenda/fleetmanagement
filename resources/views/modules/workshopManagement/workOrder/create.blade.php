@@ -531,10 +531,10 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input type="text"
+                                           required
                                            class="form-control form-control-sm"
                                            name="reassignTo"
-                                           list="mechanics"
-                                           value="">
+                                           list="mechanics" />
                                 </div>
                             </div>
 
@@ -1217,10 +1217,12 @@
             $(document).on('submit', '[name="saveReassignmentForm"]', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
+                let $form = document.forms['saveReassignmentForm'];
+                if (!$($form).valid()) {
+                    return;
+                }
 
-                let form = document.forms['saveReassignmentForm'];
-
-                let formData = new FormData(form)
+                let formData = new FormData($form)
 
                 tmsApp.confirm(
                     'Reassign Task',
