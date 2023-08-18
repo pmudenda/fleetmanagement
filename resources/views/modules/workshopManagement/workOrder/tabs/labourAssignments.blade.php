@@ -22,7 +22,6 @@
             </thead>
             <tbody>
             @if($labour->isNotEmpty())
-                {{dd($labour)}}
                 @foreach($labour as $labourItem)
                     <tr class="increment" data-record-id="{{$labourItem->id}}">
                         <td>
@@ -44,8 +43,8 @@
                                    type="text"
                                    style="display: none;"
                                    required
-                                   value="{{$labourItem->defect_code}}"
-                                   data-value="{{$labourItem->defect_code}}"
+                                   value="{{$labourItem->def_no}}"
+                                   data-value="{{$labourItem->def_no}}"
                                    class="form-control-sm defect"/>
                         </td>
                         <td class="showNumber">
