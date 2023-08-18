@@ -401,4 +401,41 @@ class WorkshopService
             ]
         );
     }
+
+    public function saveJobCardWorkReassignments(Request $request)
+    {
+        $user = Auth::user();
+
+        DB::beginTransaction();
+
+        $jobCardNumber = $request->get("jobCardNumber");
+        $workOrder = JobCardHeader::where("job_card_no", "=", $jobCardNumber)
+            ->first();
+
+        foreach ($request->validated("items") as $labourItem) {
+            WorkshopLabour::create([
+                'wshp_act_code' => $workOrder->wshp_act_code,
+                'wshp_code' => $workOrder->workshop_code,
+                'section' => $labourItem['workshopSection'],
+                'evaluation' => 'N',
+                'job_card_instruction' => $labourItem['jobCardInstruction'],
+                'date_lab' => Carbon::now(),
+                'mechanic' => $labourItem['mechanic'],
+                'def_no' => $labourItem['assignedDefect'],
+                'defect_id' => $labourItem['assignedDefectId'],
+                'created_by' => $user->staff_no,
+            ]);
+        }
+
+        DB::commit();
+
+        return response()->json(
+            [
+                "success" => true,
+                "payload" => [],
+                "message" => "Work Assignments Saved Successfully",
+                "redirectUrl" => URL::signedRoute("workOrder.list"),
+            ]
+        );
+    }
 }
