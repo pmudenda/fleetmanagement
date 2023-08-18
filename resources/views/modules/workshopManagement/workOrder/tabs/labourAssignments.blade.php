@@ -32,6 +32,7 @@
                                    type="checkbox">
                         </td>
                         <td>
+                            {{$labourItem->defect_name}}
                             <input name="assignedDefectId"
                                    type="text"
                                    style="display: none;"
