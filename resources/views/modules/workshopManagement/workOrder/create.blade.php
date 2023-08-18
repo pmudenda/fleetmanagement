@@ -1021,6 +1021,11 @@
 
             initServiceArticleSelector($('.servicesArticlesDropDownList'));
 
+            $('.mechanicStaffNumber').select2({
+                theme: "bootstrap4",
+                width: "resolve",
+            });
+
             setTimeout(function () {
                 disableControls();
             }, 1000);
