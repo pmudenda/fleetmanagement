@@ -1201,6 +1201,7 @@
             $(document).on('click', '.reassignMechanic', function () {
                 let item = $(this).attr('data-labour-item');
                 console.log(item);
+                $('[name="reassignmentReference"]').val(item.id)
                 $("#reassignMechanicModal").modal('show');
             });
 
@@ -2841,7 +2842,6 @@
 
     <!--  -->
     <script type="text/javascript">
-
         //ROUND OFF FUNCTION
         Number.prototype.round = function (places) {
             return +(Math.round(this + "e+" + places) + "e-" + places);
@@ -2872,7 +2872,6 @@
                 document.getElementById('total-payment').value = total;
             }
         }
-
 
         // Navigation Script Starts Here
         $(document).ready(function () {
