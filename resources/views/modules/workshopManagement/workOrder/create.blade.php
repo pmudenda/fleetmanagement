@@ -1028,7 +1028,7 @@
 
             $('.mechanicStaffNumber').on('change', function () {
                 const $row = $(this).closest('tr');
-                let mechanicName = this.selectedIndex.text;;
+                let mechanicName = this.selectedOptions[0].text;
                 $($row).find('[name="mechanicName"]').val(mechanicName);
             });
 
