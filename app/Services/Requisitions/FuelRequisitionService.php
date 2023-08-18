@@ -328,6 +328,8 @@ class FuelRequisitionService
                     //cancel associated task
                     $this->cancelAssociatedTask($latestNonCancelledOrRejectedRequisition);
                 }
+            }else{
+                Log::info('Nothing found for cancellation');
             }
 
         } elseif ($isOverrideRequisition) {

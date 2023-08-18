@@ -1599,6 +1599,17 @@
                     });
             }
 
+            function loadDefectDropdownLists(data, selectElem) {
+                tmsApp.populateDropDownList(selectElem, data, "code", ["description"], "");
+
+                let location = selectElem.attr('data-value');
+
+                if (location) {
+                    selectElem.val(location);
+                    selectElem.trigger('change');
+                }
+            }
+
             function loadData(key, url, selectElem) {
                 fetch(url)
                     .then(response => response.json())
@@ -1609,15 +1620,9 @@
                             return;
                         }
 
-                        let fuelLevels = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, fuelLevels, "code", ["description"], "");
-
-                        let location = selectElem.attr('data-value');
-
-                        if (location) {
-                            selectElem.val(location);
-                            selectElem.trigger('change');
-                        }
+                        let data = response['payload'];
+                        window[key] = response['payload'];
+                        loadDefectDropdownLists(data, selectElem);
                     })
                     .catch(function (error) {
                         toastr.error(
@@ -1913,6 +1918,7 @@
                 }
                 return false;
             }
+
             function pettyCashTableHasItems() {
                 let inputs = $(".pettyCashItemsTable > tbody").find('.articleCode');
                 for (const input of inputs) {
@@ -1922,6 +1928,7 @@
                 }
                 return false;
             }
+
             function addTableRow(tableId) {
                 Table.addRow($('table#' + tableId));
                 let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
@@ -2033,8 +2040,9 @@
                         });
                     }
                 }
+
                 const $table = $('table#' + tableId);
-                if (tableId === "material_table" || tableId ===  "services_table"){
+                if (tableId === "material_table" || tableId === "services_table") {
                     const itemType = document.querySelector('[name="itemType"]').value;
                     // check if item type has been selected
                     if (!itemType) {
@@ -2093,17 +2101,17 @@
                     $table.find('tbody').append(materialTableRowTemplate);
                     $table.find('tbody').find('[name="registration"]').val(vehicleReg).attr('readonly');
                 } else if (tableId === "services_table") {
-                        const vehicleReg = $table.find('tbody').find('[name="vehicle_registration"]').val();
-                        $table.find('tbody').append(serviceTableRowTemplate);
-                        $table.find('tbody').find('[name="vehicle_registration"]').val(vehicleReg).attr('readonly');
+                    const vehicleReg = $table.find('tbody').find('[name="vehicle_registration"]').val();
+                    $table.find('tbody').append(serviceTableRowTemplate);
+                    $table.find('tbody').find('[name="vehicle_registration"]').val(vehicleReg).attr('readonly');
 
-                } else if(tableId === "part8"){
+                } else if (tableId === "part8") {
                     $table.find('tbody').append(defectTableRowTemplate);
-                    if (tableId === "part8") {
+                    /*if (tableId === "part8") {
                         if ($('.select_2_control').data('select2')) {
                             $('.select_2_control').select2('destroy');
                         }
-                    }
+                    }*/
                 }
 
                 let lastRow = $table.find('tbody tr').eq((0 + 1) * -1);
@@ -2155,13 +2163,19 @@
 
                 if (tableId === "part8") {
                     let row = lastRow[0];
-                    $(row).find('[name="vehicleSystem"]').attr('disabled', false)
+                    const $vehicleSystem = $(row).find('[name="vehicleSystem"]');
+                    $vehicleSystem.attr('disabled', false)
+                    /*loadData('',
+                        document.querySelector('#systemsUrl').value + '?key=VEH_SYS',
+                        );*/
+                    loadDefectDropdownLists(window['VEH_SYS'], $vehicleSystem);
+
                     $(row).find('[name="defectCategory"]').attr('disabled', false)
                     $(row).find('[name="defect"]').attr('disabled', false)
                     $(row).find('[name="workshopSection"]').attr('disabled', false)
 
                     $(row).find('.select2-container').remove();
-                    let $_defect_sel = $(".select_2_control");
+                    let $_defect_sel =  $(row).find(".select_2_control");
                     reinitializeSelect2($_defect_sel);
                 }
             }

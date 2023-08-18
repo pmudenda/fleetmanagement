@@ -155,9 +155,7 @@ class ProcurementSystemIntegrationService
     }
 
 
-    public function cancelStoresRequisition(
-        $doc_no
-    ): string
+    public function cancelStoresRequisition($doc_no): string
     {
         try {
             Log::info("Cancelling Stores Requisition For Request " . $doc_no);
@@ -167,7 +165,7 @@ class ProcurementSystemIntegrationService
             $pdo = DB::getPdo();
             $user_staff = auth()->user()->staff_no;
 
-            $stmt = $pdo->prepare("begin :result := fn_cancel_stores_req(:p_ref_no, :p_current_user); end;");
+            $stmt = $pdo->prepare("begin :result := fn_cancel_stores_req(:p_ref_no, :p_current_user, :p_system_origin); end;");
             $stmt->bindParam(":result", $results, PDO::PARAM_STR, 2000);
             $stmt->bindParam(":p_ref_no", $doc_no);
             $stmt->bindParam(":p_system_origin", $ZESCOFleetMaster);
