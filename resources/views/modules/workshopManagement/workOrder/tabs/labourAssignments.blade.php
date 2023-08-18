@@ -11,10 +11,10 @@
                     <input title="Not Active Yet" class="checkbox" data-toggle="tooltip" type="checkbox">ALL
                 </th>
                 <th style="width: 16%;">DEFECT</th>
-                <th style="width: 10%;">MECHANIC</th>
+                <th style="width: 6%;">MECHANIC</th>
                 <th style="width: 15%;">MECHANIC NAME</th>
                 <th style="width: 15%;">SECTION</th>
-                <th style="width: 25%;">JOB INSTRUCTION</th>
+                <th style="width: 29%;">JOB INSTRUCTION</th>
                 <th></th>
             </tr>
             </thead>
