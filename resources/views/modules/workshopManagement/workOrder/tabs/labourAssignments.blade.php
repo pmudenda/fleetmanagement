@@ -19,7 +19,7 @@
                 @foreach($labour as $labourItem)
                     <tr class="increment" data-record-id="{{$labourItem->id}}">
                         <td>
-                            {{--<div class="d-none">
+                            <div class="d-none">
                                 <select name="vehicleSystem"
                                         style="display: none;"
                                         required
@@ -36,20 +36,15 @@
                                         class="form-select form-select-sm select_2_control defectCategory">
                                     <option></option>
                                 </select>
-                            </div>--}}
-                            {{$labourItem->defect_name}}
-                            <input name="defect" type="hidden"
-                                   required
-                                   disabled
-                                   data-value="{{$labourItem->defect_code}}"
-                                   class="form-control-sm defect"/>
-                            {{--<select name="defect"
+                            </div>
+
+                            <select name="defect"
                                     required
                                     disabled
                                     data-value="{{$labourItem->def_no ?? ''}}"
                                     class="form-select form-select-sm select_2_control defect">
                                 <option></option>
-                            </select>--}}
+                            </select>
                         </td>
                         <td class="showNumber">
                             <input type="text"
@@ -68,27 +63,6 @@
                                    name="mechanicName"
                                    readonly/>
                         </td>
-
-                       {{-- <td>
-                            <div class="input-group">
-                                <input type="text"
-                                       required
-                                       readonly
-                                       name="dateOfWork"
-                                       value="{{$labourItem->date_lab ?? ''}}"
-                                       id="dateOfWork"
-                                       class="form-control"
-                                />
-                                <div class="input-group-append">
-                                    <div type="button"
-                                         data-action="openDatePicker"
-                                         class="input-group-text ui-datepicker-trigger">
-                                        <i data-action="openDatePicker"
-                                           class="fa fa-calendar"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>--}}
 
                         <td>
                             <select name="workshopSection"
@@ -163,22 +137,22 @@
                         <tr class="increment">
                             <td>
                                 <div class="d-none">
-                                    <select name="vehicleSystem"
+                                    {{--<select name="vehicleSystem"
                                             style="display: none;"
                                             required
                                             disabled
                                             data-value="{{$defect->veh_sys}}"
                                             class="form-select form-select-sm select_2_control vehicleSystem">
                                         <option></option>
-                                    </select>
-                                    <select name="defectCategory"
+                                    </select>--}}
+                                    {{--<select name="defectCategory"
                                             required
                                             style="display: none;"
                                             disabled
                                             data-value="{{$defect->defect_category_code}}"
                                             class="form-select form-select-sm select_2_control defectCategory">
                                         <option></option>
-                                    </select>
+                                    </select>--}}
                                 </div>
                                 {{--<select name="defect"
                                         required
@@ -188,8 +162,9 @@
                                     <option></option>
                                 </select>--}}
                                 {{$defect->defect_name}}
-                                <input name="defect" type="hidden"
+                                <input name="assignedDefect" type="hidden"
                                        required
+                                       value="{{$defect->defect_code}}"
                                        disabled
                                        data-value="{{$defect->defect_code}}"
                                        class="form-control-sm defect"/>
