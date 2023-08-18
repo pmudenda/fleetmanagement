@@ -12,6 +12,7 @@ use App\Helpers\StatusHelper;
 use App\Http\Requests\VehicleDefectsRequest;
 use App\Http\Requests\WorkShopManagement\JobCardRequest;
 use App\Http\Requests\WorkShopManagement\JobCardTaskAssignment;
+use App\Http\Requests\WorkShopManagement\JobCardTaskReassignment;
 use App\Http\Requests\WorkShopManagement\WorkOrderClosure;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
@@ -403,7 +404,7 @@ class WorkshopService
         );
     }
 
-    public function saveJobCardWorkReassignments(Request $request): JsonResponse
+    public function saveJobCardWorkReassignments(JobCardTaskReassignment $request): JsonResponse
     {
         $user = Auth::user();
 
@@ -426,6 +427,11 @@ class WorkshopService
                 'created_by' => $user->staff_no,
             ]);
         }*/
+
+        $assignmentRecord->mechanic = $request->validated('reassignTo');
+        //$assignmentRecord->mechanic = $request->validated('reassignTo');
+
+        $assignmentRecord->save();
 
         HistoryService::update($recordBefore, $assignmentRecord->toArray(), $assignmentRecord->wshp_act_code, 'Job Card Task Reassignment');
 

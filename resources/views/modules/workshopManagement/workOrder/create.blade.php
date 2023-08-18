@@ -509,7 +509,7 @@
                     <input type="hidden" name="reassignmentReference" value="">
                     <input type="hidden" name="reassignmentDefect" value="">
                     <input type="hidden" name="reassignmentDefectId" value="">
-                    <input type="hidden" name="reassignmentDefectSection" value="">
+
                     <div class="modal-body">
                         <div class="row">
                             <div class="row">
@@ -534,7 +534,22 @@
                                            required
                                            class="form-control form-control-sm"
                                            name="reassignTo"
-                                           list="mechanics" />
+                                           list="mechanics"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="app-field-label">
+                                        Section
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select  form-select-sm" name="reassignmentDefectSection">
+                                        <option></option>
+                                        @foreach($workshop_sections as $workshop_section)
+                                            <option value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
@@ -1210,7 +1225,7 @@
                 $('[name="reassignmentDefect"]').val(item.def_no)
                 $('[name="reassignmentDefectId"]').val(item.defect_id)
                 $('[name="reassignmentDefectDefectName"]').val(item.defect_name);
-                $('[name="reassignmentDefectSection"]').val(item.section);
+                $('[name="reassignmentDefectSection"]').val(item.section).change();
                 $("#reassignMechanicModal").modal('show');
             });
 

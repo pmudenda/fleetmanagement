@@ -820,7 +820,7 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function saveJobCardWorkReassignments(Request $request): JsonResponse
+    public function saveJobCardWorkReassignments(JobCardTaskReassignment $request): JsonResponse
     {
         try {
             return $this->workshopService->saveJobCardWorkReassignments($request);
