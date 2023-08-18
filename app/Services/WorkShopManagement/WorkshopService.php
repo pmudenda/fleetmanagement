@@ -11,6 +11,7 @@ use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\VehicleDefectsRequest;
 use App\Http\Requests\WorkShopManagement\JobCardRequest;
+use App\Http\Requests\WorkShopManagement\JobCardTaskAssignment;
 use App\Http\Requests\WorkShopManagement\WorkOrderClosure;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
@@ -364,7 +365,7 @@ class WorkshopService
         );
     }
 
-    public function saveJobCardWorkAssignments(WorkOrderClosure $request): JsonResponse
+    public function saveJobCardWorkAssignments(JobCardTaskAssignment $request): JsonResponse
     {
         $user = Auth::user();
 
@@ -383,6 +384,7 @@ class WorkshopService
                 'date_lab' => Carbon::createFromFormat('d/m/Y', $labourItem['dateOfWork']),
                 'mechanic' => $labourItem['mechanic'],
                 'def_no' => $labourItem['assignedDefect'],
+                'defect_id' => $labourItem['assignedDefectId'],
                 'created_by' => $user->staff_no,
             ]);
         }

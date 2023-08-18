@@ -18,6 +18,7 @@ class WorkshopLabour extends Model
         'rate',
         'total_amount',
         'def_no',
+        'defect_id',
         'created_by',
         'authorised_by',
         'type_of_hour'

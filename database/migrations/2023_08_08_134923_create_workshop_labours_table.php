@@ -23,7 +23,8 @@ return new class extends Migration {
             $table->decimal('total_amount', 19, 2)->nullable();
             $table->string('type_of_hour')->nullable();
             $table->string('def_no');
-            $table->string('created_by');
+            $table->integer('defect_id')->nullable();
+            $table->string('created_by', 10);
             $table->string('authorised_by')->nullable();
             $table->timestamps();
         });
