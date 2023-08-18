@@ -505,7 +505,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form action="{{route('save.job.reassignment')}}" name="eSignDocument">
+                <form action="{{route('save.job.reassignment')}}" name="saveReassignmentForm">
                     <input type="hidden" name="reassignmentReference" value="">
                     <div class="modal-body">
                         <div class="row">
@@ -527,6 +527,7 @@
                             <div class="col-10">
                                 <textarea id="reassignmentJustification"
                                           style="height: 129px;"
+                                          required
                                           class="form-control comments form-control-sm"
                                           name="reassignmentJustification"></textarea>
                             </div>
@@ -1205,7 +1206,14 @@
                 $("#reassignMechanicModal").modal('show');
             });
 
-            $(document).on('click', '#saveReassignment', function () {
+            $(document).on('submit', '[name="saveReassignmentForm"]', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                let form = document.forms['saveReassignmentForm'];
+
+                let formData = new FormData(form)
+
                 tmsApp.confirm(
                     'Reassign Task',
                     'Are you sure you want to reassign this task ?',
@@ -1213,11 +1221,9 @@
                     'No',
                     function () {
 
-                        let formData = "";
-
                         $.ajax({
                             type: "POST",
-                            url: formSel.data('formUrl'),
+                            url: form.data('action'),
                             data: formData,
                             dataType: false,
                             contentType: false,
