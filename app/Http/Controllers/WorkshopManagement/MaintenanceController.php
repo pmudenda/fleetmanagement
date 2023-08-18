@@ -14,6 +14,7 @@ use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VehicleDefectsRequest;
 use App\Http\Requests\WorkShopManagement\JobCardRequest;
+use App\Http\Requests\WorkShopManagement\JobCardTaskAssignment;
 use App\Http\Requests\WorkShopManagement\SubmitJobCardToSupervisor;
 use App\Http\Requests\WorkShopManagement\WorkOrderClosure;
 use App\Http\Requests\WorkShopManagement\WorkshopMaterialResevationRequest;
@@ -794,7 +795,7 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function saveJobCardWorkAssignments(WorkOrderClosure $request): JsonResponse
+    public function saveJobCardWorkAssignments(JobCardTaskAssignment $request): JsonResponse
     {
         try {
             return $this->workshopService->saveJobCardWorkAssignments($request);

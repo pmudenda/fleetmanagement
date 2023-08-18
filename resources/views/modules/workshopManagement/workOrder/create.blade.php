@@ -1125,7 +1125,7 @@
                     if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
                         console.log("Record with " + $(row).attr('data-record-id'));
                     } else {
-                        $(row).find('input[name][type!=hidden], select[name]').each(function (i, item) {
+                        $(row).find('input[name][type!=hidden], select[name],textarea[name]').each(function (i, item) {
                             let val = item.value.replace(/,/g, '');
 
                             if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
@@ -1242,7 +1242,7 @@
                         if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
                             console.log("Record with " + $(row).attr('data-record-id'));
                         } else {
-                            $(row).find('input[name][type!=hidden], select[name]').each(function (i, item) {
+                            $(row).find('input[name][type!=hidden], select[name],textarea[name]').each(function (i, item) {
                                 let val = item.value.replace(/,/g, '');
 
                                 if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
