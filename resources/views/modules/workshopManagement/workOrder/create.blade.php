@@ -504,40 +504,39 @@
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{route('sign.assessment')}}" name="eSignDocument">
-                    <input type="hidden" name="reference" value="">
+
+                <form action="{{route('save.job.reassignment')}}" name="eSignDocument">
+                    <input type="hidden" name="reassignmentReference" value="">
                     <div class="modal-body">
-                        <div>
-                            <div id="">
-                                <div style="clear:both;">
-                                    <div class="mt-10">
-                                        <div class="row">
-                                            <div class="col-10">
-                                                <textarea id="reassignmentJustification"
-                                                        name="reassignmentJustification"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="row">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="app-field-label">
+                                        Mechanic
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text"
+                                           id="newMechanic"
+                                           required
+                                           list="mechanics"
+                                           autocomplete="off"
+                                           name="newMechanic"
+                                           class="form-control"/>
                                 </div>
                             </div>
-                            <div id="newApproval_DIVWait" style="visibility: hidden; display: none">
-                                <table border="0" style="width:100%; height:100%;">
-                                    <tr>
-                                        <td align="center">
-                                            Please wait . . .
-                                            <br/>
-                                            <br/>
-                                            Signature being verified.
-                                        </td>
-                                    </tr>
-                                </table>
+                            <div class="col-10">
+                                <textarea id="reassignmentJustification"
+                                          style="height: 129px;"
+                                          class="form-control comments form-control-sm"
+                                          name="reassignmentJustification"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button"
                                 class="btn btn-secondary"
-                                data-bs-dismiss="modal">Close</button>
+                                data-bs-dismiss="modal">Close
+                        </button>
                         <button id="saveReassignment"
                                 type="submit"
                                 class="btn btn-sm btn-success mr-3">
@@ -1204,6 +1203,71 @@
                 console.log(item);
                 $("#reassignMechanicModal").modal('show');
             });
+
+            $(document).on('click', '#saveReassignment', function () {
+                tmsApp.confirm(
+                    'Reassign Task',
+                    'Are you sure you want to reassign this task ?',
+                    'Yes',
+                    'No',
+                    function () {
+
+                        let formData = "";
+
+                        $.ajax({
+                            type: "POST",
+                            url: formSel.data('formUrl'),
+                            data: formData,
+                            dataType: false,
+                            contentType: false,
+                        }).done(function (asyncResponse) {
+                            if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
+                                setTimeout(function () {
+                                    tmsApp.showSystemMessage(
+                                        'Reassign Task',
+                                        asyncResponse['message'],
+                                        function () {
+                                            window.location.href = asyncResponse["redirectUrl"]
+                                        },
+                                        'success'
+                                    );
+                                }, 300);
+                            } else {
+                                if (asyncResponse.hasOwnProperty('errors')) {
+                                    tmsApp.printErrorMsg(asyncResponse.errors);
+                                    return
+                                }
+                                setTimeout(function () {
+                                    tmsApp.systemError(
+                                        'Reassign Task',
+                                        asyncResponse['message'],
+                                        function () {
+                                        }, 'error');
+                                }, 300);
+                            }
+                        }).fail(function (xhr, settings, errorThrown) {
+                            console.log(errorThrown)
+                            setTimeout(function () {
+                                if ('responseJSON' in xhr) {
+                                    if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                    }
+                                    if (xhr.responseJSON.hasOwnProperty('message')) {
+                                        tmsApp.systemError(
+                                            'Reassign Task',
+                                            xhr.responseJSON['message']
+                                        );
+                                    }
+                                    return;
+                                }
+                                tmsApp.systemError(
+                                    'Reassign Task',
+                                    'We could not complete processing your request, please try again later');
+                            }, 300)
+                        });
+                    }
+                );
+            })
 
             $(document).on('click', '.saveAssignment', function () {
 
