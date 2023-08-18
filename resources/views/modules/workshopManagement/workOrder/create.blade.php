@@ -1220,10 +1220,9 @@
                     'Yes',
                     'No',
                     function () {
-
                         $.ajax({
                             type: "POST",
-                            url: form.data('action'),
+                            url: form.action,
                             data: formData,
                             dataType: false,
                             contentType: false,
@@ -1341,7 +1340,7 @@
                                         'Assign Task',
                                         asyncResponse['message'],
                                         function () {
-                                            window.location.href = asyncResponse["redirectUrl"]
+                                            // window.location.href = asyncResponse["redirectUrl"]
                                         },
                                         'success'
                                     );

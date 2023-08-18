@@ -23,6 +23,7 @@ use App\Models\WorkShopManagement\WorkShopTable;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
 use App\Models\WorkShopManagement\WorkShopVehicleDefect;
 use App\Services\Integration\ProcurementSystemIntegrationService;
+use App\Services\Logging\HistoryService;
 use App\Services\Workflow\DocumentNumberGenerationService;
 use App\Services\Workflow\WorkflowService;
 use Illuminate\Http\JsonResponse;
@@ -402,17 +403,16 @@ class WorkshopService
         );
     }
 
-    public function saveJobCardWorkReassignments(Request $request)
+    public function saveJobCardWorkReassignments(Request $request): JsonResponse
     {
         $user = Auth::user();
 
+
+        $recordId = $request->get("reassignmentReference");
+        $assignmentRecord = WorkshopLabour::where("id", "=", $recordId)->first();
+        $recordBefore = $assignmentRecord->toArray();
         DB::beginTransaction();
-
-        $jobCardNumber = $request->get("jobCardNumber");
-        $workOrder = JobCardHeader::where("job_card_no", "=", $jobCardNumber)
-            ->first();
-
-        foreach ($request->validated("items") as $labourItem) {
+        /*foreach ($request->validated("items") as $labourItem) {
             WorkshopLabour::create([
                 'wshp_act_code' => $workOrder->wshp_act_code,
                 'wshp_code' => $workOrder->workshop_code,
@@ -425,7 +425,9 @@ class WorkshopService
                 'defect_id' => $labourItem['assignedDefectId'],
                 'created_by' => $user->staff_no,
             ]);
-        }
+        }*/
+
+        HistoryService::update($recordBefore, $assignmentRecord->toArray(), $assignmentRecord->wshp_act_code, 'Job Card Task Reassignment');
 
         DB::commit();
 
