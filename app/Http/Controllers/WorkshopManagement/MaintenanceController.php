@@ -91,7 +91,6 @@ class MaintenanceController extends Controller
             abort(401);
         }
 
-        $step = $request->get("step") ?? 0;
         $reference = $request->get("reference") ?? $request->get('ref');
 
         list(
@@ -109,9 +108,10 @@ class MaintenanceController extends Controller
             $labour
             ) = $this->getFullJobCardDetails($reference);
 
-        $mechanics = Mechanic::get();
+        $mechanics = Mechanic::where('status', '=', StatusHelper::active())->get();
         $view_name = "modules.workshopManagement.workOrder.create";
 
+        $step = $request->get("step") ?? 0;
         return view($view_name)
             ->with(
                 compact(
@@ -155,6 +155,7 @@ class MaintenanceController extends Controller
             $labour
             ) = $this->getFullJobCardDetails($reference);
 
+        $mechanics = Mechanic::where('status', '=', StatusHelper::active())->get();
         $view_name = "modules.workshopManagement.workOrder.view";
 
         return view($view_name)
@@ -172,7 +173,8 @@ class MaintenanceController extends Controller
                     "materials",
                     "materialsHeader",
                     "services",
-                    'labour'
+                    'labour',
+                    'mechanics'
                 )
             );
     }
