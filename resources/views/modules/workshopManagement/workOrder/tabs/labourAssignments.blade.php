@@ -8,14 +8,14 @@
             <thead>
             <tr class="bg-success-subtle">
                 <th>
-                    <input title="Not Active Yet" class="checkbox" data-toggle="tooltip" type="checkbox">Select All
+                    <input title="Not Active Yet" class="checkbox" data-toggle="tooltip" type="checkbox">ALL
                 </th>
-                <th style="width: 16%;">Defect</th>
-                <th style="width: 16%;">Mechanic</th>
-                <th style="width: 15%;">Mechanic Name</th>
-                <th>Section</th>
-                <th style="width: 20%;">Job Instruction</th>
-                <th>Action</th>
+                <th style="width: 16%;">DEFECT</th>
+                <th style="width: 16%;">MECHANIC</th>
+                <th style="width: 15%;">MECHANIC NAME</th>
+                <th>SECTION</th>
+                <th style="width: 20%;">JOB INSTRUCTION</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
