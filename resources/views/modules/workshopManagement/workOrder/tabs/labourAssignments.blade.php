@@ -26,6 +26,7 @@
                     <tr class="increment" data-record-id="{{$labourItem->id}}">
                         <td>
                             <input title="WIP"
+                                   readonly
                                    name="selectDefectToAssign"
                                    class="checkbox"
                                    data-toggle="tooltip"
@@ -52,6 +53,7 @@
                                    class="form-control form-control-sm mechanicStaffNumber"
                                    autocapitalize="characters"
                                    id="mechanic"
+                                   readonly
                                    data-value="{{$labourItem->mechanic}}"
                                    value="{{$labourItem->mechanic ?? ''}}"
                                    list="mechanics"
@@ -90,6 +92,7 @@
                                        minlength="20"
                                        maxlength="255"
                                        required
+                                       readonly
                                        name="jobCardInstruction"
                                        style="height: 129px;"
                                        class="form-control comments form-control-sm">{{$labourItem->job_card_instruction}}</textarea>

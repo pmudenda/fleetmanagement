@@ -1095,7 +1095,11 @@
 
                 }, 600);
 
-                $('#labour_table').on('change paste', '[name="mechanic"]', function () {
+                const $labourTable = $('#labour_table');
+
+                $($labourTable).find('[data-record-id]').find('[name="mechanic"]').change();
+
+                $labourTable.on('change paste', '[name="mechanic"]', function () {
                     const $row = $(this).closest('tr');
                     if (!this.value || this.value.length < 5) {
                         return;
