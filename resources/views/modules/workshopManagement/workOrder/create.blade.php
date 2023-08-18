@@ -1079,17 +1079,6 @@
 
             initServiceArticleSelector($('.servicesArticlesDropDownList'));
 
-            /*$('.mechanicStaffNumber').select2({
-                theme: "bootstrap4",
-                width: "resolve",
-            });*/
-
-            /* $('.mechanicStaffNumber').on('change', function () {
-                 const $row = $(this).closest('tr');
-                 let mechanicName = this.selectedOptions[0].text;
-                 $($row).find('[name="mechanicName"]').val(mechanicName);
-             });*/
-
             setTimeout(function () {
                 disableControls();
             }, 1000);
@@ -1155,8 +1144,6 @@
 
                 const $labourTable = $('#labour_table');
 
-                $($labourTable).find('[data-record-id]').find('[name="mechanic"]').change();
-
                 $labourTable.on('change paste', '[name="mechanic"]', function () {
                     const $row = $(this).closest('tr');
                     if (!this.value || this.value.length < 5) {
@@ -1197,6 +1184,8 @@
                         deSelect();
                     }
                 });
+
+                $($labourTable).find('[data-record-id]').find('.mechanicStaffNumber').change();
             });
 
             $(document).on('click', '.reassignMechanic', function () {
