@@ -1104,10 +1104,10 @@
                 });
 
                 $('[name="selectDefectToAssign"]').on('change', function () {
-                    if($(this).is(':checked')){
-                       // selects()
-                    }else{
-                       // deSelect();
+                    if ($(this).is(':checked')) {
+                        // selects()
+                    } else {
+                        // deSelect();
                     }
                 });
 
@@ -1129,9 +1129,9 @@
                         }
                     }
 
-                    if($(this).is(':checked')){
+                    if ($(this).is(':checked')) {
                         selects()
-                    }else{
+                    } else {
                         deSelect();
                     }
                 });
@@ -1146,7 +1146,9 @@
                 let formSel = $('#labour_table');
                 let formData = {
                     modelName: formSel.data('modelName'),
-                    submitForm: true
+                    submitForm: true,
+                    workshopReference: $('[name="workshop_reference"]').val(),
+                    jobCardNumber: $('[name="job_card_number"]').val()
                 };
 
                 let arr = [];

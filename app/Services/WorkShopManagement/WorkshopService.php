@@ -371,8 +371,8 @@ class WorkshopService
 
         DB::beginTransaction();
 
-        $workOrderNumber = $request->get("job_card_number");
-        $workOrder = JobCardHeader::where("job_card_no", "=", $workOrderNumber)
+        $jobCardNumber = $request->get("jobCardNumber");
+        $workOrder = JobCardHeader::where("job_card_no", "=", $jobCardNumber)
             ->first();
 
         foreach ($request->get("items") as $labourItem) {

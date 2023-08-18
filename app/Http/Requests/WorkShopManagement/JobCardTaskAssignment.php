@@ -23,6 +23,8 @@ class JobCardTaskAssignment extends FormRequest
     public function rules(): array
     {
         return [
+            'workshopReference' =>  'required|',
+            'jobCardNumber' =>  'required|',
             'items.*.workshopSection' => 'required',
             'items.*.mechanic' => 'required',
             'items.*.assignedDefect' => 'required',
