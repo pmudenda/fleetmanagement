@@ -30,7 +30,6 @@ use App\Models\Workflow\WorkflowTaskHeader;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\Mechanic;
 use App\Models\WorkShopManagement\WorkShopComment;
-use App\Models\WorkShopManagement\WorkshopLabour;
 use App\Models\WorkShopManagement\WorkShopMaterialHeader;
 use App\Models\WorkShopManagement\WorkShopServiceModel;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
@@ -110,7 +109,7 @@ class MaintenanceController extends Controller
             $labour
             ) = $this->getFullJobCardDetails($reference);
 
-        $mechanics =  Mechanic::get();
+        $mechanics = Mechanic::get();
         $view_name = "modules.workshopManagement.workOrder.create";
 
         return view($view_name)
@@ -1179,8 +1178,10 @@ class MaintenanceController extends Controller
         $labour = collect([]);
 
         if ($reference) {
+
             $accessories_checked_in = WorkShopVehicleAccessory::where("job_card_no", "=", $reference)
                 ->get();
+
             $details = $this->workshopService->getJobCardDetails($reference);
 
             $officeDetails = $this->workshopService->getWorkShopPurchaseOfficeAndStore($details->workshop_code);
@@ -1195,7 +1196,14 @@ class MaintenanceController extends Controller
 
             $services = WorkShopServiceModel::where("wshp_act_code", "=", $details->wshp_act_code)->get();
 
-            $labour = WorkshopLabour::where("wshp_act_code", "=", $details->wshp_act_code)->get();
+            $labour = DB::table('wm_workshop_labours labour')
+                ->where("wshp_act_code", "=", $details->wshp_act_code)
+                ->join('wm_workshop_tables defect',
+                    'labour.defect_id',
+                    '=',
+                    'defect.id')
+                ->select('labour.*', 'defect.description as defect_name')
+                ->get();
         }
 
         return array(

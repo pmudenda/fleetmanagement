@@ -66,6 +66,7 @@
                         <td>
                             <select name="workshopSection"
                                     required
+                                    disabled
                                     class="form-select form-select-sm workshopSection">
                                 <option></option>
                                 @foreach($workshop_sections as $workshop_section)
