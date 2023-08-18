@@ -2607,12 +2607,15 @@
             $('[data-table-id="observations"]').attr('disabled', true);
             $('[name="driver_staff_number"]').attr('disabled', true);
             $('.selectAttachment').attr('disabled', true);
+            $('#closureRemarks').attr('disabled', true);
 
             $('[name="current_odometer"]').attr('readonly', true);
             $('[name="observation[]"]').attr('readonly', true);
             $('[name="accessoriesRemarks"]').attr('readonly', true);
 
+            $('.reassignMechanic').off('click').attr('disabled', true).addClass('d-none');
             $('[value="insertRow"]').off('click').attr('disabled', true).addClass('d-none');
+            $('[name="saveDefects"]').off('click').attr('disabled', true).addClass('d-none');
             $('[value="addRow"]').off('click').attr('disabled', true).addClass('d-none');
         }
 
@@ -2970,7 +2973,8 @@
                             return true;
                         }
 
-                        const driverAcknowledged = $('#driverAcknowledged').val();
+                        return true;
+                       /* const driverAcknowledged = $('#driverAcknowledged').val();
 
                         if (currentIndex === 1 && driverAcknowledged === 'Y') {
                             return true;
@@ -2978,9 +2982,9 @@
 
                         if (currentIndex === 0 || currentIndex === 2 && $('[name="job_card_number"]').val()) {
                             return true;
-                        }
+                        }*/
 
-                        if (currentIndex < newIndex) {
+                       /* if (currentIndex < newIndex) {
                             // To remove error styles
                             form.find(".body:eq(" + newIndex + ") label.error").remove();
                             form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
@@ -2997,7 +3001,7 @@
 
                         let tmp = window.goToNext;
                         window.goToNext = false;
-                        return tmp;
+                        return tmp;*/
                     },
                     onStepChanged: function (event, currentIndex, priorIndex) {
 
