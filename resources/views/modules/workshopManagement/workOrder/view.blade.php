@@ -2601,9 +2601,9 @@
             $('select[name="sub_fuel_level"]').select2("enable", false);
             $('select[name="workshop"]').select2("enable", false);
 
-            $('select[name="repairType"]').attr("disabled", true);
-            $('[name="vehicleSearchBtn"]').attr("disabled", true);
-            $('[name="employeeSearchBtn"]').attr("disabled", true);
+            $('select[name="repairType"]').off('click').attr("disabled", true);
+            $('[name="vehicleSearchBtn"]').off('click').attr("disabled", true);
+            $('[name="employeeSearchBtn"]').off('click').attr("disabled", true);
             $('[data-table-id="observations"]').attr('disabled', true);
             $('[name="driver_staff_number"]').attr('disabled', true);
             $('.selectAttachment').attr('disabled', true);
@@ -2612,8 +2612,8 @@
             $('[name="observation[]"]').attr('readonly', true);
             $('[name="accessoriesRemarks"]').attr('readonly', true);
 
-            $('[value="insertRow"]').addClass('d-none');
-
+            $('[value="insertRow"]').off('click').attr('disabled', true).addClass('d-none');
+            $('[value="addRow"]').off('click').attr('disabled', true).addClass('d-none');
         }
 
         $(document).ready(function () {
