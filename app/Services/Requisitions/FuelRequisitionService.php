@@ -531,7 +531,7 @@ class FuelRequisitionService
      * Verifies Vehicle is Active otherwise throws exception
      * @throws FuelRequisitionException
      */
-    public function verifyVehicleStatusAndFetchData($reference): Model|Builder
+    public function verifyVehicleStatusAndFetchData($reference): mixed
     {
         $allowedStatus = [StatusHelper::active()];
 
