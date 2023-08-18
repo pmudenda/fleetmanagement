@@ -140,7 +140,7 @@
                     <button type="button"
                             data-table-id="part8"
                             class="btn btn-sm btn-primary add pull-right"
-                            value="addRow">
+                            value="insertRow">
                         <i class="fa fa-plus"></i> Add Row
                     </button>
                 </div>

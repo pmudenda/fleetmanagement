@@ -650,6 +650,53 @@
             </td>
         </tr>`;
 
+        const defectTableRowTemplate = ` <tr class="increment">
+                                <td class="showNumber">
+                                    <select name="vehicleSystem"
+                                            class="form-select form-select-sm select_2_control vehicleSystem">
+                                        <option></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="defectCategory"
+                                            class="form-select form-select-sm select_2_control defectCategory">
+                                        <option></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="defect"
+                                            class="form-select form-select-sm select_2_control defect">
+                                        <option></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="workshopSection" class="form-select form-select-sm workshopSection">
+                                        <option></option>
+                                        @foreach($workshop_sections as $workshop_section)
+        <option
+                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                        @endforeach
+        </select>
+    </td>
+
+    <td>
+        <input name="date_def"
+               readonly="readonly"
+               value="@if($details){{date('Y-m-d',strtotime(Carbon::parse($details->date_in)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
+                                           class="tabledit-input form-control input-sm input-number"
+                                           type="text">
+                                </td>
+
+                                <td class="view-mode">
+                                    <button type="button"
+                                            value="deleteRow"
+                                            data-value="0"
+                                            class="btn btn-danger p-2">
+                                        <i class="fas fa-trash m-0"></i>
+                                    </button>
+                                </td>
+                            </tr>`;
+
         function initArticleSelector(element) {
             const dataUrl = document.querySelector('#articlesUrl').value;
 
@@ -1866,7 +1913,6 @@
                 }
                 return false;
             }
-
             function pettyCashTableHasItems() {
                 let inputs = $(".pettyCashItemsTable > tbody").find('.articleCode');
                 for (const input of inputs) {
@@ -1875,6 +1921,27 @@
                     }
                 }
                 return false;
+            }
+            function addTableRow(tableId) {
+                Table.addRow($('table#' + tableId));
+                let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
+
+                lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
+                lastRow.attr('data-record-id', 0);
+
+                if (tableId === "material_table") {
+                    let row = lastRow[0];
+                    $(row).find('.select2-container').remove();
+                    $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+
+                    let article = $(row).find('input.articleCode').val();
+                    console.log('Article on line', article)
+                    let $_defect_sel = $(row).find(".articlesDropDownList");
+                    let $_defect_sel_ = $(row).find(".DropDownList");
+                    initArticleSelector($_defect_sel);
+                    initArticleSelector($_defect_sel_);
+                    //getArticleDetails(article, $_defect_sel);
+                }
             }
 
             function changePettyCashRequestType(selectedItemType) {
@@ -1956,7 +2023,7 @@
                 }
             }
 
-            function addTableRow(tableId) {
+            function insertTableRow(tableId) {
                 function reinitializeSelect2($_defect_sel) {
                     if ($_defect_sel) {
                         $($_defect_sel).removeClass('select2-hidden-accessible');
@@ -1967,72 +2034,6 @@
                     }
                 }
 
-                if (tableId === "part8") {
-                    if ($('.select_2_control').data('select2')) {
-                        $('.select_2_control').select2('destroy');
-                    }
-                }
-
-                Table.addRow($('table#' + tableId));
-                let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
-
-                lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
-                lastRow.attr('data-record-id', 0);
-
-                /*if (tableId === "material_table") {
-                    lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
-                    lastRow.find('[name="quantity"]').val('').attr('readonly', false);
-                    lastRow.find('[name="articles"]').attr('readonly', false);
-                    lastRow.find('[name="unit_of_measure"]').val('');
-                    lastRow.find('[name="unit_price"]').val('');
-                    lastRow.find('[name="total_price"]').val('');
-
-                    lastRow.find('#unit_price').text('');
-                }*/
-
-                /*if (tableId === "services_table") {
-                    // let row = lastRow[0];
-                    // $(row).find('.select2-container').remove();
-                    // $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
-
-                    lastRow.find('[name="service_article"]').val('');
-                    // lastRow.find('[name="service_article"]')
-                    lastRow.find('[name="serviceArticleCode"]').val('');
-                    lastRow.find('[name="service_technical_specification"]').val('');
-                    lastRow.find('[name="service_unit_price"]').val('');
-                    lastRow.find('[name="service_unit_of_measure"]').val('');
-                    lastRow.find('[name="service_total_price"]').val('');
-                    // initServiceArticleSelector('.')
-                } */
-
-                if (tableId === "part8") {
-                    let row = lastRow[0];
-                    $(row).find('[name="vehicleSystem"]').attr('disabled', false)
-                    $(row).find('[name="defectCategory"]').attr('disabled', false)
-                    $(row).find('[name="defect"]').attr('disabled', false)
-                    $(row).find('[name="workshopSection"]').attr('disabled', false)
-
-                    $(row).find('.select2-container').remove();
-                    let $_defect_sel = $(".select_2_control");
-                    reinitializeSelect2($_defect_sel);
-                }
-
-                if (tableId === "material_table") {
-                    let row = lastRow[0];
-                    $(row).find('.select2-container').remove();
-                    $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
-
-                    let article = $(row).find('input.articleCode').val();
-                    console.log('Article on line', article)
-                    let $_defect_sel = $(row).find(".articlesDropDownList");
-                    let $_defect_sel_ = $(row).find(".DropDownList");
-                    initArticleSelector($_defect_sel);
-                    initArticleSelector($_defect_sel_);
-                    //getArticleDetails(article, $_defect_sel);
-                }
-            }
-
-            function insertTableRow(tableId) {
                 const itemType = document.querySelector('[name="itemType"]').value;
                 // check if item type has been selected
                 if (!itemType) {
@@ -2091,11 +2092,17 @@
                     const vehicleReg = $table.find('tbody').find('[name="registration"]').val();
                     $table.find('tbody').append(materialTableRowTemplate);
                     $table.find('tbody').find('[name="registration"]').val(vehicleReg).attr('readonly');
-                } else {
-                    if (tableId === "services_table") {
+                } else if (tableId === "services_table") {
                         const vehicleReg = $table.find('tbody').find('[name="vehicle_registration"]').val();
                         $table.find('tbody').append(serviceTableRowTemplate);
                         $table.find('tbody').find('[name="vehicle_registration"]').val(vehicleReg).attr('readonly');
+
+                } else if(tableId === "part8"){
+                    $table.find('tbody').append(defectTableRowTemplate);
+                    if (tableId === "part8") {
+                        if ($('.select_2_control').data('select2')) {
+                            $('.select_2_control').select2('destroy');
+                        }
                     }
                 }
 
@@ -2145,6 +2152,18 @@
                     initArticleSelector($_defect_sel);
                     initArticleSelector($_defect_sel_);
                 }
+
+                if (tableId === "part8") {
+                    let row = lastRow[0];
+                    $(row).find('[name="vehicleSystem"]').attr('disabled', false)
+                    $(row).find('[name="defectCategory"]').attr('disabled', false)
+                    $(row).find('[name="defect"]').attr('disabled', false)
+                    $(row).find('[name="workshopSection"]').attr('disabled', false)
+
+                    $(row).find('.select2-container').remove();
+                    let $_defect_sel = $(".select_2_control");
+                    reinitializeSelect2($_defect_sel);
+                }
             }
 
             function deleteTableRow(eventSource) {
@@ -2162,7 +2181,8 @@
                     "No",
                     function () {
 
-                        Table.deleteRow(tableRow);
+                        $(tableRow).remove();
+                        //Table.deleteRow();
 
                         if (!valueId || valueId === "0") {
                             // clear first row
@@ -2173,7 +2193,6 @@
 
                             return;
                         }
-
 
                         let dataUrl = "";
                         if (tableId === 'part8') {
@@ -2520,11 +2539,11 @@
                     eventHandler(this, e);
                 });
 
-                $(document).off('click', 'button[value="addRow"][data-table-id]')
+                /*$(document).off('click', 'button[value="addRow"][data-table-id]')
                     .on('click', 'button[value="addRow"][data-table-id]', function () {
                         let tableId = $(this).data('tableId');
-                        addTableRow(tableId);
-                    });
+                        //addTableRow(tableId);
+                    });*/
 
                 $(document).on('click', 'button[value="insertRow"][data-table-id]', function () {
                     let tableId = $(this).data('tableId');
