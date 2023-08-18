@@ -23,7 +23,7 @@
             <tbody>
             @if($labour->isNotEmpty())
                 @foreach($labour as $labourItem)
-                    <tr class="increment" data-record-id="{{$labourItem->id}}">
+                    <tr class="increment">
                         <td>
                             <input title="WIP" class="checkbox" data-toggle="tooltip" type="checkbox">
                         </td>
@@ -130,6 +130,87 @@
                                     class="btn btn-sm btn-success reassignMechanic pull-right">
                                 <i class="fa fa-history"></i>
                                 Reassign
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr class="increment" data-record-id="{{$labourItem->id}}">
+                        <td>
+                            <input title="WIP"
+                                   name="selectDefectToAssign"
+                                   class="checkbox"
+                                   data-toggle="tooltip"
+                                   type="checkbox">
+                        </td>
+                        <td>
+                            {{$defect->defect_name}}
+                            <input name="assignedDefectId"
+                                   type="text"
+                                   style="display: none;"
+                                   required
+                                   value="{{$defect->defect_id}}"
+                                   class="form-control-sm defect"/>
+                            <input name="assignedDefect"
+                                   type="text"
+                                   style="display: none;"
+                                   required
+                                   value="{{$defect->defect_code}}"
+                                   data-value="{{$defect->defect_code}}"
+                                   class="form-control-sm defect"/>
+                        </td>
+                        <td class="showNumber">
+                            <input type="text"
+                                   class="form-control form-control-sm mechanicStaffNumber"
+                                   autocapitalize="characters"
+                                   id="mechanic"
+                                   list="mechanics"
+                                   name="mechanic"/>
+                        </td>
+                        <td>
+                            <input type="text"
+                                   class="form-control form-control-sm"
+                                   id="mechanicName"
+                                   name="mechanicName"
+                                   readonly/>
+                        </td>
+                        <td>
+                            <select name="workshopSection"
+                                    required
+                                    class="form-select form-select-sm workshopSection">
+                                <option></option>
+                                @foreach($workshop_sections as $workshop_section)
+                                    @if($defect->section_code == $workshop_section->code)
+                                        <option selected
+                                                value="{{$workshop_section->code}}">
+                                            {{$workshop_section->name}}
+                                        </option>
+                                    @else
+                                        <option value="{{$workshop_section->code}}">
+                                            {{$workshop_section->name}}
+                                        </option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                             <textarea type="text"
+                                       id="jobCardInstruction"
+                                       minlength="20"
+                                       maxlength="255"
+                                       required
+                                       name="jobCardInstruction"
+                                       style="height: 129px;"
+                                       class="form-control comments form-control-sm"></textarea>
+                        </td>
+
+                        <td>
+                            <button
+                                    type="button"
+                                    style="background: #f59d33; color: #fff;"
+                                    class="btn btn-sm btn-success saveAssignment pull-right">
+                                <i class="fa fa-save"></i>
+                                Save Assignment
                             </button>
                         </td>
 
