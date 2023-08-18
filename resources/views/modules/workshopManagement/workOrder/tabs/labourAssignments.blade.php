@@ -145,15 +145,12 @@
                                        class="form-control-sm defect"/>
                             </td>
                             <td class="showNumber">
-                                <select type="text"
-                                        class="form-select form-select-sm mechanicStaffNumber"
+                                <input type="text"
+                                        class="form-control form-control-sm mechanicStaffNumber"
                                         autocapitalize="characters"
                                         id="mechanic"
                                         name="mechanic">
-                                    @foreach($mechanics as $mechanic)
-                                    <option value="{{$mechanic->staff_no}}">{{$mechanic->staff_no}} - {{$mechanic->name}}</option>
-                                    @endforeach
-                                </select>
+                                </input>
                             </td>
                             <td>
                                 <input type="text"
