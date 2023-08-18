@@ -530,7 +530,7 @@
                                         Mechanic
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" readonly
+                                    <input type="text"
                                            class="form-control form-control-sm"
                                            name="reassignTo"
                                            list="mechanics"
