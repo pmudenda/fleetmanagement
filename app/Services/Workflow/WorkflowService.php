@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Log;
 class WorkflowService
 {
     const Approve = 3;
+    const Reject = 2;
 
     /**
      * Initialize Approval task
@@ -192,7 +193,7 @@ class WorkflowService
             case 1:
                 // resubmission
                 break;
-            case 2:
+            case self::Reject:
                 DB::beginTransaction();
                 WorkflowLog::create([
                     'remarks' => $comment,
@@ -200,7 +201,7 @@ class WorkflowService
                     'actioning_officer' => $current_user->staff_no,
                     'action' => $action,
                     'activity' => $actionTaken,
-                    'status' => StatusHelper::authorised(),
+                    'status' => StatusHelper::rejected(),
                     'previous_step' => $currentStep->previous_step,
                     'step_id' => $currentStep->step_id,
                     'reference' => $reference
@@ -213,11 +214,9 @@ class WorkflowService
                 $task_detail->date_ended = Carbon::now();
                 $task_detail->save();
                 DB::commit();
-                return ["0", "0"];
+                return [100, "0"];
             case self::Approve:
                 // approved
-                //check if the current step is final step .CurrentStep.IsFinalStep == 1
-                //DB::beginTransaction();
                 if ($currentStep->is_final_step
                     || $currentStep->is_final_step == '1'
                     || $currentStep->is_final_step == 1
@@ -258,15 +257,6 @@ class WorkflowService
                     throw new WorkflowTaskCreationFailedException("Approval Process Next State Record Not Found", 102);
                 }
 
-                // get to next step
-                /*if ($next_step == null) {
-                    $task_detail->current_step_id = null;
-                    $task_detail->actionong_officer = null;
-                    $task_detail->save();
-                    self::closePreviousTasks($task_detail);
-                    return $task_detail;
-                }*/
-
                 // create partial authorisation log
                 Log::info("Creating Approval Log ");
                 WorkflowLog::create([
@@ -282,7 +272,6 @@ class WorkflowService
                 ]);
 
                 $task_detail->current_step_id = $next_step->step_id;
-
                 //send notification to actioning officer
 
                 //find current_user with role
@@ -302,6 +291,7 @@ class WorkflowService
 
                 $assign_to_user = $next_approver;
                 Log::info("Next Approver Determine as " . $assign_to_user->staff_no);
+
                 if ($assign_to_user->staff_no != 0) {
                     $task_detail->actioning_officer = $assign_to_user->staff_no;
                 }
@@ -313,16 +303,16 @@ class WorkflowService
                 $task_header->save();
 
                 // new notification
-                //self::closePreviousTasks($task_detail);
+                // self::closePreviousTasks($task_detail);
                 // next step is present
                 $finalApproval = (bool)$next_step->is_final_step;
 
                 if ($finalApproval) {
                     // final approval
-                    //_newConnectionService . Close($task_detail->reference);
-                    //CreateUserNotification(taskDetail, "New Connection Request Work Task", nextStep?.ActionPage);
+                    // _newConnectionService . Close($task_detail->reference);
+                    // CreateUserNotification(taskDetail, "New Connection Request Work Task", nextStep?.ActionPage);
                 } else {
-                    /*self::createUserNotification(
+                    /* self::createUserNotification(
                         $task_detail, "New Connection Request Work Task",
                         $next_step->action_page
                     );*/

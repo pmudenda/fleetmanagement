@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MaterialHeader;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Models\WorkShopManagement\JobCardHeader;
+use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Requisitions\WorkshopRequisitionService;
 use App\Services\Workflow\WorkflowService;
@@ -35,14 +36,17 @@ class WorkflowController extends Controller
     private FuelRequisitionService $fuelRequisitionService;
     private WorkshopRequisitionService $workshopRequisitionService;
     private WorkflowService $workflowService;
+    private ProcurementSystemIntegrationService $procurementService;
 
-    public function __construct(FuelRequisitionService     $requisitionService,
-                                WorkflowService            $workflowService,
-                                WorkshopRequisitionService $workshopRequisitionService)
+    public function __construct(FuelRequisitionService              $requisitionService,
+                                WorkflowService                     $workflowService,
+                                WorkshopRequisitionService          $workshopRequisitionService,
+                                ProcurementSystemIntegrationService $procurementService)
     {
         $this->fuelRequisitionService = $requisitionService;
         $this->workflowService = $workflowService;
         $this->workshopRequisitionService = $workshopRequisitionService;
+        $this->procurementService = $procurementService;
     }
 
     public function showWorkTask(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
@@ -77,7 +81,7 @@ class WorkflowController extends Controller
                 $actionTaken = "Approved";
                 $message = 'Request Approved Successfully';
             } elseif ($request->get('Approved') === 'reject') {
-                $action = WorkflowActions::rejected();
+                $action = WorkflowActions::reject();
                 $actionTaken = "Rejected";
                 $message = 'Request Rejected';
             } elseif ($request->get('Approved') === 'send_back') {
@@ -95,30 +99,21 @@ class WorkflowController extends Controller
             );
 
             $requisitionNumber = null;
-            if ($nextStepId == 100) {
+            if ($nextStepId == 100 && $action == WorkflowActions::approve()) {
                 $requisitionNumber = $this->fuelRequisitionService->createStoresRequisition($request->get('reference'));
                 $message = $message . ' Stores Requisition No.: ' . $requisitionNumber;
-
-                $this->workshopRequisitionService->updateStatus($reference, StatusHelper::authorised());
-
-                $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, StatusHelper::authorised());
+                $this->fuelRequisitionService->updateStatus($reference, StatusHelper::authorised());
+            } elseif ($nextStepId == 100 && $action == WorkflowActions::reject()) {
+                $status = StatusHelper::rejected();
+                $message = 'Request Rejected.';
+                $this->fuelRequisitionService->updateStatus($reference, $status);
             } else {
                 $status = '';
-                switch (strtolower(trim($request->get('Approved')))) {
-                    case 'approve':
-                        $status = StatusHelper::partiallyAuthorised();
-                        $message = 'Request Approved and Submitted to the Next Authority For Approval';
-
-                        break;
-                    case 'reject':
-                        $status = StatusHelper::rejected();
-                        $message = 'Request Rejected.';
-                        break;
+                if (strtolower(trim($request->get('Approved'))) == 'approve') {
+                    $status = StatusHelper::partiallyAuthorised();
+                    $message = 'Request Approved and Submitted to the Next Authority For Approval';
                 }
-
                 $this->fuelRequisitionService->updateStatus($reference, $status);
-                $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, $status);
-
             }
 
             DB::commit();
@@ -181,7 +176,7 @@ class WorkflowController extends Controller
                     $message = 'Request Approved Successfully.';
                     break;
                 case 'reject':
-                    $action = WorkflowActions::rejected();
+                    $action = WorkflowActions::reject();
                     $actionTaken = "Rejected";
                     $message = 'Request Rejected.';
                     break;
@@ -220,20 +215,15 @@ class WorkflowController extends Controller
 
                 $this->workshopRequisitionService->updateStatus($reference, StatusHelper::authorised());
                 $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, StatusHelper::authorised());
+            } elseif ($nextStepId == 100 && $action == WorkflowActions::reject()) {
+                $this->workshopRequisitionService->updateStatus($reference, StatusHelper::rejected());
+                $message = 'Request Rejected';
             } else {
-
                 $status = '';
-                switch (strtolower(trim($request->get('Approved')))) {
-                    case 'approve':
-                        $message = 'Request Approved and Submitted to the Next Authority For Approval';
-                        $status = StatusHelper::partiallyAuthorised();
-                        break;
-                    case 'reject':
-                        $message = 'Request Rejected';
-                        $status = StatusHelper::rejected();
-                        break;
+                if (strtolower(trim($request->get('Approved'))) == 'approve') {
+                    $message = 'Request Approved and Submitted to the Next Authority For Approval';
+                    $status = StatusHelper::partiallyAuthorised();
                 }
-
                 $this->workshopRequisitionService->updateStatus($reference, $status);
                 $this->workshopRequisitionService->updateMaterialHeaderStatus($reference, $status);
             }
@@ -293,7 +283,7 @@ class WorkflowController extends Controller
                     $message = 'Request Approved Successfully.';
                     break;
                 case 'reject':
-                    $action = WorkflowActions::rejected();
+                    $action = WorkflowActions::reject();
                     $actionTaken = "Rejected";
                     $message = 'Request Rejected.';
                     break;
@@ -333,29 +323,25 @@ class WorkflowController extends Controller
                     $this->procurementService->cancelStoresRequisition($requisition->st_pur);
                 }
 
+            } else if ($nextStepId == 100 && $action == WorkflowActions::reject()) {
+                $message = 'Request Rejected';
+                $status = StatusHelper::rejected();
+                JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
+                    ->update([
+                        'modified_by' => $user->staff_no,
+                        'status' => $status,
+                        'updated_at' => Carbon::now()
+                    ]);
             } else {
-                $status = '';
-                switch (strtolower(trim($request->get('Approved')))) {
-                    case 'approve':
-                        $message = 'Request Approved and Submitted to the Next Authority For Approval';
-                        $status = StatusHelper::partiallyAuthorised();
-                        JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
-                            ->update([
-                                'modified_by' => $user->staff_no,
-                                'status' => $status,
-                                'updated_at' => Carbon::now()
-                            ]);
-                        break;
-                    case 'reject':
-                        $message = 'Request Rejected';
-                        $status = StatusHelper::rejected();
-                        JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
-                            ->update([
-                                'modified_by' => $user->staff_no,
-                                'status' => $status,
-                                'updated_at' => Carbon::now()
-                            ]);
-                        break;
+                if (strtolower(trim($request->get('Approved'))) == 'approve') {
+                    $message = 'Request Approved and Submitted to the Next Authority For Approval';
+                    $status = StatusHelper::partiallyAuthorised();
+                    JobCardHeader::where("job_card_no", "=", str_replace('-C', '', $reference))
+                        ->update([
+                            'modified_by' => $user->staff_no,
+                            'status' => $status,
+                            'updated_at' => Carbon::now()
+                        ]);
                 }
             }
 

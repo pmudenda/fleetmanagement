@@ -13,7 +13,7 @@ class WorkflowActions
         return 3;
     }
 
-    public static function rejected(): int
+    public static function reject(): int
     {
         return 2;
     }
