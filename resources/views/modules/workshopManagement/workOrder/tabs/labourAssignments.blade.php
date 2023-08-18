@@ -8,7 +8,7 @@
             <thead>
             <tr class="bg-success-subtle">
                 <th>Defect</th>
-                <th style="width: 6%;">Mechanic</th>
+                <th style="width: 10%;">Mechanic</th>
                 <th style="width: 15%;"></th>
                 <th>Section</th>
                 <th>Action</th>
