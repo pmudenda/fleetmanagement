@@ -240,7 +240,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('exit/vehicle/from/workshop', [MaintenanceController::class, 'exitWorkShop'])->name('exit.from.card');
 
-            Route::post('close/work-order', [MaintenanceController::class, 'processWorkOrderClosure'])->name('save.exit.from.workshop');
+            Route::post('close/work-order', [MaintenanceController::class, 'closeJobCard'])->name('save.exit.from.workshop');
 
             Route::get('open/job-card/closure', [MaintenanceController::class, 'openJobCardClosure'])->name('show.workorder.closure');
 
