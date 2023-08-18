@@ -170,6 +170,7 @@
                                                  <textarea type="text"
                                                            required
                                                            minlength="20"
+                                                           maxlength="255"
                                                            id="commentsToSupervisor"
                                                            name="commentsToSupervisor"
                                                            style="height: 129px;"
