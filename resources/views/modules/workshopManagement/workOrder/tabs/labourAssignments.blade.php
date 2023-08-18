@@ -138,6 +138,9 @@
                     @foreach($defects as $defect)
                         <tr class="increment">
                             <td>
+                                <input title="WIP" class="checkbox" data-toggle="tooltip" type="checkbox">
+                            </td>
+                            <td>
                                 {{$defect->defect_name}}
                                 <input name="assignedDefect" type="hidden"
                                        required
