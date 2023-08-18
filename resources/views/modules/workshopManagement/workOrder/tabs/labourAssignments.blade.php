@@ -9,7 +9,7 @@
             <tr class="bg-success-subtle">
                 <th>
                     <input name="selectAll"
-                            title="Not Active Yet"
+                           title="Not Active Yet"
                            class="checkbox" data-toggle="tooltip" type="checkbox">ALL
                 </th>
                 <th style="width: 16%;">DEFECT</th>
@@ -140,11 +140,17 @@
                     @foreach($defects as $defect)
                         <tr class="increment">
                             <td>
-                                <input title="WIP" name="selectDefectToAssign" class="checkbox" data-toggle="tooltip" type="checkbox">
+                                <input title="WIP"
+                                       name="selectDefectToAssign"
+                                       class="checkbox"
+                                       data-toggle="tooltip"
+                                       type="checkbox">
                             </td>
                             <td>
                                 {{$defect->defect_name}}
-                                <input name="assignedDefect" type="hidden"
+                                <input name="assignedDefect"
+                                       type="text"
+                                       style="display: none;"
                                        required
                                        value="{{$defect->defect_code}}"
                                        disabled

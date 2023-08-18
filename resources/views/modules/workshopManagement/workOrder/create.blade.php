@@ -1104,7 +1104,11 @@
                 });
 
                 $('[name="selectDefectToAssign"]').on('change', function () {
-
+                    if($(this).is(':checked')){
+                       // selects()
+                    }else{
+                       // deSelect();
+                    }
                 });
 
                 $('[name="selectAll"]').on('change', function () {
@@ -1122,7 +1126,6 @@
                         for (let i = 0; i < ele.length; i++) {
                             if (ele[i].type === 'checkbox')
                                 ele[i].checked = false;
-
                         }
                     }
 
@@ -1131,7 +1134,6 @@
                     }else{
                         deSelect();
                     }
-
                 });
             });
 
