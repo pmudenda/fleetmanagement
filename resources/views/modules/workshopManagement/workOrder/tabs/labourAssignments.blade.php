@@ -260,7 +260,7 @@
         <hr>
         <datalist id="mechanics">
             @foreach($mechanics as $mechanic)
-                <option value="{{$mechanic->staff_no}}">
+                <option value="{{$mechanic->staff_no}}">{{$mechanic->staff_no}} {{$mechanic->name}}</option>
             @endforeach
         </datalist>
         <div class="row">
