@@ -69,7 +69,7 @@
                                     class="form-select form-select-sm workshopSection">
                                 <option></option>
                                 @foreach($workshop_sections as $workshop_section)
-                                    @if($defect->section_code == $workshop_section->code)
+                                    @if($labourItem->section == $workshop_section->code)
                                         <option selected
                                                 value="{{$workshop_section->code}}">
                                             {{$workshop_section->name}}
