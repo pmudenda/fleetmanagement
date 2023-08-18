@@ -22,6 +22,7 @@
             </thead>
             <tbody>
             @if($labour->isNotEmpty())
+                {{dd($labourItem)}}
                 @foreach($labour as $labourItem)
                     <tr class="increment" data-record-id="{{$labourItem->id}}">
                         <td>
