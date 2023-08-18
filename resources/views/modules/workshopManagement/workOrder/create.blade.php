@@ -1081,6 +1081,7 @@
 
             setTimeout(function () {
                 disableControls();
+                $("#labour_table").find('[data-record-id]').find('.mechanicStaffNumber').change();
             }, 1000);
 
             Inputmask({
