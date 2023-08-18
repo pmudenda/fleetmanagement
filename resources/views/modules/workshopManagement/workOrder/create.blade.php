@@ -514,13 +514,26 @@
                         <div class="row">
                             <div class="row">
                                 <div class="form-group">
-                                    {{--<label class="app-field-label">
-                                        Mechanic
+                                    <label class="app-field-label">
+                                        Defect Description
                                         <span class="text-danger">*</span>
-                                    </label>--}}
+                                    </label>
                                     <input type="text" readonly
                                            class="form-control form-control-sm"
                                            name="reassignmentDefectDefectName"
+                                           value="">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="app-field-label">
+                                        Mechanic
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" readonly
+                                           class="form-control form-control-sm"
+                                           name="reassignTo"
+                                           list="mechanics"
                                            value="">
                                 </div>
                             </div>
