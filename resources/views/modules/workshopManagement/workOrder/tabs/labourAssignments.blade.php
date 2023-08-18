@@ -22,84 +22,7 @@
             </thead>
             <tbody>
             @if($labour->isNotEmpty())
-                {{dd($labour)}}
                 @foreach($labour as $labourItem)
-                    <tr class="increment">
-                        <td>
-                            <input title="WIP" class="checkbox" data-toggle="tooltip" type="checkbox">
-                        </td>
-                        <td>
-
-
-                            <select name="defect"
-                                    required
-                                    disabled
-                                    data-value="{{$labourItem->def_no ?? ''}}"
-                                    class="form-select form-select-sm select_2_control defect">
-                                <option></option>
-                            </select>
-                        </td>
-                        <td class="showNumber">
-                            <input type="text"
-                                   readonly
-                                   data-value="{{$labourItem->mechanic}}"
-                                   value="{{$labourItem->mechanic ?? ''}}"
-                                   class="form-control form-control-sm"
-                                   autocapitalize="characters"
-                                   id="mechanic"
-                                   name="mechanic"/>
-                        </td>
-                        <td>
-                            <input type="text"
-                                   class="form-control form-control-sm"
-                                   id="mechanicName"
-                                   name="mechanicName"
-                                   readonly/>
-                        </td>
-
-                        <td>
-                            <select name="workshopSection"
-                                    required
-                                    class="form-select form-select-sm workshopSection">
-                                <option></option>
-                                @foreach($workshop_sections as $workshop_section)
-                                    @if($labourItem->section == $workshop_section->code)
-                                        <option
-                                                selected
-                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
-                                    @else
-                                        <option
-                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        </td>
-
-                        <td>
-                        <td>
-                                 <textarea type="text"
-                                           id="jobCardInstruction"
-                                           minlength="20"
-                                           maxlength="255"
-                                           required
-                                           name="jobCardInstruction"
-                                           style="height: 129px;"
-                                           class="form-control comments form-control-sm"></textarea>
-                        </td>
-                        </td>
-
-                        <td>
-                            <button type="button"
-                                    data-laour-item="{{json_encode($labourItem)}}"
-                                    style="background: #f59d33; color: #fff;"
-                                    class="btn btn-sm btn-success reassignMechanic pull-right">
-                                <i class="fa fa-history"></i>
-                                Reassign
-                            </button>
-                        </td>
-
-                    </tr>
-
                     <tr class="increment" data-record-id="{{$labourItem->id}}">
                         <td>
                             <input title="WIP"
@@ -128,6 +51,8 @@
                                    class="form-control form-control-sm mechanicStaffNumber"
                                    autocapitalize="characters"
                                    id="mechanic"
+                                   data-value="{{$labourItem->mechanic}}"
+                                   value="{{$labourItem->mechanic ?? ''}}"
                                    list="mechanics"
                                    name="mechanic"/>
                         </td>
@@ -165,16 +90,16 @@
                                        required
                                        name="jobCardInstruction"
                                        style="height: 129px;"
-                                       class="form-control comments form-control-sm"></textarea>
+                                       class="form-control comments form-control-sm">{{$labourItem->job_card_instruction}}</textarea>
                         </td>
 
                         <td>
-                            <button
-                                    type="button"
+                            <button type="button"
+                                    data-laour-item="{{json_encode($labourItem)}}"
                                     style="background: #f59d33; color: #fff;"
-                                    class="btn btn-sm btn-success saveAssignment pull-right">
-                                <i class="fa fa-save"></i>
-                                Save Assignment
+                                    class="btn btn-sm btn-success reassignMechanic pull-right">
+                                <i class="fa fa-history"></i>
+                                Reassign
                             </button>
                         </td>
 
