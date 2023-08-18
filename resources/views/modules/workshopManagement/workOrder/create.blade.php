@@ -1249,6 +1249,10 @@
                         /*});*/
                     });
 
+                    if(arr.length === 0){
+                        // tmsApp.systemError("Request Submission", 'No Records Selected for Saving');
+                    }
+
                     obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
 
                     if (formSel.data('modelName') === 'Defects') {
