@@ -1186,8 +1186,10 @@
                     let checked = $(this).is(':checked');
                     if (checked) {
                         // selects()
+                        $('[name="assignMultiple"]').removeClass('d-none');
                     } else {
                         // deSelect();
+                        $('[name="assignMultiple"]').addClass('d-none');
                     }
                 });
 

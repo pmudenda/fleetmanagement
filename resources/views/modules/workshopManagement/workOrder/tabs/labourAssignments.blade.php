@@ -2,9 +2,8 @@
 <div class="row pt-5">
     <div class="table-responsive">
         <button type="button"
-                data-table-id="material_table"
-                class="btn btn-sm btn-primary add pull-right"
-                value="insertRow">
+                class="btn btn-sm btn-primary d-none pull-right"
+                value="assignMultiple">
             <i class="fa fa-plus"></i>
             Assign Selected
         </button>
