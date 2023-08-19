@@ -2952,9 +2952,11 @@
 
             //first hide the buttons
             $('#submit_possible').hide();
+
             $('#submit_not_possible').hide();
 
             $("#divSubmit_hide").hide();
+
             //disable the submit button
             $("#btnSubmit").on('click', function () {
                 $("#create_form").submit(function (e) {
