@@ -2249,7 +2249,7 @@
 
                         // $(element).closest("tr").find("#imprestItemTotalPrice").text(tmsApp.numberFormat(imprestLineAmountTotal));
 
-                        const inps = document.getElementsByName('imprestItemQty');
+                        const inps = document.getElementsByName('imprestItemTotalPrice');
                         let total = 0;
                         for (let i = 0; i < inps.length; i++) {
                             const inp = inps[i];
