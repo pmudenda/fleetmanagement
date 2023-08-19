@@ -1586,7 +1586,7 @@
                 //let stepId = oldIndex;
                 //window.global_currentIndex = stepId - 1;
 
-                const   = 'step';
+                const index  = 'step';
                 //  Define friendly data store name
                 const dataStore = window.sessionStorage;
                 let stepId = window.step_id;
