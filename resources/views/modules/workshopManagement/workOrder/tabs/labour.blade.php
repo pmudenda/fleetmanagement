@@ -36,38 +36,13 @@
                                    value="{{$labourItem->def_no}}"
                                    data-value="{{$labourItem->def_no}}"
                                    class="form-control-sm defect"/>
-                            {{--<div class="d-none">
-                                <select name="vehicleSystem"
-                                        style="display: none;"
-                                        required
-                                        disabled
-                                        data-value="{{$defect->veh_sys ?? ''}}"
-                                        class="form-select form-select-sm select_2_control vehicleSystem">
-                                    <option></option>
-                                </select>
-                                <select name="defectCategory"
-                                        required
-                                        style="display: none;"
-                                        disabled
-                                        data-value="{{$defect->defect_category_code ?? ''}}"
-                                        class="form-select form-select-sm select_2_control defectCategory">
-                                    <option></option>
-                                </select>
-                            </div>
-                            <select name="defect"
-                                    required
-                                    disabled
-                                    data-value="{{$labourItem->def_no ?? ''}}"
-                                    class="form-select form-select-sm select_2_control defect">
-                                <option></option>
-                            </select>--}}
                         </td>
                         <td class="showNumber">
                             <input type="text"
                                    readonly
                                    data-value="{{$labourItem->mechanic}}"
                                    value="{{$labourItem->mechanic ?? ''}}"
-                                   class="form-control form-control-sm"
+                                   class="form-control form-control-sm mechanicStaffNumber"
                                    autocapitalize="characters"
                                    id="mechanic"
                                    name="mechanic"/>
