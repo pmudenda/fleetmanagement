@@ -797,24 +797,28 @@
                                                         <tr class="increment">
                                                             <td class="showNumber">
                                                                 <select name="vehicleSystem"
+                                                                        disabled
                                                                         class="form-select form-select-sm select_2_control vehicleSystem">
                                                                     <option></option>
                                                                 </select>
                                                             </td>
                                                             <td>
                                                                 <select name="defectCategory"
+                                                                        disabled
                                                                         class="form-select form-select-sm select_2_control defectCategory">
                                                                     <option></option>
                                                                 </select>
                                                             </td>
                                                             <td>
                                                                 <select name="defect"
+                                                                        disabled
                                                                         class="form-select form-select-sm select_2_control defect">
                                                                     <option></option>
                                                                 </select>
                                                             </td>
                                                             <td>
                                                                 <select name="workshopSection"
+                                                                        disabled
                                                                         class="form-select form-select-sm workshopSection">
                                                                     <option></option>
                                                                     @foreach($workshop_sections as $workshop_section)
@@ -914,7 +918,6 @@
 
                         <h1>LABOUR & ASSIGNMENTS</h1>
                         <section>
-                            {{-- @include('modules.workshopManagement.workOrder.tabs.labour')--}}
                             @include('modules.workshopManagement.workOrder.tabs.labourAssignments')
                         </section>
 
@@ -1905,18 +1908,6 @@
                                                     </tr>
                                                     </tbody>
                                                 </table>
-                                                {{--<div class="col-12 text-right">
-                                                    <div>
-                                                        <button type="button"
-                                                                id="saveServices"
-                                                                style="background: #f59d33; color: #fff;"
-                                                                data-table-id="services_table"
-                                                                class="btn btn-sm btn-success add pull-right">
-                                                            <i class="fa fa-save"></i>
-                                                            Save
-                                                        </button>
-                                                    </div>
-                                                </div>--}}
                                             </div>
                                         </div>
                                     </div>
@@ -2024,14 +2015,6 @@
                                                size="25" maxlength="25"/><br/>
                                     </div>
                                 </div>
-                                {{-- <div >
-                                     <label class="app-label field-required app-field-null">Login Password</label>
-                                     <div>
-                                         <input type="password" id="loginPasswordInput"
-                                                class="form-control"
-                                                size="25" maxlength="25"/><br/>
-                                     </div>
-                                 </div>--}}
                                 <div class="signAsElement">
                                     <label class="app-label field-required app-field-null">eSignature Password</label>
                                     <div>
@@ -2080,11 +2063,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button id="btnSign" type="submit"
-                                class="btn btn-sm btn-success mr-3">
-                            <i class="fas fa-save"></i>
-                            Sign
-                        </button>
                     </div>
                 </form>
             </div>
@@ -2102,198 +2080,11 @@
     <script src="{{asset("libs/steps/jquery.steps.js")}}"></script>
     <script>
         'use strict';
-        const materialTableRowTemplate = `<tr class="increment">
-            <td class="showNumber">
-                <input
-                    name="registration"
-                    required
-                    value=""
-                    class="form-control form-control-sm vehicle_registration"/>
-            </td>
-            <td>
-                <select
-                    name="articles"
-                    required
-                    data-value=""
-                    class="form-control form-control-sm articlesDropDownList">
-                    <option></option>
-                </select>
-            </td>
-            <td>
-                <input
-                    name="articleCode"
-                    required
-                    readonly
-                    class="form-control form-control-sm articleCode"/>
-            </td>
-            <td>
-                <input
-                    name="technical_specification"
-                    required
-                    class="form-control form-control-sm technical_specification"/>
-            </td>
+        const materialTableRowTemplate = ``;
 
-            <td>
-                <input
-                    type="text"
-                    min="1"
-                    name="quantity"
-                    required
-                    class="form-control form-control-sm quantity number_input"/>
-            </td>
+        const serviceTableRowTemplate = ``;
 
-            <td>
-                <input
-                    name="unit_of_measure"
-                    required
-                    readonly
-                    class="form-control form-control-sm unit_of_measure"/>
-            </td>
-
-            <td>
-                <input name="unit_price"
-                       required
-                       readonly
-                       class="form-control form-control-sm unit_price"/>
-            </td>
-
-            <td>
-                <input name="total_price"
-                       required
-                       readonly
-                       class="form-control form-control-sm total_price"/>
-            </td>
-
-            <td class="view-mode">
-                <button type="button"
-                        data-value="0"
-                        value="deleteRow"
-                        class="btn btn-danger p-2">
-                    <i class="fas fa-trash m-0"></i>
-                </button>
-            </td>
-        </tr>`;
-
-        const serviceTableRowTemplate = ` <tr class="increment">
-            <td class="showNumber">
-                <input
-                    name="vehicle_registration"
-                    required
-                    value=""
-                    class="form-control form-control-sm vehicle_registration"/>
-            </td>
-            <td>
-                <select
-                    name="service_article"
-                    required
-                    data-value=""
-                    class="form-control form-control-sm servicesArticlesDropDownList">
-                    <option></option>
-                </select>
-            </td>
-            <td>
-                <input
-                    name="serviceArticleCode"
-                    required
-                    readonly
-                    class="form-control form-control-sm serviceArticleCode"/>
-            </td>
-            <td>
-                <input
-                    name="service_technical_specification"
-                    required
-                    class="form-control form-control-sm service_technical_specification"/>
-            </td>
-
-            <td>
-                <input
-                    readonly
-                    type="text"
-                    min="1"
-                    value="1"
-                    max="1"
-                    name="service_quantity"
-                    required
-                    class="form-control form-control-sm service_quantity number_input"/>
-            </td>
-
-            <td>
-                <input
-                    name="service_unit_of_measure"
-                    required
-                    readonly
-                    class="form-control form-control-sm unit_of_measure"/>
-            </td>
-
-            <td>
-                <input name="service_unit_price"
-                       required
-                       class="form-control form-control-sm service_unit_price"/>
-            </td>
-
-            <td>
-                <input name="service_total_price"
-                       required
-                       readonly
-                       class="form-control form-control-sm service_total_price"/>
-            </td>
-
-            <td class="view-mode">
-                <button type="button"
-                        data-value="0"
-                        value="deleteRow"
-                        class="btn btn-danger p-2">
-                    <i class="fas fa-trash m-0"></i>
-                </button>
-            </td>
-        </tr>`;
-
-        const defectTableRowTemplate = ` <tr class="increment">
-                                <td class="showNumber">
-                                    <select name="vehicleSystem"
-                                            class="form-select form-select-sm select_2_control vehicleSystem">
-                                        <option></option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="defectCategory"
-                                            class="form-select form-select-sm select_2_control defectCategory">
-                                        <option></option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="defect"
-                                            class="form-select form-select-sm select_2_control defect">
-                                        <option></option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="workshopSection" class="form-select form-select-sm workshopSection">
-                                        <option></option>
-                                        @foreach($workshop_sections as $workshop_section)
-        <option
-                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
-                                        @endforeach
-        </select>
-    </td>
-
-    <td>
-        <input name="date_def"
-               readonly="readonly"
-               value="@if($details){{date('Y-m-d',strtotime(Carbon::parse($details->date_in)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
-                                           class="tabledit-input form-control input-sm input-number"
-                                           type="text">
-                                </td>
-
-                                <td class="view-mode">
-                                    <button type="button"
-                                            value="deleteRow"
-                                            data-value="0"
-                                            class="btn btn-danger p-2">
-                                        <i class="fas fa-trash m-0"></i>
-                                    </button>
-                                </td>
-                            </tr>`;
+        const defectTableRowTemplate = ``;
 
         function initArticleSelector(element) {
             const dataUrl = document.querySelector('#articlesUrl').value;
@@ -2628,7 +2419,6 @@
 
             setTimeout(function () {
                 disableControls();
-
                 $("#labour_table").find('[data-record-id]').find('.mechanicStaffNumber').change();
             }, 1000);
 
@@ -2977,34 +2767,34 @@
                         }
 
                         return true;
-                       /* const driverAcknowledged = $('#driverAcknowledged').val();
+                        /* const driverAcknowledged = $('#driverAcknowledged').val();
 
-                        if (currentIndex === 1 && driverAcknowledged === 'Y') {
-                            return true;
-                        }
+                         if (currentIndex === 1 && driverAcknowledged === 'Y') {
+                             return true;
+                         }
 
-                        if (currentIndex === 0 || currentIndex === 2 && $('[name="job_card_number"]').val()) {
-                            return true;
-                        }*/
+                         if (currentIndex === 0 || currentIndex === 2 && $('[name="job_card_number"]').val()) {
+                             return true;
+                         }*/
 
-                       /* if (currentIndex < newIndex) {
-                            // To remove error styles
-                            form.find(".body:eq(" + newIndex + ") label.error").remove();
-                            form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
-                        }
+                        /* if (currentIndex < newIndex) {
+                             // To remove error styles
+                             form.find(".body:eq(" + newIndex + ") label.error").remove();
+                             form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+                         }
 
-                        form.validate().settings.ignore = ":disabled,:hidden";
-                        window.global_currentIndex = currentIndex;
-                        if (form.valid() && !window.goToNext) {
-                            tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
-                                postData(form.find('[data-model-name]').get(currentIndex), false);
-                            }, function () {
-                            });
-                        }
+                         form.validate().settings.ignore = ":disabled,:hidden";
+                         window.global_currentIndex = currentIndex;
+                         if (form.valid() && !window.goToNext) {
+                             tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
+                                 postData(form.find('[data-model-name]').get(currentIndex), false);
+                             }, function () {
+                             });
+                         }
 
-                        let tmp = window.goToNext;
-                        window.goToNext = false;
-                        return tmp;*/
+                         let tmp = window.goToNext;
+                         window.goToNext = false;
+                         return tmp;*/
                     },
                     onStepChanged: function (event, currentIndex, priorIndex) {
 
@@ -4264,116 +4054,4 @@
 
         })(window.tmsApp || {}, jQuery)
     </script>
-
-    <!--  -->
-    <script type="text/javascript">
-
-        //ROUND OFF FUNCTION
-        Number.prototype.round = function (places) {
-            return +(Math.round(this + "e+" + places) + "e-" + places);
-        }
-
-        function getvalues() {
-            const inps = document.getElementsByName('amount[]');
-            let total = 0;
-            for (let i = 0; i < inps.length; i++) {
-                const inp = inps[i];
-                total = total + parseFloat(inp.value || 0);
-            }
-            total = total.round(2);
-
-            if (!isNaN(total)) {
-                //check if petty cash is below 2000
-                if (total > 2000) {
-                    $('#submit_possible').hide();
-                    $('#submit_not_possible').show();
-                } else if (total == 0) {
-                    $('#submit_not_possible').hide();
-                    $('#submit_possible').hide();
-                } else {
-                    $('#submit_not_possible').hide();
-                    $('#submit_possible').show();
-                }
-                //set value
-                document.getElementById('total-payment').value = total;
-            }
-        }
-
-
-        // Navigation Script Starts Here
-        $(document).ready(function () {
-
-            //first hide the buttons
-            $('#submit_possible').hide();
-            $('#submit_not_possible').hide();
-
-            $("#divSubmit_hide").hide();
-            //disable the submit button
-            $("#btnSubmit").on('click', function () {
-                $("#create_form").submit(function (e) {
-                    e.preventDefault()
-                    //do something here
-                    $("#divSubmit_show").hide();
-                    $("#divSubmit_hide").show();
-                    //continue submitting
-                    e.currentTarget.submit();
-                });
-            });
-
-            $(document).on('click', '.deleteTaleRow', function () {
-                const tableID = $(this).attr('data-table-id');
-
-                const table = document.getElementById(tableID);
-
-                const rowCount = table.rows.length;
-                const row = table.insertRow(rowCount);
-
-                const colCount = table.rows[0].cells.length;
-
-                for (let i = 0; i < colCount; i++) {
-
-                    const newCell = row.insertCell(i);
-
-                    newCell.innerHTML = table.rows[0].cells[i].innerHTML;
-
-                    switch (newCell.childNodes[0].type) {
-                        case "text":
-                            newCell.childNodes[0].value = "";
-                            break;
-                        case "checkbox":
-                            newCell.childNodes[0].checked = false;
-                            break;
-                        case "select-one":
-                            newCell.childNodes[0].selectedIndex = 0;
-                            break;
-                    }
-                }
-            });
-            $(document).on('click', '.deleteTaleRow', function () {
-                const tableID = $(this).attr('data-table-id');
-                try {
-                    const table = document.getElementById(tableID);
-                    let rowCount = table.rows.length;
-
-                    for (let i = 0; i < rowCount; i++) {
-                        const row = table.rows[i];
-                        const chkbox = row.cells[0].childNodes[0];
-                        if (null != chkbox && true == chkbox.checked) {
-                            if (rowCount <= 1) {
-                                alert("Cannot delete all the rows.");
-                                break;
-                            }
-                            table.deleteRow(i);
-                            rowCount--;
-                            i--;
-                        }
-                    }
-                    getvalues();
-                } catch (e) {
-                    alert(e);
-                }
-            });
-        });
-    </script>
-
 @endpush
