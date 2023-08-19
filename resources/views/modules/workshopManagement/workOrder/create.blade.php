@@ -2235,7 +2235,21 @@
                         $('#serviceTotalPrice').text(tmsApp.numberFormat(serviceSummaryTotal, 2));
                         break;
                     case 'imprestItemQty':
-                        const inps = document.getElementsByName('amount[]');
+                        let imprestSummaryTotalQty = 0;
+                        $(element).closest("table").find("input[name=imprestItemQty]").each(function (i, it) {
+                            imprestSummaryTotalQty += Util.getFloat(it.value);
+                        });
+
+                        // set value in footer
+                        // $('#serviceQuantityTotal').text(tmsApp.getRawNumber(imprestSummaryTotalQty));
+
+                        let imprestLineAmountTotal = tmsApp.getFloat(element.value)
+                            * tmsApp.getFloat($(element).closest("tr").find("input[name=imprestItemUnitPrice]").val());
+                        $(element).closest("tr").find("input[name=imprestItemTotalPrice]").val(imprestLineAmountTotal);//.change();
+
+                        $(element).closest("tr").find("#imprestItemTotalPrice").text(tmsApp.numberFormat(imprestLineAmountTotal));
+
+                        const inps = document.getElementsByName('imprestItemQty');
                         let total = 0;
                         for (let i = 0; i < inps.length; i++) {
                             const inp = inps[i];

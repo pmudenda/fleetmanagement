@@ -410,7 +410,7 @@
                         <td>
                             <span id="imprestItemTotalPrice"></span>
                             <input name="imprestItemTotalPrice"
-                                   type="text"
+                                   type="hidden"
                                    readonly
                                    required
                                    value=""
