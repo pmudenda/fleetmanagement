@@ -1992,7 +1992,7 @@
         }*/
 
         $(document).ready(function () {
-            setTimeout(function () {
+            setInterval(function () {
                 //disableControls();
                 let fuel_level = document.querySelector('select[name="fuel_level"]');
                 if (!fuel_level.hasAttribute('data-select2-id="fuel_level"')) {
