@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AuditTrail extends Model
 {
-    protected $table = '';
+    protected $table = 'gen_audit_trail';
 
     protected $fillable = [
         'event_date',
