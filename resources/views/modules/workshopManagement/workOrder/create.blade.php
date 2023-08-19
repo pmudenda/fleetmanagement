@@ -847,6 +847,58 @@
                     }
                 });
 
+                $(document).on('change', '.imprestArticles', function () {
+                    let selectedArticle = $(this).value;
+                    const $row = $(this).closest('tr');
+                    let itemType = document.querySelector('#pettyCashBuyItemType').value
+                    let dataToFilter = window[itemType];
+                    let filteredArray = dataToFilter.filter(function (article) {
+                        return article.code_article = selectedArticle;
+                    });
+
+                    if (filteredArray.length === 0) {
+                        return;
+                    }
+                    let selectedArticleObject = filteredArray[0];
+
+                    if (document.querySelector('[name="stockItemCode"]').value === itemType) {
+
+                        if (!selectedArticleObject?.price_map) {
+                            const description = selectedArticleObject?.technical_specifications ? selectedArticleObject?.technical_specifications : "";
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'The Article '
+                                    + article?.code_article
+                                    + ' - ' + description + ' has no price. ' +
+                                    ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
+                            });
+                            return;
+                        }
+
+                        if (selectedArticleObject?.quantity_in_store !== 0) {
+                            const description = selectedArticleObject?.technical_specifications ? selectedArticleObject?.technical_specifications : "";
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'The Store '
+                                    + $("#pettyCashStoreName").val()
+                                    + ' has the item '
+                                    + selectedArticleObject?.code_article
+                                    + ' - ' + description + ' in stock. ' +
+                                    'You can raise request from stores'
+                            });
+                        }
+                    }
+
+                    //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
+                    $($row).find('[name="imprestArticleCode"]').val(selectedArticleObject['id']);
+                    $($row).find('[name="imprestItemUnitPrice[]"]').val(selectedArticleObject['price_map']);
+                    $($row).find('[name="imprestArticleDescription[]"]').val(selectedArticleObject['technical_specifications']);
+                    $($row).find('[name="imprestItemUnitOfMeasure[]"]').val(selectedArticleObject['unit_measure_name']);
+
+                });
+
                 $('[name="selectAll"]').on('change', function () {
 
                     function selects() {
@@ -1329,47 +1381,14 @@
                     });
             }
 
-            function getArticlesForSelectedItemType() {
+            function getArticlesForSelectedItemType(selectedItemType) {
 
-                /*fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
-                    .then(response => response.json())
-                    .then(response => {
-                        let result = response['payload'];
-                        if (result.success === 'failure') {
-                            // show errors
-                            toastr.error('Connection error, no data found')
-                            return;
-                        }
-
-                        console.log(result);
-
-                        let data = {
-                            "id": result['code_article'],
-                            "text": result['code_article'] + ':' + result.description,
-                            'code_article': result?.code_article,
-                            'description': result?.description,
-                            'price_map': result?.price,
-                            'technical_specifications': result?.technical_specifications,
-                            'unit_measure': result?.unit_measure,
-                            'unit_measure_name': result?.unit_measure_name
-                        };
-
-                        let option = new Option(data.text, data.id, true, true);
-                        selectElem.append(option).trigger('change');
-
-                        // manually trigger the `select2:select` event
-                        selectElem.trigger({
-                            type: 'select2:select',
-                            params: {
-                                data: data
-                            }
-                        });
-                    })
-                    .catch(function (error) {
-                        // notify of error
-                        console.log(error);
-                        toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-                    });*/
+                if (window[selectedItemType]) {
+                    const data = window[selectedItemType];
+                    let articlesCtrl = $(".pettyCashItemsTable").find('.imprestArticles');
+                    tmsApp.populateDropDownList(articlesCtrl, data, 'code_article', ['code_article', 'description'], ':');
+                    return;
+                }
 
                 $.ajax({
                     delay: 250,
@@ -1385,7 +1404,7 @@
                     },
                     success: function (data) {
                         if (data.success) {
-                            data.items;
+                            window[selectedItemType] = data.items;
                             let articlesCtrl = $(".pettyCashItemsTable").find('.imprestArticles');
                             tmsApp.populateDropDownList(articlesCtrl, data.items, 'code_article', ['code_article', 'description'], ':')
                         }
@@ -2310,7 +2329,7 @@
                     enableArticleSelectionWebUIControls();
                 }
 
-                getArticlesForSelectedItemType();
+                getArticlesForSelectedItemType(selectedItemType);
             }
 
             function changeRequestType(selectedItemType) {
