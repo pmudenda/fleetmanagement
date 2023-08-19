@@ -1680,7 +1680,7 @@
                             message,
                             function () {
                                 if (submitForm) {
-                                    window.location.href = response['redirectUrl'];
+                                    window.location.reload();// = response['redirectUrl'];
                                     return;
                                 }
 
@@ -1688,7 +1688,7 @@
                                     window.goToNext = true;
                                     form.steps("next");
                                 } else {
-                                    window.location.href = response['redirectUrl'];
+                                    window.location.reload();// = response['redirectUrl'];
                                 }
                             },
                             "success"
@@ -1731,6 +1731,7 @@
                     autoFocus: true,
                     saveState: true,
                     startIndex: parseInt(stepId),
+                    enableFinishButton: false,
                     labels: {
                         finish: 'Submit'
                     },
@@ -1738,8 +1739,9 @@
                         console.log('Wizard Initializing')
                     },
                     onStepChanging: function (event, currentIndex, newIndex) {
-                        dataStore.setItem(index, newIndex);
+
                         if (currentIndex > newIndex) {
+                            dataStore.setItem(index, newIndex);
                             return true;
                         }
 
@@ -1750,10 +1752,12 @@
                         }
 
                         if (currentIndex === 0 || currentIndex === 2 && $('[name="job_card_number"]').val()) {
+                            dataStore.setItem(index, newIndex);
                             return true;
                         }
 
                         if (currentIndex === 3 && $('[name="job_card_number"]').val()) {
+                            dataStore.setItem(index, newIndex);
                             return true;
                         }
 

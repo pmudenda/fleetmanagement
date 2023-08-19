@@ -83,7 +83,7 @@ class WorkshopRequisitionService
 
         $valid_to = Carbon::parse($requisitionPostRequest->get("date_expected")) ?? Carbon::now()->addDays(7);
         $valid_from = Carbon::now();
-        $registrationNumber = $requisitionPostRequest->vehicle_registration;
+        $registrationNumber = $requisitionPostRequest->validated('vehicle_registration');
 
         /********************************************** Save Data **************************************/
         $user = Auth()->user();
@@ -94,7 +94,7 @@ class WorkshopRequisitionService
         $item_type = "";
         $workflowProcess = "";
 
-        switch ($requisitionPostRequest->itemType) {
+        switch ($requisitionPostRequest->validated('itemType')) {
             case RequisitionItemTypes::StockItemCode:
                 $item_type = RequisitionItemTypes::StockItem;
                 $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
@@ -129,17 +129,7 @@ class WorkshopRequisitionService
 
         }
 
-        // generate  reference
-        /*$requisition_reference_number = null;
-        switch ($requisitionPostRequest->itemType) {
-            case RequisitionItemTypes::StockItemCode:
-                $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::WORKSHOP_REQUISITION);
-                break;
-            case RequisitionItemTypes::NonStockItemCode:
-
-                break;
-        }*/
-        $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::PURCHASE_REQUISITION);
+        $requisition_reference_number = DocumentNumberGenerationService::generateReferenceNumber(WorkflowModules::WORKSHOP_REQUISITION);
 
         $form_order_number = null;
         switch ($requisitionPostRequest->get('itemType')) {
