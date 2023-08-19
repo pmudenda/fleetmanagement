@@ -1086,17 +1086,17 @@
         function disableControls() {
 
             let fuel_level = document.querySelector('select[name="fuel_level"]');
-            if(!fuel_level.hasAttribute('data-select2-id="fuel_level"')){
+            if (!fuel_level.hasAttribute('data-select2-id="fuel_level"')) {
                 $(fuel_level).select2("enable", false);
             }
 
             let sub_fuel_level = document.querySelector('select[name="sub_fuel_level"]');
-            if(!sub_fuel_level.hasAttribute('data-select2-id="sub_fuel_level"')){
+            if (!sub_fuel_level.hasAttribute('data-select2-id="sub_fuel_level"')) {
                 $(sub_fuel_level).select2("enable", false);
             }
 
             let workshop = document.querySelector('select[name="workshop"]');
-            if(!workshop.hasAttribute('data-select2-id="workshop"')){
+            if (!workshop.hasAttribute('data-select2-id="workshop"')) {
                 $(workshop).select2("enable", false);
             }
 
@@ -1586,7 +1586,7 @@
                 //let stepId = oldIndex;
                 //window.global_currentIndex = stepId - 1;
 
-                const index  = 'step';
+                const index = 'step';
                 //  Define friendly data store name
                 const dataStore = window.sessionStorage;
                 let stepId = window.step_id;
@@ -1613,7 +1613,7 @@
                         console.log('Wizard Initializing')
                     },
                     onStepChanging: function (event, currentIndex, newIndex) {
-                        dataStore.setItem( index, newIndex );
+                        dataStore.setItem(index, newIndex);
                         if (currentIndex > newIndex) {
                             return true;
                         }
@@ -1640,16 +1640,16 @@
 
                         form.validate().settings.ignore = ":disabled,:hidden";
                         window.global_currentIndex = currentIndex;
-                       /* if (form.valid() && !window.goToNext) {
-                            tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
-                                postData(form.find('[data-model-name]').get(currentIndex), false);
-                            }, function () {
-                            });
-                        }
+                        /* if (form.valid() && !window.goToNext) {
+                             tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
+                                 postData(form.find('[data-model-name]').get(currentIndex), false);
+                             }, function () {
+                             });
+                         }
 
-                        let tmp = window.goToNext;
-                        window.goToNext = false;
-                        return tmp;*/
+                         let tmp = window.goToNext;
+                         window.goToNext = false;
+                         return tmp;*/
                     },
                     onStepChanged: function (event, currentIndex, priorIndex) {
 
@@ -2172,7 +2172,7 @@
             }
 
             function pettyCashTableHasItems() {
-                let inputs = $(".pettyCashItemsTable > tbody").find('.articleCode');
+                let inputs = $(".pettyCashItemsTable > tbody").find('[name="imprestArticleCode"]');
                 for (const input of inputs) {
                     if (input.value > "") {
                         return true;
@@ -2525,7 +2525,7 @@
                 $("#pettyCashBuyItemType").on('change', function () {
                     const selectedItemType = this.value;
 
-                    if (tableHasItems()) {
+                    if (pettyCashTableHasItems()) {
                         Swal.fire({
                             title: 'Change Requisition Item Type',
                             text: "Changing Item Type will clear the items you've selected already." +

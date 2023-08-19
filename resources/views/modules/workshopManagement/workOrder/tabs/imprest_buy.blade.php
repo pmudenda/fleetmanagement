@@ -334,7 +334,7 @@
                         <th style="width: 10%;">Article Code</th>
                         <th style="width: 25%;">Tech. Specification</th>
                         <th style="width: 4%; max-width: 4%;">Qty.</th>
-                        <th style="width: 3%;">UOM</th>
+                        <th style="width: 5%;">UOM</th>
                         <th style="width: 6%;">Unit Price</th>
                         <th style="width: 8%;">Total</th>
                         <th style="width: 3%;"></th>
@@ -387,31 +387,32 @@
                         </td>
                         <td>
                             <input type="number"
-                                   step="any"
-                                   id="imprestItemAmount"
-                                   name="imprestItemAmount[]"
+                                   step="1"
+                                   min="1"
+                                   id="imprestItemQty"
+                                   name="imprestItemQty[]"
                                    onchange="getvalues()"
                                    class="form-control amount"
                                    placeholder="Amount [ZMW]">
                         </td>
                         <td>
                             <input
-                                    name="unit_of_measure"
+                                    name="imprestItemUnitOfMeasure[]"
                                     required
                                     value=""
                                     readonly
                                     class="form-control form-control-sm unit_of_measure"/>
                         </td>
                         <td>
-                            <input name="unit_price"
+                            <input name="imprestItemUnitPrice[]"
                                    required
                                    value=""
                                    readonly
                                    class="form-control form-control-sm unit_price"/>
                         </td>
                         <td>
-                            <span id="total_price"></span>
-                            <input name="total_price"
+                            <span id="imprestItemTotalPrice"></span>
+                            <input name="imprestItemTotalPrice[]"
                                    type="text"
                                    readonly
                                    required
