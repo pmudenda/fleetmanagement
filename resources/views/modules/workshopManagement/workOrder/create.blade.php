@@ -2450,10 +2450,29 @@
                 }
             }
 
+            function reinitializeSelect2($_defect_sel) {
+                if ($_defect_sel) {
+                    $($_defect_sel).removeClass('select2-hidden-accessible');
+                    $($_defect_sel).select2({
+                        theme: "bootstrap4",
+                        width: "resolve",
+                    });
+                }
+            }
+
             function insertNewTableRow(tableId) {
-                Table.addRow($('table#' + tableId));
-                /*const table = document.getElementById(tableId);
-                const rowCount = table.rows.length;
+                const $table = $('table#' + tableId);
+                Table.addRow($table);
+                let lastRow = $table.find('tbody tr').eq((0 + 1) * -1);
+
+                $(lastRow).find('.select2-container').remove();
+
+                $(lastRow).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+
+                let $articleSelectElement = $(lastRow).find(".imprestArticles");
+
+                reinitializeSelect2($articleSelectElement)
+                /*const rowCount = table.rows.length;
                 const row = table.insertRow(rowCount);
 
                 const colCount = table.rows[0].cells.length;
@@ -2479,16 +2498,6 @@
             }
 
             function insertTableRow(tableId) {
-                function reinitializeSelect2($_defect_sel) {
-                    if ($_defect_sel) {
-                        $($_defect_sel).removeClass('select2-hidden-accessible');
-                        $($_defect_sel).select2({
-                            theme: "bootstrap4",
-                            width: "resolve",
-                        });
-                    }
-                }
-
                 const $table = $('table#' + tableId);
                 if (tableId === "material_table" || tableId === "services_table") {
                     const itemType = document.querySelector('[name="itemType"]').value;
