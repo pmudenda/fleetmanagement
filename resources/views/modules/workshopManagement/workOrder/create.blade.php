@@ -1574,7 +1574,7 @@
             const index = 'key';
             //  Define friendly data store name
             const dataStore = window.sessionStorage;
-            let oldIndex = window.step_id || 1;
+            let oldIndex = window.step_id;
             try {
                 // getter: Fetch previous value
                 oldIndex = dataStore.getItem(index);
