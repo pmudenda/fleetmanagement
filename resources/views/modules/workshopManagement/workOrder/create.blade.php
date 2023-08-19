@@ -1063,13 +1063,9 @@
                 },
                 url: $('#getArticlesUrl').val(),
                 dataType: 'json',
-                data: function (params) {
-                    return {
-                        search: params.term, // search term
-                        type_article: document.querySelector('#itemType').value,
-                        store_code: document.querySelector('#store_code').value,
-                        page: params.page
-                    };
+                data: {
+                    type_article: document.querySelector('#itemType').value,
+                    store_code: document.querySelector('#store_code').value,
                 },
                 success: function (data, params) {
                     console.log(data, params)
