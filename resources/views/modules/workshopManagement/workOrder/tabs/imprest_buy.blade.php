@@ -35,20 +35,25 @@
         <div class="row mt-2 mb-4">
             <div class="col-lg-3 col-sm-12">
                 <div class="row">
-                    <div class="col-lg-12 col-sm-12 col-sm-12"><label class="field-required">Date:</label></div>
-                    <div class="col-lg-12 col-sm-12 col-sm-12"><input value="{{ date('Y-m-d H:i:s') }}"
-                                                                      type="text" name="date"
-                                                                      readonly class="form-control"></div>
+                    <div class="col-lg-12 col-sm-12 col-sm-12">
+                        <label class="field-required">Date:</label>
+                    </div>
+                    <div class="col-lg-12 col-sm-12 col-sm-12">
+                        <input value="{{ date('Y-m-d H:i:s') }}"
+                               type="text" name="date"
+                               readonly class="form-control"></div>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-12">
                 <div class="row">
-                    <div class="col-lg-12 col-sm-12 "><label class="field-required">Cost Center:</label></div>
-                    <div class="col-lg-12 col-sm-12 col-sm-12"><input type="text" name="cost_center"
-                                                                      class="form-control"
-                                                                      value="{{Auth::user()->cc_code}}"
-                                                                      readonly
-                                                                      required>
+                    <div class="col-lg-12 col-sm-12 ">
+                        <label class="field-required">Cost Center:</label></div>
+                    <div class="col-lg-12 col-sm-12 col-sm-12">
+                        <input type="text" name="cost_center"
+                               class="form-control"
+                               value="{{Auth::user()->cc_code}}"
+                               readonly
+                               required>
                     </div>
                 </div>
             </div>
@@ -57,8 +62,8 @@
                     <div class="col-lg-12 col-sm-12 col-sm-12"><label>ZQMS No (Optional):</label>
                     </div>
                     <div class="col-lg-12 col-sm-12 col-sm-12">
-                        <input type="text" name="ref_no"
-                               placeholder="Enter Your HQMS Number (optional)"
+                        <input type="text" name="imprestZQMSReference"
+                               placeholder="Enter Your ZQMS Number (optional)"
                                class="form-control">
                     </div>
                 </div>
@@ -67,7 +72,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-sm-12 col-sm-12"><label>Project Number (Optional):</label></div>
                     <div class="col-lg-12 col-sm-12 col-sm-12">
-                        <input name="projects_id" value="{{$details->job_card_no}}" class="form-control"/>
+                        <input name="imprestProjectNumber" value="{{$details->job_card_no}}" class="form-control"/>
                     </div>
                 </div>
             </div>
@@ -141,15 +146,16 @@
                         <div class="form-group row">
                             <label
                                     class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                    for="staff_no">Purchase Office:
+                                    for="imprestPurchaseOffice">
+                                Purchase Office:
                             </label>
                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                 <select
                                         data-value=""
                                         required
                                         class="form-select form-select-sm"
-                                        name="purchase_office"
-                                        id="purchase_office">
+                                        name="imprestPurchaseOffice"
+                                        id="imprestPurchaseOffice">
                                     <option value="{{$officeDetails->purchase_office_code ?? ''}}">
                                         {{$officeDetails->purchase_office ?? ''}}
                                     </option>
@@ -171,7 +177,7 @@
                                 <div class="control-input">
                                     <div class="link-field ui-front"
                                          style="position: relative;">
-                                        <label for="workshop_code" class="form-check-inline field-required">
+                                        <label for="imprestWorkshopCode" class="form-check-inline field-required">
                                             Workshop:
                                         </label>
                                     </div>
@@ -183,7 +189,7 @@
                                        value="{{$officeDetails->workshop_name ?? 0}}"
                                        class="form-control form-control-sm"/>
                                 <input type="hidden"
-                                       name="workshop_code"
+                                       name="imprestWorkshopCode"
                                        value="{{$officeDetails->workshop_code ?? 0}}"/>
                             </div>
                         </div>
@@ -205,18 +211,18 @@
                                 @if($details)
                                     <input type="text"
                                            class="form-control form-control-sm"
-                                           id="request_date"
+                                           id="imprestRequestDate"
                                            readonly
                                            value="{{Carbon::parse($details->date_in)->format('d/m/Y')}}"
-                                           name="request_date"
+                                           name="imprestRequestDate"
                                            required>
                                 @else
                                     <input type="text"
                                            class="form-control form-control-sm"
-                                           id="request_date"
+                                           id="imprestRequestDate"
                                            readonly
                                            value="{{Carbon::parse(Carbon::now())->format('d/m/Y')}}"
-                                           name="request_date"
+                                           name="imprestRequestDate"
                                            required>
                                 @endif
 
@@ -263,16 +269,16 @@
                             </label>
                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                 <input type="hidden"
-                                       id="store_code"
+                                       id="pettyCashStoreCode"
                                        value="{{$officeDetails->store_code ?? ''}}"
-                                       name="store_code"/>
+                                       name="pettyCashStoreCode"/>
                                 <input type="text"
                                        class="form-control form-control-sm"
                                        readonly
-                                       id="store_name"
+                                       id="pettyCashStoreName"
                                        value="{{$officeDetails->store_code ?? ''}}:{{$officeDetails->store_name ?? ''}}"
                                        placeholder=""
-                                       name="store_name"/>
+                                       name="pettyCashStoreName"/>
                             </div>
                         </div>
 
@@ -286,25 +292,26 @@
                         <div class="form-group row">
                             <label
                                     class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                    for="staff_no">Collection Date:
+                                    for="staff_no">
+                                Collection Date:
                             </label>
                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                 @if($materialsHeader)
                                     <input type="date"
                                            class="form-control form-control-sm"
-                                           id="date_expected"
+                                           id="imprest_date_expected"
                                            min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                            value="{{date('Y-m-d', strtotime(Carbon::parse($materialsHeader->collection_date)->format('Y-m-d')))}}"
-                                           name="date_expected"
+                                           name="imprets_date_expected"
                                     />
 
                                 @else
                                     <input type="date"
                                            class="form-control form-control-sm"
-                                           id="date_expected"
+                                           id="imprest_date_expected"
                                            min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                            value="{{date('Y-m-d', strtotime(Carbon::now()->addDays(7)))}}"
-                                           name="date_expected"
+                                           name="imprest_date_expected"
                                     />
                                 @endif
                             </div>
