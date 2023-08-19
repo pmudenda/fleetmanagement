@@ -1125,7 +1125,6 @@
                                                         </thead>
                                                         <tbody>
                                                         @if($materials && $materials->isNotEmpty())
-                                                            {{dd($materials)}}
                                                             @foreach($materials as $material)
                                                                 <tr class="increment">
                                                                     <td class="showNumber">
