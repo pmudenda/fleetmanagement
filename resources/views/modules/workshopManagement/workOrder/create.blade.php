@@ -1184,10 +1184,18 @@
 
                 $('[name="selectDefectToAssign"]').on('change', function () {
                     let checked = $(this).is(':checked');
-                    if (checked) {
+                    let checkBoxes = document.querySelector('#labour_table').querySelectorAll('[name="selectDefectToAssign"]');
+                    let count = 0;
+                    for(const ele of checkBoxes){
+                        if($(ele).is(':checked')){
+                            count+=1;
+                        }
+                    }
+
+                    if (checked & count >= 2) {
                         // selects()
                         $('[value="assignMultiple"]').removeClass('d-none');
-                    } else {
+                    } else if(count < 2) {
                         // deSelect();
                         $('[value="assignMultiple"]').addClass('d-none');
                     }
