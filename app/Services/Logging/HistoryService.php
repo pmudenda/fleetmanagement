@@ -43,7 +43,9 @@ class HistoryService
                     'new_value' => $dataAfter[$propertyName]
                 ];
 
-                AuditTrail::create($data);
+                var_dump($data);
+
+                //AuditTrail::create($data);
             }
         }
     }
