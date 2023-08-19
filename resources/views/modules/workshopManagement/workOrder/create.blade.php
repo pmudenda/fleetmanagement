@@ -118,11 +118,9 @@
                                                             <td class="pl-2"
                                                                 style="width: 35%;">{{$accessory->name}}</td>
                                                             <td><input type="radio" value="YES" required
-                                                                       disabled
                                                                        name="field_{{str_replace(' ','', $accessory->code)}}">
                                                             </td>
                                                             <td><input type="radio" value="NO" required
-                                                                       disabled
                                                                        name="field_{{str_replace(' ','', $accessory->code)}}">
                                                             </td>
                                                             <td style="width: 45%;">
@@ -155,11 +153,9 @@
                                                                 {{$accessory->name}}
                                                             </td>
                                                             <td><input type="radio" required value="YES"
-                                                                       disabled
                                                                        name="field_{{str_replace(' ','', $accessory->code)}}">
                                                             </td>
                                                             <td><input type="radio" required value="NO"
-                                                                       disabled
                                                                        name="field_{{str_replace(' ','', $accessory->code)}}">
                                                             </td>
                                                             <td style="width: 45%;">

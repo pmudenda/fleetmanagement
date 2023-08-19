@@ -57,8 +57,6 @@
                         <td>
                             <div class="input-group date">
                                 <input type="text"
-                                       min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
-                                       max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                        required
                                        readonly
                                        name="dateOfWork"

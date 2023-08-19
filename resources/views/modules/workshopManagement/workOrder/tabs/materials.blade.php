@@ -299,7 +299,7 @@
                                            name="technical_specification"
                                            required
                                            readonly
-                                           value="{{$material->specifications ?? ''}}"
+                                           value="{{$material->article_specification ?? ''}}"
                                            class="form-control form-control-sm technical_specification"/>
                                 </td>
 

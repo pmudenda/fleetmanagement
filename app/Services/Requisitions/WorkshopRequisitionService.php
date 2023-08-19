@@ -239,7 +239,7 @@ class WorkshopRequisitionService
                 "amount" => $item["total_price"],
                 "price" => $item["unit_price"],
                 "store_code" => $store_code,
-                "ind" => "Y",
+                //"ind" => "Y",
                 "supplier_code" => $requisitionPostRequest->supplier,
                 "veh_reg_no" => $item["registration"],
                 "specifications" => $item["technical_specification"],
@@ -845,15 +845,20 @@ class WorkshopRequisitionService
 
     public function getWorkShopRequisitionItems(mixed $reference): Collection
     {
+        $articles = config("tables.table_names.articles");
         return DB::table("WM_JOB_CARD_HEADER")
             ->join("WM_WORKSHOP_MATERIALS",
                 "WM_JOB_CARD_HEADER.WSHP_ACT_CODE",
                 "=",
                 "WM_WORKSHOP_MATERIALS.WSHP_ACT_CODE"
             )
+            ->leftJoin("$articles", "WM_WORKSHOP_MATERIALS.MAT_CODE",
+                "=", "$articles.CODE_ARTICLE")
             ->where("WM_JOB_CARD_HEADER.JOB_CARD_NO", "=", $reference)
+            ->whereNull("WM_WORKSHOP_MATERIALS.IND")
             ->select(
-                "WM_WORKSHOP_MATERIALS.*"
+                "WM_WORKSHOP_MATERIALS.*",
+                "$articles.description as article_specification"
             )->get();
 
     }

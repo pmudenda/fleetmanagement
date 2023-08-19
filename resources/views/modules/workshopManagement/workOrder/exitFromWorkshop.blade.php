@@ -58,8 +58,6 @@
             <div class="card-body pb-4 min-h-600px pt-0">
 
                 <x-error-view/>
-
-                {{-- <label class="app-required-marker"></label>--}}
                 <form name="jobCardFormExit"
                       id="jobCardFormExit"
                       action="{{route('save.exit.from.workshop')}}"
@@ -1158,7 +1156,7 @@
                                                                                name="technical_specification"
                                                                                required
                                                                                readonly
-                                                                               value="{{$material->specifications ?? ''}}"
+                                                                               value="{{$material->article_specification ?? ''}}"
                                                                                class="form-control form-control-sm technical_specification"/>
                                                                     </td>
 
