@@ -408,7 +408,6 @@ class WorkshopService
     {
         $user = Auth::user();
 
-
         $recordId = $request->get("reassignmentReference");
         $assignmentRecord = WorkshopLabour::where("id", "=", $recordId)->first();
         $recordBefore = $assignmentRecord->toArray();

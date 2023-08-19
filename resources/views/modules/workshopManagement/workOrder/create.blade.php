@@ -2967,7 +2967,7 @@
                 });
             });
 
-            $(document).on('click', '.deleteTaleRow', function () {
+            $(document).on('click', '.addItemRow', function () {
                 const tableID = $(this).attr('data-table-id');
 
                 const table = document.getElementById(tableID);
@@ -2997,7 +2997,7 @@
                 }
             });
 
-            $(document).on('click', '.addItemRow', function () {
+            $(document).on('click', '.deleteTaleRow', function () {
                 const tableID = $(this).attr('data-table-id');
                 try {
                     const table = document.getElementById(tableID);
