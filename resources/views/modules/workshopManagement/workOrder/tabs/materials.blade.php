@@ -270,25 +270,25 @@
                                             readonly
                                             name="registration"
                                             required
-                                            value="{{$details->reg_no ?? ''}}"
+                                            value="{{$material->veh_reg_no ?? ''}}"
                                             class="form-control form-control-sm registration"/>
                                 </td>
                                 <td>
                                     <select readonly
                                             name="articles"
                                             required
-                                            data-text="{{$material->material_code ?? ''}} : {{$material->specifications ?? ''}}"
-                                            data-value="{{$material->material_code ?? ''}}"
+                                            data-text="{{$material->mat_code ?? ''}} : {{$material->specifications ?? ''}}"
+                                            data-value="{{$material->mat_code ?? ''}}"
                                             class="form-control form-control-sm DropDownList">
                                         <option
-                                                value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}
+                                                value="{{$material->mat_code ?? ''}}">{{$material->mat_code ?? ''}}
                                             : {{$material->specifications ?? ''}}</option>
                                     </select>
                                 </td>
                                 <td>
                                     <input
                                             name="articleCode"
-                                            value="{{$material->material_code ?? ''}}"
+                                            value="{{$material->mat_code ?? ''}}"
                                             required
                                             readonly
                                             class="form-control form-control-sm articleCode"/>
