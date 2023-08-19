@@ -94,7 +94,7 @@ class WorkshopRequisitionService
         $item_type = "";
         $workflowProcess = "";
 
-        switch ($requisitionPostRequest->validated('itemType')) {
+        switch ($requisitionPostRequest->get('itemType')) {
             case RequisitionItemTypes::StockItemCode:
                 $item_type = RequisitionItemTypes::StockItem;
                 $workflowProcess = WorkflowProcessCodes::StoresRequisition->value;
