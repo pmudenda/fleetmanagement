@@ -364,18 +364,14 @@
                             <select readonly
                                     name="imprestArticles"
                                     required
-                                    data-text="{{$material->material_code ?? ''}} : {{$material->specifications ?? ''}}"
-                                    data-value="{{$material->material_code ?? ''}}"
                                     class="form-control form-control-sm imprestArticles">
-                                <option
-                                        value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}
-                                    : {{$material->specifications ?? ''}}</option>
+                                <option value=""></option>
                             </select>
                         </td>
                         <td>
                             <input
                                     name="imprestArticleCode"
-                                    value="{{$material->material_code ?? ''}}"
+                                    value=""
                                     required
                                     readonly
                                     class="form-control form-control-sm articleCode"/>
@@ -402,24 +398,24 @@
                             <input
                                     name="unit_of_measure"
                                     required
-                                    value="{{$material->unit_of_measure ?? ''}}"
+                                    value=""
                                     readonly
                                     class="form-control form-control-sm unit_of_measure"/>
                         </td>
                         <td>
                             <input name="unit_price"
                                    required
-                                   value="{{$material->price ?? ''}}"
+                                   value=""
                                    readonly
                                    class="form-control form-control-sm unit_price"/>
                         </td>
                         <td>
-                            <span id="total_price">{{$material->amount ?? ''}}</span>
+                            <span id="total_price"></span>
                             <input name="total_price"
-                                   type="hidden"
-                                   required
-                                   value="{{$material->amount ?? ''}}"
+                                   type="text"
                                    readonly
+                                   required
+                                   value=""
                                    class="form-control form-control-sm total_price"/>
                         </td>
                         <td>
