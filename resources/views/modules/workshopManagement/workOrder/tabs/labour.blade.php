@@ -20,7 +20,7 @@
             <tbody>
             @if($labour->isNotEmpty())
                 @foreach($labour as $labourItem)
-                    <tr class="increment">
+                    <tr class="increment" data-record-id="{{$labourItem->id}}">
                         <td>
                             {{$labourItem->defect_name}}
                             <input name="assignedDefectId"
