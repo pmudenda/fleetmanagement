@@ -434,7 +434,7 @@ class WorkshopService
 
         $assignmentRecord->save();
 
-        HistoryService::update($recordBefore, $assignmentRecord->toArray(), $assignmentRecord->wshp_act_code, 'Job Card Task Reassignment');
+        //HistoryService::update($recordBefore, $assignmentRecord->toArray(), $assignmentRecord->wshp_act_code, 'Job Card Task Reassignment');
 
         DB::commit();
 
