@@ -2916,39 +2916,39 @@
 
     <!--  -->
     <script type="text/javascript">
-        //ROUND OFF FUNCTION
+
         Number.prototype.round = function (places) {
             return +(Math.round(this + "e+" + places) + "e-" + places);
         }
 
-        function getvalues() {
-            const inps = document.getElementsByName('amount[]');
-            let total = 0;
-            for (let i = 0; i < inps.length; i++) {
-                const inp = inps[i];
-                total = total + parseFloat(inp.value || 0);
-            }
-            total = total.round(2);
-
-            if (!isNaN(total)) {
-                //check if petty cash is below 2000
-                if (total > 2000) {
-                    $('#submit_possible').hide();
-                    $('#submit_not_possible').show();
-                } else if (total == 0) {
-                    $('#submit_not_possible').hide();
-                    $('#submit_possible').hide();
-                } else {
-                    $('#submit_not_possible').hide();
-                    $('#submit_possible').show();
-                }
-                //set value
-                document.getElementById('total-payment').value = total;
-            }
-        }
-
         // Navigation Script Starts Here
         $(document).ready(function () {
+
+            function getvalues() {
+                const inps = document.getElementsByName('amount[]');
+                let total = 0;
+                for (let i = 0; i < inps.length; i++) {
+                    const inp = inps[i];
+                    total = total + parseFloat(inp.value || 0);
+                }
+                total = total.round(2);
+
+                if (!isNaN(total)) {
+                    //check if petty cash is below 2000
+                    if (total > 2000) {
+                        $('#submit_possible').hide();
+                        $('#submit_not_possible').show();
+                    } else if (total == 0) {
+                        $('#submit_not_possible').hide();
+                        $('#submit_possible').hide();
+                    } else {
+                        $('#submit_not_possible').hide();
+                        $('#submit_possible').show();
+                    }
+                    //set value
+                    document.getElementById('total-payment').value = total;
+                }
+            }
 
             //first hide the buttons
             $('#submit_possible').hide();
@@ -2996,7 +2996,8 @@
                     }
                 }
             });
-            $(document).on('click', '.deleteTaleRow', function () {
+
+            $(document).on('click', '.addItemRow', function () {
                 const tableID = $(this).attr('data-table-id');
                 try {
                     const table = document.getElementById(tableID);

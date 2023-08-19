@@ -326,7 +326,7 @@
     <div class="grid-margin stretch-card">
         <div class="table-responsive">
             <div class="row">
-                <table class="table bg-green">
+                <table id="dataTable" class="table bg-green pettyCashItemsTable">
                     <thead>
                     <tr class="bg-success-subtle">
                         <th style="width: 6%;" class="pl-2">Reg. No</th>
@@ -345,45 +345,42 @@
                         <th>DETAILS OF PAYMENT</th>
                         <th>AMOUNT</th>
                     </tr>
+                     class="table table-striped"
                     </thead>--}}
-                </table>
-            </div>
-            <div class="col-lg-12  col-sm-12 ">
-                <div class="row">
-                    <table id="dataTable" class="table table-striped pettyCashItemsTable">
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="chk"/>
-                            </td>
-                            <td class="showNumber">
-                                <input
-                                        readonly
-                                        name="registration"
-                                        required
-                                        value="{{$details->reg_no ?? ''}}"
-                                        class="form-control form-control-sm registration"/>
-                            </td>
-                            <td>
-                                <select readonly
-                                        name="articles"
-                                        required
-                                        data-text="{{$material->material_code ?? ''}} : {{$material->specifications ?? ''}}"
-                                        data-value="{{$material->material_code ?? ''}}"
-                                        class="form-control form-control-sm DropDownList">
-                                    <option
-                                            value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}
-                                        : {{$material->specifications ?? ''}}</option>
-                                </select>
-                            </td>
-                            <td>
-                                <input
-                                        name="articleCode"
-                                        value="{{$material->material_code ?? ''}}"
-                                        required
-                                        readonly
-                                        class="form-control form-control-sm articleCode"/>
-                            </td>
-                            <td>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="chk"/>
+                        </td>
+                        <td class="showNumber">
+                            <input
+                                    readonly
+                                    name="registration"
+                                    required
+                                    value="{{$details->reg_no ?? ''}}"
+                                    class="form-control form-control-sm registration"/>
+                        </td>
+                        <td>
+                            <select readonly
+                                    name="articles"
+                                    required
+                                    data-text="{{$material->material_code ?? ''}} : {{$material->specifications ?? ''}}"
+                                    data-value="{{$material->material_code ?? ''}}"
+                                    class="form-control form-control-sm DropDownList">
+                                <option
+                                        value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}
+                                    : {{$material->specifications ?? ''}}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input
+                                    name="articleCode"
+                                    value="{{$material->material_code ?? ''}}"
+                                    required
+                                    readonly
+                                    class="form-control form-control-sm articleCode"/>
+                        </td>
+                        <td>
                                 <textarea rows="4"
                                           type="text"
                                           name="name[]"
@@ -391,25 +388,36 @@
                                           placeholder="Item Details / Description"
                                           id="name"
                                           required></textarea>
-                            </td>
-                            <td>
-                                <input type="number"
-                                       step="any"
-                                       id="amount"
-                                       name="amount[]"
-                                       onchange="getvalues()"
-                                       class="form-control amount"
-                                       placeholder="Amount [ZMW]">
-                            </td>
-                            <td>
-                                <button type="button"
-                                        class="btn btn-danger btn-sm deleteTaleRow"
-                                        value="Delete Row"
-                                        data-table-id="dataTable"
-                                ><i class="fa fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    </table>
+                        </td>
+                        <td>
+                            <input type="number"
+                                   step="any"
+                                   id="amount"
+                                   name="amount[]"
+                                   onchange="getvalues()"
+                                   class="form-control amount"
+                                   placeholder="Amount [ZMW]">
+                        </td>
+                        <td>
+                            {{--<button type="button"
+                                    class="btn btn-danger btn-sm deleteTaleRow"
+                                    value="Delete Row"
+                                    data-table-id="dataTable"
+                            ><i class="fa fa-trash"></i></button>--}}
+                            <button type="button"
+                                    data-value="0"
+                                    value="deleteRow"
+                                    class="btn btn-sm btn-danger p-2">
+                                <i class="fas fa-trash m-0"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-12  col-sm-12 ">
+                <div class="row">
+
                 </div>
             </div>
 

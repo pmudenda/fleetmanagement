@@ -354,7 +354,7 @@
                                                 disabled
                                                 data-value="{{$material->id ?? '0'}}"
                                                 value="deleteRow"
-                                                class="btn btn-danger p-2">
+                                                class="btn btn-danger btn-sm p-2">
                                             <i class="fas fa-trash m-0"></i>
                                         </button>
                                     @endif
@@ -430,7 +430,7 @@
                                 <button type="button"
                                         data-value="0"
                                         value="deleteRow"
-                                        class="btn btn-danger p-2">
+                                        class="btn btn-danger btn-sm p-2">
                                     <i class="fas fa-trash m-0"></i>
                                 </button>
                             </td>
