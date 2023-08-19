@@ -1085,20 +1085,20 @@
 
         function disableControls() {
 
-            let fuel_level = $('select[name="fuel_level"]');
+            let fuel_level = document.querySelector('select[name="fuel_level"]');
             if(!fuel_level.hasAttribute('data-select2-id="fuel_level"')){
-                fuel_level.select2("enable", false);
+                $(fuel_level).select2("enable", false);
             }
 
             //$('select[name=""]').select2("enable", false);
-            let sub_fuel_level = $('select[name="sub_fuel_level"]');
+            let sub_fuel_level = document.querySelector('select[name="sub_fuel_level"]');
             if(!sub_fuel_level.hasAttribute('data-select2-id="sub_fuel_level"')){
-                sub_fuel_level.select2("enable", false);
+                $(sub_fuel_level).select2("enable", false);
             }
 
-            let workshop = $('select[name="workshop"]');
+            let workshop = document.querySelector('select[name="workshop"]');
             if(!workshop.hasAttribute('data-select2-id="workshop"')){
-                workshop.select2("enable", false);
+                $(workshop).select2("enable", false);
             }
 
             //$('select[name=""]').select2("enable", false);
