@@ -1013,11 +1013,84 @@
                 });
         }
 
+        function getArticlesForSelectedItemType() {
+
+            /*fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
+                .then(response => response.json())
+                .then(response => {
+                    let result = response['payload'];
+                    if (result.success === 'failure') {
+                        // show errors
+                        toastr.error('Connection error, no data found')
+                        return;
+                    }
+
+                    console.log(result);
+
+                    let data = {
+                        "id": result['code_article'],
+                        "text": result['code_article'] + ':' + result.description,
+                        'code_article': result?.code_article,
+                        'description': result?.description,
+                        'price_map': result?.price,
+                        'technical_specifications': result?.technical_specifications,
+                        'unit_measure': result?.unit_measure,
+                        'unit_measure_name': result?.unit_measure_name
+                    };
+
+                    let option = new Option(data.text, data.id, true, true);
+                    selectElem.append(option).trigger('change');
+
+                    // manually trigger the `select2:select` event
+                    selectElem.trigger({
+                        type: 'select2:select',
+                        params: {
+                            data: data
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    // notify of error
+                    console.log(error);
+                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+                });*/
+
+            $.ajax({
+                delay: 250,
+                beforeSend: function () {
+                    window.showLoaderModal(true);
+                    window.loaderVisible = false;
+                },
+                url: $('#getArticlesUrl').val(),
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        search: params.term, // search term
+                        type_article: document.querySelector('#itemType').value,
+                        store_code: document.querySelector('#store_code').value,
+                        page: params.page
+                    };
+                },
+                success: function (data, params) {
+                    console.log(data, params)
+                    /*params.page = params.page || 1;
+
+                    return {
+                        results: formatResults(data.items),
+                        pagination: {
+                            more: (params.page * 30) < data['total_count']
+                        }
+                    };*/
+                },
+                cache: true
+            });
+        }
+
         function findMechanic($row, mechanic) {
             if (!mechanic) {
                 return;
             }
-            //$($row).find('[name="mechanicName"]').
+
             fetch(
                 $('#mechanicDetails').val() + '?staff_no=' + mechanic,
                 {
@@ -1044,7 +1117,7 @@
                     return response.json();
                 })
                 .then(response => {
-                    console.log(response);
+
                     if (response?.state === 'success') {
                         const $documentStatusCtl = $('[name="documentStatus"]');
                         const documentStatus = $documentStatusCtl.val()
@@ -1203,7 +1276,7 @@
                         }
                     }
 
-                    if (checked & count >= 2) {
+                    if (checked && count >= 2) {
                         // selects()
                         $('[value="assignMultiple"]').removeClass('d-none');
                     } else if (count < 2) {
@@ -2250,6 +2323,8 @@
                 if (selectedItemType) {
                     enableArticleSelectionWebUIControls();
                 }
+
+                getArticlesForSelectedItemType();
             }
 
             function changeRequestType(selectedItemType) {
@@ -2273,6 +2348,8 @@
                 if (selectedItemType) {
                     enableArticleSelectionWebUIControls();
                 }
+
+
             }
 
             function clearRows(table) {
@@ -2538,7 +2615,7 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 // clear things here
-                                changeRequestType(selectedItemType);
+                                changePettyCashRequestType(selectedItemType);
                             }
                         });
                         return;
