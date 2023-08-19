@@ -408,7 +408,6 @@
                                    class="form-control form-control-sm unit_price"/>
                         </td>
                         <td>
-                            <span id="imprestItemTotalPrice"></span>
                             <input name="imprestItemTotalPrice"
                                    type="text"
                                    readonly

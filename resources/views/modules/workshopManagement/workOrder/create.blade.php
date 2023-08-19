@@ -2247,7 +2247,7 @@
                             * tmsApp.getFloat($(element).closest("tr").find("input[name=imprestItemUnitPrice]").val());
                         $(element).closest("tr").find("input[name=imprestItemTotalPrice]").val(imprestLineAmountTotal);//.change();
 
-                        $(element).closest("tr").find("#imprestItemTotalPrice").text(tmsApp.numberFormat(imprestLineAmountTotal));
+                        // $(element).closest("tr").find("#imprestItemTotalPrice").text(tmsApp.numberFormat(imprestLineAmountTotal));
 
                         const inps = document.getElementsByName('imprestItemQty');
                         let total = 0;
