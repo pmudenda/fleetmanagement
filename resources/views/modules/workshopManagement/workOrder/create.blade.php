@@ -1706,12 +1706,10 @@
                             });
                             arr.push(obj);
                         }
-
-                        /*});*/
                     });
 
                     if (arr.length === 0) {
-                        // tmsApp.systemError("Request Submission", 'No Records Selected for Saving');
+                        tmsApp.systemError("Request Submission", 'No New Records Available for Saving');
                     }
 
                     obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
