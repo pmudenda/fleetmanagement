@@ -1064,8 +1064,8 @@
                 url: $('#getArticlesUrl').val(),
                 dataType: 'json',
                 data: {
-                    type_article: document.querySelector('#itemType').value,
-                    store_code: document.querySelector('#store_code').value,
+                    type_article: document.querySelector('#pettyCashBuyItemType').value,
+                    store_code: document.querySelector('#pettyCashStoreCode').value,
                 },
                 success: function (data, params) {
                     console.log(data, params)
