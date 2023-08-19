@@ -2253,7 +2253,7 @@
                         let total = 0;
                         for (let i = 0; i < inps.length; i++) {
                             const inp = inps[i];
-                            total = total + parseFloat(inp.value || 0);
+                            total = total + tmsApp.getFloat(inp.value || 0);
                         }
                         total = total.round(2);
 
