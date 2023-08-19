@@ -1608,7 +1608,7 @@
                     transitionEffect: "slideLeft",
                     autoFocus: true,
                     saveState: true,
-                    startIndex: stepId,
+                    startIndex: parseInt(stepId),
                     labels: {
                         finish: 'Submit'
                     },
