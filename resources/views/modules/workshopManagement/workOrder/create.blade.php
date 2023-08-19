@@ -1572,19 +1572,19 @@
             }
 
             function initializeFormWizard() {
-                let stepId = oldIndex;
-                window.global_currentIndex = stepId - 1;
+                //let stepId = oldIndex;
+                //window.global_currentIndex = stepId - 1;
 
                 const index = 'key';
                 //  Define friendly data store name
                 const dataStore = window.sessionStorage;
-                let oldIndex = window.step_id;
+                let stepId = window.step_id;
                 try {
                     // getter: Fetch previous value
-                    oldIndex = dataStore.getItem(index);
+                    stepId = dataStore.getItem(index);
                 } catch (e) {
                     // getter: Always default to first tab in error state
-                    oldIndex = 0;
+                    stepId = 0;
                 }
 
                 form.steps({
@@ -1594,7 +1594,7 @@
                     transitionEffect: "slideLeft",
                     autoFocus: true,
                     saveState: true,
-                    startIndex: stepId - 1,
+                    startIndex: stepId,
                     labels: {
                         finish: 'Submit'
                     },
