@@ -1595,7 +1595,7 @@
                 let stepId = window.step_id;
                 try {
                     // getter: Fetch previous value
-                    stepId = dataStore.getItem(index);
+                    stepId = dataStore.getItem(index) ? dataStore.getItem(index) : window.step_id;
                 } catch (e) {
                     // getter: Always default to first tab in error state
                     stepId = 0;
