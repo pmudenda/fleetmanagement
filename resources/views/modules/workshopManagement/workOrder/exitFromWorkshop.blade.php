@@ -1126,13 +1126,14 @@
                                                         <tbody>
                                                         @if($materials && $materials->isNotEmpty())
                                                             @foreach($materials as $material)
-                                                                <tr class="increment" data-record-id="{{$material->id}}">
+                                                                <tr class="increment"
+                                                                    data-record-id="{{$material->id}}">
                                                                     <td class="showNumber">
                                                                         <input readonly
-                                                                                name="registration"
-                                                                                required
-                                                                                value="{{$material->veh_reg_no ?? ''}}"
-                                                                                class="form-control form-control-sm registration"/>
+                                                                               name="registration"
+                                                                               required
+                                                                               value="{{$material->veh_reg_no ?? ''}}"
+                                                                               class="form-control form-control-sm registration"/>
                                                                     </td>
                                                                     <td>
                                                                         <select readonly
@@ -3130,24 +3131,24 @@
                 $("#itemType").on('change', function () {
                     const selectedItemType = this.value;
 
-                    if (tableHasItems()) {
-                        Swal.fire({
-                            title: 'Change Requisition Item Type',
-                            text: "Changing Item Type will clear the items you've selected already." +
-                                " Would you like to proceed ?",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Yes'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // clear things here
-                                changeRequestType(selectedItemType);
-                            }
-                        });
-                        return;
-                    }
+                    /* if (tableHasItems()) {
+                         Swal.fire({
+                             title: 'Change Requisition Item Type',
+                             text: "Changing Item Type will clear the items you've selected already." +
+                                 " Would you like to proceed ?",
+                             icon: 'warning',
+                             showCancelButton: true,
+                             confirmButtonColor: '#3085d6',
+                             cancelButtonColor: '#d33',
+                             confirmButtonText: 'Yes'
+                         }).then((result) => {
+                             if (result.isConfirmed) {
+                                 // clear things here
+                                 changeRequestType(selectedItemType);
+                             }
+                         });
+                         return;
+                     }*/
 
                     changeRequestType(selectedItemType);
                 });
