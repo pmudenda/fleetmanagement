@@ -1125,6 +1125,7 @@
                                                         </thead>
                                                         <tbody>
                                                         @if($materials && $materials->isNotEmpty())
+                                                            {{dd($materials)}}
                                                             @foreach($materials as $material)
                                                                 <tr class="increment">
                                                                     <td class="showNumber">
@@ -2020,7 +2021,6 @@
             }).mask('[name="vehicle_registration"]');
 
             $('.datePicker').datepicker({
-                /*  maxDate: new Date(),*/
                 dateFormat: 'dd/mm/yy',
             });
 
