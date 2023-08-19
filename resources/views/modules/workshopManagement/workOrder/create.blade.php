@@ -869,7 +869,7 @@
                                 icon: 'error',
                                 title: 'Oops...',
                                 text: 'The Article '
-                                    + article?.code_article
+                                    + selectedArticleObject?.code_article
                                     + ' - ' + description + ' has no price. ' +
                                     ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
                             });
