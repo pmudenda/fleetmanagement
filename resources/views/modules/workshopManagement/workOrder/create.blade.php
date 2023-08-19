@@ -1186,16 +1186,16 @@
                     let checked = $(this).is(':checked');
                     let checkBoxes = document.querySelector('#labour_table').querySelectorAll('[name="selectDefectToAssign"]');
                     let count = 0;
-                    for(const ele of checkBoxes){
-                        if($(ele).is(':checked')){
-                            count+=1;
+                    for (const ele of checkBoxes) {
+                        if ($(ele).is(':checked')) {
+                            count += 1;
                         }
                     }
 
                     if (checked & count >= 2) {
                         // selects()
                         $('[value="assignMultiple"]').removeClass('d-none');
-                    } else if(count < 2) {
+                    } else if (count < 2) {
                         // deSelect();
                         $('[value="assignMultiple"]').addClass('d-none');
                     }
@@ -1208,7 +1208,7 @@
                         for (let i = 0; i < ele.length; i++) {
                             if (ele[i].type === 'checkbox')
                                 ele[i].checked = true;
-                                $(ele[i]).change();
+                            $(ele[i]).change();
                         }
                     }
 
@@ -1217,7 +1217,7 @@
                         for (let i = 0; i < ele.length; i++) {
                             if (ele[i].type === 'checkbox')
                                 ele[i].checked = false;
-                                $(ele[i]).change();
+                            $(ele[i]).change();
                         }
                     }
 
@@ -1571,8 +1571,20 @@
                 })
             }
 
+            const index = 'key';
+            //  Define friendly data store name
+            const dataStore = window.sessionStorage;
+            let oldIndex = window.step_id || 1;
+            try {
+                // getter: Fetch previous value
+                oldIndex = dataStore.getItem(index);
+            } catch (e) {
+                // getter: Always default to first tab in error state
+                oldIndex = 0;
+            }
+
             function initializeFormWizard() {
-                let stepId = window.step_id || 1;
+                let stepId = oldIndex;
                 window.global_currentIndex = stepId - 1;
                 form.steps({
                     showStepURLhash: true,
@@ -1589,7 +1601,7 @@
                         console.log('Wizard Initializing')
                     },
                     onStepChanging: function (event, currentIndex, newIndex) {
-
+                        dataStore.setItem( index, newIndex );
                         if (currentIndex > newIndex) {
                             return true;
                         }

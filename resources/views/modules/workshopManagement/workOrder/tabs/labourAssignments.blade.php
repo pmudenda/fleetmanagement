@@ -21,7 +21,7 @@
             <tr class="bg-success-subtle">
                 <th>
                     <input name="selectAll"
-                           title="Not Active Yet"
+                           title="Select All Defects"
                            class="checkbox" data-toggle="tooltip" type="checkbox">ALL
                 </th>
                 <th style="width: 16%;">DEFECT</th>
