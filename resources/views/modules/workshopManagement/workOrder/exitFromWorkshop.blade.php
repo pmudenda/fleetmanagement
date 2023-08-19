@@ -1969,11 +1969,17 @@
 
         $(document).ready(function () {
             setTimeout(function () {
-                $('[name="fuel_level"]').attr('disabled', true).change();
-            }, 300);
-
-            setTimeout(function () {
                 //disableControls();
+                let fuel_level = document.querySelector('select[name="fuel_level"]');
+                if (!fuel_level.hasAttribute('data-select2-id="fuel_level"')) {
+                    $(fuel_level).select2("enable", false);
+                }
+
+                let sub_fuel_level = document.querySelector('select[name="sub_fuel_level"]');
+                if (!sub_fuel_level.hasAttribute('data-select2-id="sub_fuel_level"')) {
+                    $(sub_fuel_level).select2("enable", false);
+                }
+
                 $("#labour_table").find('[data-record-id]').find('.mechanicStaffNumber').change();
             }, 1000);
 
