@@ -256,5 +256,18 @@
             </div>
 
         </div>
+
+        <div class="col-12 text-right">
+            <div>
+                <button type="button"
+                        id="saveAllAssignments"
+                        style="background: #f59d33; color: #fff;"
+                        data-table-id="labour_table"
+                        class="btn btn-sm btn-success pull-right">
+                    <i class="fa fa-save"></i>
+                    Save All Assignments
+                </button>
+            </div>
+        </div>
     </div>
 </div>
