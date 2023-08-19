@@ -863,7 +863,7 @@
 
                     if (document.querySelector('[name="stockItemCode"]').value === itemType) {
 
-                        if (!selectedArticleObject?.price_map) {
+                        if (!selectedArticleObject?.price) {
                             const description = selectedArticleObject?.technical_specifications ? selectedArticleObject?.technical_specifications : "";
                             Swal.fire({
                                 icon: 'error',
@@ -894,7 +894,7 @@
 
                     //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
                     $($row).find('[name="imprestArticleCode"]').val(selectedArticleObject['code_article']);
-                    $($row).find('[name="imprestItemUnitPrice"]').val(selectedArticleObject['price_map']);
+                    $($row).find('[name="imprestItemUnitPrice"]').val(selectedArticleObject['price']);
                     $($row).find('[name="imprestArticleDescription"]').val(selectedArticleObject['technical_specifications']);
                     $($row).find('[name="imprestItemUnitOfMeasure"]').val(selectedArticleObject['unit_measure_name']);
 
@@ -1198,7 +1198,6 @@
                 });
             });
 
-
             function initArticleSelector(element) {
                 const dataUrl = document.querySelector('#articlesUrl').value;
 
@@ -1284,7 +1283,7 @@
                             });
                         }
                     }
-                    //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
+                    $(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
                     $(row).find('[name="articleCode"]').val(article['id']);
                     $(row).find('[name="unit_price"]').val(article['price_map']);
                     $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
@@ -2352,8 +2351,7 @@
 
                     document.querySelector('#pettyCashStoreContainer').style.display = 'none';
                     //document.querySelector('[name="store_code"]').removeAttribute('required');
-                    $('.quantity').attr('readonly', 'readonly');
-                    $('.quantity').val(1);
+                    $('.quantity').attr('readonly', 'readonly').val(1);
                 } else if (selectedItemType == document.querySelector('[name="nonStockItemCode"]').value) {
                     document.querySelector('#pettyCashSupplierContainer').style.display = null;
                     document.querySelector('[name="imprestBuySupplier"]').setAttribute('required', 'required');
@@ -2368,10 +2366,7 @@
                 } else {
                     document.querySelector('#pettyCashSupplierContainer').style.display = null;
                     document.querySelector('[name="imprestBuySupplier"]').setAttribute('required', 'required');
-                    //document.querySelector('[name="supplier"]').setAttribute('required', 'required');
-
                     document.querySelector('#pettyCashStoreContainer').style.display = 'none';
-                    //document.querySelector('[name="store_code"]').removeAttribute('required');
 
                     $('.quantity').attr('readonly', false);
                 }
