@@ -883,19 +883,20 @@
                                 title: 'Oops...',
                                 text: 'The Article '
                                     + selectedArticleObject?.code_article
-                                    + ' - ' + description + ' is available in'
+                                    + ' - ' + description + ' is available in '
                                     + $("#pettyCashStoreName").val()
                                     + '.' +
                                     'You can proceed to request from stores'
                             });
+                            return;
                         }
                     }
 
                     //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
-                    $($row).find('[name="imprestArticleCode"]').val(selectedArticleObject['id']);
-                    $($row).find('[name="imprestItemUnitPrice[]"]').val(selectedArticleObject['price_map']);
-                    $($row).find('[name="imprestArticleDescription[]"]').val(selectedArticleObject['technical_specifications']);
-                    $($row).find('[name="imprestItemUnitOfMeasure[]"]').val(selectedArticleObject['unit_measure_name']);
+                    $($row).find('[name="imprestArticleCode"]').val(selectedArticleObject['code_article']);
+                    $($row).find('[name="imprestItemUnitPrice"]').val(selectedArticleObject['price_map']);
+                    $($row).find('[name="imprestArticleDescription"]').val(selectedArticleObject['technical_specifications']);
+                    $($row).find('[name="imprestItemUnitOfMeasure"]').val(selectedArticleObject['unit_measure_name']);
 
                 });
 
@@ -1149,6 +1150,80 @@
                         });
                     }
                 );
+            });
+
+            //first hide the buttons
+            $('#submit_possible').hide();
+
+            $('#submit_not_possible').hide();
+
+            $("#divSubmit_hide").hide();
+
+            //disable the submit button
+            $("#btnSubmit").on('click', function () {
+                $("#create_form").submit(function (e) {
+                    e.preventDefault()
+                    //do something here
+                    $("#divSubmit_show").hide();
+                    $("#divSubmit_hide").show();
+                    //continue submitting
+                    e.currentTarget.submit();
+                });
+            });
+
+            $(document).on('click', '.addItemRow', function () {
+                const tableID = $(this).attr('data-table-id');
+
+                const table = document.getElementById(tableID);
+
+                const rowCount = table.rows.length;
+                const row = table.insertRow(rowCount);
+
+                const colCount = table.rows[0].cells.length;
+
+                for (let i = 0; i < colCount; i++) {
+
+                    const newCell = row.insertCell(i);
+
+                    newCell.innerHTML = table.rows[0].cells[i].innerHTML;
+
+                    switch (newCell.childNodes[0].type) {
+                        case "text":
+                            newCell.childNodes[0].value = "";
+                            break;
+                        case "checkbox":
+                            newCell.childNodes[0].checked = false;
+                            break;
+                        case "select-one":
+                            newCell.childNodes[0].selectedIndex = 0;
+                            break;
+                    }
+                }
+            });
+
+            $(document).on('click', '.deleteTaleRow', function () {
+                const tableID = $(this).attr('data-table-id');
+                try {
+                    const table = document.getElementById(tableID);
+                    let rowCount = table.rows.length;
+
+                    for (let i = 0; i < rowCount; i++) {
+                        const row = table.rows[i];
+                        const chkbox = row.cells[0].childNodes[0];
+                        if (null != chkbox && true == chkbox.checked) {
+                            if (rowCount <= 1) {
+                                alert("Cannot delete all the rows.");
+                                break;
+                            }
+                            table.deleteRow(i);
+                            rowCount--;
+                            i--;
+                        }
+                    }
+                    getvalues();
+                } catch (e) {
+                    alert(e);
+                }
             });
 
             function initArticleSelector(element) {
@@ -2142,7 +2217,6 @@
                         $(element).closest("tr").find("input[name=total_price]").val(lineAmountTotal).change();
                         $(element).closest("tr").find("#total_price").text(tmsApp.numberFormat(lineAmountTotal));
                         break;
-
                     case 'service_quantity':
                         let serviceSummaryTotalQty = 0;
                         $(element).closest("table").find("input[name=service_quantity]").each(function (i, it) {
@@ -2188,7 +2262,33 @@
                         });
                         $('#serviceTotalPrice').text(tmsApp.numberFormat(serviceSummaryTotal, 2));
                         break;
+                    case 'imprestItemQty':
+                        const inps = document.getElementsByName('amount[]');
+                        let total = 0;
+                        for (let i = 0; i < inps.length; i++) {
+                            const inp = inps[i];
+                            total = total + parseFloat(inp.value || 0);
+                        }
+                        total = total.round(2);
 
+                        if (!isNaN(total)) {
+                            //check if petty cash is below 2000
+                            if (total > 2000) {
+                                $('#submit_possible').hide();
+                                $('#submit_not_possible').show();
+                            } else if (total == 0) {
+                                $('#submit_not_possible').hide();
+                                $('#submit_possible').hide();
+                            } else {
+                                $('#submit_not_possible').hide();
+                                $('#submit_possible').show();
+                            }
+                            //set value
+                            document.getElementById('total-payment').value = total;
+                        }
+                        break;
+                    case 'imprestItemUnitPrice':
+                        break;
                     default:
                         break;
                 }
@@ -3003,109 +3103,6 @@
             return +(Math.round(this + "e+" + places) + "e-" + places);
         }
 
-        // Navigation Script Starts Here
-        $(document).ready(function () {
-
-            function getvalues() {
-                const inps = document.getElementsByName('amount[]');
-                let total = 0;
-                for (let i = 0; i < inps.length; i++) {
-                    const inp = inps[i];
-                    total = total + parseFloat(inp.value || 0);
-                }
-                total = total.round(2);
-
-                if (!isNaN(total)) {
-                    //check if petty cash is below 2000
-                    if (total > 2000) {
-                        $('#submit_possible').hide();
-                        $('#submit_not_possible').show();
-                    } else if (total == 0) {
-                        $('#submit_not_possible').hide();
-                        $('#submit_possible').hide();
-                    } else {
-                        $('#submit_not_possible').hide();
-                        $('#submit_possible').show();
-                    }
-                    //set value
-                    document.getElementById('total-payment').value = total;
-                }
-            }
-
-            //first hide the buttons
-            $('#submit_possible').hide();
-
-            $('#submit_not_possible').hide();
-
-            $("#divSubmit_hide").hide();
-
-            //disable the submit button
-            $("#btnSubmit").on('click', function () {
-                $("#create_form").submit(function (e) {
-                    e.preventDefault()
-                    //do something here
-                    $("#divSubmit_show").hide();
-                    $("#divSubmit_hide").show();
-                    //continue submitting
-                    e.currentTarget.submit();
-                });
-            });
-
-            $(document).on('click', '.addItemRow', function () {
-                const tableID = $(this).attr('data-table-id');
-
-                const table = document.getElementById(tableID);
-
-                const rowCount = table.rows.length;
-                const row = table.insertRow(rowCount);
-
-                const colCount = table.rows[0].cells.length;
-
-                for (let i = 0; i < colCount; i++) {
-
-                    const newCell = row.insertCell(i);
-
-                    newCell.innerHTML = table.rows[0].cells[i].innerHTML;
-
-                    switch (newCell.childNodes[0].type) {
-                        case "text":
-                            newCell.childNodes[0].value = "";
-                            break;
-                        case "checkbox":
-                            newCell.childNodes[0].checked = false;
-                            break;
-                        case "select-one":
-                            newCell.childNodes[0].selectedIndex = 0;
-                            break;
-                    }
-                }
-            });
-
-            $(document).on('click', '.deleteTaleRow', function () {
-                const tableID = $(this).attr('data-table-id');
-                try {
-                    const table = document.getElementById(tableID);
-                    let rowCount = table.rows.length;
-
-                    for (let i = 0; i < rowCount; i++) {
-                        const row = table.rows[i];
-                        const chkbox = row.cells[0].childNodes[0];
-                        if (null != chkbox && true == chkbox.checked) {
-                            if (rowCount <= 1) {
-                                alert("Cannot delete all the rows.");
-                                break;
-                            }
-                            table.deleteRow(i);
-                            rowCount--;
-                            i--;
-                        }
-                    }
-                    getvalues();
-                } catch (e) {
-                    alert(e);
-                }
-            });
-        });
     </script>
 
 @endpush

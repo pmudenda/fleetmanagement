@@ -349,9 +349,9 @@
                     </thead>--}}
                     <tbody>
                     <tr>
-                       {{-- <td>
-                            <input type="checkbox" name="chk"/>
-                        </td>--}}
+                        {{-- <td>
+                             <input type="checkbox" name="chk"/>
+                         </td>--}}
                         <td class="showNumber">
                             <input
                                     readonly
@@ -369,17 +369,16 @@
                             </select>
                         </td>
                         <td>
-                            <input
-                                    name="imprestArticleCode"
-                                    value=""
-                                    required
-                                    readonly
-                                    class="form-control form-control-sm articleCode"/>
+                            <input name="imprestArticleCode"
+                                   value=""
+                                   required
+                                   readonly
+                                   class="form-control form-control-sm articleCode"/>
                         </td>
                         <td>
                                 <textarea rows="4"
                                           type="text"
-                                          name="imprestArticleDescription[]"
+                                          name="imprestArticleDescription"
                                           class="form-control amount"
                                           placeholder="Item Details / Description"
                                           id="imprestArticleDescription"
@@ -390,21 +389,20 @@
                                    step="1"
                                    min="1"
                                    id="imprestItemQty"
-                                   name="imprestItemQty[]"
-                                   onchange="getvalues()"
+                                   name="imprestItemQty"
                                    class="form-control amount"
                                    placeholder="Amount [ZMW]">
                         </td>
                         <td>
                             <input
-                                    name="imprestItemUnitOfMeasure[]"
+                                    name="imprestItemUnitOfMeasure"
                                     required
                                     value=""
                                     readonly
                                     class="form-control form-control-sm unit_of_measure"/>
                         </td>
                         <td>
-                            <input name="imprestItemUnitPrice[]"
+                            <input name="imprestItemUnitPrice"
                                    required
                                    value=""
                                    readonly
@@ -412,7 +410,7 @@
                         </td>
                         <td>
                             <span id="imprestItemTotalPrice"></span>
-                            <input name="imprestItemTotalPrice[]"
+                            <input name="imprestItemTotalPrice"
                                    type="text"
                                    readonly
                                    required
@@ -420,11 +418,6 @@
                                    class="form-control form-control-sm total_price"/>
                         </td>
                         <td>
-                            {{--<button type="button"
-                                    class="btn btn-danger btn-sm deleteTaleRow"
-                                    value="Delete Row"
-                                    data-table-id="dataTable"
-                            ><i class="fa fa-trash"></i></button>--}}
                             <button type="button"
                                     data-value="0"
                                     value="deleteRow"
