@@ -853,7 +853,7 @@
                     let itemType = document.querySelector('#pettyCashBuyItemType').value
                     let dataToFilter = window[itemType];
                     let filteredArray = dataToFilter.filter(function (article) {
-                        return article.code_article = selectedArticle;
+                        return article.code_article === selectedArticle;
                     });
 
                     if (filteredArray.length === 0) {
@@ -881,12 +881,12 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
-                                text: 'The Store '
-                                    + $("#pettyCashStoreName").val()
-                                    + ' has the item '
+                                text: 'The Article '
                                     + selectedArticleObject?.code_article
-                                    + ' - ' + description + ' in stock. ' +
-                                    'You can raise request from stores'
+                                    + ' - ' + description + ' is available in'
+                                    + $("#pettyCashStoreName").val()
+                                    + '.' +
+                                    'You can proceed to request from stores'
                             });
                         }
                     }
