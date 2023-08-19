@@ -661,7 +661,6 @@
                 </button>
             </td>
         </tr>`;
-
         const serviceTableRowTemplate = ` <tr class="increment">
             <td class="showNumber">
                 <input
@@ -735,7 +734,6 @@
                 </button>
             </td>
         </tr>`;
-
         const defectTableRowTemplate = ` <tr class="increment">
                                 <td class="showNumber">
                                     <select name="vehicleSystem"
@@ -783,439 +781,7 @@
                                 </td>
                             </tr>`;
 
-        function initArticleSelector(element) {
-            const dataUrl = document.querySelector('#articlesUrl').value;
-
-            // don't re-initialize
-            if (!element || element.length === 0) {
-                return;
-            }
-            let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
-            console.log(hasAttribute);
-            if (hasAttribute) {
-                return;
-            }
-
-            element.select2({
-                selectOnClose: true,
-                multiple: false,
-                quietMillis: 100,
-                id: function (project) {
-                    return project['code_article'];
-                },
-                theme: 'bootstrap4',
-                ajax: {
-                    delay: 250,
-                    beforeSend: function () {
-                        window.showLoaderModal(false);
-                        window.loaderVisible = false;
-                    },
-                    url: dataUrl,
-                    dataType: 'json',
-                    data: function (params) {
-                        return {
-                            search: params.term, // search term
-                            type_article: document.querySelector('#itemType').value,
-                            store_code: document.querySelector('#store_code').value,
-                            page: params.page
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-
-                        return {
-                            results: formatResults(data.items),
-                            pagination: {
-                                more: (params.page * 30) < data['total_count']
-                            }
-                        };
-                    },
-                    cache: true
-                },
-                placeholder: 'Enter Article name or Code',
-                minimumInputLength: 3,
-                templateResult: formatRepo,
-                templateSelection: formatRepoSelection
-            }).off('select2:select').on('select2:select', function (e) {
-                let article = e.params['data'];
-                const row = $(e.currentTarget).closest('tr');
-                if (document.querySelector('[name="stockItemCode"]').value == $("#itemType").val()) {
-
-                    if (!article?.price_map) {
-                        const description = article?.technical_specifications ? article?.technical_specifications : "";
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'The Article '
-                                + article?.id
-                                + ' - ' + description + ' has no price. ' +
-                                ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
-                        });
-                        return;
-                    }
-
-                    if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
-                        const description = article?.technical_specifications ? article?.technical_specifications : "";
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'The Store '
-                                + $("#store_name").val()
-                                + ' does not have '
-                                + article?.id
-                                + ' - ' + description + ' in stock. ' +
-                                'You may have to wait until the stock is received before your request can be processed'
-                        });
-                    }
-                }
-                //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
-                $(row).find('[name="articleCode"]').val(article['id']);
-                $(row).find('[name="unit_price"]').val(article['price_map']);
-                $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
-                $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
-            });
-        }
-
-        function initServiceArticleSelector(element) {
-            const dataUrl = document.querySelector('#articlesUrl').value;
-
-            // don't re-initialize
-            if (element.length === 0) {
-                return;
-            }
-            let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
-            console.log(hasAttribute);
-            if (hasAttribute) {
-                return;
-            }
-
-            element.select2({
-                selectOnClose: true,
-                multiple: false,
-                quietMillis: 100,
-                id: function (project) {
-                    return project['code_article'];
-                },
-                theme: 'bootstrap4',
-                ajax: {
-                    delay: 250,
-                    beforeSend: function () {
-                        window.showLoaderModal(false);
-                        window.loaderVisible = false;
-                    },
-                    url: dataUrl,
-                    dataType: 'json',
-                    data: function (params) {
-                        return {
-                            search: params.term, // search term
-                            type_article: document.querySelector('#serviceItemType').value,
-                            supplier_code: document.querySelector('#service_supplier').value,
-                            page: params.page
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-
-                        return {
-                            results: formatResults(data.items),
-                            pagination: {
-                                more: (params.page * 30) < data['total_count']
-                            }
-                        };
-                    },
-                    cache: true
-                },
-                placeholder: 'Enter Article name or Code',
-                minimumInputLength: 3,
-                templateResult: formatRepo,
-                templateSelection: formatRepoSelection
-            }).off('select2:select').on('select2:select', function (e) {
-                let article = e.params['data'];
-                const row = $(e.currentTarget).closest('tr');
-
-                $(row).find('[name="serviceArticleCode"]').val(article['id']);
-                $(row).find('[name="service_unit_price"]').val(article['price_map']);
-                $(row).find('[name="service_technical_specification"]').val(article['technical_specifications']);
-                $(row).find('[name="service_unit_of_measure"]').val(article['unit_measure_name']);
-            });
-        }
-
-        function formatRepo(project) {
-            if (project.loading)
-                return project.text;
-            return $('<option value="' + project['id'] + '">' + project['text'] + '</option>');
-        }
-
-        function formatRepoSelection(project) {
-            if (!project['id']) {
-                return project['text'];
-            }
-            return project['description'];
-        }
-
-        function formatResults(items) {
-            return $.map(items, function (obj) {
-                return {
-                    "id": obj['code_article'],
-                    "text": obj['code_article'] + ':' + obj.description,
-                    'code_article': obj?.code_article,
-                    'description': obj?.description,
-                    'price_map': obj?.price,
-                    'technical_specifications': obj?.technical_specifications,
-                    'unit_measure': obj?.unit_measure,
-                    'unit_measure_code': obj?.unit_measure,
-                    'unit_measure_name': obj?.unit_measure_name,
-                    'quantity_in_store': obj?.quantity_in_store
-                };
-            });
-        }
-
-        function getArticleDetails(code_article, selectElem) {
-
-            fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
-                .then(response => response.json())
-                .then(response => {
-                    let result = response['payload'];
-                    if (result.success === 'failure') {
-                        // show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-
-                    console.log(result);
-
-                    let data = {
-                        "id": result['code_article'],
-                        "text": result['code_article'] + ':' + result.description,
-                        'code_article': result?.code_article,
-                        'description': result?.description,
-                        'price_map': result?.price,
-                        'technical_specifications': result?.technical_specifications,
-                        'unit_measure': result?.unit_measure,
-                        'unit_measure_name': result?.unit_measure_name
-                    };
-
-                    let option = new Option(data.text, data.id, true, true);
-                    selectElem.append(option).trigger('change');
-
-                    // manually trigger the `select2:select` event
-                    selectElem.trigger({
-                        type: 'select2:select',
-                        params: {
-                            data: data
-                        }
-                    });
-                })
-                .catch(function (error) {
-                    // notify of error
-                    console.log(error);
-                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-                });
-        }
-
-        function getArticlesForSelectedItemType() {
-
-            /*fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
-                .then(response => response.json())
-                .then(response => {
-                    let result = response['payload'];
-                    if (result.success === 'failure') {
-                        // show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-
-                    console.log(result);
-
-                    let data = {
-                        "id": result['code_article'],
-                        "text": result['code_article'] + ':' + result.description,
-                        'code_article': result?.code_article,
-                        'description': result?.description,
-                        'price_map': result?.price,
-                        'technical_specifications': result?.technical_specifications,
-                        'unit_measure': result?.unit_measure,
-                        'unit_measure_name': result?.unit_measure_name
-                    };
-
-                    let option = new Option(data.text, data.id, true, true);
-                    selectElem.append(option).trigger('change');
-
-                    // manually trigger the `select2:select` event
-                    selectElem.trigger({
-                        type: 'select2:select',
-                        params: {
-                            data: data
-                        }
-                    });
-                })
-                .catch(function (error) {
-                    // notify of error
-                    console.log(error);
-                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-                });*/
-
-            $.ajax({
-                delay: 250,
-                beforeSend: function () {
-                    window.showLoaderModal(true);
-                    window.loaderVisible = false;
-                },
-                url: $('#getArticlesUrl').val(),
-                dataType: 'json',
-                data: {
-                    type_article: document.querySelector('#pettyCashBuyItemType').value,
-                    store_code: document.querySelector('#pettyCashStoreCode').value,
-                },
-                success: function (data, params) {
-                    console.log(data, params)
-                    /*params.page = params.page || 1;
-
-                    return {
-                        results: formatResults(data.items),
-                        pagination: {
-                            more: (params.page * 30) < data['total_count']
-                        }
-                    };*/
-                },
-                cache: true
-            });
-        }
-
-        function findMechanic($row, mechanic) {
-            if (!mechanic) {
-                return;
-            }
-
-            fetch(
-                $('#mechanicDetails').val() + '?staff_no=' + mechanic,
-                {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    body: JSON.stringify({staff_no: mechanic}),
-                    referrer: window.baseUrl,
-                    mode: 'cors',
-                    credentials: 'same-origin',
-                }
-            )
-                .then((response) => {
-                    if (!response.ok) {
-                        tmsApp.systemError(
-                            'System Message',
-                            'We could not complete Mechanic state checks',
-                            function () {
-                            });
-                        return;
-                    }
-
-                    return response.json();
-                })
-                .then(response => {
-
-                    if (response?.state === 'success') {
-                        const $documentStatusCtl = $('[name="documentStatus"]');
-                        const documentStatus = $documentStatusCtl.val()
-                        const newDocumentStatus = $('[name="newDocumentStatus"]').attr('data-value');
-
-                        if (
-                            documentStatus === newDocumentStatus
-                            || documentStatus === null
-                            || documentStatus === ""
-                            || documentStatus === 'undefined'
-                        ) {
-                            //populateVehicleDetails(response.payload, "");
-                            //$($row).find('[name="hoursWorked"]').attr('readonly', false);
-                            //$($row).find('[name="shiftType"]').attr('disabled', false);
-                        }
-
-                        $($row).find('[name="mechanicName"]').val(response?.payload['mechanic'].name);
-                        $($row).find('[name="postCode"]').val(response?.payload['employee']['job_code']);
-                        $($row).find('[name="workshopSection"]').val(response?.payload['mechanic']['section_code']).change();
-                    } else {
-                        //removeSubmissionAndDetailsOptions();
-                        tmsApp.systemError(
-                            'Mechanic',
-                            'Mechanic with Staff No.' + mechanic
-                            + ' was not found, Check your input and try again',
-                            function () {
-                            });
-                    }
-                })
-                .catch(function (error) {
-                    tmsApp.systemError(
-                        'System Message',
-                        'We could not complete Mechanic state checks',
-                        function () {
-                        });
-                });
-        }
-
-        function disableControls() {
-
-            let fuel_level = document.querySelector('select[name="fuel_level"]');
-            if (!fuel_level.hasAttribute('data-select2-id="fuel_level"')) {
-                $(fuel_level).select2("enable", false);
-            }
-
-            let sub_fuel_level = document.querySelector('select[name="sub_fuel_level"]');
-            if (!sub_fuel_level.hasAttribute('data-select2-id="sub_fuel_level"')) {
-                $(sub_fuel_level).select2("enable", false);
-            }
-
-            let workshop = document.querySelector('select[name="workshop"]');
-            if (!workshop.hasAttribute('data-select2-id="workshop"')) {
-                $(workshop).select2("enable", false);
-            }
-
-            $('select[name="repairType"]').attr("disabled", true);
-            $('[name="vehicleSearchBtn"]').attr("disabled", true);
-            $('[name="employeeSearchBtn"]').attr("disabled", true);
-            $('[data-table-id="observations"]').attr('disabled', true);
-            $('[name="driver_staff_number"]').attr('disabled', true);
-            $('.selectAttachment').attr('disabled', true);
-
-            $('[name="current_odometer"]').attr('readonly', true);
-            $('[name="observation[]"]').attr('readonly', true);
-            $('[name="accessoriesRemarks"]').attr('readonly', true);
-
-        }
-
-        $(document).ready(function () {
-
-            initArticleSelector($('.articlesDropDownList'));
-
-            initServiceArticleSelector($('.servicesArticlesDropDownList'));
-
-            setTimeout(function () {
-                disableControls();
-                $("#labour_table").find('[data-record-id]').find('.mechanicStaffNumber').change();
-            }, 1000);
-
-            Inputmask({
-                "mask": "AAA 9{1,4}"
-            }).mask('[name="vehicle_registration"]');
-
-            $.fn.disableBtn = function () {
-                return this.each(function () {
-                    $(this).addClass("disabled").attr("disabled", true)
-                });
-            }
-
-            $.fn.enableBtn = function () {
-                return this.each(function () {
-                    let $this = $(this);
-                    $this.removeClass("disabled").attr("disabled", false)
-                });
-            }
-        });
-
         (function (tmsApp, $) {
-
-            function adjustIframeHeight() {
-            }
-
             let form = $('#jobCardForm').show();
             window.goToNext = false;
             let bodyTag = "section";
@@ -1309,6 +875,35 @@
                 });
 
                 $($labourTable).find('[data-record-id]').find('.mechanicStaffNumber').change();
+            });
+
+            $(document).ready(function () {
+
+                initArticleSelector($('.articlesDropDownList'));
+
+                initServiceArticleSelector($('.servicesArticlesDropDownList'));
+
+                setTimeout(function () {
+                    disableControls();
+                    $("#labour_table").find('[data-record-id]').find('.mechanicStaffNumber').change();
+                }, 1000);
+
+                Inputmask({
+                    "mask": "AAA 9{1,4}"
+                }).mask('[name="vehicle_registration"]');
+
+                $.fn.disableBtn = function () {
+                    return this.each(function () {
+                        $(this).addClass("disabled").attr("disabled", true)
+                    });
+                }
+
+                $.fn.enableBtn = function () {
+                    return this.each(function () {
+                        let $this = $(this);
+                        $this.removeClass("disabled").attr("disabled", false)
+                    });
+                }
             });
 
             $(document).on('click', '.reassignMechanic', function () {
@@ -1503,6 +1098,402 @@
                     }
                 );
             });
+
+            function initArticleSelector(element) {
+                const dataUrl = document.querySelector('#articlesUrl').value;
+
+                // don't re-initialize
+                if (!element || element.length === 0) {
+                    return;
+                }
+                let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
+                console.log(hasAttribute);
+                if (hasAttribute) {
+                    return;
+                }
+
+                element.select2({
+                    selectOnClose: true,
+                    multiple: false,
+                    quietMillis: 100,
+                    id: function (project) {
+                        return project['code_article'];
+                    },
+                    theme: 'bootstrap4',
+                    ajax: {
+                        delay: 250,
+                        beforeSend: function () {
+                            window.showLoaderModal(false);
+                            window.loaderVisible = false;
+                        },
+                        url: dataUrl,
+                        dataType: 'json',
+                        data: function (params) {
+                            return {
+                                search: params.term, // search term
+                                type_article: document.querySelector('#itemType').value,
+                                store_code: document.querySelector('#store_code').value,
+                                page: params.page
+                            };
+                        },
+                        processResults: function (data, params) {
+                            params.page = params.page || 1;
+
+                            return {
+                                results: formatResults(data.items),
+                                pagination: {
+                                    more: (params.page * 30) < data['total_count']
+                                }
+                            };
+                        },
+                        cache: true
+                    },
+                    placeholder: 'Enter Article name or Code',
+                    minimumInputLength: 3,
+                    templateResult: formatRepo,
+                    templateSelection: formatRepoSelection
+                }).off('select2:select').on('select2:select', function (e) {
+                    let article = e.params['data'];
+                    const row = $(e.currentTarget).closest('tr');
+                    if (document.querySelector('[name="stockItemCode"]').value == $("#itemType").val()) {
+
+                        if (!article?.price_map) {
+                            const description = article?.technical_specifications ? article?.technical_specifications : "";
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'The Article '
+                                    + article?.id
+                                    + ' - ' + description + ' has no price. ' +
+                                    ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
+                            });
+                            return;
+                        }
+
+                        if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
+                            const description = article?.technical_specifications ? article?.technical_specifications : "";
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'The Store '
+                                    + $("#store_name").val()
+                                    + ' does not have '
+                                    + article?.id
+                                    + ' - ' + description + ' in stock. ' +
+                                    'You may have to wait until the stock is received before your request can be processed'
+                            });
+                        }
+                    }
+                    //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
+                    $(row).find('[name="articleCode"]').val(article['id']);
+                    $(row).find('[name="unit_price"]').val(article['price_map']);
+                    $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
+                    $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
+                });
+            }
+
+            function initServiceArticleSelector(element) {
+                const dataUrl = document.querySelector('#articlesUrl').value;
+
+                // don't re-initialize
+                if (element.length === 0) {
+                    return;
+                }
+                let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
+                console.log(hasAttribute);
+                if (hasAttribute) {
+                    return;
+                }
+
+                element.select2({
+                    selectOnClose: true,
+                    multiple: false,
+                    quietMillis: 100,
+                    id: function (project) {
+                        return project['code_article'];
+                    },
+                    theme: 'bootstrap4',
+                    ajax: {
+                        delay: 250,
+                        beforeSend: function () {
+                            window.showLoaderModal(false);
+                            window.loaderVisible = false;
+                        },
+                        url: dataUrl,
+                        dataType: 'json',
+                        data: function (params) {
+                            return {
+                                search: params.term, // search term
+                                type_article: document.querySelector('#serviceItemType').value,
+                                supplier_code: document.querySelector('#service_supplier').value,
+                                page: params.page
+                            };
+                        },
+                        processResults: function (data, params) {
+                            params.page = params.page || 1;
+
+                            return {
+                                results: formatResults(data.items),
+                                pagination: {
+                                    more: (params.page * 30) < data['total_count']
+                                }
+                            };
+                        },
+                        cache: true
+                    },
+                    placeholder: 'Enter Article name or Code',
+                    minimumInputLength: 3,
+                    templateResult: formatRepo,
+                    templateSelection: formatRepoSelection
+                }).off('select2:select').on('select2:select', function (e) {
+                    let article = e.params['data'];
+                    const row = $(e.currentTarget).closest('tr');
+
+                    $(row).find('[name="serviceArticleCode"]').val(article['id']);
+                    $(row).find('[name="service_unit_price"]').val(article['price_map']);
+                    $(row).find('[name="service_technical_specification"]').val(article['technical_specifications']);
+                    $(row).find('[name="service_unit_of_measure"]').val(article['unit_measure_name']);
+                });
+            }
+
+            function formatRepo(project) {
+                if (project.loading)
+                    return project.text;
+                return $('<option value="' + project['id'] + '">' + project['text'] + '</option>');
+            }
+
+            function formatRepoSelection(project) {
+                if (!project['id']) {
+                    return project['text'];
+                }
+                return project['description'];
+            }
+
+            function formatResults(items) {
+                return $.map(items, function (obj) {
+                    return {
+                        "id": obj['code_article'],
+                        "text": obj['code_article'] + ':' + obj.description,
+                        'code_article': obj?.code_article,
+                        'description': obj?.description,
+                        'price_map': obj?.price,
+                        'technical_specifications': obj?.technical_specifications,
+                        'unit_measure': obj?.unit_measure,
+                        'unit_measure_code': obj?.unit_measure,
+                        'unit_measure_name': obj?.unit_measure_name,
+                        'quantity_in_store': obj?.quantity_in_store
+                    };
+                });
+            }
+
+            function getArticleDetails(code_article, selectElem) {
+
+                fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
+                    .then(response => response.json())
+                    .then(response => {
+                        let result = response['payload'];
+                        if (result.success === 'failure') {
+                            // show errors
+                            toastr.error('Connection error, no data found')
+                            return;
+                        }
+
+                        console.log(result);
+
+                        let data = {
+                            "id": result['code_article'],
+                            "text": result['code_article'] + ':' + result.description,
+                            'code_article': result?.code_article,
+                            'description': result?.description,
+                            'price_map': result?.price,
+                            'technical_specifications': result?.technical_specifications,
+                            'unit_measure': result?.unit_measure,
+                            'unit_measure_name': result?.unit_measure_name
+                        };
+
+                        let option = new Option(data.text, data.id, true, true);
+                        selectElem.append(option).trigger('change');
+
+                        // manually trigger the `select2:select` event
+                        selectElem.trigger({
+                            type: 'select2:select',
+                            params: {
+                                data: data
+                            }
+                        });
+                    })
+                    .catch(function (error) {
+                        // notify of error
+                        console.log(error);
+                        toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+                    });
+            }
+
+            function getArticlesForSelectedItemType() {
+
+                /*fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
+                    .then(response => response.json())
+                    .then(response => {
+                        let result = response['payload'];
+                        if (result.success === 'failure') {
+                            // show errors
+                            toastr.error('Connection error, no data found')
+                            return;
+                        }
+
+                        console.log(result);
+
+                        let data = {
+                            "id": result['code_article'],
+                            "text": result['code_article'] + ':' + result.description,
+                            'code_article': result?.code_article,
+                            'description': result?.description,
+                            'price_map': result?.price,
+                            'technical_specifications': result?.technical_specifications,
+                            'unit_measure': result?.unit_measure,
+                            'unit_measure_name': result?.unit_measure_name
+                        };
+
+                        let option = new Option(data.text, data.id, true, true);
+                        selectElem.append(option).trigger('change');
+
+                        // manually trigger the `select2:select` event
+                        selectElem.trigger({
+                            type: 'select2:select',
+                            params: {
+                                data: data
+                            }
+                        });
+                    })
+                    .catch(function (error) {
+                        // notify of error
+                        console.log(error);
+                        toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+                    });*/
+
+                $.ajax({
+                    delay: 250,
+                    beforeSend: function () {
+                        window.showLoaderModal(true);
+                        window.loaderVisible = false;
+                    },
+                    url: $('#getArticlesUrl').val(),
+                    dataType: 'json',
+                    data: {
+                        type_article: document.querySelector('#pettyCashBuyItemType').value,
+                        store_code: document.querySelector('#pettyCashStoreCode').value,
+                    },
+                    success: function (data) {
+                        console.log(data)
+                        if (data.success) {
+                            data.items;
+                        }
+                        let articlesCtrl = $(".pettyCashItemsTable").find('.imprestArticles');
+                        tmsApp.populateDropDownList(articlesCtrl, data.items,'code_article', 'description', ':')
+                    },
+                    cache: true
+                });
+            }
+
+            function findMechanic($row, mechanic) {
+                if (!mechanic) {
+                    return;
+                }
+
+                fetch(
+                    $('#mechanicDetails').val() + '?staff_no=' + mechanic,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: JSON.stringify({staff_no: mechanic}),
+                        referrer: window.baseUrl,
+                        mode: 'cors',
+                        credentials: 'same-origin',
+                    }
+                )
+                    .then((response) => {
+                        if (!response.ok) {
+                            tmsApp.systemError(
+                                'System Message',
+                                'We could not complete Mechanic state checks',
+                                function () {
+                                });
+                            return;
+                        }
+
+                        return response.json();
+                    })
+                    .then(response => {
+
+                        if (response?.state === 'success') {
+                            const $documentStatusCtl = $('[name="documentStatus"]');
+                            const documentStatus = $documentStatusCtl.val()
+                            const newDocumentStatus = $('[name="newDocumentStatus"]').attr('data-value');
+
+                            if (
+                                documentStatus === newDocumentStatus
+                                || documentStatus === null
+                                || documentStatus === ""
+                                || documentStatus === 'undefined'
+                            ) {
+                                //populateVehicleDetails(response.payload, "");
+                                //$($row).find('[name="hoursWorked"]').attr('readonly', false);
+                                //$($row).find('[name="shiftType"]').attr('disabled', false);
+                            }
+
+                            $($row).find('[name="mechanicName"]').val(response?.payload['mechanic'].name);
+                            $($row).find('[name="postCode"]').val(response?.payload['employee']['job_code']);
+                            $($row).find('[name="workshopSection"]').val(response?.payload['mechanic']['section_code']).change();
+                        } else {
+                            //removeSubmissionAndDetailsOptions();
+                            tmsApp.systemError(
+                                'Mechanic',
+                                'Mechanic with Staff No.' + mechanic
+                                + ' was not found, Check your input and try again',
+                                function () {
+                                });
+                        }
+                    })
+                    .catch(function (error) {
+                        tmsApp.systemError(
+                            'System Message',
+                            'We could not complete Mechanic state checks',
+                            function () {
+                            });
+                    });
+            }
+
+            function disableControls() {
+
+                let fuel_level = document.querySelector('select[name="fuel_level"]');
+                if (!fuel_level.hasAttribute('data-select2-id="fuel_level"')) {
+                    $(fuel_level).select2("enable", false);
+                }
+
+                let sub_fuel_level = document.querySelector('select[name="sub_fuel_level"]');
+                if (!sub_fuel_level.hasAttribute('data-select2-id="sub_fuel_level"')) {
+                    $(sub_fuel_level).select2("enable", false);
+                }
+
+                let workshop = document.querySelector('select[name="workshop"]');
+                if (!workshop.hasAttribute('data-select2-id="workshop"')) {
+                    $(workshop).select2("enable", false);
+                }
+
+                $('select[name="repairType"]').attr("disabled", true);
+                $('[name="vehicleSearchBtn"]').attr("disabled", true);
+                $('[name="employeeSearchBtn"]').attr("disabled", true);
+                $('[data-table-id="observations"]').attr('disabled', true);
+                $('[name="driver_staff_number"]').attr('disabled', true);
+                $('.selectAttachment').attr('disabled', true);
+
+                $('[name="current_odometer"]').attr('readonly', true);
+                $('[name="observation[]"]').attr('readonly', true);
+                $('[name="accessoriesRemarks"]').attr('readonly', true);
+
+            }
 
             /*****************************Function Handlers************************************/
             function postData(formElements, submitForm) {
@@ -1726,7 +1717,7 @@
                             //form.steps("previous");
                             $('ul[aria-label="Pagination"]').find('a[href="#finish"]').removeClass('d-none');
                         }
-                        adjustIframeHeight();
+
                         //$('ul[aria-label="Pagination"]').find('a[data-action="skip"]').removeClass('d-none');
                         window.global_currentIndex = currentIndex;
                         if (currentIndex === 3) {
@@ -2948,16 +2939,6 @@
                 });
             }
 
-            initializeFormWizard();
-
-            getWorkshops();
-
-            getFuelLevels();
-
-            loadData('VEH_SYS', document.querySelector('#systemsUrl').value + '?key=VEH_SYS', $('select[name="vehicleSystem"]'));
-
-            initEventHandlers();
-
             function dataFiler() {
 
                 $(document).find('.vehicleSystem').map(function (index, item) {
@@ -2981,6 +2962,16 @@
                     getArticleDetails(id, selectElem);
                 });
             }
+
+            initializeFormWizard();
+
+            getWorkshops();
+
+            getFuelLevels();
+
+            loadData('VEH_SYS', document.querySelector('#systemsUrl').value + '?key=VEH_SYS', $('select[name="vehicleSystem"]'));
+
+            initEventHandlers();
 
             getSuppliers();
 
