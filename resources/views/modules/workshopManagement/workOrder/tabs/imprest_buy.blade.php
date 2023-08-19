@@ -399,6 +399,30 @@
                                    placeholder="Amount [ZMW]">
                         </td>
                         <td>
+                            <input
+                                    name="unit_of_measure"
+                                    required
+                                    value="{{$material->unit_of_measure ?? ''}}"
+                                    readonly
+                                    class="form-control form-control-sm unit_of_measure"/>
+                        </td>
+                        <td>
+                            <input name="unit_price"
+                                   required
+                                   value="{{$material->price ?? ''}}"
+                                   readonly
+                                   class="form-control form-control-sm unit_price"/>
+                        </td>
+                        <td>
+                            <span id="total_price">{{$material->amount ?? ''}}</span>
+                            <input name="total_price"
+                                   type="hidden"
+                                   required
+                                   value="{{$material->amount ?? ''}}"
+                                   readonly
+                                   class="form-control form-control-sm total_price"/>
+                        </td>
+                        <td>
                             {{--<button type="button"
                                     class="btn btn-danger btn-sm deleteTaleRow"
                                     value="Delete Row"
