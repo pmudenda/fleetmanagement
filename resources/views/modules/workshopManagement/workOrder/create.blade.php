@@ -875,7 +875,7 @@
                             });
                             return;
                         }
-
+                        console.log(parseInt(selectedArticleObject?.quantity_in_store));
                         if (parseInt(selectedArticleObject?.quantity_in_store) !== 0) {
                             const description = selectedArticleObject?.technical_specifications ? selectedArticleObject?.technical_specifications : "";
                             Swal.fire({
