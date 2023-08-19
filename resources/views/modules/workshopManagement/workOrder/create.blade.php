@@ -928,9 +928,6 @@
                 });
 
                 $($labourTable).find('[data-record-id]').find('.mechanicStaffNumber').change();
-            });
-
-            $(document).ready(function () {
 
                 initArticleSelector($('.articlesDropDownList'));
 
@@ -957,274 +954,250 @@
                         $this.removeClass("disabled").attr("disabled", false)
                     });
                 }
-            });
 
-            $(document).on('click', '.reassignMechanic', function () {
-                let item = JSON.parse($(this).attr('data-labour-item'));
+                $(document).on('click', '.reassignMechanic', function () {
+                    let item = JSON.parse($(this).attr('data-labour-item'));
 
-                $('[name="reassignmentReference"]').val(item.id)
-                $('[name="reassignmentDefect"]').val(item.def_no)
-                $('[name="reassignmentDefectId"]').val(item.defect_id)
-                $('[name="reassignmentDefectDefectName"]').val(item.defect_name);
-                $('[name="reassignmentDefectSection"]').val(item.section).change();
-                $("#reassignMechanicModal").modal('show');
-            });
+                    $('[name="reassignmentReference"]').val(item.id)
+                    $('[name="reassignmentDefect"]').val(item.def_no)
+                    $('[name="reassignmentDefectId"]').val(item.defect_id)
+                    $('[name="reassignmentDefectDefectName"]').val(item.defect_name);
+                    $('[name="reassignmentDefectSection"]').val(item.section).change();
+                    $("#reassignMechanicModal").modal('show');
+                });
 
-            $(document).on('submit', '[name="saveReassignmentForm"]', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                let $form = document.forms['saveReassignmentForm'];
-                if (!$($form).valid()) {
-                    return;
-                }
+                $(document).on('submit', '[name="saveReassignmentForm"]', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    let $form = document.forms['saveReassignmentForm'];
+                    if (!$($form).valid()) {
+                        return;
+                    }
 
-                let formData = new FormData($form)
+                    let formData = new FormData($form)
 
-                tmsApp.confirm(
-                    'Reassign Task',
-                    'Are you sure you want to reassign this task ?',
-                    'Yes',
-                    'No',
-                    function () {
-                        $("#reassignMechanicModal").modal('hide');
+                    tmsApp.confirm(
+                        'Reassign Task',
+                        'Are you sure you want to reassign this task ?',
+                        'Yes',
+                        'No',
+                        function () {
+                            $("#reassignMechanicModal").modal('hide');
 
-                        $.ajax({
-                            type: "POST",
-                            url: $form.action,
-                            data: formData,
-                            dataType: 'json',
-                            contentType: false,
-                            processData: false
-                        }).done(function (asyncResponse) {
-                            if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
-                                setTimeout(function () {
-                                    tmsApp.showSystemMessage(
-                                        'Reassign Task',
-                                        asyncResponse['message'],
-                                        function () {
-                                            window.location.reload();
-                                        },
-                                        'success'
-                                    );
-                                }, 300);
-                            } else {
-                                if (asyncResponse.hasOwnProperty('errors')) {
-                                    tmsApp.printErrorMsg(asyncResponse.errors);
-                                    return
-                                }
-                                setTimeout(function () {
-                                    tmsApp.systemError(
-                                        'Reassign Task',
-                                        asyncResponse['message'],
-                                        function () {
-                                        }, 'error');
-                                }, 300);
-                            }
-                        }).fail(function (xhr, settings, errorThrown) {
-                            console.log(errorThrown)
-                            setTimeout(function () {
-                                if ('responseJSON' in xhr) {
-                                    if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                        tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                            $.ajax({
+                                type: "POST",
+                                url: $form.action,
+                                data: formData,
+                                dataType: 'json',
+                                contentType: false,
+                                processData: false
+                            }).done(function (asyncResponse) {
+                                if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
+                                    setTimeout(function () {
+                                        tmsApp.showSystemMessage(
+                                            'Reassign Task',
+                                            asyncResponse['message'],
+                                            function () {
+                                                window.location.reload();
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
                                     }
-                                    if (xhr.responseJSON.hasOwnProperty('message')) {
+                                    setTimeout(function () {
                                         tmsApp.systemError(
                                             'Reassign Task',
-                                            xhr.responseJSON['message']
-                                        );
-                                    }
-                                    return;
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
                                 }
-                                tmsApp.systemError(
-                                    'Reassign Task',
-                                    'We could not complete processing your request, please try again later');
-                            }, 300)
-                        });
-                    }
-                );
-            })
+                            }).fail(function (xhr, settings, errorThrown) {
+                                console.log(errorThrown)
+                                setTimeout(function () {
+                                    if ('responseJSON' in xhr) {
+                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                        }
+                                        if (xhr.responseJSON.hasOwnProperty('message')) {
+                                            tmsApp.systemError(
+                                                'Reassign Task',
+                                                xhr.responseJSON['message']
+                                            );
+                                        }
+                                        return;
+                                    }
+                                    tmsApp.systemError(
+                                        'Reassign Task',
+                                        'We could not complete processing your request, please try again later');
+                                }, 300)
+                            });
+                        }
+                    );
+                })
 
-            $(document).on('click', '.saveAssignment', function () {
+                $(document).on('click', '.saveAssignment', function () {
 
-                let formSel = $('#labour_table');
-                let formData = {
-                    modelName: formSel.data('modelName'),
-                    submitForm: true,
-                    workshopReference: $('[name="workshop_reference"]').val(),
-                    jobCardNumber: $('[name="job_card_number"]').val()
-                };
+                    let formSel = $('#labour_table');
+                    let formData = {
+                        modelName: formSel.data('modelName'),
+                        submitForm: true,
+                        workshopReference: $('[name="workshop_reference"]').val(),
+                        jobCardNumber: $('[name="job_card_number"]').val()
+                    };
 
-                let arr = [];
-                let obj = {};
-
-                $(formSel).find("tbody").children().map(function (index, row) {
+                    let arr = [];
                     let obj = {};
 
-                    if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
-                        console.log("Record with " + $(row).attr('data-record-id'));
-                    } else {
-                        $(row).find('input[name][type!=hidden], select[name],textarea[name]').each(function (i, item) {
-                            let val = item.value.replace(/,/g, '');
+                    $(formSel).find("tbody").children().map(function (index, row) {
+                        let obj = {};
 
-                            if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
-                                let dateField = val;
-                                dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
+                        if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
+                            console.log("Record with " + $(row).attr('data-record-id'));
+                        } else {
+                            $(row).find('input[name][type!=hidden], select[name],textarea[name]').each(function (i, item) {
+                                let val = item.value.replace(/,/g, '');
 
-                                obj[item.name] = dateField;
-                            } else {
-                                obj[item.name] = item.value;
-                            }
-                        });
-                        arr.push(obj);
+                                if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
+                                    let dateField = val;
+                                    dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
+
+                                    obj[item.name] = dateField;
+                                } else {
+                                    obj[item.name] = item.value;
+                                }
+                            });
+                            arr.push(obj);
+                        }
+
+                    });
+
+                    formData['items'] = arr;
+
+                    formData = {
+                        ...obj,
+                        ...formData
                     }
 
-                });
+                    $('.print-error-msg').css('display', 'none');
 
-                formData['items'] = arr;
+                    tmsApp.confirm(
+                        'Assign Task',
+                        'Are you sure you want to close this work order ?',
+                        'Yes',
+                        'No',
+                        function () {
+                            $.ajax({
+                                type: "POST",
+                                url: formSel.data('formUrl'),
+                                data: JSON.stringify(formData),
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                            }).done(function (asyncResponse) {
 
-                formData = {
-                    ...obj,
-                    ...formData
-                }
-
-                $('.print-error-msg').css('display', 'none');
-
-                tmsApp.confirm(
-                    'Assign Task',
-                    'Are you sure you want to close this work order ?',
-                    'Yes',
-                    'No',
-                    function () {
-                        $.ajax({
-                            type: "POST",
-                            url: formSel.data('formUrl'),
-                            data: JSON.stringify(formData),
-                            dataType: "json",
-                            contentType: "application/json; charset=utf-8",
-                        }).done(function (asyncResponse) {
-
-                            if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
-                                setTimeout(function () {
-                                    tmsApp.showSystemMessage(
-                                        'Assign Task',
-                                        asyncResponse['message'],
-                                        function () {
-                                            // window.location.href = asyncResponse["redirectUrl"]
-                                        },
-                                        'success'
-                                    );
-                                }, 300);
-                            } else {
-                                if (asyncResponse.hasOwnProperty('errors')) {
-                                    tmsApp.printErrorMsg(asyncResponse.errors);
-                                    return
-                                }
-                                setTimeout(function () {
-                                    tmsApp.systemError(
-                                        'Assign Task',
-                                        asyncResponse['message'],
-                                        function () {
-                                        }, 'error');
-                                }, 300);
-                            }
-                        }).fail(function (xhr, settings, errorThrown) {
-                            console.log(errorThrown)
-                            setTimeout(function () {
-                                if ('responseJSON' in xhr) {
-                                    if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                        tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
+                                    setTimeout(function () {
+                                        tmsApp.showSystemMessage(
+                                            'Assign Task',
+                                            asyncResponse['message'],
+                                            function () {
+                                                // window.location.href = asyncResponse["redirectUrl"]
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
                                     }
-                                    if (xhr.responseJSON.hasOwnProperty('message')) {
+                                    setTimeout(function () {
                                         tmsApp.systemError(
                                             'Assign Task',
-                                            xhr.responseJSON['message']
-                                        );
-                                    }
-                                    return;
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
                                 }
+                            }).fail(function (xhr, settings, errorThrown) {
+                                console.log(errorThrown)
+                                setTimeout(function () {
+                                    if ('responseJSON' in xhr) {
+                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                        }
+                                        if (xhr.responseJSON.hasOwnProperty('message')) {
+                                            tmsApp.systemError(
+                                                'Assign Task',
+                                                xhr.responseJSON['message']
+                                            );
+                                        }
+                                        return;
+                                    }
 
-                                tmsApp.systemError(
-                                    'Assign Task',
-                                    'We could not complete processing your request, please try again later');
-                            }, 300)
-                        });
+                                    tmsApp.systemError(
+                                        'Assign Task',
+                                        'We could not complete processing your request, please try again later');
+                                }, 300)
+                            });
+                        }
+                    );
+                });
+
+                //first hide the buttons
+                $('#submit_possible').hide();
+
+                $('#submit_not_possible').hide();
+
+                $("#divSubmit_hide").hide();
+
+                //disable the submit button
+                $("#btnSubmit").on('click', function () {
+                    $("#create_form").submit(function (e) {
+                        e.preventDefault()
+                        //do something here
+                        $("#divSubmit_show").hide();
+                        $("#divSubmit_hide").show();
+                        //continue submitting
+                        e.currentTarget.submit();
+                    });
+                });
+
+                $(document).on('click', '.addItemRow', function () {
+                    const tableId = $(this).attr('data-table-id');
+                    insertNewTableRow(tableId)
+                });
+
+                $(document).on('click', '.deleteTaleRow', function () {
+                    const tableID = $(this).attr('data-table-id');
+                    try {
+                        const table = document.getElementById(tableID);
+                        let rowCount = table.rows.length;
+
+                        for (let i = 0; i < rowCount; i++) {
+                            const row = table.rows[i];
+                            const chkbox = row.cells[0].childNodes[0];
+                            if (null != chkbox && true == chkbox.checked) {
+                                if (rowCount <= 1) {
+                                    alert("Cannot delete all the rows.");
+                                    break;
+                                }
+                                table.deleteRow(i);
+                                rowCount--;
+                                i--;
+                            }
+                        }
+                        $('[name="imprestItemUnitPrice"]').change();
+                    } catch (e) {
+                        alert(e);
                     }
-                );
-            });
-
-            //first hide the buttons
-            $('#submit_possible').hide();
-
-            $('#submit_not_possible').hide();
-
-            $("#divSubmit_hide").hide();
-
-            //disable the submit button
-            $("#btnSubmit").on('click', function () {
-                $("#create_form").submit(function (e) {
-                    e.preventDefault()
-                    //do something here
-                    $("#divSubmit_show").hide();
-                    $("#divSubmit_hide").show();
-                    //continue submitting
-                    e.currentTarget.submit();
                 });
             });
 
-            $(document).on('click', '.addItemRow', function () {
-                const tableID = $(this).attr('data-table-id');
-
-                const table = document.getElementById(tableID);
-
-                const rowCount = table.rows.length;
-                const row = table.insertRow(rowCount);
-
-                const colCount = table.rows[0].cells.length;
-
-                for (let i = 0; i < colCount; i++) {
-
-                    const newCell = row.insertCell(i);
-
-                    newCell.innerHTML = table.rows[0].cells[i].innerHTML;
-
-                    switch (newCell.childNodes[0].type) {
-                        case "text":
-                            newCell.childNodes[0].value = "";
-                            break;
-                        case "checkbox":
-                            newCell.childNodes[0].checked = false;
-                            break;
-                        case "select-one":
-                            newCell.childNodes[0].selectedIndex = 0;
-                            break;
-                    }
-                }
-            });
-
-            $(document).on('click', '.deleteTaleRow', function () {
-                const tableID = $(this).attr('data-table-id');
-                try {
-                    const table = document.getElementById(tableID);
-                    let rowCount = table.rows.length;
-
-                    for (let i = 0; i < rowCount; i++) {
-                        const row = table.rows[i];
-                        const chkbox = row.cells[0].childNodes[0];
-                        if (null != chkbox && true == chkbox.checked) {
-                            if (rowCount <= 1) {
-                                alert("Cannot delete all the rows.");
-                                break;
-                            }
-                            table.deleteRow(i);
-                            rowCount--;
-                            i--;
-                        }
-                    }
-                    getvalues();
-                } catch (e) {
-                    alert(e);
-                }
-            });
 
             function initArticleSelector(element) {
                 const dataUrl = document.querySelector('#articlesUrl').value;
@@ -2359,28 +2332,6 @@
                 return false;
             }
 
-            function addTableRow(tableId) {
-                Table.addRow($('table#' + tableId));
-                let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
-
-                lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
-                lastRow.attr('data-record-id', 0);
-
-                if (tableId === "material_table") {
-                    let row = lastRow[0];
-                    $(row).find('.select2-container').remove();
-                    $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
-
-                    let article = $(row).find('input.articleCode').val();
-                    console.log('Article on line', article)
-                    let $_defect_sel = $(row).find(".articlesDropDownList");
-                    let $_defect_sel_ = $(row).find(".DropDownList");
-                    initArticleSelector($_defect_sel);
-                    initArticleSelector($_defect_sel_);
-                    //getArticleDetails(article, $_defect_sel);
-                }
-            }
-
             function changePettyCashRequestType(selectedItemType) {
 
                 if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
@@ -2462,6 +2413,56 @@
                     const regNo = $('[name="vehicle_reg_no"]').val();
                     $(table).find('[name="vehicle_registration"]').val(regNo);
                 }
+            }
+
+            function addTableRow(tableId) {
+                Table.addRow($('table#' + tableId));
+                let lastRow = $('table#' + tableId).find('tbody tr').eq((0 + 1) * -1);
+
+                lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
+                lastRow.attr('data-record-id', 0);
+
+                if (tableId === "material_table") {
+                    let row = lastRow[0];
+                    $(row).find('.select2-container').remove();
+                    $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+
+                    let article = $(row).find('input.articleCode').val();
+                    console.log('Article on line', article)
+                    let $_defect_sel = $(row).find(".articlesDropDownList");
+                    let $_defect_sel_ = $(row).find(".DropDownList");
+                    initArticleSelector($_defect_sel);
+                    initArticleSelector($_defect_sel_);
+                    //getArticleDetails(article, $_defect_sel);
+                }
+            }
+
+            function insertNewTableRow(tableId) {
+                Table.addRow($('table#' + tableId));
+                /*const table = document.getElementById(tableId);
+                const rowCount = table.rows.length;
+                const row = table.insertRow(rowCount);
+
+                const colCount = table.rows[0].cells.length;
+
+                for (let i = 0; i < colCount; i++) {
+
+                    const newCell = row.insertCell(i);
+
+                    newCell.innerHTML = table.rows[0].cells[i].innerHTML;
+
+                    switch (newCell.childNodes[0].type) {
+                        case "text":
+                            newCell.childNodes[0].value = "";
+                            break;
+                        case "checkbox":
+                            newCell.childNodes[0].checked = false;
+                            break;
+                        case "select-one":
+                            newCell.childNodes[0].selectedIndex = 0;
+                            break;
+                    }
+                }*/
             }
 
             function insertTableRow(tableId) {

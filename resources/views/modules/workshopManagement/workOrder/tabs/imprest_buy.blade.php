@@ -326,7 +326,7 @@
     <div class="grid-margin stretch-card">
         <div class="row">
             <div class="table-responsive">
-                <table id="dataTable" class="table pettyCashItemsTable">
+                <table id="pettyCashItemsTable" class="table pettyCashItemsTable">
                     <thead>
                     <tr class="bg-green">
                         <th style="width: 6%;" class="pl-2">Reg. No</th>
@@ -432,8 +432,8 @@
 
             <div class="col-lg-12 col-sm-12 mb-3 ">
                 <button type="button"
-                        class="btn btn-success btn-sm addItemRow"
-                        data-table-id="dataTable">
+                        class="btn btn-success btn-sm addItemRow pull-right"
+                        data-table-id="pettyCashItemsTable">
                     <i class="fas fa-plus"></i> Add Row
                 </button>
             </div>
