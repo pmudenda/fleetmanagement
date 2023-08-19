@@ -2262,7 +2262,7 @@
                             if (total > 2000) {
                                 $('#submit_possible').hide();
                                 $('#submit_not_possible').show();
-                            } else if (total == 0) {
+                            } else if (total === 0) {
                                 $('#submit_not_possible').hide();
                                 $('#submit_possible').hide();
                             } else {
