@@ -1085,9 +1085,23 @@
 
         function disableControls() {
 
-            $('select[name="fuel_level"]').select2("enable", false);
-            $('select[name="sub_fuel_level"]').select2("enable", false);
-            $('select[name="workshop"]').select2("enable", false);
+            let fuel_level = $('select[name="fuel_level"]');
+            if(!fuel_level.hasAttribute('data-select2-id="fuel_level"')){
+                fuel_level.select2("enable", false);
+            }
+
+            //$('select[name=""]').select2("enable", false);
+            let sub_fuel_level = $('select[name="sub_fuel_level"]');
+            if(!sub_fuel_level.hasAttribute('data-select2-id="sub_fuel_level"')){
+                sub_fuel_level.select2("enable", false);
+            }
+
+            let workshop = $('select[name="workshop"]');
+            if(!workshop.hasAttribute('data-select2-id="workshop"')){
+                workshop.select2("enable", false);
+            }
+
+            //$('select[name=""]').select2("enable", false);
 
             $('select[name="repairType"]').attr("disabled", true);
             $('[name="vehicleSearchBtn"]').attr("disabled", true);
