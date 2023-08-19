@@ -324,8 +324,8 @@
     <hr style="color: orange;"/>
 
     <div class="grid-margin stretch-card">
-        <div class="table-responsive">
-            <div class="row">
+        <div class="row">
+            <div class="table-responsive">
                 <table id="dataTable" class="table pettyCashItemsTable">
                     <thead>
                     <tr class="bg-green">
@@ -434,11 +434,6 @@
                     </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="col-lg-12  col-sm-12 ">
-                <div class="row">
-
-                </div>
             </div>
 
             <div class="col-lg-12 col-sm-12 mb-3 ">
