@@ -41,8 +41,8 @@ class HistoryService
                     'name' => $user->name,
                     'field_action' => StringUtils::camelCaseToWords($propertyName),
                     'old_value' => $valueBefore,
-                    'new_value' => $dataAfter[$propertyName]
-                    'justification'=>$justification
+                    'new_value' => $dataAfter[$propertyName],
+                    'justification' => $justification
                 ];
 
                 $recordChanges[] = $data;
@@ -76,7 +76,7 @@ class HistoryService
                 'name' => $user->name,
                 'field_action' => StringUtils::camelCaseToWords($propertyName),
                 'new_value' => $value,
-                'justification'=>$justification
+                'justification' => $justification
             ];
 
             AuditTrail::create($data);
