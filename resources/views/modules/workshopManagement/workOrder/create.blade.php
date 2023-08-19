@@ -1384,12 +1384,11 @@
                         store_code: document.querySelector('#pettyCashStoreCode').value,
                     },
                     success: function (data) {
-                        console.log(data)
                         if (data.success) {
                             data.items;
+                            let articlesCtrl = $(".pettyCashItemsTable").find('.imprestArticles');
+                            tmsApp.populateDropDownList(articlesCtrl, data.items, 'code_article', ['code_article', 'description'], ':')
                         }
-                        let articlesCtrl = $(".pettyCashItemsTable").find('.imprestArticles');
-                        tmsApp.populateDropDownList(articlesCtrl, data.items,'code_article', 'description', ':')
                     },
                     cache: true
                 });
