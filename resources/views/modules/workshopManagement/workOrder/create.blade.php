@@ -2465,9 +2465,9 @@
                 Table.addRow($table);
                 let lastRow = $table.find('tbody tr').eq((0 + 1) * -1);
 
-                $(lastRow).find('.select2-container').remove();
+                //$(lastRow).find('.select2-container').remove();
 
-                $(lastRow).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
+                //$(lastRow).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
 
                 let $articleSelectElement = $(lastRow).find(".imprestArticles");
 
