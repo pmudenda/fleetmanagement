@@ -54,22 +54,20 @@
             </div>
             <div class="col-lg-3 col-sm-12">
                 <div class="row">
-                    <div class="col-lg-12 col-sm-12 col-sm-12"><label>ZQMS No:</label></div>
-                    <div class="col-lg-12 col-sm-12 col-sm-12"><input type="text" name="ref_no"
-                                                                      placeholder="Enter Your HQMS Number (optional)"
-                                                                      class="form-control"></div>
+                    <div class="col-lg-12 col-sm-12 col-sm-12"><label>ZQMS No (Optional):</label>
+                    </div>
+                    <div class="col-lg-12 col-sm-12 col-sm-12">
+                        <input type="text" name="ref_no"
+                               placeholder="Enter Your HQMS Number (optional)"
+                               class="form-control">
+                    </div>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-12">
                 <div class="row">
-                    <div class="col-lg-12 col-sm-12 col-sm-12"><label>Project Number:</label></div>
+                    <div class="col-lg-12 col-sm-12 col-sm-12"><label>Project Number (Optional):</label></div>
                     <div class="col-lg-12 col-sm-12 col-sm-12">
-                        <select name="projects_id" class="form-control">
-                            <option disabled>Select Project (Optional)</option>
-                            {{-- @foreach($projects as $item)
-                                 <option value="{{$item->id}}">{{$item->name}}</option>
-                             @endforeach--}}
-                        </select>
+                        <input name="projects_id" value="{{$details->job_card_no}}" class="form-control"/>
                     </div>
                 </div>
             </div>
@@ -323,12 +321,24 @@
             <div class="row">
                 <table class="table bg-green">
                     <thead>
-                    <tr>
+                    <tr class="bg-success-subtle">
+                        <th style="width: 6%;" class="pl-2">Reg. No</th>
+                        <th style="width: 25%;">Article</th>
+                        <th>Article Code</th>
+                        <th style="width: 25%;">Tech. Specification</th>
+                        <th style="width: 4%; max-width: 4%;">Qty.</th>
+                        <th>UOM</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    {{--<tr>
                         <th></th>
                         <th>DETAILS OF PAYMENT</th>
                         <th>AMOUNT</th>
                     </tr>
-                    </thead>
+                    </thead>--}}
                 </table>
             </div>
             <div class="col-lg-12  col-sm-12 ">

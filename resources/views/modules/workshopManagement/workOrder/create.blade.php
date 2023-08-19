@@ -1586,7 +1586,7 @@
                 //let stepId = oldIndex;
                 //window.global_currentIndex = stepId - 1;
 
-                const index = 'key';
+                const   = 'step';
                 //  Define friendly data store name
                 const dataStore = window.sessionStorage;
                 let stepId = window.step_id;
@@ -1640,7 +1640,7 @@
 
                         form.validate().settings.ignore = ":disabled,:hidden";
                         window.global_currentIndex = currentIndex;
-                        if (form.valid() && !window.goToNext) {
+                       /* if (form.valid() && !window.goToNext) {
                             tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
                                 postData(form.find('[data-model-name]').get(currentIndex), false);
                             }, function () {
@@ -1649,7 +1649,7 @@
 
                         let tmp = window.goToNext;
                         window.goToNext = false;
-                        return tmp;
+                        return tmp;*/
                     },
                     onStepChanged: function (event, currentIndex, priorIndex) {
 
