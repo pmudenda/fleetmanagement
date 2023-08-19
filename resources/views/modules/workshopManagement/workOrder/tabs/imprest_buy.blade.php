@@ -387,7 +387,6 @@
                         <td>
                             <input type="text"
                                    step="1"
-                                   min="1"
                                    id="imprestItemQty"
                                    name="imprestItemQty"
                                    class="form-control amount number_input"
