@@ -109,9 +109,13 @@ class MaintenanceController extends Controller
             $labour
             ) = $this->getFullJobCardDetails($reference);
 
-        $mechanics = Mechanic::where('status', '=', StatusHelper::active())
-            ->where('workshop_code', '=', $details->workshop_code)
-            ->get();
+        $mechanics = [];
+        if (!empty($details)) {
+            Mechanic::where('status', '=', StatusHelper::active())
+                ->where('workshop_code', '=', $details->workshop_code)
+                ->get();
+        }
+
         $view_name = "modules.workshopManagement.workOrder.create";
 
         $step = $request->get("step") ?? 0;
@@ -158,9 +162,12 @@ class MaintenanceController extends Controller
             $labour
             ) = $this->getFullJobCardDetails($reference);
 
-        $mechanics = Mechanic::where('status', '=', StatusHelper::active())
-            ->where('workshop_code', '=', $details->workshop_code)
-            ->get();
+        $mechanics = [];
+        if (!empty($details)) {
+            Mechanic::where('status', '=', StatusHelper::active())
+                ->where('workshop_code', '=', $details->workshop_code)
+                ->get();
+        }
 
         $view_name = "modules.workshopManagement.workOrder.view";
 
