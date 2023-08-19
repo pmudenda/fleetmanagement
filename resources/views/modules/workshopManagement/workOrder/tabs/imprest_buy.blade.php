@@ -334,10 +334,10 @@
                         <th>Article Code</th>
                         <th style="width: 25%;">Tech. Specification</th>
                         <th style="width: 4%; max-width: 4%;">Qty.</th>
-                        <th>UOM</th>
-                        <th>Unit Price</th>
+                        <th style="width: 3%;">UOM</th>
+                        <th style="width: 6%;">Unit Price</th>
                         <th>Total</th>
-                        <th></th>
+                        <th style="width: 3%;"></th>
                     </tr>
                     </thead>
                     {{--<tr>
