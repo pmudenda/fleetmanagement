@@ -1571,21 +1571,22 @@
                 })
             }
 
-            const index = 'key';
-            //  Define friendly data store name
-            const dataStore = window.sessionStorage;
-            let oldIndex = window.step_id;
-            try {
-                // getter: Fetch previous value
-                oldIndex = dataStore.getItem(index);
-            } catch (e) {
-                // getter: Always default to first tab in error state
-                oldIndex = 0;
-            }
-
             function initializeFormWizard() {
                 let stepId = oldIndex;
                 window.global_currentIndex = stepId - 1;
+
+                const index = 'key';
+                //  Define friendly data store name
+                const dataStore = window.sessionStorage;
+                let oldIndex = window.step_id;
+                try {
+                    // getter: Fetch previous value
+                    oldIndex = dataStore.getItem(index);
+                } catch (e) {
+                    // getter: Always default to first tab in error state
+                    oldIndex = 0;
+                }
+
                 form.steps({
                     showStepURLhash: true,
                     headerTag: "h1",
