@@ -83,7 +83,7 @@ class WorkshopRequisitionService
 
         $valid_to = Carbon::parse($requisitionPostRequest->get("date_expected")) ?? Carbon::now()->addDays(7);
         $valid_from = Carbon::now();
-        $registrationNumber = $requisitionPostRequest->validated('vehicle_registration');
+        $registrationNumber = $requisitionPostRequest->get('vehicle_registration');
 
         /********************************************** Save Data **************************************/
         $user = Auth()->user();
