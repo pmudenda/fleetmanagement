@@ -22,7 +22,7 @@ class HistoryService
     {
         $ignoredColumnChanges = ['updated_at'];
         $user = Auth::user();
-
+        $recordChanges = [];
         foreach ($dataBefore as $propertyName => $valueBefore) {
             // if column is in columns to be ignored
             if (in_array($propertyName, $ignoredColumnChanges)) {
@@ -43,11 +43,14 @@ class HistoryService
                     'new_value' => $dataAfter[$propertyName]
                 ];
 
-                var_dump($data);
-
-                //AuditTrail::create($data);
+                $recordChanges[] = $data;
             }
         }
+
+        foreach ($recordChanges as $record) {
+            AuditTrail::create($record);
+        }
+
     }
 
     public static function record($record, string $recordReferenceNumber, $eventSubject): void
