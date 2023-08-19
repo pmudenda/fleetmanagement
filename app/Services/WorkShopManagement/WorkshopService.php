@@ -430,11 +430,12 @@ class WorkshopService
 
         $assignmentRecord->mechanic = $request->validated('reassignTo');
         $assignmentRecord->section = $request->validated('reassignmentDefectSection');
+        $assignmentRecord->section = $request->validated('reassignmentDefectSection');
         $assignmentRecord->updated_at = Carbon::now();
 
         $assignmentRecord->save();
 
-        HistoryService::update($recordBefore, $assignmentRecord->toArray(), $assignmentRecord->wshp_act_code, 'Job Card Task Reassignment');
+        HistoryService::update($recordBefore, $assignmentRecord->toArray(), $assignmentRecord->wshp_act_code, 'Job Card Task Reassignment', $request->validated('reassignmentJustification'));
 
         DB::commit();
 

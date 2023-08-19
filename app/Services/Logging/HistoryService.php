@@ -16,9 +16,10 @@ class HistoryService
      * @param array $dataAfter
      * @param string $document
      * @param string $eventSubject
+     * @param $justification
      * @return void
      */
-    public static function update(array $dataBefore, array $dataAfter, string $document, string $eventSubject): void
+    public static function update(array $dataBefore, array $dataAfter, string $document, string $eventSubject, $justification): void
     {
         $ignoredColumnChanges = ['updated_at'];
         $user = Auth::user();
@@ -41,6 +42,7 @@ class HistoryService
                     'field_action' => StringUtils::camelCaseToWords($propertyName),
                     'old_value' => $valueBefore,
                     'new_value' => $dataAfter[$propertyName]
+                    'justification'=>$justification
                 ];
 
                 $recordChanges[] = $data;
@@ -53,7 +55,7 @@ class HistoryService
 
     }
 
-    public static function record($record, string $recordReferenceNumber, $eventSubject): void
+    public static function record($record, string $recordReferenceNumber, $eventSubject, $justification): void
     {
         $user = Auth::user();
         $writeData = $record->toArray();
@@ -73,7 +75,8 @@ class HistoryService
                 'user_id' => $user->id,
                 'name' => $user->name,
                 'field_action' => StringUtils::camelCaseToWords($propertyName),
-                'new_value' => $value
+                'new_value' => $value,
+                'justification'=>$justification
             ];
 
             AuditTrail::create($data);
