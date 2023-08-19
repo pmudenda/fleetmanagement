@@ -283,33 +283,6 @@
                                             </div>
                                         </div>
 
-
-                                    </div>
-
-                                    <div id="accidentRecordNo" class="row d-none">
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
-                                            <div class="container-fluid pl-0">
-                                                <div class="row">
-                                                    <div class="form-group row">
-                                                        <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                                for="staff_name">
-                                                            Accident No:
-                                                        </label>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
-                                                            <select name="accident_number" id="accident_number"
-                                                                    disabled
-                                                                    class="form-control form-select-sm when_valid"
-                                                                    required>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
@@ -336,6 +309,30 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div id="accidentRecordNo" class="row d-none">
+                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                            <div class="container-fluid pl-0">
+                                                <div class="row">
+                                                    <div class="form-group row">
+                                                        <label
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                for="staff_name">
+                                                            Accident No:
+                                                        </label>
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                            <select name="accident_number" id="accident_number"
+                                                                    disabled
+                                                                    class="form-control form-select-sm when_valid"
+                                                                    required>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-6">
                                             <div class="container-fluid pl-0">
