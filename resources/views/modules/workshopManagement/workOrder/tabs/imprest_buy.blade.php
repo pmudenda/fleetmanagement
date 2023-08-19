@@ -326,9 +326,9 @@
     <div class="grid-margin stretch-card">
         <div class="table-responsive">
             <div class="row">
-                <table id="dataTable" class="table bg-green pettyCashItemsTable">
+                <table id="dataTable" class="table pettyCashItemsTable">
                     <thead>
-                    <tr class="bg-success-subtle">
+                    <tr class="bg-green">
                         <th style="width: 6%;" class="pl-2">Reg. No</th>
                         <th style="width: 25%;">Article</th>
                         <th>Article Code</th>
@@ -349,24 +349,24 @@
                     </thead>--}}
                     <tbody>
                     <tr>
-                        <td>
+                       {{-- <td>
                             <input type="checkbox" name="chk"/>
-                        </td>
+                        </td>--}}
                         <td class="showNumber">
                             <input
                                     readonly
-                                    name="registration"
+                                    name="imprestVehicleRegistration"
                                     required
                                     value="{{$details->reg_no ?? ''}}"
-                                    class="form-control form-control-sm registration"/>
+                                    class="form-control form-control-sm imprestVehicleRegistration"/>
                         </td>
                         <td>
                             <select readonly
-                                    name="articles"
+                                    name="imprestArticles"
                                     required
                                     data-text="{{$material->material_code ?? ''}} : {{$material->specifications ?? ''}}"
                                     data-value="{{$material->material_code ?? ''}}"
-                                    class="form-control form-control-sm DropDownList">
+                                    class="form-control form-control-sm imprestArticles">
                                 <option
                                         value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}
                                     : {{$material->specifications ?? ''}}</option>
@@ -374,7 +374,7 @@
                         </td>
                         <td>
                             <input
-                                    name="articleCode"
+                                    name="imprestArticleCode"
                                     value="{{$material->material_code ?? ''}}"
                                     required
                                     readonly
@@ -383,17 +383,17 @@
                         <td>
                                 <textarea rows="4"
                                           type="text"
-                                          name="name[]"
+                                          name="imprestArticleDescription[]"
                                           class="form-control amount"
                                           placeholder="Item Details / Description"
-                                          id="name"
+                                          id="imprestArticleDescription"
                                           required></textarea>
                         </td>
                         <td>
                             <input type="number"
                                    step="any"
-                                   id="amount"
-                                   name="amount[]"
+                                   id="imprestItemAmount"
+                                   name="imprestItemAmount[]"
                                    onchange="getvalues()"
                                    class="form-control amount"
                                    placeholder="Amount [ZMW]">
