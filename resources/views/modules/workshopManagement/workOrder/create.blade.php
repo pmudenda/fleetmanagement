@@ -1209,6 +1209,7 @@
                         for (let i = 0; i < ele.length; i++) {
                             if (ele[i].type === 'checkbox')
                                 ele[i].checked = false;
+                                $(ele[i]).change();
                         }
                     }
 
