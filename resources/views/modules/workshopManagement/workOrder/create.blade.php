@@ -2245,7 +2245,7 @@
 
                         let imprestLineAmountTotal = tmsApp.getFloat(element.value)
                             * tmsApp.getFloat($(element).closest("tr").find("input[name=imprestItemUnitPrice]").val());
-                        $(element).closest("tr").find("input[name=imprestItemTotalPrice]").val(imprestLineAmountTotal);//.change();
+                        $(element).closest("tr").find("input[name=imprestItemTotalPrice]").val(tmsApp.formatMoney(imprestLineAmountTotal, 2));//.change();
 
                         // $(element).closest("tr").find("#imprestItemTotalPrice").text(tmsApp.numberFormat(imprestLineAmountTotal));
 
