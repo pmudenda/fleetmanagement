@@ -10,15 +10,15 @@
           type="text/css"/>
     <link href="{{asset("libs/steps/jquery-steps.css")}}" rel="stylesheet" type="text/css"/>
     <style>
-        th {
+        /*th {
             white-space: nowrap;
         }
 
-        /**===NO WRAP ON TABLE =====**/
+        !**===NO WRAP ON TABLE =====**!
         table.dataTable.nowrap th,
         table.dataTable.nowrap td {
             white-space: nowrap;
-        }
+        }*/
 
         .select2 {
             width: 100% !important;
