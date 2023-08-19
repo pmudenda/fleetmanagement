@@ -1616,6 +1616,10 @@
                             return true;
                         }
 
+                        if (currentIndex === 3 && $('[name="job_card_number"]').val()) {
+                            return true;
+                        }
+
                         if (currentIndex < newIndex) {
                             // To remove error styles
                             form.find(".body:eq(" + newIndex + ") label.error").remove();
