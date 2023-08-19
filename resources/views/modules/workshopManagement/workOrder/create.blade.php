@@ -848,7 +848,7 @@
                 });
 
                 $(document).on('change', '.imprestArticles', function () {
-                    let selectedArticle = $(this).value;
+                    let selectedArticle = this.value;
                     const $row = $(this).closest('tr');
                     let itemType = document.querySelector('#pettyCashBuyItemType').value
                     let dataToFilter = window[itemType];
