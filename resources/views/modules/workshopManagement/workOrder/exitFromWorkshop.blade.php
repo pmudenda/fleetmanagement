@@ -370,6 +370,7 @@
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <select name="sub_fuel_level"
+                                                                    disabled
                                                                     data-value="{{$details->sub_fuel_level_in ?? ''}}"
                                                                     id="sub_fuel_level"
                                                                     class="form-select form-select-sm when_valid">
@@ -2674,6 +2675,7 @@
                     .then(response => response.json())
                     .then(response => {
                         let selectElem = $('select[name="fuel_level"]');
+                        let subFuelLevel = $('select[name="sub_fuel_level"]');
                         let exitFuelLevelElem = $('select[name="exitFuelLevel"]');
 
                         if (response.state === 'failure') {
@@ -2685,17 +2687,23 @@
                         let fuelLevels = response['payload'];
                         tmsApp.populateDropDownList(selectElem, fuelLevels, "code", ["name"], "");
 
+                        tmsApp.populateDropDownList(subFuelLevel, fuelLevels, "code", ["name"], "");
+
                         tmsApp.populateDropDownList(exitFuelLevelElem, fuelLevels, "code", ["name"], "");
 
-                        let location = selectElem.attr('data-value');
-
-                        if (location) {
-                            selectElem.val(location);
+                        let mainFuelLevel = selectElem.attr('data-value');
+                        if (mainFuelLevel) {
+                            selectElem.val(mainFuelLevel);
                             selectElem.trigger('change');
                         }
 
-                        let defaultFuelLevelExit = exitFuelLevelElem.attr('data-value');
+                        let subFuelLevelValue = subFuelLevel.attr('data-value');
+                        if (defaultFuelLevelExit) {
+                            subFuelLevel.val(subFuelLevelValue);
+                            subFuelLevel.trigger('change');
+                        }
 
+                        let defaultFuelLevelExit = exitFuelLevelElem.attr('data-value');
                         if (defaultFuelLevelExit) {
                             exitFuelLevelElem.val(location);
                             exitFuelLevelElem.trigger('change');
