@@ -92,8 +92,7 @@
                                        class="form-control"
                                 />
                                 <div class="input-group-append">
-                                    <div
-                                            class="input-group-text ui-datepicker-trigger">
+                                    <div class="input-group-text ui-datepicker-trigger">
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                 </div>
@@ -106,8 +105,7 @@
                                 <option></option>
                                 @foreach($workshop_sections as $workshop_section)
                                     @if($labourItem->section == $workshop_section->code)
-                                        <option
-                                                selected
+                                        <option selected
                                                 value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                     @else
                                         <option
