@@ -1,3 +1,7 @@
+/**
+ * Author: Daka Lovemore
+ *
+ */
 "use strict";
 // DateFormatter
 window.DateFormatter = {

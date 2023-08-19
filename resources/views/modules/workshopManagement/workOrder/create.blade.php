@@ -2270,7 +2270,7 @@
                                 $('#submit_possible').show();
                             }
                             //set value
-                            document.getElementById('total-payment').value = total;
+                            document.getElementById('total-payment').value = tmsApp.formatMoney(total, 2);
                         }
                         break;
                     case 'imprestItemUnitPrice':
