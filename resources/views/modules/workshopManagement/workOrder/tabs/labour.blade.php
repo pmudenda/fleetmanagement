@@ -22,7 +22,21 @@
                 @foreach($labour as $labourItem)
                     <tr class="increment">
                         <td>
-                            <div class="d-none">
+                            {{$defect->defect_name}}
+                            <input name="assignedDefectId"
+                                   type="text"
+                                   style="display: none;"
+                                   required
+                                   value="{{$defect->defect_id}}"
+                                   class="form-control-sm defect"/>
+                            <input name="assignedDefect"
+                                   type="text"
+                                   style="display: none;"
+                                   required
+                                   value="{{$defect->defect_code}}"
+                                   data-value="{{$defect->defect_code}}"
+                                   class="form-control-sm defect"/>
+                            {{--<div class="d-none">
                                 <select name="vehicleSystem"
                                         style="display: none;"
                                         required
@@ -46,7 +60,7 @@
                                     data-value="{{$labourItem->def_no ?? ''}}"
                                     class="form-select form-select-sm select_2_control defect">
                                 <option></option>
-                            </select>
+                            </select>--}}
                         </td>
                         <td class="showNumber">
                             <input type="text"
@@ -67,22 +81,20 @@
                         </td>
                         <td>
                             <div class="input-group date">
-                                <input type="date"
+                                <input type="text"
                                        min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                        max="{{date('Y-m-d', strtotime(Carbon::now()))}}"
                                        required
                                        readonly
                                        name="dateOfWork"
-                                       value="{{$labourItem->date_lab ?? ''}}"
+                                       value="{{Carbon::parse($labourItem->date_lab)->format('d/m/Y') ?? ''}}"
                                        id="dateOfWork"
                                        class="form-control"
                                 />
                                 <div class="input-group-append">
-                                    <div type="button"
-                                         data-action="openDatePicker"
-                                         class="input-group-text ui-datepicker-trigger">
-                                        <i data-action="openDatePicker"
-                                           class="fa fa-calendar"></i>
+                                    <div
+                                            class="input-group-text ui-datepicker-trigger">
+                                        <i class="fa fa-calendar"></i>
                                     </div>
                                 </div>
                             </div>

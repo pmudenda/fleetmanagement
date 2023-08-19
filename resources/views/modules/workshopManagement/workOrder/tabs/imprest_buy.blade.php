@@ -326,7 +326,10 @@
     <div class="grid-margin stretch-card">
         <div class="row">
             <div class="table-responsive">
-                <table id="pettyCashItemsTable" class="table pettyCashItemsTable">
+                <table id="pettyCashItemsTable"
+                       data-model-name="PettyCash"
+                       data-form-url="{{route('petty.cash.store')}}"
+                       class="table pettyCashItemsTable">
                     <thead>
                     <tr class="bg-green">
                         <th style="width: 6%;" class="pl-2">Reg. No</th>
@@ -570,20 +573,23 @@
         <div id="submit_not_possible" class="col-lg-12 col-sm-12 text-center">
             <div class="alert alert-danger ">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                    &times;
+                    <i class="fas fa-close"></i>
                 </button>
                 <h5><i class="icon fas fa-ban"></i> Alert!</h5>
                 Sorry, You can not submit <strong>petty cash above K2000</strong>
             </div>
         </div>
+
         <div id="submit_possible" class="col-lg-12 col-sm-12 text-center">
             <div id="divSubmit_show">
-                <input class="btn btn-lg btn-success" type="submit"
-                       value="submit" id="btnSubmit"
-                       name="submit_form">
+                <button class="btn btn-sm btn-success" type="button"
+                        value="submit" id="btnSubmitImprestBuyForm"
+                        name="submit_form">
+                    <i class="fas fa-paper-plane"></i> Submit
+                </button>
             </div>
             <div id="divSubmit_hide">
-                <input class="btn btn-lg btn-success"
+                <input class="btn btn-sm btn-success"
                        value="Submitting. Please wait..."
                        disabled
                        name="submit_form">

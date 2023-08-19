@@ -1084,7 +1084,7 @@
                                             <div class="row">
                                                 <div style="max-height:500px; overflow-x: auto;">
                                                     <table id="material_table"
-                                                           data-form-url="{{route("process.requisition")}}"
+                                                           data-form-url=""
                                                            data-model-name="PartsHeader"
                                                            class="table dataTable table-row-dashed align-middle gs-0 nowrap">
                                                         <thead>
@@ -1602,18 +1602,6 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                            {{--<div class="col-12 text-right">
-                                                <div>
-                                                    <button type="button"
-                                                            id="saveServices"
-                                                            style="background: #f59d33; color: #fff;"
-                                                            data-table-id="services_table"
-                                                            class="btn btn-sm btn-success add pull-right">
-                                                        <i class="fa fa-save"></i>
-                                                        Save
-                                                    </button>
-                                                </div>
-                                            </div>--}}
                                         </div>
                                     </div>
                                 </div>
@@ -1983,6 +1971,11 @@
             setTimeout(function () {
                 $('[name="fuel_level"]').attr('disabled', true).change();
             }, 300);
+
+            setTimeout(function () {
+                //disableControls();
+                $("#labour_table").find('[data-record-id]').find('.mechanicStaffNumber').change();
+            }, 1000);
 
             $('[name="serviceItemType"]').attr('disabled', true).change();
 
