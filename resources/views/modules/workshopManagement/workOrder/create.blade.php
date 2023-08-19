@@ -1183,7 +1183,8 @@
                 });
 
                 $('[name="selectDefectToAssign"]').on('change', function () {
-                    if ($(this).is(':checked')) {
+                    let checked = $(this).is(':checked');
+                    if (checked) {
                         // selects()
                     } else {
                         // deSelect();
@@ -1197,6 +1198,7 @@
                         for (let i = 0; i < ele.length; i++) {
                             if (ele[i].type === 'checkbox')
                                 ele[i].checked = true;
+                                $(ele[i]).change();
                         }
                     }
 

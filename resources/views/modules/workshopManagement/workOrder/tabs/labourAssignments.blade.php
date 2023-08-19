@@ -1,6 +1,13 @@
 @php use App\Helpers\StatusHelper;use Carbon\Carbon; @endphp
 <div class="row pt-5">
     <div class="table-responsive">
+        <button type="button"
+                data-table-id="material_table"
+                class="btn btn-sm btn-primary add pull-right"
+                value="insertRow">
+            <i class="fa fa-plus"></i>
+            Assign Selected
+        </button>
         <table id="labour_table"
                data-model-name="SummaryHeader"
                data-form-url="{{route("save.job.assignment")}}"

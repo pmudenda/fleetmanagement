@@ -14,11 +14,11 @@ class HistoryService
      * Write history after update
      * @param array $dataBefore
      * @param array $dataAfter
-     * @param string $taskNumber
+     * @param string $document
      * @param string $eventSubject
      * @return void
      */
-    public static function update(array $dataBefore, array $dataAfter, string $taskNumber, string $eventSubject): void
+    public static function update(array $dataBefore, array $dataAfter, string $document, string $eventSubject): void
     {
         $ignoredColumnChanges = ['updated_at'];
         $user = Auth::user();
@@ -33,7 +33,7 @@ class HistoryService
 
                 $data = [
                     'event_date' => Carbon::now(),
-                    'referenceNumber' => $taskNumber,
+                    'referenceNumber' => $document,
                     'event' => EventTypes::updated(),
                     'subject' => $eventSubject,
                     'user_id' => $user->id,
