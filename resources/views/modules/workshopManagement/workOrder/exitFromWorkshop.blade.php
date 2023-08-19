@@ -1715,7 +1715,7 @@
     <script>
         'use strict';
         $(document).ready(function () {
-            setInterval(function () {
+            setTimeout(function () {
                 //disableControls();
                 let fuel_level = document.querySelector('select[name="fuel_level"]');
                 if (!fuel_level.hasAttribute('data-select2-id="fuel_level"')) {
@@ -1728,7 +1728,7 @@
                 }
 
                 $("#labour_table").find('[data-record-id]').find('.mechanicStaffNumber').change();
-            }, 1000);
+            }, 2000);
 
             $('[name="serviceItemType"]').attr('disabled', true).change();
 
