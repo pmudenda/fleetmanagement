@@ -913,16 +913,20 @@
                     }
                 });
 
-                $($labourTable).find('[data-record-id]').find('.mechanicStaffNumber').change();
 
                 initArticleSelector($('.articlesDropDownList'));
 
                 initServiceArticleSelector($('.servicesArticlesDropDownList'));
 
                 setTimeout(function () {
-                    disableControls();
+                    $($labourTable).find('[data-record-id]').find('.mechanicStaffNumber').change();
                     $("#labour_table").find('[data-record-id]').find('.mechanicStaffNumber').change();
-                }, 3000);
+                }, 1000);
+
+
+                setInterval(function () {
+                    disableControls();
+                }, 1000);
 
                 Inputmask({
                     "mask": "AAA 9{1,4}"
@@ -2057,16 +2061,16 @@
 
                         let mainTankLevel = $mainTankFuelLevel.attr('data-value');
 
-                          if (mainTankLevel) {
-                              $mainTankFuelLevel.val(mainTankLevel);
-                              $mainTankFuelLevel.trigger('change');
-                          }
+                        if (mainTankLevel) {
+                            $mainTankFuelLevel.val(mainTankLevel);
+                            $mainTankFuelLevel.trigger('change');
+                        }
 
-                          let subTankFuelLevel = $subTankFuelLevelCtl.attr('data-value');
-                          if (subTankFuelLevel) {
-                              $subTankFuelLevelCtl.val(subTankFuelLevel);
-                              $subTankFuelLevelCtl.trigger('change');
-                          }
+                        let subTankFuelLevel = $subTankFuelLevelCtl.attr('data-value');
+                        if (subTankFuelLevel) {
+                            $subTankFuelLevelCtl.val(subTankFuelLevel);
+                            $subTankFuelLevelCtl.trigger('change');
+                        }
                     })
                     .catch(function (error) {
                         // notify of error
