@@ -454,7 +454,7 @@ class MaintenanceController extends Controller
         $step = $request->get("step") ?? 1;
         $reference = $request->get("reference") ?? $request->get('ref');
 
-        list($step,
+        list(
             $repairTypes,
             $accessories_checked_in,
             $accessories,
@@ -468,7 +468,7 @@ class MaintenanceController extends Controller
             $services,
             $labour,
             $pettyCashItems
-            ) = $this->getFullJobCardDetails($reference, $step);
+            ) = $this->getFullJobCardDetails($reference);
 
         return view("modules.workshopManagement.workOrder.show")
             ->with(
@@ -502,7 +502,7 @@ class MaintenanceController extends Controller
         $reference = $request->get("reference") ?? $request->get('ref');
         $step = $request->get("step") ?? 0;
 
-        list($step,
+        list(
             $repairTypes,
             $accessories_checked_in,
             $accessories,
@@ -516,7 +516,7 @@ class MaintenanceController extends Controller
             $services,
             $labour,
             $pettyCashItems
-            ) = $this->getFullJobCardDetails($reference, $step);
+            ) = $this->getFullJobCardDetails($reference);
 
         return view("modules.workshopManagement.workOrder.create")
             ->with(
