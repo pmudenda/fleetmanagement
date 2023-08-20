@@ -1711,6 +1711,7 @@
 
                     if (arr.length === 0) {
                         tmsApp.systemError("Request Submission", 'No New Records Available for Saving');
+                        return;
                     }
 
                     obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
@@ -1783,7 +1784,7 @@
                             message,
                             function () {
                                 if (submitForm) {
-                                    window.location.reload();// = response['redirectUrl'];
+                                    window.location.reload();
                                     return;
                                 }
 
@@ -1791,7 +1792,7 @@
                                     window.goToNext = true;
                                     form.steps("next");
                                 } else {
-                                    window.location.reload();// = response['redirectUrl'];
+                                    window.location.reload();
                                 }
                             },
                             "success"
@@ -1811,18 +1812,13 @@
             }
 
             function initializeFormWizard() {
-                //let stepId = oldIndex;
-                //window.global_currentIndex = stepId - 1;
-
                 const index = 'step';
                 //  Define friendly data store name
                 const dataStore = window.sessionStorage;
                 let stepId = window.step_id;
                 try {
-                    // getter: Fetch previous value
                     stepId = dataStore.getItem(index) ? dataStore.getItem(index) : window.step_id;
                 } catch (e) {
-                    // getter: Always default to first tab in error state
                     stepId = 0;
                 }
 
