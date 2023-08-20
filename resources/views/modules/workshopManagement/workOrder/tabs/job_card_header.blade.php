@@ -1,4 +1,5 @@
 @php use Carbon\Carbon; @endphp
+{{dd($details)}}
 <div class="container-fluid">
     <div class="row" data-form-url="{{route("save.job.card")}}" data-model-name="JobCardHeader">
         <div class="col-9">
@@ -17,7 +18,7 @@
                                                @if(!empty($details->reg_no)) readonly="readonly" @endif
                                                data-action="{{route('requisition.vehicle.details')}}"
                                                class="form-control form-control-sm"
-                                               value=""
+                                               value="{{$details->reg_no ?? ''}}"
                                                id="vehicle_registration"
                                                placeholder="Vehicle Reg e.g AAB 6757"
                                                name="vehicle_registration" required/>
