@@ -147,7 +147,6 @@ class MaintenanceController extends Controller
     public function view(Request $request): View
     {
         $this->verifyRequestSignature($request);
-
         $step = $request->get("step") ?? 0;
         $reference = $request->get("reference") ?? $request->get('ref');
 
@@ -198,15 +197,19 @@ class MaintenanceController extends Controller
             );
     }
 
+
+    /**
+     * Method is used by workshop front-desk
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+     */
     public function start(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $view_name = 'modules.workshopManagement.workOrder.start';
         $step = $request->get("step") ?? 0;
         $reference = $request->get("reference") ?? $request->get('ref');
-        $labour = collect([]);
-        $pettyCashItems = collect([]);
-        /*list(
-            $step,
+
+        list(
             $repairTypes,
             $accessories_checked_in,
             $accessories,
@@ -217,25 +220,10 @@ class MaintenanceController extends Controller
             $officeDetails,
             $materials,
             $materialsHeader,
-            $services
-            )*/
-
-            list(
-                $repairTypes,
-                $accessories_checked_in,
-                $accessories,
-                $details,
-                $workshop_sections,
-                $defects,
-                $comments,
-                $officeDetails,
-                $materials,
-                $materialsHeader,
-                $services,
-                $labour,
-                $pettyCashItems
-            )= $this->getFullJobCardDetails($reference, $step);
-
+            $services,
+            $labour,
+            $pettyCashItems
+            ) = $this->getFullJobCardDetails($reference);
 
         return view($view_name)
             ->with(
@@ -252,7 +240,8 @@ class MaintenanceController extends Controller
                     "materials",
                     "materialsHeader",
                     "services",
-                    'labour'
+                    'labour',
+                    'pettyCashItems'
                 )
             );
     }
@@ -264,7 +253,6 @@ class MaintenanceController extends Controller
         $reference = $request->get("reference") ?? $request->get('ref');
 
         list(
-            $step,
             $repairTypes,
             $accessories_checked_in,
             $accessories,
@@ -275,8 +263,10 @@ class MaintenanceController extends Controller
             $officeDetails,
             $materials,
             $materialsHeader,
-            $services
-            ) = $this->getFullJobCardDetails($reference, $step);
+            $services,
+            $labour,
+            $pettyCashItems
+            ) = $this->getFullJobCardDetails($reference);
 
         return view("modules.workshopManagement.workOrder.create")
             ->with(
@@ -292,7 +282,9 @@ class MaintenanceController extends Controller
                     "officeDetails",
                     "materials",
                     "materialsHeader",
-                    "services"
+                    "services",
+                    "labour",
+                    "pettyCashItems"
                 )
             );
     }
