@@ -2794,7 +2794,7 @@
                 if (tableId === "part8") {
                     let row = lastRow;
                     const $vehicleSystem = $(row).find('[name="vehicleSystem"]');
-                    $vehicleSystem.attr('disabled', false)
+                    // $vehicleSystem.attr('disabled', false)
                     loadDefectDropdownLists(window['VEH_SYS'], $vehicleSystem);
 
                     $(row).find('[name="defectCategory"]').attr('disabled', false)
