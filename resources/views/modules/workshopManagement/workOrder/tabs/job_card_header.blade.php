@@ -207,8 +207,7 @@
                                     <input name="accident_number"
                                            id="accident_number"
                                            class="form-control form-control-sm when_valid"
-                                           required>
-                                    </input>
+                                           required/>
                                 </div>
                             </div>
                         </div>

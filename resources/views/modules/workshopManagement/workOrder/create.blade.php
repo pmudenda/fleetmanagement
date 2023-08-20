@@ -922,7 +922,7 @@
                 setTimeout(function () {
                     disableControls();
                     $("#labour_table").find('[data-record-id]').find('.mechanicStaffNumber').change();
-                }, 1000);
+                }, 3000);
 
                 Inputmask({
                     "mask": "AAA 9{1,4}"
