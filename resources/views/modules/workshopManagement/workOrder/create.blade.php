@@ -1628,7 +1628,11 @@
 
                 let fuel_level = document.querySelector('select[name="fuel_level"]');
                 if (!fuel_level.hasAttribute('data-select2-id="fuel_level"')) {
-                    //$(fuel_level).select2({"disabled": true});
+                    $(fuel_level).select2({
+                        "disabled": true,
+                        theme: "bootstrap4",
+                        width: "resolve"
+                    });
                 }
 
                 let sub_fuel_level = document.querySelector('select[name="sub_fuel_level"]');
@@ -2051,19 +2055,18 @@
                         tmsApp.populateDropDownList($mainTankFuelLevel, fuelLevels, "code", ["name"], "", "", true);
                         tmsApp.populateDropDownList($subTankFuelLevelCtl, fuelLevels, "code", ["name"], "", "", true);
 
-                        let mainTankLevel = $mainTankFuelLevel.attr('data-value');
+                        /*let mainTankLevel = $mainTankFuelLevel.attr('data-value');
 
-                        if (location) {
-                            $mainTankFuelLevel.val(mainTankLevel);
-                            $mainTankFuelLevel.trigger('change');
-                        }
+                          if (location) {
+                              $mainTankFuelLevel.val(mainTankLevel);
+                              $mainTankFuelLevel.trigger('change');
+                          }
 
-                        let subTankFuelLevel = $subTankFuelLevelCtl.attr('data-value');
-
-                        if (location) {
-                            $subTankFuelLevelCtl.val(subTankFuelLevel);
-                            $subTankFuelLevelCtl.trigger('change');
-                        }
+                          let subTankFuelLevel = $subTankFuelLevelCtl.attr('data-value');
+                          if (location) {
+                              $subTankFuelLevelCtl.val(subTankFuelLevel);
+                              $subTankFuelLevelCtl.trigger('change');
+                          }*/
                     })
                     .catch(function (error) {
                         // notify of error
