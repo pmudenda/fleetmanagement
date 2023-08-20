@@ -450,6 +450,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
 
         let newOption = new Option(defaultValue, "", true, true);
         selectEl.empty().select2({
+            disabled: defaultControlState,
             theme: "bootstrap4",
             width: "resolve",
             data: records
