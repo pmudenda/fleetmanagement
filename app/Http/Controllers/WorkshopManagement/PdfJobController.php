@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Support\Facades\Log;
-
+use App\Http\Controllers\Controller;
 //
 
 class PdfJobController extends Controller
