@@ -919,7 +919,7 @@
                 initServiceArticleSelector($('.servicesArticlesDropDownList'));
 
                 setTimeout(function () {
-                    $($labourTable).find('[data-record-id]').find('.mechanicStaffNumber').change();
+                    $('#services_table').find('[data-record-id]').find('.service_unit_price').change();
                     $("#labour_table").find('[data-record-id]').find('.mechanicStaffNumber').change();
                 }, 1000);
 
