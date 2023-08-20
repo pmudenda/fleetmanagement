@@ -2021,7 +2021,6 @@
                     .then(response => response.json())
                     .then(response => {
                         let selectElem = $('select[name="workshop"]');
-                        // Populate results
                         if (response.state === 'failure') {
                             //show errors
                             toastr.error('Connection error, no data found')
@@ -2029,7 +2028,7 @@
                         }
 
                         let workshops = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, workshops, "workshop_code", ["workshop_name"], "");
+                        tmsApp.populateDropDownList(selectElem, workshops, "workshop_code", ["workshop_name"], "", "", true);
 
                         let location = selectElem.attr('data-value');
 
@@ -2059,8 +2058,8 @@
                         }
 
                         let fuelLevels = response['payload'];
-                        tmsApp.populateDropDownList($mainTankFuelLevel, fuelLevels, "code", ["name"], "");
-                        tmsApp.populateDropDownList($subTankFuelLevelCtl, fuelLevels, "code", ["name"], "");
+                        tmsApp.populateDropDownList($mainTankFuelLevel, fuelLevels, "code", ["name"], "", "", true);
+                        tmsApp.populateDropDownList($subTankFuelLevelCtl, fuelLevels, "code", ["name"], "", true);
 
                         let mainTankLevel = $mainTankFuelLevel.attr('data-value');
 
@@ -2084,7 +2083,7 @@
             }
 
             function loadDefectDropdownLists(data, selectElem) {
-                tmsApp.populateDropDownList(selectElem, data, "code", ["description"], "");
+                tmsApp.populateDropDownList(selectElem, data, "code", ["description"], "", "", true);
 
                 let location = selectElem.attr('data-value');
 
@@ -2153,7 +2152,6 @@
                     return;
                 }
 
-                // BAD 1010
                 if (state !== 'InWorkshop') {
                     if (vehicle['status'] !== document.querySelector('[name="vehicleActive"]').value) {
                         tmsApp.showSystemMessage("Vehicle State",

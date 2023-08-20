@@ -421,6 +421,16 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
         return true;
     };
 
+    /**
+     * @namespace core
+     * @param selectEl
+     * @param data
+     * @param idKey to be used as value
+     * @param textKeys array of the properties to be used as the text
+     * @param textKeySeparator
+     * @param defaultMessage
+     * @param controlDisabled
+     */
     appInstance.populateDropDownList = function (selectEl, data, idKey, textKeys, textKeySeparator, defaultMessage, controlDisabled) {
         let defaultValue = (!!defaultMessage) ? defaultMessage : "";
         let defaultControlState = (!!controlDisabled) ? controlDisabled : false;
