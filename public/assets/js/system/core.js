@@ -440,7 +440,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
         if (records.length === 1) {
             let onlyOption = new Option(records[0].text, records[0].id, true, true);
             selectEl.empty().select2({
-                /*disabled: defaultControlState,*/
+                disabled: defaultControlState,
                 theme: "bootstrap4",
                 width: "resolve"
             }).append(onlyOption).trigger('change');
@@ -450,7 +450,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
 
         let newOption = new Option(defaultValue, "", true, true);
         selectEl.empty().select2({
-           /* disabled: defaultControlState,*/
+            disabled: defaultControlState,
             theme: "bootstrap4",
             width: "resolve",
             data: records
