@@ -1029,6 +1029,114 @@
                     );
                 })
 
+                $(document).on('click', '#saveAllAssignments', function () {
+
+                    let formSel = $('#labour_table');
+                    let formData = {
+                        modelName: formSel.data('modelName'),
+                        submitForm: true,
+                        workshopReference: $('[name="workshop_reference"]').val(),
+                        jobCardNumber: $('[name="job_card_number"]').val()
+                    };
+
+                    let arr = [];
+                    let obj = {};
+
+                    $(formSel).find("tbody").children().map(function (index, row) {
+                        let obj = {};
+
+                        if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
+                            console.log("Record with " + $(row).attr('data-record-id'));
+                        } else {
+                            $(row).find('input[name][type!=hidden], select[name],textarea[name]').each(function (i, item) {
+                                let val = item.value.replace(/,/g, '');
+
+                                if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
+                                    let dateField = val;
+                                    dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
+
+                                    obj[item.name] = dateField;
+                                } else {
+                                    obj[item.name] = item.value;
+                                }
+                            });
+                            arr.push(obj);
+                        }
+
+                    });
+
+                    formData['items'] = arr;
+
+                    formData = {
+                        ...obj,
+                        ...formData
+                    }
+
+                    $('.print-error-msg').css('display', 'none');
+
+                    tmsApp.confirm(
+                        'Assign Task',
+                        'Are you sure you want to close this work order ?',
+                        'Yes',
+                        'No',
+                        function () {
+                            $.ajax({
+                                type: "POST",
+                                url: formSel.data('formUrl'),
+                                data: JSON.stringify(formData),
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                            }).done(function (asyncResponse) {
+
+                                if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
+                                    setTimeout(function () {
+                                        tmsApp.showSystemMessage(
+                                            'Assign Task',
+                                            asyncResponse['message'],
+                                            function () {
+                                                // window.location.href = asyncResponse["redirectUrl"]
+                                            },
+                                            'success'
+                                        );
+                                    }, 300);
+                                } else {
+                                    if (asyncResponse.hasOwnProperty('errors')) {
+                                        tmsApp.printErrorMsg(asyncResponse.errors);
+                                        return
+                                    }
+                                    setTimeout(function () {
+                                        tmsApp.systemError(
+                                            'Assign Task',
+                                            asyncResponse['message'],
+                                            function () {
+                                            }, 'error');
+                                    }, 300);
+                                }
+                            }).fail(function (xhr, settings, errorThrown) {
+                                console.log(errorThrown)
+                                setTimeout(function () {
+                                    if ('responseJSON' in xhr) {
+                                        if (xhr.responseJSON.hasOwnProperty('errors')) {
+                                            tmsApp.printErrorMsg(xhr.responseJSON.errors);
+                                        }
+                                        if (xhr.responseJSON.hasOwnProperty('message')) {
+                                            tmsApp.systemError(
+                                                'Assign Task',
+                                                xhr.responseJSON['message']
+                                            );
+                                        }
+                                        return;
+                                    }
+
+                                    tmsApp.systemError(
+                                        'Assign Task',
+                                        'We could not complete processing your request, please try again later');
+                                }, 300)
+                            });
+                        }
+                    );
+                });
+
                 $(document).on('click', '.saveAssignment', function () {
 
                     let formSel = $('#labour_table');

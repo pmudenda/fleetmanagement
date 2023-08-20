@@ -466,7 +466,7 @@
                     Comments <small>Will be used as justification for Requisition</small>:
                 </label>
                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
-                    @if(!empty($comments))
+                    @if(!empty($comments) && !empty($comments->where('type','=','SREQ')->first()->remarks))
                         <textarea type="text"
                                   id="service_comments"
                                   minlength="20"
