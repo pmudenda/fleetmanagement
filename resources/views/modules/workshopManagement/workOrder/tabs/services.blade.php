@@ -316,7 +316,7 @@
                                 <td>
                                     <input name="service_unit_price"
                                            required
-                                           value="{{$service->unit_of_measure}}"
+                                           value="{{$service->unit_of_measure ?? ''}}"
                                            readonly
                                            class="form-control form-control-sm service_unit_price"/>
                                 </td>
