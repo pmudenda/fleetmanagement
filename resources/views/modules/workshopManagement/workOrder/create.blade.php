@@ -913,7 +913,6 @@
                     }
                 });
 
-
                 initArticleSelector($('.articlesDropDownList'));
 
                 initServiceArticleSelector($('.servicesArticlesDropDownList'));
@@ -922,7 +921,6 @@
                     $($labourTable).find('[data-record-id]').find('.mechanicStaffNumber').change();
                     $("#labour_table").find('[data-record-id]').find('.mechanicStaffNumber').change();
                 }, 1000);
-
 
                 setInterval(function () {
                     disableControls();
@@ -1641,7 +1639,11 @@
 
                 let sub_fuel_level = document.querySelector('select[name="sub_fuel_level"]');
                 if (!sub_fuel_level.hasAttribute('data-select2-id="sub_fuel_level"')) {
-                    //$(sub_fuel_level).select2({"disabled": true});
+                    $(sub_fuel_level).select2({
+                        "disabled": true,
+                        theme: "bootstrap4",
+                        width: "resolve"
+                    });
                 }
 
                 /*let workshop = document.querySelector('select[name="workshop"]');
