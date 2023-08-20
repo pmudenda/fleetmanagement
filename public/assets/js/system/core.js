@@ -421,9 +421,9 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
         return true;
     };
 
-    appInstance.populateDropDownList = function (selectEl, data, idKey, textKeys, textKeySeparator, defaultMessage) {
+    appInstance.populateDropDownList = function (selectEl, data, idKey, textKeys, textKeySeparator, defaultMessage, controlDisabled) {
         let defaultValue = (!!defaultMessage) ? defaultMessage : "";
-
+        let defaultControlState = (!!controlDisabled) ? controlDisabled : false;
         let records = [];
 
         for (let i in data) {
@@ -440,6 +440,7 @@ $(document).on('click', '[data-toggle="lightbox"]', function (event) {
         if (records.length === 1) {
             let onlyOption = new Option(records[0].text, records[0].id, true, true);
             selectEl.empty().select2({
+                disabled: defaultControlState,
                 theme: "bootstrap4",
                 width: "resolve"
             }).append(onlyOption).trigger('change');
