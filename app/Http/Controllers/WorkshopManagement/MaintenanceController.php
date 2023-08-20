@@ -47,9 +47,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -109,7 +107,8 @@ class MaintenanceController extends Controller
             $materials,
             $materialsHeader,
             $services,
-            $labour
+            $labour,
+            $pettyCashItems
             ) = $this->getFullJobCardDetails($reference);
 
         $mechanics = [];
@@ -138,7 +137,8 @@ class MaintenanceController extends Controller
                     "materialsHeader",
                     "services",
                     'labour',
-                    'mechanics'
+                    'mechanics',
+                    'pettyCashItems'
                 )
             );
     }
@@ -162,7 +162,8 @@ class MaintenanceController extends Controller
             $materials,
             $materialsHeader,
             $services,
-            $labour
+            $labour,
+            $pettyCashItems
             ) = $this->getFullJobCardDetails($reference);
 
         $mechanics = [];
@@ -190,53 +191,93 @@ class MaintenanceController extends Controller
                     "materialsHeader",
                     "services",
                     'labour',
-                    'mechanics'
+                    'mechanics',
+                    'pettyCashItems'
                 )
             );
     }
 
-    public function start(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
-    {
-        $view_name = 'modules.workshopManagement.workOrder.start';
-        $step = $request->get("step") ?? 0;
-        $reference = $request->get("reference") ?? $request->get('ref');
+    /* public function start(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+     {
+         $view_name = 'modules.workshopManagement.workOrder.start';
+         $step = $request->get("step") ?? 0;
+         $reference = $request->get("reference") ?? $request->get('ref');
 
-        list(
-            $step,
-            $repairTypes,
-            $accessories_checked_in,
-            $accessories,
-            $details,
-            $workshop_sections,
-            $defects,
-            $comments,
-            $officeDetails,
-            $materials,
-            $materialsHeader,
-            $services
-            ) = $this->getJobCardCreationData($reference, $step);
+         list(
+             $step,
+             $repairTypes,
+             $accessories_checked_in,
+             $accessories,
+             $details,
+             $workshop_sections,
+             $defects,
+             $comments,
+             $officeDetails,
+             $materials,
+             $materialsHeader,
+             $services
+             ) = $this->getFullJobCardDetails($reference, $step);
 
-        $labour = collect([]);
-        return view($view_name)
-            ->with(
-                compact(
-                    "repairTypes",
-                    "accessories",
-                    "details",
-                    "accessories_checked_in",
-                    "step",
-                    "workshop_sections",
-                    "defects",
-                    "comments",
-                    "officeDetails",
-                    "materials",
-                    "materialsHeader",
-                    "services",
-                    'labour'
-                )
-            );
-    }
+         $labour = collect([]);
+         return view($view_name)
+             ->with(
+                 compact(
+                     "repairTypes",
+                     "accessories",
+                     "details",
+                     "accessories_checked_in",
+                     "step",
+                     "workshop_sections",
+                     "defects",
+                     "comments",
+                     "officeDetails",
+                     "materials",
+                     "materialsHeader",
+                     "services",
+                     'labour'
+                 )
+             );
+     }*/
 
+    /*public function defectsTab(Request $request): Application|\Illuminate\Contracts\View\View|Factory|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
+  {
+      $this->verifyRequestSignature($request);
+      $step = $request->get("step") ?? 0;
+      $reference = $request->get("reference") ?? $request->get('ref');
+
+      list(
+          $step,
+          $repairTypes,
+          $accessories_checked_in,
+          $accessories,
+          $details,
+          $workshop_sections,
+          $defects,
+          $comments,
+          $officeDetails,
+          $materials,
+          $materialsHeader,
+          $services
+          ) = $this->getFullJobCardDetails($reference, $step);
+
+      return view("modules.workshopManagement.workOrder.create")
+          ->with(
+              compact(
+                  "repairTypes",
+                  "accessories",
+                  "details",
+                  "accessories_checked_in",
+                  "step",
+                  "workshop_sections",
+                  "defects",
+                  "comments",
+                  "officeDetails",
+                  "materials",
+                  "materialsHeader",
+                  "services"
+              )
+          );
+  }*/
     public function createTaskForWorkShopSupervisor(SubmitJobCardToSupervisor $request): ?JsonResponse
     {
         try {
@@ -413,8 +454,10 @@ class MaintenanceController extends Controller
             $officeDetails,
             $materials,
             $materialsHeader,
-            $services
-            ) = $this->getJobCardCreationData($reference, $step);
+            $services,
+            $labour,
+            $pettyCashItems
+            ) = $this->getFullJobCardDetails($reference, $step);
 
         return view("modules.workshopManagement.workOrder.show")
             ->with(
@@ -430,7 +473,9 @@ class MaintenanceController extends Controller
                     "officeDetails",
                     "materials",
                     "materialsHeader",
-                    "services"
+                    "services",
+                    'labour',
+                    'pettyCashItems'
                 )
             );
     }
@@ -457,8 +502,10 @@ class MaintenanceController extends Controller
             $officeDetails,
             $materials,
             $materialsHeader,
-            $services
-            ) = $this->getJobCardCreationData($reference, $step);
+            $services,
+            $labour,
+            $pettyCashItems
+            ) = $this->getFullJobCardDetails($reference, $step);
 
         return view("modules.workshopManagement.workOrder.create")
             ->with(
@@ -474,7 +521,9 @@ class MaintenanceController extends Controller
                     "officeDetails",
                     "materials",
                     "materialsHeader",
-                    "services"
+                    "services",
+                    'labour',
+                    'pettyCashItems'
                 )
             );
     }
@@ -529,7 +578,8 @@ class MaintenanceController extends Controller
             $materials,
             $materialsHeader,
             $services,
-            $labour
+            $labour,
+            $pettyCashItems
             ) = $this->getFullJobCardDetails($request->get("reference"));
 
         $taskHeader = null;
@@ -555,47 +605,8 @@ class MaintenanceController extends Controller
                     "services",
                     "labour",
                     'taskHeader',
-                    'approvalHistory'
-                )
-            );
-    }
-
-    public function defectsTab(Request $request): Application|\Illuminate\Contracts\View\View|Factory|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
-    {
-        $this->verifyRequestSignature($request);
-        $step = $request->get("step") ?? 0;
-        $reference = $request->get("reference") ?? $request->get('ref');
-
-        list(
-            $step,
-            $repairTypes,
-            $accessories_checked_in,
-            $accessories,
-            $details,
-            $workshop_sections,
-            $defects,
-            $comments,
-            $officeDetails,
-            $materials,
-            $materialsHeader,
-            $services
-            ) = $this->getJobCardCreationData($reference, $step);
-
-        return view("modules.workshopManagement.workOrder.create")
-            ->with(
-                compact(
-                    "repairTypes",
-                    "accessories",
-                    "details",
-                    "accessories_checked_in",
-                    "step",
-                    "workshop_sections",
-                    "defects",
-                    "comments",
-                    "officeDetails",
-                    "materials",
-                    "materialsHeader",
-                    "services"
+                    'approvalHistory',
+                    'pettyCashItems'
                 )
             );
     }
@@ -779,7 +790,7 @@ class MaintenanceController extends Controller
     {
         $this->verifyRequestSignature($request);
 
-        $req_no = str_replace('-C', '', $request->get('ref'));
+        $jobCardClosureReferenceNumber = str_replace('-C', '', $request->get('ref'));
 
         $step = $request->get("step") ?? 0;
 
@@ -794,8 +805,10 @@ class MaintenanceController extends Controller
             $officeDetails,
             $materials,
             $materialsHeader,
-            $services, $labour
-            ) = $this->getFullJobCardDetails($req_no);
+            $services,
+            $labour,
+            $pettyCashItems
+            ) = $this->getFullJobCardDetails($jobCardClosureReferenceNumber);
 
         $taskHeader = null;
         if ($request->get("ref")) {
@@ -820,7 +833,8 @@ class MaintenanceController extends Controller
                     "services",
                     "labour",
                     'taskHeader',
-                    'approvalHistory'
+                    'approvalHistory',
+                    'pettyCashItems'
                 )
             );
 
@@ -1012,6 +1026,7 @@ class MaintenanceController extends Controller
         $materialsHeader = null;
         $services = collect([]);
         $labour = collect([]);
+        $pettyCashItems = collect([]);
 
         if ($reference) {
             list($accessories_checked_in,
@@ -1022,7 +1037,8 @@ class MaintenanceController extends Controller
                 $materials,
                 $materialsHeader,
                 $services,
-                $labour) = $this->extracted($reference);
+                $labour,
+                $pettyCashItems) = $this->getFullJobCardData($reference);
         }
 
         return array(
@@ -1038,7 +1054,8 @@ class MaintenanceController extends Controller
             $materials,
             $materialsHeader,
             $services,
-            $labour
+            $labour,
+            $pettyCashItems
         );
     }
 
@@ -1055,7 +1072,7 @@ class MaintenanceController extends Controller
         $materialsHeader = null;
         $services = collect([]);
         $labour = collect([]);
-
+        $pettyCashItems = collect([]);
         if ($reference) {
             list($accessories_checked_in,
                 $details,
@@ -1065,7 +1082,8 @@ class MaintenanceController extends Controller
                 $materials,
                 $materialsHeader,
                 $services,
-                $labour) = $this->extracted($reference);
+                $labour,
+                $pettyCashItems) = $this->getFullJobCardData($reference);
         }
 
         return array(
@@ -1080,7 +1098,8 @@ class MaintenanceController extends Controller
             $materials,
             $materialsHeader,
             $services,
-            $labour
+            $labour,
+            $pettyCashItems
         );
     }
 
@@ -1364,7 +1383,7 @@ class MaintenanceController extends Controller
      * @param $reference
      * @return array
      */
-    public function extracted($reference): array
+    public function getFullJobCardData($reference): array
     {
         $accessories_checked_in = WorkShopVehicleAccessory::where("job_card_no", "=", $reference)
             ->get();
