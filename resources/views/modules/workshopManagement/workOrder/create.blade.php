@@ -651,6 +651,7 @@
                 <input
                     name="vehicle_registration"
                     required
+                    readonly
                     value=""
                     class="form-control form-control-sm vehicle_registration"/>
             </td>
@@ -696,7 +697,6 @@
                     readonly
                     class="form-control form-control-sm unit_of_measure"/>
             </td>
-
             <td>
                 <input name="service_unit_price"
                        required
@@ -1292,6 +1292,18 @@
                     } catch (e) {
                         alert(e);
                     }
+                });
+
+                $('body').on('shown.bs.modal', '#pettyCashModal', function() {
+                    $(this).find('select').each(function() {
+                        var dropdownParent = $(document.body);
+                        if ($(this).parents('.modal.in:first').length !== 0)
+                            dropdownParent = $(this).parents('.modal.in:first');
+                        $(this).select2({
+                            dropdownParent: dropdownParent
+                            // ...
+                        });
+                    });
                 });
             });
 
