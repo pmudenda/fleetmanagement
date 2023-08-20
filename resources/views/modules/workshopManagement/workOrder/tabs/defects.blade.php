@@ -21,7 +21,7 @@
                         </thead>
                         <tbody>
                         @if($defects && $defects->isNotEmpty())
-                            {{dd($defects)}}
+
                             @foreach($defects as $defect)
                                 <tr class="savedRecord" data-record-id="{{$defect->id}}">
                                     <td class="showNumber">
