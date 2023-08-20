@@ -877,7 +877,7 @@ class WorkshopRequisitionService
 
         return DB::table('WM_WORKSHOP_SERVICES services')
             ->where("wshp_act_code", "=", $workShopActCode)
-            ->leftJoin("$articles", '"$articles.CODE_ARTICLE"', '=', 'services.mat_code')
+            ->leftJoin("$articles", "$articles.CODE_ARTICLE", "=", "services.mat_code")
             //->whereNull("WM_WORKSHOP_MATERIALS.IND")
             ->select(
                 "services.*",
