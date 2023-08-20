@@ -264,7 +264,6 @@
                     </thead>
                     <tbody>
                     @if($services->isNotEmpty())
-                        {{dd($services)}}
                         @foreach($services as $service)
                             <tr class="increment" data-record-id="{{$service->id}}">
                                 <td class="showNumber">
@@ -279,19 +278,17 @@
                                     <select
                                         name="service_article"
                                         required
-                                        value="{{$service->material_code ?? ''}}"
-                                        data-value="{{$service->material_code ?? ''}}"
+                                        value="{{$service->mat_code ?? ''}}"
+                                        data-value="{{$service->mat_code ?? ''}}"
                                         class="form-control form-control-sm servicesArticlesDropDownList">
-                                        <option value="{{$service->material_code ?? ''}}">
-
-                                        </option>
+                                        <option value="{{$service->mat_code ?? ''}}"></option>
                                     </select>
                                 </td>
                                 <td>
                                     <input
                                         name="serviceArticleCode"
                                         required
-                                        value="{{$service->material_code ?? ''}}"
+                                        value="{{$service->mat_code ?? ''}}"
                                         readonly
                                         class="form-control form-control-sm serviceArticleCode"/>
                                 </td>
