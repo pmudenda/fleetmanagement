@@ -177,7 +177,7 @@
                                     id="service_supplier">
                                 </select>
                                 @if($services && $services->isNotEmpty())
-                                    <input type="text" class="form-control"
+                                    <input type="hidden" class="form-control"
                                            value="{{$services[0]->supplier_code}}">
                                 @endif
                             </div>
@@ -264,6 +264,7 @@
                     </thead>
                     <tbody>
                     @if($services->isNotEmpty())
+                        {{dd($services)}}
                         @foreach($services as $service)
                             <tr class="increment" data-record-id="{{$service->id}}">
                                 <td class="showNumber">
