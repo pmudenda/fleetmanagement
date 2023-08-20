@@ -1851,6 +1851,7 @@
                         const driverAcknowledged = $('#driverAcknowledged').val();
 
                         if (currentIndex === 1 && driverAcknowledged === 'Y') {
+                            dataStore.setItem(index, newIndex);
                             return true;
                         }
 
@@ -1865,6 +1866,7 @@
                         }
 
                         if (currentIndex < newIndex) {
+                            dataStore.setItem(index, newIndex);
                             // To remove error styles
                             form.find(".body:eq(" + newIndex + ") label.error").remove();
                             form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
