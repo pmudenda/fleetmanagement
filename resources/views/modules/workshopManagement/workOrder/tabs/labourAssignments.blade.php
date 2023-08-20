@@ -29,7 +29,7 @@
                 <th style="width: 15%;">MECHANIC NAME</th>
                 <th style="width: 15%;">SECTION</th>
                 <th style="width: 29%;">JOB INSTRUCTION</th>
-                <th style="width: 15%;"></th>
+                <th style="width: 10%;">ACTION</th>
             </tr>
             </thead>
             <tbody>
