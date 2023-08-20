@@ -2055,18 +2055,18 @@
                         tmsApp.populateDropDownList($mainTankFuelLevel, fuelLevels, "code", ["name"], "", "", true);
                         tmsApp.populateDropDownList($subTankFuelLevelCtl, fuelLevels, "code", ["name"], "", "", true);
 
-                        /*let mainTankLevel = $mainTankFuelLevel.attr('data-value');
+                        let mainTankLevel = $mainTankFuelLevel.attr('data-value');
 
-                          if (location) {
+                          if (mainTankLevel) {
                               $mainTankFuelLevel.val(mainTankLevel);
                               $mainTankFuelLevel.trigger('change');
                           }
 
                           let subTankFuelLevel = $subTankFuelLevelCtl.attr('data-value');
-                          if (location) {
+                          if (subTankFuelLevel) {
                               $subTankFuelLevelCtl.val(subTankFuelLevel);
                               $subTankFuelLevelCtl.trigger('change');
-                          }*/
+                          }
                     })
                     .catch(function (error) {
                         // notify of error
