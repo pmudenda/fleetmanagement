@@ -38,10 +38,10 @@
                     <tr class="increment" data-record-id="{{$labourItem->id}}">
                         <td>
                             <input
-                                   readonly
-                                   name="selectDefectToAssign"
-                                   class="checkbox"
-                                   type="checkbox">
+                                readonly
+                                name="selectDefectToAssign"
+                                class="checkbox"
+                                type="checkbox">
                         </td>
                         <td>
                             {{$labourItem->defect_name}}
@@ -117,29 +117,31 @@
                                     Actions
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    {{-- @can(config('rights.edit_vehicle'))--}}
-                                    @if($vehicle->on_boarding_status == StatusHelper::onboardingComplete())
-                                        <li>
-                                            <button type="button"
-                                                    data-labour-item="{{json_encode($labourItem)}}"
-                                                    style="background: #f59d33; color: #fff;"
-                                                    class="btn btn-sm btn-success reassignMechanic col pull-right dropdown-item">
-                                                <i class="fa fa-history"></i>
-                                                Reassign
-                                            </button>
-                                        </li>
+                                    <li>
+                                        <button type="button"
+                                                data-labour-item="{{json_encode($labourItem)}}"
+                                                style="background: #f59d33; color: #fff;"
+                                                class="btn btn-sm btn-success reassignMechanic col pull-right dropdown-item">
+                                            <i class="fa fa-history"></i>
+                                            Reassign
+                                        </button>
+                                    </li>
 
-                                        <li>
-                                            <button type="button"
-                                                    title="Still Thinking Of Way To Make This"
-                                                    data-toggle="tooltip"
-                                                    data-labour-item="{{json_encode($labourItem)}}"
-                                                    class="btn btn-sm btn-success reassignMechanic col mr-3 dropdown-item">
-                                                <i class="fa fa-print"></i>
-                                                Print Job Card
-                                            </button>
-                                        </li>
-                                    @endif
+                                    <li>
+                                    <li>
+                                        <a class="dropdown-item" data-kt-action="edit"
+                                           href="{{URL::signedRoute('view.vehicle', ['reference' => $labourItem->id])}}">
+                                            <i class="fa fa-print"></i>
+                                            Print Job Card
+                                        </a>
+                                    </li>
+                                    {{--<button type="button"
+                                            title="Still Thinking Of Way To Make This"
+                                            data-toggle="tooltip"
+                                            data-labour-item="{{json_encode($labourItem)}}"
+                                            class="btn btn-sm btn-success col mr-3 dropdown-item">
+                                    </button>--}}
+                                    </li>
                                 </ul>
                             </div>
                         </td>
@@ -152,9 +154,9 @@
                         <tr class="increment">
                             <td>
                                 <input
-                                       name="selectDefectToAssign"
-                                       class="checkbox"
-                                       type="checkbox">
+                                    name="selectDefectToAssign"
+                                    class="checkbox"
+                                    type="checkbox">
                             </td>
                             <td>
                                 {{$defect->defect_name}}
@@ -178,7 +180,7 @@
                                        autocapitalize="characters"
                                        id="mechanic"
                                        list="mechanics"
-                                       name="mechanic" />
+                                       name="mechanic"/>
                             </td>
                             <td>
                                 <input type="text"
@@ -195,11 +197,11 @@
                                     @foreach($workshop_sections as $workshop_section)
                                         @if($defect->section_code == $workshop_section->code)
                                             <option
-                                                    selected
-                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                selected
+                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                         @else
                                             <option
-                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                         @endif
                                     @endforeach
                                 </select>
