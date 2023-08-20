@@ -1651,6 +1651,7 @@
                 $('[name="current_odometer"]').attr('readonly', true);
                 $('[name="observation[]"]').attr('readonly', true);
                 $('[name="accessoriesRemarks"]').attr('readonly', true);
+                $('[data-table-id="observations"]').addClass('d-none');
 
             }
 
