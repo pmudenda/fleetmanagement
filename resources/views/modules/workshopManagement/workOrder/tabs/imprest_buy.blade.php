@@ -19,75 +19,79 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="showNumber">
-                    <input
-                        readonly
-                        name=""
-                        required
-                        value=""
-                        class="form-control form-control-sm"/>
-                </td>
-                <td>
-                    <select readonly
-                            name=""
-                            required
-                            class="form-control form-control-sm">
-                        <option value=""></option>
-                    </select>
-                </td>
-                <td>
-                    <input name=""
-                           value=""
-                           required
-                           readonly
-                           class="form-control form-control-sm"/>
-                </td>
-                <td>
+            @if($pettyCashItems->isNotEmpty())
+                @foreach($pettyCashItems as $pettyCashItem)
+                    <tr>
+                        <td class="showNumber">
+                            <input
+                                readonly
+                                name=""
+                                required
+                                value=""
+                                class="form-control form-control-sm"/>
+                        </td>
+                        <td>
+                            <select readonly
+                                    name=""
+                                    required
+                                    class="form-control form-control-sm">
+                                <option value=""></option>
+                            </select>
+                        </td>
+                        <td>
+                            <input name=""
+                                   value=""
+                                   required
+                                   readonly
+                                   class="form-control form-control-sm"/>
+                        </td>
+                        <td>
                                 <textarea rows="4"
                                           type="text"
                                           class="form-control"
                                           placeholder="Item Details / Description"
                                           required></textarea>
-                </td>
-                <td>
-                    <input type="text"
-                           step="1"
-                           class="form-control amount number_input"
-                           placeholder="Amount [ZMW]">
-                </td>
-                <td>
-                    <input
-                        name=""
-                        required
-                        value=""
-                        readonly
-                        class="form-control form-control-sm"/>
-                </td>
-                <td>
-                    <input name=""
-                           required
-                           value=""
-                           readonly
-                           class="form-control form-control-sm"/>
-                </td>
-                <td>
-                    <input name=""
-                           type="text"
-                           readonly
-                           required
-                           value=""
-                           class="form-control form-control-sm total_price"/>
-                </td>
-                <td>
-                    <button type="button"
-                            data-value="0"
-                            value="deleteRow"
-                            class="btn btn-sm btn-danger p-2">
-                        <i class="fas fa-trash m-0"></i>
-                    </button>
-                </td>
-            </tr>
+                        </td>
+                        <td>
+                            <input type="text"
+                                   step="1"
+                                   class="form-control amount number_input"
+                                   placeholder="Amount [ZMW]">
+                        </td>
+                        <td>
+                            <input
+                                name=""
+                                required
+                                value=""
+                                readonly
+                                class="form-control form-control-sm"/>
+                        </td>
+                        <td>
+                            <input name=""
+                                   required
+                                   value=""
+                                   readonly
+                                   class="form-control form-control-sm"/>
+                        </td>
+                        <td>
+                            <input name=""
+                                   type="text"
+                                   readonly
+                                   required
+                                   value=""
+                                   class="form-control form-control-sm total_price"/>
+                        </td>
+                        <td>
+                            <button type="button"
+                                    data-value="0"
+                                    value="deleteRow"
+                                    class="btn btn-sm btn-danger p-2">
+                                <i class="fas fa-trash m-0"></i>
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
             </tbody>
             <tfoot>
             <tr>
