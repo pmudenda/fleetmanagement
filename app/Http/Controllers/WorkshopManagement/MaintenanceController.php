@@ -848,8 +848,6 @@ class MaintenanceController extends Controller
                     'pettyCashItems'
                 )
             );
-
-
     }
 
     public function processJobCardAccessories(Request $request): JsonResponse
@@ -1429,8 +1427,6 @@ class MaintenanceController extends Controller
                 "def.defect_code",
                 "def.defect_name",
                 "def.section_code")->get();
-
-        //WorkShopVehicleDefect::where("workshop_reference", "=", $details->wshp_act_code)->get();
 
         $comments = WorkShopComment::where("workshop_reference", "=", $details->wshp_act_code)->get();
 
