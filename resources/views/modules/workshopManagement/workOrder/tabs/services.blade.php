@@ -275,13 +275,12 @@
                                 </td>
                                 <td>
                                     <input
-                                        name="service_article"
-                                        value="{{$service->specification ?? ''}}"
+                                        readonly
+                                        value="{{$service->article_specification ?? ''}}"
                                         class="form-select form-select-sm"/>
                                 </td>
                                 <td>
                                     <input
-                                        name="serviceArticleCode"
                                         value="{{$service->mat_code ?? ''}}"
                                         readonly
                                         class="form-control form-control-sm serviceArticleCode"/>
@@ -289,7 +288,6 @@
                                 <td>
                                     <input
                                         readonly
-                                        data-name="service_technical_specification"
                                         value="{{$service->specification ?? ''}}"
                                         class="form-control form-control-sm"/>
                                 </td>
