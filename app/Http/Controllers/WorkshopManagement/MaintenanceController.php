@@ -1406,7 +1406,9 @@ class MaintenanceController extends Controller
                         ->where("wckta.type_code", "=", $vehicleSys);
                 })
             ->where("def.workshop_reference", "=", $details->wshp_act_code)
-            ->select("def.veh_sys",
+            ->select(
+                "def.id",
+                "def.veh_sys",
                 "wckta.description as system_name",
                 "def.defect_category_code",
                 "wckt.description as defect_category_name",
