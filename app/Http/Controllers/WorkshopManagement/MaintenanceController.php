@@ -198,87 +198,88 @@ class MaintenanceController extends Controller
             );
     }
 
-    /* public function start(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
-     {
-         $view_name = 'modules.workshopManagement.workOrder.start';
-         $step = $request->get("step") ?? 0;
-         $reference = $request->get("reference") ?? $request->get('ref');
+    public function start(Request $request): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        $view_name = 'modules.workshopManagement.workOrder.start';
+        $step = $request->get("step") ?? 0;
+        $reference = $request->get("reference") ?? $request->get('ref');
 
-         list(
-             $step,
-             $repairTypes,
-             $accessories_checked_in,
-             $accessories,
-             $details,
-             $workshop_sections,
-             $defects,
-             $comments,
-             $officeDetails,
-             $materials,
-             $materialsHeader,
-             $services
-             ) = $this->getFullJobCardDetails($reference, $step);
+        list(
+            $step,
+            $repairTypes,
+            $accessories_checked_in,
+            $accessories,
+            $details,
+            $workshop_sections,
+            $defects,
+            $comments,
+            $officeDetails,
+            $materials,
+            $materialsHeader,
+            $services
+            ) = $this->getFullJobCardDetails($reference, $step);
 
-         $labour = collect([]);
-         return view($view_name)
-             ->with(
-                 compact(
-                     "repairTypes",
-                     "accessories",
-                     "details",
-                     "accessories_checked_in",
-                     "step",
-                     "workshop_sections",
-                     "defects",
-                     "comments",
-                     "officeDetails",
-                     "materials",
-                     "materialsHeader",
-                     "services",
-                     'labour'
-                 )
-             );
-     }*/
+        $labour = collect([]);
+        return view($view_name)
+            ->with(
+                compact(
+                    "repairTypes",
+                    "accessories",
+                    "details",
+                    "accessories_checked_in",
+                    "step",
+                    "workshop_sections",
+                    "defects",
+                    "comments",
+                    "officeDetails",
+                    "materials",
+                    "materialsHeader",
+                    "services",
+                    'labour'
+                )
+            );
+    }
 
-    /*public function defectsTab(Request $request): Application|\Illuminate\Contracts\View\View|Factory|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
-  {
-      $this->verifyRequestSignature($request);
-      $step = $request->get("step") ?? 0;
-      $reference = $request->get("reference") ?? $request->get('ref');
+    public function defectsTab(Request $request): Application|\Illuminate\Contracts\View\View|Factory|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
+    {
+        $this->verifyRequestSignature($request);
+        $step = $request->get("step") ?? 0;
+        $reference = $request->get("reference") ?? $request->get('ref');
 
-      list(
-          $step,
-          $repairTypes,
-          $accessories_checked_in,
-          $accessories,
-          $details,
-          $workshop_sections,
-          $defects,
-          $comments,
-          $officeDetails,
-          $materials,
-          $materialsHeader,
-          $services
-          ) = $this->getFullJobCardDetails($reference, $step);
+        list(
+            $step,
+            $repairTypes,
+            $accessories_checked_in,
+            $accessories,
+            $details,
+            $workshop_sections,
+            $defects,
+            $comments,
+            $officeDetails,
+            $materials,
+            $materialsHeader,
+            $services
+            ) = $this->getFullJobCardDetails($reference, $step);
 
-      return view("modules.workshopManagement.workOrder.create")
-          ->with(
-              compact(
-                  "repairTypes",
-                  "accessories",
-                  "details",
-                  "accessories_checked_in",
-                  "step",
-                  "workshop_sections",
-                  "defects",
-                  "comments",
-                  "officeDetails",
-                  "materials",
-                  "materialsHeader",
-                  "services"
-              )
-          );
-  }*/
+        return view("modules.workshopManagement.workOrder.create")
+            ->with(
+                compact(
+                    "repairTypes",
+                    "accessories",
+                    "details",
+                    "accessories_checked_in",
+                    "step",
+                    "workshop_sections",
+                    "defects",
+                    "comments",
+                    "officeDetails",
+                    "materials",
+                    "materialsHeader",
+                    "services"
+                )
+            );
+    }
+
     public function createTaskForWorkShopSupervisor(SubmitJobCardToSupervisor $request): ?JsonResponse
     {
         try {
