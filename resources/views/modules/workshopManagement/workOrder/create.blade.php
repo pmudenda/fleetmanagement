@@ -10,16 +10,6 @@
           type="text/css"/>
     <link href="{{asset("libs/steps/jquery-steps.css")}}" rel="stylesheet" type="text/css"/>
     <style>
-        /*th {
-            white-space: nowrap;
-        }
-
-        !**===NO WRAP ON TABLE =====**!
-        table.dataTable.nowrap th,
-        table.dataTable.nowrap td {
-            white-space: nowrap;
-        }*/
-
         .select2 {
             width: 100% !important;
         }
@@ -78,7 +68,6 @@
                 <label class="app-required-marker"></label>
                 <form name="jobCardForm"
                       id="jobCardForm"
-                      {{--action="{{route('save.workshop.requisition')}}"--}}
                       method="post">
                     @csrf
                     <h1>DETAILS</h1>
@@ -1647,10 +1636,10 @@
                     //$(sub_fuel_level).select2({"disabled": true});
                 }
 
-                let workshop = document.querySelector('select[name="workshop"]');
+                /*let workshop = document.querySelector('select[name="workshop"]');
                 if (!workshop.hasAttribute('data-select2-id="workshop"')) {
-                    //$(workshop).select2({"disabled": true});
-                }
+                    $(workshop).select2({"disabled": true});
+                }*/
 
                 $('select[name="repairType"]').attr("disabled", true);
                 $('[name="vehicleSearchBtn"]').attr("disabled", true);
@@ -2386,12 +2375,20 @@
             }
 
             function setSelectedAccessories() {
-                $.each(selectedAccessories, function (index, element) {
-                    $("input[name=field_" + element?.code + "][value=" + element?.is_present + "]")
+                $.each(selectedAccessories, function (index, accessory) {
+                    const response = accessory?.is_present;
+
+                    const other = (response === 'YES' ? 'NO' : 'YES');
+
+                    $("input[name=field_" + accessory?.code + "][value=" + response + "]")
                         .prop('checked', true)
                         .attr('disabled', true);
-                    $("input[name=comment_" + element.code + "]")
-                        .val(element?.remarks)
+
+                    $("input[name=field_" + accessory?.code + "][value=" + other + "]")
+                        .attr('disabled', true);
+
+                    $("input[name=comment_" + accessory.code + "]")
+                        .val(accessory?.remarks)
                         .attr('disabled', true);
                 });
             }
