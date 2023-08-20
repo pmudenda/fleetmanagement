@@ -297,15 +297,18 @@
                     </section>
 
                     @if(!empty($details->driver_acknowledged))
+
                         <h1>DEFECTS</h1>
                         <section>
                             @include('modules.workshopManagement.workOrder.tabs.defects')
                         </section>
 
-                        <h1>LABOUR & ASSIGNMENTS</h1>
-                        <section>
-                            @include('modules.workshopManagement.workOrder.tabs.labourAssignments')
-                        </section>
+                        @if(RepairTypes::ContractedService->value != $details->repair_type ?? '')
+                            <h1>LABOUR & ASSIGNMENTS</h1>
+                            <section>
+                                @include('modules.workshopManagement.workOrder.tabs.labourAssignments')
+                            </section>
+                        @endif
 
                         <h1>SPARES & SERVICES</h1>
                         <section>
@@ -745,15 +748,15 @@
                                     <select name="workshopSection"  required class="form-select form-select-sm workshopSection">
                                         <option></option>
                                         @foreach($workshop_sections as $workshop_section)
-                                    <option
-                                            value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+        <option
+                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                                                     @endforeach
-                                    </select>
-                                </td>
-                                <td>
-                                    <input name="date_def"
-                                           readonly="readonly"
-                                           value="@if($details){{date('Y-m-d',strtotime(Carbon::parse($details->date_in)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
+        </select>
+    </td>
+    <td>
+        <input name="date_def"
+               readonly="readonly"
+               value="@if($details){{date('Y-m-d',strtotime(Carbon::parse($details->date_in)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
                                                                        class="tabledit-input form-control input-sm input-number"
                                                                        type="text">
                                                             </td>
@@ -1044,7 +1047,6 @@
 
                     $(formSel).find("tbody").children().map(function (index, row) {
                         let obj = {};
-
                         if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
                             console.log("Record with " + $(row).attr('data-record-id'));
                         } else {
@@ -1402,8 +1404,8 @@
                     }
                 });
 
-                $('body').on('shown.bs.modal', '#pettyCashModal', function() {
-                    $(this).find('select').each(function() {
+                $('body').on('shown.bs.modal', '#pettyCashModal', function () {
+                    $(this).find('select').each(function () {
                         var dropdownParent = $(document.body);
                         if ($(this).parents('.modal.in:first').length !== 0)
                             dropdownParent = $(this).parents('.modal.in:first');
