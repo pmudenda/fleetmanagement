@@ -45,6 +45,7 @@ use App\Services\WorkShopManagement\WorkshopService;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -1392,7 +1393,26 @@ class MaintenanceController extends Controller
 
         $officeDetails = $this->workshopService->getWorkShopPurchaseOfficeAndStore($details->workshop_code);
 
-        $defects = WorkShopVehicleDefect::where("workshop_reference", "=", $details->wshp_act_code)->get();
+        $defects = DB::table("wm_vehicle_defects def")
+            ->join("wm_workshop_tables wckt", function (JoinClause $join) {
+                $join->on("def.defect_category_code", "=", "wckt.code")
+                    ->where("wckt.type_code = 'WCT'");
+            })
+            ->join("wm_workshop_tables wckta",
+                function ($join) {
+                    $join->on("def.veh_sys", "=", "wckta.code")
+                        ->where("wckta.type_code", "=", 'VEH_SYS');
+                })
+            ->where("def.workshop_reference", "=", $details->wshp_act_code)
+            ->select("def.veh_sys",
+                "wckta.description as system_name",
+                "def.defect_category_code",
+                "wckt.description as defect_category_name",
+                "def.defect_code",
+                "def.defect_name",
+                "def.section_code")->get();
+
+        //WorkShopVehicleDefect::where("workshop_reference", "=", $details->wshp_act_code)->get();
 
         $comments = WorkShopComment::where("workshop_reference", "=", $details->wshp_act_code)->get();
 
@@ -1402,7 +1422,7 @@ class MaintenanceController extends Controller
 
         $services = $this->workshopRequisitionService->getWorkShopRequisitionServiceItems($details->wshp_act_code);
 
-        $pettyCashItems =  collect([]);
+        $pettyCashItems = collect([]);
 
         $labour = DB::table('wm_workshop_labours labour')
             ->where("wshp_act_code", "=", $details->wshp_act_code)
