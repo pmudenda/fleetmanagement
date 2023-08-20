@@ -1402,6 +1402,8 @@ class MaintenanceController extends Controller
 
         $services = $this->workshopRequisitionService->getWorkShopRequisitionServiceItems($details->wshp_act_code);
 
+        $pettyCashItems =  collect([]);
+
         $labour = DB::table('wm_workshop_labours labour')
             ->where("wshp_act_code", "=", $details->wshp_act_code)
             ->join('wm_workshop_tables defect',
@@ -1420,6 +1422,7 @@ class MaintenanceController extends Controller
             $materials,
             $materialsHeader,
             $services,
-            $labour);
+            $labour,
+            $pettyCashItems);
     }
 }
