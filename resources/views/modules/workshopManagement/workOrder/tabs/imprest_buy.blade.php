@@ -49,17 +49,13 @@
                 <td>
                                 <textarea rows="4"
                                           type="text"
-                                          name=""
-                                          class="form-control amount"
+                                          class="form-control"
                                           placeholder="Item Details / Description"
-                                          id=""
                                           required></textarea>
                 </td>
                 <td>
                     <input type="text"
                            step="1"
-                           id=""
-                           name=""
                            class="form-control amount number_input"
                            placeholder="Amount [ZMW]">
                 </td>
