@@ -1639,17 +1639,17 @@
 
                 let fuel_level = document.querySelector('select[name="fuel_level"]');
                 if (!fuel_level.hasAttribute('data-select2-id="fuel_level"')) {
-                    $(fuel_level).select2({"disabled": true});
+                    //$(fuel_level).select2({"disabled": true});
                 }
 
                 let sub_fuel_level = document.querySelector('select[name="sub_fuel_level"]');
                 if (!sub_fuel_level.hasAttribute('data-select2-id="sub_fuel_level"')) {
-                    $(sub_fuel_level).select2({"disabled": true});
+                    //$(sub_fuel_level).select2({"disabled": true});
                 }
 
                 let workshop = document.querySelector('select[name="workshop"]');
                 if (!workshop.hasAttribute('data-select2-id="workshop"')) {
-                    $(workshop).select2({"disabled": true});
+                    //$(workshop).select2({"disabled": true});
                 }
 
                 $('select[name="repairType"]').attr("disabled", true);
