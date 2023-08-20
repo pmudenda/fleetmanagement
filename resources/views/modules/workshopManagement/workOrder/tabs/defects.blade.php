@@ -21,33 +21,32 @@
                         </thead>
                         <tbody>
                         @if($defects && $defects->isNotEmpty())
-
+                            +"veh_sys": "D"
+                            +"system_name": "ELECTRICAL SYSTEM"
+                            +"defect_category_code": "33"
+                            +"defect_category_name": "ELECTRONIC CONTROL SYSTEM - (EFI)"
+                            +"defect_code": "3"
+                            +"defect_name": "ELECTRONIC CONTROL UNIT (ECU)"
+                            +"section_code": "05"
                             @foreach($defects as $defect)
                                 <tr class="savedRecord" data-record-id="{{$defect->id}}">
                                     <td class="showNumber">
-                                        <select name="vehicleSystem"
-                                                disabled
-                                                data-value="{{$defect->veh_sys}}"
-                                                class="form-select form-select-sm select_2_control vehicleSystem">
-                                            <option></option>
-                                        </select>
+                                        <input
+                                            readonly
+                                            value="{{$defect->system_name}}"
+                                            class="form-control form-control-sm"/>
                                     </td>
                                     <td>
 
-                                        <select name="defectCategory"
-                                                disabled
-                                                data-value="{{$defect->defect_category_code}}"
-                                                class="form-select form-select-sm select_2_control defectCategory">
-                                            <option></option>
-                                        </select>
+                                        <input
+                                            readonly
+                                            value="{{$defect->defect_category_name}}"
+                                            class="form-control form-control-sm"/>
                                     </td>
                                     <td>
-                                        <select name="defect"
-                                                disabled
-                                                data-value="{{$defect->defect_code}}"
-                                                class="form-select form-select-sm select_2_control defect">
-                                            <option></option>
-                                        </select>
+                                        <input readonly
+                                               value="{{$defect->defect_name}}"
+                                               class="form-control form-control-sm"/>
                                     </td>
                                     <td>
                                         <select name="workshopSection"
@@ -57,11 +56,11 @@
                                             @foreach($workshop_sections as $workshop_section)
                                                 @if($defect->section_code == $workshop_section->code)
                                                     <option
-                                                            selected
-                                                            value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                        selected
+                                                        value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                                 @else
                                                     <option
-                                                            value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                        value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                                 @endif
                                             @endforeach
                                         </select>
@@ -115,7 +114,7 @@
                                         <option></option>
                                         @foreach($workshop_sections as $workshop_section)
                                             <option
-                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -160,8 +159,8 @@
             <div class="row">
                 <div class="form-group">
                     <label
-                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                            for="remarks">
+                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                        for="remarks">
                         Comments (optional):
                     </label>
                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
