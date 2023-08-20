@@ -32,15 +32,15 @@
                                         class="form-select form-select-sm"
                                         name="serviceItemType"
                                         id="serviceItemType">
-                                      {{--  <option value="{{RequisitionItemTypes::StockItemCode}}">STOCK
-                                            ITEM
+                                        {{--  <option value="{{RequisitionItemTypes::StockItemCode}}">STOCK
+                                              ITEM
+                                          </option>
+                                          <option value="{{RequisitionItemTypes::NonStockItemCode}}">NON
+                                              STOCK ITEM
+                                          </option>--}}
+                                        <option value="{{RequisitionItemTypes::ServiceItemCode}}">
+                                            SERVICE
                                         </option>
-                                        <option value="{{RequisitionItemTypes::NonStockItemCode}}">NON
-                                            STOCK ITEM
-                                        </option>--}}
-                                         <option value="{{RequisitionItemTypes::ServiceItemCode}}">
-                                             SERVICE
-                                         </option>
                                     </select>
                                 @endif
 
@@ -270,34 +270,27 @@
                                     <input
                                         readonly="readonly"
                                         name="vehicle_registration"
-                                        required
                                         value="{{$details->reg_no ?? ''}}"
                                         class="form-control form-control-sm vehicle_registration"/>
                                 </td>
                                 <td>
-                                    <select
+                                    <input
                                         name="service_article"
-                                        required
-                                        value="{{$service->mat_code ?? ''}}"
-                                        data-value="{{$service->mat_code ?? ''}}"
-                                        class="form-control form-control-sm servicesArticlesDropDownList">
-                                        <option value="{{$service->mat_code ?? ''}}"></option>
-                                    </select>
+                                        value="{{$service->specification ?? ''}}"
+                                        class="form-select form-select-sm"/>
                                 </td>
                                 <td>
                                     <input
                                         name="serviceArticleCode"
-                                        required
                                         value="{{$service->mat_code ?? ''}}"
                                         readonly
                                         class="form-control form-control-sm serviceArticleCode"/>
                                 </td>
                                 <td>
                                     <input
-                                        name="service_technical_specification"
-                                        required
+                                        data-name="service_technical_specification"
                                         value="{{$service->specification ?? ''}}"
-                                        class="form-control form-control-sm service_technical_specification"/>
+                                        class="form-control form-control-sm"/>
                                 </td>
 
                                 <td>
@@ -336,13 +329,13 @@
 
                                 <td class="view-mode">
                                     @if(StatusHelper::authorised() == $service->status??'')
-                                    <button type="button"
-                                            disabled
-                                            data-value="0"
-                                            value="deleteRow"
-                                            class="btn btn-danger p-2">
-                                        <i class="fas fa-trash m-0"></i>
-                                    </button>
+                                        <button type="button"
+                                                disabled
+                                                data-value="0"
+                                                value="deleteRow"
+                                                class="btn btn-danger p-2">
+                                            <i class="fas fa-trash m-0"></i>
+                                        </button>
                                     @else
                                         <button type="button"
                                                 data-value="{{$service->id ?? '0'}}"
