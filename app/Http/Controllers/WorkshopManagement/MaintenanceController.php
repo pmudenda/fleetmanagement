@@ -1410,6 +1410,7 @@ class MaintenanceController extends Controller
                 "def.id",
                 "def.veh_sys",
                 "def.date_ref",
+                "def.section_code",
                 "wckta.description as system_name",
                 "def.defect_category_code",
                 "wckt.description as defect_category_name",
