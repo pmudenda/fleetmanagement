@@ -1393,15 +1393,17 @@ class MaintenanceController extends Controller
 
         $officeDetails = $this->workshopService->getWorkShopPurchaseOfficeAndStore($details->workshop_code);
 
+        $vehicleSys = 'VEH_SYS';
+        $defectCategory = 'WCT';
         $defects = DB::table("wm_vehicle_defects def")
-            ->join("wm_workshop_tables wckt", function (JoinClause $join) {
+            ->join("wm_workshop_tables wckt", function (JoinClause $join) use ($defectCategory) {
                 $join->on("def.defect_category_code", "=", "wckt.code")
-                    ->where("wckt.type_code = 'WCT'");
+                    ->where("wckt.type_code", "=", $defectCategory);
             })
             ->join("wm_workshop_tables wckta",
-                function ($join) {
+                function (JoinClause $join) use ($vehicleSys) {
                     $join->on("def.veh_sys", "=", "wckta.code")
-                        ->where("wckta.type_code", "=", 'VEH_SYS');
+                        ->where("wckta.type_code", "=", $vehicleSys);
                 })
             ->where("def.workshop_reference", "=", $details->wshp_act_code)
             ->select("def.veh_sys",
