@@ -92,9 +92,11 @@
             <tfoot>
             <tr>
                 <th>
-                    <button type="button" data-bs-target="pettyCashModal" class="btn btn-sm btn-success" data-toggle="#">
+                    <button type="button" class="btn btn-sm btn-success" data-bs-target="#pettyCashModal"
+                            data-bs-toggle="modal">
                         <i class="fas fa-plus"></i>
-                        Insert</button>
+                        Insert
+                    </button>
                 </th>
             </tr>
             </tfoot>

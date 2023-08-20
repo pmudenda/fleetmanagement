@@ -2681,7 +2681,7 @@
 
                     if (document.querySelector('[name="serviceItemCode"]').value === itemType) {
                         // check that supplier is selected
-                        if (!document.querySelector('[name="serviceWorkshopCode"]').value) {
+                        if (!document.querySelector('#serviceWorkshopCode').value) {
                             Swal.fire({
                                 text: "Select a Workshop",
                                 icon: "warning",
