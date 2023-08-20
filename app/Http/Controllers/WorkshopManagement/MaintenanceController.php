@@ -115,7 +115,7 @@ class MaintenanceController extends Controller
 
         $mechanics = [];
         if (!empty($details)) {
-            Mechanic::where('status', '=', StatusHelper::active())
+            $mechanics= Mechanic::where('status', '=', StatusHelper::active())
                 ->where('workshop_code', '=', $details->workshop_code)
                 ->get();
         }
@@ -168,7 +168,7 @@ class MaintenanceController extends Controller
 
         $mechanics = [];
         if (!empty($details)) {
-            Mechanic::where('status', '=', StatusHelper::active())
+            $mechanics = Mechanic::where('status', '=', StatusHelper::active())
                 ->where('workshop_code', '=', $details->workshop_code)
                 ->get();
         }

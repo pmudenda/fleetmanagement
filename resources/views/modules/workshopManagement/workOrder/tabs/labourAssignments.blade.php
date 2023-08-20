@@ -37,11 +37,10 @@
                 @foreach($labour as $labourItem)
                     <tr class="increment" data-record-id="{{$labourItem->id}}">
                         <td>
-                            <input title="WIP"
+                            <input
                                    readonly
                                    name="selectDefectToAssign"
                                    class="checkbox"
-                                   data-toggle="tooltip"
                                    type="checkbox">
                         </td>
                         <td>
@@ -126,10 +125,9 @@
                     @foreach($defects as $defect)
                         <tr class="increment">
                             <td>
-                                <input title="WIP"
+                                <input
                                        name="selectDefectToAssign"
                                        class="checkbox"
-                                       data-toggle="tooltip"
                                        type="checkbox">
                             </td>
                             <td>
