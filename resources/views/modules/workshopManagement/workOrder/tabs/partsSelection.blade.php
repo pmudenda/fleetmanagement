@@ -42,8 +42,7 @@
                     RepairTypes::GeneralService->value,
                     RepairTypes::GeneralRepair->value
                 ]))
-                <div
-                        class="tab-pane @if(RepairTypes::ContractedService->value == $details->repair_type ?? '') active @endif"
+                <div class="tab-pane @if(RepairTypes::ContractedService->value == $details->repair_type ?? '') active @endif"
                         id="services" role="tabpanel">
                     @include('modules.workshopManagement.workOrder.tabs.services')
                 </div>

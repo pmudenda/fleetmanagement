@@ -107,6 +107,7 @@
                                        class="form-control form-control-sm"/>
                                 <input type="hidden"
                                        name="workshop_code"
+                                       id="serviceWorkshopCode"
                                        value="{{$officeDetails->workshop_code ?? 0}}"/>
                             </div>
                         </div>
@@ -219,7 +220,7 @@
                                     <input type="date"
                                            class="form-control form-control-sm"
                                            id="date_expected"
-                                           min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                           min="{{date('Y-m-d', strtotime(Carbon::now()->addDays(7)))}}"
                                            value="{{date('Y-m-d', strtotime(Carbon::parse($materialsHeader->collection_date)->format('Y-m-d')))}}"
                                            name="date_expected"
                                     />
@@ -228,8 +229,8 @@
                                     <input type="date"
                                            class="form-control form-control-sm"
                                            id="date_expected"
-                                           min="{{date('Y-m-d', strtotime(Carbon::now()->addDays(7)))}}"
-                                           value="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                           min="{{date('Y-m-d', strtotime(Carbon::now()))}}"
+                                           value="{{date('Y-m-d', strtotime(Carbon::now()->addDays(7)))}}"
                                            name="date_expected"
                                     />
                                 @endif

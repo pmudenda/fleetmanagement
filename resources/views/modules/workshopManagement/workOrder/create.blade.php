@@ -304,7 +304,6 @@
 
                         <h1>LABOUR & ASSIGNMENTS</h1>
                         <section>
-                            {{-- @include('modules.workshopManagement.workOrder.tabs.labour')--}}
                             @include('modules.workshopManagement.workOrder.tabs.labourAssignments')
                         </section>
 
@@ -2607,7 +2606,8 @@
 
             function insertTableRow(tableId) {
                 const $table = $('table#' + tableId);
-                if (tableId === "material_table" || tableId === "services_table") {
+
+                if (tableId === "material_table") {
                     const itemType = document.querySelector('[name="itemType"]').value;
                     // check if item type has been selected
                     if (!itemType) {
@@ -2645,6 +2645,59 @@
                     } else {
                         // check that supplier is selected
                         if (!document.querySelector('[name="supplier"]').value) {
+                            Swal.fire({
+                                text: "Select a Supplier",
+                                icon: "warning",
+                                showCancelButton: false,
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok",
+                                customClass: {
+                                    confirmButton: "btn fw-bold btn-primary",
+                                    cancelButton: "btn fw-bold btn-active-light-primary"
+                                }
+                            });
+                            return;
+                        }
+                    }
+                }
+
+                if (tableId === "services_table") {
+                    const itemType = document.querySelector('[name="serviceItemType"]').value;
+                    // check if item type has been selected
+                    if (!itemType) {
+                        Swal.fire({
+                            text: "Select Item Type",
+                            icon: "warning",
+                            showCancelButton: false,
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok",
+                            customClass: {
+                                confirmButton: "btn fw-bold btn-primary",
+                                cancelButton: "btn fw-bold btn-active-light-primary"
+                            }
+                        });
+                        return;
+                    }
+
+                    if (document.querySelector('[name="serviceItemCode"]').value === itemType) {
+                        // check that supplier is selected
+                        if (!document.querySelector('[name="serviceWorkshopCode"]').value) {
+                            Swal.fire({
+                                text: "Select a Workshop",
+                                icon: "warning",
+                                showCancelButton: false,
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok",
+                                customClass: {
+                                    confirmButton: "btn fw-bold btn-primary",
+                                    cancelButton: "btn fw-bold btn-active-light-primary"
+                                }
+                            });
+                            return;
+                        }
+                    } else {
+                        // check that supplier is selected
+                        if (!document.querySelector('[name="service_supplier"]').value) {
                             Swal.fire({
                                 text: "Select a Supplier",
                                 icon: "warning",

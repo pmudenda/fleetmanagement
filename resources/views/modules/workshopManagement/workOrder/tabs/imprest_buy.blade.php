@@ -20,16 +20,13 @@
             </thead>
             <tbody>
             <tr>
-                {{-- <td>
-                     <input type="checkbox" name="chk"/>
-                 </td>--}}
                 <td class="showNumber">
                     <input
-                            readonly
-                            name=""
-                            required
-                            value=""
-                            class="form-control form-control-sm"/>
+                        readonly
+                        name=""
+                        required
+                        value=""
+                        class="form-control form-control-sm"/>
                 </td>
                 <td>
                     <select readonly
@@ -61,11 +58,11 @@
                 </td>
                 <td>
                     <input
-                            name=""
-                            required
-                            value=""
-                            readonly
-                            class="form-control form-control-sm"/>
+                        name=""
+                        required
+                        value=""
+                        readonly
+                        class="form-control form-control-sm"/>
                 </td>
                 <td>
                     <input name=""
@@ -92,6 +89,15 @@
                 </td>
             </tr>
             </tbody>
+            <tfoot>
+            <tr>
+                <th>
+                    <button type="button" data-bs-target="pettyCashModal" class="btn btn-sm btn-success" data-toggle="#">
+                        <i class="fas fa-plus"></i>
+                        Insert</button>
+                </th>
+            </tr>
+            </tfoot>
         </table>
     </div>
 </section>
@@ -192,38 +198,39 @@
                                         <input type="hidden" value="{{$materialsHeader->id ?? 0 }}"
                                                name="materialHeaderId">
                                         <div class="form-group row">
-                                            <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                   for="pettyCashBuyItemType">
+                                            <label
+                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                for="pettyCashBuyItemType">
                                                 Item Type:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                 @if(!empty($materialsHeader))
                                                     <select
-                                                            data-value="{{$materialsHeader->item_type_code ?? ''}}"
-                                                            readonly="readonly"
-                                                            class="form-select form-select-sm"
-                                                            name="pettyCashBuyItemType"
-                                                            id="pettyCashBuyItemType">
+                                                        data-value="{{$materialsHeader->item_type_code ?? ''}}"
+                                                        readonly="readonly"
+                                                        class="form-select form-select-sm"
+                                                        name="pettyCashBuyItemType"
+                                                        id="pettyCashBuyItemType">
                                                         <option></option>
                                                         <option
-                                                                @if($materialsHeader->item_type_code == RequisitionItemTypes::StockItemCode) selected
-                                                                @endif value="01">STOCK ITEM
+                                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::StockItemCode) selected
+                                                            @endif value="01">STOCK ITEM
                                                         </option>
                                                         <option
-                                                                @if($materialsHeader->item_type_code == RequisitionItemTypes::NonStockItemCode) selected
-                                                                @endif value="02">NON STOCK ITEM
+                                                            @if($materialsHeader->item_type_code == RequisitionItemTypes::NonStockItemCode) selected
+                                                            @endif value="02">NON STOCK ITEM
                                                         </option>
                                                         <option
-                                                                @if($materialsHeader->item_type_code ==  RequisitionItemTypes::ServiceItemCode) selected
-                                                                @endif value="03">SERVICE
+                                                            @if($materialsHeader->item_type_code ==  RequisitionItemTypes::ServiceItemCode) selected
+                                                            @endif value="03">SERVICE
                                                         </option>
                                                     </select>
                                                 @else
                                                     <select
-                                                            required
-                                                            class="form-select form-select-sm"
-                                                            name="pettyCashBuyItemType"
-                                                            id="pettyCashBuyItemType">
+                                                        required
+                                                        class="form-select form-select-sm"
+                                                        name="pettyCashBuyItemType"
+                                                        id="pettyCashBuyItemType">
                                                         <option></option>
                                                         <option value="{{RequisitionItemTypes::StockItemCode}}">STOCK
                                                             ITEM
@@ -250,17 +257,17 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <label
-                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                    for="imprestPurchaseOffice">
+                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                for="imprestPurchaseOffice">
                                                 Purchase Office:
                                             </label>
                                             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                 <select
-                                                        data-value=""
-                                                        required
-                                                        class="form-select form-select-sm"
-                                                        name="imprestPurchaseOffice"
-                                                        id="imprestPurchaseOffice">
+                                                    data-value=""
+                                                    required
+                                                    class="form-select form-select-sm"
+                                                    name="imprestPurchaseOffice"
+                                                    id="imprestPurchaseOffice">
                                                     <option value="{{$officeDetails->purchase_office_code ?? ''}}">
                                                         {{$officeDetails->purchase_office ?? ''}}
                                                     </option>
@@ -278,7 +285,7 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <div
-                                                    class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                 <div class="control-input">
                                                     <div class="link-field ui-front"
                                                          style="position: relative;">
@@ -309,8 +316,8 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <label
-                                                    class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                                    for="job_card_no">
+                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                for="job_card_no">
                                                 Request Date:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -347,7 +354,7 @@
                                         <div id="pettyCashSupplierContainer" style="display: none;"
                                              class="form-group row">
                                             <div
-                                                    class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                 <div class="control-input">
                                                     <div class="link-field ui-front"
                                                          style="position: relative;">
@@ -359,19 +366,19 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                 <select
-                                                        data-value="{{$materialsHeader->supplier_code ?? ''}}"
-                                                        class="form-select form-select-sm"
-                                                        name="imprestBuySupplier"
-                                                        autocomplete="off"
-                                                        id="imprestBuySupplier">
+                                                    data-value="{{$materialsHeader->supplier_code ?? ''}}"
+                                                    class="form-select form-select-sm"
+                                                    name="imprestBuySupplier"
+                                                    autocomplete="off"
+                                                    id="imprestBuySupplier">
                                                 </select>
                                             </div>
                                         </div>
 
                                         <div id="pettyCashStoreContainer" style="display: none;" class="form-group row">
                                             <label
-                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                    for="staff_name">
+                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                for="staff_name">
                                                 Store:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -398,8 +405,8 @@
                                     <div class="row">
                                         <div class="form-group row">
                                             <label
-                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                    for="staff_no">
+                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                for="staff_no">
                                                 Collection Date:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -464,11 +471,11 @@
                                          </td>--}}
                                         <td class="showNumber">
                                             <input
-                                                    readonly
-                                                    name="imprestVehicleRegistration"
-                                                    required
-                                                    value="{{$details->reg_no ?? ''}}"
-                                                    class="form-control form-control-sm imprestVehicleRegistration"/>
+                                                readonly
+                                                name="imprestVehicleRegistration"
+                                                required
+                                                value="{{$details->reg_no ?? ''}}"
+                                                class="form-control form-control-sm imprestVehicleRegistration"/>
                                         </td>
                                         <td>
                                             <select readonly
@@ -504,11 +511,11 @@
                                         </td>
                                         <td>
                                             <input
-                                                    name="imprestItemUnitOfMeasure"
-                                                    required
-                                                    value=""
-                                                    readonly
-                                                    class="form-control form-control-sm unit_of_measure"/>
+                                                name="imprestItemUnitOfMeasure"
+                                                required
+                                                value=""
+                                                readonly
+                                                class="form-control form-control-sm unit_of_measure"/>
                                         </td>
                                         <td>
                                             <input name="imprestItemUnitPrice"

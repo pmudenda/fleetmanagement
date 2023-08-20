@@ -110,6 +110,14 @@
 
                         <td>
                             <button type="button"
+                                    title="Still Thinking Of Way To Make This"
+                                    data-toggle="tooltip"
+                                    data-labour-item="{{json_encode($labourItem)}}"
+                                    class="btn btn-sm btn-success reassignMechanic mr-3">
+                                <i class="fa fa-print"></i>
+                                Print Job Card
+                            </button>
+                            <button type="button"
                                     data-labour-item="{{json_encode($labourItem)}}"
                                     style="background: #f59d33; color: #fff;"
                                     class="btn btn-sm btn-success reassignMechanic pull-right">
