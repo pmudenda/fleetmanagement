@@ -17,7 +17,7 @@
                                                @if(!empty($details->reg_no)) readonly="readonly" @endif
                                                data-action="{{route('requisition.vehicle.details')}}"
                                                class="form-control form-control-sm"
-                                               value="{{$details->reg_no ?? ''}}"
+                                               value=""
                                                id="vehicle_registration"
                                                placeholder="Vehicle Reg e.g AAB 6757"
                                                name="vehicle_registration" required/>
