@@ -217,11 +217,12 @@
                             </label>
                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                 @if($materialsHeader)
-                                    <input type="date"
+                                    <input type="text"
+                                           readonly
                                            class="form-control form-control-sm"
                                            id="date_expected"
                                            min="{{date('Y-m-d', strtotime(Carbon::now()->addDays(7)))}}"
-                                           value="{{date('Y-m-d', strtotime(Carbon::parse($materialsHeader->collection_date)->format('Y-m-d')))}}"
+                                           value="{{Carbon::parse($materialsHeader->collection_date)->format('d/m/Y')}}"
                                            name="date_expected"
                                     />
 
