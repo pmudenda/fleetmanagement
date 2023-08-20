@@ -203,8 +203,9 @@ class MaintenanceController extends Controller
         $view_name = 'modules.workshopManagement.workOrder.start';
         $step = $request->get("step") ?? 0;
         $reference = $request->get("reference") ?? $request->get('ref');
-
-        list(
+        $labour = collect([]);
+        $pettyCashItems = collect([]);
+        /*list(
             $step,
             $repairTypes,
             $accessories_checked_in,
@@ -217,9 +218,25 @@ class MaintenanceController extends Controller
             $materials,
             $materialsHeader,
             $services
-            ) = $this->getFullJobCardDetails($reference, $step);
+            )*/
 
-        $labour = collect([]);
+            list(
+                $repairTypes,
+                $accessories_checked_in,
+                $accessories,
+                $details,
+                $workshop_sections,
+                $defects,
+                $comments,
+                $officeDetails,
+                $materials,
+                $materialsHeader,
+                $services,
+                $labour,
+                $pettyCashItems
+            )= $this->getFullJobCardDetails($reference, $step);
+
+
         return view($view_name)
             ->with(
                 compact(
@@ -1075,6 +1092,7 @@ class MaintenanceController extends Controller
         $services = collect([]);
         $labour = collect([]);
         $pettyCashItems = collect([]);
+
         if ($reference) {
             list($accessories_checked_in,
                 $details,
