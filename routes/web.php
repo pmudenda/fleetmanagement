@@ -17,6 +17,7 @@ use App\Http\Controllers\Security\PermissionsController;
 use App\Http\Controllers\Security\RolesController;
 use App\Http\Controllers\Workflow\WorkflowController;
 use App\Http\Controllers\WorkshopManagement\MaintenanceController;
+use App\Http\Controllers\WorkshopManagement\PdfJobController;
 use App\Http\Controllers\WorkshopManagement\WorkshopController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -337,6 +338,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('save/e-toll/cards/transactions', [eTollCardController::class, 'saveTransaction'])->name('e-toll.card.save.transactions');
 
     Route::get('e-toll/cards/report', [eTollCardController::class, 'report'])->name('e-toll.card.report');
+
+    Route::get('print/job/card', [PdfJobController::class, "index"])->name('print.job.card');
 });
 
 

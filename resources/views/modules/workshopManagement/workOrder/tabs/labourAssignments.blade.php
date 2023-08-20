@@ -130,7 +130,7 @@
                                     <li>
                                     <li>
                                         <a class="dropdown-item" data-kt-action="edit"
-                                           href="{{URL::signedRoute('view.vehicle', ['reference' => $labourItem->id])}}">
+                                           href="{{URL::signedRoute('print.job.card', ['reference' => $labourItem->id])}}">
                                             <i class="fa fa-print"></i>
                                             Print Job Card
                                         </a>
