@@ -109,22 +109,38 @@
                         </td>
 
                         <td>
-                            <div class="row">
-                                <button type="button"
-                                        title="Still Thinking Of Way To Make This"
-                                        data-toggle="tooltip"
-                                        data-labour-item="{{json_encode($labourItem)}}"
-                                        class="btn btn-sm btn-success reassignMechanic col mr-3">
-                                    <i class="fa fa-print"></i>
-                                    Print Job Card
+                            <div class="dropdown">
+                                <button class="btn btn-light btn-active-light-primary btn-sm dropdown-toggle"
+                                        type="button"
+                                        id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    Actions
                                 </button>
-                                <button type="button"
-                                        data-labour-item="{{json_encode($labourItem)}}"
-                                        style="background: #f59d33; color: #fff;"
-                                        class="btn btn-sm btn-success reassignMechanic col pull-right">
-                                    <i class="fa fa-history"></i>
-                                    Reassign
-                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    {{-- @can(config('rights.edit_vehicle'))--}}
+                                    @if($vehicle->on_boarding_status == StatusHelper::onboardingComplete())
+                                        <li>
+                                            <button type="button"
+                                                    data-labour-item="{{json_encode($labourItem)}}"
+                                                    style="background: #f59d33; color: #fff;"
+                                                    class="btn btn-sm btn-success reassignMechanic col pull-right dropdown-item">
+                                                <i class="fa fa-history"></i>
+                                                Reassign
+                                            </button>
+                                        </li>
+
+                                        <li>
+                                            <button type="button"
+                                                    title="Still Thinking Of Way To Make This"
+                                                    data-toggle="tooltip"
+                                                    data-labour-item="{{json_encode($labourItem)}}"
+                                                    class="btn btn-sm btn-success reassignMechanic col mr-3 dropdown-item">
+                                                <i class="fa fa-print"></i>
+                                                Print Job Card
+                                            </button>
+                                        </li>
+                                    @endif
+                                </ul>
                             </div>
                         </td>
 
