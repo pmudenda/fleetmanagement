@@ -46,9 +46,9 @@
 @section('content')
 
     <x-content-header
-            :activeCrumb="'New Job Card'"
-            :linkText="'Job Card'"
-            :pageTitle="'Workshop Management'"/>
+        :activeCrumb="'New Job Card'"
+        :linkText="'Job Card'"
+        :pageTitle="'Workshop Management'"/>
 
     <section class="content">
         <div class="card">
@@ -102,7 +102,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <table
-                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                class="table table-row-dashed align-middle gs-0 table-bordered">
                                                 <thead>
                                                 <tr class="bg-dark-subtle">
                                                     <th class="pl-2">Item</th>
@@ -136,7 +136,7 @@
                                         </div>
                                         <div class="col">
                                             <table
-                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                class="table table-row-dashed align-middle gs-0 table-bordered">
                                                 <thead>
                                                 <tr class="bg-dark-subtle">
                                                     <th class="pl-2">Item</th>
@@ -176,8 +176,8 @@
                                         <div class="col">
                                             <div class="form-group">
                                                 <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                                                        for="accessoriesRemarks">
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                                    for="accessoriesRemarks">
                                                     General Comments and Observation (Damages):
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
@@ -446,11 +446,11 @@
                                         <div class="row">
                                             <div class="col-1">
                                                 <input
-                                                        required
-                                                        id="acceptance"
-                                                        name="acceptance"
-                                                        type="checkbox"
-                                                        class="checkbox">
+                                                    required
+                                                    id="acceptance"
+                                                    name="acceptance"
+                                                    type="checkbox"
+                                                    class="checkbox">
                                             </div>
                                             <div class="col-10">
                                                 <p id="newApproval_Remarks">
@@ -543,7 +543,8 @@
                                     <select class="form-select  form-select-sm" name="reassignmentDefectSection">
                                         <option></option>
                                         @foreach($workshop_sections as $workshop_section)
-                                            <option value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                            <option
+                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -1638,17 +1639,17 @@
 
                 let fuel_level = document.querySelector('select[name="fuel_level"]');
                 if (!fuel_level.hasAttribute('data-select2-id="fuel_level"')) {
-                    $(fuel_level).select2("enable", false);
+                    $(fuel_level).select2({"disabled": true});
                 }
 
                 let sub_fuel_level = document.querySelector('select[name="sub_fuel_level"]');
                 if (!sub_fuel_level.hasAttribute('data-select2-id="sub_fuel_level"')) {
-                    $(sub_fuel_level).select2("enable", false);
+                    $(sub_fuel_level).select2({"disabled": true});
                 }
 
                 let workshop = document.querySelector('select[name="workshop"]');
                 if (!workshop.hasAttribute('data-select2-id="workshop"')) {
-                    $(workshop).select2("enable", false);
+                    $(workshop).select2({"disabled": true});
                 }
 
                 $('select[name="repairType"]').attr("disabled", true);
