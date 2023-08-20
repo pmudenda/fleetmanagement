@@ -2059,7 +2059,7 @@
 
                         let fuelLevels = response['payload'];
                         tmsApp.populateDropDownList($mainTankFuelLevel, fuelLevels, "code", ["name"], "", "", true);
-                        tmsApp.populateDropDownList($subTankFuelLevelCtl, fuelLevels, "code", ["name"], "", true);
+                        tmsApp.populateDropDownList($subTankFuelLevelCtl, fuelLevels, "code", ["name"], "", "", true);
 
                         let mainTankLevel = $mainTankFuelLevel.attr('data-value');
 
