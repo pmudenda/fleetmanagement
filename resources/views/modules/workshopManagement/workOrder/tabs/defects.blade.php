@@ -15,8 +15,8 @@
                             <th style="width: 25%;">Category</th>
                             <th style="width: 25%;" class="pr-2">Defect</th>
                             <th style="width: 25%;" class="pr-2">Service Section</th>
-                            <th style="width: 25%;" class="pr-2">Date/Time Detected</th>
-                            <th style="width: 25%;" class="pr-2">Action</th>
+                            <th style="width: 15%;" class="pr-2">Date/Time Detected</th>
+                            <th style="width: 8%;" class="pr-2">Action</th>
                         </tr>
                         </thead>
                         <tbody>
