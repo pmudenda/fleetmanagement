@@ -21,13 +21,6 @@
                         </thead>
                         <tbody>
                         @if($defects && $defects->isNotEmpty())
-                            +"veh_sys": "D"
-                            +"system_name": "ELECTRICAL SYSTEM"
-                            +"defect_category_code": "33"
-                            +"defect_category_name": "ELECTRONIC CONTROL SYSTEM - (EFI)"
-                            +"defect_code": "3"
-                            +"defect_name": "ELECTRONIC CONTROL UNIT (ECU)"
-                            +"section_code": "05"
                             @foreach($defects as $defect)
                                 <tr class="savedRecord" data-record-id="{{$defect->id}}">
                                     <td class="showNumber">
@@ -37,7 +30,6 @@
                                             class="form-control form-control-sm"/>
                                     </td>
                                     <td>
-
                                         <input
                                             readonly
                                             value="{{$defect->defect_category_name}}"
@@ -69,7 +61,7 @@
                                     <td>
                                         <input name="date_def"
                                                readonly="readonly"
-                                               value="@if($defect){{date('Y-m-d',strtotime(Carbon::parse($defect->date_def)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
+                                               value="{{Carbon::parse($defect->date_def)->format('Y-m-d H:i:s')}}"
                                                class="tabledit-input form-control input-sm input-number"
                                                type="text">
                                     </td>
