@@ -246,7 +246,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('open/job-card/closure', [MaintenanceController::class, 'openJobCardClosure'])->name('show.workorder.closure');
 
-            Route::post('save/approve/job-order/closure', [WorkflowController::class, 'closeJobCard'])->name('approve.work_order.closure');
+            /*Route::post('save/approve/job-order/closure', [WorkflowController::class, 'closeJobCard'])->name('approve.work_order.closure');*/
 
             Route::post('store', function (Request $request) {
 

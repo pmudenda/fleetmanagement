@@ -5,6 +5,7 @@ namespace App\Services\WorkShopManagement;
 use App\Constants\WorkflowActions;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Modules;
+use App\Enums\RequisitionItemTypes;
 use App\Enums\WorkflowProcessCodes;
 use App\Events\WorkOrderCompleted;
 use App\Exceptions\WorkflowTaskCreationFailedException;
@@ -14,6 +15,7 @@ use App\Http\Requests\WorkShopManagement\JobCardRequest;
 use App\Http\Requests\WorkShopManagement\JobCardTaskAssignment;
 use App\Http\Requests\WorkShopManagement\JobCardTaskReassignment;
 use App\Http\Requests\WorkShopManagement\WorkOrderClosure;
+use App\Models\MaterialHeader;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\VehicleManagement\VehicleHeader;
@@ -294,7 +296,7 @@ class WorkshopService
         $workOrder = JobCardHeader::where("job_card_no", "=", $workOrderNumber)
             ->first();
 
-        // if work order is not found
+        $dataBefore = $workOrder->toArray();
 
         $workOrderNumber = $workOrder->job_card_no;
 
@@ -306,8 +308,8 @@ class WorkshopService
         $workOrder->millage_out = $request->get("exitOdometer");
         $workOrder->fuel_level_out = $request->get("fuel_level");
         $workOrder->driver_out = $request->get("driver_out");
-        $workOrder->modified_by = $user->id;
-
+        $workOrder->modified_by = $user->staff_no;
+        $workOrder->status = StatusHelper::authorised();
         $workOrder->updated_at = Carbon::now();
         $totalWorkOrderAmount = $request->get('workOrderTotalAmount');
 
@@ -337,12 +339,19 @@ class WorkshopService
         $closureRemarks = $request->get('closureRemarks');
 
         $short_description = "$closureRemarks for work-order $workOrderNumber";
-
         $long_description = "$closureRemarks for work-order $workOrderNumber";
-
         $workflowProcess = WorkflowProcessCodes::WorkOrderClosure->value;
+        $stockItemRequisitions = MaterialHeader::where('veh_reg_no', $workOrder->reg_no)
+            ->whereIn('status', [StatusHelper::new(), StatusHelper::partiallyAuthorised()])
+            ->where('item_type', '=', RequisitionItemTypes::StockItem)
+            ->where('is_fuel', '=', 'N')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        $this->workflowService->initiateWorkflowProcess(
+        foreach ($stockItemRequisitions as $requisition) {
+            $this->procurementService->cancelStoresRequisition($requisition->st_pur);
+        }
+        /*$this->workflowService->initiateWorkflowProcess(
             $workOrderNumber . "-C",
             (int)$workflowProcess,
             WorkflowActions::submit(),
@@ -351,7 +360,7 @@ class WorkshopService
             $totalWorkOrderAmount,
             $short_description,
             $long_description
-        );
+        );*/
 
         DB::commit();
 
