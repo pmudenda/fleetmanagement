@@ -61,7 +61,7 @@
                                     <td>
                                         <input name="date_def"
                                                readonly="readonly"
-                                               value="{{Carbon::parse($defect->date_def)->format('Y-m-d H:i:s')}}"
+                                               value="{{Carbon::parse($defect->created_at)->format('Y-m-d H:i:s')}}"
                                                class="tabledit-input form-control input-sm input-number"
                                                type="text">
                                     </td>
