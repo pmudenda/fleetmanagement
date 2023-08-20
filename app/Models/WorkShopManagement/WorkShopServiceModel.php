@@ -19,6 +19,7 @@ class WorkShopServiceModel extends Model
         'date_send',
         'date_collect',
         'supplier_code',
+        'supplier_name',
         'unit_of_measure',
         'amount_est',
         'price',

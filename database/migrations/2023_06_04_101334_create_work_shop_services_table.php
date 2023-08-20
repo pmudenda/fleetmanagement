@@ -20,16 +20,15 @@ return new class extends Migration {
             $table->string('req_evaluation', 2);
             $table->timestamp('date_send');
             $table->string('supplier_code', 20);
+            $table->string('supplier_name', 20)->nullable();
             $table->timestamp('date_collect')->nullable();
-
             $table->string('unit_of_measure', 4);
-
-            $table->decimal('amount_est', 18, 2);
+            $table->decimal('price', 19, 4);
+            $table->decimal('amount_est', 19, 4);
             $table->string('def_no', 10)->nullable();
             $table->string('office_code', 10)->nullable();
             $table->string('specification', 1000)->nullable();
-            $table->string('ind', 2);
-            //$table->string('material_code', 20);
+            $table->string('ind', 2)->nullable();
             $table->string('mat_code', 20);
             $table->Integer('quantity');
             $table->string('stf_number', 20)->nullable();

@@ -843,7 +843,11 @@ class WorkshopRequisitionService
 
     }
 
-    public function getWorkShopRequisitionItems(mixed $reference): Collection
+    /**
+     * @param mixed $jobCardNumber
+     * @return Collection
+     */
+    public function getWorkShopRequisitionItems(mixed $jobCardNumber): Collection
     {
         $articles = config("tables.table_names.articles");
         return DB::table("WM_JOB_CARD_HEADER")
@@ -854,13 +858,32 @@ class WorkshopRequisitionService
             )
             ->leftJoin("$articles", "WM_WORKSHOP_MATERIALS.MAT_CODE",
                 "=", "$articles.CODE_ARTICLE")
-            ->where("WM_JOB_CARD_HEADER.JOB_CARD_NO", "=", $reference)
+            ->where("WM_JOB_CARD_HEADER.JOB_CARD_NO", "=", $jobCardNumber)
             ->whereNull("WM_WORKSHOP_MATERIALS.IND")
             ->select(
                 "WM_WORKSHOP_MATERIALS.*",
                 "$articles.description as article_specification"
             )->get();
 
+    }
+
+    /**
+     * @param mixed $workShopActCode
+     * @return Collection
+     */
+    public function getWorkShopRequisitionServiceItems(mixed $workShopActCode): Collection
+    {
+        $articles = config("tables.table_names.articles");
+
+        return DB::table('WM_WORKSHOP_SERVICES services')
+            ->where("wshp_act_code", "=", $workShopActCode)
+            ->leftJoin("$articles", '"$articles.CODE_ARTICLE"', '=', 'services.mat_code')
+            //->whereNull("WM_WORKSHOP_MATERIALS.IND")
+            ->select(
+                "services.*",
+                "$articles.description as article_specification"
+            )
+            ->get();
     }
 
     /**
@@ -1067,10 +1090,10 @@ class WorkshopRequisitionService
                 "unit_of_measure" => $item["service_unit_of_measure"],
                 "quantity" => $item["service_quantity"],
                 "amount_est" => $item["service_total_price"],
-                //"price" => $item["service_unit_price"],
+                "price" => $item["service_unit_price"],
                 "store_code" => $store_code,
                 "office_code" => $requisitionPostRequest->get("purchase_office"),
-                "ind" => "Y",
+                // "ind" => "Y",
                 // "stf_number",
                 "supplier_code" => $requisitionPostRequest->supplier,
                 "veh_reg_no" => $item["vehicle_registration"],

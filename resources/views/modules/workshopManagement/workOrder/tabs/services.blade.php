@@ -288,6 +288,7 @@
                                 </td>
                                 <td>
                                     <input
+                                        readonly
                                         data-name="service_technical_specification"
                                         value="{{$service->specification ?? ''}}"
                                         class="form-control form-control-sm"/>
@@ -309,6 +310,7 @@
                                     <input
                                         name="service_unit_of_measure"
                                         required
+                                        value="{{$service->unit_of_measure}}"
                                         readonly
                                         class="form-control form-control-sm unit_of_measure"/>
                                 </td>
@@ -316,6 +318,7 @@
                                 <td>
                                     <input name="service_unit_price"
                                            required
+                                           value="{{$service->unit_of_measure}}"
                                            readonly
                                            class="form-control form-control-sm service_unit_price"/>
                                 </td>
