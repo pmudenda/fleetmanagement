@@ -1420,6 +1420,7 @@ class MaintenanceController extends Controller
             ->select(
                 "def.id",
                 "def.veh_sys",
+                "def.defect_id",
                 "def.date_def",
                 "def.created_at",
                 "wckta.description as system_name",
