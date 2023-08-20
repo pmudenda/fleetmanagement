@@ -277,7 +277,7 @@
                                     <input
                                         readonly
                                         value="{{$service->article_specification ?? ''}}"
-                                        class="form-select form-select-sm"/>
+                                        class="form-control form-control-sm"/>
                                 </td>
                                 <td>
                                     <input
