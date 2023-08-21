@@ -92,7 +92,7 @@
                             General Comments and Observation (Damages):
                         </label>
                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
-                            @if(!empty($comments))
+                            @if(!empty($comments) && !empty($comments->where('type','=','ACC')->first()->remarks))
                                 <textarea type="text"
                                           id="accessoriesRemarks"
                                           name="accessoriesRemarks"
@@ -191,7 +191,7 @@
                                 @endif
                                 </tbody>
                             </table>
-                            @if($observation->isNotEmpty())
+                            @if($observation->isNotEmpty() || !empty($observation))
                                 <button type="button"
                                         data-table-id="observations"
                                         class="btn btn-sm btn-primary add pull-right"
