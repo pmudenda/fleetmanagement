@@ -116,6 +116,7 @@
                                 <tr class="bg-success">
                                     <th>Attachment</th>
                                     <th>Remarks</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -151,13 +152,21 @@
                                     <td>
                                         <input type="text" name="observation" class="form-control">
                                     </td>
+                                    <td>
+                                        <button type="button"
+                                                data-table-id="observations"
+                                                class="btn btn-sm btn-danger"
+                                                value="deleteRow">
+                                            <i class="fa fa-trash"></i> Add Row
+                                        </button>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
                             <button type="button"
                                     data-table-id="observations"
                                     class="btn btn-sm btn-primary add pull-right"
-                                    value="addRow">
+                                    value="insertRow">
                                 <i class="fa fa-plus"></i> Add Row
                             </button>
                         </div>

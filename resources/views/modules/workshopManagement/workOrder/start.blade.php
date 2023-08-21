@@ -355,6 +355,47 @@
     <script src="{{asset('libs/imageUpload/imageUpload.js')}}"></script>
     <script>
         'use strict';
+        const observationRowTemplate = `<tr>
+                                    <td>
+                                        <p>
+                                            <button type="button" title="Select Image"
+                                                    data-toggle="tooltip"
+                                                    data-select="file"
+                                                    class="btn btn-primary btn-sm selectAttachment">
+                                                <i class="fas fa-paperclip"></i>
+                                            </button>
+                                            <input type="file"
+                                                   accept="image/*"
+                                                   style="display: none;"
+                                                   class="fileElem d-none"
+                                                   id="attachment"
+                                                   name="attachment"/>
+                                        </p>
+                                        <div class="imagePreview"
+                                             style="display: none; min-height: 100px !important;">
+                                            <button type="button"
+                                                    class="btn btn-xs clearImage"
+                                                    style="top: 1px;
+                                                                                                    position: relative;
+                                                                                                    right: 1px;
+                                                                                                    float: right;
+                                                                                                    padding: 2px;">
+                                                <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="observation" class="form-control">
+                                    </td>
+                                    <td>
+                                        <button type="button"
+                                                data-table-id="observations"
+                                                class="btn btn-sm btn-danger"
+                                                value="deleteRow">
+                                            <i class="fa fa-trash"></i> Add Row
+                                        </button>
+                                    </td>
+                                </tr>`;
         $(document).ready(function () {
             new ImageUpload().init();
 
@@ -1168,114 +1209,15 @@
             }
 
             function insertTableRow(tableId) {
-                const itemType = document.querySelector('[name="itemType"]').value;
-                // check if item type has been selected
-                if (!itemType) {
-                    Swal.fire({
-                        text: "Select Item Type",
-                        icon: "warning",
-                        showCancelButton: false,
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok",
-                        customClass: {
-                            confirmButton: "btn fw-bold btn-primary",
-                            cancelButton: "btn fw-bold btn-active-light-primary"
-                        }
-                    });
-                    return;
-                }
-
-                // if supplier has been selected for service and non-stock
-                if (document.querySelector('[name="stockItemCode"]').value === itemType) {
-                    // check that supplier is selected
-                    if (!document.querySelector('[name="workshop_code"]').value) {
-                        Swal.fire({
-                            text: "Select a Workshop",
-                            icon: "warning",
-                            showCancelButton: false,
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                                cancelButton: "btn fw-bold btn-active-light-primary"
-                            }
-                        });
-                        return;
-                    }
-                } else {
-                    // check that supplier is selected
-                    if (!document.querySelector('[name="supplier"]').value) {
-                        Swal.fire({
-                            text: "Select a Supplier",
-                            icon: "warning",
-                            showCancelButton: false,
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                                cancelButton: "btn fw-bold btn-active-light-primary"
-                            }
-                        });
-                        return;
-                    }
-                }
 
                 const $table = $('table#' + tableId);
-                if (tableId === "material_table") {
+                if (tableId === "observations") {
                     //const materialTableRowTemplate = document.querySelector('#materialTableRowTemplate');
-                    $table.find('tbody').append(materialTableRowTemplate);
-                } else {
-                    if (tableId === "services_table") {
-                        //const serviceTableRowTemplate = document.querySelector('#serviceTableRowTemplate');
-                        $table.find('tbody').append(serviceTableRowTemplate);
-                    }
+                    $table.find('tbody').append(observationRowTemplate);
                 }
                 let lastRow = $table.find('tbody tr').eq((0 + 1) * -1);
 
                 lastRow.find('button[value="deleteRow"]').attr('data-value', 0);
-
-                if (tableId === "material_table") {
-                    lastRow.find('[name="technical_specification"]').val('').attr('readonly', false);
-                    if (itemType === document.querySelector('[name="stockItemCode"]').value) {
-                        lastRow.find('[name="quantity"]').val('').attr('readonly', false);
-                        lastRow.find('[name="unit_price"]').val('').attr('readonly', true);
-                    } else {
-                        lastRow.find('[name="quantity"]').val('').attr('readonly', false);
-                        lastRow.find('[name="unit_price"]').val('').attr('readonly', false);
-                    }
-
-                    lastRow.find('[name="articles"]').attr('readonly', false);
-                    lastRow.find('[name="unit_of_measure"]').val('');
-                    lastRow.find('[name="total_price"]').val('');
-                    lastRow.find('#unit_price').text('');
-                }
-
-                if (tableId === "services_table") {
-                    // let row = lastRow[0];
-                    $(lastRow).find('.select2-container').remove();
-                    $(lastRow).find('.servicesArticlesDropDownList').removeClass('select2-hidden-accessible');
-                    lastRow.find('[name="service_article"]').val('');
-                    lastRow.find('[name="serviceArticleCode"]').val('');
-                    lastRow.find('[name="service_technical_specification"]').val('');
-                    lastRow.find('[name="service_unit_price"]').val('');
-                    lastRow.find('[name="service_unit_of_measure"]').val('');
-                    lastRow.find('[name="service_total_price"]').val('');
-                    let $_defect_sel_ = $(lastRow).find(".servicesArticlesDropDownList");
-                    initServiceArticleSelector($_defect_sel_);
-                }
-
-                if (tableId === "material_table") {
-                    let row = lastRow[0];
-                    $(row).find('.select2-container').remove();
-                    $(row).find('.articlesDropDownList').removeClass('select2-hidden-accessible');
-
-                    let article = $(row).find('input.articleCode').val();
-
-                    let $_defect_sel = $(row).find(".articlesDropDownList");
-                    let $_defect_sel_ = $(row).find(".DropDownList");
-                    initArticleSelector($_defect_sel);
-                    initArticleSelector($_defect_sel_);
-                }
             }
 
             function deleteTableRow(eventSource) {
