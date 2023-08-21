@@ -181,7 +181,7 @@ class WorkshopService
         // $observations = $request->get('observation');
         $uploadedFiles = [];
 
-        if (!empty($attachedFiles) > 0) {
+        if (!empty($attachedFiles)) {
             $uploadedFiles = FileUploadService::uploadFile(
                 $request,
                 "attachment",
@@ -192,13 +192,14 @@ class WorkshopService
                 $user
             );
         }
+
         $toSave = [];
         for ($key = 0; $key < sizeof($request->observation); $key++) {
             Log::info(($key <= sizeof($uploadedFiles) - 1) ? $uploadedFiles[$key]->path : "No More Attachments");
             $toSave[] = array('observation' => $request->observation[$key], 'file' => ($key <= sizeof($uploadedFiles) - 1) ? $uploadedFiles[$key]->path : null);
         }
 
-        if (sizeof($toSave) == 0 && !empty($uploadedFiles) > 0) {
+        if (sizeof($toSave) == 0 && !empty($uploadedFiles)) {
             foreach ($uploadedFiles as $uploadedFile) {
                 $toSave[] = array('observation' => null, 'file' => $uploadedFile->path);
             }
