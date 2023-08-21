@@ -1,4 +1,4 @@
-@php use Carbon\Carbon; @endphp
+@php @endphp
 <div class="container-fluid">
     <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}" data-model-name="Accessories">
         <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
@@ -122,7 +122,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @if(!empty($observation))
+                                @if($observation->isNotEmpty())
                                     @foreach($observation as $item)
                                         <tr>
                                             <td>
@@ -191,7 +191,7 @@
                                 @endif
                                 </tbody>
                             </table>
-                            @if(empty($observation))
+                            @if($observation->isNotEmpty())
                                 <button type="button"
                                         data-table-id="observations"
                                         class="btn btn-sm btn-primary add pull-right"
