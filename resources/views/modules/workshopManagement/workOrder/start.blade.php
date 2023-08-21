@@ -481,8 +481,9 @@
                     }
                     if (
                         formSel.data('modelName') === 'Observations'
+                        ||
+                        formSel.data('modelName') === 'Accessories'
                     ) {
-
                         $(formElements).find("tbody").children().map(function (index, row) {
                             let obj = {};
                             $(row).find('input[name], select[name]').each(function (i, item) {

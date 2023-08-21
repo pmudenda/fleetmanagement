@@ -132,9 +132,9 @@
                                             <input type="file"
                                                    accept="image/*"
                                                    style="display: none;"
-                                                   class="fileElem d-none"
+                                                   class="fileElem"
                                                    id="attachment"
-                                                   name="attachment"/>
+                                                   name="attachment[]"/>
                                         </p>
                                         <div class="imagePreview"
                                              style="display: none; min-height: 100px !important;">
