@@ -1098,9 +1098,14 @@
 
             function setSelectedAccessories() {
                 $.each(selectedAccessories, function (index, element) {
+                    const otherResponse = element?.is_present === "YES" ? "NO" : "YES";
                     $("input[name=field_" + element?.code + "][value=" + element?.is_present + "]")
                         .prop('checked', true)
                         .attr('disabled', true);
+
+                    $("input[name=field_" + element?.code + "][value=" + otherResponse + "]")
+                        .attr('disabled', true);
+
                     $("input[name=comment_" + element.code + "]")
                         .val(element?.remarks)
                         .attr('disabled', true);

@@ -190,36 +190,43 @@
                                         <div class="col">
                                             <div class="row">
                                                 <div class="table-responsive" style="max-height:500px;">
-                                                    <table class="table table-bordered" id="observations">
+                                                    <table data-model-name="Observations"
+                                                           class="table table-striped" id="observations">
                                                         <thead>
-                                                        <tr class="bg-default-dark">
-                                                            <th>Observation</th>
+                                                        <tr class="bg-success">
                                                             <th>Attachment</th>
+                                                            <th>Remarks</th>
+                                                            <th></th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <button type="button"
-                                                                        class="btn btn-primary btn-sm selectAttachment">
-                                                                    <i class="fas fa-paperclip"></i>
-                                                                </button>
-                                                                <input type="file" name="attachment[]"
-                                                                       class="form-control d-none file">
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" name="observation[]"
-                                                                       class="form-control">
-                                                            </td>
-                                                        </tr>
+                                                        @if($observation->isNotEmpty())
+                                                            @foreach($observation as $item)
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="imagePreview"
+                                                                             style="min-height: 100px !important; background-image: url('/storage{{$item->image_path}}'); display: block; background-size: cover">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text"
+                                                                               value="{{$item->remarks}}"
+                                                                               readonly
+                                                                               class="form-control">
+                                                                    </td>
+                                                                    <td>
+                                                                        {{--<button type="button"
+                                                                                data-table-id="observations"
+                                                                                class="btn btn-sm btn-danger"
+                                                                                value="deleteRow">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </button>--}}
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        @endif
                                                         </tbody>
                                                     </table>
-                                                    <button type="button"
-                                                            data-table-id="observations"
-                                                            class="btn btn-sm btn-primary add pull-right"
-                                                            value="addRow">
-                                                        <i class="fa fa-plus"></i> Add Row
-                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
