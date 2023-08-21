@@ -121,18 +121,20 @@
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <button type="button" title="Select Image"
-                                                data-toggle="tooltip"
-                                                data-select="file"
-                                                class="btn btn-primary btn-sm selectAttachment">
-                                            <i class="fas fa-paperclip"></i>
-                                        </button>
-                                        <input type="file"
-                                               accept="image/*"
-                                               style="display: none;"
-                                               class="fileElem d-none"
-                                               id="attachment"
-                                               name="attachment"/>
+                                        <p>
+                                            <button type="button" title="Select Image"
+                                                    data-toggle="tooltip"
+                                                    data-select="file"
+                                                    class="btn btn-primary btn-sm selectAttachment">
+                                                <i class="fas fa-paperclip"></i>
+                                            </button>
+                                            <input type="file"
+                                                   accept="image/*"
+                                                   style="display: none;"
+                                                   class="fileElem d-none"
+                                                   id="attachment"
+                                                   name="attachment"/>
+                                        </p>
                                     </td>
                                     <td>
                                         <input type="text" name="observation" class="form-control">
