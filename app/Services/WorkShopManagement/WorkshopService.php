@@ -198,7 +198,7 @@ class WorkshopService
             $toSave[] = array('observation' => $request->observation[$key], 'file' => ($key <= sizeof($uploadedFiles) - 1) ? $uploadedFiles[$key]->path : null);
         }
 
-        if (sizeof($toSave) == 0 && sizeof($uploadedFiles) > 0) {
+        if (sizeof($toSave) == 0 && !empty($uploadedFiles) > 0) {
             foreach ($uploadedFiles as $uploadedFile) {
                 $toSave[] = array('observation' => null, 'file' => $uploadedFile->path);
             }
