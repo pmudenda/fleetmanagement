@@ -407,7 +407,7 @@
                 "mask": "AAA 9{1,4}"
             }).mask('[name="vehicle_registration"]');
 
-            $("#saveAssessment").on('click', function(){
+            $("#saveAssessment").on('click', function () {
 
             });
         });
@@ -488,31 +488,53 @@
                         ||
                         formSel.data('modelName') === 'Accessories'
                     ) {
-                        $("#observations").find("tbody").children().map(function (index, row) {
-                            let obj = {};
-                            $(row).find('input[name], select[name]').each(function (i, item) {
-                                let val = item.value.replace(/,/g, '');
+                        let postFormData = new FormData(document.forms.jobCardForm);
+                        $.ajax({
+                            type: "POST",
+                            url: formSel.data('formUrl'),
+                            data: postFormData,
+                            dataType: "json",
+                            contentType: false,
+                            processData: false
+                        }).done(function (response) {
+                            window.loaderMessage = "Loading... please wait";
+                            if (response.hasOwnProperty("success") && response.success) {
+                                const message = response.message > ""
+                                    ? response.message
+                                    : "Request submitted successfully, Click 'Ok' Proceed to provide information for other sections";
 
-                                if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
-                                    let dateField = val;
-                                    dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
+                                tmsApp.showSystemMessage(
+                                    "Request Submission",
+                                    message,
+                                    function () {
+                                        if (submitForm) {
+                                            window.location.href = response['redirectUrl'];
+                                            return;
+                                        }
 
-                                    obj[item.name] = dateField;
-                                } else {
-                                    obj[item.name] = item.value;
-                                }
-                            });
-                            arr.push(obj);
-                        });
-
-                        $($container).find('input[name], select[name] textarea[name]').each(function (i, item) {
-                            if (item.type === 'radio') {
-                                obj[item.name] = $('[name="' + item.name + '"]:checked').val();
+                                        if (window.global_currentIndex === 2) {
+                                            window.goToNext = true;
+                                            form.steps("next");
+                                        } else {
+                                            window.location.href = response['redirectUrl'];
+                                        }
+                                    },
+                                    "success"
+                                );
                             } else {
-                                obj[item.name] = item.value;
+                                if (!Util.isEmpty(response.errors)) {
+                                    if (response.errors) {
+                                        tmsApp.printErrorMsg(response.errors);
+                                    }
+                                } else if (!Util.isEmpty(response.message)) {
+                                    tmsApp.systemError("Request Submission", response.message);
+                                }
                             }
+                        }).fail(function (xhr) {
+                            tmsApp.showErrorMessages(xhr, "Request Submission");
                         });
 
+                        return;
                     } else {
                         $($container).find('input[name], select[name]').each(function (i, item) {
                             // let val = item.value.replace(/,/g, '');
@@ -573,7 +595,7 @@
                         }
                     }).fail(function (xhr) {
                         tmsApp.showErrorMessages(xhr, "Request Submission");
-                    })
+                    });
                 }
 
                 let stepId = window.step_id || 1;
