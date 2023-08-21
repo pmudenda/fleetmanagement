@@ -352,422 +352,26 @@
     </script>
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script src="{{asset("libs/steps/jquery.steps.js")}}"></script>
+    <script src="{{asset('libs/imageUpload/imageUpload.js')}}"></script>
     <script>
         'use strict';
-        const materialTableRowTemplate = `<tr class="increment">
-            <td class="showNumber">
-                <input
-                    name="registration"
-                    required
-                    value=""
-                    class="form-control form-control-sm vehicle_registration"/>
-            </td>
-            <td>
-                <select
-                    name="articles"
-                    required
-                    data-value=""
-                    class="form-control form-control-sm articlesDropDownList">
-                    <option></option>
-                </select>
-            </td>
-            <td>
-                <input
-                    name="articleCode"
-                    required
-                    readonly
-                    class="form-control form-control-sm articleCode"/>
-            </td>
-            <td>
-                <input
-                    name="technical_specification"
-                    required
-                    class="form-control form-control-sm technical_specification"/>
-            </td>
-
-            <td>
-                <input
-                    type="text"
-                    min="1"
-                    name="quantity"
-                    required
-                    class="form-control form-control-sm quantity number_input"/>
-            </td>
-
-            <td>
-                <input
-                    name="unit_of_measure"
-                    required
-                    readonly
-                    class="form-control form-control-sm unit_of_measure"/>
-            </td>
-
-            <td>
-                <input name="unit_price"
-                       required
-                       readonly
-                       class="form-control form-control-sm unit_price"/>
-            </td>
-
-            <td>
-                <input name="total_price"
-                       required
-                       readonly
-                       class="form-control form-control-sm total_price"/>
-            </td>
-
-            <td class="view-mode">
-                <button type="button"
-                        data-value="0"
-                        value="deleteRow"
-                        class="btn btn-danger p-2">
-                    <i class="fas fa-trash m-0"></i>
-                </button>
-            </td>
-        </tr>`;
-
-        const serviceTableRowTemplate = ` <tr class="increment">
-            <td class="showNumber">
-                <input
-                    name="vehicle_registration"
-                    required
-                    value=""
-                    class="form-control form-control-sm vehicle_registration"/>
-            </td>
-            <td>
-                <select
-                    name="service_article"
-                    required
-                    data-value=""
-                    class="form-control form-control-sm servicesArticlesDropDownList">
-                    <option></option>
-                </select>
-            </td>
-            <td>
-                <input
-                    name="serviceArticleCode"
-                    required
-                    readonly
-                    class="form-control form-control-sm serviceArticleCode"/>
-            </td>
-            <td>
-                <input
-                    name="service_technical_specification"
-                    required
-                    class="form-control form-control-sm service_technical_specification"/>
-            </td>
-
-            <td>
-                <input
-                    readonly
-                    type="text"
-                    min="1"
-                    value="1"
-                    max="1"
-                    name="service_quantity"
-                    required
-                    class="form-control form-control-sm service_quantity number_input"/>
-            </td>
-
-            <td>
-                <input
-                    name="service_unit_of_measure"
-                    required
-                    readonly
-                    class="form-control form-control-sm unit_of_measure"/>
-            </td>
-
-            <td>
-                <input name="service_unit_price"
-                       required
-                       class="form-control form-control-sm service_unit_price"/>
-            </td>
-
-            <td>
-                <input name="service_total_price"
-                       required
-                       readonly
-                       class="form-control form-control-sm service_total_price"/>
-            </td>
-
-            <td class="view-mode">
-                <button type="button"
-                        data-value="0"
-                        value="deleteRow"
-                        class="btn btn-danger p-2">
-                    <i class="fas fa-trash m-0"></i>
-                </button>
-            </td>
-        </tr>`;
-
-        function initArticleSelector(element) {
-            const dataUrl = document.querySelector('#articlesUrl').value;
-
-            // don't re-initialize
-            if (!element || element.length === 0) {
-                return;
-            }
-            let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
-
-            if (hasAttribute) {
-                return;
-            }
-
-            element.select2({
-                selectOnClose: true,
-                multiple: false,
-                quietMillis: 100,
-                id: function (project) {
-                    return project['code_article'];
-                },
-                theme: 'bootstrap4',
-                ajax: {
-                    delay: 250,
-                    beforeSend: function () {
-                        window.showLoaderModal(false);
-                        window.loaderVisible = false;
-                    },
-                    url: dataUrl,
-                    dataType: 'json',
-                    data: function (params) {
-                        return {
-                            search: params.term, // search term
-                            type_article: document.querySelector('#itemType').value,
-                            store_code: document.querySelector('#store_code').value,
-                            page: params.page
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-
-                        return {
-                            results: formatResults(data.items),
-                            pagination: {
-                                more: (params.page * 30) < data['total_count']
-                            }
-                        };
-                    },
-                    cache: true
-                },
-                placeholder: 'Enter Article name or Code',
-                minimumInputLength: 3,
-                templateResult: formatRepo,
-                templateSelection: formatRepoSelection
-            }).off('select2:select').on('select2:select', function (e) {
-                let article = e.params['data'];
-                const row = $(e.currentTarget).closest('tr');
-                if (document.querySelector('[name="stockItemCode"]').value == $("#itemType").val()) {
-
-                    if (!article?.price_map) {
-                        const description = article?.technical_specifications ? article?.technical_specifications : "";
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'The Article '
-                                + article?.id
-                                + ' - ' + description + ' has no price. ' +
-                                ' Please Contact Fleet Master System Administrator on 3309,3350,3351,3306, fleetmaster@zesco.co.com'
-                        });
-                        return;
-                    }
-
-                    if (article?.quantity_in_store === "0" || article?.quantity_in_store === 0) {
-                        const description = article?.technical_specifications ? article?.technical_specifications : "";
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'The Store '
-                                + $("#store_name").val()
-                                + ' does not have '
-                                + article?.id
-                                + ' - ' + description + ' in stock. ' +
-                                'You may have to wait until the stock is received before your request can be processed'
-                        });
-                    }
-                }
-                //$(row).find('[name="quantity"]').attr('max', article['quantity_in_store']);
-                $(row).find('[name="articleCode"]').val(article['id']);
-                $(row).find('[name="unit_price"]').val(article['price_map']);
-                $(row).find('[name="technical_specification"]').val(article['technical_specifications']);
-                $(row).find('[name="unit_of_measure"]').val(article['unit_measure_name']);
-            });
-        }
-
-        function initServiceArticleSelector(element) {
-            const dataUrl = document.querySelector('#articlesUrl').value;
-
-            // don't re-initialize
-            if (element.length === 0) {
-                return;
-            }
-            let hasAttribute = element[0].hasAttribute('data-select2-id="1"');
-            console.log(hasAttribute);
-            if (hasAttribute) {
-                return;
-            }
-
-            element.select2({
-                selectOnClose: true,
-                multiple: false,
-                quietMillis: 100,
-                id: function (project) {
-                    return project['code_article'];
-                },
-                theme: 'bootstrap4',
-                ajax: {
-                    delay: 250,
-                    beforeSend: function () {
-                        window.showLoaderModal(false);
-                        window.loaderVisible = false;
-                    },
-                    url: dataUrl,
-                    dataType: 'json',
-                    data: function (params) {
-                        return {
-                            search: params.term, // search term
-                            type_article: document.querySelector('#serviceItemType').value,
-                            supplier_code: document.querySelector('#service_supplier').value,
-                            page: params.page
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-
-                        return {
-                            results: formatResults(data.items),
-                            pagination: {
-                                more: (params.page * 30) < data['total_count']
-                            }
-                        };
-                    },
-                    cache: true
-                },
-                placeholder: 'Enter Article name or Code',
-                minimumInputLength: 3,
-                templateResult: formatRepo,
-                templateSelection: formatRepoSelection
-            }).off('select2:select').on('select2:select', function (e) {
-                let article = e.params['data'];
-                const row = $(e.currentTarget).closest('tr');
-
-                $(row).find('[name="serviceArticleCode"]').val(article['id']);
-                $(row).find('[name="service_unit_price"]').val(article['price_map']);
-                $(row).find('[name="service_technical_specification"]').val(article['technical_specifications']);
-                $(row).find('[name="service_unit_of_measure"]').val(article['unit_measure_name']);
-            });
-        }
-
-        function formatRepo(project) {
-            if (project.loading)
-                return project.text;
-            return $('<option value="' + project['id'] + '">' + project['text'] + '</option>');
-        }
-
-        function formatRepoSelection(project) {
-            if (!project['id']) {
-                return project['text'];
-            }
-            return project['description'];
-        }
-
-        function formatResults(items) {
-            return $.map(items, function (obj) {
-                return {
-                    "id": obj['code_article'],
-                    "text": obj['code_article'] + ':' + obj.description,
-                    'code_article': obj?.code_article,
-                    'description': obj?.description,
-                    'price_map': obj?.price,
-                    'technical_specifications': obj?.technical_specifications,
-                    'unit_measure': obj?.unit_measure,
-                    'unit_measure_code': obj?.unit_measure,
-                    'unit_measure_name': obj?.unit_measure_name,
-                    'quantity_in_store': obj?.quantity_in_store
-                };
-            });
-        }
-
-        function getArticleDetails(code_article, selectElem) {
-
-            fetch(document.querySelector('#articleDetailsUrl').value + "?code_article=" + code_article)
-                .then(response => response.json())
-                .then(response => {
-                    let result = response['payload'];
-                    if (result.success === 'failure') {
-                        // show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-
-                    console.log(result);
-
-                    let data = {
-                        "id": result['code_article'],
-                        "text": result['code_article'] + ':' + result.description,
-                        'code_article': result?.code_article,
-                        'description': result?.description,
-                        'price_map': result?.price,
-                        'technical_specifications': result?.technical_specifications,
-                        'unit_measure': result?.unit_measure,
-                        'unit_measure_name': result?.unit_measure_name
-                    };
-
-                    let option = new Option(data.text, data.id, true, true);
-                    selectElem.append(option).trigger('change');
-
-                    // manually trigger the `select2:select` event
-                    selectElem.trigger({
-                        type: 'select2:select',
-                        params: {
-                            data: data
-                        }
-                    });
-                })
-                .catch(function (error) {
-                    // notify of error
-                    console.log(error);
-                    toastr.error('Connection error. Could not retrieve data, some feature might not work.')
-                });
-        }
-
         $(document).ready(function () {
+            new ImageUpload().init();
 
             $(document).on('oninput', '[name="commentsToSupervisor"]', function (event) {
                 this.value = this.value.toUpperCase();
             });
 
-            initArticleSelector($('.articlesDropDownList'));
-
-            initServiceArticleSelector($('.servicesArticlesDropDownList'));
-
             Inputmask({
                 "mask": "AAA 9{1,4}"
             }).mask('[name="vehicle_registration"]');
-
-            $.fn.disableBtn = function () {
-                return this.each(function () {
-                    $(this).addClass("disabled").attr("disabled", true)
-                });
-            }
-
-            $.fn.enableBtn = function () {
-                return this.each(function () {
-                    let $this = $(this);
-                    $this.removeClass("disabled").attr("disabled", false)
-                });
-            }
         });
 
         (function (tmsApp, $) {
 
-            function adjustIframeHeight() {
-            }
-
             let form = $('#jobCardForm').show();
             window.goToNext = false;
             let bodyTag = "section";
-
-
             $(document).ready(function () {
                 setTimeout(function () {
                     let job_card_number = $('[name="job_card_number"]').val();
@@ -790,7 +394,7 @@
                     }
 
                     if (window['materials']) {
-                        prefillSelectedMaterials();
+                        // prefillSelectedMaterials();
                         $('[name="quantity"]').change();
                     }
 
@@ -1015,8 +619,7 @@
                             //form.steps("previous");
                             $('ul[aria-label="Pagination"]').find('a[href="#finish"]').removeClass('d-none');
                         }
-                        adjustIframeHeight();
-                        //$('ul[aria-label="Pagination"]').find('a[data-action="skip"]').removeClass('d-none');
+
                         window.global_currentIndex = currentIndex;
                         if (currentIndex === 3) {
                             $('ul[aria-label="Pagination"]').find('a[href="#finish"]').addClass('d-none');
@@ -1029,8 +632,6 @@
                         return form.valid();
                     },
                     onFinished: function () {
-
-                        $('a[href="#finish"]').disableBtn();
 
                         if (form.valid()) {
                             tmsApp.confirm(
@@ -1242,13 +843,6 @@
 
                 document.querySelector('#vehicleDetailsContainer').style.display = null;
                 document.querySelector('#image_view').style.display = null;
-            }
-
-            function enableArticleSelectionWebUIControls() {
-                let elements = document.querySelectorAll('.articlesDropDownList');
-                elements.forEach(function (element) {
-                    element.removeAttribute('disabled');
-                });
             }
 
             function populateVehicleDetails(payload, state) {
@@ -1484,22 +1078,6 @@
                 );
             }
 
-            function showSupplierControls() {
-                document.querySelector('#supplierContainer').style.display = null;
-                document.querySelector('[name="supplier"]').setAttribute('required', 'required');
-
-                document.querySelector('#storeContainer').style.display = 'none';
-                document.querySelector('[name="store_code"]').removeAttribute('required');
-            }
-
-            function showStockItemControls() {
-                document.querySelector('#supplierContainer').style.display = 'none';
-                document.querySelector('[name="supplier"]').removeAttribute('required');
-
-                document.querySelector('#storeContainer').style.display = null;
-                document.querySelector('[name="store_code"]').setAttribute('required', 'required');
-            }
-
             function tableHasItems() {
                 let inputs = $("#material_table > tbody").find('.articleCode');
                 for (const input of inputs) {
@@ -1508,89 +1086,6 @@
                     }
                 }
                 return false;
-            }
-
-
-            function pettyCashTableHasItems() {
-                let inputs = $(".pettyCashItemsTable > tbody").find('.articleCode');
-                for (const input of inputs) {
-                    if (input.value > "") {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            function changePettyCashRequestType(selectedItemType) {
-
-                if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
-                    // showStockItemControls();
-                    document.querySelector('#pettyCashSupplierContainer').style.display = 'none';
-                    //document.querySelector('[name="supplier"]').removeAttribute('required');
-                    document.querySelector('[name="imprestBuySupplier"]').removeAttribute('required');
-
-                    document.querySelector('#pettyCashStoreContainer').style.display = null;
-                    //document.querySelector('[name="store_code"]').setAttribute('required', 'required');
-                    $('.quantity').attr('readonly', false);
-
-
-                } else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
-                    document.querySelector('#pettyCashSupplierContainer').style.display = null;
-                    //document.querySelector('[name="supplier"]').setAttribute('required', 'required');
-                    document.querySelector('[name="imprestBuySupplier"]').setAttribute('required', 'required');
-
-                    document.querySelector('#pettyCashStoreContainer').style.display = 'none';
-                    //document.querySelector('[name="store_code"]').removeAttribute('required');
-                    $('.quantity').attr('readonly', 'readonly');
-                    $('.quantity').val(1);
-                } else if (selectedItemType == document.querySelector('[name="nonStockItemCode"]').value) {
-                    document.querySelector('#pettyCashSupplierContainer').style.display = null;
-                    document.querySelector('[name="imprestBuySupplier"]').setAttribute('required', 'required');
-                    //document.querySelector('[name="supplier"]').setAttribute('required', 'required');
-
-                    document.querySelector('#storeContainer').style.display = 'none';
-                    //document.querySelector('[name="store_code"]').removeAttribute('required');
-
-                    $('.quantity').attr('readonly', false);
-                    $('[name="unit_price"]').attr('readonly', false);
-
-                } else {
-                    document.querySelector('#pettyCashSupplierContainer').style.display = null;
-                    document.querySelector('[name="imprestBuySupplier"]').setAttribute('required', 'required');
-                    //document.querySelector('[name="supplier"]').setAttribute('required', 'required');
-
-                    document.querySelector('#pettyCashStoreContainer').style.display = 'none';
-                    //document.querySelector('[name="store_code"]').removeAttribute('required');
-
-                    $('.quantity').attr('readonly', false);
-                }
-
-                if (selectedItemType) {
-                    enableArticleSelectionWebUIControls();
-                }
-            }
-
-            function changeRequestType(selectedItemType) {
-
-                if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
-                    showStockItemControls();
-                    $('.quantity').attr('readonly', false);
-                } else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
-                    showSupplierControls();
-                    $('.quantity').attr('readonly', 'readonly');
-                    $('.quantity').val(1);
-                } else if (selectedItemType == document.querySelector('[name="nonStockItemCode"]').value) {
-                    showSupplierControls();
-                    $('.quantity').attr('readonly', false);
-                    $('[name="unit_price"]').attr('readonly', false);
-                } else {
-                    showSupplierControls();
-                    $('.quantity').attr('readonly', false);
-                }
-
-                if (selectedItemType) {
-                    enableArticleSelectionWebUIControls();
-                }
             }
 
             function clearRows(table) {
@@ -2176,62 +1671,11 @@
                 });
             }
 
-            function getSuppliers() {
-                fetch(document.querySelector('#suppliersList').value)
-                    .then(response => response.json())
-                    .then(function (response) {
-                        let imprestBuySupplierElem = $('select[name="imprestBuySupplier"]');
-                        let selectElem = $('select[name="supplier"]');
-                        let serviceSupplierElem = $('select[name="service_supplier"]');
-
-                        if (response.state === 'failure') {
-
-                            toastr.error('Failed to retrieve Supplier Records', 'Connection Error');
-                            return;
-                        }
-
-                        let suppliers = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, suppliers,
-                            "code_supplier", ["code_supplier", "name_of_supplier"],
-                            " ==> ", '--Select Supplier--');
-
-                        tmsApp.populateDropDownList(imprestBuySupplierElem, suppliers,
-                            "code_supplier", ["code_supplier", "name_of_supplier"],
-                            " ==> ", '--Select Supplier--');
-
-                        tmsApp.populateDropDownList(serviceSupplierElem, suppliers,
-                            "code_supplier", ["code_supplier", "name_of_supplier"],
-                            " ==> ", '--Select Supplier--');
-
-                        let supplier = selectElem.attr('data-value');
-                        if (supplier) {
-                            selectElem.val(supplier);
-                            selectElem.trigger('change');
-                        }
-
-                        let service_supplier = serviceSupplierElem.attr('data-value');
-                        if (service_supplier) {
-                            serviceSupplierElem.val(service_supplier);
-                            serviceSupplierElem.trigger('change');
-                        }
-
-                        let imprestSupplier = imprestBuySupplierElem.attr('data-value');
-                        if (imprestSupplier) {
-                            imprestBuySupplierElem.val(imprestSupplier);
-                            imprestBuySupplierElem.trigger('change');
-                        }
-                    }).catch(function (error) {
-                    toastr.error('Could not Retrieve Data, some feature might not work.', 'Connection error');
-                });
-            }
-
             initializeFormWizard();
 
             getWorkshops();
 
             getFuelLevels();
-
-            loadData('VEH_SYS', document.querySelector('#systemsUrl').value + '?key=VEH_SYS', $('select[name="vehicleSystem"]'));
 
             initEventHandlers();
 
@@ -2246,133 +1690,6 @@
                 });
             }
 
-            function prefillSelectedMaterials() {
-
-                $(document).find('.articlesDropDownList').map(function (index, selectElem) {
-                    const id = selectElem.getAttribute('data-value');
-                    const text = selectElem.getAttribute('data-text');
-                    if (!id) {
-                        return;
-                    }
-
-                    getArticleDetails(id, selectElem);
-                });
-            }
-
-            getSuppliers();
-
         })(window.tmsApp || {}, jQuery)
     </script>
-
-    <!--  -->
-    <script type="text/javascript">
-
-        //ROUND OFF FUNCTION
-        Number.prototype.round = function (places) {
-            return +(Math.round(this + "e+" + places) + "e-" + places);
-        }
-
-        function getvalues() {
-            const inps = document.getElementsByName('amount[]');
-            let total = 0;
-            for (let i = 0; i < inps.length; i++) {
-                const inp = inps[i];
-                total = total + parseFloat(inp.value || 0);
-            }
-            total = total.round(2);
-
-            if (!isNaN(total)) {
-                //check if petty cash is below 2000
-                if (total > 2000) {
-                    $('#submit_possible').hide();
-                    $('#submit_not_possible').show();
-                } else if (total == 0) {
-                    $('#submit_not_possible').hide();
-                    $('#submit_possible').hide();
-                } else {
-                    $('#submit_not_possible').hide();
-                    $('#submit_possible').show();
-                }
-                //set value
-                document.getElementById('total-payment').value = total;
-            }
-        }
-
-
-        // Navigation Script Starts Here
-        $(document).ready(function () {
-
-            //first hide the buttons
-            $('#submit_possible').hide();
-            $('#submit_not_possible').hide();
-
-            $("#divSubmit_hide").hide();
-            //disable the submit button
-            $("#btnSubmit").on('click', function () {
-                $("#create_form").submit(function (e) {
-                    e.preventDefault()
-                    //do something here
-                    $("#divSubmit_show").hide();
-                    $("#divSubmit_hide").show();
-                    //continue submitting
-                    e.currentTarget.submit();
-                });
-            });
-
-            $(document).on('click', '.deleteTaleRow', function () {
-                const tableID = $(this).attr('data-table-id');
-
-                const table = document.getElementById(tableID);
-
-                const rowCount = table.rows.length;
-                const row = table.insertRow(rowCount);
-
-                const colCount = table.rows[0].cells.length;
-
-                for (let i = 0; i < colCount; i++) {
-
-                    const newCell = row.insertCell(i);
-
-                    newCell.innerHTML = table.rows[0].cells[i].innerHTML;
-
-                    switch (newCell.childNodes[0].type) {
-                        case "text":
-                            newCell.childNodes[0].value = "";
-                            break;
-                        case "checkbox":
-                            newCell.childNodes[0].checked = false;
-                            break;
-                        case "select-one":
-                            newCell.childNodes[0].selectedIndex = 0;
-                            break;
-                    }
-                }
-            });
-            $(document).on('click', '.deleteTaleRow', function () {
-                const tableID = $(this).attr('data-table-id');
-                try {
-                    const table = document.getElementById(tableID);
-                    let rowCount = table.rows.length;
-
-                    for (let i = 0; i < rowCount; i++) {
-                        const row = table.rows[i];
-                        const chkbox = row.cells[0].childNodes[0];
-                        if (null != chkbox && true == chkbox.checked) {
-                            if (rowCount <= 1) {
-                                alert("Cannot delete all the rows.");
-                                break;
-                            }
-                            table.deleteRow(i);
-                            rowCount--;
-                            i--;
-                        }
-                    }
-                    getvalues();
-                } catch (e) {
-                    alert(e);
-                }
-            });
-        });
-    </script>
-
 @endpush

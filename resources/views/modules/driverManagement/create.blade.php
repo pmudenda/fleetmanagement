@@ -782,6 +782,7 @@
             }
 
             new ImageUpload().init();
+
             Inputmask({
                 "mask": "99999999"
             }).mask("#permit_number");

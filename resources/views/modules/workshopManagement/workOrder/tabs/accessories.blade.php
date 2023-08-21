@@ -111,23 +111,31 @@
                 <div class="col">
                     <div class="row">
                         <div class="table-responsive" style="max-height:500px;">
-                            <table class="table table-bordered" id="observations">
+                            <table class="table" id="observations">
                                 <thead>
                                 <tr class="bg-default-dark">
-                                    <th>Observation</th>
                                     <th>Attachment</th>
+                                    <th>Observation</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <button type="button"  class="btn btn-primary btn-sm selectAttachment">
+                                        <button type="button" title="Select Image"
+                                                data-toggle="tooltip"
+                                                data-select="file"
+                                                class="btn btn-primary btn-sm selectAttachment">
                                             <i class="fas fa-paperclip"></i>
                                         </button>
-                                        <input type="file" name="attachment[]" class="form-control d-none file">
+                                        <input type="file"
+                                               accept="image/*"
+                                               style="display: none;"
+                                               class="fileElem d-none"
+                                               id="attachment"
+                                               name="attachment"/>
                                     </td>
                                     <td>
-                                        <input type="text" name="observation[]" class="form-control">
+                                        <input type="text" name="observation" class="form-control">
                                     </td>
                                 </tr>
                                 </tbody>
