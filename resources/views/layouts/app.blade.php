@@ -544,7 +544,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     type: 'GET',
-                    dataType: 'json',
+                    dataType: 'html',
                     data: postData
                 };
 
