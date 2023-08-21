@@ -492,9 +492,9 @@
                         $($container).find('input[name], select[name]').each(function (i, item) {
                             // let val = item.value.replace(/,/g, '');
                             if (item.type === 'radio') {
-                                postFormData.append(item.name, $('[name="' + item.name + '"]:checked').val());
+                                postFormData.set(item.name, $('[name="' + item.name + '"]:checked').val());
                             } else {
-                                postFormData.append(item.name, item.value);
+                                postFormData.set(item.name, item.value);
                             }
                         });
 
