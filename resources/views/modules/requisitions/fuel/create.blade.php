@@ -175,7 +175,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6 d-none project_view_item">
                                                             <select disabled type="text" name="project_code"
                                                                     class="form-select mt-1 project-code-ajax"
                                                                     id="project_code">
@@ -186,7 +186,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <div class="col-xs-12 col-sm-6 col-md-6 d-none project_view_item">
                                             <div class="container-fluid pl-0">
                                                 <div class="row">
                                                     <div class="form-group row">
