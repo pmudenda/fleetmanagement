@@ -488,7 +488,7 @@
                         ||
                         formSel.data('modelName') === 'Accessories'
                     ) {
-                        $(formElements).find("tbody").children().map(function (index, row) {
+                        $("#observations").find("tbody").children().map(function (index, row) {
                             let obj = {};
                             $(row).find('input[name], select[name]').each(function (i, item) {
                                 let val = item.value.replace(/,/g, '');
@@ -505,7 +505,7 @@
                             arr.push(obj);
                         });
 
-                        $("#observations").find('input[name], select[name] textarea[name]').each(function (i, item) {
+                        $($container).find('input[name], select[name] textarea[name]').each(function (i, item) {
                             if (item.type === 'radio') {
                                 obj[item.name] = $('[name="' + item.name + '"]:checked').val();
                             } else {

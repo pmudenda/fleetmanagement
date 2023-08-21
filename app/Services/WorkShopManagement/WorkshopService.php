@@ -148,7 +148,7 @@ class WorkshopService
 
     public function createJobCardAccessories(Request $request): void
     {
-        $request->allFiles();
+        dd($request->allFiles());
         DB::beginTransaction();
         $job_card_voucher = $request->get("job_card_voucher");
         $reference_number = $request->get("workshop_reference");
