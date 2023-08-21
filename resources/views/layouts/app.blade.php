@@ -519,6 +519,12 @@
             document.querySelector('.select2-search__field').focus();
         });
 
+        const queryModalEl = document.querySelector('#modal-followUp');
+
+        queryModalEl.addEventListener('hidden.bs.modal', function (event) {
+            $("#documentFollowUpForm").reset();
+        });
+
         const resultsModalEl = document.querySelector('#documentFollowUp');
         resultsModalEl.addEventListener('show.bs.modal', function (event) {
             // Button that triggered the modal
