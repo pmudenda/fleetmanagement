@@ -21,7 +21,7 @@
                                             class="form-select form-select-sm"
                                             name="itemType"
                                             id="itemType">
-                                        <option disabled></option>
+                                        <option></option>
                                         <option
                                                 @if($materialsHeader->item_type_code == RequisitionItemTypes::StockItemCode) selected
                                                 @endif value="01">STOCK ITEM
