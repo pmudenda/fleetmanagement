@@ -2,7 +2,6 @@
 
 namespace App\Services\WorkShopManagement;
 
-use App\Constants\WorkflowActions;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Modules;
 use App\Enums\RequisitionItemTypes;
@@ -25,6 +24,7 @@ use App\Models\WorkShopManagement\WorkshopLabour;
 use App\Models\WorkShopManagement\WorkShopTable;
 use App\Models\WorkShopManagement\WorkShopVehicleAccessory;
 use App\Models\WorkShopManagement\WorkShopVehicleDefect;
+use App\Services\FileUploads\FileUploadService;
 use App\Services\Integration\ProcurementSystemIntegrationService;
 use App\Services\Logging\HistoryService;
 use App\Services\Workflow\DocumentNumberGenerationService;
@@ -154,8 +154,8 @@ class WorkshopService
         $comment = $request->get("accessoriesRemarks");
         $accessoryNames = Accessory::where("status", "=", StatusHelper::active())
             ->get();
-
-        Log::info("Saving Accessories on " . $reference_number);
+        $user = auth()->user();
+        Log::info("Saving Accessories on " . $job_card_voucher);
 
         foreach ($accessoryNames as $accessoryName) {
             $accessoryCode = $accessoryName->code;
@@ -179,11 +179,31 @@ class WorkshopService
         $attachedFiles = $request->get('attachment');
         $observations = $request->get('observation');
 
+        $uploadedFiles = [];
+        if (sizeof($attachedFiles) > 0) {
+            foreach ($attachedFiles as $attachedFile) {
+                $uploadedFiles = FileUploadService::uploadFile(
+                    $request,
+                    "attachment",
+                    "Assessment",
+                    $reference_number,
+                    "Observations",
+                    "Observations",
+                    $user
+                );
+            }
+        }
+        $toSave = [];
         $key = 0;
-        foreach ($attachedFiles as $attachedFile){
-            Log::info($observations[$key]);
+        if (sizeof($observations) > 0) {
+            foreach ($observations as $observation) {
+                Log::info($uploadedFiles[$key]);
+                $toSave[] = array('observation' => $observations[$key], 'file' => $uploadedFiles[$key]);
+                $key += 1;
+            }
         }
 
+        dd($toSave);
         if (!empty($comment)) {
             WorkShopComment::firstOrCreate(
                 [
@@ -193,7 +213,7 @@ class WorkshopService
                 [
                     "remarks" => $request->accessoriesRemarks ?? " ",
                     "status" => StatusHelper::new(),
-                    "created_by" => auth()->user()->staff_no
+                    "created_by" => $user->staff_no
                 ]);
         }
 

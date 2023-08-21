@@ -2,6 +2,8 @@
 <div class="container-fluid">
     <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}" data-model-name="Accessories">
         <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
+        <input type="hidden" value="{{$details->wshp_act_code ?? ''}}" name="workshop_reference"
+               id="workshop_reference"/>
         <input type="hidden" value="{{$details->driver_acknowledged ?? 'N'}}" id="driverAcknowledged"
                name="driverAcknowledged"/>
         <div class="col-xs-12 col-sm-12 col-md-12">
