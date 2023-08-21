@@ -299,7 +299,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('get/workshop/store-purchase-office', [MaintenanceController::class, 'getStoreAndPurchaseOffice'])
         ->name('get.store.purchase_office');
 
-    Route::post('document/followup', [DocumentController::class, 'documentFollowup'])
+    Route::get('document/followup', [DocumentController::class, 'documentFollowup'])
         ->name('document.followup');
 
     Route::post('document/audit/trail', [DocumentController::class, 'documentAuditTrail'])
