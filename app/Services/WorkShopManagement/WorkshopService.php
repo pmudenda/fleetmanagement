@@ -194,12 +194,14 @@ class WorkshopService
             }
         }
         $toSave = [];
-        $key = 0;
-        if (sizeof($observations) > 0) {
-            foreach ($observations as $observation) {
-                Log::info( ($key <= sizeof($uploadedFiles)-1) ? $uploadedFiles[$key]->path : "No More Attachments");
-                $toSave[] = array('observation' => $observation, 'file' => ($key <= sizeof($uploadedFiles)-1) ? $uploadedFiles[$key]->path : null);
-                $key += 1;
+        for ($key = 0; $key < sizeof($request->observation); $key++) {
+            Log::info(($key <= sizeof($uploadedFiles) - 1) ? $uploadedFiles[$key]->path : "No More Attachments");
+            $toSave[] = array('observation' => $request->observation[$key], 'file' => ($key <= sizeof($uploadedFiles) - 1) ? $uploadedFiles[$key]->path : null);
+        }
+
+        if (sizeof($toSave) == 0 && sizeof($uploadedFiles) > 0) {
+            foreach ($uploadedFiles as $uploadedFile) {
+                $toSave[] = array('observation' => null, 'file' => $uploadedFile->path);
             }
         }
 

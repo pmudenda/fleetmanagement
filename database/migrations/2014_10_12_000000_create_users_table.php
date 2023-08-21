@@ -30,7 +30,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('change_password_on')->nullable();
             $table->string('password');
-            $table->integer('user_region_id')->nullable();
+            $table->string('work_shop_code', 4)->nullable();
             $table->integer('functional_unit_id')->nullable();
             $table->string('user_unit',255)->nullable();
             $table->string('two_fac_auth_status')->nullable()
@@ -56,19 +56,8 @@ return new class extends Migration
             $table->string('guid')->default(Str::uuid())->nullable();
             $table->boolean('has_active_session')->nullable()->default(false);
             //$table->string('job_code')->nullable();
-            //$table->string('profile_job_code')->nullable();
-            //$table->string('profile_unit_code')->nullable();
-            //$table->string('unit_column')->nullable(); // dropped
-            //$table->string('code_column')->nullable(); // dropped
-            //$table->integer('user_unit_id')->nullable();
-            //$table->integer('user_directorate_id')->nullable();
-            //$table->integer('user_division_id')->nullable();
-            //$table->integer('location_id')->nullable();
-            //$table->integer('pay_point_id')->nullable();
-            //$table->string('supervisor_guid',150)->nullable();
-            //dropped, replaced by supervisor_code
-            //$table->integer('grade_id')->default('0'); //dropped
-            //$table->integer('positions_id')->nullable();
+            $table->string('profile_code', 191)->nullable();
+            $table->string('profile_name', 191)->nullable();
 
             $table->rememberToken();
             $table->timestamps();
