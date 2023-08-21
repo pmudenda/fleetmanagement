@@ -115,7 +115,6 @@
                                 <thead>
                                 <tr class="bg-success">
                                     <th>Attachment</th>
-                                    <td>File</td>
                                     <th>Remarks</th>
                                 </tr>
                                 </thead>
@@ -136,8 +135,6 @@
                                                    id="attachment"
                                                    name="attachment"/>
                                         </p>
-                                    </td>
-                                    <td>
                                         <div class="imagePreview"
                                              style="display: none; min-height: 100px !important;">
                                             <button type="button"

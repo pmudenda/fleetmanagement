@@ -58,13 +58,12 @@ function ImageUpload() {
                 }
             }).then(function (result) {
                 if (result.value) {
-                    // find the upload btn and make visible
-                    const parentP = $(btn).closest('p');
-                    parentP.removeClass('d-none');
                     $(btn).parent().css({
                         "background-image": "", 'display': 'none'
                     });
-
+                    // find the upload btn and make visible
+                    $(btn).parent().parent().find('p').removeClass('d-none');
+                    $(btn).closest('tr').find('p').removeClass('d-none');
                 }
             });
 
