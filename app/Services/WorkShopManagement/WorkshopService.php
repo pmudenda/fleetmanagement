@@ -18,6 +18,7 @@ use App\Models\MaterialHeader;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\VehicleManagement\VehicleHeader;
+use App\Models\WorkShopManagement\AssessmentObservation;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkshopLabour;
@@ -206,6 +207,17 @@ class WorkshopService
         }
 
         Log::info("Number Of Items To Save " . sizeof($toSave));
+
+        if (!empty($toSave)) {
+            foreach ($toSave as $item) {
+                AssessmentObservation::create([
+                    'reference' => $request->workshop_reference,
+                    'image_path' => $item->file,
+                    'remarks' => $item->observation,
+                    'reported_by' => $user->staff_no
+                ]);
+            }
+        }
 
         if (!empty($comment)) {
             WorkShopComment::firstOrCreate(
