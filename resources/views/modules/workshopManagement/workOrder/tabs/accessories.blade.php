@@ -139,7 +139,7 @@
                                     </td>
                                     <td>
                                         <div class="imagePreview"
-                                             style="display: none; max-height: 100px !important;">
+                                             style="display: none; min-height: 100px !important;">
                                             <button type="button"
                                                     class="btn btn-xs clearImage"
                                                     style="top: 1px;
