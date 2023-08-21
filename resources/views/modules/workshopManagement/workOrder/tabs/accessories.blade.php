@@ -113,7 +113,7 @@
                     <div class="row">
                         <div class="table-responsive" style="max-height:500px;">
                             <table data-model-name="Observations"
-                                    class="table table-striped" id="observations">
+                                   class="table table-striped" id="observations">
                                 <thead>
                                 <tr class="bg-success">
                                     <th>Attachment</th>
@@ -122,55 +122,83 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <p>
-                                            <button type="button" title="Select Image"
-                                                    data-toggle="tooltip"
-                                                    data-select="file"
-                                                    class="btn btn-primary btn-sm selectAttachment">
-                                                <i class="fas fa-paperclip"></i>
-                                            </button>
-                                            <input type="file"
-                                                   accept="image/*"
-                                                   style="display: none;"
-                                                   class="fileElem"
-                                                   id="attachment"
-                                                   name="attachment[]"/>
-                                        </p>
-                                        <div class="imagePreview"
-                                             style="display: none; min-height: 100px !important;">
-                                            <button type="button"
-                                                    class="btn btn-xs clearImage"
-                                                    style="top: 1px;
+                                @if(!empty($observation))
+                                    @foreach($observation as $item)
+                                        <tr>
+                                            <td>
+                                                <div class="imagePreview"
+                                                     style="min-height: 100px !important; background-image: url('{{$item->image_path}}'); display: block; background-size: cover">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="text"
+                                                       value="{{$item->remarks}}"
+                                                       readonly
+                                                       class="form-control">
+                                            </td>
+                                            <td>
+                                                {{--<button type="button"
+                                                        data-table-id="observations"
+                                                        class="btn btn-sm btn-danger"
+                                                        value="deleteRow">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>--}}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td>
+                                            <p>
+                                                <button type="button" title="Select Image"
+                                                        data-toggle="tooltip"
+                                                        data-select="file"
+                                                        class="btn btn-primary btn-sm selectAttachment">
+                                                    <i class="fas fa-paperclip"></i>
+                                                </button>
+                                                <input type="file"
+                                                       accept="image/*"
+                                                       style="display: none;"
+                                                       class="fileElem"
+                                                       id="attachment"
+                                                       name="attachment[]"/>
+                                            </p>
+                                            <div class="imagePreview"
+                                                 style="display: none; min-height: 100px !important;">
+                                                <button type="button"
+                                                        class="btn btn-xs clearImage"
+                                                        style="top: 1px;
                                                                                                     position: relative;
                                                                                                     right: 1px;
                                                                                                     float: right;
                                                                                                     padding: 2px;">
-                                                <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                                    <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="text" name="observation[]" class="form-control">
+                                        </td>
+                                        <td>
+                                            <button type="button"
+                                                    data-table-id="observations"
+                                                    class="btn btn-sm btn-danger"
+                                                    value="deleteRow">
+                                                <i class="fa fa-trash"></i>
                                             </button>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <input type="text" name="observation[]" class="form-control">
-                                    </td>
-                                    <td>
-                                        <button type="button"
-                                                data-table-id="observations"
-                                                class="btn btn-sm btn-danger"
-                                                value="deleteRow">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                @endif
                                 </tbody>
                             </table>
-                            <button type="button"
-                                    data-table-id="observations"
-                                    class="btn btn-sm btn-primary add pull-right"
-                                    value="insertRow">
-                                <i class="fa fa-plus"></i> Add Row
-                            </button>
+                            @if(empty($observation))
+                                <button type="button"
+                                        data-table-id="observations"
+                                        class="btn btn-sm btn-primary add pull-right"
+                                        value="insertRow">
+                                    <i class="fa fa-plus"></i> Add Row
+                                </button>
+                            @endif
                         </div>
                     </div>
                 </div>

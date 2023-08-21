@@ -32,6 +32,7 @@ use App\Models\RequisitionType;
 use App\Models\Settings\Accessory;
 use App\Models\Settings\GeneralTableConfiguration;
 use App\Models\Workflow\WorkflowTaskHeader;
+use App\Models\WorkShopManagement\AssessmentObservation;
 use App\Models\WorkShopManagement\JobCardHeader;
 use App\Models\WorkShopManagement\Mechanic;
 use App\Models\WorkShopManagement\WorkShopComment;
@@ -109,7 +110,8 @@ class MaintenanceController extends Controller
             $materialsHeader,
             $services,
             $labour,
-            $pettyCashItems
+            $pettyCashItems,
+            $observation
             ) = $this->getFullJobCardDetails($reference);
 
         $mechanics = [];
@@ -139,7 +141,8 @@ class MaintenanceController extends Controller
                     "services",
                     'labour',
                     'mechanics',
-                    'pettyCashItems'
+                    'pettyCashItems',
+                    'observation'
                 )
             );
     }
@@ -163,7 +166,8 @@ class MaintenanceController extends Controller
             $materialsHeader,
             $services,
             $labour,
-            $pettyCashItems
+            $pettyCashItems,
+            $observation
             ) = $this->getFullJobCardDetails($reference);
 
         $mechanics = [];
@@ -192,7 +196,8 @@ class MaintenanceController extends Controller
                     "services",
                     'labour',
                     'mechanics',
-                    'pettyCashItems'
+                    'pettyCashItems',
+                    'observation'
                 )
             );
     }
@@ -222,7 +227,8 @@ class MaintenanceController extends Controller
             $materialsHeader,
             $services,
             $labour,
-            $pettyCashItems
+            $pettyCashItems,
+            $observation
             ) = $this->getFullJobCardDetails($reference);
 
         return view($view_name)
@@ -241,7 +247,8 @@ class MaintenanceController extends Controller
                     "materialsHeader",
                     "services",
                     'labour',
-                    'pettyCashItems'
+                    'pettyCashItems',
+                    'observation'
                 )
             );
     }
@@ -265,7 +272,8 @@ class MaintenanceController extends Controller
             $materialsHeader,
             $services,
             $labour,
-            $pettyCashItems
+            $pettyCashItems,
+            $observation
             ) = $this->getFullJobCardDetails($reference);
 
         return view("modules.workshopManagement.workOrder.create")
@@ -284,7 +292,8 @@ class MaintenanceController extends Controller
                     "materialsHeader",
                     "services",
                     "labour",
-                    "pettyCashItems"
+                    "pettyCashItems",
+                    'observation'
                 )
             );
     }
@@ -467,7 +476,8 @@ class MaintenanceController extends Controller
             $materialsHeader,
             $services,
             $labour,
-            $pettyCashItems
+            $pettyCashItems,
+            $observation
             ) = $this->getFullJobCardDetails($reference);
 
         return view("modules.workshopManagement.workOrder.show")
@@ -486,7 +496,8 @@ class MaintenanceController extends Controller
                     "materialsHeader",
                     "services",
                     'labour',
-                    'pettyCashItems'
+                    'pettyCashItems',
+                    'observation'
                 )
             );
     }
@@ -515,7 +526,8 @@ class MaintenanceController extends Controller
             $materialsHeader,
             $services,
             $labour,
-            $pettyCashItems
+            $pettyCashItems,
+            $observation
             ) = $this->getFullJobCardDetails($reference);
 
         return view("modules.workshopManagement.workOrder.create")
@@ -534,7 +546,8 @@ class MaintenanceController extends Controller
                     "materialsHeader",
                     "services",
                     'labour',
-                    'pettyCashItems'
+                    'pettyCashItems',
+                    'observation'
                 )
             );
     }
@@ -590,7 +603,8 @@ class MaintenanceController extends Controller
             $materialsHeader,
             $services,
             $labour,
-            $pettyCashItems
+            $pettyCashItems,
+            $observation
             ) = $this->getFullJobCardDetails($request->get("reference"));
 
         $taskHeader = null;
@@ -617,7 +631,8 @@ class MaintenanceController extends Controller
                     "labour",
                     'taskHeader',
                     'approvalHistory',
-                    'pettyCashItems'
+                    'pettyCashItems',
+                    'observation'
                 )
             );
     }
@@ -818,7 +833,8 @@ class MaintenanceController extends Controller
             $materialsHeader,
             $services,
             $labour,
-            $pettyCashItems
+            $pettyCashItems,
+            $observation
             ) = $this->getFullJobCardDetails($jobCardClosureReferenceNumber);
 
         $taskHeader = null;
@@ -845,7 +861,8 @@ class MaintenanceController extends Controller
                     "labour",
                     'taskHeader',
                     'approvalHistory',
-                    'pettyCashItems'
+                    'pettyCashItems',
+                    'observation'
                 )
             );
     }
@@ -1035,6 +1052,7 @@ class MaintenanceController extends Controller
         $services = collect([]);
         $labour = collect([]);
         $pettyCashItems = collect([]);
+        $observation = collect([]);
 
         if ($reference) {
             list($accessories_checked_in,
@@ -1046,7 +1064,8 @@ class MaintenanceController extends Controller
                 $materialsHeader,
                 $services,
                 $labour,
-                $pettyCashItems) = $this->getFullJobCardData($reference);
+                $pettyCashItems,
+                $observation) = $this->getFullJobCardData($reference);
         }
 
         return array(
@@ -1063,7 +1082,8 @@ class MaintenanceController extends Controller
             $materialsHeader,
             $services,
             $labour,
-            $pettyCashItems
+            $pettyCashItems,
+            $observation
         );
     }
 
@@ -1092,7 +1112,8 @@ class MaintenanceController extends Controller
                 $materialsHeader,
                 $services,
                 $labour,
-                $pettyCashItems) = $this->getFullJobCardData($reference);
+                $pettyCashItems,
+                $observation) = $this->getFullJobCardData($reference);
         }
 
         return array(
@@ -1108,7 +1129,8 @@ class MaintenanceController extends Controller
             $materialsHeader,
             $services,
             $labour,
-            $pettyCashItems
+            $pettyCashItems,
+            $observation
         );
     }
 
@@ -1435,6 +1457,8 @@ class MaintenanceController extends Controller
 
         $services = $this->workshopRequisitionService->getWorkShopRequisitionServiceItems($details->wshp_act_code);
 
+        $observation = AssessmentObservation::where("reference", "=", $details->wshp_act_code)->get();
+
         $pettyCashItems = collect([]);
 
         $labour = DB::table('wm_workshop_labours labour')
@@ -1456,6 +1480,7 @@ class MaintenanceController extends Controller
             $materialsHeader,
             $services,
             $labour,
-            $pettyCashItems);
+            $pettyCashItems,
+            $observation);
     }
 }
