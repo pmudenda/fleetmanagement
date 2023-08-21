@@ -2848,18 +2848,14 @@
                     const vehicleReg = $table.find('tbody').find('[name="registration"]').val();
                     $table.find('tbody').append(materialTableRowTemplate);
                     $table.find('tbody').find('[name="registration"]').val(vehicleReg).attr('readonly');
-                } else if (tableId === "services_table") {
+                }
+                else if (tableId === "services_table") {
                     const vehicleReg = $table.find('tbody').find('[name="vehicle_registration"]').val();
                     $table.find('tbody').append(serviceTableRowTemplate);
                     $table.find('tbody').find('[name="vehicle_registration"]').val(vehicleReg).attr('readonly');
 
                 } else if (tableId === "part8") {
                     $table.find('tbody').append(defectTableRowTemplate);
-                    /*if (tableId === "part8") {
-                        if ($('.select_2_control').data('select2')) {
-                            $('.select_2_control').select2('destroy');
-                        }
-                    }*/
                 }
 
                 let lastRow = $table.find('tbody tr').eq((0 + 1) * -1);

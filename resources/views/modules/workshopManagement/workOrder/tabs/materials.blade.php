@@ -41,7 +41,7 @@
                                             class="form-select form-select-sm"
                                             name="itemType"
                                             id="itemType">
-                                        <option disabled></option>
+                                        <option></option>
                                         <option value="{{RequisitionItemTypes::StockItemCode}}">
                                             STOCK ITEM
                                         </option>
