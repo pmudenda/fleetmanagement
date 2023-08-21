@@ -113,10 +113,10 @@
                         <div class="table-responsive" style="max-height:500px;">
                             <table class="table" id="observations">
                                 <thead>
-                                <tr class="bg-default-dark">
+                                <tr class="bg-success">
                                     <th>Attachment</th>
-                                    <td></td>
-                                    <th>Observation</th>
+                                    <td>File</td>
+                                    <th>Remarks</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -139,7 +139,7 @@
                                     </td>
                                     <td>
                                         <div class="imagePreview"
-                                             style="display: none;">
+                                             style="display: none; max-height: 100px !important;">
                                             <button type="button"
                                                     class="btn btn-xs clearImage"
                                                     style="top: 1px;
