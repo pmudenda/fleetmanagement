@@ -392,7 +392,7 @@
                                                 data-table-id="observations"
                                                 class="btn btn-sm btn-danger"
                                                 value="deleteRow">
-                                            <i class="fa fa-trash"></i> Add Row
+                                            <i class="fa fa-trash"></i>
                                         </button>
                                     </td>
                                 </tr>`;
