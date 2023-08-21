@@ -478,11 +478,11 @@
                                 obj[item.name] = item.value;
                             }
                         });
-                    } else if (
-                        formSel.data('modelName') === 'Defects'
-                        || formSel.data('modelName') === 'PartsHeader'
-                        || formSel.data('modelName') === 'ServicesHeader'
+                    }
+                    if (
+                        formSel.data('modelName') === 'Observations'
                     ) {
+
                         $(formElements).find("tbody").children().map(function (index, row) {
                             let obj = {};
                             $(row).find('input[name], select[name]').each(function (i, item) {
@@ -497,50 +497,20 @@
                                     obj[item.name] = item.value;
                                 }
                             });
-
                             arr.push(obj);
                         });
 
-                        obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
-                        // obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
-                        // obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
+                        $($container).find('input[name], select[name] textarea[name]').each(function (i, item) {
+                            if (item.type === 'radio') {
+                                obj[item.name] = $('[name="' + item.name + '"]:checked').val();
+                            } else {
+                                obj[item.name] = item.value;
+                            }
+                        });
 
-                        if (formSel.data('modelName') === 'Defects') {
-                            obj['job_card_no'] = $('input[name="job_card_voucher"]').val();
-                            obj['vehicle_registration'] = $('input[name="vehicle_registration"]').val();
-                            obj['remarks'] = $('#remarks').val();
-                        } else if (formSel.data('modelName') === 'PartsHeader') {
-                            obj['itemType'] = $('[name="itemType"]').val();
-                            obj['job_card_no'] = $('[name="job_card_number"]').val();
-                            obj['purchase_office'] = $('[name="purchase_office"]').val();
-                            obj['workshop_code'] = $('[name="workshop_code"]').val();
-                            obj['request_date'] = $('[name="request_date"]').val()?.trim();
-                            obj['date_expected'] = $('[name="date_expected"]').val()?.trim();
-                            obj['supplier'] = $('[name="supplier"]').val();
-                            obj['store_code'] = $('[name="store_code"]').val();
-                            obj['store_name'] = $('[name="store_name"]').val();
-                            obj['remarks'] = $('#comments').val();
-                            obj['total_amount'] = $('#itemsTotal').text();
-                            obj['vehicle_registration'] = $('input[name="vehicle_registration"]').val();
-                        } else if (formSel.data('modelName') === 'ServicesHeader') {
-                            obj['itemType'] = $('[name="serviceItemType"]').val();
-                            obj['job_card_no'] = $('[name="job_card_number"]').val();
-                            obj['purchase_office'] = $('[name="purchase_office"]').val();
-                            obj['workshop_code'] = $('[name="workshop_code"]').val();
-                            obj['request_date'] = $('[name="request_date"]').val()?.trim();
-                            obj['date_expected'] = $('[name="date_expected"]').val()?.trim();
-                            obj['supplier'] = $('[name="service_supplier"]').val();
-                            obj['store_code'] = '';
-                            // $('[name="store_code"]').val();
-                            obj['store_name'] = $('[name="store_name"]').val();
-                            obj['remarks'] = $('#service_comments').val();
-                            obj['total_amount'] = $('#serviceTotalPrice').text();
-                            obj['vehicle_registration'] = $('input[name="vehicle_registration"]').val();
-                        }
                     } else {
                         $($container).find('input[name], select[name]').each(function (i, item) {
                             // let val = item.value.replace(/,/g, '');
-
                             if (item.type === 'radio') {
                                 obj[item.name] = $('[name="' + item.name + '"]:checked').val();
                             } else {

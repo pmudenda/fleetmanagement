@@ -81,7 +81,6 @@
                 </div>
             </div>
 
-
             <div class="row mt-10">
                 <div class="col">
                     <div class="form-group">
@@ -111,7 +110,8 @@
                 <div class="col">
                     <div class="row">
                         <div class="table-responsive" style="max-height:500px;">
-                            <table class="table table-striped" id="observations">
+                            <table data-model-name="Observations"
+                                    class="table table-striped" id="observations">
                                 <thead>
                                 <tr class="bg-success">
                                     <th>Attachment</th>
