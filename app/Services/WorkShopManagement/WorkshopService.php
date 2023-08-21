@@ -205,7 +205,8 @@ class WorkshopService
             }
         }
 
-        dd($toSave);
+        Log::info("Number Of Items To Save " . sizeof($toSave));
+
         if (!empty($comment)) {
             WorkShopComment::firstOrCreate(
                 [
