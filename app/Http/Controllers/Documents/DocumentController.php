@@ -14,42 +14,39 @@ class DocumentController extends Controller
     {
         $query = DocumentFollowup::query();
 
-        if ($request->has('documentType') && !empty($request->has('documentType'))) {
+        if ($request->has('documentType') && $request->filled('documentType')) {
             $query->where(function ($query) use ($request) {
-                $documentType = strtoupper(trim($request->get('documentType')));
-                $query->where("type_document", "=", $documentType);
+                $query->where("type_document", "=", strtoupper(trim($request->get('documentType'))));
             });
         }
 
-        if ($request->has('documentNumber') && !empty($request->has('documentNumber'))) {
+        if ($request->has('documentNumber') && $request->filled('documentNumber')) {
             $query->where(function ($query) use ($request) {
-                $documentNo = strtoupper(trim($request->get('documentNumber')));
-                $query->where("document_no", "=", $documentNo);
+                $query->where("document_no", "=", strtoupper(trim($request->get('documentNumber'))));
             });
         }
 
         if ($request->has('periodFrom')
-                && $request->has('periodTo')
+            && $request->has('periodTo')
             && $request->filled('periodFrom')
             && $request->filled('periodTo')
         ) {
             $query->where(function ($query) use ($request) {
                 $startDate = Carbon::createFromFormat('Y-m-d', $request->get('periodFrom'));
                 $endDate = Carbon::createFromFormat('Y-m-d', $request->get('periodTo'));
-                $query->where('date_act', '>=', $startDate)->where('date_act', '<=', $endDate);
+                $query->whereBetween('date_act', [$startDate, $endDate]);
             });
         } elseif ($request->has('periodFrom') && $request->filled('periodFrom')) {
 
             $query->where(function ($query) use ($request) {
                 $startDate = Carbon::createFromFormat('Y-m-d', $request->get('periodFrom'));
-                $query->where('date_act', '>=', $startDate);
+                $query->whereDate('date_act', '>=', $startDate);
             });
 
         } elseif ($request->has('periodTo') && $request->filled('periodTo')) {
-
             $query->where(function ($query) use ($request) {
                 $endDate = Carbon::createFromFormat('Y-m-d', $request->get('periodTo'));
-                $query->where('date_act', '<=', $endDate);
+                $query->whereDate('date_act', '<=', $endDate);
             });
 
         }
@@ -60,6 +57,7 @@ class DocumentController extends Controller
         ]);
 
     }
+
     public function documentAuditTrail(Request $request): JsonResponse
     {
         $query = DocumentFollowup::query();
@@ -79,7 +77,7 @@ class DocumentController extends Controller
         }
 
         if ($request->has('periodFrom')
-                && $request->has('periodTo')
+            && $request->has('periodTo')
             && $request->filled('periodFrom')
             && $request->filled('periodTo')
         ) {
