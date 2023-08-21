@@ -220,7 +220,7 @@ class WorkshopService
             }
         }
 
-        Log::info("General Comments  ".$request->get('accessoriesRemarks'));
+        Log::info("General Comments  " . $request->get('accessoriesRemarks'));
         if (!empty($comment)) {
             WorkShopComment::firstOrCreate(
                 [
@@ -245,10 +245,16 @@ class WorkshopService
             $dbDefect = WorkShopTable::where('parent', '=', $defect["defectCategory"])
                 ->where('code', '=', $defect["defect"])
                 ->first();
+            $sameDefect = WorkShopVehicleDefect::where("workshop_reference", "=", $request->get("workshop_reference"))
+                ->where("veh_sys", "=", $defect["vehicleSystem"])
+                ->where("defect_category_code", "=", $defect["defectCategory"])
+                ->where("defect_code", "=", $defect["defect"])
+                ->first();
+
 
             WorkShopVehicleDefect::firstOrCreate(
                 [
-                    "workshop_reference" => $request["workshop_reference"],
+                    "workshop_reference" => $request->get("workshop_reference"),
                     "veh_sys" => $defect["vehicleSystem"],
                     "defect_category_code" => $defect["defectCategory"],
                     "defect_code" => $defect["defect"],

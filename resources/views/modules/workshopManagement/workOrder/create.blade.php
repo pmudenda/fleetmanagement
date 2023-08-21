@@ -588,6 +588,7 @@
         const materialTableRowTemplate = `<tr class="increment">
             <td class="showNumber">
                 <input
+                    readonly
                     name="registration"
                     required
                     value=""
