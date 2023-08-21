@@ -548,13 +548,8 @@
                     data: postData
                 };
 
-                $.post(settings).done(function (response) {
-                    if (response['state'] === 'success') {
+                $.ajax(settings).done(function (response) {
                         showDocumentFollowUpResults(response);
-                    } else {
-                        toastr.error('Request Could Not Be Completed')
-                        Swal.fire('Hi');
-                    }
                 }).fail(function (xhr) {
                     tmsApp.showErrorMessages(xhr, 'Document Follow-up')
                 });
