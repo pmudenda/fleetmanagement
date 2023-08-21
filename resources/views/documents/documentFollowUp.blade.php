@@ -15,8 +15,8 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($requisitions as $rec)
-        <tr>
+    @foreach($data as $rec)
+        {{--<tr>
             <td>
                 <a href="{{URL::signedRoute('show.workshop.requisition', ['ref'=>  $rec->req_no])}}">
                     {{$rec->req_no ?? ''}}
@@ -28,9 +28,9 @@
             </td>
 
 
-            {{--  <td>
+            --}}{{--  <td>
                   {{$rec->veh_reg_no ?? ''}}
-              </td>--}}
+              </td>--}}{{--
             <td>
                 {{Carbon::parse($rec->valid_date_from)->format('d/m/Y')}}
             </td>
@@ -41,14 +41,14 @@
                 {{$rec->originator?? '--'}}
             </td>
 
-            {{-- <td>
+            --}}{{-- <td>
                  {{$rec->quantity}}
-             </td>--}}
+             </td>--}}{{--
 
-            {{-- <td>
+            --}}{{-- <td>
                  {{$rec->quantity_issued ?? 0}}
              </td>
-             --}}
+             --}}{{--
 
             <td>
                 {{$rec->status_name ?? ''}}
@@ -64,7 +64,8 @@
                 </a>
             </td>
 
-        </tr>
+        </tr>--}}
+        <tr></tr>
     @endforeach
     </tbody>
 </table>
