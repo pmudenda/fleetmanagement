@@ -7,14 +7,15 @@ function ImageUpload() {
             $(fileInput).trigger('click');
         });
 
-        let fileSelects = [].slice.call(document.querySelectorAll(selector));
-        fileSelects.map(function (fileSelect) {
+        $(document).on('change', selector, (e) => {
+            preview(e);
+        })
+
+        /*fileSelects.map(function (fileSelect) {
             fileSelect.addEventListener("change",
-                (e) => {
-                    preview(e);
-                },
+                ,
                 false);
-        });
+        });*/
 
         function preview(event) {
             //$('#frame').src = URL.createObjectURL(event.target.files[0]);
