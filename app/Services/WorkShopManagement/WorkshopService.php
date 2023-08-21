@@ -178,21 +178,19 @@ class WorkshopService
         }
 
         $attachedFiles = $request->get('attachment');
-        $observations = $request->get('observation');
-
+        // $observations = $request->get('observation');
         $uploadedFiles = [];
-        if (sizeof($attachedFiles) > 0) {
-            foreach ($attachedFiles as $attachedFile) {
-                $uploadedFiles = FileUploadService::uploadFile(
-                    $request,
-                    "attachment",
-                    "Assessment",
-                    $reference_number,
-                    "Observations",
-                    "Observations",
-                    $user
-                );
-            }
+
+        if (!empty($attachedFiles) > 0) {
+            $uploadedFiles = FileUploadService::uploadFile(
+                $request,
+                "attachment",
+                "Assessment",
+                $reference_number,
+                "Observations",
+                "Observations",
+                $user
+            );
         }
         $toSave = [];
         for ($key = 0; $key < sizeof($request->observation); $key++) {

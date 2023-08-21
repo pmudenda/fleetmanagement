@@ -1450,7 +1450,8 @@ class MaintenanceController extends Controller
                 "wckt.description as defect_category_name",
                 "def.defect_code",
                 "def.defect_name",
-                "def.section_code")->get();
+                "def.section_code"
+            )->get();
 
         $comments = WorkShopComment::where("workshop_reference", "=", $details->wshp_act_code)->get();
 
