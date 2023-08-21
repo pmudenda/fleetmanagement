@@ -10,7 +10,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class DocumentController extends Controller
@@ -19,7 +18,7 @@ class DocumentController extends Controller
     {
         Log::info("Making Document Followup");
         try {
-            $query = DB::table(config('tables.table_names.documentStatus'))->query();
+            $query = DocumentFollowup::query();
             if ($request->has('documentType') && $request->filled('documentType')) {
                 $query->where(function ($query) use ($request) {
                     $query->where("type_document", "=", strtoupper(trim($request->get('documentType'))));
@@ -56,7 +55,7 @@ class DocumentController extends Controller
             }
 
             $data = $query
-                ->leftJoin('config_general_tables',"")
+                ->leftJoin('config_general_tables', "")
                 ->paginate(50);
             Log::info("Running Query");
             return view("documents/documentFollowUp")->with(compact('data'));
