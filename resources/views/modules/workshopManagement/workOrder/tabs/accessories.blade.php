@@ -175,7 +175,28 @@
             </div>
 
             <div class="row mt-10">
+                <table class="mt-10 table">
+                    <tbody>
+                    <tr>
+                        <td class="text-left">
+                            <strong id="srfTotal" class="input-number">Prepared By:</strong>
+                            <b id="section" class="input-number">RECEPTION</b>
+                        </td>
+                        <td>
 
+                        </td>
+                        <td class="text-right">
+                            <button class="btn btn-sm btn-success pull-right"
+                                    id="saveAssessment"
+                                    name="saveAssessment"
+                                    type="button">
+                                <i class="fas fa-save"></i>
+                                Save
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

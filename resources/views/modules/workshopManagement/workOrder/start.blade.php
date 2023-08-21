@@ -406,6 +406,10 @@
             Inputmask({
                 "mask": "AAA 9{1,4}"
             }).mask('[name="vehicle_registration"]');
+
+            $("#saveAssessment").on('click', function(){
+
+            });
         });
 
         (function (tmsApp, $) {
