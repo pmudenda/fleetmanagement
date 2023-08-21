@@ -188,13 +188,13 @@
 
                         </td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-success pull-right"
+                            {{--<button class="btn btn-sm btn-success pull-right"
                                     id="saveAssessment"
                                     name="saveAssessment"
                                     type="button">
                                 <i class="fas fa-save"></i>
                                 Save
-                            </button>
+                            </button>--}}
                         </td>
                     </tr>
                     </tbody>
