@@ -198,7 +198,7 @@ class WorkshopService
         if (sizeof($observations) > 0) {
             foreach ($observations as $observation) {
                 Log::info($uploadedFiles[$key]);
-                $toSave[] = array('observation' => $observations[$key], 'file' => $uploadedFiles[$key]);
+                $toSave[] = array('observation' => $observation, 'file' => $uploadedFiles[$key]->path);
                 $key += 1;
             }
         }
