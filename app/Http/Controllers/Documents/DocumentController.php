@@ -13,7 +13,7 @@ class DocumentController extends Controller
 {
     public function documentFollowup(Request $request): JsonResponse
     {
-
+        Log::info("Making Document Followup" . $request->all());
         try {
             $query = DocumentFollowup::query();
             if ($request->has('documentType') && $request->filled('documentType')) {
