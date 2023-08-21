@@ -369,7 +369,7 @@
                                                    style="display: none;"
                                                    class="fileElem d-none"
                                                    id="attachment"
-                                                   name="attachment"/>
+                                                   name="attachment[]"/>
                                         </p>
                                         <div class="imagePreview"
                                              style="display: none; min-height: 100px !important;">
