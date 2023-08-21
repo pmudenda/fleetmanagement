@@ -271,9 +271,6 @@
 
 @push('scripts')
 
-    <!-- DataTables  & Plugins -->
-    @include('layouts.partials.dataTableScripts')
-    <!-- page script -->
     <script>
         (function (tmsApp) {
             let editRecordModalEl = document.querySelector('#editRecordModal')

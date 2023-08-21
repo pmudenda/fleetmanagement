@@ -143,10 +143,6 @@
 @endsection
 
 @push('scripts')
-
-    <!-- DataTables  & Plugins -->
-    @include('layouts.partials.dataTableScripts')
-    <!-- page script -->
     <script>
         (function (appInstance) {
             appInstance.initDatatable("#listTable", true);

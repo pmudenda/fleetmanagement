@@ -303,7 +303,7 @@
 @endsection
 
 @push('scripts')
-    @include('layouts.partials.dataTableScripts')
+    {{--@include('layouts.partials.dataTableScripts')--}}
     <script>
         window.vehicleData = {!! json_encode($vehicleData) !!};
         (function (appInstance) {

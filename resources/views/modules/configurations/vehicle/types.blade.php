@@ -183,7 +183,6 @@
 @endsection
 
 @push('scripts')
-    @include('layouts.partials.dataTableScripts')
     <script>
         (function (tmsApp, $) {
 

@@ -238,6 +238,5 @@
 @endsection
 
 @push('scripts')
-    @include('layouts.partials.dataTableScripts')
     <script src="{{ asset('application/modules/configurations/assets/js/brand.definition.js') }}"></script>
 @endpush

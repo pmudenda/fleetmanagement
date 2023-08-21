@@ -601,7 +601,6 @@
 @endsection
 
 @push('scripts')
-    @include('layouts.partials.dataTableScripts')
     <script src="{{asset('application/modules/vehicleManagement/assets/js/vehicle_list.js')}}"></script>
     <script>
         (function (appInstance) {

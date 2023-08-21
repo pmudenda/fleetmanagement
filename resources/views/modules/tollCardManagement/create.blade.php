@@ -422,7 +422,6 @@
 @push('scripts')
     <script
             src="{{asset('application/modules/userManagement/employee.search.js').'?v='.Carbon::now()->format('his')}}"></script>
-    @include('layouts.partials.dataTableScripts')
     <script src="{{asset('libs/imageUpload/imageUpload.js')}}"></script>
     <!-- page script -->
     <script>

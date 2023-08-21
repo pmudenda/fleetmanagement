@@ -496,6 +496,7 @@
 <script src="{{asset('assets/js/global/custom_filer.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{ asset('libs/session.timeout/session.timeout.js').'?v='.Carbon::now()->format('his')}}"></script>
 <script src="{{ asset('libs/qrcode/qrcode.min.js').'?v='.Carbon::now()->format('his')}}"></script>
+@include('layouts.partials.dataTableScripts')
 <script type="text/javascript">
     function generateBarcode(data) {
         let qrcode = new QRCode(document.getElementById("qrcode"), {
@@ -517,6 +518,23 @@
         $(document).on('select2:open', () => {
             document.querySelector('.select2-search__field').focus();
         });
+
+        const resultsModalEl = document.querySelector('#documentFollowUp');
+        resultsModalEl.addEventListener('show.bs.modal', function (event) {
+            // Button that triggered the modal
+            const button = event.relatedTarget
+            $("#documentFollowUpTable").DataTable({
+                /*"info": false,*/
+                'order': [],
+                "pageLength": 10,
+                "responsive": true,
+                "searchable": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                'columnDefs': [],
+                "buttons": []
+            })
+        })
     });
 
     (function (tmsApp, $) {
@@ -586,10 +604,17 @@
             });
 
         function showDocumentFollowUpResults(results) {
-            $('#modal-followUp').modal('hide');
+            const modalEl = document.querySelector('#modal-followUp');
+            const resultsModalEl = document.querySelector('#documentFollowUp');
+            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            modal.hide();
             setTimeout(() => {
                 $("#documentFollowUpContent").html(results);
-                $("#documentFollowUp").modal('show');
+                let resultsModal = bootstrap.Modal.getOrCreateInstance(resultsModalEl, {
+                    'backdrop': true,
+                    'keyboard': false
+                });
+                resultsModal.show();
             }, 300);
         }
     }(window.tmsApp || {}, jQuery));

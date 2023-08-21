@@ -273,10 +273,6 @@
 @endsection
 
 @push('scripts')
-
-    <!-- DataTables  & Plugins -->
-    @include('layouts.partials.dataTableScripts')
-    <!-- page script -->
     <script>
         window.vehicleData = {!! json_encode($vehicleData) !!};
         window.tmsVehicleData = {!! json_encode($tmsVehicleData) !!};

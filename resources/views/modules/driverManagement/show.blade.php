@@ -351,7 +351,6 @@
                                         <td>
                                             {{$item->description}}
                                         </td>
-
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -372,15 +371,11 @@
                 </div>
             </div>
         </div>
-        <!-- /.col -->
     </div>
 
 @endsection
 
 @push('scripts')
-    <!-- DataTables  & Plugins -->
-    @include('layouts.partials.dataTableScripts')
-    <!-- page script -->
     <script>
         (function (appInstance) {
             appInstance.initDatatable("#groupsTable", false);

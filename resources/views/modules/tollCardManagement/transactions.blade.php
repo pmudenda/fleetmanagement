@@ -301,7 +301,6 @@
 @push('scripts')
 
     <!-- DataTables  & Plugins -->
-    @include('layouts.partials.dataTableScripts')
     <script src="{{asset('libs/plugins/sheetjs/xlsx.full.min.js')}}"></script>
     <script src="{{asset('libs/plugins/sheetjs/xlsx.js')}}"></script>
     <script src="{{asset('libs/plugins/sheetjs/csvUploader.js')}}"></script>

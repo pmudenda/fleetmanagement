@@ -1,4 +1,4 @@
-<table id="listTable" class="table table-bordered">
+<table id="documentFollowUpTable" class="table table-bordered">
     <thead>
     <tr>
         <th>User</th>

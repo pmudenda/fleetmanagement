@@ -70,9 +70,6 @@
 @endsection
 
 @push('scripts')
-    <!-- DataTables  & Plugins -->
-    @include('layouts.partials.dataTableScripts')
-    <!-- page script -->
     <script type="text/javascript">
         function fuelExpensesByVehicle() {
             let myChart = echarts.init(document.getElementById('main'));
