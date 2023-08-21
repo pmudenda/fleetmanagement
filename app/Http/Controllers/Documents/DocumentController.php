@@ -54,7 +54,9 @@ class DocumentController extends Controller
 
             }
 
-            $data = $query->paginate(50);
+            $data = $query
+                ->leftJoin()
+                ->paginate(50);
             Log::info("Running Query");
             return view("documents/documentFollowUp")->with(compact('data'));
 
