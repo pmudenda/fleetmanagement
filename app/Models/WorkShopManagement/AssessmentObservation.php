@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AssessmentObservation extends Model
 {
-    protected $table = '';
+    protected $table = 'wm_assessment_observations';
     protected $fillable = [
         'reference',
         'image_path',
