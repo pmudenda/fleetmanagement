@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col">
                     <table
-                        class="table table-row-dashed align-middle gs-0 table-bordered">
+                            class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
                         <tr class="bg-dark-subtle">
                             <th class="pl-2">Item</th>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="col">
                     <table
-                        class="table table-row-dashed align-middle gs-0 table-bordered">
+                            class="table table-row-dashed align-middle gs-0 table-bordered">
                         <thead>
                         <tr class="bg-dark-subtle">
                             <th class="pl-2">Item</th>
@@ -86,8 +86,8 @@
                 <div class="col">
                     <div class="form-group">
                         <label
-                            class="col-xs-12 col-sm-6 col-md-6 col-lg-6 pl-0"
-                            for="accessoriesRemarks">
+                                class="col-xs-12 col-sm-6 col-md-6 col-lg-6 pl-0"
+                                for="accessoriesRemarks">
                             General Comments and Observation (Damages):
                         </label>
                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
@@ -115,6 +115,7 @@
                                 <thead>
                                 <tr class="bg-default-dark">
                                     <th>Attachment</th>
+                                    <td></td>
                                     <th>Observation</th>
                                 </tr>
                                 </thead>
@@ -135,6 +136,20 @@
                                                    id="attachment"
                                                    name="attachment"/>
                                         </p>
+                                    </td>
+                                    <td>
+                                        <div class="imagePreview"
+                                             style="display: none;">
+                                            <button type="button"
+                                                    class="btn btn-xs clearImage"
+                                                    style="top: 1px;
+                                                                                                    position: relative;
+                                                                                                    right: 1px;
+                                                                                                    float: right;
+                                                                                                    padding: 2px;">
+                                                <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                            </button>
+                                        </div>
                                     </td>
                                     <td>
                                         <input type="text" name="observation" class="form-control">

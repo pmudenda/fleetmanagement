@@ -464,10 +464,11 @@
                                                                                             <button type="button"
                                                                                                     class="btn btn-xs clearImage"
                                                                                                     style="top: 1px;
-                                            position: relative;
-                                            right: 1px;
-                                            float: right;
-                                            padding: 2px;"><i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                                                                                    position: relative;
+                                                                                                    right: 1px;
+                                                                                                    float: right;
+                                                                                                    padding: 2px;">
+                                                                                                <i class="fa fa-window-close" style="font-size: 20px;"></i>
                                                                                             </button>
                                                                                         </div>
                                                                                     </div>
