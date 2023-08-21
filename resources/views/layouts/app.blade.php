@@ -549,7 +549,7 @@
                 };
 
                 $.ajax(settings).done(function (response) {
-                        showDocumentFollowUpResults(response);
+                    showDocumentFollowUpResults(response);
                 }).fail(function (xhr) {
                     tmsApp.showErrorMessages(xhr, 'Document Follow-up')
                 });
