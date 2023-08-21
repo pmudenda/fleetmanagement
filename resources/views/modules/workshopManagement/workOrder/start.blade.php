@@ -505,7 +505,7 @@
                             arr.push(obj);
                         });
 
-                        $($container).find('input[name], select[name] textarea[name]').each(function (i, item) {
+                        $("#observations").find('input[name], select[name] textarea[name]').each(function (i, item) {
                             if (item.type === 'radio') {
                                 obj[item.name] = $('[name="' + item.name + '"]:checked').val();
                             } else {
