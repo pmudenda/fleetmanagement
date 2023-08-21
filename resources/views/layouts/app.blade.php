@@ -530,7 +530,6 @@
 
         $(document)
             .on("click", 'button[value="documentFollowUpFilter"]', function (event) {
-                console.log("Here");
                 const form = document.querySelector('form[name="documentFollowUpForm"]');
                 const formData = new FormData(form);
                 let postData = {};
@@ -538,7 +537,7 @@
                     postData[keyValuePair[0]] = keyValuePair[1];
                 }
 
-                const settings = {
+                $.ajax({
                     url: form.action,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -546,9 +545,7 @@
                     type: 'GET',
                     dataType: 'html',
                     data: postData
-                };
-
-                $.ajax(settings).done(function (response) {
+                }).done(function (response) {
                     showDocumentFollowUpResults(response);
                 }).fail(function (xhr) {
                     tmsApp.showErrorMessages(xhr, 'Document Follow-up')
@@ -589,8 +586,11 @@
             });
 
         function showDocumentFollowUpResults(results) {
-            $("#documentFollowUpContent").html(results);
-            $("#documentFollowUp").modal('show');
+            $('#modal-followUp').modal('hide');
+            setTimeout(() => {
+                $("#documentFollowUpContent").html(results);
+                $("#documentFollowUp").modal('show');
+            }, 300);
         }
     }(window.tmsApp || {}, jQuery));
 </script>
