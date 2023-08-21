@@ -155,14 +155,259 @@
                                         <input type="text" name="observation" class="form-control">
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <button type="button" title="Select Image"
+                                                    data-toggle="tooltip"
+                                                    data-select="file"
+                                                    class="btn btn-primary btn-sm selectAttachment">
+                                                <i class="fas fa-paperclip"></i>
+                                            </button>
+                                            <input type="file"
+                                                   accept="image/*"
+                                                   style="display: none;"
+                                                   class="fileElem d-none"
+                                                   id="attachment"
+                                                   name="attachment"/>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <div class="imagePreview"
+                                             style="display: none; min-height: 100px !important;">
+                                            <button type="button"
+                                                    class="btn btn-xs clearImage"
+                                                    style="top: 1px;
+                                                                                                    position: relative;
+                                                                                                    right: 1px;
+                                                                                                    float: right;
+                                                                                                    padding: 2px;">
+                                                <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="observation" class="form-control">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <button type="button" title="Select Image"
+                                                    data-toggle="tooltip"
+                                                    data-select="file"
+                                                    class="btn btn-primary btn-sm selectAttachment">
+                                                <i class="fas fa-paperclip"></i>
+                                            </button>
+                                            <input type="file"
+                                                   accept="image/*"
+                                                   style="display: none;"
+                                                   class="fileElem d-none"
+                                                   id="attachment"
+                                                   name="attachment"/>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <div class="imagePreview"
+                                             style="display: none; min-height: 100px !important;">
+                                            <button type="button"
+                                                    class="btn btn-xs clearImage"
+                                                    style="top: 1px;
+                                                                                                    position: relative;
+                                                                                                    right: 1px;
+                                                                                                    float: right;
+                                                                                                    padding: 2px;">
+                                                <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="observation" class="form-control">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <button type="button" title="Select Image"
+                                                    data-toggle="tooltip"
+                                                    data-select="file"
+                                                    class="btn btn-primary btn-sm selectAttachment">
+                                                <i class="fas fa-paperclip"></i>
+                                            </button>
+                                            <input type="file"
+                                                   accept="image/*"
+                                                   style="display: none;"
+                                                   class="fileElem d-none"
+                                                   id="attachment"
+                                                   name="attachment"/>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <div class="imagePreview"
+                                             style="display: none; min-height: 100px !important;">
+                                            <button type="button"
+                                                    class="btn btn-xs clearImage"
+                                                    style="top: 1px;
+                                                                                                    position: relative;
+                                                                                                    right: 1px;
+                                                                                                    float: right;
+                                                                                                    padding: 2px;">
+                                                <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="observation" class="form-control">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <button type="button" title="Select Image"
+                                                    data-toggle="tooltip"
+                                                    data-select="file"
+                                                    class="btn btn-primary btn-sm selectAttachment">
+                                                <i class="fas fa-paperclip"></i>
+                                            </button>
+                                            <input type="file"
+                                                   accept="image/*"
+                                                   style="display: none;"
+                                                   class="fileElem d-none"
+                                                   id="attachment"
+                                                   name="attachment"/>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <div class="imagePreview"
+                                             style="display: none; min-height: 100px !important;">
+                                            <button type="button"
+                                                    class="btn btn-xs clearImage"
+                                                    style="top: 1px;
+                                                                                                    position: relative;
+                                                                                                    right: 1px;
+                                                                                                    float: right;
+                                                                                                    padding: 2px;">
+                                                <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="observation" class="form-control">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <button type="button" title="Select Image"
+                                                    data-toggle="tooltip"
+                                                    data-select="file"
+                                                    class="btn btn-primary btn-sm selectAttachment">
+                                                <i class="fas fa-paperclip"></i>
+                                            </button>
+                                            <input type="file"
+                                                   accept="image/*"
+                                                   style="display: none;"
+                                                   class="fileElem d-none"
+                                                   id="attachment"
+                                                   name="attachment"/>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <div class="imagePreview"
+                                             style="display: none; min-height: 100px !important;">
+                                            <button type="button"
+                                                    class="btn btn-xs clearImage"
+                                                    style="top: 1px;
+                                                                                                    position: relative;
+                                                                                                    right: 1px;
+                                                                                                    float: right;
+                                                                                                    padding: 2px;">
+                                                <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="observation" class="form-control">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <button type="button" title="Select Image"
+                                                    data-toggle="tooltip"
+                                                    data-select="file"
+                                                    class="btn btn-primary btn-sm selectAttachment">
+                                                <i class="fas fa-paperclip"></i>
+                                            </button>
+                                            <input type="file"
+                                                   accept="image/*"
+                                                   style="display: none;"
+                                                   class="fileElem d-none"
+                                                   id="attachment"
+                                                   name="attachment"/>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <div class="imagePreview"
+                                             style="display: none; min-height: 100px !important;">
+                                            <button type="button"
+                                                    class="btn btn-xs clearImage"
+                                                    style="top: 1px;
+                                                                                                    position: relative;
+                                                                                                    right: 1px;
+                                                                                                    float: right;
+                                                                                                    padding: 2px;">
+                                                <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="observation" class="form-control">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <button type="button" title="Select Image"
+                                                    data-toggle="tooltip"
+                                                    data-select="file"
+                                                    class="btn btn-primary btn-sm selectAttachment">
+                                                <i class="fas fa-paperclip"></i>
+                                            </button>
+                                            <input type="file"
+                                                   accept="image/*"
+                                                   style="display: none;"
+                                                   class="fileElem d-none"
+                                                   id="attachment"
+                                                   name="attachment"/>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <div class="imagePreview"
+                                             style="display: none; min-height: 100px !important;">
+                                            <button type="button"
+                                                    class="btn btn-xs clearImage"
+                                                    style="top: 1px;
+                                                                                                    position: relative;
+                                                                                                    right: 1px;
+                                                                                                    float: right;
+                                                                                                    padding: 2px;">
+                                                <i class="fa fa-window-close" style="font-size: 20px;"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="observation" class="form-control">
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
-                            <button type="button"
+                            {{--<button type="button"
                                     data-table-id="observations"
                                     class="btn btn-sm btn-primary add pull-right"
                                     value="addRow">
                                 <i class="fa fa-plus"></i> Add Row
-                            </button>
+                            </button>--}}
                         </div>
                     </div>
                 </div>
