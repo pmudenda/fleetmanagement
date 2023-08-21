@@ -49,7 +49,9 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -1101,6 +1103,7 @@ class MaintenanceController extends Controller
         $services = collect([]);
         $labour = collect([]);
         $pettyCashItems = collect([]);
+        $observation = collect([]);
 
         if ($reference) {
             list($accessories_checked_in,
