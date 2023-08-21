@@ -51,8 +51,7 @@ class DocumentController extends Controller
 
             }
 
-            var_dump($query);
-            $data = $query->get();
+            $data = $query->paginate(50);
             Log::info("Running Query");
             return response()->json([
                 'state' => 'success',
