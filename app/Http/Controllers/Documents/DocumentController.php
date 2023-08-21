@@ -50,10 +50,12 @@ class DocumentController extends Controller
                 });
 
             }
+            $data = $query->get();
+
             Log::info("Running Query");
             return response()->json([
                 'state' => 'success',
-                'payload' => $query->get()
+                'payload' => $data
             ]);
         } catch (\Exception $e) {
             Log::error($e);
