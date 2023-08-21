@@ -218,7 +218,7 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="button"
                                 class="btn btn-sm btn-success"
-                                value="applyFilter">
+                                value="applyAuditTrailFilter">
                             <i class="fas fa-hand-grab-o"></i>
                             Get
                         </button>
@@ -229,11 +229,9 @@
         </div>
     </div>
 
-
     <div class="modal" id="modal-followUp">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <h4 class="modal-title">
@@ -325,7 +323,6 @@
 
         </div>
     </div>
-
 
     <div class="modal" id="modal-taskFollowUp">
         <div class="modal-dialog modal-xl">
@@ -420,6 +417,7 @@
 <audio preload="auto" id="sound-alert" volume=0.2>
     <source src="{{asset('assets/sounds/alert.mp3')}}"/>
 </audio>
+
 <div class="modal fade" id="documentFollowUp" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -436,6 +434,7 @@
         </div>
     </div>
 </div>
+
 <script>
     window._version_number = "{{\Illuminate\Support\Str::uuid()}}";
     window.app = true;
@@ -521,7 +520,7 @@
 
         const queryModalEl = document.querySelector('#modal-followUp');
 
-        queryModalEl.addEventListener('hidden.bs.modal', function (event) {
+        queryModalEl.addEventListener('hide.bs.modal', function (event) {
             $("#documentFollowUpForm").reset();
         });
 
@@ -552,65 +551,72 @@
             this.value = this.value.toUpperCase();
         });
 
-        $(document)
-            .on("click", 'button[value="documentFollowUpFilter"]', function (event) {
-                const form = document.querySelector('form[name="documentFollowUpForm"]');
-                const formData = new FormData(form);
-                let postData = {};
-                for (const keyValuePair of formData.entries()) {
-                    postData[keyValuePair[0]] = keyValuePair[1];
-                }
+        $(document).on("click", 'button[value="documentFollowUpFilter"]', function (event) {
+            const form = document.querySelector('form[name="documentFollowUpForm"]');
+            const formData = new FormData(form);
+            let postData = {};
+            for (const keyValuePair of formData.entries()) {
+                postData[keyValuePair[0]] = keyValuePair[1];
+            }
 
-                $.ajax({
-                    url: form.action,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: 'GET',
-                    dataType: 'html',
-                    data: postData
-                }).done(function (response) {
-                    showDocumentFollowUpResults(response);
-                }).fail(function (xhr) {
-                    tmsApp.showErrorMessages(xhr, 'Document Follow-up')
-                });
+            $.ajax({
+                url: form.action,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'GET',
+                dataType: 'html',
+                data: postData
+            }).done(function (response) {
+                showDocumentFollowUpResults(response);
+            }).fail(function (xhr) {
+                tmsApp.showErrorMessages(xhr, 'Document Follow-up')
             });
+        });
 
+        $(document).on("click", 'button[value="applyAuditTrailFilter"]', function (event) {
+            console.log("Here");
+            const form = document.querySelector('form[name="documentAuditTrail"]');
+            const formData = new FormData(form);
+            let postData = {};
+            for (const keyValuePair of formData.entries()) {
+                postData[keyValuePair[0]] = keyValuePair[1];
+            }
 
-        $(document)
-            .on("click", 'button[value="applyFilter"]', function (event) {
-                console.log("Here");
-                const form = document.querySelector('form[name="documentFollowUpForm"]');
-                const formData = new FormData(form);
-                let postData = {};
-                for (const keyValuePair of formData.entries()) {
-                    postData[keyValuePair[0]] = keyValuePair[1];
-                }
+            const settings = {
+                url: form.action,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'GET',
+                dataType: 'json',
+                data: postData
+            };
 
-                const settings = {
-                    url: form.action,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: 'POST',
-                    dataType: 'json',
-                    data: postData
-                };
-
-                $.post(settings).done(function (response) {
-                    if (response['state'] === 'success') {
-                        showDocumentFollowUpResults(response);
-                    } else {
-                        toastr.error('Request Could Not Be Completed')
-                        Swal.fire('Hi');
-                    }
-                }).fail(function (xhr) {
-                    tmsApp.showErrorMessages(xhr, 'Document Follow-up')
-                });
+            $.ajax(settings).done(function (response) {
+                showDocumentAuditTrailResults(response);
+            }).fail(function (xhr) {
+                tmsApp.showErrorMessages(xhr, 'Document Audit Trail')
             });
+        });
+
+        function showDocumentAuditTrailResults(results) {
+            const modalEl = document.querySelector('#modal-followUp');
+            const resultsModalEl = document.querySelector('#documentFollowUp');
+            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            modal.hide();
+            setTimeout(() => {
+                $("#documentFollowUpContent").html(results);
+                let resultsModal = bootstrap.Modal.getOrCreateInstance(resultsModalEl, {
+                    'backdrop': true,
+                    'keyboard': false
+                });
+                resultsModal.show();
+            }, 300);
+        }
 
         function showDocumentFollowUpResults(results) {
-            const modalEl = document.querySelector('#modal-followUp');
+            const modalEl = document.querySelector('#modal-auditTrail');
             const resultsModalEl = document.querySelector('#documentFollowUp');
             const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
             modal.hide();
