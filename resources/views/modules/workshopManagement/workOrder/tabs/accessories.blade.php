@@ -167,7 +167,7 @@
                                     data-table-id="observations"
                                     class="btn btn-sm btn-primary add pull-right"
                                     value="insertRow">
-                                <i class="fa fa-plus"></i>
+                                <i class="fa fa-plus"></i> Add Row
                             </button>
                         </div>
                     </div>
