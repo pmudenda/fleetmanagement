@@ -50,9 +50,9 @@ class DocumentController extends Controller
                 });
 
             }
-            $data = $query->get();
-            var_dump($query);
 
+            var_dump($query);
+            $data = $query->get();
             Log::info("Running Query");
             return response()->json([
                 'state' => 'success',
