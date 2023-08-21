@@ -212,8 +212,8 @@ class WorkshopService
             foreach ($toSave as $item) {
                 AssessmentObservation::create([
                     'reference' => $request->workshop_reference,
-                    'image_path' => $item->file,
-                    'remarks' => $item->observation,
+                    'image_path' => $item['file'],
+                    'remarks' => $item['observation'],
                     'reported_by' => $user->staff_no
                 ]);
             }
