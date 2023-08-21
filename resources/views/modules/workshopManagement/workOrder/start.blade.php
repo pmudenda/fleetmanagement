@@ -679,7 +679,7 @@
                         return form.valid();
                     },
                     onFinished: function () {
-
+                        $('a[href="#finish"]').disableBtn();
                         if (form.valid()) {
                             tmsApp.confirm(
                                 'Confirm',
@@ -696,7 +696,7 @@
                                 }
                             );
                         } else {
-                            //$('a[role="#finish"]').enableBtn();
+                            $('a[role="#finish"]').enableBtn();
                             //swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
                         }
 

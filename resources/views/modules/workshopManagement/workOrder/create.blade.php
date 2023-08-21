@@ -2051,7 +2051,7 @@
                                 }
                             );
                         } else {
-                            //$('a[role="#finish"]').enableBtn();
+                            $('a[role="#finish"]').enableBtn();
                             //swal("Error !", "You may have some missing data for the return, Kindly review your submission", "error");
                         }
 
