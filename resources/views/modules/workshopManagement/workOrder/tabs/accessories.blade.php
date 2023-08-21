@@ -111,7 +111,7 @@
                 <div class="col">
                     <div class="row">
                         <div class="table-responsive" style="max-height:500px;">
-                            <table class="table" id="observations">
+                            <table class="table table-striped" id="observations">
                                 <thead>
                                 <tr class="bg-success">
                                     <th>Attachment</th>
