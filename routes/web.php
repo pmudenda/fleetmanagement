@@ -217,7 +217,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::post('save/job/card/header', [MaintenanceController::class, 'saveJobCardHeader'])->name('save.job.card');
 
-            Route::post('save/job/card/accessories', [MaintenanceController::class, 'processJobCardAccessories'])->name('job_card.accessories.checkin');
+            Route::post('save/job/card/accessories', [MaintenanceController::class, 'saveJobCardAccessories'])->name('job_card.accessories.checkin');
 
             Route::post('save/job-card/defects', [MaintenanceController::class, 'saveJobCardDefects'])->name('defects.job_card');
 

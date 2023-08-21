@@ -189,7 +189,6 @@ class WorkshopService
                 ]);
         }
 
-
         DB::commit();
     }
 

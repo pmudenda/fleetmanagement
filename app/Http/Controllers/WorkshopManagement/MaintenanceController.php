@@ -850,7 +850,7 @@ class MaintenanceController extends Controller
             );
     }
 
-    public function processJobCardAccessories(Request $request): JsonResponse
+    public function saveJobCardAccessories(Request $request): JsonResponse
     {
         try {
             $this->workshopService->createJobCardAccessories($request);
