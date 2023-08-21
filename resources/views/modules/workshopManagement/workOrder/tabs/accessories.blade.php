@@ -5,7 +5,7 @@
         <input type="hidden" value="{{$details->driver_acknowledged ?? 'N'}}" id="driverAcknowledged"
                name="driverAcknowledged"/>
         <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="alert alert-info">
+            <div class="alert alert-danger">
                 CUSTOMER IS REQUIRED TO REMOVE ALL PERSONAL EFFECTS FROM THE VEHICLE
             </div>
             <div class="row">
@@ -86,7 +86,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label
-                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                            class="col-xs-12 col-sm-6 col-md-6 col-lg-6 pl-0"
                             for="accessoriesRemarks">
                             General Comments and Observation (Damages):
                         </label>
