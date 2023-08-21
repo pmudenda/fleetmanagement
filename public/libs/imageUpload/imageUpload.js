@@ -98,7 +98,7 @@ function ImageUpload() {
 
                 reader.onloadend = function () {
                     // set image data as background of div
-                    uploadFile.closest('tr').find("div").find('.imagePreview').css({
+                    uploadFile.closest('tr').find('.imagePreview').css({
                         "background-image": "url(" + this.result + ")", 'display': 'block', 'background-size': 'cover'
                     });
                 }
