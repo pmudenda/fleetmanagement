@@ -489,6 +489,15 @@
                         formSel.data('modelName') === 'Accessories'
                     ) {
                         let postFormData = new FormData(document.forms.jobCardForm);
+                        $($container).find('input[name], select[name]').each(function (i, item) {
+                            // let val = item.value.replace(/,/g, '');
+                            if (item.type === 'radio') {
+                                postFormData.append(item.name, $('[name="' + item.name + '"]:checked').val());
+                            } else {
+                                postFormData.append(item.name, item.value);
+                            }
+                        });
+
                         $.ajax({
                             type: "POST",
                             url: formSel.data('formUrl'),
