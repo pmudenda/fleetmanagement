@@ -148,7 +148,6 @@ class WorkshopService
 
     public function createJobCardAccessories(Request $request): void
     {
-        dd($request->allFiles());
         DB::beginTransaction();
         $job_card_voucher = $request->get("job_card_voucher");
         $reference_number = $request->get("workshop_reference");
@@ -177,6 +176,14 @@ class WorkshopService
             );
         }
 
+        $attachedFiles = $request->get('attachment');
+        $observations = $request->get('observation');
+
+        $key = 0;
+        foreach ($attachedFiles as $attachedFile){
+            Log::info($observations[$key]);
+        }
+
         if (!empty($comment)) {
             WorkShopComment::firstOrCreate(
                 [
@@ -184,7 +191,7 @@ class WorkshopService
                     "type" => "ACC",
                 ],
                 [
-                    "remarks" => $request->remarks ?? " ",
+                    "remarks" => $request->accessoriesRemarks ?? " ",
                     "status" => StatusHelper::new(),
                     "created_by" => auth()->user()->staff_no
                 ]);
