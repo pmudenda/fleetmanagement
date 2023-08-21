@@ -62,7 +62,7 @@ function ImageUpload() {
                         "background-image": "", 'display': 'none'
                     });
                     // find the upload btn and make visible
-                    $(btn).parent().parent().find('p').removeClass('d-none');
+                    $(btn).closest('p').removeClass('d-none');
                 }
             });
 
