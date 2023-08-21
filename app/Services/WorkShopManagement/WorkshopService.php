@@ -209,23 +209,26 @@ class WorkshopService
 
         if (!empty($toSave)) {
             foreach ($toSave as $item) {
-                AssessmentObservation::create([
-                    'reference' => $request->workshop_reference,
-                    'image_path' => $item['file'],
-                    'remarks' => $item['observation'],
-                    'reported_by' => $user->staff_no
-                ]);
+                if (!empty($item['file']) && !empty($item['observation'])) {
+                    AssessmentObservation::create([
+                        'reference' => $request->get('workshop_reference'),
+                        'image_path' => $item['file'],
+                        'remarks' => $item['observation'],
+                        'reported_by' => $user->staff_no
+                    ]);
+                }
             }
         }
 
+        Log::info("General Comments  ".$request->get('accessoriesRemarks'));
         if (!empty($comment)) {
             WorkShopComment::firstOrCreate(
                 [
-                    "workshop_reference" => $request->workshop_reference,
+                    "workshop_reference" => $request->get('workshop_reference'),
                     "type" => "ACC",
                 ],
                 [
-                    "remarks" => $request->accessoriesRemarks ?? " ",
+                    "remarks" => $request->get('accessoriesRemarks'),
                     "status" => StatusHelper::new(),
                     "created_by" => $user->staff_no
                 ]);
