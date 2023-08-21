@@ -2092,8 +2092,9 @@
                     })
                     .catch(function (error) {
                         // notify of error
+                        console.log(error);
                         toastr.error(
-                            'Connection error. Could not retrieve data, some feature might not work.')
+                            'Could not retrieve data, some feature might not work.', 'Workshops Data.')
                     });
             }
 
@@ -2139,7 +2140,7 @@
                     .catch(function (error) {
                         // notify of error
                         toastr.error(
-                            'Connection error. Could not retrieve data, some feature might not work.')
+                            'Connection error. Could not retrieve data, some feature might not work.', 'Fuel Levels')
                     });
             }
 
@@ -2165,7 +2166,7 @@
                     })
                     .catch(function (error) {
                         toastr.error(
-                            'Connection error. Could not retrieve data, some feature might not work.')
+                            'Connection error. Could not retrieve fuel levels data, some feature might not work.', 'Defects Data')
                     });
             }
 
@@ -2760,7 +2761,7 @@
                             serviceSupplierElem.trigger('change');
                         }
                     }).catch(function (error) {
-                    toastr.error('Could not Retrieve Data, some feature might not work.', 'Connection error');
+                    toastr.error('Error on Supplier Data, some feature might not work.', 'Supplier Error');
                 });
             }
 

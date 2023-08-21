@@ -21,7 +21,6 @@ return new class extends Migration
 
             $table->string('avatar')->nullable();
             $table->string('phone')->nullable();
-
             $table->string('username')->unique();
             $table->string('staff_no')->unique()->nullable();
 
@@ -37,7 +36,6 @@ return new class extends Migration
                 ->default('Inactive');
 
             $table->dateTime('last_login')->nullable();
-            $table->integer('type_id')->default('0');
             $table->integer('total_logins')->default(0);
             $table->integer('password_changed')->default('0');
             $table->string('supervisor_code',255)->nullable();
@@ -54,7 +52,7 @@ return new class extends Migration
             $table->string('mobile_no',255)->nullable();
             $table->string('area_code',4)->nullable()->add();
             $table->string('guid')->default(Str::uuid())->nullable();
-            $table->boolean('has_active_session')->nullable()->default(false);
+            //$table->boolean('has_active_session')->nullable()->default(false);
             //$table->string('job_code')->nullable();
             $table->string('profile_code', 191)->nullable();
             $table->string('profile_name', 191)->nullable();

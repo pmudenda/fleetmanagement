@@ -48,7 +48,6 @@ class User extends Authenticatable
         'profile_code',
         'profile_name',
         'profile_id_delegated',
-        'type_id',
         'grade_id',
         'job_code',
         'user_unit_code',
