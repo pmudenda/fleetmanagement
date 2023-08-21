@@ -7,7 +7,7 @@ function ImageUpload() {
             $(fileInput).trigger('click');
         });
 
-        $(document).on('change', selector, (e) => {
+        $(document).on('change', selector, function (e) {
             preview(e);
         })
 
@@ -64,6 +64,69 @@ function ImageUpload() {
                     });
                     // find the upload btn and make visible
                     $(btn).parent().parent().find('p').removeClass('d-none');
+                    $(btn).closest('tr').find('p').removeClass('d-none');
+                }
+            });
+
+        });
+    }
+
+    this.initRow = function () {
+        $(document).on('click', '[data-select="file"]', function () {
+            let fileInput = $(this).closest('tr').find('input[type="file"]');
+            $(fileInput).trigger('click');
+        });
+
+        $(document).on('change', selector, function (e) {
+            previewSelected(e);
+        })
+
+        function previewSelected(event) {
+            //$('#frame').src = URL.createObjectURL(event.target.files[0]);
+            let uploadFile = $(event.target);
+            let self = event.target;
+            let files = !!self.files ? self.files : [];
+            if (!files.length || !window.FileReader) return;
+            // no file selected, or no FileReader support
+
+            if (/^image/.test(files[0].type)) {
+                // only image file
+                let reader = new FileReader();
+                // instance of the FileReader
+                reader.readAsDataURL(files[0]);
+                // read the local file
+
+                reader.onloadend = function () {
+                    // set image data as background of div
+                    uploadFile.closest('tr').find("div").find('.imagePreview').css({
+                        "background-image": "url(" + this.result + ")", 'display': 'block', 'background-size': 'cover'
+                    });
+                }
+
+                $(uploadFile).closest('tr').find('p').addClass('d-none');
+            } else {
+                toastr.error('only image (.jpg, .jpeg, .png, .bmp) file types are allowed', 'Invalid File Format Selected')
+            }
+        }
+
+        $(document).on('click', '.clearImage', function (event) {
+            let btn = this;
+            Swal.fire({
+                text: "Are you sure you would like to remove the image?",
+                icon: "warning",
+                showCancelButton: true,
+                buttonsStyling: false,
+                confirmButtonText: "Yes, remove it!",
+                cancelButtonText: "No, return",
+                customClass: {
+                    confirmButton: "btn btn-primary", cancelButton: "btn btn-active-light"
+                }
+            }).then(function (result) {
+                if (result.value) {
+                    $(btn).parent().css({
+                        "background-image": "", 'display': 'none'
+                    });
+                    // find the upload btn and make visible
                     $(btn).closest('tr').find('p').removeClass('d-none');
                 }
             });

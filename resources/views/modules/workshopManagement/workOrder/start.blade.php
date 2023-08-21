@@ -397,7 +397,7 @@
                                     </td>
                                 </tr>`;
         $(document).ready(function () {
-            new ImageUpload().init();
+            new ImageUpload().initRow();
 
             $(document).on('oninput', '[name="commentsToSupervisor"]', function (event) {
                 this.value = this.value.toUpperCase();
