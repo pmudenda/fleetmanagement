@@ -51,6 +51,7 @@ class DocumentController extends Controller
 
             }
             $data = $query->get();
+            var_dump($query);
 
             Log::info("Running Query");
             return response()->json([
