@@ -127,7 +127,7 @@
                                         <tr>
                                             <td>
                                                 <div class="imagePreview"
-                                                     style="min-height: 100px !important; background-image: url('storage{{$item->image_path}}'); display: block; background-size: cover">
+                                                     style="min-height: 100px !important; background-image: url('/storage{{$item->image_path}}'); display: block; background-size: cover">
                                                 </div>
                                             </td>
                                             <td>
