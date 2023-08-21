@@ -221,13 +221,13 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::post('save/job-card/defects', [MaintenanceController::class, 'saveJobCardDefects'])->name('defects.job_card');
 
-            Route::post('save/workshop/material/requisition', [MaintenanceController::class, 'processWorkShopMaterials'])->name('process.requisition');
+            Route::post('save/workshop/material/requisition', [MaintenanceController::class, 'saveJobCardMaterialRequisition'])->name('process.requisition');
 
-            Route::post('save/workshop/material/reservation', [MaintenanceController::class, 'processWorkShopMaterialReservation'])->name('save.material.reservation');
+            Route::post('save/workshop/material/reservation', [MaintenanceController::class, 'saveWorkShopMaterialReservation'])->name('save.material.reservation');
 
-            Route::post('save/workshop/services/requisition', [MaintenanceController::class, 'processWorkShopServices'])->name('process.service.requisition');
+            Route::post('save/workshop/services/requisition', [MaintenanceController::class, 'saveJobCardServiceRequest'])->name('process.service.requisition');
 
-            Route::post('save/workshop/services/reservation', [MaintenanceController::class, 'processWorkShopServicesReservation'])->name('save.service.reservation');
+            Route::post('save/workshop/services/reservation', [MaintenanceController::class, 'saveWorkShopServicesReservation'])->name('save.service.reservation');
 
             Route::post('save/workshop/job/assignment', [MaintenanceController::class, 'saveJobCardWorkAssignments'])->name('save.job.assignment');
 

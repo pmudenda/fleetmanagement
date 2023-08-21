@@ -895,10 +895,10 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function processWorkShopMaterials(WorkshopRequisitionRequest $request): JsonResponse
+    public function saveJobCardMaterialRequisition(WorkshopRequisitionRequest $request): JsonResponse
     {
         try {
-            return $this->workshopRequisitionService->processJobCardMaterialReservation($request);
+            return $this->workshopRequisitionService->processJobCardMaterialRequisition($request);
         } catch (\Exception $e) {
             $message = ErrorMessages::getMessage("err_0005");
             if ($e instanceof MaterialReservationException || $e instanceof WorkflowTaskCreationFailedException || $e instanceof VehicleStateException) {
@@ -914,7 +914,7 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function processWorkShopMaterialReservation(WorkshopMaterialResevationRequest $request): JsonResponse
+    public function saveWorkShopMaterialReservation(WorkshopMaterialResevationRequest $request): JsonResponse
     {
         try {
             return $this->workshopRequisitionService->processMaterialReservation($request);
@@ -933,7 +933,7 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function processWorkShopServices(WorkshopServiceRequisitionRequest $request): JsonResponse
+    public function saveJobCardServiceRequest(WorkshopServiceRequisitionRequest $request): JsonResponse
     {
         try {
             return $this->workshopRequisitionService->processJobCardServiceRequest($request);
@@ -999,7 +999,7 @@ class MaintenanceController extends Controller
         }
     }
 
-    public function processWorkShopServicesReservation(WorkshopServiceReservationRequest $request): JsonResponse
+    public function saveWorkShopServicesReservation(WorkshopServiceReservationRequest $request): JsonResponse
     {
         try {
             return $this->workshopRequisitionService->processServiceReservation($request);
