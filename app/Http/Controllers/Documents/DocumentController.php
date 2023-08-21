@@ -5,13 +5,16 @@ namespace App\Http\Controllers\Documents;
 use App\Http\Controllers\Controller;
 use App\Models\Reference\DocumentFollowup;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class DocumentController extends Controller
 {
-    public function documentFollowup(Request $request): JsonResponse
+    public function documentFollowup(Request $request): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         Log::info("Making Document Followup");
         try {
@@ -53,16 +56,11 @@ class DocumentController extends Controller
 
             $data = $query->paginate(50);
             Log::info("Running Query");
-            return response()->json([
-                'state' => 'success',
-                'payload' => $data
-            ]);
+            return view("documents/documentFollowUp")->with(compact('data'));
+
         } catch (\Exception $e) {
             Log::error($e);
-            return response()->json([
-                'state' => 'failure',
-                'payload' => []
-            ]);
+            return view("documents/documentFollowUp")->with(compact('data'));
         }
 
     }
