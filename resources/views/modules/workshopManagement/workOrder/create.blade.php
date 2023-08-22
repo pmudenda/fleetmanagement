@@ -1,7 +1,5 @@
 @php
-    use App\Enums\RepairTypes;use App\Helpers\StatusHelper;
-    use Carbon\Carbon;
-    use App\Enums\RequisitionItemTypes;
+    use App\Enums\RepairTypes;use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use Carbon\Carbon;
 @endphp
 @extends('layouts.app')
 @push('styles')
@@ -188,19 +186,19 @@
                                             </div>
                                         </div>
                                         <div class="col">
-                                            <div class="row">
-                                                <div class="table-responsive" style="max-height:500px;">
-                                                    <table data-model-name="Observations"
-                                                           class="table table-striped" id="observations">
-                                                        <thead>
-                                                        <tr class="bg-success">
-                                                            <th>Attachment</th>
-                                                            <th>Remarks</th>
-                                                            <th></th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        @if($observation->isNotEmpty())
+                                            @if($observation->isNotEmpty())
+                                                <div class="row">
+                                                    <div class="table-responsive" style="max-height:500px;">
+                                                        <table data-model-name="Observations"
+                                                               class="table table-striped" id="observations">
+                                                            <thead>
+                                                            <tr class="bg-success">
+                                                                <th>Attachment</th>
+                                                                <th>Remarks</th>
+                                                                <th></th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
                                                             @foreach($observation as $item)
                                                                 <tr>
                                                                     <td>
@@ -224,16 +222,16 @@
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
-                                                        @endif
-                                                        </tbody>
-                                                    </table>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                         </div>
                                     </div>
 
                                     <div class="row mt-10">
-
                                     </div>
                                 </div>
                             </div>
@@ -241,7 +239,8 @@
                         <div class="row mb-1 mt-4">
                             <div class="row">
                                 <div class="col-lg-2 col-sm-12">
-                                    <label>Assessment Acknowledgement: <small class="text-danger">(To Be Performed By
+                                    <label>Assessment Acknowledgement:
+                                        <small class="text-danger">(Performed By
                                             Driver)</small></label>
                                 </div>
                                 @if(!empty($details->driver_acknowledged))
@@ -2848,8 +2847,7 @@
                     const vehicleReg = $table.find('tbody').find('[name="registration"]').val();
                     $table.find('tbody').append(materialTableRowTemplate);
                     $table.find('tbody').find('[name="registration"]').val(vehicleReg).attr('readonly');
-                }
-                else if (tableId === "services_table") {
+                } else if (tableId === "services_table") {
                     const vehicleReg = $table.find('tbody').find('[name="vehicle_registration"]').val();
                     $table.find('tbody').append(serviceTableRowTemplate);
                     $table.find('tbody').find('[name="vehicle_registration"]').val(vehicleReg).attr('readonly');
