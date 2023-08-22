@@ -57,17 +57,17 @@ class PdfJobController extends Controller
             $this->fpdf->Ln(20);
         }*/
 
-        $this->fpdf->Cell(40, 20,
+        $this->fpdf->Cell(40, 25,
             $this->fpdf->Image($filepath, $this->fpdf->GetX(), $this->fpdf->GetY(), 33.78),
             1, 0, 'L',
             false);
         $this->fpdf->SetFont('Arial', 'B', $label_size);
-        $this->fpdf->Cell(100, 40, 'MECHANICAL WORKSHOP JOB CARD', 1, '');
+        $this->fpdf->Cell(100, 25, 'MECHANICAL WORKSHOP JOB CARD', 1, '', 'C');
         $this->fpdf->SetFont('Arial', 'B', $label_size);
         $this->fpdf->Cell(170, 40,
-            $this->fpdf->Multicell(60,4,"Doc Number:\nCO.14900.FORM.0051",1,"C"),
+            $this->fpdf->Multicell(60,4,"Doc Number:\nCO.14900.FORM.0051\nVersion 1",1,"C"),
             $this->fpdf->Ln(),
-            $this->fpdf->Cell(30, 5, "Version 1", 0, '')
+            $this->fpdf->Cell(30, 5, "", 0, '')
             , 1, '');
         $this->fpdf->Ln(5);
         $this->fpdf->Ln(5);

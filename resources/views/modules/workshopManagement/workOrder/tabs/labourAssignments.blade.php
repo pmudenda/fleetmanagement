@@ -153,7 +153,7 @@
                     @foreach($defects as $defect)
                         <tr class="increment">
                             <td>
-                                <input
+                                <input disabled
                                     name="selectDefectToAssign"
                                     class="checkbox"
                                     type="checkbox">
@@ -289,7 +289,7 @@
                         id="saveAllAssignments"
                         style="background: #f59d33; color: #fff;"
                         data-table-id="labour_table"
-                        class="btn btn-sm btn-success pull-right">
+                        class="btn btn-sm btn-success pull-right d-none">
                     <i class="fa fa-save"></i>
                     Save All Assignments
                 </button>

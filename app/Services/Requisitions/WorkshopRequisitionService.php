@@ -1052,14 +1052,21 @@ class WorkshopRequisitionService
     {
         $articles = config("tables.table_names.articles");
         return DB::table("WM_JOB_CARD_HEADER")
-            ->join("WM_WORKSHOP_MATERIALS",
+            ->join(
+                "WM_WORKSHOP_MATERIALS",
                 "WM_JOB_CARD_HEADER.WSHP_ACT_CODE",
                 "=",
                 "WM_WORKSHOP_MATERIALS.WSHP_ACT_CODE"
             )
-            ->leftJoin("$articles", "WM_WORKSHOP_MATERIALS.MAT_CODE",
-                "=", "$articles.CODE_ARTICLE")
-            ->where("WM_JOB_CARD_HEADER.JOB_CARD_NO", "=", $jobCardNumber)
+            ->leftJoin(
+                "$articles",
+                "WM_WORKSHOP_MATERIALS.MAT_CODE",
+                "=",
+                "$articles.CODE_ARTICLE")
+            ->where(
+                "WM_JOB_CARD_HEADER.JOB_CARD_NO",
+                "=",
+                $jobCardNumber)
             ->whereNull("WM_WORKSHOP_MATERIALS.IND")
             ->select(
                 "WM_WORKSHOP_MATERIALS.*",
@@ -1079,7 +1086,7 @@ class WorkshopRequisitionService
         return DB::table('WM_WORKSHOP_SERVICES services')
             ->where("wshp_act_code", "=", $workShopActCode)
             ->leftJoin("$articles", "$articles.CODE_ARTICLE", "=", "services.mat_code")
-            //->whereNull("WM_WORKSHOP_MATERIALS.IND")
+            // ->whereNull("WM_WORKSHOP_MATERIALS.IND")
             ->select(
                 "services.*",
                 "$articles.description as article_specification"
