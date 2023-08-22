@@ -289,7 +289,7 @@
                                 <td>
                                     <input
                                         readonly
-                                        value="{{$service->specification ?? ''}}"
+                                        value="{{$service->specifications ?? ''}}"
                                         class="form-control form-control-sm"/>
                                 </td>
 
