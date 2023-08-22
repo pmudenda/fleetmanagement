@@ -42,9 +42,9 @@
 @section('content')
 
     <x-content-header
-            :activeCrumb="'New Job Card'"
-            :linkText="'Job Card'"
-            :pageTitle="'Workshop Management'"/>
+        :activeCrumb="'New Job Card'"
+        :linkText="'Job Card'"
+        :pageTitle="'Workshop Management'"/>
 
     <section class="content">
         <div class="card">
@@ -156,8 +156,8 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label
-                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
-                                                    for="commentsToSupervisor">
+                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                for="commentsToSupervisor">
                                                 Comments To Workshop Supervisor:
                                             </label>
                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
@@ -300,11 +300,11 @@
                                         <div class="row">
                                             <div class="col-1">
                                                 <input
-                                                        required
-                                                        id="acceptance"
-                                                        name="acceptance"
-                                                        type="checkbox"
-                                                        class="checkbox">
+                                                    required
+                                                    id="acceptance"
+                                                    name="acceptance"
+                                                    type="checkbox"
+                                                    class="checkbox">
                                             </div>
                                             <div class="col-10">
                                                 <p id="newApproval_Remarks">
@@ -397,6 +397,20 @@
                                     </td>
                                 </tr>`;
         $(document).ready(function () {
+
+            $.fn.disableBtn = function () {
+                return this.each(function () {
+                    $(this).addClass("disabled").attr("disabled", true)
+                });
+            }
+
+            $.fn.enableBtn = function () {
+                return this.each(function () {
+                    let $this = $(this);
+                    $this.removeClass("disabled").attr("disabled", false)
+                });
+            }
+
             new ImageUpload().initRow();
 
             $(document).on('oninput', '[name="commentsToSupervisor"]', function (event) {
@@ -761,17 +775,19 @@
                 });
 
                 $(document).on('click', '#saveServices', function () {
-                    // $('a[href="#finish"]').disableBtn();
+                    //$(this).disableBtn();
                     if (form.valid()) {
-                        tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
-
-                            postData(
-                                $('#services_table'),
-                                true
-                            );
-
-                        }, function () {
-                        });
+                        tmsApp.confirm('Confirm',
+                            'Do you want to save the changes ?',
+                            'Yes',
+                            'No',
+                            function () {
+                                postData(
+                                    $('#services_table'),
+                                    true
+                                );
+                            },
+                            null);
                     }
                 });
             }
