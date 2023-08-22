@@ -65,7 +65,7 @@
                                        class="form-control"
                                 />
                                 <div class="input-group-append">
-                                    <div class="input-group-text ui-datepicker-trigger">
+                                    <div class="input-group-text">
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                 </div>
@@ -194,7 +194,7 @@
                                            required
                                            name="dateOfWork"
                                            id="dateOfWork"
-                                           class="form-control datePicker"
+                                           class="form-control"
                                     />
                                     <div class="input-group-append"
                                          data-target="#dateIssued"

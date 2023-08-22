@@ -1740,9 +1740,9 @@
                 "mask": "AAA 9{1,4}"
             }).mask('[name="vehicle_registration"]');
 
-            $('.datePicker').datepicker({
+            /*$('.datePicker').datepicker({
                 dateFormat: 'dd/mm/yy',
-            });
+            });*/
 
             $.fn.disableBtn = function () {
                 return this.each(function () {
