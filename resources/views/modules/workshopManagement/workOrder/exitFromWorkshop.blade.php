@@ -2126,7 +2126,7 @@
                         }
 
                         let subFuelLevelValue = subFuelLevel.attr('data-value');
-                        if (defaultFuelLevelExit) {
+                        if (subFuelLevelValue) {
                             subFuelLevel.val(subFuelLevelValue);
                             subFuelLevel.trigger('change');
                         }

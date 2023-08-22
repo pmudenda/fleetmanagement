@@ -44,7 +44,7 @@ return new class extends Migration {
             //$table->string('proc_ref', 20)->nullable();
             //$table->string('st_pur', 20)->nullable();
             //$table->string('form_order', 20)->nullable();
-
+            $table->timestamp('deleted_at')->nullable();
             $table->string('created_by', 10);
             $table->string('user1', 10);
             $table->string('modified_by', 10)->nullable();
