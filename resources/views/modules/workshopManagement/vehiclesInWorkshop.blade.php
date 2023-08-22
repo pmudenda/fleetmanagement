@@ -145,14 +145,14 @@
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                         {{--@can(config('rights.edit_vehicle'))--}}
-                                                        @if($workshop->status != StatusHelper::new())
-                                                        <li>
-                                                            <a class="dropdown-item"
-                                                               data-kt-action="edit"
-                                                               href="{{URL::signedRoute('view.job.card',["view"=>true,'step'=> '1', 'reference'=>$workshop->job_card_no])}}">
-                                                                View Job Card
-                                                            </a>
-                                                        </li>
+                                                        @if($workshop->step == 1)
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   data-kt-action="edit"
+                                                                   href="{{URL::signedRoute('view.job.card',["view"=>true,'step'=> '1', 'reference'=>$workshop->job_card_no])}}">
+                                                                    View Job Card
+                                                                </a>
+                                                            </li>
                                                         @else
                                                             <li>
                                                                 <a class="dropdown-item"

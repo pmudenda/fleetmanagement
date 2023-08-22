@@ -1261,6 +1261,12 @@ class WorkshopRequisitionService
         $registration = $request->get('vehicle_registration');
         $comments = $request->get('commentsToSupervisor');
 
+        $jobCard = JobCardHeader::where("job_card_no", "=", $jobCardNo)
+            ->first();
+
+        $jobCard->step = 2;
+        $jobCard->save();
+
         $workshopReference = $jobCardNo;
         $short_description = "New Job Card Task $jobCardNo For Vehicle $registration";
         $long_description = $short_description;
