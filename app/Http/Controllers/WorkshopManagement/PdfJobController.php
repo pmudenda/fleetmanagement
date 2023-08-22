@@ -42,7 +42,7 @@ class PdfJobController extends Controller
 
         $label_size = '12';
         $text_size = '12';
-        $this->fpdf->SetTitle($filepath);
+        $this->fpdf->Cell(60, 5, );
         // set font to arial, regular, 12pt
         $this->fpdf->SetFont('Arial', '', 12);
         // ----------------------------------------------------
@@ -56,6 +56,8 @@ class PdfJobController extends Controller
             // Line break
             $this->fpdf->Ln(20);
         }
+
+        $this->fpdf->Cell( 40, 40, $this->fpdf->Image($filepath, $this->fpdf->GetX(), $this->fpdf->GetY(), 33.78), 0, 0, 'L', false );
 
         /* $this->fpdf->Cell(130, 5, 'ZESCO LTD', 0, 1);
          $this->fpdf->Cell(130, 5, 'Great East Road, Stand No.6949', 0, 1);
