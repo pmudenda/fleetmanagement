@@ -58,14 +58,15 @@ class PdfJobController extends Controller
         }*/
 
         $this->fpdf->Cell(40, 40, $this->fpdf->Image($filepath, $this->fpdf->GetX(), $this->fpdf->GetY(), 33.78), 0, 0, 'L', false);
-        $this->fpdf->Cell(70, 5, '7,672', 1, '');
-        $this->fpdf->Cell(70, 5,
+        $this->fpdf->Cell(70, 40, 'MECHANICAL WORKSHOP JOB CARD', 1, '');
+        $this->fpdf->Cell(70, 40,
             $this->fpdf->Cell(30, 5, "Doc Number:"),
             $this->fpdf->Ln(2),
             $this->fpdf->Cell(30, 5, "CO.14900.FORM.0051"),
             $this->fpdf->Ln(2),
             $this->fpdf->Cell(30, 5, "Version 1")
             , 1, '');
+        $this->fpdf->Ln(5);
         /* $this->fpdf->Cell(130, 5, 'ZESCO LTD', 0, 1);
          $this->fpdf->Cell(130, 5, 'Great East Road, Stand No.6949', 0, 1);
          $this->fpdf->Cell(130, 5, 'Lusaka, Zambia', 0, 1);
