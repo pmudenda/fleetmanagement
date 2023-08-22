@@ -500,11 +500,9 @@
                                                             <td class="pl-2"
                                                                 style="width: 35%;">{{$accessory->name}}</td>
                                                             <td><input type="radio" value="YES" required
-                                                                       disabled
                                                                        name="field_{{str_replace(' ','', $accessory->code)}}">
                                                             </td>
                                                             <td><input type="radio" value="NO" required
-                                                                       disabled
                                                                        name="field_{{str_replace(' ','', $accessory->code)}}">
                                                             </td>
                                                             <td style="width: 45%;">
@@ -537,11 +535,9 @@
                                                                 {{$accessory->name}}
                                                             </td>
                                                             <td><input type="radio" required value="YES"
-                                                                       disabled
                                                                        name="field_{{str_replace(' ','', $accessory->code)}}">
                                                             </td>
                                                             <td><input type="radio" required value="NO"
-                                                                       disabled
                                                                        name="field_{{str_replace(' ','', $accessory->code)}}">
                                                             </td>
                                                             <td style="width: 45%;">
@@ -567,7 +563,7 @@
                                                     General Comments and Observation (Damages):
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
-                                                    @if(!empty($comments))
+                                                    @if(!empty($comments) && !empty($comments->where('type','=','ACC')->first()->remarks))
                                                         <textarea type="text"
                                                                   id="accessoriesRemarks"
                                                                   name="accessoriesRemarks"
@@ -585,47 +581,52 @@
                                             </div>
                                         </div>
                                         <div class="col">
-                                            <div class="row">
-                                                <div class="table-responsive" style="max-height:500px;">
-                                                    <table class="table table-bordered" id="observations">
-                                                        <thead>
-                                                        <tr class="bg-default-dark">
-                                                            <th>Observation</th>
-                                                            <th>Attachment</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <button type="button"
-                                                                        class="btn btn-primary btn-sm selectAttachment">
-                                                                    <i class="fas fa-paperclip"></i>
-                                                                </button>
-                                                                <input type="file" name="attachment[]"
-                                                                       class="form-control d-none file">
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" name="observation[]"
-                                                                       class="form-control">
-                                                            </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    @if(empty($details->driver_acknowledged))
-                                                        <button type="button"
-                                                                data-table-id="observations"
-                                                                class="btn btn-sm btn-primary add pull-right"
-                                                                value="addRow">
-                                                            <i class="fa fa-plus"></i> Add Row
-                                                        </button>
-                                                    @endif
+                                            @if($observation->isNotEmpty())
+                                                <div class="row">
+                                                    <div class="table-responsive" style="max-height:500px;">
+                                                        <table data-model-name="Observations"
+                                                               class="table table-striped" id="observations">
+                                                            <thead>
+                                                            <tr class="bg-success">
+                                                                <th>Attachment</th>
+                                                                <th>Remarks</th>
+                                                                <th></th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            @foreach($observation as $item)
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="imagePreview"
+                                                                             style="min-height: 100px !important; background-image: url('/storage{{$item->image_path}}'); display: block; background-size: cover">
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text"
+                                                                               value="{{$item->remarks}}"
+                                                                               readonly
+                                                                               class="form-control">
+                                                                    </td>
+                                                                    <td>
+                                                                        {{--<button type="button"
+                                                                                data-table-id="observations"
+                                                                                class="btn btn-sm btn-danger"
+                                                                                value="deleteRow">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </button>--}}
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                         </div>
                                     </div>
 
                                     <div class="row mt-10">
-
                                     </div>
                                 </div>
                             </div>
@@ -633,7 +634,8 @@
                         <div class="row mb-1 mt-4">
                             <div class="row">
                                 <div class="col-lg-2 col-sm-12">
-                                    <label>Assessment Acknowledgement: <small class="text-danger">(To Be Performed By
+                                    <label>Assessment Acknowledgement:
+                                        <small class="text-danger">(Performed By
                                             Driver)</small></label>
                                 </div>
                                 @if(!empty($details->driver_acknowledged))
