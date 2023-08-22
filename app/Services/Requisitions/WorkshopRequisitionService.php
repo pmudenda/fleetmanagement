@@ -1052,7 +1052,7 @@ class WorkshopRequisitionService
     public function getWorkShopRequisitionItems(mixed $jobCardNumber, $workShopActCode): Collection
     {
         $articles = config("tables.table_names.articles");
-        $stockItems = DB::table("WM_JOB_CARD_HEADER")
+        return DB::table("WM_JOB_CARD_HEADER")
             ->join(
                 "WM_WORKSHOP_MATERIALS",
                 "WM_JOB_CARD_HEADER.WSHP_ACT_CODE",
@@ -1074,7 +1074,7 @@ class WorkshopRequisitionService
                 "$articles.description as article_specification"
             )->get();
 
-        $articles = config("tables.table_names.articles");
+        /*$articles = config("tables.table_names.articles");
         $nonStock = DB::table('WM_WORKSHOP_SERVICES services')
             ->where("wshp_act_code", "=", $workShopActCode)
             ->leftJoin("$articles", "$articles.CODE_ARTICLE", "=", "services.mat_code")
@@ -1087,7 +1087,8 @@ class WorkshopRequisitionService
 
         $materials = array_merge($nonStock, $stockItems);
         $articles = collect($materials);
-        return $articles;
+        return $articles;*/
+
     }
 
     /**
