@@ -58,7 +58,7 @@ class PdfJobController extends Controller
         }*/
 
         $this->fpdf->Cell(40, 25,
-            $this->fpdf->Image($filepath, $this->fpdf->GetX(), $this->fpdf->GetY(), 33.78),
+            $this->fpdf->Image($filepath, $this->fpdf->GetX(), $this->fpdf->GetY(), 33.78, 89),
             1, 0, 'C',
             false);
         $this->fpdf->SetFont('Arial', 'B', $label_size);
