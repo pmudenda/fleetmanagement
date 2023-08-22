@@ -1047,9 +1047,9 @@ class WorkshopRequisitionService
     /**
      * @param mixed $jobCardNumber
      * @param $workShopActCode
-     * @return Collection
+     * @return array
      */
-    public function getWorkShopRequisitionItems(mixed $jobCardNumber, $workShopActCode): Collection
+    public function getWorkShopRequisitionItems(mixed $jobCardNumber, $workShopActCode)
     {
         $articles = config("tables.table_names.articles");
         $stockItems = DB::table("WM_JOB_CARD_HEADER")
@@ -1078,7 +1078,7 @@ class WorkshopRequisitionService
         $nonStock = DB::table('WM_WORKSHOP_SERVICES services')
             ->where("wshp_act_code", "=", $workShopActCode)
             ->leftJoin("$articles", "$articles.CODE_ARTICLE", "=", "services.mat_code")
-            ->where(DB::raw("substr(mat_code, 0, 2) = '40'"))
+            ->where(DB::raw("substr(services.mat_code, 0, 2) = '40'"))
             ->select(
                 "services.*",
                 "$articles.description as article_specification"
@@ -1101,7 +1101,7 @@ class WorkshopRequisitionService
         return DB::table('WM_WORKSHOP_SERVICES services')
             ->where("wshp_act_code", "=", $workShopActCode)
             ->leftJoin("$articles", "$articles.CODE_ARTICLE", "=", "services.mat_code")
-            ->where(DB::raw("substr(mat_code, 0, 2) = '41'"))
+            ->where(DB::raw("substr(services.mat_code, 0, 2) = '41'"))
             ->select(
                 "services.*",
                 "$articles.description as article_specification"
