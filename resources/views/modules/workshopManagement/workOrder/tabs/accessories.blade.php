@@ -191,7 +191,7 @@
                                 @endif
                                 </tbody>
                             </table>
-                            @if($observation->isNotEmpty() || !empty($observation))
+                            @if(empty($details->driver_acknowledged))
                                 <button type="button"
                                         data-table-id="observations"
                                         class="btn btn-sm btn-primary add pull-right"

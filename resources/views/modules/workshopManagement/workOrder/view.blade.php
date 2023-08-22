@@ -1,7 +1,5 @@
 @php
-    use App\Enums\RepairTypes;use App\Helpers\StatusHelper;
-    use Carbon\Carbon;
-    use App\Enums\RequisitionItemTypes;
+    use App\Enums\RepairTypes;use App\Enums\RequisitionItemTypes;use App\Helpers\StatusHelper;use Carbon\Carbon;
 @endphp
 @extends('layouts.app')
 @push('styles')
@@ -46,9 +44,9 @@
 @section('content')
 
     <x-content-header
-            :activeCrumb="'New Job Card'"
-            :linkText="'Job Card'"
-            :pageTitle="'Workshop Management'"/>
+        :activeCrumb="'New Job Card'"
+        :linkText="'Job Card'"
+        :pageTitle="'Workshop Management'"/>
 
     <section class="content">
         <div class="card">
@@ -91,8 +89,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                for="staff_no">Registration #:
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                            for="staff_no">Registration #:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <div class="input-group">
@@ -129,8 +127,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                for="staff_no">Date In :
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                            for="staff_no">Date In :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                             <input type="text"
@@ -153,7 +151,7 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <div
-                                                                class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                             <div class="control-input">
                                                                 <div class="link-field ui-front"
                                                                      style="position: relative;">
@@ -165,12 +163,12 @@
                                                         </div>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <select
-                                                                    data-value="{{$details->workshop_code ?? ''}}"
-                                                                    required
-                                                                    class="form-select form-select-sm"
-                                                                    name="workshop"
-                                                                    autocomplete="off"
-                                                                    id="workshop">
+                                                                data-value="{{$details->workshop_code ?? ''}}"
+                                                                required
+                                                                class="form-select form-select-sm"
+                                                                name="workshop"
+                                                                autocomplete="off"
+                                                                id="workshop">
                                                             </select>
                                                         </div>
                                                     </div>
@@ -183,8 +181,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                                                for="job_card_no">
+                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                            for="job_card_no">
                                                             Time In:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -208,8 +206,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Repair Type:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -231,7 +229,8 @@
                                                                                     value="{{$repairType->code}}">{{$repairType->name}}</option>
                                                                         @endif
                                                                     @else
-                                                                        <option value="{{$repairType->code}}">{{$repairType->name}}</option>
+                                                                        <option
+                                                                            value="{{$repairType->code}}">{{$repairType->name}}</option>
                                                                     @endif
 
                                                                 @endforeach
@@ -247,8 +246,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Service Advisor:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -285,8 +284,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Accident No:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -308,8 +307,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="current_odometer">Odometer value:</label>
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="current_odometer">Odometer value:</label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             <div class="input-group">
                                                                 <input type="number"
@@ -333,8 +332,8 @@
                                                 <div class="row" style="display: none;">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                for="staff_no">Date Expected Out:
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                            for="staff_no">Date Expected Out:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                             <input type="text"
@@ -356,8 +355,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
-                                                                for="fuel_level">
+                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4 field-required"
+                                                            for="fuel_level">
                                                             Fuel Level :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -377,8 +376,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-12 col-md-5 col-lg-4"
-                                                                for="sub_fuel_level">
+                                                            class="col-xs-12 col-sm-12 col-md-5 col-lg-4"
+                                                            for="sub_fuel_level">
                                                             Sub-Tank Fuel Level :
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -400,8 +399,8 @@
                                                 <div class="row">
                                                     <div class="form-group row">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                for="staff_name">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                            for="staff_name">
                                                             Driver:
                                                         </label>
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -485,7 +484,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <table
-                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                class="table table-row-dashed align-middle gs-0 table-bordered">
                                                 <thead>
                                                 <tr class="bg-dark-subtle">
                                                     <th class="pl-2">Item</th>
@@ -521,7 +520,7 @@
                                         </div>
                                         <div class="col">
                                             <table
-                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                class="table table-row-dashed align-middle gs-0 table-bordered">
                                                 <thead>
                                                 <tr class="bg-dark-subtle">
                                                     <th class="pl-2">Item</th>
@@ -563,8 +562,8 @@
                                         <div class="col">
                                             <div class="form-group">
                                                 <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                                                        for="accessoriesRemarks">
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                                    for="accessoriesRemarks">
                                                     General Comments and Observation (Damages):
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
@@ -612,12 +611,14 @@
                                                         </tr>
                                                         </tbody>
                                                     </table>
-                                                    <button type="button"
-                                                            data-table-id="observations"
-                                                            class="btn btn-sm btn-primary add pull-right"
-                                                            value="addRow">
-                                                        <i class="fa fa-plus"></i> Add Row
-                                                    </button>
+                                                    @if(empty($details->driver_acknowledged))
+                                                        <button type="button"
+                                                                data-table-id="observations"
+                                                                class="btn btn-sm btn-primary add pull-right"
+                                                                value="addRow">
+                                                            <i class="fa fa-plus"></i> Add Row
+                                                        </button>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -765,11 +766,11 @@
                                                                         @foreach($workshop_sections as $workshop_section)
                                                                             @if($defect->section_code == $workshop_section->code)
                                                                                 <option
-                                                                                        selected
-                                                                                        value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                                                    selected
+                                                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                                                             @else
                                                                                 <option
-                                                                                        value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                                                             @endif
                                                                         @endforeach
                                                                     </select>
@@ -823,7 +824,7 @@
                                                                     <option></option>
                                                                     @foreach($workshop_sections as $workshop_section)
                                                                         <option
-                                                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                                            value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </td>
@@ -867,12 +868,12 @@
                                         <div class="row">
                                             <div class="form-group">
                                                 <label
-                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                                                        for="remarks">
+                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                                    for="remarks">
                                                     Comments (optional):
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
-                                                    @if(!empty($comments))
+                                                    @if(!empty($comments && !empty($comments->where('type','=','DEF')->first()->remarks)))
                                                         <textarea type="text"
                                                                   id="remarks"
                                                                   name="remarks"
@@ -917,6 +918,7 @@
                         </section>
 
                         <h1>LABOUR & ASSIGNMENTS</h1>
+
                         <section>
                             @include('modules.workshopManagement.workOrder.tabs.labourAssignments')
                         </section>
@@ -959,7 +961,7 @@
 
                                                         <div class="col">
                                                             <table
-                                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                                class="table table-row-dashed align-middle gs-0 table-bordered">
                                                                 <thead>
                                                                 <tr class="bg-dark-subtle">
                                                                     <th class="pl-2">Item</th>
@@ -993,7 +995,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <table
-                                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                                class="table table-row-dashed align-middle gs-0 table-bordered">
                                                                 <thead>
                                                                 <tr class="bg-dark-subtle">
                                                                     <th class="pl-2">Item</th>
@@ -1041,8 +1043,8 @@
                                                     <div class="row">
                                                         <div class="table-responsive" style="max-height:500px;">
                                                             <table
-                                                                    data-model-name="Defects"
-                                                                    class="table table-row-dashed align-middle gs-0">
+                                                                data-model-name="Defects"
+                                                                class="table table-row-dashed align-middle gs-0">
                                                                 <thead>
                                                                 <tr class="bg-dark-subtle">
                                                                     <th style="width: 25%;" class="pl-2">System</th>
@@ -1095,11 +1097,11 @@
                                                                                     @foreach($workshop_sections as $workshop_section)
                                                                                         @if($defect->section_code == $workshop_section->code)
                                                                                             <option
-                                                                                                    selected
-                                                                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                                                                selected
+                                                                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                                                                         @else
                                                                                             <option
-                                                                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                                                                         @endif
                                                                                     @endforeach
                                                                                 </select>
@@ -1167,25 +1169,25 @@
                                                                        name="materialHeaderId">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
-                                                                            for="staff_no">Item Type:
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                        for="staff_no">Item Type:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                                         @if(!empty($materialsHeader))
                                                                             <select
-                                                                                    data-value="{{$materialsHeader->item_type_code ?? ''}}"
-                                                                                    readonly="readonly"
-                                                                                    class="form-select form-select-sm"
-                                                                                    name="itemType"
-                                                                                    id="itemType">
+                                                                                data-value="{{$materialsHeader->item_type_code ?? ''}}"
+                                                                                readonly="readonly"
+                                                                                class="form-select form-select-sm"
+                                                                                name="itemType"
+                                                                                id="itemType">
                                                                                 <option></option>
                                                                                 <option
-                                                                                        @if($materialsHeader->item_type_code == RequisitionItemTypes::StockItemCode) selected
-                                                                                        @endif value="01">STOCK ITEM
+                                                                                    @if($materialsHeader->item_type_code == RequisitionItemTypes::StockItemCode) selected
+                                                                                    @endif value="01">STOCK ITEM
                                                                                 </option>
                                                                                 <option
-                                                                                        @if($materialsHeader->item_type_code == RequisitionItemTypes::NonStockItemCode) selected
-                                                                                        @endif value="02">NON STOCK ITEM
+                                                                                    @if($materialsHeader->item_type_code == RequisitionItemTypes::NonStockItemCode) selected
+                                                                                    @endif value="02">NON STOCK ITEM
                                                                                 </option>
                                                                             </select>
                                                                         @endif
@@ -1203,18 +1205,20 @@
                                                         <div class="container-fluid pl-0">
                                                             <div class="row">
                                                                 <div class="form-group row">
-                                                                    <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
-                                                                           for="staff_no">
+                                                                    <label
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                        for="staff_no">
                                                                         Purchase Office:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                                         <select
-                                                                                data-value=""
-                                                                                required
-                                                                                class="form-select form-select-sm"
-                                                                                name="purchase_office"
-                                                                                id="purchase_office">
-                                                                            <option value="{{$officeDetails->purchase_office_code ?? ''}}">
+                                                                            data-value=""
+                                                                            required
+                                                                            class="form-select form-select-sm"
+                                                                            name="purchase_office"
+                                                                            id="purchase_office">
+                                                                            <option
+                                                                                value="{{$officeDetails->purchase_office_code ?? ''}}">
                                                                                 {{$officeDetails->purchase_office ?? ''}}
                                                                             </option>
                                                                         </select>
@@ -1230,7 +1234,8 @@
                                                         <div class="container-fluid pl-0">
                                                             <div class="row">
                                                                 <div class="form-group row">
-                                                                    <div class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                    <div
+                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                                         <div class="control-input">
                                                                             <div class="link-field ui-front"
                                                                                  style="position: relative;">
@@ -1297,8 +1302,8 @@
                                                                 <div id="storeContainer"
                                                                      class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
-                                                                            for="staff_name">
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4"
+                                                                        for="staff_name">
                                                                         Store:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -1318,11 +1323,12 @@
                                                                 <div id="supplierContainer" style="display: none;"
                                                                      class="form-group row">
                                                                     <div
-                                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                                         <div class="control-input">
                                                                             <div class="link-field ui-front"
                                                                                  style="position: relative;">
-                                                                                <label class="form-check-inline field-required">
+                                                                                <label
+                                                                                    class="form-check-inline field-required">
                                                                                     Suppliers
                                                                                 </label>
                                                                             </div>
@@ -1330,11 +1336,11 @@
                                                                     </div>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                                         <select
-                                                                                data-value="{{$materialsHeader->supplier_code ?? ''}}"
-                                                                                class="form-select form-select-sm"
-                                                                                name="supplier"
-                                                                                autocomplete="off"
-                                                                                id="supplier">
+                                                                            data-value="{{$materialsHeader->supplier_code ?? ''}}"
+                                                                            class="form-select form-select-sm"
+                                                                            name="supplier"
+                                                                            autocomplete="off"
+                                                                            id="supplier">
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -1347,8 +1353,8 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
-                                                                            for="staff_no">Collection Date:
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
+                                                                        for="staff_no">Collection Date:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                                         @if($materialsHeader)
@@ -1404,11 +1410,11 @@
                                                                     <tr class="increment">
                                                                         <td class="showNumber">
                                                                             <input
-                                                                                    readonly
-                                                                                    name="registration"
-                                                                                    required
-                                                                                    value="{{$details->reg_no ?? ''}}"
-                                                                                    class="form-control form-control-sm registration"/>
+                                                                                readonly
+                                                                                name="registration"
+                                                                                required
+                                                                                value="{{$details->reg_no ?? ''}}"
+                                                                                class="form-control form-control-sm registration"/>
                                                                         </td>
                                                                         <td>
                                                                             <select readonly
@@ -1418,17 +1424,17 @@
                                                                                     data-value="{{$material->material_code ?? ''}}"
                                                                                     class="form-control form-control-sm DropDownList">
                                                                                 <option
-                                                                                        value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}
+                                                                                    value="{{$material->material_code ?? ''}}">{{$material->material_code ?? ''}}
                                                                                     : {{$material->specifications ?? ''}}</option>
                                                                             </select>
                                                                         </td>
                                                                         <td>
                                                                             <input
-                                                                                    name="articleCode"
-                                                                                    value="{{$material->material_code ?? ''}}"
-                                                                                    required
-                                                                                    readonly
-                                                                                    class="form-control form-control-sm articleCode"/>
+                                                                                name="articleCode"
+                                                                                value="{{$material->material_code ?? ''}}"
+                                                                                required
+                                                                                readonly
+                                                                                class="form-control form-control-sm articleCode"/>
                                                                         </td>
                                                                         <td>
                                                                             <input type="text"
@@ -1452,11 +1458,11 @@
 
                                                                         <td>
                                                                             <input
-                                                                                    name="unit_of_measure"
-                                                                                    required
-                                                                                    value="{{$material->unit_of_measure ?? ''}}"
-                                                                                    readonly
-                                                                                    class="form-control form-control-sm unit_of_measure"/>
+                                                                                name="unit_of_measure"
+                                                                                required
+                                                                                value="{{$material->unit_of_measure ?? ''}}"
+                                                                                readonly
+                                                                                class="form-control form-control-sm unit_of_measure"/>
                                                                         </td>
 
                                                                         <td>
@@ -1468,7 +1474,8 @@
                                                                         </td>
 
                                                                         <td>
-                                                                            <span id="total_price">{{$material->amount ?? ''}}</span>
+                                                                            <span
+                                                                                id="total_price">{{$material->amount ?? ''}}</span>
                                                                             <input name="total_price"
                                                                                    type="hidden"
                                                                                    required
@@ -1511,8 +1518,8 @@
                                                 <div class="row">
                                                     <div class="form-group">
                                                         <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
-                                                                for="remarks">
+                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                            for="remarks">
                                                             Comments <small>Will be used as justification for
                                                                 Requisition</small>:
                                                         </label>
@@ -1546,18 +1553,19 @@
                                                                        name="materialHeaderId">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                            for="staff_no">Item Type:
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                        for="staff_no">Item Type:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                                         @if(!empty($materialsHeader))
                                                                             <select
-                                                                                    data-value="{{$materialsHeader->item_type_code ?? ''}}"
-                                                                                    readonly="readonly"
-                                                                                    class="form-select form-select-sm"
-                                                                                    name="serviceItemType"
-                                                                                    id="serviceItemType">
-                                                                                <option value="{{RequisitionItemTypes::ServiceItemCode}}">
+                                                                                data-value="{{$materialsHeader->item_type_code ?? ''}}"
+                                                                                readonly="readonly"
+                                                                                class="form-select form-select-sm"
+                                                                                name="serviceItemType"
+                                                                                id="serviceItemType">
+                                                                                <option
+                                                                                    value="{{RequisitionItemTypes::ServiceItemCode}}">
                                                                                     SERVICE
                                                                                 </option>
                                                                             </select>
@@ -1585,17 +1593,18 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                            for="staff_no">Purchase Office:
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                        for="staff_no">Purchase Office:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                                         <select
-                                                                                data-value=""
-                                                                                required
-                                                                                class="form-select form-select-sm"
-                                                                                name="purchase_office"
-                                                                                id="purchase_office">
-                                                                            <option value="{{$officeDetails->purchase_office_code ?? ''}}">
+                                                                            data-value=""
+                                                                            required
+                                                                            class="form-select form-select-sm"
+                                                                            name="purchase_office"
+                                                                            id="purchase_office">
+                                                                            <option
+                                                                                value="{{$officeDetails->purchase_office_code ?? ''}}">
                                                                                 {{$officeDetails->purchase_office ?? ''}}
                                                                             </option>
                                                                         </select>
@@ -1612,7 +1621,7 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <div
-                                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                                         <div class="control-input">
                                                                             <div class="link-field ui-front"
                                                                                  style="position: relative;">
@@ -1643,8 +1652,8 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
-                                                                            for="job_card_no">
+                                                                        class="col-xs-12 col-sm-6 col-md-7 col-lg-4"
+                                                                        for="job_card_no">
                                                                         Request Date:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
@@ -1680,11 +1689,12 @@
 
                                                                 <div id="supplierContainer" class="form-group row">
                                                                     <div
-                                                                            class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                                         <div class="control-input">
                                                                             <div class="link-field ui-front"
                                                                                  style="position: relative;">
-                                                                                <label class="form-check-inline field-required">
+                                                                                <label
+                                                                                    class="form-check-inline field-required">
                                                                                     Suppliers
                                                                                 </label>
                                                                             </div>
@@ -1692,11 +1702,11 @@
                                                                     </div>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                                         <select
-                                                                                data-value="{{$materialsHeader->supplier_code ?? ''}}"
-                                                                                class="form-select form-select-sm"
-                                                                                name="service_supplier"
-                                                                                autocomplete="off"
-                                                                                id="service_supplier">
+                                                                            data-value="{{$materialsHeader->supplier_code ?? ''}}"
+                                                                            class="form-select form-select-sm"
+                                                                            name="service_supplier"
+                                                                            autocomplete="off"
+                                                                            id="service_supplier">
                                                                         </select>
                                                                         @if($services && $services->isNotEmpty())
                                                                             <input type="hidden" class="form-control"
@@ -1715,8 +1725,8 @@
                                                             <div class="row">
                                                                 <div class="form-group row">
                                                                     <label
-                                                                            class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
-                                                                            for="staff_no">Collection Date:
+                                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
+                                                                        for="staff_no">Collection Date:
                                                                     </label>
                                                                     <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                                         @if($materialsHeader)
@@ -1771,58 +1781,59 @@
                                                                     <tr class="increment">
                                                                         <td class="showNumber">
                                                                             <input
-                                                                                    readonly="readonly"
-                                                                                    name="vehicle_registration"
-                                                                                    required
-                                                                                    value="{{$details->reg_no ?? ''}}"
-                                                                                    class="form-control form-control-sm vehicle_registration"/>
+                                                                                readonly="readonly"
+                                                                                name="vehicle_registration"
+                                                                                required
+                                                                                value="{{$details->reg_no ?? ''}}"
+                                                                                class="form-control form-control-sm vehicle_registration"/>
                                                                         </td>
                                                                         <td>
                                                                             <select
-                                                                                    name="service_article"
-                                                                                    required
-                                                                                    value="{{$service->material_code ?? ''}}"
-                                                                                    data-value="{{$service->material_code ?? ''}}"
-                                                                                    class="form-control form-control-sm servicesArticlesDropDownList">
-                                                                                <option value="{{$service->material_code ?? ''}}">
+                                                                                name="service_article"
+                                                                                required
+                                                                                value="{{$service->material_code ?? ''}}"
+                                                                                data-value="{{$service->material_code ?? ''}}"
+                                                                                class="form-control form-control-sm servicesArticlesDropDownList">
+                                                                                <option
+                                                                                    value="{{$service->material_code ?? ''}}">
 
                                                                                 </option>
                                                                             </select>
                                                                         </td>
                                                                         <td>
                                                                             <input
-                                                                                    name="serviceArticleCode"
-                                                                                    required
-                                                                                    value="{{$service->material_code ?? ''}}"
-                                                                                    readonly
-                                                                                    class="form-control form-control-sm serviceArticleCode"/>
+                                                                                name="serviceArticleCode"
+                                                                                required
+                                                                                value="{{$service->material_code ?? ''}}"
+                                                                                readonly
+                                                                                class="form-control form-control-sm serviceArticleCode"/>
                                                                         </td>
                                                                         <td>
                                                                             <input
-                                                                                    name="service_technical_specification"
-                                                                                    required
-                                                                                    value="{{$service->specification ?? ''}}"
-                                                                                    class="form-control form-control-sm service_technical_specification"/>
-                                                                        </td>
-
-                                                                        <td>
-                                                                            <input
-                                                                                    readonly
-                                                                                    type="text"
-                                                                                    min="1"
-                                                                                    value="1"
-                                                                                    max="1"
-                                                                                    name="service_quantity"
-                                                                                    required
-                                                                                    class="form-control form-control-sm service_quantity number_input"/>
+                                                                                name="service_technical_specification"
+                                                                                required
+                                                                                value="{{$service->specification ?? ''}}"
+                                                                                class="form-control form-control-sm service_technical_specification"/>
                                                                         </td>
 
                                                                         <td>
                                                                             <input
-                                                                                    name="service_unit_of_measure"
-                                                                                    required
-                                                                                    readonly
-                                                                                    class="form-control form-control-sm unit_of_measure"/>
+                                                                                readonly
+                                                                                type="text"
+                                                                                min="1"
+                                                                                value="1"
+                                                                                max="1"
+                                                                                name="service_quantity"
+                                                                                required
+                                                                                class="form-control form-control-sm service_quantity number_input"/>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <input
+                                                                                name="service_unit_of_measure"
+                                                                                required
+                                                                                readonly
+                                                                                class="form-control form-control-sm unit_of_measure"/>
                                                                         </td>
 
                                                                         <td>
@@ -1874,8 +1885,8 @@
                                                     @if(!empty($comments) && !empty($comments->where('type','=','SREQ')->first()))
                                                         <div class="form-group">
                                                             <label
-                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
-                                                                    for="remarks">
+                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                                for="remarks">
                                                                 Comments <small>Will be used as justification for
                                                                     Requisition</small>:
                                                             </label>
@@ -2030,11 +2041,11 @@
                                         <div class="row">
                                             <div class="col-1">
                                                 <input
-                                                        required
-                                                        id="acceptance"
-                                                        name="acceptance"
-                                                        type="checkbox"
-                                                        class="checkbox">
+                                                    required
+                                                    id="acceptance"
+                                                    name="acceptance"
+                                                    type="checkbox"
+                                                    class="checkbox">
                                             </div>
                                             <div class="col-10">
                                                 <p id="newApproval_Remarks">
@@ -3263,8 +3274,18 @@
 
             function setSelectedAccessories() {
                 $.each(selectedAccessories, function (index, element) {
-                    $("input[name=field_" + element?.code + "][value=" + element?.is_present + "]")
+                    /* $("input[name=field_" + element?.code + "][value=" + element?.is_present + "]")
+                         .prop('checked', true)
+                         .attr('disabled', true);*/
+                    const response = accessory?.is_present;
+
+                    const other = (response === 'YES' ? 'NO' : 'YES');
+
+                    $("input[name=field_" + accessory?.code + "][value=" + response + "]")
                         .prop('checked', true)
+                        .attr('disabled', true);
+
+                    $("input[name=field_" + accessory?.code + "][value=" + other + "]")
                         .attr('disabled', true);
                     $("input[name=comment_" + element.code + "]")
                         .val(element?.remarks)

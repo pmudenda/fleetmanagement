@@ -51,26 +51,12 @@ return new class extends Migration
             $table->string('cc_code',255)->nullable();
             $table->string('mobile_no',255)->nullable();
             $table->string('area_code',4)->nullable()->add();
-            $table->string('guid')->default(Str::uuid())->nullable();
-            //$table->boolean('has_active_session')->nullable()->default(false);
-            //$table->string('job_code')->nullable();
             $table->string('profile_code', 191)->nullable();
             $table->string('profile_name', 191)->nullable();
 
             $table->rememberToken();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
-
-
-            /*$table->dropColumn([
-                'grade_id',
-                'unit_column',
-                'code_column',
-                'supervisor_guid',
-                'location_id',
-                'positions_id'
-            ]);*/
-
         });
     }
 
