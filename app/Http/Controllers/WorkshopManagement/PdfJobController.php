@@ -58,7 +58,9 @@ class PdfJobController extends Controller
         }*/
 
         $this->fpdf->Cell(40, 40, $this->fpdf->Image($filepath, $this->fpdf->GetX(), $this->fpdf->GetY(), 33.78), 0, 0, 'L', false);
+        $this->fpdf->SetFont('Arial', 'B', $label_size);
         $this->fpdf->Cell(100, 40, 'MECHANICAL WORKSHOP JOB CARD', 1, '');
+        $this->fpdf->SetFont('Arial', 'B', $label_size);
         $this->fpdf->Cell(170, 40,
             $this->fpdf->Cell(50, 5, "Doc Number:"),
             $this->fpdf->Ln(),
@@ -75,7 +77,7 @@ class PdfJobController extends Controller
          $this->fpdf->Cell(130, 5, 'Lusaka, Zambia', 0, 1);
          $this->fpdf->Cell(130, 5, '260 211 361111', 0, 1);
          $this->fpdf->Cell(130, 5, '', 0, 0);*/
-        $invoicee = 'ZESCO FLEET MASTER';
+        /*$invoicee = 'ZESCO FLEET MASTER';
         $attention = 'CHIEF FINANCIAL OFFICER';
         $supply = 'SUMBAWANGA - TANESCO';
 
@@ -119,7 +121,7 @@ class PdfJobController extends Controller
         $this->fpdf->SetFont('Arial', '', $text_size);
         $this->fpdf->SetTextColor(0, 0, 0);
         $this->fpdf->Cell(50, 5, '01 JUNE 2023', 0, 1);
-        $this->fpdf->Ln(2);
+        $this->fpdf->Ln(2);*/
 
         //        $this->fpdf->Cell(130, 5, 'Great East Road, Stand No.6949', 0, 1);
         //        $this->fpdf->Cell(130, 5, 'Lusaka, Zambia', 0, 1);
