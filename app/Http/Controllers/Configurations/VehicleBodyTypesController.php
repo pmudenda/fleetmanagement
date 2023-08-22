@@ -6,7 +6,7 @@ use App\Enums;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VehicleBodyType;
-use App\Models\Settings\vehicle\ConfigVehicleBodyType;
+use App\Models\Settings\vehicle\VehicleBodyType;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -23,7 +23,7 @@ class VehicleBodyTypesController extends Controller
     {
         try {
             $statusList = [StatusHelper::active()];
-            $data = ConfigVehicleBodyType::whereIn('status', $statusList)->get();
+            $data = VehicleBodyType::whereIn('status', $statusList)->get();
             return response()->json([
                 'state' => 'success',
                 'payload' => $data
@@ -54,7 +54,7 @@ class VehicleBodyTypesController extends Controller
 
             $name = trim(strtoupper($request->input('body_type_name')));
 
-            $vehicleBodyType = ConfigVehicleBodyType::where('body_type_name', '=', $name)->first();
+            $vehicleBodyType = VehicleBodyType::where('body_type_name', '=', $name)->first();
 
             if (!empty($vehicleBodyType)) {
                 return response()->json([
@@ -64,7 +64,7 @@ class VehicleBodyTypesController extends Controller
                 ]);
             }
 
-            $model = ConfigVehicleBodyType::updateOrCreate(
+            $model = VehicleBodyType::updateOrCreate(
                 [
                     'body_type_name' => $name
                 ],
@@ -95,7 +95,7 @@ class VehicleBodyTypesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ConfigVehicleBodyType $configfVehicleBodyType)
+    public function show(VehicleBodyType $configfVehicleBodyType)
     {
         //
     }
@@ -103,7 +103,7 @@ class VehicleBodyTypesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ConfigVehicleBodyType $configfVehicleBodyType)
+    public function edit(VehicleBodyType $configfVehicleBodyType)
     {
         //
     }
@@ -111,7 +111,7 @@ class VehicleBodyTypesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ConfigVehicleBodyType $configfVehicleBodyType)
+    public function update(Request $request, VehicleBodyType $configfVehicleBodyType)
     {
         //
     }
@@ -119,12 +119,12 @@ class VehicleBodyTypesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    //public function destroy(ConfigVehicleBodyType $configfVehicleBodyType)
+    //public function destroy(VehicleBodyType $configfVehicleBodyType)
     public function destroy(Request $request): JsonResponse
     {
         try {
 
-            $data = ConfigVehicleBodyType::where('guid', $request->input('guid'));
+            $data = VehicleBodyType::where('guid', $request->input('guid'));
             $data->status = 'inactive'; //TODO Use Status enum
             $data->save();
 

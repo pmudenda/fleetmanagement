@@ -31,7 +31,7 @@ use App\Models\MaterialHeader;
 use App\Models\Reference\PHCMSEmployee;
 use App\Models\RequisitionType;
 use App\Models\Settings\Accessory;
-use App\Models\Settings\GeneralTableConfiguration;
+use App\Models\Settings\GeneralTable;
 use App\Models\Workflow\WorkflowTaskHeader;
 use App\Models\WorkShopManagement\AssessmentObservation;
 use App\Models\WorkShopManagement\JobCardHeader;
@@ -642,7 +642,7 @@ class MaintenanceController extends Controller
 
     public function getFuelLevels(): JsonResponse
     {
-        $fuel_levels = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::FUEL_LEVELS->value)
+        $fuel_levels = GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::FUEL_LEVELS->value)
             ->get();
 
         return response()->json(
@@ -1406,7 +1406,7 @@ class MaintenanceController extends Controller
      */
     public function getWorkshopsRepairTypesAndSections(): array
     {
-        $repairTypes = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
+        $repairTypes = GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::REPAIR_TYPE->value)
             ->where("active", "=", 1)
             ->orderBy("name")
             ->get();
@@ -1415,7 +1415,7 @@ class MaintenanceController extends Controller
             ->orderBy("name")
             ->get();
 
-        $workshop_sections = GeneralTableConfiguration::where(Constants::TYPE_KEY, ConfigurationTypes::WORK_SHOP_SECTION)
+        $workshop_sections = GeneralTable::where(Constants::TYPE_KEY, ConfigurationTypes::WORK_SHOP_SECTION)
             ->where("active", "=", 1)
             ->orderBy("name")
             ->get();

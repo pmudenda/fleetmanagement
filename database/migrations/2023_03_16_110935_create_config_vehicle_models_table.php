@@ -12,10 +12,6 @@ return new class extends Migration {
     {
         Schema::create('CONFIG_VEHICLE_MODELS', function (Blueprint $table) {
             $table->id();
-            /*$table->string('brand_name');*/
-            /* $table->string('model_guid');*/
-            /*$table->datetime('date_created')->nullable();*/
-            /*$table->integer('created_name')->nullable();*/
             $table->string('code', 4);
             $table->string('model_name', 255);
             $table->string('model_code', 4)->nullable();

@@ -7,7 +7,7 @@ use App\Enums\Constants;
 use App\Enums\Modules;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Settings\GeneralTableConfiguration;
+use App\Models\Settings\GeneralTable;
 use App\Models\Settings\WorkShop;
 use App\Models\Common\CostCenter;
 use App\Models\Reference\Area;
@@ -98,7 +98,7 @@ class WorkshopController extends Controller
     {
         $type = ConfigurationTypes::WORK_SHOP_SECTION;
         $typeStr = $type;
-        $workshop_sections = GeneralTableConfiguration::where(Constants::TYPE_KEY, $type)->get();
+        $workshop_sections = GeneralTable::where(Constants::TYPE_KEY, $type)->get();
 
        /* return view('modules.workshopManagement.sections')
             ->with(compact(
@@ -129,7 +129,7 @@ class WorkshopController extends Controller
 
     public function getActiveWorkShopSections(): JsonResponse
     {
-        $workshopsList = GeneralTableConfiguration::where('type', '=', ConfigurationTypes::WORK_SHOP_SECTION->value)
+        $workshopsList = GeneralTable::where('type', '=', ConfigurationTypes::WORK_SHOP_SECTION->value)
             ->where('active', 1)
             ->get();
 

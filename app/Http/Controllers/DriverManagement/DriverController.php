@@ -7,7 +7,7 @@ use App\Enums\ConfigurationTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DriverOnboardingRequest;
 use App\Models\Reference\PHCMSEmployee;
-use App\Models\Settings\GeneralTableConfiguration;
+use App\Models\Settings\GeneralTable;
 use App\Models\Driver;
 use App\Services\DriverManagement\DriverManagementService;
 use App\Services\FileUploads\FileUploadService;
@@ -33,7 +33,7 @@ class DriverController extends Controller
 
     public function create(): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        $licenseClasses = GeneralTableConfiguration::where('type', '=', ConfigurationTypes::LICENSE_CLASS->value)
+        $licenseClasses = GeneralTable::where('type', '=', ConfigurationTypes::LICENSE_CLASS->value)
             ->get();
 
         return view('modules.driverManagement.create')

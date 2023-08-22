@@ -16,7 +16,7 @@ use App\Http\Requests\WorkShopManagement\JobCardTaskReassignment;
 use App\Http\Requests\WorkShopManagement\WorkOrderClosure;
 use App\Models\MaterialHeader;
 use App\Models\Settings\Accessory;
-use App\Models\Settings\GeneralTableConfiguration;
+use App\Models\Settings\GeneralTable;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Models\WorkShopManagement\AssessmentObservation;
 use App\Models\WorkShopManagement\JobCardHeader;
@@ -88,7 +88,7 @@ class WorkshopService
         $workshop_number = DocumentNumberGenerationService::generateReferenceNumber(Modules::WORKSHOP_DOCUMENT);
         $doc_number = DocumentNumberGenerationService::generateReferenceNumber(Modules::JOB_CARD);
 
-        $section = GeneralTableConfiguration::where("name", "=", "RECEPTION")
+        $section = GeneralTable::where("name", "=", "RECEPTION")
             ->where("type", ConfigurationTypes::WORK_SHOP_SECTION)
             ->first();
 
@@ -450,7 +450,7 @@ class WorkshopService
             ->first();
 
         foreach ($request->validated("items") as $labourItem) {
-            WorkshopLabour::create([
+            WorkshopLabour::firstOrCreate([
                 'wshp_act_code' => $workOrder->wshp_act_code,
                 'wshp_code' => $workOrder->workshop_code,
                 'section' => $labourItem['workshopSection'],

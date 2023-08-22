@@ -7,7 +7,7 @@ use App\Enums;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VehicleMake;
-use App\Models\Settings\vehicle\ConfigVehicleBrand;
+use App\Models\Settings\vehicle\VehicleBrand;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ class ConfigVehicleBrandsController extends Controller
     {
         try {
             $statusList = [StatusHelper::active()];
-            $data = ConfigVehicleBrand::whereIn('status', $statusList)->get();
+            $data = VehicleBrand::whereIn('status', $statusList)->get();
             return response()->json([
                 'state' => 'success',
                 'payload' => $data
@@ -54,7 +54,7 @@ class ConfigVehicleBrandsController extends Controller
     {
         try {
 
-            $make = ConfigVehicleBrand::where('name', '=', trim(strtoupper($request->input('brand_name'))))
+            $make = VehicleBrand::where('name', '=', trim(strtoupper($request->input('brand_name'))))
                 ->first();
 
             if (!empty($make)) {
@@ -65,7 +65,7 @@ class ConfigVehicleBrandsController extends Controller
                 ]);
             }
 
-            $model = ConfigVehicleBrand::updateOrCreate(
+            $model = VehicleBrand::updateOrCreate(
                 [
                     'name' => trim(strtoupper($request->input('brand_name'))),
                 ],
@@ -94,7 +94,7 @@ class ConfigVehicleBrandsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ConfigVehicleBrand $configVehicleBrands)
+    public function show(VehicleBrand $configVehicleBrands)
     {
         //
     }
@@ -102,7 +102,7 @@ class ConfigVehicleBrandsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ConfigVehicleBrand $configVehicleBrands)
+    public function edit(VehicleBrand $configVehicleBrands)
     {
         //
     }
@@ -110,7 +110,7 @@ class ConfigVehicleBrandsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ConfigVehicleBrand $configVehicleBrands)
+    public function update(Request $request, VehicleBrand $configVehicleBrands)
     {
         //
     }
@@ -121,7 +121,7 @@ class ConfigVehicleBrandsController extends Controller
     public function destroy(Request $request): JsonResponse
     {
         try {
-            $configVehicleBrands = ConfigVehicleBrand::where('guid', $request->input('guid'))->first();
+            $configVehicleBrands = VehicleBrand::where('guid', $request->input('guid'))->first();
             //$configVehicleBrands->status = 'deactivated';
             $configVehicleBrands->status = 'deactivated';
 

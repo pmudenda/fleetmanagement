@@ -11,7 +11,7 @@ use App\Http\Requests\CreateRecordRequest;
 use App\Http\Requests\GeneralTableEditRequest;
 use App\Http\Requests\GeneralTableDeleteRequest;
 use App\Models\Settings\general\Status;
-use App\Models\Settings\GeneralTableConfiguration;
+use App\Models\Settings\GeneralTable;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -99,7 +99,7 @@ class GeneralTablesController extends Controller
 
     public function show(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $entries = GeneralTableConfiguration::all();
+        $entries = GeneralTable::all();
         $type = 'nothing';
 
         return view('modules.configurations.generalTables.index')
@@ -120,7 +120,7 @@ class GeneralTablesController extends Controller
         } elseif (strtolower($type) == ConfigurationTypes::STATUS_GENERAL) {
             $entries = Status::where(Constants::MODULE, '!=', Constants::VEHICLE_MODULE)->get();
         } else {
-            $entries = GeneralTableConfiguration::where(Constants::TYPE_KEY, $dbType['id'])->get();
+            $entries = GeneralTable::where(Constants::TYPE_KEY, $dbType['id'])->get();
         }
 
         return view('modules.configurations.generalTables.index')->with(
@@ -151,7 +151,7 @@ class GeneralTablesController extends Controller
                     ]);
             } */
 
-            $dbRecord = GeneralTableConfiguration::where('code', '=', $request->get('code'))
+            $dbRecord = GeneralTable::where('code', '=', $request->get('code'))
                 ->where('type', '=', $request->get(Constants::TYPE_KEY))->first();
 
             if (!empty($dbRecord)) {
@@ -159,7 +159,7 @@ class GeneralTablesController extends Controller
                     . $request->get('code') . ' already Exists');
             }
 
-            $savedData = GeneralTableConfiguration::firstOrCreate(
+            $savedData = GeneralTable::firstOrCreate(
                 [
                     'code' => $request->get('code'),
                     'type' => $request->get(Constants::TYPE_KEY)
@@ -197,7 +197,7 @@ class GeneralTablesController extends Controller
         Log::info('Editing Record');
         try {
 
-            $entry = GeneralTableConfiguration::where('code', '=', $request->get('code'))
+            $entry = GeneralTable::where('code', '=', $request->get('code'))
                 ->where('type', '=', $request->get('type'))
                 ->first();
 
@@ -234,7 +234,7 @@ class GeneralTablesController extends Controller
     {
         try {
 
-            $entry = GeneralTableConfiguration::where('id', '=', $request->id)
+            $entry = GeneralTable::where('id', '=', $request->id)
                 ->first();
 
             if(empty($entry)){

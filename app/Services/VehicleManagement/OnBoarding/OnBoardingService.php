@@ -15,8 +15,8 @@ use App\Http\Requests\VehicleHeaderRequest;
 use App\Models\Common\OrganizationalUnit;
 use App\Models\Reference\Area;
 use App\Models\Settings\Accessory;
-use App\Models\Settings\vehicle\ConfigVehicleBodyType;
-use App\Models\Settings\vehicle\ConfigVehicleBrand;
+use App\Models\Settings\vehicle\VehicleBodyType;
+use App\Models\Settings\vehicle\VehicleBrand;
 use App\Models\Settings\vehicle\VehicleModel;
 use App\Models\VehicleManagement\Assignment;
 use App\Models\VehicleManagement\BodyAndWeightDetail;
@@ -196,7 +196,7 @@ class OnBoardingService
                 0);
         }
 
-        $brand = ConfigVehicleBrand::where('id', $request->input('brand'))->first();
+        $brand = VehicleBrand::where('id', $request->input('brand'))->first();
         $vehicleModel = VehicleModel::where('id',
             $request->input('model'))->first();
 
@@ -204,7 +204,7 @@ class OnBoardingService
             throw new Exception('Vehicle Model Not Found');
         }
 
-        $bodyType = ConfigVehicleBodyType::where('id',
+        $bodyType = VehicleBodyType::where('id',
             $request->input('bodyType'))->first();
 
         if (empty($bodyType)) {

@@ -12,7 +12,7 @@ use App\Http\Controllers\API\RoadTransportSafetyAgencyIntegrationController;
 use App\Http\Controllers\OrganizationStructure\BusinessAreasController;
 use App\Http\Controllers\OrganizationStructure\DirectoratesController;
 use App\Models\Reference\GtaVehicle;
-use App\Models\Settings\GeneralTableConfiguration;
+use App\Models\Settings\GeneralTable;
 use App\Models\WorkShopManagement\WorkShopTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -163,7 +163,7 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     Route::get('load/workshop/section', function (Request $request) {
         try {
 
-            $workShopSection = GeneralTableConfiguration::where('type', ConfigurationTypes::WORK_SHOP_SECTION)
+            $workShopSection = GeneralTable::where('type', ConfigurationTypes::WORK_SHOP_SECTION)
                 ->where('parent', $request->get('key'))
                 ->where('status', '=', StatusHelper::active())
                 ->get();
@@ -186,7 +186,7 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     Route::get('load/licence/classes', function (Request $request) {
         try {
 
-            $licenseCategory = GeneralTableConfiguration::where('type', ConfigurationTypes::LICENSE_CLASS)
+            $licenseCategory = GeneralTable::where('type', ConfigurationTypes::LICENSE_CLASS)
                 ->where('active', '=', "1")
                 ->get();
 
@@ -208,7 +208,7 @@ Route::group(['prefix' => 'v1/en'], function (): void {
     Route::get('transmission/types', function (Request $request) {
         try {
             $transmissionTypes =
-                GeneralTableConfiguration::where('type', ConfigurationTypes::TRANSMISSION_TYPE)
+                GeneralTable::where('type', ConfigurationTypes::TRANSMISSION_TYPE)
                     ->where('active', '=', "1")
                     ->get();
 

@@ -12,16 +12,12 @@ class VehicleModel extends Model
     protected $table = 'CONFIG_VEHICLE_MODELS';
 
     protected $fillable = [
-
         'code',
         'model_name',
         'model_code',
         'brand_code',
         'body_type_code',
         'status',
-        /*'brand_name',*/
-        /* 'model_guid',*/
-        /* 'date_created',*/
         'created_by',
         'modified_by',
         'deleted_at'

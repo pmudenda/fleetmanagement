@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class GeneralTableConfiguration extends Model
+class GeneralTable extends Model
 {
     use SoftDeletes;
-    use HasFactory;
-
-    protected $table = 'CONFIG_GENERAL_TABLES';
+   protected $table = 'CONFIG_GENERAL_TABLES';
 
     protected $fillable = [
         'name',

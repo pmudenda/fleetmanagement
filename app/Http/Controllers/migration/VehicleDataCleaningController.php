@@ -5,7 +5,7 @@ namespace App\Http\Controllers\migration;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\OrganizationStructure\DirectoratesController;
 use App\Http\Requests\DataCleanUp;
-use App\Models\Settings\vehicle\ConfigVehicleBrand;
+use App\Models\Settings\vehicle\VehicleBrand;
 use App\Models\Reference\GtaVehicle;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -41,7 +41,7 @@ class VehicleDataCleaningController extends Controller
     public function cleanUpWindow(Request $request): View
     {
         $registration = $request->get('reg');
-        $vehicleMakes = ConfigVehicleBrand::get();
+        $vehicleMakes = VehicleBrand::get();
 
         $colors = collect([
             (object)['name'=>"Black", 'code'=>'BLACK'],

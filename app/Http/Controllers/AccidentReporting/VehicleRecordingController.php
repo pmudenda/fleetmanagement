@@ -6,7 +6,7 @@ use App\Enums\ConfigurationTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccidentRecordingRequest;
 use App\Models\Accident;
-use App\Models\Settings\GeneralTableConfiguration;
+use App\Models\Settings\GeneralTable;
 use App\Services\FileUploads\FileUploadService;
 use App\Services\Requisitions\FuelRequisitionService;
 use App\Services\Requisitions\WorkshopRequisitionService;
@@ -98,7 +98,7 @@ class VehicleRecordingController extends Controller
     {
 
         try {
-            $data = GeneralTableConfiguration::where('type', '=', ConfigurationTypes::ACCIDENT_TYPES->value)->get();
+            $data = GeneralTable::where('type', '=', ConfigurationTypes::ACCIDENT_TYPES->value)->get();
 
             return response()->json([
                 'state' => 'successful',
@@ -117,7 +117,7 @@ class VehicleRecordingController extends Controller
     {
 
         try {
-            $data = GeneralTableConfiguration::where('type', '=', ConfigurationTypes::ACCIDENT_NATURE->value)->get();
+            $data = GeneralTable::where('type', '=', ConfigurationTypes::ACCIDENT_NATURE->value)->get();
             return response()->json([
                 'state' => 'successful',
                 'payload' => $data,
