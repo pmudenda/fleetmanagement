@@ -2414,7 +2414,14 @@
             function setSelectedAccessories() {
 
                 $.each(selectedAccessories, function (index, element) {
-                    $("input[name=field_" + element?.code + "][value=" + element?.is_present + "]").prop('checked', true);
+                    const otherResponse = element?.is_present === "YES" ? "NO" : "YES";
+
+                    $("input[name=field_" + element?.code + "][value=" + element?.is_present + "]")
+                        .attr('disabled', true)
+                        .prop('checked', true);
+
+                    $("input[name=field_" + element?.code + "][value=" + otherResponse + "]").attr('disabled', true);
+
                     $("input[name=comment_" + element.code + "]").val(element?.remarks);
                 });
             }

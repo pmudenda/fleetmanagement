@@ -3275,19 +3275,18 @@
 
             function setSelectedAccessories() {
                 $.each(selectedAccessories, function (index, element) {
-                    /* $("input[name=field_" + element?.code + "][value=" + element?.is_present + "]")
-                         .prop('checked', true)
-                         .attr('disabled', true);*/
-                    const response = accessory?.is_present;
+
+                    const response = element?.is_present;
 
                     const other = (response === 'YES' ? 'NO' : 'YES');
 
-                    $("input[name=field_" + accessory?.code + "][value=" + response + "]")
+                    $("input[name=field_" + element?.code + "][value=" + response + "]")
                         .prop('checked', true)
                         .attr('disabled', true);
 
-                    $("input[name=field_" + accessory?.code + "][value=" + other + "]")
+                    $("input[name=field_" + element?.code + "][value=" + other + "]")
                         .attr('disabled', true);
+
                     $("input[name=comment_" + element.code + "]")
                         .val(element?.remarks)
                         .attr('disabled', true);
