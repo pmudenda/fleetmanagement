@@ -55,9 +55,9 @@ class VehicleModelsController extends Controller
                     'status' => StatusHelper::active(),
                     'model_name' => trim(strtoupper($request->input('model_name'))),
                     'model_code' => $request->input('model_code'),
-                    'model_guid' => Str::uuid(),
+                    /*'model_guid' => Str::uuid(),*/
                     'dateCreated' => Carbon::now(),
-                    'brand_guid' => $request->input('brand_guid'),
+                    /*'brand_guid' => $request->input('brand_guid'),*/
                     'brand_name' => trim(strtoupper($request->input('brand_name')))
                 ]);
 
