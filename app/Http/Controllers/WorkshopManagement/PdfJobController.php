@@ -67,6 +67,9 @@ class PdfJobController extends Controller
             $this->fpdf->Cell(30, 5, "Version 1")
             , 1, '');
         $this->fpdf->Ln(5);
+        $this->fpdf->Ln(5);
+        $this->fpdf->Ln(5);
+        $this->fpdf->Ln(5);
         /* $this->fpdf->Cell(130, 5, 'ZESCO LTD', 0, 1);
          $this->fpdf->Cell(130, 5, 'Great East Road, Stand No.6949', 0, 1);
          $this->fpdf->Cell(130, 5, 'Lusaka, Zambia', 0, 1);
