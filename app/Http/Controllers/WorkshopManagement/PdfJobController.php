@@ -29,7 +29,7 @@ class PdfJobController extends Controller
 
         $customer_name = $customer["customer_name"];
 
-        $filepath = public_path() . '/img/zesco_logo_statement.png'; //Image for Statement and Invoice
+        $filepath = public_path() . '/img/ZESCO_removebg.png'; //Image for Statement and Invoice
 
         $this->fpdf->SetAuthor('ZESCO FLEET MASTER');
 
@@ -59,7 +59,7 @@ class PdfJobController extends Controller
 
         $this->fpdf->Cell(40, 25,
             $this->fpdf->Image($filepath, $this->fpdf->GetX(), $this->fpdf->GetY(), 33.78),
-            1, 0, 'L',
+            1, 0, 'C',
             false);
         $this->fpdf->SetFont('Arial', 'B', $label_size);
         $this->fpdf->Cell(100, 25, 'MECHANICAL WORKSHOP JOB CARD', 1, '', 'C');
