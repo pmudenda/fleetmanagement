@@ -145,7 +145,7 @@
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                         {{--@can(config('rights.edit_vehicle'))--}}
-                                                        @if($workshop->status != StatusHelper::new()) @endif
+                                                        @if($workshop->status != StatusHelper::new())
                                                         <li>
                                                             <a class="dropdown-item"
                                                                data-kt-action="edit"
