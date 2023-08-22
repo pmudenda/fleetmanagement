@@ -679,7 +679,6 @@
                         return form.valid();
                     },
                     onFinished: function () {
-                        $('a[href="#finish"]').disableBtn();
                         if (form.valid()) {
                             tmsApp.confirm(
                                 'Confirm',
@@ -687,6 +686,7 @@
                                 'Yes',
                                 'No',
                                 function () {
+                                    $('a[href="#finish"]').disableBtn();
                                     postData(
                                         $("#jobCardForm"),
                                         true
