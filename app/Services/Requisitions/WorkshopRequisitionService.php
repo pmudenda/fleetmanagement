@@ -1087,6 +1087,7 @@ class WorkshopRequisitionService
             ->where("wshp_act_code", "=", $workShopActCode)
             ->leftJoin("$articles", "$articles.CODE_ARTICLE", "=", "services.mat_code")
             ->where(DB::raw("substr(services.mat_code, 0, 2)"), '=', '41')
+            ->where("services.evaluation", '=', "Y")
             ->select(
                 "services.*",
                 "$articles.description as article_specification"
