@@ -26,17 +26,16 @@ class PdfJobController extends Controller
             'address' => 'Address',
             'tarrif' => 'Tarrif'
         ];
-        //self::getCustomerDetails($id); // Get Customer Details for the Statement
 
         $customer_name = $customer["customer_name"];
 
-        $bill_details = ['data' => []];// $this->getStatements($service_no);
-
-        $filepath = public_path() . 'assets/dist/img/zesco_logo.png'; //Image for Statement and Invoice
+        $filepath = public_path() . '/assets/dist/img/zesco_logo.png'; //Image for Statement and Invoice
 
         $this->fpdf->SetAuthor('ZESCO FLEET MASTER');
-        $this->fpdf->SetTitle('Export');
-        $this->fpdf->AliasNbPages('{pages}');//define new alias for total page numbers
+
+        $documentFileName = 'JobCard';
+        $this->fpdf->SetTitle($documentFileName);
+        $this->fpdf->AliasNbPages('{pages}');
 
         $this->fpdf->SetAutoPageBreak(true, 15);
         $this->fpdf->AddPage();// Add new pages
@@ -63,7 +62,7 @@ class PdfJobController extends Controller
          $this->fpdf->Cell(130, 5, 'Lusaka, Zambia', 0, 1);
          $this->fpdf->Cell(130, 5, '260 211 361111', 0, 1);
          $this->fpdf->Cell(130, 5, '', 0, 0);*/
-        $invoicee = 'TANESCO, DAR-ES-SALAAM, TAZANIA';
+        $invoicee = 'ZESCO FLEET MASTER';
         $attention = 'CHIEF FINANCIAL OFFICER';
         $supply = 'SUMBAWANGA - TANESCO';
 
