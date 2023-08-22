@@ -1941,17 +1941,16 @@
                 })
             }
 
+            //  Define friendly data store name
+            const dataStore = window.sessionStorage;
+            let stepId = 1; //window.step_id;
+            /*try {
+                stepId = dataStore.getItem(index) ? dataStore.getItem(index) : window.step_id;
+            } catch (e) {
+                stepId = 0;
+            }*/
             function initializeFormWizard() {
                 const index = 'step';
-                //  Define friendly data store name
-                const dataStore = window.sessionStorage;
-                let stepId = window.step_id;
-                try {
-                    stepId = dataStore.getItem(index) ? dataStore.getItem(index) : window.step_id;
-                } catch (e) {
-                    stepId = 0;
-                }
-
                 form.steps({
                     showStepURLhash: true,
                     headerTag: "h1",
