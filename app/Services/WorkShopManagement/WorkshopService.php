@@ -5,7 +5,6 @@ namespace App\Services\WorkShopManagement;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Modules;
 use App\Enums\RequisitionItemTypes;
-use App\Enums\WorkflowProcessCodes;
 use App\Events\WorkOrderCompleted;
 use App\Exceptions\DuplicateDefectException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
@@ -355,6 +354,10 @@ class WorkshopService
         $workOrder = JobCardHeader::where("job_card_no", "=", $workOrderNumber)
             ->first();
 
+        $vehicleHeader = VehicleHeader::where('registration_number', '=', $workOrder->reg_no);
+        $vehicleHeader->status = StatusHelper::active();
+        $vehicleHeader->save();
+
         $dataBefore = $workOrder->toArray();
 
         $workOrderNumber = $workOrder->job_card_no;
@@ -395,11 +398,6 @@ class WorkshopService
 
         $workOrder->save();
 
-        $closureRemarks = $request->get('closureRemarks');
-
-        $short_description = "$closureRemarks for work-order $workOrderNumber";
-        $long_description = "$closureRemarks for work-order $workOrderNumber";
-        $workflowProcess = WorkflowProcessCodes::WorkOrderClosure->value;
         $stockItemRequisitions = MaterialHeader::where('veh_reg_no', $workOrder->reg_no)
             ->whereIn('status', [StatusHelper::new(), StatusHelper::partiallyAuthorised()])
             ->where('item_type', '=', RequisitionItemTypes::StockItem)
@@ -410,7 +408,13 @@ class WorkshopService
         foreach ($stockItemRequisitions as $requisition) {
             $this->procurementService->cancelStoresRequisition($requisition->st_pur);
         }
-        /*$this->workflowService->initiateWorkflowProcess(
+
+        /*
+         * $closureRemarks = $request->get('closureRemarks');
+         *  $short_description = "$closureRemarks for work-order $workOrderNumber";
+        $long_description = "$closureRemarks for work-order $workOrderNumber";
+        $workflowProcess = WorkflowProcessCodes::WorkOrderClosure->value;
+         * $this->workflowService->initiateWorkflowProcess(
             $workOrderNumber . "-C",
             (int)$workflowProcess,
             WorkflowActions::submit(),
