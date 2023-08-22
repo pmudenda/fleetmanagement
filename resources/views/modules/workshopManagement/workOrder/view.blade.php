@@ -918,10 +918,11 @@
                         </section>
 
                         <h1>LABOUR & ASSIGNMENTS</h1>
-
-                        <section>
-                            @include('modules.workshopManagement.workOrder.tabs.labourAssignments')
-                        </section>
+                        @if(RepairTypes::ContractedService->value != $details->repair_type ?? '')
+                            <section>
+                                @include('modules.workshopManagement.workOrder.tabs.labourAssignments')
+                            </section>
+                        @endif
 
                         <h1>SPARES & SERVICES</h1>
                         <section>
