@@ -1471,9 +1471,13 @@ class MaintenanceController extends Controller
 
         $services = $this->workshopRequisitionService->getWorkShopRequisitionServiceItems($details->wshp_act_code);
 
+        $nonStock = $this->workshopRequisitionService->getWorkShopRequisitionNonStockItems($details->wshp_act_code);
+
         $observation = AssessmentObservation::where("reference", "=", $details->wshp_act_code)->get();
 
         $pettyCashItems = collect([]);
+
+        $materials->merge($nonStock);
 
         $labour = DB::table('wm_workshop_labours labour')
             ->where("wshp_act_code", "=", $details->wshp_act_code)
