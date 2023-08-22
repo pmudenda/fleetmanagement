@@ -1078,7 +1078,7 @@ class WorkshopRequisitionService
         $nonStock = DB::table('WM_WORKSHOP_SERVICES services')
             ->where("wshp_act_code", "=", $workShopActCode)
             ->leftJoin("$articles", "$articles.CODE_ARTICLE", "=", "services.mat_code")
-            ->where(DB::raw("substr(services.mat_code, 0, 2) = '40'"))
+            ->where(DB::raw("substr(services.mat_code, 0, 2)"), '=','40')
             ->select(
                 "services.*",
                 "$articles.description as article_specification"
@@ -1101,7 +1101,7 @@ class WorkshopRequisitionService
         return DB::table('WM_WORKSHOP_SERVICES services')
             ->where("wshp_act_code", "=", $workShopActCode)
             ->leftJoin("$articles", "$articles.CODE_ARTICLE", "=", "services.mat_code")
-            ->where(DB::raw("substr(services.mat_code, 0, 2) = '41'"))
+            ->where(DB::raw("substr(services.mat_code, 0, 2)"), '=', '41')
             ->select(
                 "services.*",
                 "$articles.description as article_specification"
