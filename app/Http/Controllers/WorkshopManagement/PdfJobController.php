@@ -73,7 +73,7 @@ class PdfJobController extends Controller
 
         $bill_details = ['data'=> []];// $this->getStatements($service_no);
 
-        $filepath = public_path() . '/dist/img/zesco_logo.png'; //Image for Statement and Invoice
+        $filepath = public_path() . 'assets/dist/img/zesco_logo.png'; //Image for Statement and Invoice
 
         $this->fpdf->SetAuthor('ZESCO FLEET MASTER');
         $this->fpdf->SetTitle('Export');
