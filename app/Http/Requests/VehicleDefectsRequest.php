@@ -30,6 +30,7 @@ class VehicleDefectsRequest extends FormRequest
             'items.*.workshopSection' => 'required',
             'workshop_reference' => 'required|string|max:20',
             'modelName' => 'required',
+            'vehicle_registration' => 'required',
             'remarks' => 'nullable|string|max:255'
         ];
     }

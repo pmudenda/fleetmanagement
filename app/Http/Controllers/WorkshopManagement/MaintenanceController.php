@@ -9,6 +9,7 @@ use App\Enums\ConfigurationTypes;
 use App\Enums\Constants;
 use App\Enums\RequisitionItemTypes;
 use App\Enums\WorkflowProcessCodes;
+use App\Exceptions\DuplicateDefectException;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\MaterialReservationException;
 use App\Exceptions\VehicleStateException;
@@ -903,12 +904,21 @@ class MaintenanceController extends Controller
                     ["step" => 4, "reference" => $request->get("job_card_no")]),
             ]);
         } catch (\Exception $e) {
-            Log::error($e);
+            $message = ErrorMessages::getMessage("err_0005");
+            if ($e instanceof MaterialReservationException
+                || $e instanceof WorkflowTaskCreationFailedException
+                || $e instanceof DuplicateDefectException
+                || $e instanceof VehicleStateException) {
+                $message = $e->getMessage();
+                Log::info($e);
+            } else {
+                Log::error($e);
+            }
             return response()->json(
                 [
                     "success" => false,
                     "payload" => [],
-                    "message" => ErrorMessages::getMessage("err_0005")
+                    "message" => $message
                 ]
             );
         }

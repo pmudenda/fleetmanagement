@@ -7,6 +7,7 @@ use App\Enums\Modules;
 use App\Enums\RequisitionItemTypes;
 use App\Enums\WorkflowProcessCodes;
 use App\Events\WorkOrderCompleted;
+use App\Exceptions\DuplicateDefectException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
 use App\Helpers\StatusHelper;
 use App\Http\Requests\VehicleDefectsRequest;
@@ -237,24 +238,32 @@ class WorkshopService
         DB::commit();
     }
 
+    /**
+     * @throws DuplicateDefectException
+     */
     public function createJobCardDefects(VehicleDefectsRequest $request): void
     {
         DB::beginTransaction();
-
+        $vehicleRegistrationNumber = $request->get('vehicle_registration');
+        $workShopReference = $request->get("workshop_reference");
         foreach ($request->get("items") as $defect) {
-            $dbDefect = WorkShopTable::where('parent', '=', $defect["defectCategory"])
-                ->where('code', '=', $defect["defect"])
-                ->first();
-            $sameDefect = WorkShopVehicleDefect::where("workshop_reference", "=", $request->get("workshop_reference"))
+
+            $sameDefect = WorkShopVehicleDefect::where("workshop_reference", "=", $workShopReference)
                 ->where("veh_sys", "=", $defect["vehicleSystem"])
                 ->where("defect_category_code", "=", $defect["defectCategory"])
                 ->where("defect_code", "=", $defect["defect"])
                 ->first();
 
+            if (!empty($sameDefect)) {
+                throw new DuplicateDefectException("Defect already Registered for vehicle $vehicleRegistrationNumber");
+            }
 
+            $dbDefect = WorkShopTable::where('parent', '=', $defect["defectCategory"])
+                ->where('code', '=', $defect["defect"])
+                ->first();
             WorkShopVehicleDefect::firstOrCreate(
                 [
-                    "workshop_reference" => $request->get("workshop_reference"),
+                    "workshop_reference" => $workShopReference,
                     "veh_sys" => $defect["vehicleSystem"],
                     "defect_category_code" => $defect["defectCategory"],
                     "defect_code" => $defect["defect"],
