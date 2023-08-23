@@ -137,13 +137,16 @@ class VehicleOnBoardingController extends Controller
                 return redirect(route('new.vehicle', ['step' => 1]));
             }
             $step = $request->get('step') ?? 0;
-            $reference = $request->get('reference');
+            $reference = $request->get('reference') ?? $request->get('ref');
 
             Log::debug(' Reference after onboarding ' . $reference);
 
             if (!empty($reference) && $reference != 0) {
+                Log::info("Find Vehicle By Id $reference");
                 $vehicle = $this->vehicleDetailsService->getVehicleDetails((int)$reference);
+
                 $enteredAccessories = VehicleAccessory::where('vehicle_header_id', '=', (int)$reference)->get();
+
                 $vehicleDocuments = $this->vehicleDetailsService->getVehicleDocuments((int)$reference);
             }
 
