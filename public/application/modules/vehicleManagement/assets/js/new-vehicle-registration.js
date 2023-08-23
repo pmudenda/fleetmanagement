@@ -390,7 +390,9 @@ let app = new Vue({
             validators: [],
             vehicleBrands: [],
             vehicleHeader: {
-                model: {}, isHeaderSaved: false, registration_type: 'MV'
+                model: {},
+                isHeaderSaved: false,
+                registration_type: null
             }, // validators
             vehicleHeaderForm: null,
             vehicleHeaderFormValidator: null,
@@ -1338,6 +1340,7 @@ function checkOnboardingHeaderStatus() {
                 }
 
                 let vehicleBrands = response['payload'];
+                window.vehicleBrands = vehicleBrands;
                 tmsApp.populateDropDownList(selectElem, vehicleBrands, "code", ["name"], "");
 
                 let brandCode = selectElem.attr('data-value');
@@ -1902,6 +1905,26 @@ function checkOnboardingHeaderStatus() {
         document.querySelector("#purchase_order_number").value = '';
     });
 
+    $('[name="registration_type"]').on('change', function (e) {
+        const registrationType = this.value;
+        let selectElem = $('select[name="brand"]');
+
+        let filteredBrands = window.vehicleBrands.filter(function (brand) {
+            return brand.reg_type?.toString().trim() === registrationType?.toString().trim();
+        });
+
+        if (filteredBrands.length === 0) {
+            return;
+        }
+
+        tmsApp.populateDropDownList(selectElem, filteredBrands, "code", ["name"], "");
+
+        /*let brandCode = selectElem.attr('data-value');
+        if (brandCode) {
+            selectElem.val(brandCode);
+            selectElem.trigger('change');
+        }*/
+    });
 
     $('[name="chassisNumber"]').on('change paste', function () {
         checkChassisNumberValidity();
