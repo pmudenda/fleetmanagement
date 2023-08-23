@@ -19,7 +19,6 @@ class User extends Authenticatable
     use HasRoles;
 
     //use HasPermissionsTrait;
-
     protected $table = 'SEC_USERS';
 
     /**
@@ -100,12 +99,14 @@ class User extends Authenticatable
         return $this->hasMany(MaterialHeader::class, 'requested_by', 'staff_no');
     }
 
-    public function swapping($user)
+    public static function swapping($user)
     {
+        Log::info('Checking Other Session');
         try {
             $new_sessid = Session::getId();//get new session_id after user sign in
             $last_session = Session::getHandler()->read($user->last_sessid);// retrive last session
             if ($last_session) {
+                Log::info('Other Session Found');
                 if (Session::getHandler()->destroy($user->last_sessid)) {
                     // session was destroyed
                     Log::info('Destroying Other Session');
