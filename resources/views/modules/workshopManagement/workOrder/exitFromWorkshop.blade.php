@@ -1039,7 +1039,7 @@
                                                                 </div>
                                                             </div>
                                                             <div id="supplierContainer" style="display: none;"
-                                                                 class="form-group row">
+                                                                 class="form-group row d-none">
                                                                 <div class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
@@ -1398,7 +1398,7 @@
                                                             <div id="supplierContainer" class="form-group row">
                                                                 <div
                                                                         class="d-none col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
-                                                                    <div class="control-input">
+                                                                    <div class="control-input d-none">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
                                                                             <label class="form-check-inline field-required">
@@ -2073,7 +2073,7 @@
                     .then(response => response.json())
                     .then(response => {
                         let selectElem = $('select[name="workshop"]');
-                        // Populate results
+
                         if (response.state === 'failure') {
                             //show errors
                             toastr.error('Connection error, no data found')
@@ -2081,7 +2081,7 @@
                         }
 
                         let workshops = response['payload'];
-                        tmsApp.populateDropDownList(selectElem, workshops, "workshop_code", ["workshop_name"], "");
+                        tmsApp.populateDropDownList(selectElem, workshops, "workshop_code", ["workshop_name"], "", "", true);
 
                         let location = selectElem.attr('data-value');
 
