@@ -935,7 +935,7 @@
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="materials" role="tabpanel">
                                         <div class="row pt-5">
-                                            <div class="col-12">
+                                            <div class="col-12" style="display: none;">
                                                 <div class="row">
                                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                                         <div class="container-fluid pl-0">
@@ -1160,6 +1160,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <hr style="color: orange;"/>
                                             <div class="col-xs-12 col-sm-12 col-md-12 px-0">
                                                 <div class="row">
@@ -1319,7 +1320,7 @@
                                     </div>
                                     <div class="tab-pane" id="services" role="tabpanel">
                                         <div class="row pt-5">
-                                            <div class="col-12">
+                                            <div class="col-12" style="display: none;">
                                                 <div class="row">
                                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                                         <div class="container-fluid pl-0">
@@ -1533,6 +1534,7 @@
                                                 </div>
                                             </div>
                                             <hr style="color: orange;"/>
+
                                             <div class="col-xs-12 col-sm-12 col-md-12 px-0">
                                                 <div class="row">
                                                     <div style="max-height:500px; overflow-x: auto;">
