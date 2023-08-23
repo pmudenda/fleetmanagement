@@ -1044,13 +1044,13 @@
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
-                                                                            <label class="form-check-inline field-required">
+                                                                            <label class="form-check-inline field-required d-none">
                                                                                 Suppliers
                                                                             </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7 d-none">
                                                                     <select
                                                                             data-value="{{$materialsHeader->supplier_code ?? ''}}"
                                                                             class="form-select form-select-sm"
@@ -1401,13 +1401,13 @@
                                                                     <div class="control-input d-none">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
-                                                                            <label class="form-check-inline field-required">
+                                                                            <label class="form-check-inline field-required d-none">
                                                                                 Suppliers
                                                                             </label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7 d-none">
                                                                     <select
                                                                             data-value="{{$materialsHeader->supplier_code ?? ''}}"
                                                                             class="form-select form-select-sm"
@@ -2447,18 +2447,18 @@
 
             function showSupplierControls() {
                 document.querySelector('#supplierContainer').style.display = null;
-                document.querySelector('[name="supplier"]').setAttribute('required', 'required');
+                //document.querySelector('[name="supplier"]').setAttribute('required', 'required');
 
                 document.querySelector('#storeContainer').style.display = 'none';
-                document.querySelector('[name="store_code"]').removeAttribute('required');
+                //document.querySelector('[name="store_code"]').removeAttribute('required');
             }
 
             function showStockItemControls() {
                 document.querySelector('#supplierContainer').style.display = 'none';
-                document.querySelector('[name="supplier"]').removeAttribute('required');
+                //document.querySelector('[name="supplier"]').removeAttribute('required');
 
                 document.querySelector('#storeContainer').style.display = null;
-                document.querySelector('[name="store_code"]').setAttribute('required', 'required');
+                //document.querySelector('[name="store_code"]').setAttribute('required', 'required');
             }
 
             function tableHasItems() {
@@ -2475,17 +2475,13 @@
 
                 if (document.querySelector('[name="stockItemCode"]').value == selectedItemType) {
                     showStockItemControls();
-                    //$('.quantity').attr('readonly', false);
                 } else if (selectedItemType == document.querySelector('[name="serviceItemCode"]').value) {
                     showSupplierControls();
                     $('.quantity').attr('readonly', 'readonly').val(1);
                 } else if (selectedItemType == document.querySelector('[name="nonStockItemCode"]').value) {
                     showSupplierControls();
-                    //$('.quantity').attr('readonly', false);
-                    //$('[name="unit_price"]').attr('readonly', false);
                 } else {
                     showSupplierControls();
-                    //$('.quantity').attr('readonly', false);
                 }
 
                 if (selectedItemType) {
