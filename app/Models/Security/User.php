@@ -101,7 +101,7 @@ class User extends Authenticatable
 
     public static function swapping($user)
     {
-        Log::info('Checking Other Session');
+        Log::info('Checking Other Session For User '. $user->staff_no);
         try {
             $new_sessid = Session::getId();//get new session_id after user sign in
             $last_session = Session::getHandler()->read($user->last_sessid);// retrive last session
