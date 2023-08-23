@@ -306,19 +306,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     }
 }
 
-function formatBookValueAsMoney(el) {
-    setTimeout(function () {
-        document.querySelector('[name="bookValue"]').value = accounting.formatMoney(el.value, '');
-    }, 300);
-}
-
-function formatCostPriceAsMoney(el) {
-    setTimeout(function () {
-        document.querySelector('[name="costPrice"]').value = accounting.formatMoney(el.value, '');
-        //app['costingAndValuation'].costPrice = formatted;
-    }, 300);
-}
-
 window.getRegistrationDetails = function (requestReference) {
     if (!requestReference || typeof requestReference === 'undefined') {
         //console.log('Returning')
@@ -431,17 +418,18 @@ let app = new Vue({
             if (!val) return "";
             if (typeof val === 'number') return val;
             return val?.trim();
-        }, formatStatus: function (value) {
+        },
+        formatStatus: function (value) {
             if (!value) return 'Saved';
-            if (value == '100') {
+            if (value === '100') {
                 return 'Pending General Data Entry';
-            } else if (value == '101') {
+            } else if (value === '101') {
                 return 'Pending Technical Data Entry';
-            } else if (value == "102") {
+            } else if (value === "102") {
                 return 'Pending Accessories Checkin';
-            } else if (value == "103") {
+            } else if (value === "103") {
                 return 'Pending Costing Data Entry';
-            } else if (value == "104") {
+            } else if (value === "104") {
                 return 'Pending Assignment';
             }
         }
@@ -845,7 +833,6 @@ function userUnitChanged() {
         let cost_center_code = user_units[0]?.cc_code;
         let business_unit_code = user_units[0]?.bu_code;
 
-
         let filteredCostCenters = window.costCenters.filter(function (cost_center) {
             return cost_center['code_cost_center'].trim() === cost_center_code?.trim();
         });
@@ -886,19 +873,9 @@ function checkOnboardingHeaderStatus() {
 
 (function (tmsApp, $) {
 
-    // web UI event
-    /*function formatMoney(event) {
-        setTimeout(function () {
-            //ZMW
-            let formatted = accounting.formatMoney(event.target.value, '');
-            //app['chassisDetails'].chargeOutRate = formatted;
-        }, 300);
-    }*/
-
     function nativeUserUnitChanged(user_unit) {
 
-        //Vue.set(app['vehicleHeader'], 'user_unit_code', user_unit);
-        document.querySelector('[name="user_unit"]').value = user_unit;
+        $('[name="user_unit"]').val(user_unit);
 
         let filteredUserUnits = window.organizationUnits.filter(function (userUnit) {
             return userUnit['code_unit']?.trim() === user_unit?.trim();
@@ -922,8 +899,6 @@ function checkOnboardingHeaderStatus() {
 
         if (filteredCostCenters.length !== 0) {
             let costCentreOfInterest = filteredCostCenters[0];
-
-            //this.assignmentDetails.costCenter = costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description'];
             $('[name="costCenter"]').val(costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description']);
         }
 
@@ -937,7 +912,7 @@ function checkOnboardingHeaderStatus() {
 
         const val = businessUnitOfInterest['code_bu'] + ':' + businessUnitOfInterest['description'];
         $('[name="businessUnit"]').val(val);
-        Vue.set(app['assignmentDetails'], 'businessUnit,', val);
+        //Vue.set(app['assignmentDetails'], 'businessUnit,', val);
     }
 
     function submitChassisDetails($form) {
@@ -959,7 +934,6 @@ function checkOnboardingHeaderStatus() {
             toastr.error('You have not attached the vehicle Left View Image', 'Validation Failure')
             return;
         }
-
 
         $form = document.forms['tmsChassisDetailsForm'];
 
@@ -1359,25 +1333,22 @@ function checkOnboardingHeaderStatus() {
                 // Populate results
                 if (response.state === 'failure') {
                     //show errors
-                    toastr.error('Connection error, no data found')
+                    toastr.error('Connection error, Vehicle Brands Could Not Be Retrieved')
                     return;
                 }
 
-                //app.vehicleBrands = response['payload'];
-                //app.engineBrands = response['payload'];
                 let vehicleBrands = response['payload'];
-                tmsApp.populateDropDownList(selectElem, vehicleBrands, "id", ["name"], "");
+                tmsApp.populateDropDownList(selectElem, vehicleBrands, "code", ["name"], "");
 
-                let brand_id = selectElem.attr('data-value');
-                console.log(brand_id);
-                if (brand_id) {
-                    selectElem.val(brand_id);
+                let brandCode = selectElem.attr('data-value');
+
+                if (brandCode) {
+                    selectElem.val(brandCode);
                     selectElem.trigger('change');
                 }
             })
             .catch(function (error) {
-                // notify of error
-                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+                toastr.error(error, 'Connection error')
             });
     }
 
@@ -2073,35 +2044,35 @@ function checkOnboardingHeaderStatus() {
 
     tmsApp.appFormValidator('form[name="tms_body_weight_form"]',
         {
-        'height': {
-            required: true
-        }, 'length': {
-            required: true
-        }, 'width': {
-            required: true
-        }, 'seatCapFront': {
-            required: true
-        }, 'tareWeight': {
-            required: true
-        }, 'grossWeight': {
-            required: true
+            'height': {
+                required: true
+            }, 'length': {
+                required: true
+            }, 'width': {
+                required: true
+            }, 'seatCapFront': {
+                required: true
+            }, 'tareWeight': {
+                required: true
+            }, 'grossWeight': {
+                required: true
+            },
         },
-    },
         {
-        'height': {
-            required: "required"
-        }, 'length': {
-            required: "required"
-        }, 'width': {
-            required: "required"
-        }, 'seatCapFront': {
-            required: "required"
-        }, 'tareWeight': {
-            required: "required"
-        }, 'grossWeight': {
-            required: "Vehicle Weight is required"
-        },
-    });
+            'height': {
+                required: "required"
+            }, 'length': {
+                required: "required"
+            }, 'width': {
+                required: "required"
+            }, 'seatCapFront': {
+                required: "required"
+            }, 'tareWeight': {
+                required: "required"
+            }, 'grossWeight': {
+                required: "Vehicle Weight is required"
+            },
+        });
 
     $('[name="tms_body_weight_form"]').on('submit', function (e) {
         e.preventDefault();
@@ -2111,59 +2082,59 @@ function checkOnboardingHeaderStatus() {
 
     tmsApp.appFormValidator('form[name="tms_assignment_form"]',
         {
-        businessArea: {
-            required: true
-        }, isPoolVehicle: {
-            required: true
-        }, directorate: {
-            required: true
-        }, businessUnit: {
-            required: true
-        }, costCenter: {
-            required: true
-        }, isMileageExempt: {
-            required: true
-        }, responsibleHOD: {
-            required: $("#isPoolVehicle:checked")
-        },
+            businessArea: {
+                required: true
+            }, isPoolVehicle: {
+                required: true
+            }, directorate: {
+                required: true
+            }, businessUnit: {
+                required: true
+            }, costCenter: {
+                required: true
+            }, isMileageExempt: {
+                required: true
+            }, responsibleHOD: {
+                required: $("#isPoolVehicle:checked")
+            },
 
-        responsibleHODId: {
-            required: $("#isPoolVehicle:checked")
-        }, vehicleHolder: {
-            required: $("#isNotPoolVehicle:checked")
-        },
+            responsibleHODId: {
+                required: $("#isPoolVehicle:checked")
+            }, vehicleHolder: {
+                required: $("#isNotPoolVehicle:checked")
+            },
 
-        vehicleHolderId: {
-            required: $("#isNotPoolVehicle:checked")
+            vehicleHolderId: {
+                required: $("#isNotPoolVehicle:checked")
+            },
         },
-    },
         {
-        businessArea: {
-            required: "You must declare the business area"
-        }, isPoolVehicle: {
-            required: "You must declare if the vehicle is operational or personal to holder"
-        }, directorate: {
-            required: 'Directorate is required'
-        }, businessUnit: {
-            required: "Business Unit is required"
-        }, costCenter: {
-            required: "Cost Center is required"
-        }, isMileageExempt: {
-            required: "Required"
-        }, responsibleHOD: {
-            required: "Personnel responsible for vehicles must be declared"
-        },
+            businessArea: {
+                required: "You must declare the business area"
+            }, isPoolVehicle: {
+                required: "You must declare if the vehicle is operational or personal to holder"
+            }, directorate: {
+                required: 'Directorate is required'
+            }, businessUnit: {
+                required: "Business Unit is required"
+            }, costCenter: {
+                required: "Cost Center is required"
+            }, isMileageExempt: {
+                required: "Required"
+            }, responsibleHOD: {
+                required: "Personnel responsible for vehicles must be declared"
+            },
 
-        responsibleHODId: {
-            required: "Personnel responsible for vehicles must be declared"
-        }, vehicleHolder: {
-            required: "Declare the officer assigned the vehicle"
-        },
+            responsibleHODId: {
+                required: "Personnel responsible for vehicles must be declared"
+            }, vehicleHolder: {
+                required: "Declare the officer assigned the vehicle"
+            },
 
-        vehicleHolderId: {
-            required: "Declare the officer assigned the vehicle"
-        },
-    });
+            vehicleHolderId: {
+                required: "Declare the officer assigned the vehicle"
+            },
+        });
 
     $('[name="tms_assignment_form"]').on('submit', function (e) {
         e.preventDefault();
@@ -2314,7 +2285,6 @@ function checkOnboardingHeaderStatus() {
         this.value = this.value.toLocaleUpperCase();
     });
 
-
     $(document).on('keyup paste', '#tyreBrand', function () {
         this.value = this.value.toLocaleUpperCase();
     });
@@ -2326,7 +2296,6 @@ function checkOnboardingHeaderStatus() {
     $(document).on('keyup paste', '#engineNumber', function () {
         this.value = this.value.toLocaleUpperCase();
     });
-
 
     Inputmask({
         "mask": "A{2,3} 9{1,4}"

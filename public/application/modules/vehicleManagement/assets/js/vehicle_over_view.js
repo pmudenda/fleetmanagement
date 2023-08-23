@@ -1226,7 +1226,6 @@ function userUnitChanged() {
             let costCentreOfInterest = filteredCostCenters[0];
             const costCenterDescription = costCentreOfInterest['code_cost_center'] + ':' + costCentreOfInterest['description'];
             $('[name="costCenter"]').val(costCenterDescription);
-            Vue.set(app['assignmentDetails'], 'costCenter', costCenterDescription);
         }
 
         let filteredBusinessUnits = window.businessUnits.filter(function (bu) {
@@ -1240,7 +1239,6 @@ function userUnitChanged() {
 
         const val = businessUnitOfInterest['code_bu'] + ':' + businessUnitOfInterest['description'];
         $('[name="businessUnit"]').val(val);
-        Vue.set(app['assignmentDetails'], 'businessUnit', val);
     }, 1000);
     return;
 }
