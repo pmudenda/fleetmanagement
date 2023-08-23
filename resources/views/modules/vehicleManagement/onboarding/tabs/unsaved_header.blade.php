@@ -47,6 +47,7 @@
                                             name="registration_type"
                                             @input="registrationTypeChanged"
                                             v-model="vehicleHeader.registration_type">
+                                        <option></option>
                                         <option v-for="regType in registrationTypes"
                                                 :key="regType.code"
                                                 :value="regType.code">
