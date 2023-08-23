@@ -99,20 +99,23 @@ class User extends Authenticatable
         return $this->hasMany(MaterialHeader::class, 'requested_by', 'staff_no');
     }
 
-    public static function swapping($user)
+    public static function swapping($user): void
     {
         Log::info('Checking Other Session For User '. $user->staff_no);
         try {
-            $new_sessid = Session::getId();//get new session_id after user sign in
-            $last_session = Session::getHandler()->read($user->last_sessid);// retrive last session
-            if ($last_session) {
+            $newSessionId = Session::getId();//get new session_id after user sign in
+            $lastSessionId = Session::getHandler()->read($user->last_sessid);// retrive last session
+            Log::info('New Session Id '. $newSessionId);
+
+            Log::info('New Session Id '. $lastSessionId);
+            if ($lastSessionId) {
                 Log::info('Other Session Found');
                 if (Session::getHandler()->destroy($user->last_sessid)) {
                     // session was destroyed
                     Log::info('Destroying Other Session');
                 }
             }
-            $user->last_session_id = $new_sessid;
+            $user->last_session_id = $newSessionId;
             $user->save();
         } catch (\Exception $e) {
             Log::error($e);
