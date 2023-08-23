@@ -51,7 +51,7 @@
 
                                         <td>
                                             @if(!empty($rec->job_card_no))
-                                                <a class="dropdown-item"
+                                                <a
                                                    title="View Job Card"
                                                    data-toggle="tooltip"
                                                    href="{{URL::signedRoute('view.job.card',["view"=>true,'step'=> '1', 'reference'=>$rec->job_card_no])}}">
