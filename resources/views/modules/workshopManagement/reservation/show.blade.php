@@ -193,9 +193,9 @@
                                                 <div class="container-fluid pl-0">
                                                     <div class="row">
                                                         <div class="form-group row">
-                                                            <label
-                                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
-                                                                    for="request_date">Supplier:
+                                                            <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                   for="request_date">
+                                                                Supplier:
                                                             </label>
                                                             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
                                                                 <input type="text" class="form-control form-control-sm"
@@ -349,6 +349,27 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        @if(!empty($requestDetails->document_no))
+                                            <div class="col-xs-12 col-sm-6 col-md-6">
+                                                <div class="container-fluid pl-0">
+                                                    <div class="row">
+                                                        <div class="form-group row">
+                                                            <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 field-required"
+                                                                   for="jobCardNo">Job Card:</label>
+                                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-6">
+                                                                <input type="text"
+                                                                       class="form-control form-control-sm"
+                                                                       id="jobCardNo"
+                                                                       readonly
+                                                                       value="{{$requestDetails->document_no}}"
+                                                                       name="jobCardNo">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
 
                                     <div class="row">
