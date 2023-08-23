@@ -1839,7 +1839,6 @@
                                 || documentStatus === ""
                                 || documentStatus === 'undefined'
                             ) {
-                                //populateVehicleDetails(response.payload, "");
                                 $($row).find('[name="hoursWorked"]').attr('readonly', false);
                                 $($row).find('[name="shiftType"]').attr('disabled', false);
                             }
@@ -2175,8 +2174,6 @@
                     element.setAttribute('disabled', 'disabled');
                 });
 
-                //document.querySelector('#image_view').style.display = 'none';
-
                 $('tbody#vehicleDetails').html('');
             }
 
@@ -2189,7 +2186,6 @@
                 });
 
                 document.querySelector('#vehicleDetailsContainer').style.display = null;
-                // document.querySelector('#image_view').style.display = null;
             }
 
             function enableArticleSelectionWebUIControls() {
