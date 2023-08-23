@@ -13,9 +13,11 @@ class VehicleHeader extends Model
     protected $table = 'VM_VEHICLE_HEADER';
     protected $fillable = [
         'brand_name',
-        'model_guid',
+        'brand_code',
         'model_name',
         'model_code',
+        'body_type_code',
+        'body_type_name',
         'status',
         'on_boarding_status',
         'registration_type',
@@ -23,8 +25,6 @@ class VehicleHeader extends Model
         'has_tom_card',
         'invalid_odometer_entry',
         'mileage',
-        'body_type_guid',
-        'body_type_name',
         'registration_number',
         'business_unit_code',
         'business_unit_name',
