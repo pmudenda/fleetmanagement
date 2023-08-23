@@ -2657,8 +2657,8 @@
                     $('.print-error-msg').css('display', 'none');
 
                     tmsApp.confirm(
-                        'Close Work Order',
-                        'Are you sure you want to close this work order ?',
+                        'Close Job Card',
+                        'Are you sure you want to close this job card ?',
                         'Yes',
                         'No',
                         function () {
@@ -2673,7 +2673,7 @@
                                 if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
                                     setTimeout(function () {
                                         tmsApp.showSystemMessage(
-                                            'Close Work Order',
+                                            'Close Job Card',
                                             asyncResponse['message'],
                                             function () {
                                                 window.location.href = asyncResponse["redirectUrl"]
@@ -2688,7 +2688,7 @@
                                     }
                                     setTimeout(function () {
                                         tmsApp.systemError(
-                                            'Close Work Order',
+                                            'Close Job Card',
                                             asyncResponse['message'],
                                             function () {
                                             }, 'error');
@@ -2703,7 +2703,7 @@
                                         }
                                         if (xhr.responseJSON.hasOwnProperty('message')) {
                                             tmsApp.systemError(
-                                                'Close Work Order',
+                                                'Close Job Card',
                                                 xhr.responseJSON['message']
                                             );
                                         }
@@ -2711,7 +2711,7 @@
                                     }
 
                                     tmsApp.systemError(
-                                        'Close Work Order',
+                                        'Close Job Card',
                                         'We could not complete processing your request, please try again later');
                                 }, 300)
                             });
