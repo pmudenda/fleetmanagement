@@ -181,11 +181,19 @@ class OnBoardingService
      */
     public function processVehicleHeaderInformation(VehicleHeaderRequest $request): mixed
     {
+
+        $body = $request->input('bodyType');
+        $modelCode = $request->model;
+        $brandCode = $request->input('brand');
+
+        Log::info("Brand " . $brandCode);
+        Log::info("Model Code " . $modelCode);
+        Log::info("Body Type " . $body);
+
         $user = auth()->user();
 
         DB::beginTransaction();
         $user_unit_code = $request->input('user_unit');
-
         $organizationUnit = OrganizationalUnit::where('code_unit', $user_unit_code)->first();
         $registrationNumber = strtoupper(trim($request->input('registrationNumber')));
         $exitingRegistration = VehicleHeader::where('registration_number', $registrationNumber)->first();
@@ -196,17 +204,20 @@ class OnBoardingService
                 0);
         }
 
-        $brand = VehicleBrand::where('code', $request->input('brand'))->first();
+        $brand = VehicleBrand::where('code', '=', $brandCode)->first();
+
+        Log::info("Brand Found " . $brand->name);
 
         $vehicleModel = VehicleModel::where('code',
-            $request->input('model'))->first();
+            $request->input('model'))
+            ->where('brand_code', '=', $brandCode)
+            ->first();
 
         if (empty($vehicleModel)) {
             throw new Exception('Vehicle Model Not Found');
         }
 
-        $bodyType = VehicleBodyType::where('code',
-            $request->input('bodyType'))->first();
+        $bodyType = VehicleBodyType::where('code', $body)->first();
 
         if (empty($bodyType)) {
             throw new Exception('Vehicle Body Type Not Found');
@@ -223,14 +234,14 @@ class OnBoardingService
                 'model_name' => $vehicleModel->model_name,
                 'model_code' => $vehicleModel->code,
                 'body_type_code' => $bodyType->code,
-                'body_type_name' => $bodyType->body_type_name,
+                'body_type_name' => $bodyType->name,
                 'business_unit_code' => trim($organizationUnit->code_unit),
                 'business_unit_name' => trim($organizationUnit->description),
                 'location_code' => 'N/A',
                 'location_name' => strtoupper(trim($request->input('vehicleLocation'))),
                 'created_by' => $user->id,
                 'created_name' => $user->name,
-                'mileage'=> '0',
+                'mileage' => '0',
                 'on_boarding_status' => StatusHelper::PendingGeneralDataEntry(),
                 'status' => StatusHelper::vehicleInactive(),
                 'registration_type' => $request->get('registration_type')

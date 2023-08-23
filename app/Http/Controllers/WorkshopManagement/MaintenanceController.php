@@ -150,7 +150,6 @@ class MaintenanceController extends Controller
     {
         $this->verifyRequestSignature($request);
         $step = $request->get("step") ?? 0;
-        $reference = $request->get("reference") ?? $request->get('ref');
 
         list(
             $repairTypes,
@@ -167,7 +166,7 @@ class MaintenanceController extends Controller
             $labour,
             $pettyCashItems,
             $observation
-            ) = $this->getFullJobCardDetails($reference);
+            ) = $this->getFullJobCardDetails($request->get("reference") ?? $request->get('ref'));
 
         $mechanics = [];
         if (!empty($details)) {

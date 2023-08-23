@@ -1636,7 +1636,7 @@
                         </div>
                     </section>
 
-                    @if(!empty($taskHeader->assigned_user))
+                    {{--@if(!empty($taskHeader->assigned_user))
                         @if( (auth()->user()->staff_no == $taskHeader->assigned_user && empty($taskHeader->date_ended))
                             ||
                             (auth()->user()->hasRole('final_authoriser')&& empty($taskHeader->date_ended))
@@ -1655,7 +1655,7 @@
                                 </div>
                             </div>
                         @endif
-                    @endif
+                    @endif--}}
                 </form>
 
                 <input type="hidden" value="{{route('user.search') }}" id="newUserSearchUrl"/>
@@ -1686,7 +1686,6 @@
         </div>
         <input type="hidden" name="onboarding_status" id="onboarding_status"
                value="{{StatusHelper::onboardingComplete()}}">
-
         @if(!empty($taskHeader))
             <x-workflow-approval-history :approvals="$approvalHistory" :request="$taskHeader"/>
         @endif
