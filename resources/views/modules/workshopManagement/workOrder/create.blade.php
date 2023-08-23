@@ -186,6 +186,7 @@
                                             </div>
                                         </div>
                                         <div class="col">
+                                            {{dd($observation)}}
                                             @if($observation->isNotEmpty())
                                                 <div class="row">
                                                     <div class="table-responsive" style="max-height:500px;">

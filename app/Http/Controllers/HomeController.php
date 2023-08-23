@@ -25,8 +25,6 @@ class HomeController extends Controller
     public function logout(): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         auth()->user();
-        //$user->has_active_session = ConfigHelper::currentLoginFalse();
-        //$user->save();
         Auth::logout();
         return redirect('/login')->with(['msg_body' => 'Signing out!']);
     }
@@ -34,7 +32,6 @@ class HomeController extends Controller
     public function dashboard(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $user = auth()->user();
-
         $approvalTasks = $this->workflowService->getMyApprovalTasks($user->staff_no);
         $vehicleData = VehicleDetailsService::getAllVehicles();
         return view('dashboard.home')
