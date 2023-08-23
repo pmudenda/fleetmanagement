@@ -47,7 +47,7 @@
                     <h4>Exit Vehicle From Workshop</h4>
                 </div>
                 <div class="card-toolbar justify-content-end">
-                   Job Card Status @if(!empty($details) && !empty($details->status))
+                    Job Card Status @if(!empty($details) && !empty($details->status))
                         <span class="badge {{$details->color_code}}">
                        {{ $details->status_name ?? '' }}
                     </span>
@@ -95,7 +95,8 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             @if(!empty($details) && !empty($details->job_card_no))
                                                                 <div class="">
-                                                                    &nbsp; <span class="text-orange">{{ $details->job_card_no ?? '' }}</span>
+                                                                    &nbsp; <span
+                                                                            class="text-orange">{{ $details->job_card_no ?? '' }}</span>
                                                                 </div>
                                                             @endif
                                                         </div>
@@ -650,9 +651,9 @@
                                    id="suppliersList"
                                    value="{{route('suppliers.list')}}"/>
                             <ul class="nav nav-tabs" role="tablist">
-                               {{-- <li class="nav-item" style="list-style: none; width: 178px; display: none;">
-                                    <a class="nav-link" data-toggle="tab" href="#accessories" role="tab">Accessories</a>
-                                </li>--}}
+                                {{-- <li class="nav-item" style="list-style: none; width: 178px; display: none;">
+                                     <a class="nav-link" data-toggle="tab" href="#accessories" role="tab">Accessories</a>
+                                 </li>--}}
                                 <li class="nav-item" style="list-style: none; width: 178px;">
                                     <a class="nav-link active" data-toggle="tab" href="#defects" role="tab">Defects</a>
                                 </li>
@@ -669,94 +670,94 @@
 
 
                             <div class="tab-content">
-                               {{-- <div class="tab-pane" id="accessories" role="tabpanel">
-                                    <div class="container-fluid pl-0 mt-5">
-                                        <div class="row"
-                                             data-model-name="Accessories">
-                                            <input type="hidden" value="{{$details->job_card_no ?? 0}}"
-                                                   name="job_card_voucher"/>
-                                            <div class="col-xs-12 col-sm-12 col-md-12">
-                                                <div class="row">
+                                {{-- <div class="tab-pane" id="accessories" role="tabpanel">
+                                     <div class="container-fluid pl-0 mt-5">
+                                         <div class="row"
+                                              data-model-name="Accessories">
+                                             <input type="hidden" value="{{$details->job_card_no ?? 0}}"
+                                                    name="job_card_voucher"/>
+                                             <div class="col-xs-12 col-sm-12 col-md-12">
+                                                 <div class="row">
 
-                                                    <div class="col">
-                                                        <table
-                                                                class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                            <thead>
-                                                            <tr class="bg-dark-subtle">
-                                                                <th class="pl-2">Item</th>
-                                                                <th>Present</th>
-                                                                <th class="pr-2">Not Present</th>
-                                                                <th class="pr-2">Remarks</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            @foreach($accessories as $key => $accessory)
-                                                                @if(($key%2) == 0)
-                                                                    <tr>
-                                                                        <td class="pl-2"
-                                                                            style="width: 35%;">{{$accessory->name}}</td>
-                                                                        <td><input type="radio"
-                                                                                   value="YES"
-                                                                                   required
-                                                                                   name="field_{{str_replace(' ','', $accessory->code)}}">
-                                                                        </td>
-                                                                        <td><input type="radio"
-                                                                                   value="NO"
-                                                                                   required
-                                                                                   name="field_{{str_replace(' ','', $accessory->code)}}">
-                                                                        </td>
-                                                                        <td style="width: 45%;">
-                                                                            <input typeof="text"
-                                                                                   name="comment_{{str_replace(' ','', $accessory->code)}}"
-                                                                                   class="form-control form-control-sm"/>
-                                                                        </td>
-                                                                    </tr>
-                                                                @endif
-                                                            @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <div class="col">
-                                                        <table
-                                                                class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                            <thead>
-                                                            <tr class="bg-dark-subtle">
-                                                                <th class="pl-2">Item</th>
-                                                                <th>Present</th>
-                                                                <th class="pr-2">Not Present</th>
-                                                                <th class="pr-2">Remarks</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            @foreach($accessories as $key => $accessory)
-                                                                @if(($key%2) != 0)
-                                                                    <tr>
-                                                                        <td class="pl-2" style="width: 35%;">
-                                                                            {{$accessory->name}}
-                                                                        </td>
-                                                                        <td><input type="radio" required value="YES"
-                                                                                   name="field_{{str_replace(' ','', $accessory->code)}}">
-                                                                        </td>
-                                                                        <td><input type="radio" required value="NO"
-                                                                                   name="field_{{str_replace(' ','', $accessory->code)}}">
-                                                                        </td>
-                                                                        <td style="width: 45%;">
-                                                                            <input typeof="text"
-                                                                                   name="comment_{{str_replace(' ','', $accessory->code)}}"
-                                                                                   class="form-control form-control-sm">
-                                                                        </td>
-                                                                    </tr>
-                                                                @endif
-                                                            @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                                     <div class="col">
+                                                         <table
+                                                                 class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                             <thead>
+                                                             <tr class="bg-dark-subtle">
+                                                                 <th class="pl-2">Item</th>
+                                                                 <th>Present</th>
+                                                                 <th class="pr-2">Not Present</th>
+                                                                 <th class="pr-2">Remarks</th>
+                                                             </tr>
+                                                             </thead>
+                                                             <tbody>
+                                                             @foreach($accessories as $key => $accessory)
+                                                                 @if(($key%2) == 0)
+                                                                     <tr>
+                                                                         <td class="pl-2"
+                                                                             style="width: 35%;">{{$accessory->name}}</td>
+                                                                         <td><input type="radio"
+                                                                                    value="YES"
+                                                                                    required
+                                                                                    name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                                         </td>
+                                                                         <td><input type="radio"
+                                                                                    value="NO"
+                                                                                    required
+                                                                                    name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                                         </td>
+                                                                         <td style="width: 45%;">
+                                                                             <input typeof="text"
+                                                                                    name="comment_{{str_replace(' ','', $accessory->code)}}"
+                                                                                    class="form-control form-control-sm"/>
+                                                                         </td>
+                                                                     </tr>
+                                                                 @endif
+                                                             @endforeach
+                                                             </tbody>
+                                                         </table>
+                                                     </div>
+                                                     <div class="col">
+                                                         <table
+                                                                 class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                             <thead>
+                                                             <tr class="bg-dark-subtle">
+                                                                 <th class="pl-2">Item</th>
+                                                                 <th>Present</th>
+                                                                 <th class="pr-2">Not Present</th>
+                                                                 <th class="pr-2">Remarks</th>
+                                                             </tr>
+                                                             </thead>
+                                                             <tbody>
+                                                             @foreach($accessories as $key => $accessory)
+                                                                 @if(($key%2) != 0)
+                                                                     <tr>
+                                                                         <td class="pl-2" style="width: 35%;">
+                                                                             {{$accessory->name}}
+                                                                         </td>
+                                                                         <td><input type="radio" required value="YES"
+                                                                                    name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                                         </td>
+                                                                         <td><input type="radio" required value="NO"
+                                                                                    name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                                         </td>
+                                                                         <td style="width: 45%;">
+                                                                             <input typeof="text"
+                                                                                    name="comment_{{str_replace(' ','', $accessory->code)}}"
+                                                                                    class="form-control form-control-sm">
+                                                                         </td>
+                                                                     </tr>
+                                                                 @endif
+                                                             @endforeach
+                                                             </tbody>
+                                                         </table>
+                                                     </div>
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>--}}
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>--}}
 
                                 <div class="tab-pane active" id="defects" role="tabpanel">
                                     <div class="container-fluid pl-0 mt-5">
@@ -884,7 +885,8 @@
 
                                 <div class="tab-pane" id="materials" role="tabpanel">
                                     <div class="row pt-5">
-                                        <div class="col-12">
+
+                                        <div class="col-12" style="display: none;">
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-6 col-md-6">
                                                     <div class="container-fluid pl-0">
@@ -1102,6 +1104,7 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <hr style="color: orange;"/>
                                         <div class="col-xs-12 col-sm-12 col-md-12 px-0">
                                             <div class="row">
@@ -1259,7 +1262,7 @@
 
                                 <div class="tab-pane" id="services" role="tabpanel">
                                     <div class="row pt-5">
-                                        <div class="col-12">
+                                        <div class="col-12" style="display: none;">
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-6 col-md-6">
                                                     <div class="container-fluid pl-0">
@@ -1592,7 +1595,7 @@
                                                 @if(!empty($comments) && !empty($comments->where('type','=','SREQ')->first()))
                                                     <div class="form-group">
                                                         <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
-                                                                for="remarks">
+                                                               for="remarks">
                                                             Comments <small>Will be used as justification for
                                                                 Requisition</small>:
                                                         </label>
