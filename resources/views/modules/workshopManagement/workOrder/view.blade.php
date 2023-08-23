@@ -2495,7 +2495,7 @@
 
                     findVehicle("InWorkshop");
 
-                }, 600);
+                }, 1000);
 
                 $('#labour_table').on('change paste', '[name="mechanic"]', function () {
                     const $row = $(this).closest('tr');
