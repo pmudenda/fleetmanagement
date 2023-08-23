@@ -29,7 +29,9 @@ class VehicleDetailsService
                     'CONFIG_STATUSES.name as status_name',
                     'VM_VEHICLE_HEADER.created_name as onboarded_by',
                     'VM_ENGINE_DETAILS.fuel_types'
-                )->get();
+                )
+                ->orderBy('VM_VEHICLE_HEADER.created_at', 'desc')
+                ->get();
         } catch (\Exception $e) {
             Log::info('Fetch vehicle details');
             Log::error($e);
