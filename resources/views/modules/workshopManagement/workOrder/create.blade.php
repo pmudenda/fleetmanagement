@@ -73,9 +73,238 @@
                         @include('modules.workshopManagement.workOrder.tabs.job_card_header')
                     </section>
 
+                    {{-- <h1>ASSESSMENTS</h1>
+                     <section>
+                         <div class="container-fluid">
+                             <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}"
+                                  data-model-name="Accessories">
+                                 <input type="hidden" value="{{$details->job_card_no ?? 0}}" name="job_card_voucher"/>
+                                 <input type="hidden" value="{{$details->driver_acknowledged ?? 'N'}}"
+                                        id="driverAcknowledged"
+                                        name="driverAcknowledged"/>
+                                 <div class="col-xs-12 col-sm-12 col-md-12">
+                                     <div class="alert alert-danger">
+                                         CUSTOMER IS REQUIRED TO REMOVE ALL PERSONAL EFFECTS FROM THE VEHICLE
+                                     </div>
+                                     <div class="row">
+                                         <div class="col">
+                                             <table
+                                                     class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                 <thead>
+                                                 <tr class="bg-dark-subtle">
+                                                     <th class="pl-2">Item</th>
+                                                     <th>Present</th>
+                                                     <th class="pr-2">Not Present</th>
+                                                     <th class="pr-2">Remarks</th>
+                                                 </tr>
+                                                 </thead>
+                                                 <tbody>
+                                                 @foreach($accessories as $key => $accessory)
+                                                     @if(($key%2) == 0)
+                                                         <tr>
+                                                             <td class="pl-2"
+                                                                 style="width: 35%;">{{$accessory->name}}</td>
+                                                             <td><input type="radio" value="YES" required
+                                                                        name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                             </td>
+                                                             <td><input type="radio" value="NO" required
+                                                                        name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                             </td>
+                                                             <td style="width: 45%;">
+                                                                 <input typeof="text"
+                                                                        name="comment_{{str_replace(' ','', $accessory->code)}}"
+                                                                        class="form-control form-control-sm"/>
+                                                             </td>
+                                                         </tr>
+                                                     @endif
+                                                 @endforeach
+                                                 </tbody>
+                                             </table>
+                                         </div>
+                                         <div class="col">
+                                             <table
+                                                     class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                 <thead>
+                                                 <tr class="bg-dark-subtle">
+                                                     <th class="pl-2">Item</th>
+                                                     <th>Present</th>
+                                                     <th class="pr-2">Not Present</th>
+                                                     <th class="pr-2">Remarks</th>
+                                                 </tr>
+                                                 </thead>
+                                                 <tbody>
+                                                 @foreach($accessories as $key => $accessory)
+                                                     @if(($key%2) != 0)
+                                                         <tr>
+                                                             <td class="pl-2" style="width: 35%;">
+                                                                 {{$accessory->name}}
+                                                             </td>
+                                                             <td><input type="radio" required value="YES"
+                                                                        name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                             </td>
+                                                             <td><input type="radio" required value="NO"
+                                                                        name="field_{{str_replace(' ','', $accessory->code)}}">
+                                                             </td>
+                                                             <td style="width: 45%;">
+                                                                 <input typeof="text"
+                                                                        name="comment_{{str_replace(' ','', $accessory->code)}}"
+                                                                        class="form-control form-control-sm">
+                                                             </td>
+                                                         </tr>
+                                                     @endif
+                                                 @endforeach
+
+                                                 </tbody>
+                                             </table>
+                                         </div>
+                                     </div>
+
+                                     <div class="row mt-10">
+                                         <div class="col">
+                                             <div class="form-group">
+                                                 <label
+                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                                         for="accessoriesRemarks">
+                                                     General Comments and Observation (Damages):
+                                                 </label>
+                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
+                                                     @if(!empty($comments) && !empty($comments->where('type','=','ACC')->first()->remarks))
+                                                         <textarea type="text"
+                                                                   id="accessoriesRemarks"
+                                                                   name="accessoriesRemarks"
+                                                                   style="height: 129px;"
+                                                                   class="form-control form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
+                                                     @else
+                                                         <textarea type="text"
+                                                                   id="accessoriesRemarks"
+                                                                   name="accessoriesRemarks"
+                                                                   style="height: 129px;"
+                                                                   class="form-control form-control-sm"></textarea>
+                                                     @endif
+
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <div class="col">
+                                             @if($observation->isNotEmpty())
+                                                 <div class="row">
+                                                     <div class="table-responsive" style="max-height:500px;">
+                                                         <table data-model-name="Observations"
+                                                                class="table table-striped" id="observations">
+                                                             <thead>
+                                                             <tr class="bg-success">
+                                                                 <th>Attachment</th>
+                                                                 <th>Remarks</th>
+                                                                 <th></th>
+                                                             </tr>
+                                                             </thead>
+                                                             <tbody>
+                                                             @foreach($observation as $item)
+                                                                 <tr data-record-id="{{$item->id}}">
+                                                                     <td>
+                                                                         <div class="imagePreview"
+                                                                              style="min-height: 100px !important; background-image: url('/storage{{$item->image_path}}'); display: block; background-size: cover">
+                                                                         </div>
+                                                                     </td>
+                                                                     <td>
+                                                                         <input type="text"
+                                                                                value="{{$item->remarks}}"
+                                                                                readonly
+                                                                                class="form-control">
+                                                                     </td>
+                                                                     <td>
+                                                                         --}}{{--<button type="button"
+                                                                                 data-table-id="observations"
+                                                                                 class="btn btn-sm btn-danger"
+                                                                                 value="deleteRow">
+                                                                             <i class="fa fa-trash"></i>
+                                                                         </button>--}}{{--
+                                                                     </td>
+                                                                 </tr>
+                                                             @endforeach
+
+                                                             </tbody>
+                                                         </table>
+                                                     </div>
+                                                 </div>
+                                             @endif
+                                         </div>
+                                     </div>
+
+                                     <div class="row mt-10">
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </section>--}}
+
                     <h1>ASSESSMENTS</h1>
                     <section>
                         @include('modules.workshopManagement.workOrder.tabs.accessories')
+                        <div class="row mb-1 mt-4">
+                            <div class="row">
+                                <div class="col-lg-2 col-sm-12">
+                                    <label>Assessment Acknowledgement:</label>
+                                    <br/>
+                                    <small class="text-danger">(Performed By Driver)</small>
+                                </div>
+                                @if(!empty($details->driver_acknowledged))
+                                    <div class="col-lg-3 col-sm-12">
+                                        <span class="btn btn-sm btn-success">Acknowledged</span>
+                                    </div>
+                                @else
+                                    <div class="col-lg-3 col-sm-12">
+                                        <span class="btn btn-sm btn-success">Awaiting Acknowledgement</span>
+                                    </div>
+                                @endif
+                                @if(!empty($details->driver_acknowledged))
+                                    <div class="col-lg-2 col-sm-12 text-left">
+                                        <label>eSignature:</label>
+                                    </div>
+                                    <div class="col-lg-1 col-sm-12">
+                                        <input type="text"
+                                               name="sig_of_claimant"
+                                               class="form-control"
+                                               value="{{$details->driver_in}}"
+                                               readonly
+                                        />
+                                    </div>
+
+                                    <div class="col-lg-2 col-sm-12 text-left"><label>Date Acknowledged:</label></div>
+
+                                    <div class="col-lg-2 col-sm-12">
+                                        <input type="text"
+                                               name="date_claimant"
+                                               class="form-control"
+                                               value="{{Carbon::parse($details->date_acknowledged)->format('d/m/Y')}}"
+                                               readonly
+                                        />
+                                    </div>
+                                @else
+                                    <div class="col-lg-2 col-sm-12 text-left">
+                                        <label>eSignature:</label>
+                                    </div>
+                                    <div class="col-lg-1 col-sm-12">
+                                        <input type="text"
+                                               name="sig_of_claimant"
+                                               class="form-control"
+                                               value=""
+                                               readonly
+                                        />
+                                    </div>
+
+                                    <div class="col-lg-2 col-sm-12 text-right">
+                                        <button type="button"
+                                                class="btn btn-sm btn-success"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#eSignatureModal">
+                                            <i class="fas fa-signature"></i>
+                                            Sign
+                                        </button>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                     </section>
 
                     @if(!empty($details->driver_acknowledged))

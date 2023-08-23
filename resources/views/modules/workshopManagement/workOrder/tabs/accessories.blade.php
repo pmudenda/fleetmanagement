@@ -204,7 +204,7 @@
                 </div>
             </div>
 
-            <div class="row mt-10">
+            <div class="row mt-10 d-none">
                 <table class="mt-10 table">
                     <tbody>
                     <tr>
@@ -216,13 +216,13 @@
 
                         </td>
                         <td class="text-right">
-                            {{--<button class="btn btn-sm btn-success pull-right"
+                            <button class="btn btn-sm btn-success pull-right"
                                     id="saveAssessment"
                                     name="saveAssessment"
                                     type="button">
                                 <i class="fas fa-save"></i>
                                 Save
-                            </button>--}}
+                            </button>
                         </td>
                     </tr>
                     </tbody>
