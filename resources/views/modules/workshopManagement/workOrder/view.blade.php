@@ -54,11 +54,9 @@
                 <div class="card-title">
                     <h4>Workshop Job Card</h4>
                     @if(!empty($details) && !empty($details->job_card_no))
-                        <span class="ml-2 indicator-pill whitespace-nowrap green">
+                        <span class="ml-2 indicator-pill whitespace-nowrap red">
                             <span>View Only</span>
                         </span>
-                    @else
-                        <span class="ml-2 indicator-pill whitespace-nowrap orange"><span>Not Saved</span></span>
                     @endif
                 </div>
                 @if(!empty($details) && !empty($details->job_card_no))
@@ -2428,7 +2426,9 @@
             $('.reassignMechanic').off('click').attr('disabled', true).addClass('d-none');
             $('[value="insertRow"]').off('click').attr('disabled', true).addClass('d-none');
             $('[name="saveDefects"]').off('click').attr('disabled', true).addClass('d-none');
-            $('[value="addRow"]').off('click').attr('disabled', true).addClass('d-none');
+
+            $("#labour_table")('.dropdown-toggle').off('click').attr('disabled', true).addClass('d-none');
+            $("#labour_table")('[input[type="checkbox"]]').attr('disabled', true);
         }
 
         $(document).ready(function () {
