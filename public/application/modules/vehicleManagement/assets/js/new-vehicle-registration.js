@@ -1722,7 +1722,7 @@ function checkOnboardingHeaderStatus() {
                 }
 
                 let bodyTypes = response['payload'];
-                tmsApp.populateDropDownList(selectElem, bodyTypes, "id", ["body_type_name"], "");
+                tmsApp.populateDropDownList(selectElem, bodyTypes, "code", ["name"], "");
 
                 let bodyTypeId = selectElem.attr('data-value');
                 if (bodyTypeId) {
@@ -1822,78 +1822,80 @@ function checkOnboardingHeaderStatus() {
         this.postVehicleHeaderData();
     }
 
-    tmsApp.appFormValidator('form[name="tmsChassisDetailsForm"]', {
-        'chassisNumber': {
-            required: true
-        }, 'engineNumber': {
-            required: true
-        }, 'whiteBookSerial': {
-            required: true
-        }, 'yearOfManufacture': {
-            required: true
-        }, 'registrationDate': {
-            required: true
-        }, 'chargeOutRate': {
-            required: true
-        }, 'requiredMinimumDrivingLicense': {
-            required: true
-        }, 'initialOdometerReading': {
-            required: true
-        }, 'currentOdometerReading': {
-            required: true
-        }, 'odometerReadingLastService': {
-            required: true
-        }, /* 'nextServiceOdometerReading': {
+    tmsApp.appFormValidator('form[name="tmsChassisDetailsForm"]',
+        {
+            'chassisNumber': {
+                required: true
+            }, 'engineNumber': {
+                required: true
+            }, 'whiteBookSerial': {
+                required: true
+            }, 'yearOfManufacture': {
+                required: true
+            }, 'registrationDate': {
+                required: true
+            }, 'chargeOutRate': {
+                required: true
+            }, 'requiredMinimumDrivingLicense': {
+                required: true
+            }, 'initialOdometerReading': {
+                required: true
+            }, 'currentOdometerReading': {
+                required: true
+            }, 'odometerReadingLastService': {
+                required: true
+            }, /* 'nextServiceOdometerReading': {
                  required: true
              },*/
-        'inspectionDate': {
-            required: true
-        },
+            'inspectionDate': {
+                required: true
+            },
 
-        motor_vehicle_certificate: {
-            required: true
-        }, insurance_cover_note: {
-            required: true
-        }, front_view: {
-            required: true
-        }, rear_view: {
-            required: true
-        }, right_view: {
-            required: true
-        }, left_view: {
-            required: true
-        }
-    }, {
-        chassisNumber: {
-            required: "Chassis number is required"
-        }, 'engineNumber': {
-            required: "Engine number is required"
-        }, 'whiteBookSerial': {
-            required: "Provide White Book Serial number"
-        }, 'yearOfManufacture': {
-            required: "Year vehicle was manufactured is required"
-        }, 'registrationDate': {
-            required: "Indicate when vehicle was registered with the authority"
-        }, 'chargeOutRate': {
-            required: "You have not provided charge-out rate"
-        }, 'requiredMinimumDrivingLicense': {
-            required: "Specify the minimum driver's license class required"
-        }, 'initialOdometerReading': {
-            required: "provide the vehicles initial odometer value"
-        }, 'currentOdometerReading': {
-            required: "Provide current odometer reading"
-        }, 'odometerReadingLastService': {
-            required: "Odometer reading at last service is required"
-        }, 'nextServiceOdometerReading': {
-            required: "Your must provide the odometer reading when vehicle is next due for service"
-        }, inspectionDate: {
-            required: "Your have not provided the date the vehicle was inspected"
-        }, motor_vehicle_certificate: {
-            required: "Motor Vehicle Certificate is required"
-        }, insurance_cover_note: {
-            required: "Insurance Cover Note must be attached"
-        }
-    });
+            motor_vehicle_certificate: {
+                required: true
+            }, insurance_cover_note: {
+                required: true
+            }, front_view: {
+                required: true
+            }, rear_view: {
+                required: true
+            }, right_view: {
+                required: true
+            }, left_view: {
+                required: true
+            }
+        },
+        {
+            chassisNumber: {
+                required: "Chassis number is required"
+            }, 'engineNumber': {
+                required: "Engine number is required"
+            }, 'whiteBookSerial': {
+                required: "Provide White Book Serial number"
+            }, 'yearOfManufacture': {
+                required: "Year vehicle was manufactured is required"
+            }, 'registrationDate': {
+                required: "Indicate when vehicle was registered with the authority"
+            }, 'chargeOutRate': {
+                required: "You have not provided charge-out rate"
+            }, 'requiredMinimumDrivingLicense': {
+                required: "Specify the minimum driver's license class required"
+            }, 'initialOdometerReading': {
+                required: "provide the vehicles initial odometer value"
+            }, 'currentOdometerReading': {
+                required: "Provide current odometer reading"
+            }, 'odometerReadingLastService': {
+                required: "Odometer reading at last service is required"
+            }, 'nextServiceOdometerReading': {
+                required: "Your must provide the odometer reading when vehicle is next due for service"
+            }, inspectionDate: {
+                required: "Your have not provided the date the vehicle was inspected"
+            }, motor_vehicle_certificate: {
+                required: "Motor Vehicle Certificate is required"
+            }, insurance_cover_note: {
+                required: "Insurance Cover Note must be attached"
+            }
+        });
 
     $('[name="tmsChassisDetailsForm"]').on('submit', function (e) {
         e.preventDefault();
@@ -1934,75 +1936,77 @@ function checkOnboardingHeaderStatus() {
         checkEngineNumberValidity();
     });
 
-    tmsApp.appFormValidator('form[name="engineDetailsForm"]', {
-        'numberOfCylinders': {
-            required: true
-        }, 'engineCapacity': {
-            required: true
-        }, 'fuelTypes': {
-            required: true
-        }, 'fuelConsumption': {
-            required: true
-        }, 'engineType': {
-            required: true
-        },
+    tmsApp.appFormValidator('form[name="engineDetailsForm"]',
+        {
+            'numberOfCylinders': {
+                required: true
+            }, 'engineCapacity': {
+                required: true
+            }, 'fuelTypes': {
+                required: true
+            }, 'fuelConsumption': {
+                required: true
+            }, 'engineType': {
+                required: true
+            },
 
 
-        'claimedEnginePower': {
-            required: true
-        }, 'actualEnginePower': {
-            required: true
-        }, 'engineBrand': {
-            required: true
-        },
+            'claimedEnginePower': {
+                required: true
+            }, 'actualEnginePower': {
+                required: true
+            }, 'engineBrand': {
+                required: true
+            },
 
-        'transmission_type': {
-            required: true
-        },
+            'transmission_type': {
+                required: true
+            },
 
-        'tank_capacity': {
-            required: true
-        },
+            'tank_capacity': {
+                required: true
+            },
 
-        'numberOfTyres': {
-            required: true
-        },
+            'numberOfTyres': {
+                required: true
+            },
 
-        'tyreBrand': {
-            required: true
-        },
+            'tyreBrand': {
+                required: true
+            },
 
-        'frontTyreSize': {
-            required: true
-        },
+            'frontTyreSize': {
+                required: true
+            },
 
-        'rearTyreSize': {
-            required: true
-        },
+            'rearTyreSize': {
+                required: true
+            },
 
-        'batteryBrand': {
-            required: true
-        }, 'batterySize': {
-            required: true
-        },
+            'batteryBrand': {
+                required: true
+            }, 'batterySize': {
+                required: true
+            },
 
-        'batteryPower': {
-            required: true
-        },
+            'batteryPower': {
+                required: true
+            },
 
-    }, {
-        'numberOfCylinders': {
-            required: 'Number of cylinders is required'
-        }, 'engineCapacity': {
-            required: 'Engine capacity is required'
-        }, 'fuelTypes': {
-            required: 'Fuel Type is required'
-        }, 'fuelConsumption': {
-            required: 'Fuel Consumption is required'
-        }, 'engineType': {
-            required: 'Engine Code is required'
         },
-    });
+        {
+            'numberOfCylinders': {
+                required: 'Number of cylinders is required'
+            }, 'engineCapacity': {
+                required: 'Engine capacity is required'
+            }, 'fuelTypes': {
+                required: 'Fuel Type is required'
+            }, 'fuelConsumption': {
+                required: 'Fuel Consumption is required'
+            }, 'engineType': {
+                required: 'Engine Code is required'
+            },
+        });
 
     $('[name="engineDetailsForm"]').on('submit', function (e) {
         e.preventDefault();
@@ -2220,9 +2224,9 @@ function checkOnboardingHeaderStatus() {
         if (!modelCode) {
             return;
         }
-
+        const brandCode = $('select[name="brand"]').val();
         let filteredModelResults = window.VehicleModels.filter(function (model) {
-            return model.code?.toString().trim() === modelCode;
+            return (model.code?.toString().trim() === modelCode && model?.brand_code === brandCode);
         });
 
         if (filteredModelResults.length > 0) {
