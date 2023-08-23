@@ -107,7 +107,7 @@ class User extends Authenticatable
             $lastSessionId = Session::getHandler()->read($user->last_session_id);// retrive last session
             Log::info('New Session Id '. $newSessionId);
 
-            Log::info('Last Session Id '. $lastSessionId);
+            Log::info('Last Session Id '. (bool)$lastSessionId);
             if ($lastSessionId) {
                 Log::info('Other Session Found');
                 if (Session::getHandler()->destroy($user->last_session_id)) {
