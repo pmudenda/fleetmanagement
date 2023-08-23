@@ -557,7 +557,7 @@
                                           style="height: 129px;"
                                           required
                                           class="form-control comments form-control-sm"
-                                          name="reassignmentJustification"></textarea>
+                                           name="reassignmentJustification"></textarea>
                             </div>
                         </div>
                     </div>

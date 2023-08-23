@@ -1040,7 +1040,7 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane active" id="defects" role="tabpanel">
-                                        <div class="container-fluid pl-0 mt-5">
+                                        {{--<div class="container-fluid pl-0 mt-5">
                                             <div class="row">
                                                 <input type="hidden" value="{{$details->job_card_no ?? 0}}"
                                                        name="job_card_voucher"/>
@@ -1160,7 +1160,10 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>--}}
+                                        <section>
+                                            @include('modules.workshopManagement.workOrder.tabs.defects')
+                                        </section>
                                     </div>
                                     <div class="tab-pane" id="materials" role="tabpanel">
                                         <div class="row pt-5">
