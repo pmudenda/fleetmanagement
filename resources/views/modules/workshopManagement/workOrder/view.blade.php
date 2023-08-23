@@ -3278,7 +3278,7 @@
             }
 
             function setSelectedAccessories() {
-                $.each(selectedAccessories, function (index, element) {
+                $.each(window.selectedAccessories, function (index, element) {
 
                     const response = element?.is_present;
 
@@ -3286,14 +3286,14 @@
 
                     $("input[name=field_" + element?.code + "][value=" + response + "]")
                         .prop('checked', true)
-                        .attr('disabled', true);
+                        //.attr('disabled', true);
 
                     $("input[name=field_" + element?.code + "][value=" + other + "]")
-                        .attr('disabled', true);
+                        //.attr('disabled', true);
 
                     $("input[name=comment_" + element.code + "]")
                         .val(element?.remarks)
-                        .attr('disabled', true);
+                        //.attr('disabled', true);
                 });
             }
 
