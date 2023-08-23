@@ -216,7 +216,7 @@ class OnBoardingService
                 'registration_number' => $registrationNumber,
             ],
             [
-                'brand_guid' => $brand->id,
+                'brand_code' => $brand->id,
                 'brand_name' => $brand->name,
                 'model_guid' => $vehicleModel->id,
                 'model_name' => $vehicleModel->model_name,

@@ -12,7 +12,6 @@ class VehicleHeader extends Model
 
     protected $table = 'VM_VEHICLE_HEADER';
     protected $fillable = [
-        'brand_guid',
         'brand_name',
         'model_guid',
         'model_name',

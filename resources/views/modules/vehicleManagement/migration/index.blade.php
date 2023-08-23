@@ -834,7 +834,7 @@
             function getVehicleModels(selectedValue) {
 
                 let selectedBrandModels = window.VehicleModels.filter(function (vehicle_model) {
-                    return vehicle_model.brand_guid?.toString().trim() === selectedValue?.toString().trim();
+                    return vehicle_model.brand_code?.toString().trim() === selectedValue?.toString().trim();
                 });
 
                 while ($model.options.length > 0) {

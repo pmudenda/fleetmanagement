@@ -827,7 +827,7 @@ function nativeVehicleBrandChanged() {
 
     let filteredResults = window.VehicleModels.filter(function (model) {
         console.log(model);
-        return model.brand_guid?.toString().trim() === brandId?.toString().trim();
+        return model.brand_code?.toString().trim() === brandId?.toString().trim();
     });
 
     if (filteredResults.length === 0) {
@@ -849,7 +849,7 @@ function nativeVehicleBrandChanged() {
 
 function postVehicleHeaderData() {
     $('.print-error-msg').css('display', 'none');
-   
+
     if (!$('form[name="vehicleHeaderForm"]').valid()) {
         toastr.warning(
             "Sorry, the data did not pass validation check, check the data and try again."
@@ -1391,9 +1391,9 @@ let app = new Vue({
             ]
         },
 
-       
-    
-      
+
+
+
 
 
         postVehicleHeaderData() {

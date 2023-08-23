@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('VM_VEHICLE_HEADER', function (Blueprint $table) {
             $table->id();
-            //$table->string('brand_guid');
-
-            $table->string('brand_guid')->nullable();
+            $table->string('brand_code')->nullable();
             $table->string('brand_name');
             $table->string('model_guid');
             $table->string('model_name');

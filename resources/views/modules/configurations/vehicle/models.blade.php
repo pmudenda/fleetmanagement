@@ -74,26 +74,26 @@
 
                             <td>
                                 <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                    <input class="list-row-checkbox" type="checkbox" :value="item.guid"/>
+                                    <input class="list-row-checkbox" type="checkbox" :value="item.code"/>
                                 </div>
                             </td>
 
                             <td>
-                                <a href="#" v-bind:data-id="item.brand_guid"
+                                <a href="#" v-bind:data-id="item.brand_code"
                                    class="text-gray-800 text-hover-primary mb-1">
                                     @{{ item.brand_name }}
                                 </a>
                             </td>
 
                             <td>
-                                <a href="#" v-bind:data-id="item.model_guid"
+                                <a href="#" v-bind:data-id="item.model_code"
                                    class="text-gray-800 text-hover-primary mb-1">
                                     @{{ item.model_name }}
                                 </a>
                             </td>
 
                             <td>
-                                <a href="#" v-bind:data-id="item.model_guid"
+                                <a href="#" v-bind:data-id="item.model_code"
                                    class="text-gray-800 text-hover-primary mb-1">
                                     @{{ item.model_code }}
                                 </a>
@@ -337,7 +337,7 @@
                                 $form.action,
                                 {
                                     brand_name: $('[name="brand"] :selected').text().trim(),
-                                    brand_guid: $('[name="brand"] :selected').val(),
+                                    brand_code: $('[name="brand"] :selected').val(),
                                     model_name: $('[name="model_name"]').val(),
                                     model_code: $('[name="model_code"]').val(),
                                     status: '01'

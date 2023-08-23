@@ -293,7 +293,7 @@
                 }
 
                 let filteredResults = window.VehicleModels.filter(function (model) {
-                    return model.brand_guid?.toString().trim() === brandId?.toString().trim();
+                    return model.brand_code?.toString().trim() === brandId?.toString().trim();
                 });
 
                 if (filteredResults.length === 0) {

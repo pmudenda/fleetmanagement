@@ -39,16 +39,16 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     });
 
     Vue.set(app['vehicleHeader'], 'registration_type', data['registration_type']);
-    Vue.set(app['vehicleHeader'], 'brand_guid', data['brand_guid']);
+    Vue.set(app['vehicleHeader'], 'brand_code', data['brand_code']);
 
     if (data['model_guid']) {
         $('select[name="model"]').val(data['model_guid']);
-        $('select[name="model"]').attr('data-value', data['model_guid']);
+        $('select[name="model"]').attr('data-value', data['model_code']);
     }
 
-    if (data['brand_guid']) {
-        $('select[name="brand"]').val(data['brand_guid']);
-        $('select[name="brand"]').attr('data-value', data['brand_guid']);
+    if (data['brand_code']) {
+        $('select[name="brand"]').val(data['brand_code']);
+        $('select[name="brand"]').attr('data-value', data['brand_code']);
 
         setTimeout(function () {
             $('select[name="brand"]').trigger('change');
@@ -344,9 +344,9 @@ window.getRegistrationDetails = function (requestReference) {
     })
 }
 
-window.filterData = function (niddle, key, hayStack) {
+window.filterData = function (node, key, hayStack) {
     let result = hayStack.filter(function (document) {
-        return document[key] === niddle;
+        return document[key] === node;
     })
 
     if (result.length > 0) return result[0]; else return null;
@@ -753,85 +753,6 @@ let app = new Vue({
                 });
         },
 
-        /*getVehicleBrands: function () {
-            fetch(document.querySelector('#brands-api').value)
-                .then(response => response.json())
-                .then(response => {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-
-                    app.vehicleBrands = response['payload'];
-                    app.engineBrands = response['payload'];
-                }).catch(function (error) {
-                // notify of error
-                toastr.error(
-                    'Connection error. Could not retrieve data, some feature might not work.')
-            });
-        },*/
-
-        /*loadRegistrationTypes: function () {
-            this.registrationTypes = [
-                {
-                    "label": 'Motor Vehicle',
-                    'code': 'MV'
-                },
-                 {
-                     "label": 'Boat',
-                     'code': 'BT'
-                 },
-                 {
-                     "label": 'Trailer',
-                     'code': 'TR'
-                 },
-            ]
-        },*/
-
-        // web UI event
-        /*bodyTypeChanged: function (selectedBody) {
-            app['vehicleHeader'].body_type_guid = selectedBody?.id;
-            document.querySelector('#bodyType').value = selectedBody?.id;
-        },*/
-
-        /*formatMoney: function (event) {
-            setTimeout(function () {
-                let formatted = accounting.formatMoney(event.target.value, 'ZMW ');
-                //tmsApp.formatMoney(event.target.value);
-
-                app['chassisDetails'].chargeOutRate = formatted;
-                //document.querySelector('#'+event.target.id).value = formatted;
-            }, 300);
-        },*/
-
-        /*,*/
-
-        /*getBusinessUnits: function () {
-            fetch(document.querySelector('#businessUnitsEndpoint').value)
-                .then(response => response.json())
-                .then(function (response) {
-                    // Populate results
-                    if (response.state === 'failure') {
-                        //show errors
-                        toastr.error('Connection error, no data found')
-                        return;
-                    }
-
-                    app.businessUnits = response.data['payload'];
-                })
-                .catch(function (error) {
-                    // notify of error
-                    toastr.error(
-                        'Connection error. Could not retrieve data, some feature might not work.')
-                });
-        },*/
-
-        /* getOrganizationalUnits: function () {
-
-         },*/
-
         getUserUnitLabel: function (val) {
             if (typeof val === 'object') {
                 return val['code_unit'] + '=>' + val.description;
@@ -1038,17 +959,11 @@ let app = new Vue({
         },
 
         vehicleBrandChanged(selectedValue) {
-            this.vehicleHeader.brand_guid = selectedValue?.id?.toString().trim();
+            this.vehicleHeader.brand_code = selectedValue?.id?.toString().trim();
             this.selectedBrandModels = [];
 
-            //$('#model_holder').addClass('d-none');
-            //$('#model').removeClass('d-none');
-            /*app.selectedBrandModels = app.configuredModels.filter(function (model) {
-                return model.brand_guid?.toString().trim() === app?.vehicleHeader.brand_guid?.toString().trim();
-            });*/
-
             app.selectedBrandModels = app['configuredModels'].filter(function (model) {
-                return model.brand_guid?.toString()?.trim() === app?.vehicleHeader.brand_guid?.toString().trim();
+                return model.brand_code?.toString()?.trim() === app?.vehicleHeader.brand_code?.toString().trim();
             });
         },
     }
@@ -1602,13 +1517,13 @@ function checkOnboardingHeaderStatus() {
     }
 
     function nativeVehicleBrandChanged() {
-        const brandId = $('select[name="brand"]').val()?.toString().trim();
-        if (!brandId) {
+        const brandCode = $('select[name="brand"]').val()?.toString().trim();
+        if (!brandCode) {
             return;
         }
 
         let filteredResults = window.VehicleModels.filter(function (model) {
-            return model.brand_guid?.toString().trim() === brandId?.toString().trim();
+            return model.brand_code?.toString().trim() === brandCode?.toString().trim();
         });
 
         if (filteredResults.length === 0) {

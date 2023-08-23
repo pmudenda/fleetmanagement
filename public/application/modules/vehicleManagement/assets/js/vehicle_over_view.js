@@ -1195,17 +1195,11 @@ let app = new Vue({
         },
 
         vehicleBrandChanged(selectedValue) {
-            this.vehicleHeader.brand_guid = selectedValue?.id?.toString().trim();
+            this.vehicleHeader.brand_code = selectedValue?.id?.toString().trim();
             this.selectedBrandModels = [];
 
-            //$('#model_holder').addClass('d-none');
-            //$('#model').removeClass('d-none');
-            /*app.selectedBrandModels = app.configuredModels.filter(function (model) {
-                return model.brand_guid?.toString().trim() === app?.vehicleHeader.brand_guid?.toString().trim();
-            });*/
-
             app.selectedBrandModels = app['configuredModels'].filter(function (model) {
-                return model.brand_guid?.toString()?.trim() === app?.vehicleHeader.brand_guid?.toString().trim();
+                return model.brand_code?.toString()?.trim() === app?.vehicleHeader.brand_code?.toString().trim();
             });
         },
     }
@@ -1759,13 +1753,13 @@ function checkOnboardingHeaderStatus() {
     }
 
     function nativeVehicleBrandChanged() {
-        const brandId = $('select[name="brand"]').val()?.toString().trim();
-        if (!brandId) {
+        const brandCode = $('select[name="brand"]').val()?.toString().trim();
+        if (!brandCode) {
             return;
         }
 
         let filteredResults = window.VehicleModels.filter(function (model) {
-            return model.brand_guid?.toString().trim() === brandId?.toString().trim();
+            return model.brand_code?.toString().trim() === brandCode?.toString().trim();
         });
 
         if (filteredResults.length === 0) {

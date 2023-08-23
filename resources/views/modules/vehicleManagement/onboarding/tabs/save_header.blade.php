@@ -89,7 +89,7 @@
                                             v-on:change="vehicleBrandChanged"
                                             name="brand"
                                             id="brand"
-                                            v-model="vehicleHeader.brand_guid">
+                                            v-model="vehicleHeader.brand_code">
                                         <option>--Select Brand--</option>
                                         <option v-for="brand in vehicleBrands"
                                                 :key="brand.id"
