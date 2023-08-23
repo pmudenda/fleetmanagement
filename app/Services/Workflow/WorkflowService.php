@@ -428,7 +428,7 @@ class WorkflowService
             ->where('WFL_WORKFLOW_TASK.assigned_user', '=', $staff_no)
             ->whereNull('WFL_WORKFLOW_TASK.date_ended')
             ->select('WFL_WORKFLOW_TASK.*', 'SEC_USERS.name as originator')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('WFL_WORKFLOW_TASK.created_at', 'desc')
             ->get();
     }
 
