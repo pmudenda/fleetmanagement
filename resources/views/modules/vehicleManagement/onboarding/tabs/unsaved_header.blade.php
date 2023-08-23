@@ -75,8 +75,8 @@
                                             id="brand">
                                         <option>--Select Brand--</option>
                                         <option v-for="brand in vehicleBrands"
-                                                :key="brand.id"
-                                                :value="brand.id | trimSpaces">
+                                                :key="brand.code"
+                                                :value="brand.code | trimSpaces">
                                             @{{brand.name}}
                                         </option>
                                     </select>
