@@ -38,4 +38,11 @@ class JobCardTaskAssignment extends FormRequest
             'items.*.totalAmount' => 'nullable',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'items.*.id.jobCardInstruction' => 'Job Card Instruction Is Missing',
+        ];
+    }
 }
