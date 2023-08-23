@@ -73,7 +73,7 @@
                         @include('modules.workshopManagement.workOrder.tabs.job_card_header')
                     </section>
 
-                    <h1>ASSESSMENTS</h1>
+                   {{-- <h1>ASSESSMENTS</h1>
                     <section>
                         <div class="container-fluid">
                             <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}"
@@ -213,12 +213,12 @@
                                                                                class="form-control">
                                                                     </td>
                                                                     <td>
-                                                                        {{--<button type="button"
+                                                                        --}}{{--<button type="button"
                                                                                 data-table-id="observations"
                                                                                 class="btn btn-sm btn-danger"
                                                                                 value="deleteRow">
                                                                             <i class="fa fa-trash"></i>
-                                                                        </button>--}}
+                                                                        </button>--}}{{--
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
@@ -240,6 +240,7 @@
                             <div class="row">
                                 <div class="col-lg-2 col-sm-12">
                                     <label>Assessment Acknowledgement:</label>
+                                    <br/>
                                     <small class="text-danger">(Performed By Driver)</small>
                                 </div>
                                 @if(!empty($details->driver_acknowledged))
@@ -299,6 +300,11 @@
                                 @endif
                             </div>
                         </div>
+                    </section>--}}
+
+                    <h1>ASSESSMENTS</h1>
+                    <section>
+                        @include('modules.workshopManagement.workOrder.tabs.accessories')
                     </section>
 
                     @if(!empty($details->driver_acknowledged))

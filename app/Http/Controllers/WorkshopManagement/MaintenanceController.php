@@ -94,11 +94,7 @@ class MaintenanceController extends Controller
 
     public function create(Request $request): View
     {
-        if (!$request->hasValidSignature()) {
-            abort(401);
-        }
-
-        $reference = $request->get("reference") ?? $request->get('ref');
+        $this->verifyRequestSignature($request);
 
         list(
             $repairTypes,
@@ -115,7 +111,7 @@ class MaintenanceController extends Controller
             $labour,
             $pettyCashItems,
             $observation
-            ) = $this->getFullJobCardDetails($reference);
+            ) = $this->getFullJobCardDetails($request->get("reference") ?? $request->get('ref'));
 
         $mechanics = [];
         if (!empty($details)) {
@@ -1442,9 +1438,8 @@ class MaintenanceController extends Controller
             ->join("wm_workshop_tables wckt", function (JoinClause $join) use ($defectCategory, $vehicleSys) {
                 $join->on("def.defect_category_code", "=", "wckt.code")
                     ->where(function($query) use($defectCategory, $vehicleSys) {
-                        return $query->where("wckt.type_code", "=", $defectCategory);
+                        $query->where("wckt.type_code", "=", $defectCategory);
                     });
-                    //->where('wckt.veh_sys','=','wckt.parent');
             })
             ->join("wm_workshop_tables wckta",
                 function (JoinClause $join) use ($vehicleSys) {
