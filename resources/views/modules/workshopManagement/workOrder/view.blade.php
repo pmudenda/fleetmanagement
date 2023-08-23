@@ -2428,6 +2428,7 @@
             $('[name="saveDefects"]').off('click').attr('disabled', true).addClass('d-none');
 
             $("#labour_table").find('.dropdown-toggle').off('click').attr('disabled', true).addClass('d-none');
+            $("#remarks").attr('disabled', true);
             $("#labour_table").find('input[type="checkbox"]').attr('disabled', true);
             $('button[value="deleteRow"]').addClass('d-none').attr('disabled', true);
         }
