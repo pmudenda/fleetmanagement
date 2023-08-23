@@ -25,7 +25,7 @@
                                 <tr>
                                     <th>Reference #</th>
                                     <th>Document No.</th>
-                                    {{--<th>Job Card #</th>--}}
+                                    <th>Job Card #</th>
                                     <th>Request Date</th>
                                     <th>Estimated Collection Date</th>
                                     <th>Originator</th>
@@ -49,18 +49,18 @@
                                             {{$rec->st_pur ?? ''}}
                                         </td>
 
-                                       {{-- <td>
-                                            @if(!empty($rec->job_card_no))
+                                        <td>
+                                            @if(!empty($rec->document_no))
                                                 <a
-                                                   title="View Job Card"
-                                                   data-toggle="tooltip"
-                                                   href="{{URL::signedRoute('view.job.card',["view"=>true,'step'=> '1', 'reference'=>$rec->job_card_no])}}">
-                                                    {{$rec->job_card_no}}
+                                                        title="View Job Card"
+                                                        data-toggle="tooltip"
+                                                        href="{{URL::signedRoute('view.job.card',["viewOnly"=>true,'step'=> '1', 'reference'=>$rec->document_no])}}">
+                                                    {{$rec->document_no}}
                                                 </a>
                                             @else
                                                 {{''}}
                                             @endif
-                                        </td>--}}
+                                        </td>
                                         <td>
                                             {{Carbon::parse($rec->valid_date_from)->format('d/m/Y')}}
                                         </td>

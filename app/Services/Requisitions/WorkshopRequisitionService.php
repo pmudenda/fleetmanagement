@@ -188,6 +188,7 @@ class WorkshopRequisitionService
                 "comments" => $requisitionPostRequest->remarks,
                 "cost_assigned_to" => "CostCenter",
                 "is_fuel" => "N",
+                'document_no' => $job_cord_no
             ]
         );
 
@@ -623,6 +624,7 @@ class WorkshopRequisitionService
                 "comments" => $justification,
                 "cost_assigned_to" => "CostCenter",
                 "is_fuel" => "N",
+                'document_no' => $job_cord_no
             ]
         );
 
@@ -690,11 +692,6 @@ class WorkshopRequisitionService
                 "status" => StatusHelper::new(),
                 "created_by" => auth()->user()->staff_no
             ]);
-
-        // Link Requisition and Job Card
-        /*JobCardHeader::where("job_card_no", $job_cord_no)
-            ->update(["req_no" => $purchase_process_reference]);*/
-
 
         DB::commit();
 
