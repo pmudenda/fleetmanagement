@@ -1591,8 +1591,7 @@
                                             <div class="row">
                                                 @if(!empty($comments) && !empty($comments->where('type','=','SREQ')->first()))
                                                     <div class="form-group">
-                                                        <label
-                                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                        <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
                                                                 for="remarks">
                                                             Comments <small>Will be used as justification for
                                                                 Requisition</small>:

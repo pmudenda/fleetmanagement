@@ -8,15 +8,6 @@
           type="text/css"/>
     <link href="{{asset("libs/steps/jquery-steps.css")}}" rel="stylesheet" type="text/css"/>
     <style>
-       /* th {
-            white-space: nowrap;
-        }
-
-        !**===NO WRAP ON TABLE =====**!
-        table.dataTable.nowrap th,
-        table.dataTable.nowrap td {
-            white-space: nowrap;
-        }*/
 
         .select2 {
             width: 100% !important;
@@ -935,14 +926,14 @@
                                        value="{{route('suppliers.list')}}"/>
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item" style="list-style: none; width: 178px;">
-                                        <a class="nav-link" data-toggle="tab" href="#materials" role="tab">Spares</a>
+                                        <a class="nav-link active" data-toggle="tab" href="#materials" role="tab">Spares</a>
                                     </li>
                                     <li class="nav-item" style="list-style: none; width: 178px;">
                                         <a class="nav-link" data-toggle="tab" href="#services" role="tab">Services</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div class="tab-pane" id="materials" role="tabpanel">
+                                    <div class="tab-pane active" id="materials" role="tabpanel">
                                         <div class="row pt-5">
                                             <div class="col-12">
                                                 <div class="row">
