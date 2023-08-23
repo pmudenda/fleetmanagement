@@ -436,7 +436,7 @@ class WorkshopService
             [
                 "success" => true,
                 "payload" => [],
-                "message" => "Work Order Closure, for Work Order with reference $workOrderNumber, has been Submitted For Approval",
+                "message" => "Job Card $workOrderNumber, Closed Successfully",
                 "redirectUrl" => URL::signedRoute("workOrder.list"),
             ]
         );
