@@ -4,11 +4,12 @@ namespace App\Models\Security;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\MaterialHeader;
-use App\Models\Security\Permissions\HasPermissionsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -60,7 +61,7 @@ class User extends Authenticatable
         'last_login',
         'total_logins',
         'area_code',
-        // new
+        'last_session_id',
         'job_title',
         'supervisor_code',
         'supervisor_name',
@@ -97,5 +98,23 @@ class User extends Authenticatable
     public function requisitions(): HasMany
     {
         return $this->hasMany(MaterialHeader::class, 'requested_by', 'staff_no');
+    }
+
+    public function swapping($user)
+    {
+        try {
+            $new_sessid = Session::getId();//get new session_id after user sign in
+            $last_session = Session::getHandler()->read($user->last_sessid);// retrive last session
+            if ($last_session) {
+                if (Session::getHandler()->destroy($user->last_sessid)) {
+                    // session was destroyed
+                    Log::info('Destroying Other Session');
+                }
+            }
+            $user->last_session_id = $new_sessid;
+            $user->save();
+        } catch (\Exception $e) {
+            Log::error($e);
+        }
     }
 }

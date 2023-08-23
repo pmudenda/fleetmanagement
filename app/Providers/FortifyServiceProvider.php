@@ -50,7 +50,7 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.password.reset', ['request' => $request]);
         });
 
-        Fortify::authenticateUsing(function (Request $request) {
+        Fortify::authenticateUsing(callback: function (Request $request) {
 
             $user = User::where(USERNAME_FIELD, $request->get(USER_NAME_INPUT_FIELD))
                 ->where(USER_STATUS_FIELD, StatusHelper::activeUser())
@@ -64,7 +64,8 @@ class FortifyServiceProvider extends ServiceProvider
                 $user->total_logins = ($user->total_logins ?? 0) + 1;
                 $user->last_login = Carbon::now();
                 //$user->has_active_session = ConfigHelper::currentLoginTrue();
-                $user->save();
+                //$user->save();
+                $user->swapping($user);
                 return $user;
             }
         });
