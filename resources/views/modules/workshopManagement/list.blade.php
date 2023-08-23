@@ -50,7 +50,16 @@
                                         </td>
 
                                         <td>
-                                            {{$rec->job_card_no ?? ''}}
+                                            @if(!empty($rec->job_card_no))
+                                                <a class="dropdown-item"
+                                                   title="View Job Card"
+                                                   data-toggle="tooltip"
+                                                   href="{{URL::signedRoute('view.job.card',["view"=>true,'step'=> '1', 'reference'=>$rec->job_card_no])}}">
+                                                    View Job Card
+                                                </a>
+                                            @else
+                                                {{''}}
+                                            @endif
                                         </td>
                                         <td>
                                             {{Carbon::parse($rec->valid_date_from)->format('d/m/Y')}}
