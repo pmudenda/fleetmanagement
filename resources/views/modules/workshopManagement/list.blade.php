@@ -55,7 +55,7 @@
                                                    title="View Job Card"
                                                    data-toggle="tooltip"
                                                    href="{{URL::signedRoute('view.job.card',["view"=>true,'step'=> '1', 'reference'=>$rec->job_card_no])}}">
-                                                    View Job Card
+                                                    {{$rec->job_card_no}}
                                                 </a>
                                             @else
                                                 {{''}}
