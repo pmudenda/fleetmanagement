@@ -423,10 +423,6 @@
             Inputmask({
                 "mask": "AAA 9{1,4}"
             }).mask('[name="vehicle_registration"]');
-
-            $("#saveAssessment").on('click', function () {
-
-            });
         });
 
         (function (tmsApp, $) {
@@ -842,15 +838,13 @@
                         tmsApp.populateDropDownList($subTankFuelLevelCtl, fuelLevels, "code", ["name"], "");
 
                         let mainTankLevel = $mainTankFuelLevel.attr('data-value');
-
-                        if (location) {
+                        if (mainTankLevel) {
                             $mainTankFuelLevel.val(mainTankLevel);
                             $mainTankFuelLevel.trigger('change');
                         }
 
                         let subTankFuelLevel = $subTankFuelLevelCtl.attr('data-value');
-
-                        if (location) {
+                        if (subTankFuelLevel) {
                             $subTankFuelLevelCtl.val(subTankFuelLevel);
                             $subTankFuelLevelCtl.trigger('change');
                         }
