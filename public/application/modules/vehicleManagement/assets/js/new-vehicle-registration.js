@@ -1522,7 +1522,7 @@ function checkOnboardingHeaderStatus() {
             })
             .catch(function (error) {
                 // notify of error
-                toastr.error('Connection error. Could not retrieve data, some feature might not work.')
+                toastr.error('Connection error. Could not retrieve data, some feature might not work.', 'Model Data')
             });
     }
 
@@ -2211,17 +2211,17 @@ function checkOnboardingHeaderStatus() {
     });
 
     $(document).on('change', 'select[name="model"]', function () {
-        const modelId = $(this).val()?.toString().trim();
-        if (!modelId) {
+        const modelCode = $(this).val()?.toString().trim();
+        if (!modelCode) {
             return;
         }
 
-        let filteredResults = window.VehicleModels.filter(function (model) {
-            return model.id?.toString().trim() === modelId;
+        let filteredModelResults = window.VehicleModels.filter(function (model) {
+            return model.code?.toString().trim() === modelCode;
         });
 
-        if (filteredResults.length > 0) {
-            document.querySelector('#model_code').value = filteredResults[0]?.model_code;
+        if (filteredModelResults.length > 0) {
+            document.querySelector('#model_code').value = filteredModelResults[0]?.model_code;
         }
 
     });
