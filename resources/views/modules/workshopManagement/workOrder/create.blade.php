@@ -1220,9 +1220,7 @@
                                             'Assign Task',
                                             asyncResponse['message'],
                                             function () {
-                                                actionButton.addClass('disabled).attr('
-                                                disabled
-                                                ', true);
+                                                actionButton.addClass('disabled').attr('disabled', true);
                                             },
                                             'success'
                                         );
