@@ -302,7 +302,7 @@
                         </div>
                     </section>--}}
 
-                    <h1>ASSESSMENTS</h1>
+                    <h1>SIGNED ASSESSMENTS</h1>
                     <section>
                         @include('modules.workshopManagement.workOrder.tabs.accessories')
                     </section>
