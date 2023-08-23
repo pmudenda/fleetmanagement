@@ -104,9 +104,10 @@ class User extends Authenticatable
     {
         Log::info('Checking Other Session For User '. $user->staff_no);
         try {
-            DB::table('sessions')->where('user_id', $user->id)
+            DB::table('sessions')
+                ->where('user_id', $user->id)
                 ->update([
-                    'id' => DB::raw("concat('OUTMAN_', user_id,'_', id)"),
+                    'id' => DB::raw("concat('OUTMAN_', concat(user_id, concat('_', id)))"),
                     'user_id' => null,
                 ]);
             /*$newSessionId = Session::getId();//get new session_id after user sign in
