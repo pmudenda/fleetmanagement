@@ -196,15 +196,16 @@ class OnBoardingService
                 0);
         }
 
-        $brand = VehicleBrand::where('id', $request->input('brand'))->first();
-        $vehicleModel = VehicleModel::where('id',
+        $brand = VehicleBrand::where('code', $request->input('brand'))->first();
+
+        $vehicleModel = VehicleModel::where('code',
             $request->input('model'))->first();
 
         if (empty($vehicleModel)) {
             throw new Exception('Vehicle Model Not Found');
         }
 
-        $bodyType = VehicleBodyType::where('id',
+        $bodyType = VehicleBodyType::where('code',
             $request->input('bodyType'))->first();
 
         if (empty($bodyType)) {
@@ -216,12 +217,12 @@ class OnBoardingService
                 'registration_number' => $registrationNumber,
             ],
             [
-                'brand_code' => $brand->id,
+                'brand_code' => $brand->code,
                 'brand_name' => $brand->name,
-                'model_guid' => $vehicleModel->id,
+                /*'model_guid' => $vehicleModel->id,*/
                 'model_name' => $vehicleModel->model_name,
-                'model_code' => $vehicleModel->model_code,
-                'body_type_guid' => $bodyType->id,
+                'model_code' => $vehicleModel->code,
+                'body_type_code' => $bodyType->code,
                 'body_type_name' => $bodyType->body_type_name,
                 'business_unit_code' => trim($organizationUnit->code_unit),
                 'business_unit_name' => trim($organizationUnit->description),
@@ -229,9 +230,10 @@ class OnBoardingService
                 'location_name' => strtoupper(trim($request->input('vehicleLocation'))),
                 'created_by' => $user->id,
                 'created_name' => $user->name,
+                'mileage'=> '0',
                 'on_boarding_status' => StatusHelper::PendingGeneralDataEntry(),
                 'status' => StatusHelper::vehicleInactive(),
-                'registration_type' => $request->registration_type
+                'registration_type' => $request->get('registration_type')
             ]);
 
         DB::commit();
