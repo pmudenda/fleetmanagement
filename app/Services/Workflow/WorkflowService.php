@@ -16,6 +16,7 @@ use App\Models\Workflow\WorkflowStep;
 use App\Models\Workflow\WorkflowTaskDetail;
 use App\Models\Workflow\WorkflowTaskHeader;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -420,13 +421,14 @@ class WorkflowService
         return ["00", '0'];
     }
 
-    public function getMyApprovalTasks($staff_no): \Illuminate\Support\Collection
+    public function getMyApprovalTasks($staff_no): Collection
     {
         return DB::table('WFL_WORKFLOW_TASK')
             ->leftJoin('SEC_USERS', 'WFL_WORKFLOW_TASK.created_by', '=', 'SEC_USERS.id')
             ->where('WFL_WORKFLOW_TASK.assigned_user', '=', $staff_no)
             ->whereNull('WFL_WORKFLOW_TASK.date_ended')
             ->select('WFL_WORKFLOW_TASK.*', 'SEC_USERS.name as originator')
+            ->orderBy('created_at', 'desc')
             ->get();
     }
 
