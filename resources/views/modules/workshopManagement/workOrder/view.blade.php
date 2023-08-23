@@ -3019,7 +3019,7 @@
             }
 
             function loadDefectDropdownLists(data, selectElem) {
-                tmsApp.populateDropDownList(selectElem, data, "code", ["description"], "");
+                tmsApp.populateDropDownList(selectElem, data, "code", ["description"], "", "", true);
 
                 let location = selectElem.attr('data-value');
 
