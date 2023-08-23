@@ -13,7 +13,8 @@ class Mechanic extends Model
         'workshop_code',
         'section_code',
         'status',
-        'created_by'
+        'created_by',
+        'is_supervisor'
     ];
 
 

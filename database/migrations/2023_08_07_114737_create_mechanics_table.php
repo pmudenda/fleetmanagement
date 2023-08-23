@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('staff_no', 10);
             $table->string('name', 255);
+            $table->string('is_supervisor', 2);
             $table->string('workshop_code', 4)->nullable();
             $table->string('section_code', 4)->nullable();
             $table->string('status', 2);

@@ -9,6 +9,7 @@ use App\Constants\WorkflowActions;
 use App\Constants\WorkflowModules;
 use App\Enums\RequisitionItemTypes;
 use App\Enums\WorkflowProcessCodes;
+use App\Events\JobCardCreated;
 use App\Events\RequisitionRaised;
 use App\Exceptions\FuelRequisitionException;
 use App\Exceptions\MaterialReservationException;
@@ -24,6 +25,7 @@ use App\Models\MaterialDetail;
 use App\Models\MaterialHeader;
 use App\Models\VehicleManagement\VehicleHeader;
 use App\Models\WorkShopManagement\JobCardHeader;
+use App\Models\WorkShopManagement\Mechanic;
 use App\Models\WorkShopManagement\WorkShopComment;
 use App\Models\WorkShopManagement\WorkShopMaterial;
 use App\Models\WorkShopManagement\WorkShopMaterialHeader;
@@ -1277,6 +1279,7 @@ class WorkshopRequisitionService
      */
     public function createTaskForWorkShopSupervisor(SubmitJobCardToSupervisor $request): JsonResponse
     {
+        DB::beginTransaction();
         $process_code = WorkflowProcessCodes::WorkOrderOpened->value;
         $user = auth()->user();
 
@@ -1289,6 +1292,12 @@ class WorkshopRequisitionService
 
         $jobCard->step = 2;
         $jobCard->save();
+
+        $workShopCode = $jobCard->workshop_code;
+
+        $supervisor = Mechanic::where('workshop_code', '=', $workShopCode)
+            ->where('is_supervisor', '=', 'Y')
+            ->first();
 
         $workshopReference = $jobCardNo;
         $short_description = "New Job Card Task $jobCardNo For Vehicle $registration";
@@ -1303,12 +1312,16 @@ class WorkshopRequisitionService
             0,
             $short_description,
             $long_description,
-            '71997'
+            $supervisor->staff_no ?? '71997'
         );
+
+        DB::commit();
+
+        JobCardCreated::dispatch($user, $supervisor, $jobCard);
 
         return response()->json([
             "success" => true,
-            "message" => "Job Card Assignment Task Generated For Workshop Supervisor",
+            "message" => "Job Card Assignment Task Generated For $supervisor->name (Workshop Supervisor)",
             "redirectUrl" => URL::signedRoute("workOrder.list"),
         ]);
     }

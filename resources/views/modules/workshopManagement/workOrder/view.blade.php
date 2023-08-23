@@ -1872,7 +1872,7 @@
 
         const defectTableRowTemplate = ``;
 
-        function initArticleSelector(element) {
+  /*      function initArticleSelector(element) {
             const dataUrl = document.querySelector('#articlesUrl').value;
 
             // don't re-initialize
@@ -2099,7 +2099,7 @@
                     toastr.error('Connection error. Could not retrieve data, some feature might not work.')
                 });
         }
-
+*/
         function findMechanic($row, mechanic) {
             if (!mechanic) {
                 return;
@@ -2200,9 +2200,9 @@
 
         $(document).ready(function () {
 
-            initArticleSelector($('.articlesDropDownList'));
+            // initArticleSelector($('.articlesDropDownList'));
 
-            initServiceArticleSelector($('.servicesArticlesDropDownList'));
+            // initServiceArticleSelector($('.servicesArticlesDropDownList'));
 
             setInterval(function () {
                 disableControls();
@@ -2230,9 +2230,6 @@
         });
 
         (function (tmsApp, $) {
-
-            function adjustIframeHeight() {
-            }
 
             let form = $('#jobCardForm').show();
             window.goToNext = false;
@@ -2279,118 +2276,8 @@
                 });
             });
 
-            $(document).on('click', '.reassignMechanic', function () {
-
-            });
-
-            $(document).on('click', '.saveAssignment', function () {
-
-                let formSel = $('#labour_table');
-                let formData = {
-                    modelName: formSel.data('modelName'),
-                    submitForm: true
-                };
-
-                let arr = [];
-                let obj = {};
-
-                $(formSel).find("tbody").children().map(function (index, row) {
-                    let obj = {};
-
-                    if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
-                        console.log("Record with " + $(row).attr('data-record-id'));
-                    } else {
-                        $(row).find('input[name][type!=hidden], select[name]').each(function (i, item) {
-                            let val = item.value.replace(/,/g, '');
-
-                            if (item.name === 'endDate' || item.name === 'startDate' || item.name === 'invoiceDate') {
-                                let dateField = val;
-                                dateField = DateFormatter.format(new Date(moment(val, 'DD/MM/yyyy')), DateFormatter.ISO);
-
-                                obj[item.name] = dateField;
-                            } else {
-                                obj[item.name] = item.value;
-                            }
-                        });
-                        arr.push(obj);
-                    }
-
-                });
-
-                formData['items'] = arr;
-
-                formData = {
-                    ...obj,
-                    ...formData
-                }
-
-                $('.print-error-msg').css('display', 'none');
-
-                tmsApp.confirm(
-                    'Assign Task',
-                    'Are you sure you want to close this work order ?',
-                    'Yes',
-                    'No',
-                    function () {
-                        $.ajax({
-                            type: "POST",
-                            url: formSel.data('formUrl'),
-                            data: JSON.stringify(formData),
-                            dataType: "json",
-                            contentType: "application/json; charset=utf-8",
-                        }).done(function (asyncResponse) {
-
-                            if (asyncResponse.hasOwnProperty('success') && asyncResponse['success']) {
-                                setTimeout(function () {
-                                    tmsApp.showSystemMessage(
-                                        'Assign Task',
-                                        asyncResponse['message'],
-                                        function () {
-                                            window.location.href = asyncResponse["redirectUrl"]
-                                        },
-                                        'success'
-                                    );
-                                }, 300);
-                            } else {
-                                if (asyncResponse.hasOwnProperty('errors')) {
-                                    tmsApp.printErrorMsg(asyncResponse.errors);
-                                    return
-                                }
-                                setTimeout(function () {
-                                    tmsApp.systemError(
-                                        'Assign Task',
-                                        asyncResponse['message'],
-                                        function () {
-                                        }, 'error');
-                                }, 300);
-                            }
-                        }).fail(function (xhr, settings, errorThrown) {
-                            console.log(errorThrown)
-                            setTimeout(function () {
-                                if ('responseJSON' in xhr) {
-                                    if (xhr.responseJSON.hasOwnProperty('errors')) {
-                                        tmsApp.printErrorMsg(xhr.responseJSON.errors);
-                                    }
-                                    if (xhr.responseJSON.hasOwnProperty('message')) {
-                                        tmsApp.systemError(
-                                            'Assign Task',
-                                            xhr.responseJSON['message']
-                                        );
-                                    }
-                                    return;
-                                }
-
-                                tmsApp.systemError(
-                                    'Assign Task',
-                                    'We could not complete processing your request, please try again later');
-                            }, 300)
-                        });
-                    }
-                );
-            });
-
             /*****************************Function Handlers************************************/
-            function postData(formElements, submitForm) {
+            /*function postData(formElements, submitForm) {
                 window.loaderMessage = "Posting Data... please wait";
                 let $container = $(formElements);
 
@@ -2412,7 +2299,7 @@
                 ) {
                     $(formElements).find("tbody").children().map(function (index, row) {
                         let obj = {};
-                        /*$('#part8').find("tbody").children().map(function (index, row) {*/
+                        /!*$('#part8').find("tbody").children().map(function (index, row) {*!/
 
                         if ($(row).attr('data-record-id') && $(row).attr('data-record-id') !== "0") {
                             console.log("Record with " + $(row).attr('data-record-id'));
@@ -2432,7 +2319,7 @@
                             arr.push(obj);
                         }
 
-                        /*});*/
+                        /!*});*!/
                     });
 
                     obj['workshop_reference'] = $('input[name="workshop_reference"]').val();
@@ -2530,7 +2417,7 @@
                 }).fail(function (xhr) {
                     tmsApp.showErrorMessages(xhr, "Request Submission");
                 })
-            }
+            }*/
 
             function initializeFormWizard() {
                 let stepId = window.step_id || 1;
@@ -2547,43 +2434,15 @@
                         finish: 'Submit'
                     },
                     onInit: function () {
-                        console.log('Wizard Initializing')
                     },
                     onStepChanging: function (event, currentIndex, newIndex) {
 
                         if (currentIndex > newIndex) {
                             return true;
                         }
-
-                        return true;
-                        /* const driverAcknowledged = $('#driverAcknowledged').val();
-
-                         if (currentIndex === 1 && driverAcknowledged === 'Y') {
-                             return true;
-                         }
-
-                         if (currentIndex === 0 || currentIndex === 2 && $('[name="job_card_number"]').val()) {
-                             return true;
-                         }*/
-
-                        /* if (currentIndex < newIndex) {
-                             // To remove error styles
-                             form.find(".body:eq(" + newIndex + ") label.error").remove();
-                             form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
-                         }
-
-                         form.validate().settings.ignore = ":disabled,:hidden";
-                         window.global_currentIndex = currentIndex;
-                         if (form.valid() && !window.goToNext) {
-                             tmsApp.confirm('Confirm', 'Do you want to save the changes ?', 'Yes', 'No', function () {
-                                 postData(form.find('[data-model-name]').get(currentIndex), false);
-                             }, function () {
-                             });
-                         }
-
-                         let tmp = window.goToNext;
-                         window.goToNext = false;
-                         return tmp;*/
+                        if (currentIndex < newIndex) {
+                            return true;
+                        }
                     },
                     onStepChanged: function (event, currentIndex, priorIndex) {
 

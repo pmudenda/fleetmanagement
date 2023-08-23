@@ -34,6 +34,20 @@ class EmailNotificationService
                                and take action.<br> Regards. "
                     ];
                     break;
+                case 'job_card_created':
+                    $details = [
+                        'name' => $names,
+                        'systemLink' => URL::signedRoute('show.job.card', ['ref' => $record->job_card_no]),
+                        'identity' => $record->job_card_no,
+                        'subject' => "Job Card Task Needs Your Attention",
+                        'title' => "Job Card Task Needs Your Attention",
+                        'body' => "Please be informed that {$sender->name} has raised a new Job Card, reference
+                               <strong>{$record->job_card_no}</strong>
+                               in Zesco Fleet Master.
+                               <br>To Take action immediately, click on the button below.
+                               .<br> Regards. "
+                    ];
+                    break;
                 case 'job_card_material_requisition':
                     $details = [
                         'name' => $names,
