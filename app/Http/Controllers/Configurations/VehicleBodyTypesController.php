@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Configurations;
 
-use App\Enums;
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VehicleBodyType;
-use App\Models\Settings\vehicle\VehicleBodyType;
+use App\Services\Logging\HistoryService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -95,7 +95,7 @@ class VehicleBodyTypesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(VehicleBodyType $configfVehicleBodyType)
+    public function show(VehicleBodyType $configVehicleBodyType)
     {
         //
     }
@@ -103,7 +103,7 @@ class VehicleBodyTypesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(VehicleBodyType $configfVehicleBodyType)
+    public function edit(VehicleBodyType $configVehicleBodyType)
     {
         //
     }
@@ -111,7 +111,7 @@ class VehicleBodyTypesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, VehicleBodyType $configfVehicleBodyType)
+    public function update(Request $request, VehicleBodyType $configVehicleBodyType)
     {
         //
     }
@@ -119,14 +119,21 @@ class VehicleBodyTypesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    //public function destroy(VehicleBodyType $configfVehicleBodyType)
     public function destroy(Request $request): JsonResponse
     {
         try {
-
+            DB::beginTransaction();
             $data = VehicleBodyType::where('guid', $request->input('guid'));
-            $data->status = 'inactive'; //TODO Use Status enum
+
+            $before = $data->toArray();
+
+            $data->status = StatusHelper::inactive();
             $data->save();
+
+            DB::commit();
+
+            $after = $data->toArray();
+            HistoryService::update($before, $after, 'Body Type', 'update', $request->get('justification'));
 
             return response()->json([
                 'state' => 'success',

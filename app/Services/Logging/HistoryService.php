@@ -7,6 +7,7 @@ use App\Helpers\StringUtils;
 use App\Models\AuditTrail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HistoryService
 {
@@ -49,9 +50,11 @@ class HistoryService
             }
         }
 
+        DB::beginTransaction();
         foreach ($recordChanges as $record) {
             AuditTrail::create($record);
         }
+        DB::commit();
 
     }
 
@@ -79,7 +82,9 @@ class HistoryService
                 'justification' => $justification
             ];
 
+            DB::beginTransaction();
             AuditTrail::create($data);
+            DB::commit();
 
         }
     }

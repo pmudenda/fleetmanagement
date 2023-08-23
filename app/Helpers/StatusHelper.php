@@ -172,5 +172,10 @@ class StatusHelper
         return "11";
     }
 
+    public static function inactive(): string
+    {
+        return "02";
+    }
+
 
 }
