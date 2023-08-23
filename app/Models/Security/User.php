@@ -104,13 +104,13 @@ class User extends Authenticatable
         Log::info('Checking Other Session For User '. $user->staff_no);
         try {
             $newSessionId = Session::getId();//get new session_id after user sign in
-            $lastSessionId = Session::getHandler()->read($user->last_sessid);// retrive last session
+            $lastSessionId = Session::getHandler()->read($user->last_session_id);// retrive last session
             Log::info('New Session Id '. $newSessionId);
 
             Log::info('New Session Id '. $lastSessionId);
             if ($lastSessionId) {
                 Log::info('Other Session Found');
-                if (Session::getHandler()->destroy($user->last_sessid)) {
+                if (Session::getHandler()->destroy($user->last_session_id)) {
                     // session was destroyed
                     Log::info('Destroying Other Session');
                 }
