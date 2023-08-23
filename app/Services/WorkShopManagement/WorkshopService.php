@@ -365,8 +365,8 @@ class WorkshopService
         $dataBefore = $workOrder->toArray();
 
         $this->workflowService->cancelProcessTask(
-            $latestPreviousRequisition->req_no,
-            WorkflowProcessCodes::NormalFuelRequisition->value
+            $workOrderNumber,
+            WorkflowProcessCodes::WorkOrderOpened->value
         );
 
         $workOrderNumber = $workOrder->job_card_no;
