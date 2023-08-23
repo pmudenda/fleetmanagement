@@ -1368,7 +1368,7 @@ function checkOnboardingHeaderStatus() {
         }
 
         let selectElem = $('select[name="model"]');
-        tmsApp.populateDropDownList(selectElem, filteredResults, "id", ["model_name", "model_code"], " => ");
+        tmsApp.populateDropDownList(selectElem, filteredResults, "code", ["model_name", "model_code"], " => ");
 
         let model = selectElem.attr('data-value');
         if (model) {
