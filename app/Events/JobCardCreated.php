@@ -24,7 +24,7 @@ class JobCardCreated
     public function __construct($user, Mechanic|null $supervisor, JobCardHeader|null $jobCard)
     {
         $this->user = $user;
-        $this->$supervisor = $supervisor;
+        $this->supervisor = $supervisor;
         $this->jobCard = $jobCard;
     }
 
