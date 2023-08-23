@@ -202,7 +202,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('assessment/acknowledgment', [MaintenanceController::class, "eSign"])->name('sign.assessment');
 
             // supporting
-            Route::get('requisitions/workOrder/list', [MaintenanceController::class, 'list'])->name('workOrder.list');
+            Route::get('vehicles-in-workshop/list', [MaintenanceController::class, 'list'])->name('workOrder.list');
 
             Route::get('all/job-card/list', [MaintenanceController::class, 'list'])->name('jobCard.list');
 

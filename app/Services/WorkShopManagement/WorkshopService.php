@@ -201,7 +201,6 @@ class WorkshopService
             }
         }
 
-
         if (sizeof($toSave) == 0 && !empty($uploadedFiles)) {
             foreach ($uploadedFiles as $uploadedFile) {
                 $toSave[] = array('observation' => null, 'file' => $uploadedFile->path);
@@ -310,6 +309,7 @@ class WorkshopService
                 "config.name as repair_type_name",
                 "CONFIG_GENERAL_TABLES.name as section_in_name",
                 "SEC_USERS.name as service_advisor")
+            ->orderBy('header.created', 'desc')
             ->get();
 
     }
