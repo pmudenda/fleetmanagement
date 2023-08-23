@@ -34,9 +34,9 @@
 @section('content')
 
     <x-content-header
-        :activeCrumb="'New Job Card'"
-        :linkText="'Job Card'"
-        :pageTitle="'Workshop Management'"/>
+            :activeCrumb="'New Job Card'"
+            :linkText="'Job Card'"
+            :pageTitle="'Workshop Management'"/>
 
     <section class="content">
         <div class="card">
@@ -89,7 +89,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <table
-                                                class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
                                                 <thead>
                                                 <tr class="bg-dark-subtle">
                                                     <th class="pl-2">Item</th>
@@ -123,7 +123,7 @@
                                         </div>
                                         <div class="col">
                                             <table
-                                                class="table table-row-dashed align-middle gs-0 table-bordered">
+                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
                                                 <thead>
                                                 <tr class="bg-dark-subtle">
                                                     <th class="pl-2">Item</th>
@@ -163,8 +163,8 @@
                                         <div class="col">
                                             <div class="form-group">
                                                 <label
-                                                    class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                                                    for="accessoriesRemarks">
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
+                                                        for="accessoriesRemarks">
                                                     General Comments and Observation (Damages):
                                                 </label>
                                                 <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
@@ -201,7 +201,7 @@
                                                             </thead>
                                                             <tbody>
                                                             @foreach($observation as $item)
-                                                                <tr>
+                                                                <tr data-record-id="{{$item->id}}">
                                                                     <td>
                                                                         <div class="imagePreview"
                                                                              style="min-height: 100px !important; background-image: url('/storage{{$item->image_path}}'); display: block; background-size: cover">
@@ -240,9 +240,8 @@
                         <div class="row mb-1 mt-4">
                             <div class="row">
                                 <div class="col-lg-2 col-sm-12">
-                                    <label>Assessment Acknowledgement:
-                                        <small class="text-danger">(Performed By
-                                            Driver)</small></label>
+                                    <label>Assessment Acknowledgement:</label>
+                                    <small class="text-danger">(Performed By Driver)</small>
                                 </div>
                                 @if(!empty($details->driver_acknowledged))
                                     <div class="col-lg-3 col-sm-12">
@@ -444,11 +443,11 @@
                                         <div class="row">
                                             <div class="col-1">
                                                 <input
-                                                    required
-                                                    id="acceptance"
-                                                    name="acceptance"
-                                                    type="checkbox"
-                                                    class="checkbox">
+                                                        required
+                                                        id="acceptance"
+                                                        name="acceptance"
+                                                        type="checkbox"
+                                                        class="checkbox">
                                             </div>
                                             <div class="col-10">
                                                 <p id="newApproval_Remarks">
@@ -542,7 +541,7 @@
                                         <option></option>
                                         @foreach($workshop_sections as $workshop_section)
                                             <option
-                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -2292,6 +2291,9 @@
 
                 let vLabel = vehicle['body_type_name'] + ' ' + vehicle['brand_name'] + ' ' + vehicle['model_name'] + ' ' + vehicle['model_code'];
                 $("#vehicle_description").val(vLabel);
+
+                $('[name="current_odometer"]').val(vehicle['mileage']);
+
                 let row = `<tr><th>Make</th><td id="make">${vehicle['brand_name']}</td></tr>
                                <tr>
                                     <th>Model</th><td id="model">${vehicle['model_name']} ${vehicle['model_code']}</td>

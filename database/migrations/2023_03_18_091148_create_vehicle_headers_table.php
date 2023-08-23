@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,6 +17,11 @@ return new class extends Migration
             $table->string('model_guid');
             $table->string('model_name');
             $table->string('model_code');
+            $table->string('barcode')->nullable();
+            $table->string('has_tom_card')->default('N');
+            $table->string('on_boarding_status')->nullable();
+            $table->string('status')->nullable();
+            $table->decimal('mileage', 19, 4)->nullable();
             $table->string('body_type_guid');
             $table->string('body_type_name');
             $table->string('registration_number');
@@ -30,11 +34,6 @@ return new class extends Migration
             $table->string('created_by');
             $table->string('created_name');
             $table->timestamp('deleted_at')->nullable();
-            $table->string('barcode')->nullable();
-            $table->string('has_tom_card')->default('N');
-            $table->string('on_boarding_status')->nullable();
-            $table->string('status')->nullable();
-
             $table->timestamps();
         });
     }

@@ -16,6 +16,13 @@ class VehicleHeader extends Model
         'model_guid',
         'model_name',
         'model_code',
+        'status',
+        'on_boarding_status',
+        'registration_type',
+        'barcode',
+        'has_tom_card',
+        'invalid_odometer_entry',
+        'mileage',
         'body_type_guid',
         'body_type_name',
         'registration_number',
@@ -25,11 +32,5 @@ class VehicleHeader extends Model
         'location_name',
         'created_by',
         'created_name',
-        'status',
-        'on_boarding_status',
-        'registration_type',
-        'barcode',
-        'has_tom_card',
-        'invalid_odometer_entry'
     ];
 }

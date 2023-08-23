@@ -42,9 +42,9 @@
 @section('content')
 
     <x-content-header
-        :activeCrumb="'New Job Card'"
-        :linkText="'Job Card'"
-        :pageTitle="'Workshop Management'"/>
+            :activeCrumb="'New Job Card'"
+            :linkText="'Job Card'"
+            :pageTitle="'Workshop Management'"/>
 
     <section class="content">
         <div class="card">
@@ -93,6 +93,7 @@
                             <div class="row">
                                 <div class="col-lg-2 col-sm-12">
                                     <label>Assessment Acknowledgement:</label>
+                                    <br/>
                                     <small class="text-danger">(To Be Performed By Driver)</small>
                                 </div>
                                 @if(!empty($details->driver_acknowledged))
@@ -152,15 +153,16 @@
                                     </div>
                                 @endif
 
-                                <div class="row mt-10">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label
-                                                class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
-                                                for="commentsToSupervisor">
-                                                Comments To Workshop Supervisor:
-                                            </label>
-                                            <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
+                                @if(!empty($details->driver_acknowledged))
+                                    <div class="row mt-10">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label
+                                                        class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0 field-required"
+                                                        for="commentsToSupervisor">
+                                                    Comments To Workshop Supervisor:
+                                                </label>
+                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
                                                  <textarea type="text"
                                                            required
                                                            minlength="20"
@@ -169,18 +171,19 @@
                                                            name="commentsToSupervisor"
                                                            style="height: 129px;"
                                                            class="form-control form-control-sm comments"></textarea>
-                                                {{--@if(!empty($comments))
-                                                         <textarea type="text"
-                                                                   id="accessoriesRemarks"
-                                                                   name="accessoriesRemarks"
-                                                                   style="height: 129px;"
-                                                                   class="form-control form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
-                                                     @else
-                                                     @endif--}}
+                                                    {{--@if(!empty($comments))
+                                                             <textarea type="text"
+                                                                       id="accessoriesRemarks"
+                                                                       name="accessoriesRemarks"
+                                                                       style="height: 129px;"
+                                                                       class="form-control form-control-sm">{{$comments->where('type','=','ACC')->first()->remarks ??''}}</textarea>
+                                                         @else
+                                                         @endif--}}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                         </div>
                     </section>
@@ -300,11 +303,11 @@
                                         <div class="row">
                                             <div class="col-1">
                                                 <input
-                                                    required
-                                                    id="acceptance"
-                                                    name="acceptance"
-                                                    type="checkbox"
-                                                    class="checkbox">
+                                                        required
+                                                        id="acceptance"
+                                                        name="acceptance"
+                                                        type="checkbox"
+                                                        class="checkbox">
                                             </div>
                                             <div class="col-10">
                                                 <p id="newApproval_Remarks">
