@@ -1441,8 +1441,8 @@ class MaintenanceController extends Controller
         $defects = DB::table("wm_vehicle_defects def")
             ->join("wm_workshop_tables wckt", function (JoinClause $join) use ($defectCategory, $vehicleSys) {
                 $join->on("def.defect_category_code", "=", "wckt.code")
-                    ->where("wckt.type_code", "=", $defectCategory)
-                    ->where('wckt.parent','=',$vehicleSys);
+                    ->where("wckt.type_code", "=", $defectCategory);
+                    //->where('wckt.parent','=',$vehicleSys);
             })
             ->join("wm_workshop_tables wckta",
                 function (JoinClause $join) use ($vehicleSys) {
