@@ -286,6 +286,7 @@
         <div class="col-12 text-right">
             <div>
                 <button type="button"
+                        name="saveAllAssignments"
                         id="saveAllAssignments"
                         style="background: #f59d33; color: #fff;"
                         data-table-id="labour_table"

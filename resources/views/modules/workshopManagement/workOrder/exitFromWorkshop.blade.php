@@ -1670,7 +1670,6 @@
                 <input type="hidden" value="{{route('load.article.details')}}" id="articleDetailsUrl"/>
                 <input type="hidden" value="{{$details->job_card_no ?? ''}}" id="job_card_number"/>
                 <input type="hidden" value="{{$taskHeader->reference ?? '' }}" id="taskReference">
-               {{-- <input type="hidden" value="{{ route('approve.work_order.closure') }}" id="approvalUrl">--}}
                 <input type="hidden" value="{{$details->veh_reg ?? ''}}" name="vehicle_registration"
                        id="vehicle_registration"/>
                 <input type="hidden" value="{{$details->wshp_act_code ?? ''}}" name="workshop_reference"

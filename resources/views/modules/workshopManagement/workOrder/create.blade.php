@@ -841,11 +841,14 @@
                     }
 
                     if (checked && count >= 2) {
-                        // selects()
                         $('[value="assignMultiple"]').removeClass('d-none');
+                        $('[value="saveAllAssignments"]').attr('disabled', false).removeClass('d-none');
+                        $('.saveAssignment').attr('disabled', true).addClass('d-none');
+
                     } else if (count < 2) {
-                        // deSelect();
                         $('[value="assignMultiple"]').addClass('d-none');
+                        $('[value="saveAllAssignments"]').attr('disabled', true).addClass('d-none');
+                        $('.saveAssignment').attr('disabled', false).removeClass('d-none');
                     }
                 });
 
@@ -1153,6 +1156,7 @@
 
                 $(document).on('click', '.saveAssignment', function () {
 
+                    let actionButton = $(this);
                     let formSel = $('#labour_table');
                     let formData = {
                         modelName: formSel.data('modelName'),
@@ -1216,7 +1220,9 @@
                                             'Assign Task',
                                             asyncResponse['message'],
                                             function () {
-                                                // window.location.href = asyncResponse["redirectUrl"]
+                                                actionButton.addClass('disabled).attr('
+                                                disabled
+                                                ', true);
                                             },
                                             'success'
                                         );
