@@ -214,6 +214,7 @@ class WorkshopRequisitionService
                 "amount" => $item["total_price"],
                 "price" => $item["unit_price"],
                 "stores_code" => $store_code,
+                "supplier_code" => $requisitionPostRequest->supplier,
                 "req_no" => $requisition_reference_number,
                 "specifications" => $item["technical_specification"],
                 "description" => $item["technical_specification"],

@@ -50,31 +50,27 @@ class WorkshopController extends Controller
     {
         if ($staff_no) {
             return DB::table('GEN_MATERIAL_HEADERS')
-                //->leftJoin('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
                 ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
                 ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
+                ->leftJoin('WM_JOB_CARD_HEADER', 'GEN_MATERIAL_HEADERS.REQ_NO', '=', 'WM_JOB_CARD_HEADER.REQ_NO')
                 ->where('GEN_MATERIAL_HEADERS.requested_by', '=', $staff_no)
                 ->where('GEN_MATERIAL_HEADERS.IS_FUEL', '=', 'N')
                 ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
                 ->select(
                     'GEN_MATERIAL_HEADERS.*',
-                    //'GEN_MATERIAL_DETAILS.quantity',
-                    //'GEN_MATERIAL_DETAILS.quantity_issued',
                     'SEC_USERS.name as originator',
+                    'WM_JOB_CARD_HEADER.JOB_CARD_NO',
                     'CONFIG_STATUSES.name as status_name')
                 ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
                 ->get();
         } else {
             return DB::table('GEN_MATERIAL_HEADERS')
-                //->leftJoin('GEN_MATERIAL_DETAILS', 'GEN_MATERIAL_HEADERS.req_no', '=', 'GEN_MATERIAL_DETAILS.req_no')
                 ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
                 ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
                 ->where('GEN_MATERIAL_HEADERS.IS_FUEL', '=', 'N')
                 ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
                 ->select(
                     'GEN_MATERIAL_HEADERS.*',
-                    //'GEN_MATERIAL_DETAILS.quantity',
-                    //'GEN_MATERIAL_DETAILS.quantity_issued',
                     'SEC_USERS.name as originator',
                     'CONFIG_STATUSES.name as status_name')
                 ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
@@ -86,6 +82,7 @@ class WorkshopController extends Controller
     public function requisitions(): \Illuminate\Contracts\View\View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $staff_no = auth()->user()->staff_no;
+
         $requisitions = self::getMyRequisitions(null, 'N');
 
         $requisition_type = "WORKSHOP";
@@ -97,15 +94,7 @@ class WorkshopController extends Controller
     public function sections(): View
     {
         $type = ConfigurationTypes::WORK_SHOP_SECTION;
-        $typeStr = $type;
         $workshop_sections = GeneralTable::where(Constants::TYPE_KEY, $type)->get();
-
-       /* return view('modules.workshopManagement.sections')
-            ->with(compact(
-                'workshop_sections',
-                'type',
-                'typeStr'
-            ));*/
 
         return view('modules.configurations.generalTables.index')->with(
             [
