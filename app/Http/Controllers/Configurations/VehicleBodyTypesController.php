@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Configurations;
 
 use App\Helpers\StatusHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\VehicleBodyType;
+use App\Models\Settings\vehicle\VehicleBodyType;
 use App\Services\Logging\HistoryService;
 use Carbon\Carbon;
 use Exception;
