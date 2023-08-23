@@ -102,7 +102,7 @@ class User extends Authenticatable
 
     public static function swapping($user): void
     {
-        Log::info('Checking Other Session For User '. $user->staff_no);
+        Log::info('Checking Other Session For User ' . $user->staff_no);
         try {
             DB::table('sessions')
                 ->where('user_id', $user->id)
@@ -110,20 +110,6 @@ class User extends Authenticatable
                     'id' => DB::raw("concat('OUTMAN_', concat(user_id, concat('_', id)))"),
                     'user_id' => null,
                 ]);
-            /*$newSessionId = Session::getId();//get new session_id after user sign in
-            $lastSessionId = Session::getHandler()->read($user->last_session_id);// retrive last session
-            Log::info('New Session Id '. $newSessionId);
-
-            Log::info('Last Session Id '. (bool)$lastSessionId);
-            if ($lastSessionId) {
-                Log::info('Other Session Found');
-                if (Session::getHandler()->destroy($user->last_session_id)) {
-                    // session was destroyed
-                    Log::info('Destroying Other Session');
-                }
-            }
-            $user->last_session_id = $newSessionId;
-            $user->save();*/
         } catch (\Exception $e) {
             Log::error($e);
         }
