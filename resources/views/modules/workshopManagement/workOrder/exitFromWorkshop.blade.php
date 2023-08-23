@@ -695,10 +695,14 @@
                                                                     <tr>
                                                                         <td class="pl-2"
                                                                             style="width: 35%;">{{$accessory->name}}</td>
-                                                                        <td><input type="radio" value="YES" required
+                                                                        <td><input type="radio"
+                                                                                   value="YES"
+                                                                                   required
                                                                                    name="field_{{str_replace(' ','', $accessory->code)}}">
                                                                         </td>
-                                                                        <td><input type="radio" value="NO" required
+                                                                        <td><input type="radio"
+                                                                                   value="NO"
+                                                                                   required
                                                                                    name="field_{{str_replace(' ','', $accessory->code)}}">
                                                                         </td>
                                                                         <td style="width: 45%;">
@@ -921,7 +925,7 @@
 
                                                 <div class="col-xs-12 col-sm-6 col-md-6">
                                                     <div class="container-fluid pl-0">
-                                                        <div class="row">
+                                                        <div class="row d-none">
                                                             <div class="form-group row">
                                                                 <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label"
                                                                        for="staff_no">
@@ -930,7 +934,6 @@
                                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                                     <select
                                                                             data-value=""
-                                                                            required
                                                                             class="form-select form-select-sm"
                                                                             name="purchase_office"
                                                                             id="purchase_office">
@@ -1037,8 +1040,7 @@
                                                             </div>
                                                             <div id="supplierContainer" style="display: none;"
                                                                  class="form-group row">
-                                                                <div
-                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                <div class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
@@ -1266,7 +1268,7 @@
                                                                         class="col-xs-12 col-sm-6 col-md-5 col-lg-4 app-field-label field-required"
                                                                         for="staff_no">Item Type:
                                                                 </label>
-                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
+                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7 d-none">
                                                                     @if(!empty($materialsHeader))
                                                                         <select
                                                                                 data-value="{{$materialsHeader->item_type_code ?? ''}}"
@@ -1307,7 +1309,6 @@
                                                                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
                                                                     <select
                                                                             data-value=""
-                                                                            required
                                                                             class="form-select form-select-sm"
                                                                             name="purchase_office"
                                                                             id="purchase_office">
@@ -1396,7 +1397,7 @@
 
                                                             <div id="supplierContainer" class="form-group row">
                                                                 <div
-                                                                        class=" col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
+                                                                        class="d-none col-xs-12 col-sm-6 col-md-5 col-lg-4 control-input-wrapper">
                                                                     <div class="control-input">
                                                                         <div class="link-field ui-front"
                                                                              style="position: relative;">
