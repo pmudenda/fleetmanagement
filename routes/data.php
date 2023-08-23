@@ -11,7 +11,6 @@ use App\Http\Controllers\API\ProcurementSystemIntegrationController;
 use App\Http\Controllers\API\RoadTransportSafetyAgencyIntegrationController;
 use App\Http\Controllers\OrganizationStructure\BusinessAreasController;
 use App\Http\Controllers\OrganizationStructure\DirectoratesController;
-use App\Models\Reference\GtaVehicle;
 use App\Models\Settings\GeneralTable;
 use App\Models\WorkShopManagement\WorkShopTable;
 use Illuminate\Http\Request;
@@ -152,6 +151,26 @@ Route::group(['prefix' => 'v1/en'], function (): void {
             ]);
         }
     })->name('vehicle.licence.classes');
+
+    Route::get('load/registration/types', function (Request $request) {
+        try {
+            $licenseCategory = GeneralTable::where('type', ConfigurationTypes::REGISTRATION_CLASS)
+                ->where('active', '=', "1")
+                ->get();
+            return response()->json([
+                'success' => !empty($licenseCategory),
+                'payload' => $licenseCategory
+            ]);
+
+        } catch (Exception $e) {
+            Log::error($e);
+            return response()->json([
+                'success' => false,
+                'payload' => [],
+                'message' => ErrorMessages::getMessage('err_0005')
+            ]);
+        }
+    })->name('registration.types');
 
     Route::get('transmission/types', function (Request $request) {
         try {

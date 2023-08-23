@@ -634,21 +634,23 @@ let app = new Vue({
         },
 
         loadRegistrationTypes: function () {
-            this.registrationTypes = [
-                {
-                    "label": 'Motor Vehicle', 'code': 'MV'
-                },
-                {
-                    "label": 'Plant Equipment', 'code': 'PE'
-                },
-                {
-                    "label": 'Boat',
-                    'code': 'BT'
-                },
-                {
-                    "label": 'Trailer',
-                    'code': 'TR'
-                }]
+            fetch(document.querySelector('#registrationTypesEndpoint').value)
+                .then(response => response.json())
+                .then(response => {
+                    // Populate results
+                    if (response.state === 'failure') {
+                        //show errors
+                        toastr.error('Connection error, no data found')
+                        return;
+                    }
+
+                    app.registrationTypes = response['payload'];
+                })
+                .catch(function (error) {
+                   console.log(error);
+                    toastr.error(
+                        'Connection error. Could not retrieve license category data, some feature might not work.', 'Registration Types')
+                });
         },
 
         postRequest(data, url, successCallBack, errorCallBack) {

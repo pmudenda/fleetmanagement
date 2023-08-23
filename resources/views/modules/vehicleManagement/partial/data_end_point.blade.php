@@ -67,3 +67,8 @@
        name="licenseClassEndpoint"
        value="{{ route('vehicle.licence.classes') }}">
 
+<input type="hidden"
+       id="registrationTypesEndpoint"
+       name="registrationTypesEndpoint"
+       value="{{ route('registration.types') }}">
+

@@ -52,7 +52,7 @@
                                         <option v-for="regType in registrationTypes"
                                                 :key="regType.code"
                                                 :value="regType.code">
-                                            @{{ regType.label }}
+                                            @{{ regType.name }}
                                         </option>
                                     </select>
                                 </div>
