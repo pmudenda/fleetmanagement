@@ -91,6 +91,7 @@
     <input type="hidden" id="sessionStatusUrl" name="sessionStatusUrl" value="{{route('session.status')}}"/>
 
     <x-approval-modal/>
+
     <div aria-live="polite" aria-atomic="true" class="position-relative">
         <div class="toast-container position-fixed top-0 end-0 p-3">
 
@@ -387,6 +388,24 @@
 
         </div>
     </div>
+
+    <div class="modal fade" id="documentFollowUp" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Document Follow Up</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="documentFollowUpContent">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <input type="hidden" name="gatePassUrl" id="gatePassUrl" value="{{URL::signedRoute("gate.pass")}}"/>
 
@@ -417,23 +436,6 @@
 <audio preload="auto" id="sound-alert" volume=0.2>
     <source src="{{asset('assets/sounds/alert.mp3')}}"/>
 </audio>
-
-<div class="modal fade" id="documentFollowUp" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Document Follow Up</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="documentFollowUpContent">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
     window._version_number = "{{\Illuminate\Support\Str::uuid()}}";

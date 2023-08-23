@@ -5,16 +5,8 @@
     <link href="{{asset("assets/plugins/select2/css/select2.min.css")}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset("assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")}}" rel="stylesheet"
           type="text/css"/>
-    <style>
-        /*       .corporate > tbody, td, tfoot, th, thead, tr {
-                   border-color: inherit;
-                   border-style: solid;
-                   !*border-width: 1px !important;*!
-               }*/
-    </style>
 @endpush
 @section('content')
-
     <x-content-header/>
     <section class="content">
         <div class="card">
@@ -548,8 +540,6 @@
 @push('scripts')
     <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
     <script>
-
-
         (function (tmsApp, $) {
             function populateVehicleDetails(payload) {
                 let vehicle = payload['vehicle'];
@@ -641,7 +631,6 @@
                     document.querySelector('#approvalUrl').value,
                     function (ajaxResponse) {
                         if (ajaxResponse.success) {
-
                             setTimeout(function () {
                                 tmsApp.showSystemMessage(
                                     'Approval',

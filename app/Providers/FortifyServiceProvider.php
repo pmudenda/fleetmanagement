@@ -65,7 +65,7 @@ class FortifyServiceProvider extends ServiceProvider
                 $user->last_login = Carbon::now();
                 // $user->has_active_session = ConfigHelper::currentLoginTrue();
                 // $user->save();
-                // $user->swapping($user);
+                $user->swapping($user);
                 return $user;
             }
         });
