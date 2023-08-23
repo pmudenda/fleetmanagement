@@ -650,9 +650,9 @@
                                    id="suppliersList"
                                    value="{{route('suppliers.list')}}"/>
                             <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item" style="list-style: none; width: 178px; display: none;">
+                               {{-- <li class="nav-item" style="list-style: none; width: 178px; display: none;">
                                     <a class="nav-link" data-toggle="tab" href="#accessories" role="tab">Accessories</a>
-                                </li>
+                                </li>--}}
                                 <li class="nav-item" style="list-style: none; width: 178px;">
                                     <a class="nav-link active" data-toggle="tab" href="#defects" role="tab">Defects</a>
                                 </li>
@@ -666,10 +666,12 @@
                                     <a class="nav-link" data-toggle="tab" href="#labour" role="tab">Labour</a>
                                 </li>
                             </ul><!-- Tab panes -->
+
+
                             <div class="tab-content">
-                                <div class="tab-pane" id="accessories" role="tabpanel">
+                               {{-- <div class="tab-pane" id="accessories" role="tabpanel">
                                     <div class="container-fluid pl-0 mt-5">
-                                        <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}"
+                                        <div class="row"
                                              data-model-name="Accessories">
                                             <input type="hidden" value="{{$details->job_card_no ?? 0}}"
                                                    name="job_card_voucher"/>
@@ -754,7 +756,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>--}}
+
                                 <div class="tab-pane active" id="defects" role="tabpanel">
                                     <div class="container-fluid pl-0 mt-5">
                                         <div class="row">
@@ -878,6 +881,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="tab-pane" id="materials" role="tabpanel">
                                     <div class="row pt-5">
                                         <div class="col-12">
@@ -1252,6 +1256,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="tab-pane" id="services" role="tabpanel">
                                     <div class="row pt-5">
                                         <div class="col-12">
@@ -1623,6 +1628,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="tab-pane" id="labour" role="tabpanel">
                                     @include('modules.workshopManagement.workOrder.tabs.labour')
                                 </div>
