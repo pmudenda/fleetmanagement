@@ -1315,7 +1315,7 @@ class WorkshopRequisitionService
 
         DB::commit();
 
-        JobCardCreated::dispatch($user, $supervisor, $jobCard);
+        //JobCardCreated::dispatch($user, $supervisor, $jobCard);
 
         return response()->json([
             "success" => true,
