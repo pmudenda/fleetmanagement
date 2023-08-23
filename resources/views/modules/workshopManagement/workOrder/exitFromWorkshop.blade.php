@@ -47,7 +47,7 @@
                     <h4>Exit Vehicle From Workshop</h4>
                 </div>
                 <div class="card-toolbar justify-content-end">
-                    @if(!empty($details) && !empty($details->status))
+                   Job Card Status @if(!empty($details) && !empty($details->status))
                         <span class="badge {{$details->color_code}}">
                        {{ $details->status_name ?? '' }}
                     </span>
@@ -95,8 +95,7 @@
                                                         <div class="col-xs-12 col-sm-6 col-md-7 col-lg-7">
                                                             @if(!empty($details) && !empty($details->job_card_no))
                                                                 <div class="">
-                                                                    &nbsp; <span
-                                                                            class="text-orange">{{ $details->job_card_no ?? '' }}</span>
+                                                                    &nbsp; <span class="text-orange">{{ $details->job_card_no ?? '' }}</span>
                                                                 </div>
                                                             @endif
                                                         </div>
@@ -123,7 +122,6 @@
 
                                                             <input type="hidden" value="{{$details->job_card_no ?? 0}}"
                                                                    name="job_card_number"/>
-
                                                         </div>
                                                     </div>
                                                 </div>
