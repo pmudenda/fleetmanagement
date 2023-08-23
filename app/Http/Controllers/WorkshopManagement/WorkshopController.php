@@ -67,11 +67,13 @@ class WorkshopController extends Controller
             return DB::table('GEN_MATERIAL_HEADERS')
                 ->leftJoin('CONFIG_STATUSES', 'GEN_MATERIAL_HEADERS.status', '=', 'CONFIG_STATUSES.code')
                 ->leftJoin('SEC_USERS', 'GEN_MATERIAL_HEADERS.requested_by', '=', 'SEC_USERS.staff_no')
+                ->leftJoin('WM_JOB_CARD_HEADER', 'GEN_MATERIAL_HEADERS.REQ_NO', '=', 'WM_JOB_CARD_HEADER.REQ_NO')
                 ->where('GEN_MATERIAL_HEADERS.IS_FUEL', '=', 'N')
                 ->where('CONFIG_STATUSES.MODULE', '=', Modules::Material)
                 ->select(
                     'GEN_MATERIAL_HEADERS.*',
                     'SEC_USERS.name as originator',
+                    'WM_JOB_CARD_HEADER.JOB_CARD_NO',
                     'CONFIG_STATUSES.name as status_name')
                 ->orderBy('GEN_MATERIAL_HEADERS.created_at', 'desc')
                 ->get();
