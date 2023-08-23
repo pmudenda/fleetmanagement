@@ -26,8 +26,8 @@
                                     <th>Reference #</th>
                                     <th>Document No.</th>
                                     {{--<th>Job Card #</th>--}}
-                                    <th>Date In</th>
-                                    <th>Date Expected Out</th>
+                                    <th>Request Date</th>
+                                    <th>Estimated Collection Date</th>
                                     <th>Originator</th>
                                     {{--<th>Qty. Requested</th>--}}
                                     {{--<th>Qty. Issued</th>--}}
