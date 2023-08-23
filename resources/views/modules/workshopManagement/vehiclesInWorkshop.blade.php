@@ -144,8 +144,6 @@
                                                         Actions
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        {{--@can(config('rights.edit_vehicle'))--}}
-
                                                         <li>
                                                             <a class="dropdown-item"
                                                                data-kt-action="edit"
@@ -153,16 +151,6 @@
                                                                 View Job Card
                                                             </a>
                                                         </li>
-                                                        {{--@else
-                                                            <li>
-                                                                <a class="dropdown-item"
-                                                                   data-kt-action="edit"
-                                                                   href="{{URL::signedRoute('vehicle.workshop.checkin',["view"=>true,'step'=> '1', 'reference'=>$workshop->job_card_no])}}">
-                                                                    View Job Card
-                                                                </a>
-                                                            </li>
-                                                        @endif--}}
-
                                                         @if($workshop->status != StatusHelper::authorised())
                                                             <li>
                                                                 <a class="dropdown-item"

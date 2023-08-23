@@ -702,7 +702,8 @@
                     @if(!empty($details->driver_acknowledged))
                         <h1>DEFECTS</h1>
                         <section>
-                            <div class="container-fluid px-0">
+                            @include('modules.workshopManagement.workOrder.tabs.defects')
+                            {{--<div class="container-fluid px-0">
                                 <div class="row">
                                     <input type="hidden" value="{{$details->job_card_no ?? 0}}"
                                            name="job_card_voucher"/>
@@ -753,13 +754,13 @@
                                                                            disabled
                                                                            data-value="{{$defect->defect_code}}"
                                                                            class="form-control-sm defect"/>
-                                                                    {{--<select name="defect"
+                                                                    --}}{{--<select name="defect"
                                                                             required
                                                                             disabled
                                                                             data-value="{{$defect->defect_code}}"
                                                                             class="form-select form-select-sm select_2_control defect">
                                                                         <option></option>
-                                                                    </select>--}}
+                                                                    </select>--}}{{--
                                                                 </td>
                                                                 <td>
                                                                     <select name="workshopSection"
@@ -918,7 +919,7 @@
                                         </table>
                                     </div>
                                 </div>
-                            </div>
+                            </div>--}}
                         </section>
 
                         <h1>LABOUR & ASSIGNMENTS</h1>
