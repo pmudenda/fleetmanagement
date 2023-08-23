@@ -357,7 +357,7 @@ class WorkshopService
         $workOrder = JobCardHeader::where("job_card_no", "=", $workOrderNumber)
             ->first();
 
-        $vehicleHeader = VehicleHeader::where('registration_number', '=', $workOrder->reg_no);
+        $vehicleHeader = VehicleHeader::where('registration_number', '=', $workOrder->reg_no)->first();
         $vehicleHeader->status = StatusHelper::active();
         $vehicleHeader->save();
 
