@@ -9,6 +9,7 @@ use App\Http\Controllers\VehicleManagement\VehicleController;
 use App\Http\Controllers\VehicleManagement\VehicleModelsController;
 use App\Http\Controllers\VehicleManagement\VehicleOnBoardingController;
 use App\Models\Reference\BatteryModel;
+use App\Models\Reference\GtaVehicle;
 use App\Models\Reference\TyreSizesModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;

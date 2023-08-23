@@ -20,7 +20,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     }
 
     let data = asyncResponse['payload']['vehicle'];
-    //console.log(data);
     if (!data || data.length === 0) {
         return;
     }
@@ -41,8 +40,8 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['vehicleHeader'], 'registration_type', data['registration_type']);
     Vue.set(app['vehicleHeader'], 'brand_code', data['brand_code']);
 
-    if (data['model_guid']) {
-        $('select[name="model"]').val(data['model_guid']);
+    if (data['model_code']) {
+        $('select[name="model"]').val(data['model_code']);
         $('select[name="model"]').attr('data-value', data['model_code']);
     }
 
@@ -62,11 +61,11 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         $registrationNumberCtrl.value = data['registration_number'];
     }
     Vue.set(app['vehicleHeader'], 'on_boarding_status', data['on_boarding_status']);
-    Vue.set(app['vehicleHeader'], 'body_type_guid', data['body_type_guid']);
+    Vue.set(app['vehicleHeader'], 'body_type_code', data['body_type_code']);
 
-    if (data['body_type_guid']) {
-        $('select[name="bodyType"]').val(parseInt(data['body_type_guid']))
-        $('select[name="bodyType"]').attr('data-value', parseInt(data['body_type_guid']));
+    if (data['body_type_code']) {
+        $('select[name="bodyType"]').val(parseInt(data['body_type_code']))
+        $('select[name="bodyType"]').attr('data-value', parseInt(data['body_type_code']));
         setTimeout(function () {
             $('select[name="bodyType"]').trigger('change');
         }, 600);
@@ -458,8 +457,8 @@ let app = new Vue({
     methods: {
 
         bodyTypeChanged: function (selectedBody) {
-            app['vehicleHeader'].body_type_guid = selectedBody?.guid;
-            document.querySelector('#bodyType').value = selectedBody?.guid;
+            app['vehicleHeader'].body_type_code = selectedBody?.code;
+            document.querySelector('#bodyType').value = selectedBody?.code;
         },
 
         checkChassisNumberValidity: function () {

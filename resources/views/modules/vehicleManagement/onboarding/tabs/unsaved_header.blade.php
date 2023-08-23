@@ -20,7 +20,8 @@
             </button>
         </div>
         <div class="card-toolbar justify-content-end" v-if="vehicleHeader.isHeaderSaved">
-            <button type="button" data-bs-target="#vehicleDisk" data-bs-toggle="modal" class="btn btn-default btn-sm mr-3">
+            <button type="button" data-bs-target="#vehicleDisk" data-bs-toggle="modal"
+                    class="btn btn-default btn-sm mr-3">
                 <i class="fas fa-print"></i> Print Disk
             </button>
         </div>
@@ -179,7 +180,6 @@
                         </label>
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
-                                {{--v-model="vehicleHeader.registration_number"--}}
                                 <input type="text"
                                        class="form-control"
                                        name="registrationNumber"
@@ -194,35 +194,35 @@
 
                     <div class="form-group row">
                         <label for="vehicleLocation" class="fs-6 fw-semibold form-label col-md-3">
-                            <span class="required">Location</span> <i class="ion ion-location ion-solid mr-1" style="font-size: 16px; color: green;"></i>
+                            <span class="required">Location</span>
+                            <i class="ion ion-location ion-solid mr-1" style="font-size: 16px; color: green;"></i>
                         </label>
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
-                                {{--v-model="vehicleHeader.location_code"--}}
                                 <select
-                                    required
-                                    class="form-control"
-                                    name="vehicleLocation"
-                                    autocomplete="off"
-                                    id="vehicleLocation">
+                                        required
+                                        class="form-control"
+                                        name="vehicleLocation"
+                                        autocomplete="off"
+                                        id="vehicleLocation">
                                 </select>
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
                             </div>
                         </div>
                     </div>
 
-                        {{--@if($vehicle && !$empty($vehicle->barcode)) @endif--}}
+                    @if(!empty($vehicle))
                         <div class="form-group row mt-10 d-none" id="barcodeContainer">
                             <label for="barcode" class="fs-6 fw-semibold form-label col-md-3">
                                 <span class="required">Vehicle Badge</span>
                             </label>
                             <div class="col-md-9 fv-row">
                                 <div class="col-md-9">
-                                    {{--<img id="barcode" alt="vehicle barcode" src="">--}}
                                     <div id="qrcode"></div>
                                 </div>
                             </div>
                         </div>
+                    @endif
 
                 </div>
             </div>
