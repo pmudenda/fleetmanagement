@@ -25,7 +25,7 @@
                                 <tr>
                                     <th>Reference #</th>
                                     <th>Document No.</th>
-                                    <th>Job Card #</th>
+                                    {{--<th>Job Card #</th>--}}
                                     <th>Date In</th>
                                     <th>Date Expected Out</th>
                                     <th>Originator</th>
@@ -49,7 +49,7 @@
                                             {{$rec->st_pur ?? ''}}
                                         </td>
 
-                                        <td>
+                                       {{-- <td>
                                             @if(!empty($rec->job_card_no))
                                                 <a
                                                    title="View Job Card"
@@ -60,7 +60,7 @@
                                             @else
                                                 {{''}}
                                             @endif
-                                        </td>
+                                        </td>--}}
                                         <td>
                                             {{Carbon::parse($rec->valid_date_from)->format('d/m/Y')}}
                                         </td>
