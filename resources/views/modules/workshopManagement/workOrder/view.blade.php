@@ -2433,8 +2433,10 @@
 
             initServiceArticleSelector($('.servicesArticlesDropDownList'));
 
-            setTimeout(function () {
+            setInterval(function () {
                 disableControls();
+            }, 600);
+            setTimeout(function () {
                 $("#labour_table").find('[data-record-id]').find('.mechanicStaffNumber').change();
             }, 1000);
 
@@ -3286,14 +3288,14 @@
 
                     $("input[name=field_" + element?.code + "][value=" + response + "]")
                         .prop('checked', true)
-                        //.attr('disabled', true);
+                    //.attr('disabled', true);
 
                     $("input[name=field_" + element?.code + "][value=" + other + "]")
-                        //.attr('disabled', true);
+                    //.attr('disabled', true);
 
                     $("input[name=comment_" + element.code + "]")
                         .val(element?.remarks)
-                        //.attr('disabled', true);
+                    //.attr('disabled', true);
                 });
             }
 
