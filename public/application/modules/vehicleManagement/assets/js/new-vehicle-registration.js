@@ -2210,6 +2210,11 @@ function checkOnboardingHeaderStatus() {
         nativeUserUnitChanged(user_unit);
     });
 
+    $(document).on('change', 'input[name="model_code"]', function () {
+        const bodyTypeCode = $(this).attr('data-body_type_code');
+        $('[name="bodyType"]').val(bodyTypeCode).change();
+    });
+
     $(document).on('change', 'select[name="model"]', function () {
         const modelCode = $(this).val()?.toString().trim();
         if (!modelCode) {
@@ -2221,7 +2226,10 @@ function checkOnboardingHeaderStatus() {
         });
 
         if (filteredModelResults.length > 0) {
-            document.querySelector('#model_code').value = filteredModelResults[0]?.model_code;
+            let model = filteredModelResults[0]
+            $('#model_code').val(model?.model_code)
+                .attr('data-body_type_code', model?.body_type_code)
+                .change();
         }
 
     });

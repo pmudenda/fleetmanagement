@@ -111,7 +111,6 @@
                         <div class="col-md-9 fv-row">
                             <div class="col-md-9">
                                 <div class="w-100">
-                                    {{-- :value="vehicleHeader.model_code"--}}
                                     <input class="form-control form-control-solid"
                                            name="model_code"
                                            readonly
