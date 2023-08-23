@@ -929,241 +929,19 @@
 
                         <h1>SPARES & SERVICES</h1>
                         <section>
-                            {{--@include('modules.workshopManagement.workOrder.tabs.partsSelection')--}}
                             <div class="container-fluid pl-0">
                                 <input type="hidden"
                                        id="suppliersList"
                                        value="{{route('suppliers.list')}}"/>
                                 <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item" style="list-style: none; width: 178px; display: none;">
-                                        <a class="nav-link" data-toggle="tab" href="#accessories"
-                                           role="tab">Accessories</a>
-                                    </li>
-                                    <li class="nav-item" style="list-style: none; width: 178px;">
-                                        <a class="nav-link active" data-toggle="tab" href="#defects"
-                                           role="tab">Defects</a>
-                                    </li>
                                     <li class="nav-item" style="list-style: none; width: 178px;">
                                         <a class="nav-link" data-toggle="tab" href="#materials" role="tab">Spares</a>
                                     </li>
                                     <li class="nav-item" style="list-style: none; width: 178px;">
                                         <a class="nav-link" data-toggle="tab" href="#services" role="tab">Services</a>
                                     </li>
-                                    <li class="nav-item" style="list-style: none; width: 178px;">
-                                        <a class="nav-link" data-toggle="tab" href="#labour" role="tab">Labour</a>
-                                    </li>
-                                </ul><!-- Tab panes -->
+                                </ul>
                                 <div class="tab-content">
-                                    <div class="tab-pane" id="accessories" role="tabpanel">
-                                        <div class="container-fluid pl-0 mt-5">
-                                            <div class="row" data-form-url="{{route("job_card.accessories.checkin")}}"
-                                                 data-model-name="Accessories">
-                                                <input type="hidden" value="{{$details->job_card_no ?? 0}}"
-                                                       name="job_card_voucher"/>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <div class="row">
-
-                                                        <div class="col">
-                                                            <table
-                                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                                <thead>
-                                                                <tr class="bg-dark-subtle">
-                                                                    <th class="pl-2">Item</th>
-                                                                    <th>Present</th>
-                                                                    <th class="pr-2">Not Present</th>
-                                                                    <th class="pr-2">Remarks</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                @foreach($accessories as $key => $accessory)
-                                                                    @if(($key%2) == 0)
-                                                                        <tr>
-                                                                            <td class="pl-2"
-                                                                                style="width: 35%;">{{$accessory->name}}</td>
-                                                                            <td><input type="radio" value="YES" required
-                                                                                       name="field_{{str_replace(' ','', $accessory->code)}}">
-                                                                            </td>
-                                                                            <td><input type="radio" value="NO" required
-                                                                                       name="field_{{str_replace(' ','', $accessory->code)}}">
-                                                                            </td>
-                                                                            <td style="width: 45%;">
-                                                                                <input typeof="text"
-                                                                                       name="comment_{{str_replace(' ','', $accessory->code)}}"
-                                                                                       class="form-control form-control-sm"/>
-                                                                            </td>
-                                                                        </tr>
-                                                                    @endif
-                                                                @endforeach
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="col">
-                                                            <table
-                                                                    class="table table-row-dashed align-middle gs-0 table-bordered">
-                                                                <thead>
-                                                                <tr class="bg-dark-subtle">
-                                                                    <th class="pl-2">Item</th>
-                                                                    <th>Present</th>
-                                                                    <th class="pr-2">Not Present</th>
-                                                                    <th class="pr-2">Remarks</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                @foreach($accessories as $key => $accessory)
-                                                                    @if(($key%2) != 0)
-                                                                        <tr>
-                                                                            <td class="pl-2" style="width: 35%;">
-                                                                                {{$accessory->name}}
-                                                                            </td>
-                                                                            <td><input type="radio" required value="YES"
-                                                                                       name="field_{{str_replace(' ','', $accessory->code)}}">
-                                                                            </td>
-                                                                            <td><input type="radio" required value="NO"
-                                                                                       name="field_{{str_replace(' ','', $accessory->code)}}">
-                                                                            </td>
-                                                                            <td style="width: 45%;">
-                                                                                <input typeof="text"
-                                                                                       name="comment_{{str_replace(' ','', $accessory->code)}}"
-                                                                                       class="form-control form-control-sm">
-                                                                            </td>
-                                                                        </tr>
-                                                                    @endif
-                                                                @endforeach
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane active" id="defects" role="tabpanel">
-                                        {{--<div class="container-fluid pl-0 mt-5">
-                                            <div class="row">
-                                                <input type="hidden" value="{{$details->job_card_no ?? 0}}"
-                                                       name="job_card_voucher"/>
-                                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                                    <div class="row">
-                                                        <div class="table-responsive" style="max-height:500px;">
-                                                            <table
-                                                                    data-model-name="Defects"
-                                                                    class="table table-row-dashed align-middle gs-0">
-                                                                <thead>
-                                                                <tr class="bg-dark-subtle">
-                                                                    <th style="width: 25%;" class="pl-2">System</th>
-                                                                    <th style="width: 25%;">Category</th>
-                                                                    <th style="width: 25%;" class="pr-2">Defect</th>
-                                                                    <th style="width: 25%;" class="pr-2">Service Section
-                                                                    </th>
-                                                                    <th style="width: 25%;" class="pr-2">Date/Time
-                                                                        Detected
-                                                                    </th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                @if($defects && $defects->isNotEmpty())
-                                                                    @foreach($defects as $defect)
-                                                                        <tr class="increment">
-                                                                            <td class="showNumber">
-                                                                                <select name="vehicleSystem"
-                                                                                        required
-                                                                                        disabled
-                                                                                        data-value="{{$defect->veh_sys}}"
-                                                                                        class="form-select form-select-sm select_2_control vehicleSystem">
-                                                                                    <option></option>
-                                                                                </select>
-                                                                            </td>
-                                                                            <td>
-                                                                                <select name="defectCategory"
-                                                                                        required
-                                                                                        disabled
-                                                                                        data-value="{{$defect->defect_category_code}}"
-                                                                                        class="form-select form-select-sm select_2_control defectCategory">
-                                                                                    <option></option>
-                                                                                </select>
-                                                                            </td>
-                                                                            <td>
-                                                                                <select name="defect"
-                                                                                        required
-                                                                                        disabled
-                                                                                        data-value="{{$defect->defect_code}}"
-                                                                                        class="form-select form-select-sm select_2_control defect">
-                                                                                    <option></option>
-                                                                                </select>
-                                                                            </td>
-                                                                            <td>
-                                                                                <select name="workshopSection"
-                                                                                        disabled
-                                                                                        required
-                                                                                        class="form-select form-select-sm workshopSection">
-                                                                                    <option></option>
-                                                                                    @foreach($workshop_sections as $workshop_section)
-                                                                                        @if($defect->section_code == $workshop_section->code)
-                                                                                            <option
-                                                                                                    selected
-                                                                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
-                                                                                        @else
-                                                                                            <option
-                                                                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
-                                                                                        @endif
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </td>
-
-                                                                            <td>
-                                                                                <input name="date_def"
-                                                                                       readonly="readonly"
-                                                                                       value="@if($defect){{date('Y-m-d',strtotime(Carbon::parse($defect->date_def)->format('Y-m-d H:i:s')))}}@else{{date('Y-m-d H:i:s', strtotime(Carbon::now()))}}@endif"
-                                                                                       class="tabledit-input form-control input-sm input-number"
-                                                                                       type="text">
-                                                                            </td>
-                                                                        </tr>
-                                                                    @endforeach
-                                                                @endif
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <hr>
-                                                    <div class="row pl-2">
-                                                        @if($comments->isNotEmpty() && !empty($comments->where('type','=','DEF')->first()))
-                                                            <div class="form-group">
-                                                                <label class="col-xs-12 col-sm-6 col-md-5 col-lg-4 pl-0"
-                                                                       for="remarks">
-                                                                    Comments (optional):
-                                                                </label>
-                                                                <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 pl-0">
-                                                                </div>
-                                                            </div>
-                                                            <textarea type="text"
-                                                                      id="remarks"
-                                                                      readonly
-                                                                      name="remarks"
-                                                                      class="form-control form-control-sm">{{$comments->where('type','=','DEF')->first()->remarks ??''}}</textarea>
-                                                        @endif
-                                                    </div>
-                                                    <table class="mt-10">
-                                                        <tbody>
-                                                        <tr>
-                                                            <td class="text-right">
-                                                                <strong id="srfTotal" class="input-number">Prepared
-                                                                    By:</strong>
-                                                            </td>
-                                                            <td>
-                                                                <b id="section" class="input-number">RECEPTION</b>
-                                                            </td>
-                                                            <td></td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>--}}
-                                        <section>
-                                            @include('modules.workshopManagement.workOrder.tabs.defects')
-                                        </section>
-                                    </div>
                                     <div class="tab-pane" id="materials" role="tabpanel">
                                         <div class="row pt-5">
                                             <div class="col-12">
@@ -1929,9 +1707,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane" id="labour" role="tabpanel">
-                                        @include('modules.workshopManagement.workOrder.tabs.labour')
-                                    </div>
                                 </div>
                             </div>
                         </section>
@@ -2318,8 +2093,6 @@
 
                     let option = new Option(data.text, data.id, true, true);
                     selectElem.append(option).trigger('change');
-
-                    // manually trigger the `select2:select` event
                     selectElem.trigger({
                         type: 'select2:select',
                         params: {
@@ -2338,7 +2111,6 @@
             if (!mechanic) {
                 return;
             }
-            //$($row).find('[name="mechanicName"]').
             fetch(
                 $('#mechanicDetails').val() + '?staff_no=' + mechanic,
                 {
