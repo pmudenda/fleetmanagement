@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Laravel\Sanctum\HasApiTokens;
@@ -103,7 +104,12 @@ class User extends Authenticatable
     {
         Log::info('Checking Other Session For User '. $user->staff_no);
         try {
-            $newSessionId = Session::getId();//get new session_id after user sign in
+            DB::table('sessions')->where('user_id', $user->id)
+                ->update([
+                    'id' => DB::raw("concat('OUTMAN_', user_id,'_', id)"),
+                    'user_id' => null,
+                ]);
+            /*$newSessionId = Session::getId();//get new session_id after user sign in
             $lastSessionId = Session::getHandler()->read($user->last_session_id);// retrive last session
             Log::info('New Session Id '. $newSessionId);
 
@@ -116,7 +122,7 @@ class User extends Authenticatable
                 }
             }
             $user->last_session_id = $newSessionId;
-            $user->save();
+            $user->save();*/
         } catch (\Exception $e) {
             Log::error($e);
         }
