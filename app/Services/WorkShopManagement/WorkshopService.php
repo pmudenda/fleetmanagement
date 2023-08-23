@@ -5,6 +5,7 @@ namespace App\Services\WorkShopManagement;
 use App\Enums\ConfigurationTypes;
 use App\Enums\Modules;
 use App\Enums\RequisitionItemTypes;
+use App\Enums\WorkflowProcessCodes;
 use App\Events\WorkOrderCompleted;
 use App\Exceptions\DuplicateDefectException;
 use App\Exceptions\WorkflowTaskCreationFailedException;
@@ -362,6 +363,11 @@ class WorkshopService
         $vehicleHeader->save();
 
         $dataBefore = $workOrder->toArray();
+
+        $this->workflowService->cancelProcessTask(
+            $latestPreviousRequisition->req_no,
+            WorkflowProcessCodes::NormalFuelRequisition->value
+        );
 
         $workOrderNumber = $workOrder->job_card_no;
 
