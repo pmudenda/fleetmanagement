@@ -20,39 +20,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1/en'], function (): void {
     /** Brands API **/
-    /** USERS **/
-    /* Route::get('users', function (Request $request) {
-         try {
-             $data = User::get();
-             return response()->json([
-                 'state' => 'success',
-                 'payload' => $data
-             ]);
-         } catch (Exception $e) {
-             Log::error($e);
-             return response()->json([
-                 'state' => 'failure',
-                 'payload' => []
-             ]);
-         }
-     })->name('api.users.list');*/
-
-    /* Route::get('users/{key}', function (Request $request, string $id, string $key = null) {
-         try {
-             $data = User::get();
-             return response()->json([
-                 'state' => 'success',
-                 'payload' => $data
-             ]);
-         } catch (Exception $e) {
-             Log::error($e);
-             return response()->json([
-                 'state' => 'failure',
-                 'payload' => []
-             ]);
-         }
-     })->name('api.user.profile');*/
-
 
     /* BUSINESS UNITS*/
     Route::get('business-units', BusinessUnitsController::class)->name('business.units');
@@ -74,28 +41,9 @@ Route::group(['prefix' => 'v1/en'], function (): void {
 
     Route::post('license-verification', [RoadTransportSafetyAgencyIntegrationController::class, 'verifyLicenseDetails'])->name('license.details.verification');
 
-    Route::post('find/vehicle', function (Request $request) {
-        try {
-            $vehicle = GtaVehicle::where('matricula', $request->get('reg_num'))->get();
-            return response()->json([
-                'success' => !empty($vehicle),
-                'payload' => $vehicle
-            ]);
-        } catch (Exception $e) {
-            Log::error($e);
-            return response()->json([
-                'success' => false,
-                'payload' => [],
-                'message' => 'We could not complete processing your request, please try again later'
-            ]);
-        }
-    })->name('cleanup.vehicle.find');
-
 
     Route::get('load/vehicle/systems', function (Request $request) {
         try {
-            //Log::info('Request filter ' . $request->get('key'));
-
             $workShopTableData = WorkShopTable::where('type_code', $request->get('key'))
                 ->where('status', '=', StatusHelper::active())
                 ->get();

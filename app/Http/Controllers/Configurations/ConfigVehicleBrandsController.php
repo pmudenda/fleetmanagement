@@ -21,7 +21,7 @@ class ConfigVehicleBrandsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): JsonResponse
+    public function get(): JsonResponse
     {
         try {
             $statusList = [StatusHelper::active()];

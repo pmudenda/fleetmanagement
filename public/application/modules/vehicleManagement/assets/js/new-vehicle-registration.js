@@ -184,7 +184,7 @@ function displayVehicleDetails(asyncResponse, requestReference) {
     Vue.set(app['otherDetails'], 'batterySize', data['battery_size']);
 
     $('select[name="batterySize"]').attr('data-value', data['battery_size']);
-    $('input[name="numberOfBatteries"]').val( data['num_batteries']);
+    $('input[name="numberOfBatteries"]').val(data['num_batteries']);
     $('select[name="batterySize"]').val(data['battery_size']).change();
 
 
@@ -304,11 +304,6 @@ function displayVehicleDetails(asyncResponse, requestReference) {
         Vue.set(app['images'], 'frontView', window.filterData("Front View", 'file_type', documents));
         Vue.set(app['documents'], 'purchase_order', window.filterData("Purchase Order", 'file_type', documents));
     }
-
-    /*if (data['barcode']) {
-        $('#barcode').attr('src', '/storage/' + data['barcode']);
-        $('#barcodeContainer').removeClass('d-none');
-    }*/
 }
 
 function formatBookValueAsMoney(el) {
@@ -468,136 +463,6 @@ let app = new Vue({
         if (this.vehicleHeader && this.vehicleHeader.id) {
             this.vehicleHeader.isHeaderSaved = true;
         }
-
-        $(document).on('keyup paste', '#chassisNumber', function () {
-            this.value = this.value.toLocaleUpperCase();
-        });
-
-        $(document).on('keyup paste', '[name="whiteBookSerial"]', function () {
-            this.value = this.value.toLocaleUpperCase();
-        });
-        $(document).on('keyup paste', '[name="engineType"]', function () {
-            this.value = this.value.toLocaleUpperCase();
-        });
-
-
-        $(document).on('keyup paste', '#tyreBrand', function () {
-            this.value = this.value.toLocaleUpperCase();
-        });
-
-        $(document).on('keyup paste', '#batteryBrand', function () {
-            this.value = this.value.toLocaleUpperCase();
-        });
-
-        $(document).on('keyup paste', '#engineNumber', function () {
-            this.value = this.value.toLocaleUpperCase();
-        });
-
-
-        Inputmask({
-            "mask": "A{2,3} 9{1,4}"
-        }).mask("#registrationNumber");
-
-        Inputmask({
-            "mask": "9999"
-        }).mask("#yearOfManufacture");
-
-        Inputmask({
-            "mask": "9999"
-        }).mask("#yearOfPurchase");
-
-
-        $(document).on('click', '[data-select="file"]', function () {
-            let fileInput = $(this).closest('p').find('input[type="file"]');
-            $(fileInput).trigger('click');
-        });
-
-        let fileSelects = [].slice.call(document.querySelectorAll('.fileElem'));
-        fileSelects.map(function (fileSelect) {
-            fileSelect.addEventListener("change", (e) => {
-                app.preview(e);
-            }, false);
-        });
-
-        $(document).on('click', '.clearImage', function (event) {
-            let btn = this;
-            Swal.fire({
-                text: "Are you sure you would like to remove the image?",
-                icon: "warning",
-                showCancelButton: true,
-                buttonsStyling: false,
-                confirmButtonText: "Yes, remove it!",
-                cancelButtonText: "No, return",
-                customClass: {
-                    confirmButton: "btn btn-primary", cancelButton: "btn btn-active-light"
-                }
-            }).then(function (result) {
-                if (result.value) {
-                    $(btn).parent().css({
-                        "background-image": "", 'display': 'none'
-                    });
-                    // find the upload btn and make visible
-                    $(btn).parent().parent().find('p').removeClass('d-none');
-                }
-            });
-
-        });
-
-        $(document).on('change', '[data-emp="staff_number"]', function (e) {
-            let input = e.target;
-            let value = input.value;
-
-            let names = app['searchedEmployeesList'].filter(function (user) {
-                return user['staff_number'] === value;
-            });
-
-            if (names.length === 0) return;
-
-            $(input).closest('tr').find('input[data-emp="name"]').val(names[0].name)
-
-        });
-
-        $("#myPdf").on("change", function (e) {
-            var file = e.target.files[0]
-            if (file.type == "application/pdf") {
-                var fileReader = new FileReader();
-                fileReader.onload = function () {
-                    var pdfData = new Uint8Array(this.result);
-                    // Using DocumentInitParameters object to load binary data.
-                    var loadingTask = pdfjsLib.getDocument({data: pdfData});
-                    loadingTask.promise.then(function (pdf) {
-
-
-                        // Fetch the first page
-                        var pageNumber = 1;
-                        pdf.getPage(pageNumber).then(function (page) {
-
-                            var scale = 1.5;
-                            var viewport = page.getViewport({scale: scale});
-
-                            // Prepare canvas using PDF page dimensions
-                            var canvas = $("#pdfViewer")[0];
-                            var context = canvas.getContext('2d');
-                            canvas.height = viewport.height;
-                            canvas.width = viewport.width;
-
-                            // Render PDF page into canvas context
-                            var renderContext = {
-                                canvasContext: context, viewport: viewport
-                            };
-                            var renderTask = page.render(renderContext);
-                            renderTask.promise.then(function () {
-
-                            });
-                        });
-                    }, function (reason) {
-                        // PDF loading error
-                        console.error(reason);
-                    });
-                };
-                fileReader.readAsArrayBuffer(file);
-            }
-        });
     },
 
     methods: {
@@ -784,17 +649,17 @@ let app = new Vue({
                 {
                     "label": 'Motor Vehicle', 'code': 'MV'
                 },
-                /*{
+                {
                     "label": 'Plant Equipment', 'code': 'PE'
-                }*/
-                /*{
+                },
+                {
                     "label": 'Boat',
                     'code': 'BT'
                 },
                 {
                     "label": 'Trailer',
                     'code': 'TR'
-                },*/]
+                }]
         },
 
         postRequest(data, url, successCallBack, errorCallBack) {
@@ -958,14 +823,14 @@ let app = new Vue({
             document.querySelector('#transmission_type').value = transmissionType?.code + ':' + transmissionType?.name;
         },
 
-        vehicleBrandChanged(selectedValue) {
+        /*vehicleBrandChanged(selectedValue) {
             this.vehicleHeader.brand_code = selectedValue?.id?.toString().trim();
             this.selectedBrandModels = [];
 
             app.selectedBrandModels = app['configuredModels'].filter(function (model) {
                 return model.brand_code?.toString()?.trim() === app?.vehicleHeader.brand_code?.toString().trim();
             });
-        },
+        },*/
     }
 });
 
@@ -1022,13 +887,13 @@ function checkOnboardingHeaderStatus() {
 (function (tmsApp, $) {
 
     // web UI event
-    function formatMoney(event) {
+    /*function formatMoney(event) {
         setTimeout(function () {
             //ZMW
             let formatted = accounting.formatMoney(event.target.value, '');
             //app['chassisDetails'].chargeOutRate = formatted;
         }, 300);
-    }
+    }*/
 
     function nativeUserUnitChanged(user_unit) {
 
@@ -1928,39 +1793,41 @@ function checkOnboardingHeaderStatus() {
 
     getCostCenters();
 
-    tmsApp.appFormValidator('form[name="vehicleHeaderForm"]', {
-        'brand': {
-            required: true
-        }, 'registrationNumber': {
-            required: true
-        }, 'model': {
-            required: true
-        }, 'vehicleLocation': {
-            required: true
-        }, 'model_code': {
-            required: true
-        }, 'bodyType': {
-            required: true
-        }, 'userUnit': {
-            required: true
-        }
-    }, {
-        'brand': {
-            required: "Vehicle brand is required"
-        }, 'registrationNumber': {
-            required: "Registration number is required"
-        }, 'model': {
-            required: "You must declare vehicle model"
-        }, 'vehicleLocation': {
-            required: "Vehicle location is mandatory"
-        }, 'model_code': {
-            required: "Vehicle Model code is required"
-        }, 'bodyType': {
-            required: "Body type is required"
-        }, 'userUnit': {
-            required: "Select the user unit responsible for the vehicle"
-        }
-    });
+    tmsApp.appFormValidator('form[name="vehicleHeaderForm"]',
+        {
+            'brand': {
+                required: true
+            }, 'registrationNumber': {
+                required: true
+            }, 'model': {
+                required: true
+            }, 'vehicleLocation': {
+                required: true
+            }, 'model_code': {
+                required: true
+            }, 'bodyType': {
+                required: true
+            }, 'userUnit': {
+                required: true
+            }
+        },
+        {
+            'brand': {
+                required: "Vehicle brand is required"
+            }, 'registrationNumber': {
+                required: "Registration number is required"
+            }, 'model': {
+                required: "You must declare vehicle model"
+            }, 'vehicleLocation': {
+                required: "Vehicle location is mandatory"
+            }, 'model_code': {
+                required: "Vehicle Model code is required"
+            }, 'bodyType': {
+                required: "Body type is required"
+            }, 'userUnit': {
+                required: "Select the user unit responsible for the vehicle"
+            }
+        });
 
     $("#submitBtn").on('click', function () {
         postVehicleHeaderData();
@@ -2150,43 +2017,45 @@ function checkOnboardingHeaderStatus() {
     });
 
 
-    tmsApp.appFormValidator('form[name="tms_costing_valuation_form"]', {
-        'supplierName': {
-            required: true
-        }, 'costPrice': {
-            required: true
-        }, 'yearOfPurchase': {
-            required: true
-        }, 'bookValue': {
-            required: true
-        }, 'assetNumber': {
-            required: true
-        }, 'costOfLicense': {
-            required: true
-        }, 'premium': {
-            required: true
-        }, purchaseOrderDocument: {
-            required: true
-        }
-    }, {
-        'supplierName': {
-            required: "Vehicle Supplier is required"
-        }, 'costPrice': {
-            required: "Cost is required"
-        }, 'yearOfPurchase': {
-            required: "You must declare the year vehicle was purchased"
-        }, 'bookValue': {
-            required: "Item current book value must be declared"
-        }, 'assetNumber': {
-            required: "Asset number is mandatory for asset management"
-        }, 'costOfLicense': {
-            required: "Cost of Road Tax & Fitness"
-        }, 'premium': {
-            required: "You must declare the insurance premium being paid"
-        }, 'purchaseOrderDocument': {
-            required: 'You must attach the purchase order before submitting'
-        }
-    });
+    tmsApp.appFormValidator('form[name="tms_costing_valuation_form"]',
+        {
+            'supplierName': {
+                required: true
+            }, 'costPrice': {
+                required: true
+            }, 'yearOfPurchase': {
+                required: true
+            }, 'bookValue': {
+                required: true
+            }, 'assetNumber': {
+                required: true
+            }, 'costOfLicense': {
+                required: true
+            }, 'premium': {
+                required: true
+            }, purchaseOrderDocument: {
+                required: true
+            }
+        },
+        {
+            'supplierName': {
+                required: "Vehicle Supplier is required"
+            }, 'costPrice': {
+                required: "Cost is required"
+            }, 'yearOfPurchase': {
+                required: "You must declare the year vehicle was purchased"
+            }, 'bookValue': {
+                required: "Item current book value must be declared"
+            }, 'assetNumber': {
+                required: "Asset number is mandatory for asset management"
+            }, 'costOfLicense': {
+                required: "Cost of Road Tax & Fitness"
+            }, 'premium': {
+                required: "You must declare the insurance premium being paid"
+            }, 'purchaseOrderDocument': {
+                required: 'You must attach the purchase order before submitting'
+            }
+        });
 
     $('[name="tms_costing_valuation_form"]').on('submit', function (e) {
         e.preventDefault();
@@ -2202,7 +2071,8 @@ function checkOnboardingHeaderStatus() {
     });
 
 
-    tmsApp.appFormValidator('form[name="tms_body_weight_form"]', {
+    tmsApp.appFormValidator('form[name="tms_body_weight_form"]',
+        {
         'height': {
             required: true
         }, 'length': {
@@ -2216,7 +2086,8 @@ function checkOnboardingHeaderStatus() {
         }, 'grossWeight': {
             required: true
         },
-    }, {
+    },
+        {
         'height': {
             required: "required"
         }, 'length': {
@@ -2238,7 +2109,8 @@ function checkOnboardingHeaderStatus() {
         submitBodyDetails();
     });
 
-    tmsApp.appFormValidator('form[name="tms_assignment_form"]', {
+    tmsApp.appFormValidator('form[name="tms_assignment_form"]',
+        {
         businessArea: {
             required: true
         }, isPoolVehicle: {
@@ -2264,7 +2136,8 @@ function checkOnboardingHeaderStatus() {
         vehicleHolderId: {
             required: $("#isNotPoolVehicle:checked")
         },
-    }, {
+    },
+        {
         businessArea: {
             required: "You must declare the business area"
         }, isPoolVehicle: {
@@ -2364,7 +2237,7 @@ function checkOnboardingHeaderStatus() {
     });
 
     $(document).on('change', '[name="yearOfPurchase"]', function () {
-        const  yearOfManufacture = $('[name="yearOfManufacture"]').val();
+        const yearOfManufacture = $('[name="yearOfManufacture"]').val();
         const yearOfPurchase = $(this).val();
 
         if (parseInt(yearOfPurchase) < parseInt(yearOfManufacture)) {
@@ -2398,11 +2271,6 @@ function checkOnboardingHeaderStatus() {
                 document.querySelector('#model_holder').style.display = 'none';
                 let $locationHolder = document.querySelector('#locationHolder');
                 $locationHolder.style.display = 'none';
-                //$('#vehicleLocation').val($locationHolder.value);
-                //$('#model_holder').addClass('d-none');
-                //$('#model').removeClass('d-none');
-                //$('#vehicleLocation').removeClass('d-none');
-                //$('#brand').change();
                 break;
             case 'cancelEditLink':
                 $('.card-header').removeClass('edit_mode').addClass('view_mode')
@@ -2435,6 +2303,134 @@ function checkOnboardingHeaderStatus() {
         WinPrint.close();
     });
 
+    $(document).on('keyup paste', '#chassisNumber', function () {
+        this.value = this.value.toLocaleUpperCase();
+    });
+
+    $(document).on('keyup paste', '[name="whiteBookSerial"]', function () {
+        this.value = this.value.toLocaleUpperCase();
+    });
+    $(document).on('keyup paste', '[name="engineType"]', function () {
+        this.value = this.value.toLocaleUpperCase();
+    });
+
+
+    $(document).on('keyup paste', '#tyreBrand', function () {
+        this.value = this.value.toLocaleUpperCase();
+    });
+
+    $(document).on('keyup paste', '#batteryBrand', function () {
+        this.value = this.value.toLocaleUpperCase();
+    });
+
+    $(document).on('keyup paste', '#engineNumber', function () {
+        this.value = this.value.toLocaleUpperCase();
+    });
+
+
+    Inputmask({
+        "mask": "A{2,3} 9{1,4}"
+    }).mask("#registrationNumber");
+
+    Inputmask({
+        "mask": "9999"
+    }).mask("#yearOfManufacture");
+
+    Inputmask({
+        "mask": "9999"
+    }).mask("#yearOfPurchase");
+
+
+    $(document).on('click', '[data-select="file"]', function () {
+        let fileInput = $(this).closest('p').find('input[type="file"]');
+        $(fileInput).trigger('click');
+    });
+
+    let fileSelects = [].slice.call(document.querySelectorAll('.fileElem'));
+    fileSelects.map(function (fileSelect) {
+        fileSelect.addEventListener("change", (e) => {
+            app.preview(e);
+        }, false);
+    });
+
+    $(document).on('click', '.clearImage', function (event) {
+        let btn = this;
+        Swal.fire({
+            text: "Are you sure you would like to remove the image?",
+            icon: "warning",
+            showCancelButton: true,
+            buttonsStyling: false,
+            confirmButtonText: "Yes, remove it!",
+            cancelButtonText: "No, return",
+            customClass: {
+                confirmButton: "btn btn-primary", cancelButton: "btn btn-active-light"
+            }
+        }).then(function (result) {
+            if (result.value) {
+                $(btn).parent().css({
+                    "background-image": "", 'display': 'none'
+                });
+                // find the upload btn and make visible
+                $(btn).parent().parent().find('p').removeClass('d-none');
+            }
+        });
+
+    });
+
+    $(document).on('change', '[data-emp="staff_number"]', function (e) {
+        let input = e.target;
+        let value = input.value;
+
+        let names = app['searchedEmployeesList'].filter(function (user) {
+            return user['staff_number'] === value;
+        });
+
+        if (names.length === 0) return;
+
+        $(input).closest('tr').find('input[data-emp="name"]').val(names[0].name)
+
+    });
+
+    $("#myPdf").on("change", function (e) {
+        const file = e.target.files[0]
+        if (file.type == "application/pdf") {
+            const fileReader = new FileReader();
+            fileReader.onload = function () {
+                const pdfData = new Uint8Array(this.result);
+                // Using DocumentInitParameters object to load binary data.
+                const loadingTask = pdfjsLib.getDocument({data: pdfData});
+                loadingTask.promise.then(function (pdf) {
+
+
+                    // Fetch the first page
+                    let pageNumber = 1;
+                    pdf.getPage(pageNumber).then(function (page) {
+                        let scale = 1.5;
+                        let viewport = page.getViewport({scale: scale});
+
+                        // Prepare canvas using PDF page dimensions
+                        let canvas = $("#pdfViewer")[0];
+                        let context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+
+                        // Render PDF page into canvas context
+                        let renderContext = {
+                            canvasContext: context, viewport: viewport
+                        };
+                        let renderTask = page.render(renderContext);
+                        renderTask.promise.then(function () {
+
+                        });
+                    });
+                }, function (reason) {
+                    // PDF loading error
+                    console.error(reason);
+                });
+            };
+            fileReader.readAsArrayBuffer(file);
+        }
+    });
 
     getConfiguredModels();
 
