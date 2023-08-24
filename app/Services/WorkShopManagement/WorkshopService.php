@@ -395,7 +395,7 @@ class WorkshopService
                 'hours_worked' => $labourItem['hoursWorked'],
                 'rate' => (float)$labourItem['ratePerHour'],
                 'total_amount' => (float)$labourItem['totalAmount'],
-                'def_no' => $labourItem['defect'],
+                'def_no' => $labourItem['assignedDefect'],
                 'created_by' => $user->staff_no,
                 'type_of_hour' => $labourItem['shiftType'],
             ]);
