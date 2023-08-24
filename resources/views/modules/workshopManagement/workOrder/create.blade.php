@@ -1883,10 +1883,10 @@
                                         <td>${payloadElement.st_pur}</td>
                                          <td>${payloadElement.item_type}</td>
                                          <td>${payloadElement.req_no}</td>
-                                         <td>${payloadElement.material_code}</td>
+                                         <td style="text-wrap: nowrap;>${payloadElement.material_code}</td>
                                          <td>${payloadElement.unit_of_measure}</td>
                                         <td>${payloadElement.specifications}</td>
-                                        <td>${payloadElement.reg_no}</td>
+                                        <td style="text-wrap: nowrap;>${payloadElement.reg_no}</td>
                                         <td>${payloadElement.quantity}</td>
                                         </tr>`;
                                 rows += row;
