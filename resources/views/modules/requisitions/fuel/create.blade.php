@@ -852,12 +852,7 @@
                             return;
                         }
 
-                        if (response.payload.con_st_code != '01') {
-                            tmsApp.systemError('Driver Verification', 'Employee with Staff_no '+ staff_number +' is not active');
-                            return;
-                        }
-
-                        if (response.payload.con_st_code != 'ACT') {
+                        if (response.payload.con_st_code != '01' && response.payload.con_st_code != 'ACT') {
                             tmsApp.systemError('Driver Verification', 'Employee with Staff_no '+ staff_number +' is not active');
                             return;
                         }
