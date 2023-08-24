@@ -1817,7 +1817,7 @@
                 fetch(
                     document.querySelector("#reservationsUrl").value,
                     {
-                        method: 'GET',
+                        method: 'POST',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -1846,7 +1846,7 @@
                         //hasOpenRequisition
                     })
                     .catch(function (xhr, settings, error) {
-                        tmsApp.showErrorMessages(xhr, 'Reservation Search');
+                        tmsApp.showToast(xhr, 'Reservation Search');
                     });
             }
 
