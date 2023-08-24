@@ -34,9 +34,9 @@
 @section('content')
 
     <x-content-header
-            :activeCrumb="'New Job Card'"
-            :linkText="'Job Card'"
-            :pageTitle="'Workshop Management'"/>
+        :activeCrumb="'New Job Card'"
+        :linkText="'Job Card'"
+        :pageTitle="'Workshop Management'"/>
 
     <section class="content">
         <div class="card">
@@ -391,6 +391,11 @@
            id="suppliersList"
            value="{{route('suppliers.list')}}"/>
 
+    <input type="hidden"
+           value="{{route('get.reservations')}}"
+           name="reservationsUrl"
+           id="reservationsUrl" />
+
     <div class="modal fade" id="eSignatureModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -448,11 +453,11 @@
                                         <div class="row">
                                             <div class="col-1">
                                                 <input
-                                                        required
-                                                        id="acceptance"
-                                                        name="acceptance"
-                                                        type="checkbox"
-                                                        class="checkbox">
+                                                    required
+                                                    id="acceptance"
+                                                    name="acceptance"
+                                                    type="checkbox"
+                                                    class="checkbox">
                                             </div>
                                             <div class="col-10">
                                                 <p id="newApproval_Remarks">
@@ -546,7 +551,7 @@
                                         <option></option>
                                         @foreach($workshop_sections as $workshop_section)
                                             <option
-                                                    value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
+                                                value="{{$workshop_section->code}}">{{$workshop_section->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -557,7 +562,7 @@
                                           style="height: 129px;"
                                           required
                                           class="form-control comments form-control-sm"
-                                           name="reassignmentJustification"></textarea>
+                                          name="reassignmentJustification"></textarea>
                             </div>
                         </div>
                     </div>
@@ -1804,6 +1809,47 @@
 
             }
 
+            function findReservation() {
+                const numberPlate = document.querySelector('#vehicle_registration').value
+                let formData = new FormData();
+                formData.append('vehicleRegistration', numberPlate)
+
+                fetch(
+                    document.querySelector("#reservationsUrl").value,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: formData,
+                        referrer: window.baseUrl,
+                        mode: 'cors',
+                        credentials: 'same-origin',
+                    }
+                )
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+
+                        return response.json();
+                    })
+                    .then(response => {
+
+                        console.log(response);
+
+                        if (!response.success || response.payload.length == 0) {
+                            //tmsApp.systemError('Driver Verification', response['message']);
+                            return;
+                        }
+
+                        //hasOpenRequisition
+                    })
+                    .catch(function (xhr, settings, error) {
+                        tmsApp.showErrorMessages(xhr, 'Reservation Search');
+                    });
+            }
+
             /*****************************Function Handlers************************************/
             function postData(formElements, submitForm) {
                 window.loaderMessage = "Posting Data... please wait";
@@ -2343,6 +2389,7 @@
                     function (response_data) {
                         if (response_data.success === 'true' || response_data.success === true) {
                             populateVehicleDetails(response_data.payload, stage);
+                            findReservation();
                         } else {
                             removeSubmissionAndDetailsOptions();
                             tmsApp.systemError(

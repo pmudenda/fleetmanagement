@@ -666,7 +666,6 @@
                 <input type="hidden" value="{{route('user.search') }}" id="newUserSearchUrl">
                 <input type="hidden" value="{{route('search.project')}}" id="projects_url">
                 <input type="hidden" value="{{route('fuel.last.requisition')}}" id="previousRequisitionUrl">
-                <input type="hidden" value="{{route('get.reservations')}}" name="reservationsUrl" id="reservationsUrl">
                 <input type="hidden" value="{{RequisitionTypes::OutOfTown}}" id="outOfTownReqCode">
                 <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding"
                        id="incompleteOnBoarding"/>
@@ -876,6 +875,7 @@
                     function (response_data) {
                         if (response_data.success === 'true' || response_data.success === true) {
                             populateVehicleDetails(response_data.payload, response_data['message']);
+                            findLatestRequisition();
                         } else {
                             removeSubmissionAndDetailsOptions();
                             let $message = response_data['message'] ? response_data['message'] : ' No Vehicle Found, Check your input and try again';
@@ -889,12 +889,12 @@
             }
 
             function findLatestRequisition() {
-                const numberPlate = document.querySelector('#previousRequisitionUrl').value
+                const numberPlate = document.querySelector('#vehicle_registration').value
                 let formData = new FormData();
                 formData.append('vehicle_registration', numberPlate)
 
                 fetch(
-                    document.querySelector("#driver_staff_number").getAttribute('data-action'),
+                    document.querySelector("#previousRequisitionUrl").value,
                     {
                         method: 'POST',
                         headers: {
