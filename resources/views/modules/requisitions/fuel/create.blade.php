@@ -1016,7 +1016,7 @@
             }
 
 
-            $('#vehicle_registration').on('keyup paste enter', function () {
+            /*$('#vehicle_registration').on('keyup paste enter', function () {
                 if (!this.value || this.value.replace('_', '').length < 8) {
                     return;
                 }
@@ -1024,7 +1024,7 @@
                     removeSubmissionAndDetailsOptions();
                     findVehicle();
                 }, 300);
-            });
+            });*/
 
             $('#driver_staff_number').on('keyup paste enter', function () {
                 if (!this.value || this.value.length < 5) {
