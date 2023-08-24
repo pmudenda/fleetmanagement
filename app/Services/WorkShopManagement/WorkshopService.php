@@ -372,7 +372,6 @@ class WorkshopService
 
         $workOrderNumber = $workOrder->job_card_no;
 
-
         $workOrder->status = StatusHelper::pendingApproval();
         $workOrder->date_out = Carbon::now();
         $workOrder->time_out = Carbon::now();

@@ -842,12 +842,12 @@
 
                     if (checked && count >= 2) {
                         $('[value="assignMultiple"]').removeClass('d-none');
-                        $('[value="saveAllAssignments"]').attr('disabled', false).removeClass('d-none');
+                        $('[name="saveAllAssignments"]').attr('disabled', false).removeClass('d-none');
                         $('.saveAssignment').attr('disabled', true).addClass('d-none');
 
                     } else if (count < 2) {
                         $('[value="assignMultiple"]').addClass('d-none');
-                        $('[value="saveAllAssignments"]').attr('disabled', true).addClass('d-none');
+                        $('[name="saveAllAssignments"]').attr('disabled', true).addClass('d-none');
                         $('.saveAssignment').attr('disabled', false).removeClass('d-none');
                     }
                 });
