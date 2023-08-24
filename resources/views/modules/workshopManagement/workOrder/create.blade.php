@@ -614,8 +614,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-sm btn-success pull-right">
-                        <i class="fas fa-save"></i>
-                        Save
+                        <i class="fas fa-check"></i>
+                        Confirm
                     </button>
                 </div>
             </div>
