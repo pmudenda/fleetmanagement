@@ -600,7 +600,7 @@
                             <td>SPMS Ref.</td>
                             <td>Item Type</td>
                             <td>Reference No.</td>
-                            <td>Article Code</td>
+                            <td style="width: 10%;">Article Code</td>
                             <td>UOM</td>
                             <td>Specifications</td>
                             <td>Reg No.</td>
