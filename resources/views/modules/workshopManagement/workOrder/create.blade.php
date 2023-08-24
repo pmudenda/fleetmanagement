@@ -371,17 +371,19 @@
                 <div class="modal-body" id="reservedMaterialsContent">
                     <table class="table table-bordered" id="reservedMaterialsTable">
                         <thead>
-                        <td><input type='checkbox'
-                                   name='reservedMaterial'
-                                   value='' class="checkbox"/></td>
-                        <td>SPMS Ref.</td>
-                        <td>Item Type</td>
-                        <td>Reference No.</td>
-                        <td>Article Code</td>
-                        <td>UOM</td>
-                        <td>Specifications</td>
-                        <td>Reg No.</td>
-                        <td>Quantity</td>
+                        <tr style="text-wrap: nowrap;">
+                            <td><input type='checkbox'
+                                       name='reservedMaterial'
+                                       value='' class="checkbox"/></td>
+                            <td>SPMS Ref.</td>
+                            <td>Item Type</td>
+                            <td>Reference No.</td>
+                            <td>Article Code</td>
+                            <td>UOM</td>
+                            <td>Specifications</td>
+                            <td>Reg No.</td>
+                            <td>Quantity</td>
+                        </tr>
                         </thead>
                         <tbody>
                         </tbody>
@@ -1876,13 +1878,13 @@
                         if (response.payload) {
                             let rows = '';
                             for (const payloadElement of response.payload) {
-                                let row = `<tr>
+                                let row = `<tr style="text-wrap: nowrap;">
                                         <td><input type='checkbox' name='reservedMaterisl' value='${payloadElement.id}' class="checkbox"/></td>
                                         <td>${payloadElement.st_pur}</td>
                                          <td>${payloadElement.item_type}</td>
                                          <td>${payloadElement.req_no}</td>
-                                         <td>${payloadElement.material_code}}</td>
-                                         <td>${payloadElement.unit_of_measure}}</td>
+                                         <td>${payloadElement.material_code}</td>
+                                         <td>${payloadElement.unit_of_measure}</td>
                                         <td>${payloadElement.specifications}</td>
                                         <td>${payloadElement.reg_no}</td>
                                         <td>${payloadElement.quantity}</td>
