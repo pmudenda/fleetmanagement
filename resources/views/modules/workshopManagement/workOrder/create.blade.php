@@ -361,41 +361,6 @@
                value="{{StatusHelper::onboardingComplete()}}">
     </section>
 
-    <div class="modal fade" id="reservations" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Reserved Materials</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="reservedMaterialsContent">
-                    <table class="table table-bordered" id="reservedMaterialsTable">
-                        <thead>
-                        <tr style="text-wrap: nowrap;">
-                            <td><input type='checkbox'
-                                       name='reservedMaterial'
-                                       value='' class="checkbox"/></td>
-                            <td>SPMS Ref.</td>
-                            <td>Item Type</td>
-                            <td>Reference No.</td>
-                            <td>Article Code</td>
-                            <td>UOM</td>
-                            <td>Specifications</td>
-                            <td>Reg No.</td>
-                            <td>Quantity</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <input type="hidden" value="{{StatusHelper::onboardingComplete()}}" name="incompleteOnBoarding"
            id="incompleteOnBoarding"/>
     <input type="hidden" value="{{StatusHelper::vehicleInWorkshop()}}" name="vehicleInWorkshop" id="vehicleInWorkshop"/>
@@ -614,6 +579,45 @@
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="reservations" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Reserved Materials</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="reservedMaterialsContent">
+                    <table class="table table-bordered" id="reservedMaterialsTable">
+                        <thead>
+                        <tr style="text-wrap: nowrap;">
+                            <td><input type='checkbox'
+                                       name='reservedMaterial'
+                                       value='' class="checkbox"/></td>
+                            <td>SPMS Ref.</td>
+                            <td>Item Type</td>
+                            <td>Reference No.</td>
+                            <td>Article Code</td>
+                            <td>UOM</td>
+                            <td>Specifications</td>
+                            <td>Reg No.</td>
+                            <td>Quantity</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-sm btn-success pull-right">
+                        <i class="fas fa-save"></i>
+                        Save
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -1891,7 +1895,6 @@
                                         </tr>`;
                                 rows += row;
                             }
-
                             $('#reservedMaterialsTable > tbody').append(rows);
                             setTimeout(function () {
                                 $('#reservations').modal('show');
