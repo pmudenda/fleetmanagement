@@ -36,7 +36,7 @@ class SendWorkOrderCompletedNotification
 
             $recipient = User::where('staff_no', trim($task->assigned_user))->first();
 
-            $action = $event->action ?? 'workOrderCompleted';
+            $action = $event->action ?? 'job_card_closed';
 
             EmailNotificationService::sendNotification($recipient, $sender, $workOrder, $action, $task);
 
