@@ -857,16 +857,6 @@
                             return;
                         }
 
-                        /*let optionListStr = '';
-                        if (Array.isArray(response.payload)) {
-                            response.payload.forEach(function (item) {
-                                optionListStr += `<option value="${item['con_per_no']}">${item['con_per_no']} =>${item.name}</option>`;
-                            })
-
-                            $('#employee_list').html(optionListStr);
-                            return;
-                        }*/
-
                         document.querySelector('#driver_name').value = response.payload.name;
                     })
                     .catch(function (xhr, settings, error) {
