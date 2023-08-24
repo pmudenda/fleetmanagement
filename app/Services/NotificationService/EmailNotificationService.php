@@ -4,7 +4,6 @@ namespace App\Services\NotificationService;
 
 
 use App\Mail\SendMail;
-use App\Models\Security\User;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -85,6 +84,18 @@ class EmailNotificationService
                         'body' => "Work-Order No. <strong>{$record->job_card_no}</strong> assigned to {$sender->name} has been completed and submitted
                                    for your approval.
                                <br>To Take action immediately, click on the button below
+                               .<br>Regards. "
+                    ];
+                    break;
+                case 'job_card_closed':
+                    $details = [
+                        'name' => $names,
+                        'systemLink' => URL::signedRoute('view.job.card', ['ref' => $record->job_card_no]),
+                        'identity' => $record->job_card_no,
+                        'subject' => "Attention::Job Card",
+                        'title' => "Attention::Job Card",
+                        'body' => "Job-Card No. <strong>{$record->job_card_no}</strong> has been closed succefully
+                               <br>No Action Required
                                .<br>Regards. "
                     ];
                     break;

@@ -408,15 +408,35 @@ class WorkshopService
 
         $workOrder->save();
 
-        $stockItemRequisitions = MaterialHeader::where('veh_reg_no', $workOrder->reg_no)
-            ->whereIn('status', [StatusHelper::new(), StatusHelper::partiallyAuthorised()])
-            ->where('item_type', '=', RequisitionItemTypes::StockItem)
+        $jobCardRequisitions = MaterialHeader::where('veh_reg_no', $workOrder->reg_no)
+            ->whereIn('status', [
+                StatusHelper::new(),
+                StatusHelper::partiallyAuthorised(),
+                StatusHelper::authorised(),
+                StatusHelper::partiallyReleased()
+            ])
+            //->where('item_type', '=', RequisitionItemTypes::StockItem)
             ->where('is_fuel', '=', 'N')
             ->orderBy('created_at', 'desc')
             ->get();
 
-        foreach ($stockItemRequisitions as $requisition) {
-            $this->procurementService->cancelStoresRequisition($requisition->st_pur);
+        foreach ($jobCardRequisitions as $requisition) {
+            if ($requisition->item_type == RequisitionItemTypes::Service || $requisition->item_type == RequisitionItemTypes::NonStockItem) {
+                if(empty($requisition->st_pur)){
+                    $processCode = WorkflowProcessCodes::PurchaseProcess->value;
+                    $this->workflowService->cancelProcessTask(
+                        $requisition->req_no,
+                        $processCode
+                    );
+                }
+            }else{
+                $processCode = WorkflowProcessCodes::StoresRequisition->value;
+                $this->workflowService->cancelProcessTask(
+                    $requisition->req_no,
+                    $processCode
+                );
+                $this->procurementService->cancelStoresRequisition($requisition->st_pur);
+            }
         }
 
         /*
@@ -437,7 +457,7 @@ class WorkshopService
 
         DB::commit();
 
-        WorkOrderCompleted::dispatch($workOrder, "fuel_requisition");
+        WorkOrderCompleted::dispatch($workOrder, "job_card_closed");
 
         return response()->json(
             [
