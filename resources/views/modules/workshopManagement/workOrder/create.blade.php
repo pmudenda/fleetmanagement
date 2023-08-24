@@ -1891,7 +1891,7 @@
                                 console.log(row);
                             }
 
-                            $('#reservedMaterialsTable > tbody').html(rows);
+                            $('#reservedMaterialsTable > tbody').append(rows);
                             setTimeout(function () {
                                 $('#reservations').modal('show');
                             }, 300);
