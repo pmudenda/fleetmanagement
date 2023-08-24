@@ -1888,6 +1888,7 @@
                                         <td>${payloadElement.quantity}</td>
                                         </tr>`;
                                 rows += row;
+                                console.log(row);
                             }
 
                             $('#reservedMaterialsTable').html(rows);
