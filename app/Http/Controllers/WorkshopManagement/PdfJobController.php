@@ -30,10 +30,10 @@ class PdfJobController extends Controller
 
         $workShopSupervisor = 'PETER K. NYIRENDA';
         $jobTitle = "SENIOR MANAGER-INVESTMENT OPERATIONS";
-
+        $workShopLocation = "MALAMBO";
         $filepath = public_path() . '/img/ZESCO_removebg.png';
         $this->fpdf->SetAuthor('ZESCO FLEET MASTER');
-
+        $location = "WORKSHOP LOCATION \n".$workShopLocation;
 
         $this->fpdf->SetTitle($assignments['documentFileName']);
         $this->fpdf->AliasNbPages('{pages}');
@@ -63,10 +63,19 @@ class PdfJobController extends Controller
         $this->fpdf->MultiCell(60, 8.33, "Doc Number:\nCO.14900.FORM.0051\nVersion 1",
             1, "C");
         $this->fpdf->Ln(5);
-        $this->fpdf->Ln(5);
 
-        $this->fpdf->Cell(189, 10, '', 0, 1);
+        $this->fpdf->Cell(90, 25, $this->fpdf->MultiCell(60, 10, $location, 1, 'L',false), 1, '', 'C');
+        $this->fpdf->Cell(90, 25, $this->fpdf->MultiCell(40, 10, 'DEPARTMENT', 1, 'L', false), 1, '', 'C');
+        $this->fpdf->Cell(90, 25, 'MECHANICAL WORKSHOP JOB CARD', 1, '', 'C');
 
+        ;
+        $this->fpdf->SetFont('Arial', 'B', $label_size);
+        ;
+        $this->fpdf->SetFont('Arial', 'B', $label_size);
+        $this->fpdf->MultiCell(60, 10, "JOB CARD No.:\nCO.14900.FORM.0051",
+            1, "L");
+
+        $this->fpdf->Ln(10);
         //invoice contents
         $this->fpdf->SetFillColor(28, 153, 85);
         $this->fpdf->SetFont('Arial', 'B', 12);
@@ -152,7 +161,7 @@ class PdfJobController extends Controller
         $this->fpdf->Ln();
         $this->fpdf->Ln();
         $header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');
-        $this->ImprovedTable($header,[]);
+        $this->ImprovedTable($header, []);
 
         $this->fpdf->Ln();
         $this->fpdf->Ln();
@@ -176,20 +185,19 @@ class PdfJobController extends Controller
         // Column widths
         $w = array(40, 35, 40, 45);
         // Header
-        for($i=0;$i<count($header);$i++)
-            $this->fpdf->Cell($w[$i],7,$header[$i],1,0,'C');
+        for ($i = 0; $i < count($header); $i++)
+            $this->fpdf->Cell($w[$i], 7, $header[$i], 1, 0, 'C');
         $this->fpdf->Ln();
         // Data
-        foreach($data as $row)
-        {
-            $this->fpdf->Cell($w[0],6,$row[0],'LR');
-            $this->fpdf->Cell($w[1],6,$row[1],'LR');
-            $this->fpdf->Cell($w[2],6,number_format($row[2]),'LR',0,'R');
-            $this->fpdf->Cell($w[3],6,number_format($row[3]),'LR',0,'R');
+        foreach ($data as $row) {
+            $this->fpdf->Cell($w[0], 6, $row[0], 'LR');
+            $this->fpdf->Cell($w[1], 6, $row[1], 'LR');
+            $this->fpdf->Cell($w[2], 6, number_format($row[2]), 'LR', 0, 'R');
+            $this->fpdf->Cell($w[3], 6, number_format($row[3]), 'LR', 0, 'R');
             $this->fpdf->Ln();
         }
         // Closing line
-        $this->fpdf->Cell(array_sum($w),0,'','T');
+        $this->fpdf->Cell(array_sum($w), 0, '', 'T');
     }
 }
 
