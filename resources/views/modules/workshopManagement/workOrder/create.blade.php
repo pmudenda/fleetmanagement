@@ -1878,7 +1878,7 @@
                         if (response.payload) {
                             let rows = '';
                             for (const payloadElement of response.payload) {
-                                let row = `<tr style="text-wrap: nowrap;">
+                                let row = `<tr>
                                         <td><input type='checkbox' name='reservedMaterisl' value='${payloadElement.id}' class="checkbox"/></td>
                                         <td>${payloadElement.st_pur}</td>
                                          <td>${payloadElement.item_type}</td>
